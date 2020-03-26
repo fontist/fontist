@@ -1,5 +1,7 @@
 # Fontist
 
+![ubuntu](https://github.com/fontist/fontist/workflows/ubuntu/badge.svg)
+
 A simple library to find and download fonts for Windows, Linux and Mac.
 
 ## Installation
