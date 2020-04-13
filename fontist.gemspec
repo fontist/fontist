@@ -21,6 +21,10 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
+  spec.add_runtime_dependency "down", "~> 5.0"
+  spec.add_runtime_dependency "libmspack", "~> 0.1.0"
+
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 12.3.3"
   spec.add_development_dependency "rspec", "~> 3.0"

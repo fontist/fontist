@@ -26,7 +26,15 @@ gem install fontist
 
 ## Usage
 
-TODO: Coming soon
+### Find a font
+
+The fontist library allows us to easily locate or download a any of the supported
+fonts and then it returns the complete path for the path. To find any font in a
+user's system we can use the following interface.
+
+```ruby
+Fontist::Finder.find("CALIBRI.TTF")
+```
 
 ## Development
 

@@ -1,14 +1,29 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Finder do
-  describe ".copy" do
+  describe ".find" do
     context "with valid font name" do
-      it "copy fonts in specified directories" do
+      it "returns the fonts path" do
         name = "DejaVuSerif.ttf"
-        dejavu_ttf = Fontist::Finder.copy(name, download_path)
+        dejavu_ttf = Fontist::Finder.find(name)
 
-        expect(dejavu_ttf).not_to be_nil
-        expect(dejavu_ttf).to include("tmp/#{name}")
+        expect(dejavu_ttf).to include(name)
+      end
+    end
+
+    context "with downloadable ms vista font" do
+      it "downloads the fonts and copy to path" do
+        name = "CALIBRI.TTF"
+        fake_font_path = "./assets/fonts/#{name}"
+
+        allow(Fontist::MsVistaFont).to(
+          receive(:fetch_font). and_return(fake_font_path)
+        )
+
+        calibri_ttf = Fontist::Finder.find(name)
+
+        expect(calibri_ttf).to include(fake_font_path)
+        expect(Fontist::MsVistaFont).to have_received(:fetch_font).with(name)
       end
     end
 
@@ -17,32 +32,9 @@ RSpec.describe Fontist::Finder do
         font_name = "InvalidFont.ttf"
 
         expect {
-          Fontist::Finder.copy(font_name, download_path)
-        }.to raise_error(Fontist::Error, "Could not find #{font_name} font")
+          Fontist::Finder.find(font_name)
+        }.to raise_error(Fontist::Error, "Could not find the #{font_name} font")
       end
     end
-
-    context "non writable download paths" do
-      it "raise a non writable path message" do
-        name = "DejaVuSerif.ttf"
-        allow(File).to receive(:writable?).and_return(false)
-
-        expect {
-          Fontist::Finder.copy(name, download_path)
-        }.to raise_error(Fontist::Error, "No such writable file or directory")
-      end
-    end
-  end
-
-  def download_path
-    @download_path ||=(
-      temp_path = Fontist.root_path.join("tmp")
-
-      unless File.exist?(temp_path)
-        FileUtils.mkdir_p(temp_path)
-      end
-
-      temp_path
-    )
   end
 end
