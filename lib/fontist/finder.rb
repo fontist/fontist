@@ -1,39 +1,48 @@
 module Fontist
   class Finder
-    def initialize(name, path:)
+    def initialize(name)
       @name = name
-      @path = path
     end
 
-    def copy
-      font = find_font
-
-      copy_to(font, path) || raise(
-        Fontist::Error, "Could not find #{name} font"
-      )
+    def self.find(name)
+      new(name).find
     end
 
-    def self.copy(name, path)
-      new(name, path: path).copy
+    def find
+      find_system_font || download_font || raise_invalid_error
     end
 
     private
 
-    attr_reader :name, :path
+    attr_reader :name
 
-    def find_font
-      Fontist::Source.find(name)
+    def find_system_font
+      Fontist::SystemFont.find(name)
     end
 
-    def copy_to(font, path)
-      if font
-        unless File.writable?(path)
-          raise(Fontist::Error, "No such writable file or directory")
-        end
-
-        FileUtils.cp(font, path)
-        Pathname.new(path).join(name).to_s
+    def download_font
+      unless remote_source.empty?
+        source = remote_source_handlers[remote_source.keys.first.to_sym]
+        source.fetch_font(name) if source
       end
+    end
+
+    def raise_invalid_error
+      raise(Fontist::Error,"Could not find the #{name} font")
+    end
+
+    def remote_source
+      @remote_source ||= sources.select do |key, value|
+        value.fonts.include?(name.upcase)
+      end
+    end
+
+    def sources
+      Fontist::Source.all.remote.to_h
+    end
+
+    def remote_source_handlers
+      @remote_source_handlers ||= { msvista: Fontist::MsVistaFont }
     end
   end
 end

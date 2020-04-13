@@ -1,28 +1,13 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Source do
-  describe ".find" do
-    context "with a vlaid existing font" do
-      it "returns the complete font path" do
-        name = "DejaVuSerif.ttf"
-        dejavu_ttf = Fontist::Source.find(name, sources: [font_sources])
+  describe ".all" do
+    it "returns all of the dataset" do
+      sources = Fontist::Source.all
 
-        expect(dejavu_ttf).not_to be_nil
-        expect(dejavu_ttf).to include("spec/fixtures/fonts/")
-      end
+      expect(sources.system.linux.paths).not_to be_nil
+      expect(sources.remote.msvista.file_size).to eq("62914560")
+      expect(sources.remote.msvista.fonts).to include("CALIBRI.TTF")
     end
-
-    context "with invalid font" do
-      it "returns nill to the caller" do
-        name = "invalid-font.ttf"
-        invalid_font = Fontist::Source.find(name, sources: [font_sources])
-
-        expect(invalid_font).to be_nil
-      end
-    end
-  end
-
-  def font_sources
-    @font_sources ||= Fontist.root_path.join("spec/fixtures/fonts/*")
   end
 end
