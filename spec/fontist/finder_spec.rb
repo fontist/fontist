@@ -15,6 +15,7 @@ RSpec.describe Fontist::Finder do
       it "downloads the fonts and copy to path" do
         name = "CALIBRI.TTF"
         fake_font_path = "./assets/fonts/#{name}"
+        allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
         allow(Fontist::MsVistaFont).to(
           receive(:fetch_font). and_return(fake_font_path)

@@ -10,11 +10,7 @@ module Fontist
     end
 
     def find
-      font_path = font_paths.select do |font_path|
-        break font_path if font_path.include?(font)
-      end
-
-      font_path unless font_path.empty?
+      font_paths.grep(/#{font}/i).first
     end
 
     private
@@ -23,7 +19,9 @@ module Fontist
 
     def font_paths
       Dir.glob((
-        user_sources + default_sources["paths"]
+        user_sources +
+        default_sources["paths"] +
+        [Fontist.fonts_path.join("**")]
       ).flatten.uniq)
     end
 
