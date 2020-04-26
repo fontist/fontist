@@ -12,19 +12,13 @@ RSpec.describe Fontist::Finder do
     end
 
     context "with downloadable ms vista font" do
-      it "downloads the fonts and copy to path" do
+      it "returns missing font error" do
         name = "CALIBRI.TTF"
-        fake_font_path = "./assets/fonts/#{name}"
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
-        allow(Fontist::MsVistaFont).to(
-          receive(:fetch_font). and_return(fake_font_path)
-        )
-
-        calibri_ttf = Fontist::Finder.find(name)
-
-        expect(calibri_ttf).to include(fake_font_path)
-        expect(Fontist::MsVistaFont).to have_received(:fetch_font).with(name)
+        expect {
+          Fontist::Finder.find(name)
+        }.to raise_error(Fontist::Errors::MissingFontError)
       end
     end
 
@@ -34,7 +28,7 @@ RSpec.describe Fontist::Finder do
 
         expect {
           Fontist::Finder.find(font_name)
-        }.to raise_error(Fontist::Error, "Could not find the #{font_name} font")
+        }.to raise_error(Fontist::Errors::NonSupportedFontError)
       end
     end
   end

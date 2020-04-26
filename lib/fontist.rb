@@ -1,4 +1,5 @@
 require "libmspack"
+require "fontist/errors"
 require "fontist/version"
 
 require "fontist/finder"
@@ -7,8 +8,6 @@ require "fontist/system_font"
 require "fontist/ms_vista_font"
 
 module Fontist
-  class Error < StandardError; end
-
   def self.lib_path
     Fontist.root_path.join("lib")
   end

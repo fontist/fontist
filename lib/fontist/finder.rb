@@ -9,7 +9,7 @@ module Fontist
     end
 
     def find
-      find_system_font || download_font || raise_invalid_error
+      find_system_font || downloadable_font || raise_invalid_error
     end
 
     private
@@ -20,29 +20,27 @@ module Fontist
       Fontist::SystemFont.find(name)
     end
 
-    def download_font
+    def remote_source
+      Fontist::Source.all.remote.to_h.select do |key, value|
+        !value.fonts.grep(/#{name}/i).empty?
+      end
+    end
+
+    def downloadable_font
       unless remote_source.empty?
-        source = remote_source_handlers[remote_source.keys.first.to_sym]
-        source.fetch_font(name) if source
+        raise(
+          Fontist::Errors::MissingFontError,
+          "Fonts are missing, please run" \
+          "Fontist::Installer.install to install these fonts"
+        )
       end
     end
 
     def raise_invalid_error
-      raise(Fontist::Error,"Could not find the #{name} font")
-    end
-
-    def remote_source
-      @remote_source ||= sources.select do |key, value|
-        value.fonts.include?(name.upcase)
-      end
-    end
-
-    def sources
-      Fontist::Source.all.remote.to_h
-    end
-
-    def remote_source_handlers
-      @remote_source_handlers ||= { msvista: Fontist::MsVistaFont }
+      raise(
+        Fontist::Errors::NonSupportedFontError,
+        "Could not find the #{name} font in any of the supported downlodable"
+      )
     end
   end
 end
