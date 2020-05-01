@@ -5,6 +5,8 @@ system:
 
 remote:
   msvista:
+    agreement: "yes"
+
     fonts:
       - CALIBRI.TTF
       - CALIBRII.TTF

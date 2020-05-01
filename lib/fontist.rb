@@ -4,6 +4,7 @@ require "fontist/version"
 
 require "fontist/finder"
 require "fontist/source"
+require "fontist/installer"
 require "fontist/system_font"
 require "fontist/ms_vista_font"
 

@@ -31,7 +31,8 @@ module Fontist
         raise(
           Fontist::Errors::MissingFontError,
           "Fonts are missing, please run" \
-          "Fontist::Installer.install to install these fonts"
+          "Fontist::Installer.download(name, confirmation: 'yes') to " \
+          "download these fonts"
         )
       end
     end

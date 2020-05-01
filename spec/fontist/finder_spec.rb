@@ -7,7 +7,7 @@ RSpec.describe Fontist::Finder do
         name = "DejaVuSerif.ttf"
         dejavu_ttf = Fontist::Finder.find(name)
 
-        expect(dejavu_ttf).to include(name)
+        expect(dejavu_ttf.first).to include(name)
       end
     end
 

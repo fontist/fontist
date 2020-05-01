@@ -8,7 +8,7 @@ RSpec.describe Fontist::SystemFont do
         dejavu_ttf = Fontist::SystemFont.find(name, sources: [font_sources])
 
         expect(dejavu_ttf).not_to be_nil
-        expect(dejavu_ttf).to include("spec/fixtures/fonts/")
+        expect(dejavu_ttf.first).to include("spec/fixtures/fonts/")
       end
     end
 

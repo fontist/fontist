@@ -10,7 +10,8 @@ module Fontist
     end
 
     def find
-      font_paths.grep(/#{font}/i).first
+      paths = font_paths.grep(/#{font}/i)
+      paths.empty? ? nil : paths
     end
 
     private

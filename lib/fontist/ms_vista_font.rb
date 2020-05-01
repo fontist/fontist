@@ -2,19 +2,25 @@ require "fontist/downloader"
 
 module Fontist
   class MsVistaFont
-    def initialize(font_name, fonts_path: nil, **options)
+    def initialize(font_name, confirmation:, fonts_path: nil, **options)
       @font_name = font_name
+      @confirmation = confirmation || "no"
       @fonts_path = fonts_path ||  Fontist.fonts_path
       @force_download = options.fetch(:force_download, false)
+
+      unless source.agreement === confirmation
+        raise(Fontist::Errors::LicensingError)
+      end
     end
 
-    def self.fetch_font(font_name, options = {})
-      new(font_name, options).fetch
+    def self.fetch_font(font_name, confirmation:, **options)
+      new(font_name, options.merge(confirmation: confirmation)).fetch
     end
 
     def fetch
       fonts = extract_ppviewer_fonts
-      fonts.grep(/#{font_name}/i)
+      paths = fonts.grep(/#{font_name}/i)
+      paths.empty? ? nil : paths
     end
 
     private
