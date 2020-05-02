@@ -1,0 +1,32 @@
+name: windows
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          architecture: "x64"
+
+      - name: Setup
+        shell: pwsh
+        run: |
+          gem install bundler
+          bundle config --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Run tests
+        run: bundle exec rspec --tag ~skip_in_windows

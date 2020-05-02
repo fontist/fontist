@@ -28,7 +28,10 @@ module Fontist
     attr_reader :font_name, :fonts_path, :force_download
 
     def decompressor
-      @decompressor ||= LibMsPack::CabDecompressor.new
+      @decompressor ||= (
+        require "libmspack"
+        LibMsPack::CabDecompressor.new
+      )
     end
 
     def extract_ppviewer_fonts

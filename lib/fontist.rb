@@ -1,4 +1,3 @@
-require "libmspack"
 require "fontist/errors"
 require "fontist/version"
 

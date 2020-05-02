@@ -5,6 +5,7 @@ RSpec.describe Fontist::Finder do
     context "with valid font name" do
       it "returns the fonts path" do
         name = "DejaVuSerif.ttf"
+        stub_system_font_finder_to_fixture(name)
         dejavu_ttf = Fontist::Finder.find(name)
 
         expect(dejavu_ttf.first).to include(name)
@@ -31,5 +32,10 @@ RSpec.describe Fontist::Finder do
         }.to raise_error(Fontist::Errors::NonSupportedFontError)
       end
     end
+  end
+
+  def stub_system_font_finder_to_fixture(name)
+    allow(Fontist::SystemFont).to receive(:find).
+      and_return(["spec/fixtures/fonts/#{name}"])
   end
 end

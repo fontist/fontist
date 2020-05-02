@@ -1,6 +1,18 @@
 system:
   linux:
     paths:
+      - /usr/share/fonts/**/**.{ttf,ttc}
+
+  windows:
+    paths:
+      - C:/Windows/Fonts/**/**.{ttc,ttf}
+
+  macosx:
+    paths:
+      - $HOME/Library/Fonts/Microsoft/*/*
+
+  unix:
+    paths:
       - /usr/share/fonts/truetype/*/*
 
 remote:
