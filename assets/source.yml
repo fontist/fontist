@@ -9,11 +9,11 @@ system:
 
   macosx:
     paths:
-      - $HOME/Library/Fonts/Microsoft/*/*
+      - /System/Library/Fonts/**/**.{ttf,ttc}
 
   unix:
     paths:
-      - /usr/share/fonts/truetype/*/*
+      - /usr/share/fonts/**/**.{ttf,ttc}
 
 remote:
   msvista:
