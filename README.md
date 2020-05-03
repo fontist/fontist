@@ -1,5 +1,7 @@
 # Fontist
 
+![windows](https://github.com/fontist/fontist/workflows/windows/badge.svg)
+![macos](https://github.com/fontist/fontist/workflows/macos/badge.svg)
 ![ubuntu](https://github.com/fontist/fontist/workflows/ubuntu/badge.svg)
 
 A simple library to find and download fonts for Windows, Linux and Mac.
