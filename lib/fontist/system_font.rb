@@ -3,6 +3,8 @@ module Fontist
     def initialize(font:, sources: nil)
       @font = font
       @user_sources = sources || []
+
+      check_or_create_fontist_path
     end
 
     def self.find(font, sources: [])
@@ -18,12 +20,23 @@ module Fontist
 
     attr_reader :font, :user_sources
 
+    def check_or_create_fontist_path
+      unless fontist_fonts_path.exist?
+        require "fileutils"
+        FileUtils.mkdir_p(fontist_fonts_path)
+      end
+    end
+
     def font_paths
       Dir.glob((
         user_sources +
         default_sources["paths"] +
-        [Fontist.fonts_path.join("**")]
+        [fontist_fonts_path.join("**")]
       ).flatten.uniq)
+    end
+
+    def fontist_fonts_path
+      @fontist_fonts_path ||= Fontist.fonts_path
     end
 
     def default_sources
@@ -47,5 +60,6 @@ module Fontist
         end
       )
     end
+
   end
 end

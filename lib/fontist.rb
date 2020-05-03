@@ -20,7 +20,11 @@ module Fontist
     Fontist.root_path.join("assets")
   end
 
+  def self.fontist_path
+    Pathname.new(Dir.home).join(".fontist")
+  end
+
   def self.fonts_path
-    Fontist.assets_path.join("fonts")
+    Fontist.fontist_path.join("fonts")
   end
 end
