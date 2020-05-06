@@ -3,5 +3,6 @@ module Fontist
     class LicensingError < StandardError; end
     class MissingFontError < StandardError; end
     class NonSupportedFontError < StandardError; end
+    class TemparedFileError < StandardError; end
   end
 end

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Fontist::Formulas::MsVista do
   describe ".fetch_font" do
-    context "with valid licence", api_call: true do
+    context "with valid licence", file_download: true do
       it "downloads and returns font paths" do
         name = "CANDARAI.TTF"
         fonts = Fontist::Formulas::MsVista.fetch_font(

@@ -1,0 +1,51 @@
+source_font:
+  agreement: ""
+
+  fonts:
+    - SourceCodePro-Black.ttf
+    - SourceCodePro-BlackIt.ttf
+    - SourceCodePro-Bold.ttf
+    - SourceCodePro-BoldIt.ttf
+    - SourceCodePro-ExtraLight.ttf
+    - SourceCodePro-ExtraLightIt.ttf
+    - SourceCodePro-It.ttf
+    - SourceCodePro-Light.ttf
+    - SourceCodePro-LightIt.ttf
+    - SourceCodePro-Medium.ttf
+    - SourceCodePro-MediumIt.ttf
+    - SourceCodePro-Regular.ttf
+    - SourceCodePro-Semibold
+    - SourceCodePro-SemiboldIt.ttf
+    - SourceSansPro-Black.ttf
+    - SourceSansPro-BlackIt.ttf
+    - SourceSansPro-Bold.ttf
+    - SourceSansPro-BoldIt.ttf
+    - SourceSansPro-ExtraLight.ttf
+    - SourceSansPro-ExtraLightIt.ttf
+    - SourceSansPro-It.ttf
+    - SourceSansPro-Light.ttf
+    - SourceSansPro-LightIt.ttf
+    - SourceSansPro-Medium.ttf
+    - SourceSansPro-MediumIt.ttf
+    - SourceSansPro-Regular.ttf
+    - SourceSansPro-Semibold.ttf
+    - SourceSansPro-SemiboldIt.ttf
+    - SourceSerifPro-Black.ttf
+    - SourceSerifPro-BlackIt.ttf
+    - SourceSerifPro-Bold.ttf
+    - SourceSerifPro-BoldIt.ttf
+    - SourceSerifPro-ExtraLight.ttf
+    - SourceSerifPro-ExtraLightIt.ttf
+    - SourceSerifPro-It.ttf
+    - SourceSerifPro-Light.ttf
+    - SourceSerifPro-LightIt.ttf
+    - SourceSerifPro-Medium.ttf
+    - SourceSerifPro-MediumIt.ttf
+    - SourceSerifPro-Regular.ttf
+    - SourceSerifPro-Semibold.ttf
+    - SourceSerifPro-SemiboldIt.ttf
+
+  file_size: "101440249"
+  sha: "0107b5d4ba305cb4dff2ba19138407aa2153632a2c41592f74d20cd0d0261bfd"
+  urls:
+    - https://github.com/fontist/source-fonts/releases/download/v1.0/source-fonts-1.0.zip

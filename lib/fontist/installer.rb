@@ -21,7 +21,10 @@ module Fontist
     attr_reader :font_name, :confirmation, :options
 
     def downloaders
-      { msvista: Fontist::Formulas::MsVista }
+      {
+        msvista: Fontist::Formulas::MsVista,
+        source_front: Fontist::Formulas::SourceFont,
+      }
     end
 
     def find_system_font

@@ -18,3 +18,4 @@ system:
 remote:
   formulas:
     - ./formulas/ms_vista.yml
+    - ./formulas/source_font.yml

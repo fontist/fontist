@@ -3,9 +3,10 @@ require "digest"
 
 module Fontist
   class Downloader
-    def initialize(file, file_size: nil, sha: nil)
+    def initialize(file, file_size: nil, sha: nil, progress: nil)
       @sha = sha
       @file = file
+      @progress = progress
       @file_size = file_size || default_file_size
     end
 
@@ -19,7 +20,7 @@ module Fontist
     end
 
     def raise_invalid_file
-      raise(Fontist::Error, "Invalid / Tempared file")
+      raise(Fontist::Errors::TemparedFileError)
     end
 
     def self.download(file, options = {})
@@ -48,7 +49,7 @@ module Fontist
       Down.download(
         @file,
         progress_proc: -> (progress) {
-          bar.increment(progress / byte_to_megabyte)
+          bar.increment(progress / byte_to_megabyte) if @progress === true
         }
       )
     end
