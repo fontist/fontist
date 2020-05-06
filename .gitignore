@@ -8,7 +8,6 @@
 /tmp/
 Gemfile.lock
 /assets/*
-!/assets/source.yml
 !/assets/fonts/.keep
 
 # rspec failure tracking

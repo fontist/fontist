@@ -5,9 +5,9 @@ RSpec.describe Fontist::Installer do
     context "with already downloaded fonts", skip_in_windows: true do
       it "returns the font path" do
         name = "CALIBRI.TTF"
-        Fontist::MsVistaFont.fetch_font(name, confirmation: "yes")
+        Fontist::Formulas::MsVista.fetch_font(name, confirmation: "yes")
 
-        allow(Fontist::MsVistaFont).to receive(:fetch_font).and_return(nil)
+        allow(Fontist::Formulas::MsVista).to receive(:fetch_font).and_return(nil)
         paths = Fontist::Installer.download(name, confirmation: "yes")
 
         expect(paths.first).to include("fonts/#{name}")

@@ -21,7 +21,7 @@ module Fontist
     end
 
     def remote_source
-      Fontist::Source.all.remote.to_h.select do |key, value|
+      Fontist::Source.formulas.to_h.select do |key, value|
         !value.fonts.grep(/#{name}/i).empty?
       end
     end

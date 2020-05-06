@@ -1,11 +1,11 @@
 require "spec_helper"
 
-RSpec.describe Fontist::MsVistaFont do
+RSpec.describe Fontist::Formulas::MsVista do
   describe ".fetch_font" do
     context "with valid licence", api_call: true do
       it "downloads and returns font paths" do
         name = "CANDARAI.TTF"
-        fonts = Fontist::MsVistaFont.fetch_font(
+        fonts = Fontist::Formulas::MsVista.fetch_font(
           name, confirmation: "yes", force_download: true
         )
 
@@ -19,7 +19,7 @@ RSpec.describe Fontist::MsVistaFont do
         font_name = "CANDARAI.TTF"
 
         expect {
-          Fontist::MsVistaFont.fetch_font(font_name, confirmation: "no")
+          Fontist::Formulas::MsVista.fetch_font(font_name, confirmation: "no")
         }.to raise_error(Fontist::Errors::LicensingError)
       end
     end

@@ -5,7 +5,7 @@ require "fontist/finder"
 require "fontist/source"
 require "fontist/installer"
 require "fontist/system_font"
-require "fontist/ms_vista_font"
+require "fontist/formulas"
 
 module Fontist
   def self.lib_path
@@ -18,6 +18,10 @@ module Fontist
 
   def self.assets_path
     Fontist.root_path.join("assets")
+  end
+
+  def self.data_path
+    Fontist.lib_path.join("fontist", "data")
   end
 
   def self.fontist_path

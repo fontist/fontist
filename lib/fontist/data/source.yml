@@ -1,0 +1,20 @@
+system:
+  linux:
+    paths:
+      - /usr/share/fonts/**/**.{ttf,ttc}
+
+  windows:
+    paths:
+      - C:/Windows/Fonts/**/**.{ttc,ttf}
+
+  macosx:
+    paths:
+      - /System/Library/Fonts/**/**.{ttf,ttc}
+
+  unix:
+    paths:
+      - /usr/share/fonts/**/**.{ttf,ttc}
+
+remote:
+  formulas:
+    - ./formulas/ms_vista.yml
