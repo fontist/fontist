@@ -1,0 +1,29 @@
+ms_system:
+  agreement: "yes"
+
+  fonts:
+    - Arial.ttf
+    - ArialBd.ttf
+    - ArialI.ttf
+    - ArialBI.ttf
+    - Times.ttf
+    - TimesBd.ttf
+    - TimesI.ttf
+    - TimesBI.ttf
+    - Verdana.ttf
+    - Verdanai.ttf
+    - Verdanab.ttf
+    - Verdanaz.ttf
+    - trebuc.ttf
+    - trebucbi.ttf
+    - trebucbd.ttf
+    - trebucit.ttf
+
+  file_size: "1675184"
+  sha: "464dd2cd5f09f489f9ac86ea7790b7b8548fc4e46d9f889b68d2cdce47e09ea8"
+  urls:
+    - https://download.microsoft.com/download/a/1/8/a180e21e-9c2b-4b54-9c32-bf7fd7429970/EUupdate.EXE
+    - https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/EUupdate.EXE
+
+  licence: |
+    Details license goes here

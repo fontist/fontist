@@ -23,6 +23,7 @@ module Fontist
     def downloaders
       {
         msvista: Fontist::Formulas::MsVista,
+        ms_system: Fontist::Formulas::MsSystem,
         source_front: Fontist::Formulas::SourceFont,
       }
     end

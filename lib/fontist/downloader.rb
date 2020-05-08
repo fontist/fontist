@@ -7,7 +7,7 @@ module Fontist
       @sha = sha
       @file = file
       @progress = progress
-      @file_size = file_size || default_file_size
+      @file_size = (file_size || default_file_size).to_i
     end
 
     def download
