@@ -2,8 +2,8 @@ require "spec_helper"
 
 RSpec.describe Fontist::Formulas::MsSystem do
   describe ".fetch_font" do
-    context "with valid licence", file_download: true do
-      it "downloads and returns font paths" do
+    context "with valid licence", skip_in_windows: false do
+      it "downloads and returns font paths", file_download: true do
         name = "Times"
         stub_fontist_path_to_assets
 

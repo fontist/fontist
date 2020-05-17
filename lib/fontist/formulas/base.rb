@@ -58,9 +58,9 @@ module Fontist
         font
       end
 
-      def cab_extract(resource, font_ext = /.tt|.ttc/i)
-        exe_file = download_file(resource)
-        cab_file = decompressor.search(exe_file.path)
+      def cab_extract(exe_file, download: true,  font_ext: /.tt|.ttc/i)
+        exe_file = download_file(exe_file).path if download
+        cab_file = decompressor.search(exe_file)
         cabbed_fonts = grep_fonts(cab_file.files, font_ext) || []
         fonts_paths = extract_cabbed_fonts_to_assets(cabbed_fonts)
 

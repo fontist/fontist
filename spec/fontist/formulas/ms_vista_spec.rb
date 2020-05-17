@@ -2,11 +2,11 @@ require "spec_helper"
 
 RSpec.describe Fontist::Formulas::MsVista do
   describe ".fetch_font" do
-    context "with valid licence", file_download: true do
-      it "downloads and returns font paths" do
+    context "with valid licence" do
+      it "downloads and returns font paths", file_download: true do
         name = "CANDARAI.TTF"
         fonts = Fontist::Formulas::MsVista.fetch_font(
-          name, confirmation: "yes", force_download: true
+          name, confirmation: "yes"
         )
 
         expect(fonts.count).to eq(1)
