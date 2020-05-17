@@ -20,3 +20,4 @@ remote:
     - ./formulas/ms_vista.yml
     - ./formulas/ms_system.yml
     - ./formulas/source_font.yml
+    - ./formulas/courier.yml
