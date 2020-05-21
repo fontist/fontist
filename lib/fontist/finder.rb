@@ -21,13 +21,11 @@ module Fontist
     end
 
     def remote_source
-      Fontist::Source.formulas.to_h.select do |key, value|
-        !value.fonts.grep(/#{name}/i).empty?
-      end
+      Fontist::FormulaFinder.find(name)
     end
 
     def downloadable_font
-      unless remote_source.empty?
+      unless remote_source.nil?
         raise(
           Fontist::Errors::MissingFontError,
           "Fonts are missing, please run" \

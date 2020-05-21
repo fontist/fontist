@@ -3,8 +3,8 @@ require "spec_helper"
 RSpec.describe Fontist::Installer do
   describe ".download" do
     context "with already downloaded fonts", skip_in_windows: true do
-      it "returns the font path" do
-        name = "CALIBRI.TTF"
+      it "returns the font path", file_download: true do
+        name = "Arial"
         Fontist::Formulas::MsVista.fetch_font(name, confirmation: "yes")
 
         allow(Fontist::Formulas::MsVista).to receive(:fetch_font).and_return(nil)
@@ -16,7 +16,7 @@ RSpec.describe Fontist::Installer do
 
     context "with missing but downloadable fonts" do
       it "downloads and install the fonts", skip_in_windows: true do
-        name = "CALIBRI.TTF"
+        name = "Arial"
         confirmation = "yes"
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
@@ -26,7 +26,7 @@ RSpec.describe Fontist::Installer do
       end
 
       it "do not download if user didn't agree" do
-        name = "CALIBRI.TTF"
+        name = "Calibri"
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
         expect {

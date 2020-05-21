@@ -2,22 +2,61 @@ ms_system:
   agreement: "yes"
 
   fonts:
-    - Arial.ttf
-    - ArialBd.ttf
-    - ArialI.ttf
-    - ArialBI.ttf
-    - Times.ttf
-    - TimesBd.ttf
-    - TimesI.ttf
-    - TimesBI.ttf
-    - Verdana.ttf
-    - Verdanai.ttf
-    - Verdanab.ttf
-    - Verdanaz.ttf
-    - trebuc.ttf
-    - trebucbi.ttf
-    - trebucbd.ttf
-    - trebucit.ttf
+    - name: Arial
+      styles:
+        - type: Regular
+          font: Arial.ttf
+
+        - type: Bold
+          font: ArialBd.ttf
+
+        - type: Italic
+          font: ArialBd.ttf
+
+        - type: Bold Italic
+          font: ArialBI.ttf
+
+    - name: Times New Roman
+      styles:
+        - type: Regular
+          font: Times.ttf
+
+        - type: Bold
+          font: TimesBd.ttf
+
+        - type: Italic
+          font: TimesI.ttf
+
+        - type: Bold Italic
+          font: TimesBI.ttf
+
+    - name: Verdana
+      styles:
+        - type: Regular
+          font: Verdana.ttf
+
+        - type: Bold
+          font: Verdanab.ttf
+
+        - type: Italic
+          font: Verdanai.ttf
+
+        - type: Bold Italic
+          font: Verdanaz.ttf
+
+    - name: Trebuchet
+      styles:
+        - type: Regular
+          font: trebuc.ttf
+
+        - type: Bold
+          font: trebucbd.ttf
+
+        - type: Italic
+          font: trebucit.ttf
+
+        - type: Bold Italic
+          font: trebucbi.ttf
 
   file_size: "1675184"
   sha: "464dd2cd5f09f489f9ac86ea7790b7b8548fc4e46d9f889b68d2cdce47e09ea8"

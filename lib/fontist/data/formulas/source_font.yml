@@ -2,51 +2,160 @@ source_font:
   agreement: ""
 
   fonts:
-    - SourceCodePro-Black.ttf
-    - SourceCodePro-BlackIt.ttf
-    - SourceCodePro-Bold.ttf
-    - SourceCodePro-BoldIt.ttf
-    - SourceCodePro-ExtraLight.ttf
-    - SourceCodePro-ExtraLightIt.ttf
-    - SourceCodePro-It.ttf
-    - SourceCodePro-Light.ttf
-    - SourceCodePro-LightIt.ttf
-    - SourceCodePro-Medium.ttf
-    - SourceCodePro-MediumIt.ttf
-    - SourceCodePro-Regular.ttf
-    - SourceCodePro-Semibold.ttf
-    - SourceCodePro-SemiboldIt.ttf
-    - SourceHanSans-Bold.ttc
-    - SourceHanSans-ExtraLight.ttc
-    - SourceHanSans-Heavy.ttc
-    - SourceHanSans-Light.ttc
-    - SourceHanSans-Medium.ttc
-    - SourceHanSans-Normal.ttc
-    - SourceHanSans-Regular.ttc
-    - SourceSansPro-Black.ttf
-    - SourceSansPro-BlackIt.ttf
-    - SourceSansPro-Bold.ttf
-    - SourceSansPro-BoldIt.ttf
-    - SourceSansPro-ExtraLight.ttf
-    - SourceSansPro-ExtraLightIt.ttf
-    - SourceSansPro-It.ttf
-    - SourceSansPro-Light.ttf
-    - SourceSansPro-LightIt.ttf
-    - SourceSansPro-Regular.ttf
-    - SourceSansPro-Semibold.ttf
-    - SourceSansPro-SemiboldIt.ttf
-    - SourceSerifPro-Black.ttf
-    - SourceSerifPro-BlackIt.ttf
-    - SourceSerifPro-Bold.ttf
-    - SourceSerifPro-BoldIt.ttf
-    - SourceSerifPro-ExtraLight.ttf
-    - SourceSerifPro-ExtraLightIt.ttf
-    - SourceSerifPro-It.ttf
-    - SourceSerifPro-Light.ttf
-    - SourceSerifPro-LightIt.ttf
-    - SourceSerifPro-Regular.ttf
-    - SourceSerifPro-Semibold.ttf
-    - SourceSerifPro-SemiboldIt.ttf
+    - name: Source Code Pro
+      styles:
+        - type: Black
+          font: SourceCodePro-Black.ttf
+
+        - type: Black Italic
+          font: SourceCodePro-BlackIt.ttf
+
+        - type: Bold
+          font: SourceCodePro-Bold.ttf
+
+        - type: Bold Italic
+          font: SourceCodePro-BoldIt.ttf
+
+        - type: Extra Light
+          font: SourceCodePro-ExtraLight.ttf
+
+        - type: ExtraLightIt
+          font: SourceCodePro-ExtraLightIt.ttf
+
+        - type: Italic
+          font: SourceCodePro-It.ttf
+
+        - type: Light
+          font: SourceCodePro-Light.ttf
+
+        - type: Light Italic
+          font: SourceCodePro-LightIt.ttf
+
+        - type: Medium
+          font: SourceCodePro-Medium.ttf
+
+        - type: Medium Italic
+          font: SourceCodePro-MediumIt.ttf
+
+        - type: Regular
+          font: SourceCodePro-Regular.ttf
+
+        - type: Semibold
+          font: SourceCodePro-Semibold.ttf
+
+        - type: Semibold Italic
+          font: SourceCodePro-SemiboldIt.ttf
+
+    - name: Source Sans Pro
+      styles:
+        - type: Black
+          font: SourceSansPro-Black.ttf
+
+        - type: Black Italic
+          font: SourceSansPro-BlackIt.ttf
+
+        - type: Bold
+          font: SourceSansPro-Bold.ttf
+
+        - type: Bold Italic
+          font: SourceSansPro-BoldIt.ttf
+
+        - type: Extra Light
+          font: SourceSansPro-ExtraLight.ttf
+
+        - type: ExtraLightIt
+          font: SourceSansPro-ExtraLightIt.ttf
+
+        - type: Italic
+          font: SourceSansPro-It.ttf
+
+        - type: Light
+          font: SourceSansPro-Light.ttf
+
+        - type: Light Italic
+          font: SourceSansPro-LightIt.ttf
+
+        - type: Medium
+          font: SourceSansPro-Medium.ttf
+
+        - type: Medium Italic
+          font: SourceSansPro-MediumIt.ttf
+
+        - type: Regular
+          font: SourceSansPro-Regular.ttf
+
+        - type: Semibold
+          font: SourceSansPro-Semibold.ttf
+
+        - type: Semibold Italic
+          font: SourceSansPro-SemiboldIt.ttf
+
+    - name: Source Serif Pro
+      styles:
+        - type: Black
+          font: SourceSerifPro-Black.ttf
+
+        - type: Black Italic
+          font: SourceSerifPro-BlackIt.ttf
+
+        - type: Bold
+          font: SourceSerifPro-Bold.ttf
+
+        - type: Bold Italic
+          font: SourceSerifPro-BoldIt.ttf
+
+        - type: Extra Light
+          font: SourceSerifPro-ExtraLight.ttf
+
+        - type: ExtraLightIt
+          font: SourceSerifPro-ExtraLightIt.ttf
+
+        - type: Italic
+          font: SourceSerifPro-It.ttf
+
+        - type: Light
+          font: SourceSerifPro-Light.ttf
+
+        - type: Light Italic
+          font: SourceSerifPro-LightIt.ttf
+
+        - type: Medium
+          font: SourceSerifPro-Medium.ttf
+
+        - type: Medium Italic
+          font: SourceSerifPro-MediumIt.ttf
+
+        - type: Regular
+          font: SourceSerifPro-Regular.ttf
+
+        - type: Semibold
+          font: SourceSerifPro-Semibold.ttf
+
+        - type: Semibold Italic
+          font: SourceSerifPro-SemiboldIt.ttf
+
+    - name: Source Han Sans
+      styles:
+        - type: Regular
+          font: SourceHanSans-Regular.ttc
+
+        - type: Normal
+          font: SourceHanSans-Normal.ttc
+
+        - type: Bold
+          font: SourceHanSans-Bold.ttc
+
+        - type: ExtraLight
+          font: SourceHanSans-ExtraLight.ttc
+
+        - type: Heavy
+          font: SourceHanSans-Heavy.ttc
+
+        - type: Light
+          font: SourceHanSans-Light.ttc
+
+        - type: Medium
+          font: SourceHanSans-Medium.ttc
 
   file_size: "101440249"
   sha: "0107b5d4ba305cb4dff2ba19138407aa2153632a2c41592f74d20cd0d0261bfd"

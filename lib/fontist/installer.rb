@@ -20,29 +20,23 @@ module Fontist
 
     attr_reader :font_name, :confirmation, :options
 
-    def downloaders
-      {
-        msvista: Fontist::Formulas::MsVista,
-        ms_system: Fontist::Formulas::MsSystem,
-        source_front: Fontist::Formulas::SourceFont,
-      }
-    end
-
     def find_system_font
       Fontist::SystemFont.find(font_name)
     end
 
-    def download_font
-      if !font_sources.empty?
-        downloader = downloaders[font_sources.first]
-        downloader.fetch_font(font_name, confirmation: confirmation)
-      end
+    def font_formulas
+      Fontist::FormulaFinder.find(font_name)
     end
 
-    def font_sources
-      @font_sources ||= Fontist::Source.formulas.to_h.select do |key, value|
-        !value.fonts.grep(/#{font_name}/i).empty?
-      end.keys
+    def download_font
+      if font_formulas
+        font_formulas.map do |formula|
+          formula[:installer].fetch_font(
+            font_name,
+            confirmation: confirmation,
+          )
+        end.flatten
+      end
     end
   end
 end

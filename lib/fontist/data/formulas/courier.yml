@@ -2,10 +2,19 @@ courier:
   agreement: "yes"
 
   fonts:
-    - cour.ttf
-    - couri.ttf
-    - courbd.ttf
-    - courbi.ttf
+    - name: Courier
+      styles:
+        - type: Regular
+          font: cour.ttf
+
+        - type: Bold
+          font: courbd.ttf
+
+        - type: Italic
+          font: couri.ttf
+
+        - type: Bold Italic
+          font: courbi.ttf
 
   file_size: "1675184"
   sha: "bb511d861655dde879ae552eb86b134d6fae67cb58502e6ff73ec5d9151f3384"

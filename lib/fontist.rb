@@ -6,6 +6,7 @@ require "fontist/source"
 require "fontist/installer"
 require "fontist/system_font"
 require "fontist/formulas"
+require "fontist/formula_finder"
 
 module Fontist
   def self.lib_path

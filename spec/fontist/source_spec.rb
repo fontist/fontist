@@ -18,7 +18,7 @@ RSpec.describe Fontist::Source do
 
       expect(formulas.msvista.license).not_to be_nil
       expect(formulas.msvista.file_size).to eq("62914560")
-      expect(formulas.msvista.fonts).to include("CALIBRI.TTF")
+      expect(formulas.msvista.fonts.map(&:name)).to include("Calibri")
     end
   end
 end

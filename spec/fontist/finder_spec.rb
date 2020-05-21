@@ -14,7 +14,7 @@ RSpec.describe Fontist::Finder do
 
     context "with downloadable ms vista font" do
       it "returns missing font error" do
-        name = "CALIBRI.TTF"
+        name = "Calibri"
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
         expect {
