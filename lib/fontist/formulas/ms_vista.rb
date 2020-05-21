@@ -1,8 +1,8 @@
-require "fontist/downloader"
-
 module Fontist
   module Formulas
     class MsVista < Base
+      include Formulas::Helpers::ExeExtractor
+
       private
 
       def data_node

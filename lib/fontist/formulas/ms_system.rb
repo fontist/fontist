@@ -1,6 +1,8 @@
 module Fontist
   module Formulas
     class MsSystem < Base
+      include Formulas::Helpers::ExeExtractor
+
       private
 
       def data_node

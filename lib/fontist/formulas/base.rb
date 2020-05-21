@@ -1,3 +1,7 @@
+require "fontist/downloader"
+require "fontist/formulas/helpers/exe_extractor"
+require "fontist/formulas/helpers/zip_extractor"
+
 module Fontist
   module Formulas
     class Base
@@ -40,13 +44,6 @@ module Fontist
         block_given? ? yield(source) : source
       end
 
-      def decompressor
-        @decompressor ||= (
-          require "libmspack"
-          LibMsPack::CabDecompressor.new
-        )
-      end
-
       def formulas
         @formulas ||= Fontist::Source.formulas
       end
@@ -56,35 +53,6 @@ module Fontist
         @matched_fonts.push(font) if font
 
         font
-      end
-
-      def cab_extract(exe_file, download: true,  font_ext: /.tt|.ttc/i)
-        exe_file = download_file(exe_file).path if download
-        cab_file = decompressor.search(exe_file)
-        cabbed_fonts = grep_fonts(cab_file.files, font_ext) || []
-        fonts_paths = extract_cabbed_fonts_to_assets(cabbed_fonts)
-
-        yield(fonts_paths) if block_given?
-      end
-
-      def grep_fonts(file, font_ext)
-        Array.new.tap do |fonts|
-          while file
-            fonts.push(file) if file.filename.match(font_ext)
-            file = file.next
-          end
-        end
-      end
-
-      def extract_cabbed_fonts_to_assets(cabbed_fonts)
-        Array.new.tap do |fonts|
-          cabbed_fonts.each do |font|
-            font_path = fonts_path.join(font.filename).to_s
-            decompressor.extract(font, font_path)
-
-            fonts.push(font_path)
-          end
-        end
       end
 
       def download_file(source)

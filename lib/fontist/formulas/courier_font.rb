@@ -1,6 +1,8 @@
 module Fontist
   module Formulas
     class CourierFont < Base
+      include Formulas::Helpers::ExeExtractor
+
       private
 
       def extract_fonts(font_names)

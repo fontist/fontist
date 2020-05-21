@@ -14,8 +14,15 @@ source_font:
     - SourceCodePro-Medium.ttf
     - SourceCodePro-MediumIt.ttf
     - SourceCodePro-Regular.ttf
-    - SourceCodePro-Semibold
+    - SourceCodePro-Semibold.ttf
     - SourceCodePro-SemiboldIt.ttf
+    - SourceHanSans-Bold.ttc
+    - SourceHanSans-ExtraLight.ttc
+    - SourceHanSans-Heavy.ttc
+    - SourceHanSans-Light.ttc
+    - SourceHanSans-Medium.ttc
+    - SourceHanSans-Normal.ttc
+    - SourceHanSans-Regular.ttc
     - SourceSansPro-Black.ttf
     - SourceSansPro-BlackIt.ttf
     - SourceSansPro-Bold.ttf
@@ -25,8 +32,6 @@ source_font:
     - SourceSansPro-It.ttf
     - SourceSansPro-Light.ttf
     - SourceSansPro-LightIt.ttf
-    - SourceSansPro-Medium.ttf
-    - SourceSansPro-MediumIt.ttf
     - SourceSansPro-Regular.ttf
     - SourceSansPro-Semibold.ttf
     - SourceSansPro-SemiboldIt.ttf
@@ -39,8 +44,6 @@ source_font:
     - SourceSerifPro-It.ttf
     - SourceSerifPro-Light.ttf
     - SourceSerifPro-LightIt.ttf
-    - SourceSerifPro-Medium.ttf
-    - SourceSerifPro-MediumIt.ttf
     - SourceSerifPro-Regular.ttf
     - SourceSerifPro-Semibold.ttf
     - SourceSerifPro-SemiboldIt.ttf
