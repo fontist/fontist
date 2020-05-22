@@ -20,9 +20,9 @@ module Fontist
       end
 
       def fetch
-        extract_fonts([font_name])
-        matched_fonts_uniq = matched_fonts.flatten.uniq
+        extract_fonts(map_names_to_fonts(font_name))
 
+        matched_fonts_uniq = matched_fonts.flatten.uniq
         matched_fonts_uniq.empty? ? nil : matched_fonts_uniq
       end
 
@@ -53,6 +53,13 @@ module Fontist
         @matched_fonts.push(font) if font
 
         font
+      end
+
+      def map_names_to_fonts(font_name)
+        fonts = FormulaFinder.find_fonts(font_name)
+        fonts = fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
+
+        fonts || []
       end
 
       def download_file(source)

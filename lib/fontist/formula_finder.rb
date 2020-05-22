@@ -8,9 +8,23 @@ module Fontist
       new(font_name).find
     end
 
+    def self.find_fonts(name)
+      new(name).find_fonts
+    end
+
     def find
       formulas = find_formula
       build_formulas_array(formulas)
+    end
+
+    def find_fonts
+      matched_fonts = find_formula.map do |key, _value|
+        formulas[key].fonts.select do |font|
+          font.name == font_name
+        end
+      end
+
+      matched_fonts.empty? ? nil : matched_fonts.flatten
     end
 
     private

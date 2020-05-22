@@ -13,6 +13,8 @@ module Fontist
 
     def find
       paths = font_paths.grep(/#{font}/i)
+      paths = lookup_using_font_name || []  if paths.empty?
+
       paths.empty? ? nil : paths
     end
 
@@ -33,6 +35,11 @@ module Fontist
         default_sources["paths"] +
         [fontist_fonts_path.join("**")]
       ).flatten.uniq)
+    end
+
+    def lookup_using_font_name
+      font_names = map_name_to_valid_font_names
+      font_paths.grep(/#{font_names.join("|")}/i) if font_names
     end
 
     def fontist_fonts_path
@@ -61,5 +68,9 @@ module Fontist
       )
     end
 
+    def map_name_to_valid_font_names
+      fonts =  FormulaFinder.find_fonts(font)
+      fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
+    end
   end
 end
