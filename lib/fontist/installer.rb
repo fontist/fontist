@@ -28,10 +28,14 @@ module Fontist
       Fontist::FormulaFinder.find(font_name)
     end
 
+    def font_installer(name)
+      Object.const_get(name)
+    end
+
     def download_font
       if font_formulas
         font_formulas.map do |formula|
-          formula[:installer].fetch_font(
+          font_installer(formula[:installer]).fetch_font(
             font_name,
             confirmation: confirmation,
           )

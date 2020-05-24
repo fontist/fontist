@@ -13,60 +13,43 @@ module Fontist
     end
 
     def find
-      formulas = find_formula
-      build_formulas_array(formulas)
+      formulas = [find_formula].flatten
+      formulas.empty? ? nil : formulas
     end
 
     def find_fonts
-      matched_fonts = find_formula.map do |key, _value|
-        formulas[key].fonts.select do |font|
-          font.name == font_name
-        end
-      end
-
-      matched_fonts.empty? ? nil : matched_fonts.flatten
+      formulas = [find_formula].flatten
+      match_fonts_by_name(formulas) unless formulas.empty?
     end
 
     private
 
     attr_reader :font_name
 
-    def build_formulas_array(formulas)
-      unless formulas.empty?
-        Array.new.tap do |formula_array|
-          formulas.each do |key|
-            formula_array.push(
-              key: key.to_s,
-              installer: formula_installers[key]
-            )
-          end
-        end
-      end
-    end
-
     def find_formula
       find_by_font_name || find_by_font || []
     end
 
     def formulas
-      @formulas ||=  Fontist::Source.formulas.to_h
+      @formulas ||= Fontist::Formulas.all.to_h
     end
 
-    def formula_installers
-      {
-        msvista: Fontist::Formulas::MsVista,
-        ms_system: Fontist::Formulas::MsSystem,
-        courier: Fontist::Formulas::CourierFont,
-        source_front: Fontist::Formulas::SourceFont,
-      }
+    def match_fonts_by_name(formulas)
+      matched_fonts = formulas.map do |formula|
+        formula.fonts.select do |font|
+          font.name.downcase == font_name.downcase
+        end
+      end
+
+      matched_fonts.empty? ? nil : matched_fonts.flatten
     end
 
     def find_by_font_name
-      formula_names = formulas.select do |key, value|
+      matched_formulas = formulas.select do |key, value|
         !value.fonts.map(&:name).grep(/#{font_name}/i).empty?
-      end.keys
+      end
 
-      formula_names.empty? ? nil : formula_names
+      matched_formulas.empty? ? nil : matched_formulas.values
     end
 
     # Note
@@ -76,11 +59,11 @@ module Fontist
     # we've added it as last option in formula finder.
     #
     def find_by_font
-      formula_names = formulas.select do |key, value|
-        match_in_font_styles?(value.fonts)
-      end.keys
+      matched_formulas = formulas.select do |key, value|
+        match_in_font_styles?(value[:fonts])
+      end
 
-      formula_names.empty? ? nil : formula_names
+      matched_formulas.empty? ? nil : matched_formulas.values
     end
 
     def match_in_font_styles?(fonts)
