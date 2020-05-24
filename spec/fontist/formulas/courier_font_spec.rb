@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Fontist::Formulas::CourierFont do
   describe ".fetch_font" do
     context "with valid licence", skip_in_windows: true do
-      it "downloads and returns the fonts" do
+      it "downloads and returns the fonts", skip: true do
         name = "Courier"
         stub_fontist_path_to_assets
         fonts = Fontist::Formulas::CourierFont.fetch_font(

@@ -16,13 +16,13 @@ RSpec.describe Fontist::Installer do
 
     context "with missing but downloadable fonts" do
       it "downloads and install the fonts", skip_in_windows: true do
-        name = "Arial"
+        name = "Calibri"
         confirmation = "yes"
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
         paths = Fontist::Installer.download(name, confirmation: confirmation)
 
-        expect(paths.first).to include("fonts/#{name}")
+        expect(paths.first).to include("fonts/#{name.upcase}.TTF")
       end
 
       it "do not download if user didn't agree" do
