@@ -35,7 +35,31 @@ fonts and then it returns the complete path for the path. To find any font in a
 user's system we can use the following interface.
 
 ```ruby
-Fontist::Finder.find("CALIBRI.TTF")
+Fontist::Finder.find("Calibri")
+```
+
+### Supported fonts
+
+```ruby
+[
+  "Arial",
+  "Calibri",
+  "Cambria",
+  "Candara",
+  "Consola",
+  "Constantia",
+  "Corbel",
+  "Courier",
+  "Meiryo",
+  "Meiryo UI",
+  "Source Code Pro",
+  "Source Han Sans",
+  "Source Sans Pro",
+  "Source Serif Pro",
+  "Times New Roman",
+  "Trebuchet",
+  "Verdana"
+]
 ```
 
 ## Development
