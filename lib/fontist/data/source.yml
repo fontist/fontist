@@ -14,10 +14,3 @@ system:
   unix:
     paths:
       - /usr/share/fonts/**/**.{ttf,ttc}
-
-remote:
-  formulas:
-    - ./formulas/ms_vista.yml
-    - ./formulas/ms_system.yml
-    - ./formulas/source_font.yml
-    - ./formulas/courier.yml

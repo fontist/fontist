@@ -1,6 +1,3 @@
-require "down"
-require "digest"
-
 module Fontist
   class Downloader
     def initialize(file, file_size: nil, sha: nil, progress: nil)

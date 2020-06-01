@@ -1,10 +1,12 @@
+require "fontist/formulas/helpers/exe_extractor"
+
 module Fontist
   module Formulas
     class FontFormula
       include Singleton
-      include Formulas::Helpers::ExeExtractor
-
       extend Fontist::Formulas::Helpers::Dsl
+
+      include Fontist::Formulas::Helpers::ExeExtractor
       attr_accessor :homepage, :description, :temp_resource, :licence
 
       def font_list

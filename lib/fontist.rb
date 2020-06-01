@@ -1,12 +1,23 @@
+
+require "down"
+require "digest"
+
 require "fontist/errors"
 require "fontist/version"
 
 require "fontist/finder"
 require "fontist/source"
 require "fontist/installer"
+require "fontist/downloader"
 require "fontist/system_font"
+
 require "fontist/formulas"
 require "fontist/formula_finder"
+
+require "singleton"
+require "fontist/registry"
+require "fontist/formulas/helpers/dsl"
+require "fontist/formulas/cleartype_fonts"
 
 module Fontist
   def self.lib_path

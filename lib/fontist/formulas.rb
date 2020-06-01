@@ -1,14 +1,3 @@
-require "fontist/formulas/base"
-require "fontist/formulas/ms_vista"
-require "fontist/formulas/ms_system"
-require "fontist/formulas/source_font"
-require "fontist/formulas/courier_font"
-
-require "fontist/formulas/helpers/dsl"
-require "fontist/formulas/cleartype_fonts"
-
-require "fontist/registry"
-
 module Fontist
   module Formulas
     def self.all

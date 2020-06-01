@@ -12,7 +12,7 @@ RSpec.describe Fontist::Formulas::ClearTypeFonts do
   end
 
   describe "installation" do
-    context "with valid licence agreement" do
+    context "with valid licence agreement", file_download: true do
       it "installs the valid fonts", skip_in_windows: true do
         name = "Calibri"
         confirmation = "yes"
