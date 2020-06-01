@@ -9,15 +9,12 @@ module Fontist
 
     def download
       file = download_file
-      verify_file_checksum(file) || raise_invalid_file
-    end
 
-    def verify_file_checksum(file)
-      file if Digest::SHA256.file(file) === sha
-    end
+      if sha && Digest::SHA256.file(file) != sha
+        raise(Fontist::Errors::TemparedFileError)
+      end
 
-    def raise_invalid_file
-      raise(Fontist::Errors::TemparedFileError)
+      file
     end
 
     def self.download(file, options = {})

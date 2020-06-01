@@ -1,3 +1,7 @@
+require "fontist/formulas/helpers/dsl"
+require "fontist/formulas/cleartype_fonts"
+require "fontist/formulas/open_sans_fonts"
+
 module Fontist
   module Formulas
     def self.all

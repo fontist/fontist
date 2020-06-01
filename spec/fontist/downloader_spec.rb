@@ -1,4 +1,5 @@
 require "spec_helper"
+
 RSpec.describe Fontist::Downloader do
   describe ".download", file_download: true do
     it "return the valid downloaded file" do

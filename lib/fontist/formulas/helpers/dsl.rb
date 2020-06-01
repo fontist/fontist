@@ -18,6 +18,10 @@ module Fontist
           instance.temp_resource = {}
         end
 
+        def url(url)
+          instance.temp_resource.merge!(urls: [url])
+        end
+
         def urls(urls = [])
           instance.temp_resource.merge!(urls: urls)
         end
@@ -48,8 +52,14 @@ module Fontist
         def test
         end
 
-        def requires_license_agreement(licence)
-          instance.licence = licence
+        def requires_license_agreement(license)
+          instance.license = license
+          instance.license_required = true
+        end
+
+        def open_license(license)
+          instance.license = license
+          instance.license_required = false
         end
       end
     end

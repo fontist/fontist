@@ -1,8 +1,10 @@
+require "zip"
+
 module Fontist
   module Formulas
     module Helpers
       module ZipExtractor
-        def zip_extract(resource, download: true, fonts_sub_dir: "/")
+        def zip_extract(resource, download: true, fonts_sub_dir: "")
           zip_file = download_file(resource) if download
           zip_file ||= resource.urls.first
 
@@ -12,7 +14,7 @@ module Fontist
 
         private
 
-        def unzip_fonts(file, fonts_sub_dir = "/")
+        def unzip_fonts(file, fonts_sub_dir = "")
           Zip.on_exists_proc = true
 
           Array.new.tap do |fonts|

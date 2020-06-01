@@ -1,13 +1,16 @@
 require "fontist/formulas/helpers/exe_extractor"
+require "fontist/formulas/helpers/zip_extractor"
 
 module Fontist
   module Formulas
     class FontFormula
       include Singleton
       extend Fontist::Formulas::Helpers::Dsl
-
       include Fontist::Formulas::Helpers::ExeExtractor
-      attr_accessor :homepage, :description, :temp_resource, :licence
+      include Fontist::Formulas::Helpers::ZipExtractor
+
+      attr_accessor :license, :license_required
+      attr_accessor :homepage, :description, :temp_resource
 
       def font_list
         @font_list ||= []
@@ -32,7 +35,7 @@ module Fontist
       end
 
       def self.fetch_font(name, confirmation:)
-        if instance.licence && confirmation.downcase != "yes"
+        if instance.license_required && confirmation.downcase != "yes"
           raise(Fontist::Errors::LicensingError)
         end
 

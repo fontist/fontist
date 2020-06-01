@@ -1,6 +1,6 @@
-
 require "down"
 require "digest"
+require "singleton"
 
 require "fontist/errors"
 require "fontist/version"
@@ -9,15 +9,11 @@ require "fontist/finder"
 require "fontist/source"
 require "fontist/installer"
 require "fontist/downloader"
-require "fontist/system_font"
 
+require "fontist/registry"
 require "fontist/formulas"
 require "fontist/formula_finder"
-
-require "singleton"
-require "fontist/registry"
-require "fontist/formulas/helpers/dsl"
-require "fontist/formulas/cleartype_fonts"
+require "fontist/system_font"
 
 module Fontist
   def self.lib_path
