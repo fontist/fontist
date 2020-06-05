@@ -9,7 +9,7 @@ module Fontist
       include Fontist::Formulas::Helpers::ExeExtractor
       include Fontist::Formulas::Helpers::ZipExtractor
 
-      attr_accessor :license, :license_required
+      attr_accessor :license, :license_url, :license_required
       attr_accessor :homepage, :description, :temp_resource
 
       def font_list

@@ -61,6 +61,10 @@ module Fontist
           instance.license = license
           instance.license_required = false
         end
+
+        def license_url(url)
+          instance.license_url = url
+        end
       end
     end
   end
