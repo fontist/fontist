@@ -3,6 +3,7 @@ require "fontist/formulas/cleartype_fonts"
 require "fontist/formulas/open_sans_fonts"
 require "fontist/formulas/euphemia_font"
 require "fontist/formulas/montserrat_font"
+require "fontist/formulas/overpass_font"
 
 module Fontist
   module Formulas
@@ -22,6 +23,7 @@ module Fontist
       registry.register(Fontist::Formulas::OpenSansFonts, :open_sans_fonts)
       registry.register(Fontist::Formulas::EuphemiaFont, :euphemia_font)
       registry.register(Fontist::Formulas::MontserratFont, :montserrat_font)
+      registry.register(Fontist::Formulas::OverpassFont, :overpass_font)
     end
   end
 end

@@ -1,4 +1,5 @@
 require "zip"
+require "pathname"
 
 module Fontist
   module Formulas
@@ -12,18 +13,19 @@ module Fontist
           block_given? ? yield(fonts_paths) : fonts_paths
         end
 
+        alias_method :unzip, :zip_extract
+
         private
 
         def unzip_fonts(file, fonts_sub_dir = "")
           Zip.on_exists_proc = true
-
           Array.new.tap do |fonts|
+
             Zip::File.open(file) do |zip_file|
               zip_file.glob("#{fonts_sub_dir}*.{ttf,ttc,otf}").each do |entry|
-                filename = entry.name.gsub("#{fonts_sub_dir}", "")
-
-                if filename
-                  font_path = fonts_path.join(filename)
+                if entry.name
+                  filename = Pathname.new(entry.name).basename
+                  font_path = fonts_path.join(filename.to_s)
                   fonts.push(font_path.to_s)
 
                   entry.extract(font_path)
