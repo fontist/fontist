@@ -19,7 +19,7 @@ module Fontist
 
           Array.new.tap do |fonts|
             Zip::File.open(file) do |zip_file|
-              zip_file.glob("#{fonts_sub_dir}*.{ttf,ttc}").each do |entry|
+              zip_file.glob("#{fonts_sub_dir}*.{ttf,ttc,otf}").each do |entry|
                 filename = entry.name.gsub("#{fonts_sub_dir}", "")
 
                 if filename
