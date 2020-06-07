@@ -12,7 +12,7 @@ RSpec.describe Fontist::Formulas::MontserratFont do
 
   describe "installation" do
     context "with valid licence agreement" do
-      it "installs the valid fonts", skip_in_windows: true do
+      it "installs the valid fonts" do
         name = "Montserrat"
         confirmation = "yes"
 

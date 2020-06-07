@@ -1,28 +1,30 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Formulas::OverpassFont do
+RSpec.describe Fontist::Formulas::SourceFonts do
   describe "initializing" do
     it "builds the data dictionary" do
-      formula = Fontist::Formulas::OverpassFont.instance
+      formula = Fontist::Formulas::SourceFonts.instance
 
-      expect(formula.fonts.count).to eq(2)
-      expect(formula.fonts.first[:name]).to eq("Overpass")
+      expect(formula.fonts.count).to eq(33)
+      expect(formula.fonts.first[:name]).to eq("Source Code Pro")
     end
   end
 
   describe "installation" do
     context "with valid licence agreement" do
       it "installs the valid fonts" do
-        name = "Overpass"
+        name = "Source Code Pro"
         confirmation = "yes"
 
         stub_fontist_path_to_assets
-        paths = Fontist::Formulas::OverpassFont.fetch_font(
+        paths = Fontist::Formulas::SourceFonts.fetch_font(
           name, confirmation: confirmation
         )
 
         expect(Fontist::Finder.find(name)).not_to be_empty
-        expect(paths.first).to include("fonts/#{name.downcase}-bold-italic.otf")
+        expect(paths).to include(
+          Fontist.fonts_path.join("SourceCodePro-Black.ttf").to_s
+        )
       end
     end
   end

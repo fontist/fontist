@@ -11,8 +11,8 @@ RSpec.describe Fontist::Formulas::OpenSansFonts do
   end
 
   describe "installation" do
-    context "with valid licence agreement", file_download: true do
-      it "installs the valid fonts", skip_in_windows: true do
+    context "with valid licence agreement" do
+      it "installs the valid fonts" do
         name = "OpenSans"
         confirmation = "yes"
 

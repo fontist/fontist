@@ -4,6 +4,7 @@ require "fontist/formulas/open_sans_fonts"
 require "fontist/formulas/euphemia_font"
 require "fontist/formulas/montserrat_font"
 require "fontist/formulas/overpass_font"
+require "fontist/formulas/source_fonts"
 
 module Fontist
   module Formulas
@@ -24,6 +25,7 @@ module Fontist
       registry.register(Fontist::Formulas::EuphemiaFont, :euphemia_font)
       registry.register(Fontist::Formulas::MontserratFont, :montserrat_font)
       registry.register(Fontist::Formulas::OverpassFont, :overpass_font)
+      registry.register(Fontist::Formulas::SourceFonts, :source_fonts)
     end
   end
 end
