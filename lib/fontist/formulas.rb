@@ -6,6 +6,7 @@ require "fontist/formulas/montserrat_font"
 require "fontist/formulas/overpass_font"
 require "fontist/formulas/source_fonts"
 require "fontist/formulas/stix_fonts"
+require "fontist/formulas/tahoma_font"
 
 module Fontist
   module Formulas
@@ -28,6 +29,7 @@ module Fontist
       registry.register(Fontist::Formulas::OverpassFont, :overpass_font)
       registry.register(Fontist::Formulas::SourceFonts, :source_fonts)
       registry.register(Fontist::Formulas::StixFont, :stix_fonts)
+      registry.register(Fontist::Formulas::TahomaFont, :tahoma_font)
     end
   end
 end
