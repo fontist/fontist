@@ -50,7 +50,7 @@ module Fontist
         Hash.new.tap do |cab_files|
           while file
             filename = file.filename
-            if filename.include?("cab")
+            unless filename.scan(/cab|msi|exe/i).empty?
               file_path = temp_dir.join(filename).to_s
 
               decompressor.extract(file, file_path)
