@@ -10,6 +10,7 @@ require "fontist/formulas/tahoma_font"
 require "fontist/formulas/ms_truetype_fonts"
 require "fontist/formulas/arial_black_font"
 require "fontist/formulas/andale_font"
+require "fontist/formulas/comic_font"
 
 module Fontist
   module Formulas
@@ -36,6 +37,7 @@ module Fontist
       registry.register(Fontist::Formulas::MsTruetypeFonts, :ms_truetype_fonts)
       registry.register(Fontist::Formulas::ArialBlackFont, :arial_black_font)
       registry.register(Fontist::Formulas::AndaleFont, :andale_font)
+      registry.register(Fontist::Formulas::ComicFont, :comic_font)
     end
   end
 end
