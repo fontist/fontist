@@ -8,6 +8,7 @@ require "fontist/formulas/source_fonts"
 require "fontist/formulas/stix_fonts"
 require "fontist/formulas/tahoma_font"
 require "fontist/formulas/ms_truetype_fonts"
+require "fontist/formulas/arial_black_font"
 
 module Fontist
   module Formulas
@@ -32,6 +33,7 @@ module Fontist
       registry.register(Fontist::Formulas::StixFont, :stix_fonts)
       registry.register(Fontist::Formulas::TahomaFont, :tahoma_font)
       registry.register(Fontist::Formulas::MsTruetypeFonts, :ms_truetype_fonts)
+      registry.register(Fontist::Formulas::ArialBlackFont, :arial_black_font)
     end
   end
 end
