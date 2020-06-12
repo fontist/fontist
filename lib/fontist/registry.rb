@@ -15,7 +15,7 @@ module Fontist
     end
 
     def self.register(formula, key = nil)
-      key ||= formula.to_s
+      key ||= formula.instance.key || formula.to_s
       instance.register(formula, key)
     end
 
