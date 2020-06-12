@@ -1,8 +1,7 @@
-require "fontist/formulas/font_formula"
-
 module Fontist
   module Formulas
-    class ClearTypeFonts < FontFormula
+    class ClearTypeFonts < Fontist::FontFormula
+      key :cleartype
       desc "Microsoft ClearType Fonts"
       homepage "https://www.microsoft.com"
 

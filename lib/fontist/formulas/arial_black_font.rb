@@ -1,6 +1,7 @@
 module Fontist
   module Formulas
     class ArialBlackFont < FontFormula
+      key :arial_black
       desc "Microsoft TrueType Core fonts for the Web"
       homepage "https://www.microsoft.com"
 

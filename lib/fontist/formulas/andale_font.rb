@@ -1,6 +1,7 @@
 module Fontist
   module Formulas
     class AndaleFont < FontFormula
+      key :andale_font
       desc "Microsoft TrueType Core fonts for the Web"
       homepage "https://www.microsoft.com"
 
