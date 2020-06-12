@@ -14,6 +14,7 @@ require "fontist/formulas/comic_font"
 require "fontist/formulas/courier_font"
 require "fontist/formulas/georgia_font"
 require "fontist/formulas/impact_font"
+require "fontist/formulas/webding_font"
 
 module Fontist
   module Formulas
@@ -44,6 +45,7 @@ module Fontist
       registry.register(Fontist::Formulas::CourierFont, :courier_font)
       registry.register(Fontist::Formulas::GeorgiaFont, :georgia_font)
       registry.register(Fontist::Formulas::ImpactFont, :impact_font)
+      registry.register(Fontist::Formulas::WebdingFont, :webding_font)
     end
   end
 end
