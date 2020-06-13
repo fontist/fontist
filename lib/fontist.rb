@@ -7,7 +7,6 @@ require "fontist/version"
 
 require "fontist/font"
 require "fontist/source"
-require "fontist/installer"
 require "fontist/downloader"
 
 require "fontist/registry"

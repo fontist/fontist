@@ -48,6 +48,22 @@ If fontist find a font then it will return the paths, but if not found then it
 will could raise an unsupported font error or maybe an installation instruction
 for that specific font.
 
+#### Install a font
+
+The `Fontist::Font.install` interface can be used to install any supported font.
+This interface first checks if you already have that font installed or not and
+if you do then it will return the paths.
+
+If you don't but supported by fontist, then it will download the font and copy
+it to `~/.fontist` directory and also return the paths.
+
+```
+Fontist::Font.install(name, confirmation: "no")
+```
+
+If there are some issue with the provided font, like not supported or some other
+issue then it will raise those errors.
+
 ### Supported fonts
 
 ```ruby

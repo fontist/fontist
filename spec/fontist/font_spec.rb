@@ -15,8 +15,8 @@ RSpec.describe Fontist::Font do
     context "with downloadable font name" do
       it "raises font missing error" do
         name = "Courier"
-        allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
+        allow(Fontist::SystemFont).to receive(:find).and_return(nil)
         expect {
           Fontist::Font.find(name)
         }.to raise_error(Fontist::Errors::MissingFontError)
@@ -29,6 +29,42 @@ RSpec.describe Fontist::Font do
 
         expect {
           Fontist::Font.find(font_name)
+        }.to raise_error(Fontist::Errors::NonSupportedFontError)
+      end
+    end
+  end
+
+  describe ".install" do
+    context "with valid font name" do
+      it "installs the font and return the paths" do
+        name = "Calibri"
+
+        stub_fontist_path_to_assets
+        font_paths = Fontist::Font.install(name, confirmation: "yes")
+
+        expect(font_paths.join("|").downcase).to include("#{name.downcase}.ttf")
+      end
+    end
+
+    context "with existing font name" do
+      it "returns the existing font paths" do
+        name = "Courier"
+        stub_fontist_path_to_assets
+        Fontist::Font.install(name, confirmation: "yes")
+
+        font_paths = Fontist::Font.install(name, confirmation: "yes")
+
+        expect(font_paths.count).to be > 3
+        expect(Fontist::Formulas::CourierFont).not_to receive(:fetch_font)
+      end
+    end
+
+    context "with unsupported fonts" do
+      it "raises an unsupported error" do
+        name = "Invalid font name"
+
+        expect {
+          Fontist::Font.install(name, confirmation: "yes")
         }.to raise_error(Fontist::Errors::NonSupportedFontError)
       end
     end
