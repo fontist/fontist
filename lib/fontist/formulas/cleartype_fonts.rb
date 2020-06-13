@@ -9,6 +9,7 @@ module Fontist
         urls [
           "https://www.dropbox.com/s/dl/6lclhxpydwgkjzh/PowerPointViewer.exe?dl=1",
           "https://web.archive.org/web/20171225132744/http://download.microsoft.com/download/E/6/7/E675FFFC-2A6D-4AB0-B3EB-27C9F8C8F696/PowerPointViewer.exe",
+          "https://archive.org/download/PowerPointViewer_201801/PowerPointViewer.exe",
           "https://files.giga-downloads.de/office/PowerPointViewer.exe"
         ]
         sha256 "249473568eba7a1e4f95498acba594e0f42e6581add4dead70c1dfb908a09423"
