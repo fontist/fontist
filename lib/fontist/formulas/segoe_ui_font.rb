@@ -4,11 +4,22 @@ module Fontist
       desc "Microsoft Segoe UI Font"
       homepage "https://www.microsoft.com"
 
+      # English version
+      # resource "ExcelViewer.exe" do
+      #   urls [
+      #     "https://web.archive.org/web/20171225133033if_/http://download.microsoft.com/download/e/a/9/ea913c8b-51a7-41b7-8697-9f0d0a7274aa/ExcelViewer.exe",
+      #
+      #     "https://msassist.com/files/MSOffice/Compatibility/ExcelViewer.exe"
+      #   ]
+      #   sha256 "4fc8e08237e8b458091c83dde68139e779fe401b4884d92d66ec843b5ca4a2ca"
+      # end
+
+      # German version
       resource "ExcelViewer.exe" do
         urls [
-          "https://msassist.com/files/MSOffice/Compatibility/ExcelViewer.exe"
+          "https://web.archive.org/web/20170104231942if_/http://download.microsoft.com/download/F/8/8/F88CB355-ECAA-4B74-87D6-C05C81D215BF/ExcelViewer.exe"
         ]
-        sha256 "4fc8e08237e8b458091c83dde68139e779fe401b4884d92d66ec843b5ca4a2ca"
+        sha256 "56e2fcd583ffaaa316257de7b208e6be411c4e343b7e4072c95053baa11539af"
       end
 
       provides_font("Segoe UI", match_styles_from_file: {
@@ -21,8 +32,10 @@ module Fontist
       def extract
         resource "ExcelViewer.exe" do |resource|
           exe_extract(resource) do |dir|
-            cab_extract(dir["xlview.msi"]) do |fontdir|
-              match_fonts(fontdir, "Segoe UI")
+            cab_extract(dir["xlview.msi"]) do |dir2|
+              cab_extract(dir2['XLVIEW.CAB']) do |fontdir|
+                match_fonts(fontdir, "Segoe UI")
+              end
             end
           end
         end
