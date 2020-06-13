@@ -5,7 +5,7 @@ require "singleton"
 require "fontist/errors"
 require "fontist/version"
 
-require "fontist/finder"
+require "fontist/font"
 require "fontist/source"
 require "fontist/installer"
 require "fontist/downloader"

@@ -21,7 +21,7 @@ RSpec.describe Fontist::Formulas::SourceFonts do
           name, confirmation: confirmation
         )
 
-        expect(Fontist::Finder.find(name)).not_to be_empty
+        expect(Fontist::Font.find(name)).not_to be_empty
         expect(paths).to include(
           Fontist.fonts_path.join("SourceCodePro-Black.ttf").to_s
         )

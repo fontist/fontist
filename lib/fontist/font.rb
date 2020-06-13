@@ -1,5 +1,5 @@
 module Fontist
-  class Finder
+  class Font
     def initialize(name)
       @name = name
     end

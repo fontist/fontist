@@ -21,7 +21,7 @@ RSpec.describe Fontist::Formulas::EuphemiaFont do
           name, confirmation: confirmation
         )
 
-        expect(Fontist::Finder.find(name)).not_to be_empty
+        expect(Fontist::Font.find(name)).not_to be_empty
         expect(paths.first).to include("fonts/#{name} Italic 2.6.6.ttf")
       end
     end

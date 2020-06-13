@@ -28,15 +28,25 @@ gem install fontist
 
 ## Usage
 
-### Find a font
+### Font
 
-The fontist library allows us to easily locate or download a any of the supported
-fonts and then it returns the complete path for the path. To find any font in a
-user's system we can use the following interface.
+The `Fontist::Font` is your go to place to deal with any font using fontist. This
+interface will allow you to find a font or install a font. Lets start with how
+can we find a font in your system.
+
+#### Finding a font
+
+The `Fontist::Fontist.find` interface can be used a find a font in your system.
+It will look into the operating system specific font directories, and also the
+fontist specific `~/.fontist` directory.
 
 ```ruby
-Fontist::Finder.find("Calibri")
+Fontist::Font.find(name)
 ```
+
+If fontist find a font then it will return the paths, but if not found then it
+will could raise an unsupported font error or maybe an installation instruction
+for that specific font.
 
 ### Supported fonts
 

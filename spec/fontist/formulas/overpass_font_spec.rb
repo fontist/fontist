@@ -21,7 +21,7 @@ RSpec.describe Fontist::Formulas::OverpassFont do
           name, confirmation: confirmation
         )
 
-        expect(Fontist::Finder.find(name)).not_to be_empty
+        expect(Fontist::Font.find(name)).not_to be_empty
         expect(paths.first).to include("fonts/#{name.downcase}-bold-italic.otf")
       end
     end
