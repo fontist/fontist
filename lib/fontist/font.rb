@@ -38,7 +38,7 @@ module Fontist
     end
 
     def formulas
-      @formulas ||= Fontist::FormulaFinder.find(name)
+      @formulas ||= Fontist::Formula.find(name)
     end
 
     def downloadable_font

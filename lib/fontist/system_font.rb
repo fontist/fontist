@@ -69,7 +69,7 @@ module Fontist
     end
 
     def map_name_to_valid_font_names
-      fonts =  FormulaFinder.find_fonts(font)
+      fonts =  Formula.find_fonts(font)
       fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
     end
   end

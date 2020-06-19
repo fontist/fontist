@@ -98,7 +98,7 @@ module Fontist
     end
 
     def map_names_to_fonts(font_name)
-      fonts = FormulaFinder.find_fonts(font_name)
+      fonts = Fontist::Formula.find_fonts(font_name)
       fonts = fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
 
       fonts || []

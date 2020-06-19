@@ -1,5 +1,5 @@
 module Fontist
-  class FormulaFinder
+  class Formula
     def initialize(font_name)
       @font_name = font_name
     end

@@ -11,7 +11,7 @@ require "fontist/downloader"
 
 require "fontist/registry"
 require "fontist/formulas"
-require "fontist/formula_finder"
+require "fontist/formula"
 require "fontist/system_font"
 
 module Fontist

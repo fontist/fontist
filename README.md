@@ -57,7 +57,7 @@ if you do then it will return the paths.
 If you don't but supported by fontist, then it will download the font and copy
 it to `~/.fontist` directory and also return the paths.
 
-```
+```ruby
 Fontist::Font.install(name, confirmation: "no")
 ```
 
@@ -86,6 +86,38 @@ issue then it will raise those errors.
   "Trebuchet",
   "Verdana"
 ]
+```
+
+### Formula
+
+The `fontist` gem internally usages the `Fontist::Formula` interface to find a
+registered formula or fonts supported by any formula. Unless, you need to do
+anything with that you shouldn't need to work with this interface directly. But
+if you do then these are the public interface it offers.
+
+#### Find a formula
+
+The `Fontist::Formula.find` interface allows you to find any of the registered
+formula. This interface takes a font name as an argument and it looks through
+each of the registered formula that offers this font installation. Usages:
+
+```ruby
+Fontist::Formula.find("Calibri")
+```
+
+The above method will find which formula offers this font and then it will
+return a list of the installable formulas that can be used to check licences or
+install that fonts in your system.
+
+#### Find formula fonts
+
+Normally, each font name can be associated with multiple styles or collection, for
+example the `Calibri` font might contains a `regular`, `bola` or `italic` styles
+fonts and if you want a interface that can return the complete list then this is
+your friend. You can use it as following:
+
+```ruby
+Fontist::Formula.find_fonts("Calibri")
 ```
 
 ## Development
