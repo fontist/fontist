@@ -29,6 +29,7 @@ module Fontist
       {
         installer: formula,
         fonts: formula.instance.fonts,
+        license: formula.instance.license,
         homepage: formula.instance.homepage ,
         description: formula.instance.description,
       }
