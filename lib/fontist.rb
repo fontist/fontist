@@ -1,12 +1,13 @@
 require "down"
 require "digest"
+require "json"
+require "yaml"
 require "singleton"
 
 require "fontist/errors"
 require "fontist/version"
 
 require "fontist/font"
-require "fontist/source"
 require "fontist/downloader"
 
 require "fontist/registry"
@@ -25,10 +26,6 @@ module Fontist
 
   def self.assets_path
     Fontist.root_path.join("assets")
-  end
-
-  def self.data_path
-    Fontist.lib_path.join("fontist", "data")
   end
 
   def self.fontist_path

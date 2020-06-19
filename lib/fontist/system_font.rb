@@ -46,9 +46,6 @@ module Fontist
       @fontist_fonts_path ||= Fontist.fonts_path
     end
 
-    def default_sources
-      @default_sources ||= Source.all.system[user_os.to_s]
-    end
 
     def user_os
       @user_os ||= (
@@ -71,6 +68,14 @@ module Fontist
     def map_name_to_valid_font_names
       fonts =  Formula.find_fonts(font)
       fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
+    end
+
+    def system_path_file
+      File.open(Fontist.lib_path.join("fontist", "system.yml"))
+    end
+
+    def default_sources
+      @default_sources ||= YAML.load(system_path_file)["system"][user_os.to_s]
     end
   end
 end
