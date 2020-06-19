@@ -1,15 +1,25 @@
 module Fontist
   class Formula
-    def initialize(font_name)
-      @font_name = font_name
+    def initialize(options = {})
+      @font_name = options.fetch(:font_name, nil)
+
+      check_and_register_font_formulas
+    end
+
+    def self.all
+      new.all
     end
 
     def self.find(font_name)
-      new(font_name).find
+      new(font_name: font_name).find
     end
 
     def self.find_fonts(name)
-      new(name).find_fonts
+      new(font_name: name).find_fonts
+    end
+
+    def all
+      @all ||= Fontist::Registry.instance.formulas
     end
 
     def find
@@ -31,7 +41,7 @@ module Fontist
     end
 
     def formulas
-      @formulas ||= Fontist::Formulas.all.to_h
+      @formulas ||= all.to_h
     end
 
     def match_fonts_by_name(formulas)
@@ -72,6 +82,10 @@ module Fontist
       end
 
       styles.empty? ? false : true
+    end
+
+    def check_and_register_font_formulas
+      $check_and_register_font_formulas ||= Fontist::Formulas.register_formulas
     end
   end
 end

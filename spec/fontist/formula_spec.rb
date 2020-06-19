@@ -59,4 +59,14 @@ RSpec.describe Fontist::Formula do
       expect(fonts).to be_nil
     end
   end
+
+  describe ".all" do
+    it "returns all registered formulas" do
+      formulas = Fontist::Formula.all
+
+      expect(formulas.cleartype.fonts.count).to be > 10
+      expect(formulas.cleartype.homepage).to eq("https://www.microsoft.com")
+      expect(formulas.cleartype.description).to eq("Microsoft ClearType Fonts")
+    end
+  end
 end
