@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::SourceFonts do
         name = "Source Code Pro"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::SourceFonts.fetch_font(
           name, confirmation: confirmation
         )

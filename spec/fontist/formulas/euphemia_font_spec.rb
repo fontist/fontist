@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::EuphemiaFont do
         name = "Euphemia UCAS"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::EuphemiaFont.fetch_font(
           name, confirmation: confirmation
         )

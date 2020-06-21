@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::WebdingFont do
         name = "Webdings"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::WebdingFont.fetch_font(
           name, confirmation: confirmation
         )

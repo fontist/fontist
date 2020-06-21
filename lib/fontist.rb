@@ -24,10 +24,6 @@ module Fontist
     Pathname.new(File.dirname(__dir__))
   end
 
-  def self.assets_path
-    Fontist.root_path.join("assets")
-  end
-
   def self.fontist_path
     Pathname.new(Dir.home).join(".fontist")
   end

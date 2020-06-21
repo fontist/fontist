@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::ComicFont do
         name = "Comic Sans"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::ComicFont.fetch_font(
           name, confirmation: confirmation
         )

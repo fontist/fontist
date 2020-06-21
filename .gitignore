@@ -7,8 +7,10 @@
 /spec/reports/
 /tmp/
 Gemfile.lock
-/assets/*
-!/assets/fonts/.keep
+
+# fonts
+/spec/fixtures/fonts/*
+/spec/fixtures/fonts/DejaVuSerif.ttf
 
 # rspec failure tracking
 .rspec_status

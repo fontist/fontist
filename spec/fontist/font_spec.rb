@@ -39,7 +39,7 @@ RSpec.describe Fontist::Font do
       it "installs the font and return the paths" do
         name = "Calibri"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         font_paths = Fontist::Font.install(name, confirmation: "yes")
 
         expect(font_paths.join("|").downcase).to include("#{name.downcase}.ttf")
@@ -49,7 +49,7 @@ RSpec.describe Fontist::Font do
     context "with existing font name" do
       it "returns the existing font paths" do
         name = "Courier"
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         Fontist::Font.install(name, confirmation: "yes")
 
         font_paths = Fontist::Font.install(name, confirmation: "yes")

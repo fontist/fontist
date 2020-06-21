@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::MsTruetypeFonts do
         name = "Arial"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::MsTruetypeFonts.fetch_font(
           name, confirmation: confirmation
         )

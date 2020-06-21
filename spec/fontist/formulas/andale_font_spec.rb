@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::AndaleFont do
         name = "Andale Mono"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::AndaleFont.fetch_font(
           name, confirmation: confirmation
         )

@@ -16,7 +16,7 @@ RSpec.describe Fontist::Formulas::ArialBlackFont do
         name = "Arial Black"
         confirmation = "yes"
 
-        stub_fontist_path_to_assets
+        stub_fontist_path_to_temp_path
         paths = Fontist::Formulas::ArialBlackFont.fetch_font(
           name, confirmation: confirmation
         )
