@@ -1,16 +1,20 @@
 module Fontist
   class Font
-    def initialize(name, options = {})
-      @name = name
+    def initialize(options = {})
+      @name = options.fetch(:name, nil)
       @confirmation = options.fetch(:confirmation, "no")
     end
 
+    def self.all
+      new.all
+    end
+
     def self.find(name)
-      new(name).find
+      new(name: name).find
     end
 
     def self.install(name, confirmation: "no")
-      new(name, confirmation: confirmation).install
+      new(name: name, confirmation: confirmation).install
     end
 
     def find
@@ -23,6 +27,10 @@ module Fontist
       find_system_font || download_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
+    end
+
+    def all
+      Fontist::Formula.all.to_h.map { |_name, formula| formula.fonts }.flatten
     end
 
     private

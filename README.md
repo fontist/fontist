@@ -64,29 +64,18 @@ Fontist::Font.install(name, confirmation: "no")
 If there are some issue with the provided font, like not supported or some other
 issue then it will raise those errors.
 
-### Supported fonts
+#### List all fonts
+
+The `Fontist::Font` interface exposes an interface to list all supported fonts,
+this might be useful if want to know the name of the font or the available
+styles. You can do that by using:
 
 ```ruby
-[
-  "Arial",
-  "Calibri",
-  "Cambria",
-  "Candara",
-  "Consola",
-  "Constantia",
-  "Corbel",
-  "Courier",
-  "Meiryo",
-  "Meiryo UI",
-  "Source Code Pro",
-  "Source Han Sans",
-  "Source Sans Pro",
-  "Source Serif Pro",
-  "Times New Roman",
-  "Trebuchet",
-  "Verdana"
-]
+Fontist::Font.all
 ```
+
+The return values are ` OpenStruct` object, so you can easily do any other
+operation you would do in any ruby object.
 
 ### Formula
 
@@ -119,6 +108,21 @@ your friend. You can use it as following:
 ```ruby
 Fontist::Formula.find_fonts("Calibri")
 ```
+
+
+#### List all formulas
+
+The `Fontist::Formula` interface exposes an interface to list all registered
+font formula. This might be useful if want to know the name of the formula or
+what type fonts can be installed using that formula. Usages:
+
+```ruby
+Fontist::Formula.all
+```
+
+The return values are ` OpenStruct` object, so you can easily do any other
+operation you would do in any ruby object.
+
 
 ## Development
 

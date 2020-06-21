@@ -1,6 +1,16 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Font do
+  describe ".all" do
+    it "list all supported fonts" do
+      fonts = Fontist::Font.all
+
+      expect(fonts.count).to be > 10
+      expect(fonts.first.name).not_to be_nil
+      expect(fonts.first.styles).not_to be_nil
+    end
+  end
+
   describe ".find" do
     context "with valid font name" do
       it "returns the fonts path" do
