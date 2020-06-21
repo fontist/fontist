@@ -13,13 +13,13 @@ RSpec.describe Fontist::SystemFont do
     end
 
     context "with valid font name" do
-      it "returns the complete font path", file_download: true do
-        name = "Courier"
-        stub_fontist_path_to_assets
-        Fontist::Formulas::CourierFont.fetch_font(name, confirmation: "yes")
+      it "returns the complete font path", slow: true do
+        name = "Calibri"
+        stub_fontist_path_to_temp_path
+        Fontist::Formulas::ClearTypeFonts.fetch_font(name, confirmation: "yes")
 
-        courier = Fontist::SystemFont.find(name, sources: [font_sources])
-        expect(courier.first).to include("cour.ttf")
+        calbiri = Fontist::SystemFont.find(name, sources: [font_sources])
+        expect(calbiri.join("|").downcase).to include("#{name.downcase}.ttf")
       end
     end
 

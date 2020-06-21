@@ -11,7 +11,7 @@ RSpec.describe Fontist::Formulas::GeorgiaFont do
   end
 
   describe "installation" do
-    context "with valid licence agreement" do
+    context "with valid licence agreement", slow: true do
       it "installs the valid fonts", skip_in_windows: true do
         name = "Georgia"
         confirmation = "yes"

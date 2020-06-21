@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Downloader do
-  describe ".download", file_download: true do
+  describe ".download" do
     it "return the valid downloaded file" do
       tempfile = Fontist::Downloader.download(
         sample_file[:file],

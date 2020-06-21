@@ -11,8 +11,10 @@ RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
 
-  # Skip the actual file_download by default
-  config.filter_run_excluding file_download: true
+  # Skip the slow tests locally
+  unless ENV.fetch("TEST_ENV", "local").upcase === "CI"
+    config.filter_run_excluding slow: true
+  end
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
