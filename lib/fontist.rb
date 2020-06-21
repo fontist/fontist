@@ -31,4 +31,20 @@ module Fontist
   def self.fonts_path
     Fontist.fontist_path.join("fonts")
   end
+
+  def self.formulas_path
+    Fontist.lib_path.join("fontist", "formulas")
+  end
 end
+
+# Loading formulas
+#
+# The formula loading behavior is dynamic, so what we are actualy
+# doing here is looking for formulas in the `./fontist/formulas` directory
+# then require thos as we go.
+#
+# There is a caviat, since the `Dir` method depends on absoulate path
+# so moving this loading up or somewhere else might not always ensure
+# the fontist related path helpers.
+#
+Dir[Fontist.formulas_path.join("**.rb").to_s].sort.each { |file| require file }

@@ -1,6 +1,5 @@
 require "fontist/utils"
 require "fontist/font_formula"
-Dir["./lib/fontist/formulas/**.rb"].sort.each { |file| require file }
 
 module Fontist
   module Formulas
