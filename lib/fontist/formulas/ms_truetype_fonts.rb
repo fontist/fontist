@@ -7,7 +7,6 @@ module Fontist
       resource "EUupdate.EXE" do
         urls [
           "https://download.microsoft.com/download/a/1/8/a180e21e-9c2b-4b54-9c32-bf7fd7429970/EUupdate.EXE",
-          "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/EUupdate.EXE"
         ]
         sha256 "464dd2cd5f09f489f9ac86ea7790b7b8548fc4e46d9f889b68d2cdce47e09ea8"
       end

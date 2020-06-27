@@ -11,7 +11,10 @@ module Fontist
       file = download_file
 
       if sha && Digest::SHA256.file(file) != sha
-        raise(Fontist::Errors::TemparedFileError)
+        raise(Fontist::Errors::TemparedFileError.new(
+          "The downloaded file from #{@file} doesn't " \
+          "match with the expected sha256 checksum!"
+        ))
       end
 
       file
@@ -46,6 +49,9 @@ module Fontist
           bar.increment(progress / byte_to_megabyte) if @progress === true
         }
       )
+
+    rescue Down::NotFound
+      raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
     end
   end
 

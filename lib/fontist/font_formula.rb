@@ -106,7 +106,7 @@ module Fontist
 
     def download_file(source)
       downloaded_file = Fontist::Downloader.download(
-        source[:urls].first, sha: source[:sha256], file_size: source[:file_size]
+        source[:urls].sample, sha: source[:sha256], file_size: source[:file_size]
       )
 
       @downloaded = true

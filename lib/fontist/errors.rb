@@ -4,5 +4,6 @@ module Fontist
     class MissingFontError < StandardError; end
     class NonSupportedFontError < StandardError; end
     class TemparedFileError < StandardError; end
+    class InvalidResourceError < StandardError; end
   end
 end
