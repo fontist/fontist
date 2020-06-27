@@ -23,8 +23,7 @@ module Fontist
     end
 
     def find
-      formulas = [find_formula].flatten
-      formulas.empty? ? nil : formulas
+      [find_formula].flatten.first
     end
 
     def find_fonts

@@ -95,8 +95,8 @@ Fontist::Formula.find("Calibri")
 ```
 
 The above method will find which formula offers this font and then it will
-return a list of the installable formulas that can be used to check licences or
-install that fonts in your system.
+return a installable formula that can be used to check licences or install that
+fonts in your system.
 
 #### Find formula fonts
 

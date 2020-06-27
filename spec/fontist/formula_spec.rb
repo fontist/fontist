@@ -6,10 +6,8 @@ RSpec.describe Fontist::Formula do
       it "returns the font formulas" do
         name = "Calibri"
 
-        formulas = Fontist::Formula.find(name)
-        clear_type = formulas.first
+        clear_type = Fontist::Formula.find(name)
 
-        expect(formulas.count).to eq(1)
         expect(clear_type.fonts.map(&:name)).to include(name)
         expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFonts")
         expect(clear_type.description).to include("Microsoft ClearType Fonts")
@@ -20,12 +18,9 @@ RSpec.describe Fontist::Formula do
       it "returns the font formulas" do
         name = "CAMBRIAI.TTF"
 
-        formulas = Fontist::Formula.find(name)
-
-        clear_type = formulas.first
+        clear_type = Fontist::Formula.find(name)
         font_files = clear_type.fonts.map { |font| font.styles.map(&:font) }
 
-        expect(formulas.count).to eq(1)
         expect(font_files.flatten).to include(name)
         expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFonts")
         expect(clear_type.description).to include("Microsoft ClearType Fonts")

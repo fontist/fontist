@@ -45,12 +45,12 @@ module Fontist
       Object.const_get(formula.installer)
     end
 
-    def formulas
-      @formulas ||= Fontist::Formula.find(name)
+    def formula
+      @formula ||= Fontist::Formula.find(name)
     end
 
     def downloadable_font
-      unless formulas.nil?
+      if formula
         raise(
           Fontist::Errors::MissingFontError,
           "Fonts are missing, please run " \
@@ -61,10 +61,8 @@ module Fontist
     end
 
     def download_font
-      unless formulas.nil?
-        formulas.map do |formula|
-          font_installer(formula).fetch_font(name, confirmation: confirmation)
-        end.flatten
+      if formula
+        font_installer(formula).fetch_font(name, confirmation: confirmation)
       end
     end
   end
