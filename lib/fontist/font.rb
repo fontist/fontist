@@ -3,6 +3,8 @@ module Fontist
     def initialize(options = {})
       @name = options.fetch(:name, nil)
       @confirmation = options.fetch(:confirmation, "no")
+
+      check_or_create_fontist_path!
     end
 
     def self.all
@@ -39,6 +41,13 @@ module Fontist
 
     def find_system_font
       Fontist::SystemFont.find(name)
+    end
+
+    def check_or_create_fontist_path!
+      unless Fontist.fonts_path.exist?
+        require "fileutils"
+        FileUtils.mkdir_p(Fontist.fonts_path)
+      end
     end
 
     def font_installer(formula)
