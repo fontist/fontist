@@ -1,16 +1,16 @@
 module Fontist
   class Downloader
     def initialize(file, file_size: nil, sha: nil, progress: nil)
-      @sha = sha
       @file = file
       @progress = progress
+      @sha = [sha].flatten.compact
       @file_size = (file_size || default_file_size).to_i
     end
 
     def download
       file = download_file
 
-      if sha && Digest::SHA256.file(file) != sha
+      if !sha.empty? && !sha.include?(Digest::SHA256.file(file).to_s)
         raise(Fontist::Errors::TemparedFileError.new(
           "The downloaded file from #{@file} doesn't " \
           "match with the expected sha256 checksum!"
