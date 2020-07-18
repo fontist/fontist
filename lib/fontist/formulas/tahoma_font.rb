@@ -4,24 +4,23 @@ module Fontist
       desc "Microsoft Tahoma Font"
       homepage "https://www.microsoft.com"
 
-      resource "wd97vwr32.exe" do
+      resource "IELPKTH.CAB" do
         urls [
-          "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/wd97vwr32.exe",
-          "http://sourceforge.mirrorservice.org/c/co/corefonts/the%20fonts/final/wd97vwr32.exe"
+          "https://master.dl.sourceforge.net/project/corefonts/OldFiles/IELPKTH.CAB"
         ]
-        sha256 "f61126a6d17b2d126a7f31b142504dce4934f7989c55f1c13c6477b3fe80b3d2"
+
+        sha256 "c1be3fb8f0042570be76ec6daa03a99142c88367c1bc810240b85827c715961a"
       end
 
       provides_font("Tahoma", match_styles_from_file: {
-        "Regular" => "tahoma.TTF"
+        "Regular" => "tahoma.ttf",
+        "Bold" => "tahomabd.ttf"
       })
 
       def extract
-        resource("wd97vwr32.exe") do |resource|
-          exe_extract(resource) do |dir|
-            cab_extract(dir["Viewer1.cab"]) do |fontdir|
-              match_fonts(fontdir, "Tahoma")
-            end
+        resource("IELPKTH.CAB") do |resource|
+          cab_extract(resource) do |fontdir|
+            match_fonts(fontdir, "Tahoma")
           end
         end
       end
