@@ -29,8 +29,8 @@ module Fontist
     end
 
     def lookup_using_font_name
-      font_names = map_name_to_valid_font_names
-      font_paths.grep(/#{font_names.join("|")}/i) if font_names
+      font_names = map_name_to_valid_font_names || []
+      font_paths.grep(/#{font_names.join("|")}/i) unless font_names.empty?
     end
 
     def fontist_fonts_path
