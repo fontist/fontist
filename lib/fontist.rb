@@ -8,8 +8,6 @@ require "fontist/errors"
 require "fontist/version"
 
 require "fontist/font"
-require "fontist/downloader"
-
 require "fontist/registry"
 require "fontist/formulas"
 require "fontist/formula"

@@ -1,9 +1,9 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Downloader do
+RSpec.describe Fontist::Utils::Downloader do
   describe ".download" do
     it "return the valid downloaded file" do
-      tempfile = Fontist::Downloader.download(
+      tempfile = Fontist::Utils::Downloader.download(
         sample_file[:file],
         sha: sample_file[:sha],
         file_size: sample_file[:file_size],
@@ -15,7 +15,7 @@ RSpec.describe Fontist::Downloader do
 
     it "raises an error for tempared file" do
       expect{
-        Fontist::Downloader.download(
+        Fontist::Utils::Downloader.download(
           sample_file[:file],
           sha: sample_file[:sha] + "mm",
           file_size: sample_file[:file_size]

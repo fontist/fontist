@@ -5,6 +5,7 @@ module Fontist
       desc "Microsoft ClearType Fonts"
       homepage "https://www.microsoft.com"
 
+      display_progress_bar(true)
       resource "PowerPointViewer.exe" do
         urls [
           "https://nchc.dl.sourceforge.net/project/mscorefonts2/cabs/PowerPointViewer.exe",
