@@ -6,7 +6,7 @@ module Fontist
     include Fontist::Utils::ExeExtractor
 
     attr_accessor :license, :license_url, :license_required
-    attr_accessor :key, :homepage, :description, :temp_resource
+    attr_accessor :key, :homepage, :description, :options, :temp_resource
 
     def font_list
       @font_list ||= []
@@ -105,12 +105,19 @@ module Fontist
     end
 
     def download_file(source)
-      downloaded_file = Fontist::Downloader.download(
-        source[:urls].sample, sha: source[:sha256], file_size: source[:file_size]
+      downloaded_file = Fontist::Utils::Downloader.download(
+        source[:urls].sample,
+        sha: source[:sha256],
+        file_size: source[:file_size],
+        progress_bar: is_progress_bar_enabled
       )
 
       @downloaded = true
       downloaded_file
+    end
+
+    def is_progress_bar_enabled
+      options.nil? ? false : options.fetch(:progress_bar, false)
     end
   end
 end

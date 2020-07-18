@@ -68,6 +68,10 @@ module Fontist
       def license_url(url)
         instance.license_url = url
       end
+
+      def display_progress_bar(value )
+        instance.options = (instance.options || {}).merge(progress_bar: value )
+      end
     end
   end
 end

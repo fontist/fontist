@@ -10,6 +10,7 @@ system:
   macosx:
     paths:
       - /System/Library/Fonts/**/**.{ttf,ttc}
+      - /Applications/Microsoft**/Contents/Resources/**/**.{ttf,ttc}
 
   unix:
     paths:
