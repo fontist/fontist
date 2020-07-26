@@ -46,6 +46,8 @@ module Fontist
 
         Down.download(
           @file,
+          open_timeout: 10,
+          read_timeout: 10,
           progress_proc: -> (progress) {
             bar.increment(progress / byte_to_megabyte) if @progress_bar === true
           }

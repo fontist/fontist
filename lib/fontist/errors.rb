@@ -5,5 +5,6 @@ module Fontist
     class NonSupportedFontError < StandardError; end
     class TemparedFileError < StandardError; end
     class InvalidResourceError < StandardError; end
+    class TimeoutError < StandardError; end
   end
 end
