@@ -20,10 +20,19 @@ module Fontist
 
     attr_reader :font, :user_sources
 
+    def normalize_default_paths
+      @normalize_default_paths ||= default_sources["paths"].map do |path|
+        require "etc"
+        passwd = Etc.getpwuid
+
+        passwd ? path.gsub("{username}", passwd.name) : path
+      end
+    end
+
     def font_paths
       Dir.glob((
         user_sources +
-        default_sources["paths"] +
+        normalize_default_paths +
         [fontist_fonts_path.join("**")]
       ).flatten.uniq)
     end
