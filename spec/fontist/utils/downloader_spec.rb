@@ -20,7 +20,7 @@ RSpec.describe Fontist::Utils::Downloader do
           sha: sample_file[:sha] + "mm",
           file_size: sample_file[:file_size]
         )
-      }.to raise_error(Fontist::Errors::TemparedFileError)
+      }.to raise_error(Fontist::Errors::TamperedFileError)
     end
   end
 
