@@ -46,13 +46,35 @@ RSpec.describe Fontist::Font do
 
   describe ".install" do
     context "with valid font name" do
-      it "installs the font and return the paths" do
-        name = "Calibri"
-
+      it "installs and returns paths for fonts with open license" do
         stub_fontist_path_to_temp_path
-        font_paths = Fontist::Font.install(name, confirmation: "yes")
 
-        expect(font_paths.join("|").downcase).to include("#{name.downcase}.ttf")
+        font = { name: "Overpass Mono", filename: "overpass-mono-regular.otf" }
+        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
+
+        expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+
+      it "install proprietary fonts with correct license agreement" do
+        stub_fontist_path_to_temp_path
+        stub_license_agreement_prompt_with("yes")
+
+        font = { name: "Calibri", filename: "calibri.ttf" }
+        font_paths = Fontist::Font.install(font[:name])
+
+        expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+
+      it "raises error for missing license agreement" do
+        stub_fontist_path_to_temp_path
+        stub_license_agreement_prompt_with("no")
+
+        font = { name: "Calibri", filename: "calibri.ttf" }
+        allow(Fontist::SystemFont).to receive(:find).and_return(nil)
+
+        expect { Fontist::Font.install(font[:name]) }.to raise_error(
+          Fontist::Errors::LicensingError
+        )
       end
     end
 
@@ -83,5 +105,9 @@ RSpec.describe Fontist::Font do
   def stub_system_font_finder_to_fixture(name)
     allow(Fontist::SystemFont).to receive(:find).
       and_return(["spec/fixtures/fonts/#{name}"])
+  end
+
+  def stub_license_agreement_prompt_with(confirmation = "yes")
+    allow(Fontist.ui).to receive(:ask).and_return(confirmation)
   end
 end

@@ -32,6 +32,7 @@ module Fontist
         license: formula.instance.license,
         homepage: formula.instance.homepage ,
         description: formula.instance.description,
+        license_required: formula.instance.license_required,
       }
     end
 

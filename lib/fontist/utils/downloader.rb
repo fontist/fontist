@@ -4,8 +4,8 @@ module Fontist
       def initialize(file, file_size: nil, sha: nil, progress_bar: nil)
         # TODO: If the first mirror fails, try the second one
         @file = file
-        @progress_bar = progress_bar
         @sha = [sha].flatten.compact
+        @progress_bar = set_progress_bar(progress_bar)
         @file_size = (file_size || default_file_size).to_i
       end
 
@@ -40,6 +40,10 @@ module Fontist
 
       def download_path
         options[:download_path] || Fontist.root_path.join("tmp")
+      end
+
+      def set_progress_bar(progress_bar)
+        ENV.fetch("TEST_ENV", "") === "CI" ? false : progress_bar
       end
 
       def download_file
