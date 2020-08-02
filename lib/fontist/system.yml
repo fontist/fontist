@@ -11,6 +11,7 @@ system:
     paths:
       - /Library/Fonts/**/**.{ttf,ttc}
       - /System/Library/Fonts/**/**.{ttf,ttc}
+      - /Users/{username}/Library/Fonts/**.{ttf,ttc}
       - /Applications/Microsoft**/Contents/Resources/**/**.{ttf,ttc}
 
   unix:
