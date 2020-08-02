@@ -12,7 +12,7 @@ module Fontist
         file = download_file
 
         if !sha.empty? && !sha.include?(Digest::SHA256.file(file).to_s)
-          raise(Fontist::Errors::TemparedFileError.new(
+          raise(Fontist::Errors::TamperedFileError.new(
             "The downloaded file from #{@file} doesn't " \
             "match with the expected sha256 checksum!"
           ))
