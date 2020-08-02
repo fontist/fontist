@@ -71,8 +71,48 @@ module Fontist
 
     def download_font
       if formula
+        check_and_confirm_required_license(formula)
         font_installer(formula).fetch_font(name, confirmation: confirmation)
       end
+    end
+
+    def check_and_confirm_required_license(formula)
+      if formula.license_required && !confirmation.casecmp("yes").zero?
+        @confirmation = show_license_and_ask_for_input(formula.license)
+
+        if !confirmation.casecmp("yes").zero?
+          raise Fontist::Errors::LicensingError.new(
+            "We can't downlod these fonts unless you accept the terms."
+          )
+        end
+      end
+    end
+
+    def show_license_and_ask_for_input(license)
+      Fontist.ui.say(license_agrement_message(license))
+      Fontist.ui.ask(
+        "\nDo you accept all presented font licenses, and want Fontist " \
+        "to download these fonts for you? => TYPE 'Yes' or 'No':"
+      )
+    end
+
+    def license_agrement_message(license)
+      <<~MSG
+        FONT LICENSE ACCEPTANCE REQUIRED:
+
+        Fontist has detected that you do not have the necessary fonts installed
+        for PDF generation. Without those fonts, the generated PDF will use
+        generic fonts that may not resemble the desired styling.
+
+        Fontist can download these files for you if you accept the font
+        licensing conditions for the font "#{name}".
+
+        FONT LICENSE BEGIN ("#{name}")
+        -----------------------------------------------------------------------
+        #{license}
+        -----------------------------------------------------------------------
+        FONT LICENSE END ("#{name}")
+      MSG
     end
   end
 end

@@ -14,6 +14,10 @@ require "fontist/formula"
 require "fontist/system_font"
 
 module Fontist
+  def self.ui
+    Fontist::Utils::UI
+  end
+
   def self.lib_path
     Fontist.root_path.join("lib")
   end
