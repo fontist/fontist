@@ -2,6 +2,7 @@ module Fontist
   module Utils
     class Downloader
       def initialize(file, file_size: nil, sha: nil, progress_bar: nil)
+        # TODO: If the first mirror fails, try the second one
         @file = file
         @progress_bar = progress_bar
         @sha = [sha].flatten.compact
