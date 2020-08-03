@@ -7,8 +7,9 @@ system:
     paths:
       - C:/Windows/Fonts/**/**.{ttc,ttf}
 
-  macosx:
+  macos:
     paths:
+      - /Library/Fonts/**/**.{ttf,ttc}
       - /System/Library/Fonts/**/**.{ttf,ttc}
       - /Applications/Microsoft**/Contents/Resources/**/**.{ttf,ttc}
 
