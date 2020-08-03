@@ -6,6 +6,7 @@ module Fontist
 
       resource "impact32.exe" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/impact32.exe",
           "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/impact32.exe",
           "http://sft.if.usp.br/msttcorefonts/impact32.exe"
         ]

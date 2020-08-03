@@ -7,6 +7,7 @@ module Fontist
 
       resource "arialb32.exe" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/arialb32.exe",
           "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/arialb32.exe",
           "http://sft.if.usp.br/msttcorefonts/arialb32.exe"
         ]

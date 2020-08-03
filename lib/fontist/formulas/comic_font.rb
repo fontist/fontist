@@ -6,6 +6,7 @@ module Fontist
 
       resource "comic32.exe" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/comic32.exe",
           "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/comic32.exe",
           "http://sft.if.usp.br/msttcorefonts/comic32.exe"
         ]
