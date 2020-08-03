@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Fontist::SystemFont do
   describe ".find" do
-    context "with a vlaid existing font" do
+    context "with a valid existing font" do
       it "returns the complete font path" do
         name = "DejaVuSerif.ttf"
         dejavu_ttf = Fontist::SystemFont.find(name, sources: [font_sources])
