@@ -45,7 +45,7 @@ module Fontist
         when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
           :windows
         when /darwin|mac os/
-          :macosx
+          :macos
         when /linux/
           :linux
         when /solaris|bsd/
