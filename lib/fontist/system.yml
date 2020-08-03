@@ -6,6 +6,7 @@ system:
   windows:
     paths:
       - C:/Windows/Fonts/**/**.{ttc,ttf}
+      - C:/Users/{username}/AppData/Local/Microsoft/Windows/Fonts/**/**.{ttc,ttf}
 
   macos:
     paths:
