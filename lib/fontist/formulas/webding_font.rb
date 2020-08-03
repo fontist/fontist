@@ -6,6 +6,7 @@ module Fontist
 
       resource "webdin32.exe" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/webdin32.exe",
           "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/webdin32.exe",
           "http://sft.if.usp.br/msttcorefonts/webdin32.exe"
         ]

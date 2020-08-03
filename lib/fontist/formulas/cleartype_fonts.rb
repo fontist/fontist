@@ -8,6 +8,7 @@ module Fontist
       display_progress_bar(true)
       resource "PowerPointViewer.exe" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/PowerPointViewer.exe",
           "https://nchc.dl.sourceforge.net/project/mscorefonts2/cabs/PowerPointViewer.exe",
           "https://sourceforge.net/projects/mscorefonts2/files/cabs/PowerPointViewer.exe/download",
           "https://web.archive.org/web/20171225132744/http://download.microsoft.com/download/E/6/7/E675FFFC-2A6D-4AB0-B3EB-27C9F8C8F696/PowerPointViewer.exe",

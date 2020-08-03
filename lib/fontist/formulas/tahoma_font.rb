@@ -6,6 +6,7 @@ module Fontist
 
       resource "IELPKTH.CAB" do
         urls [
+          "https://gitlab.com/fontmirror/archive/-/raw/master/IELPKTH.CAB",
           "https://master.dl.sourceforge.net/project/corefonts/OldFiles/IELPKTH.CAB"
         ]
 
@@ -141,6 +142,6 @@ module Fontist
   serving your country, or write: Microsoft Sales Information Center/One
   Microsoft Way/Redmond, WA  98052-6399.
       EOS
-    end 
+    end
   end
 end
