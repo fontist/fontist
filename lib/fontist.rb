@@ -49,4 +49,6 @@ end
 # so moving this loading up or somewhere else might not always ensure
 # the fontist related path helpers.
 #
-Dir[Fontist.formulas_path.join("**.rb").to_s].sort.each { |file| require file }
+Dir[Fontist.formulas_path.join("**/*.rb").to_s].sort.each do |file|
+  require file
+end

@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - 'lib/fontist/import/google/fonts_public.pb.rb'
+
+Metrics/LineLength:
+  Exclude:
+    - 'lib/fontist/formulas/**/*.rb'
+
+Layout/IndentFirstHashElement:
+  Exclude:
+    - 'lib/fontist/formulas/**/*.rb'
