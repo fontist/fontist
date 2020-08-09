@@ -62,9 +62,9 @@ module Fontist
       if formula
         raise(
           Fontist::Errors::MissingFontError,
-          "Fonts are missing, please run " \
+"#{name}"          "Fonts are missing, please run " \
           "Fontist::Font.install('#{name}', confirmation: 'yes') to " \
-          "download the font"
+          "download the font."
         )
       end
     end
@@ -82,7 +82,7 @@ module Fontist
 
         if !confirmation.casecmp("yes").zero?
           raise Fontist::Errors::LicensingError.new(
-            "We can't downlod these fonts unless you accept the terms."
+            "Fontist will not download these fonts unless you accept the terms."
           )
         end
       end
@@ -98,14 +98,9 @@ module Fontist
 
     def license_agrement_message(license)
       <<~MSG
-        FONT LICENSE ACCEPTANCE REQUIRED:
+        FONT LICENSE ACCEPTANCE REQUIRED FOR "#{name}":
 
-        Fontist has detected that you do not have the necessary fonts installed
-        for PDF generation. Without those fonts, the generated PDF will use
-        generic fonts that may not resemble the desired styling.
-
-        Fontist can download these files for you if you accept the font
-        licensing conditions for the font "#{name}".
+        Fontist can install this font if you accept its licensing conditions.
 
         FONT LICENSE BEGIN ("#{name}")
         -----------------------------------------------------------------------
