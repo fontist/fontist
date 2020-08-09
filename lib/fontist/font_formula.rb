@@ -5,7 +5,7 @@ module Fontist
     include Fontist::Utils::ZipExtractor
     include Fontist::Utils::ExeExtractor
 
-    attr_accessor :license, :license_url, :license_required
+    attr_accessor :license, :license_url, :license_required, :copyright
     attr_accessor :key, :homepage, :description, :options, :temp_resource
 
     def font_list

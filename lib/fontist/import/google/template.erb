@@ -1,0 +1,67 @@
+module Fontist
+  module Formulas
+    class <%= font.cleanname.sub(/\S/, &:upcase) %>Font < FontFormula
+      FULLNAME = "<%= font.fullname %>".freeze
+      CLEANNAME = "<%= font.cleanname %>".freeze
+
+      desc FULLNAME
+      homepage "<%= font.homepage %>"
+
+      resource "#{CLEANNAME}.zip" do
+        url "https://fonts.google.com/download?family=<%= ERB::Util.url_encode(font.fullname) %>"
+        <%- if font.sha256 -%>
+        sha256 "<%= font.sha256 %>"
+        <%- else -%>
+        # File changes between downloads
+        # sha256 ""
+        <%- end -%>
+      end
+
+      provides_font(FULLNAME, match_styles_from_file: {
+        <%-# TODO: update this structure after implementation of #109 -%>
+        <%- font.styles.each do |s| -%>
+        "<%= s.style %>" => "<%= s.filename %>",
+        <%- end -%>
+      })
+
+      def extract
+        resource("#{CLEANNAME}.zip") do |resource|
+          zip_extract(resource) do |fontdir|
+            match_fonts(fontdir, FULLNAME)
+          end
+        end
+      end
+
+      def install
+        case platform
+        when :macos
+          install_matched_fonts "$HOME/Library/Fonts/#{CLEANNAME}"
+        when :linux
+          install_matched_fonts "/usr/share/fonts/truetype/#{CLEANNAME.downcase}"
+        end
+      end
+
+      test do
+        case platform
+        when :macos
+          assert_predicate "$HOME/Library/Fonts/#{CLEANNAME}/<%= font.styles.first.filename %>", :exist?
+        when :linux
+          assert_predicate "/usr/share/fonts/truetype/#{CLEANNAME.downcase}/<%= font.styles.first.filename %>", :exist?
+        end
+      end
+
+      copyright "<%= font.copyright.gsub(/"/, '\"') %>"
+      license_url "<%= font.license_url %>"
+
+      open_license <<~TEXT
+        <%- font.license.each_line do |line| -%>
+        <%- if line.rstrip.empty? -%>
+
+        <%- else -%>
+        <%= line.rstrip %>
+        <%- end -%>
+        <%- end -%>
+      TEXT
+    end
+  end
+end
