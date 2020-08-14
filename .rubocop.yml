@@ -9,3 +9,7 @@ Metrics/LineLength:
 Layout/IndentFirstHashElement:
   Exclude:
     - 'lib/fontist/formulas/**/*.rb'
+
+Layout/IndentHeredoc:
+  Exclude:
+    - 'lib/fontist/formulas/**/*.rb'
