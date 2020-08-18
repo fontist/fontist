@@ -75,7 +75,9 @@ module Fontist
       styles = options.fetch(:match_styles_from_file, [])
 
       unless styles.empty?
-        styles.map { |type, file | { type: type, font: file } }
+        styles.map do |attributes|
+          Fontist::Utils::Dsl::Font.new(attributes).attributes
+        end
       end
     end
 
