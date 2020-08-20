@@ -37,7 +37,7 @@ RSpec.describe Fontist::Registry do
           file_size "1234567890"
         end
 
-        provides_font "Demo font", match_styles_from_file_extended: [
+        provides_font "Demo font", match_styles_from_file: [
           {
             family_name: "Demo font",
             style: "Regular",
