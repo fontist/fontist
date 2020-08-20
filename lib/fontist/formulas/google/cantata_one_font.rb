@@ -12,9 +12,24 @@ module Fontist
         sha256 "e0b39c3c75ed9402911897fc8bf6723258cd6c885bf0699bdb58742b01ae30d8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CantataOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cantata One",
+            style: "Regular",
+            full_name: "CantataOne-Regular",
+            post_script_name: "CantataOne-Regular",
+            version: "1.002",
+            description: "Cantata is a high contrast extended Didone style text face. In addition to being useful in medium to large text sizes, Seigal is meant to evoke luxury when used in display sizes. Seigal was originally inspired by hand written letters made with a pointed pen on an old map handmade map of NYC.",
+            filename: "CantataOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Cantata\"
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

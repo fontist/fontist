@@ -12,9 +12,20 @@ module Fontist
         sha256 "d25bda273a45209ea19ac15f30c0089a54a674386620d61340306b537c2a2cff"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Homenaje-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Homenaje",
+            style: "Regular",
+            full_name: "Homenaje Regular",
+            post_script_name: "Homenaje-Regular",
+            version: "1.100",
+            filename: "Homenaje-Regular.ttf",
+            copyright: "Copyright 2016 The Homenaje Project Authors (https://github.com/googlefonts/Homenaje), with Reserved Font Name 'Homenaje’.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

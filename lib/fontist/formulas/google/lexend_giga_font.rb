@@ -12,9 +12,20 @@ module Fontist
         sha256 "5099ef3d2c3b097458478add0b2bc06bca3224f9e8eda8f2ad2f4280802fc693"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LexendGiga-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lexend Giga",
+            style: "Regular",
+            full_name: "Lexend Giga Regular",
+            post_script_name: "LexendGiga-Regular",
+            version: "1.001",
+            filename: "LexendGiga-Regular.ttf",
+            copyright: "Copyright 2019 The Lexend Project Authors (https://github.com/ThomasJockin/lexend)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

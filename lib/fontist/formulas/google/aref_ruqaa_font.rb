@@ -12,10 +12,31 @@ module Fontist
         sha256 "e99f29411a5f6ab8b1fb5701f21b500415e311595472002b316b0a872a17e8e5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ArefRuqaa-Regular.ttf",
-        "Bold" => "ArefRuqaa-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aref Ruqaa",
+            style: "Regular",
+            full_name: "Aref Ruqaa Regular",
+            post_script_name: "ArefRuqaa-Regular",
+            version: "1.002",
+            description: "Aref Ruqaa is an Arabic typeface that aspires to capture the essence of the classical Ruqaa calligraphic style.",
+            filename: "ArefRuqaa-Regular.ttf",
+            copyright: "Copyright 2015-2020 The Aref Ruqaa Project Authors (https://github.com/alif-type/aref-ruqaa), with Reserved Font Name EURM10.",
+          },
+          {
+            family_name: "Aref Ruqaa",
+            style: "Bold",
+            full_name: "Aref Ruqaa Bold",
+            post_script_name: "ArefRuqaa-Bold",
+            version: "1.002",
+            description: "Aref Ruqaa is an Arabic typeface that aspires to capture the essence of the classical Ruqaa calligraphic style.",
+            filename: "ArefRuqaa-Bold.ttf",
+            copyright: "Copyright 2015-2020 The Aref Ruqaa Project Authors (https://github.com/alif-type/aref-ruqaa), with Reserved Font Name EURM10.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

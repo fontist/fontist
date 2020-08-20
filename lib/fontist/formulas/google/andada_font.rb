@@ -12,9 +12,20 @@ module Fontist
         sha256 "ca5fccc8c09ff8cc2f5053099ce87b711e54fb771cf5127cada825b2eaa63794"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Andada-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Andada",
+            style: "Regular",
+            full_name: "Andada Regular",
+            post_script_name: "Andada-Regular",
+            version: "1.002",
+            filename: "Andada-Regular.ttf",
+            copyright: "Copyright (c) 2011, Huerta Tipografica (www.huertatipografica.com.ar), with Reserved Font Names \"Andada\", \"Andada Pro\" and \"Andada HT\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "a5112e069c694779e6b3d4fb0e5ade3a94eb377c0a224a120198b75dd56f2162"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MonsieurLaDoulaise-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Monsieur La Doulaise",
+            style: "Regular",
+            full_name: "Monsieur La Doulaise Regular",
+            post_script_name: "MonsieurLaDoulaise-Regular",
+            version: "1.000",
+            filename: "MonsieurLaDoulaise-Regular.ttf",
+            copyright: "Copyright (c) 2006 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"MonsieurLaDoulaise\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

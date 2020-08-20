@@ -12,9 +12,20 @@ module Fontist
         sha256 "591d3e40ebb849586a526d03949215d00aa60ef0555866bf7bf27138f6b3d65d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Notable-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Notable",
+            style: "Regular",
+            full_name: "Notable Regular",
+            post_script_name: "Notable-Regular",
+            version: "1.100",
+            filename: "Notable-Regular.ttf",
+            copyright: "Copyright 2018 The Notable Project Authors (https://github.com/googlefonts/notable)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

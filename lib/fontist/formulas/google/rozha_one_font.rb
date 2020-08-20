@@ -12,9 +12,20 @@ module Fontist
         sha256 "38076fc412765ff592e2c623f4387fd0b3c26088b1c265b4f8d2281c47d43798"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RozhaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rozha One",
+            style: "Regular",
+            full_name: "Rozha One Regular",
+            post_script_name: "RozhaOne-Regular",
+            version: "1.301;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "RozhaOne-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

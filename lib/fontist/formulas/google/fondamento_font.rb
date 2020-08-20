@@ -12,10 +12,35 @@ module Fontist
         sha256 "494443516d670efd31b1763d37f0485032312cebad467b6eeb303f01341ef4b7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Fondamento-Regular.ttf",
-        "Italic" => "Fondamento-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fondamento",
+            style: "Regular",
+            full_name: "Fondamento Regular",
+            post_script_name: "Fondamento-Regular",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Fondamento\"",
+            filename: "Fondamento-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Fondamento\"",
+          },
+          {
+            family_name: "Fondamento",
+            style: "Italic",
+            full_name: "Fondamento-Italic",
+            post_script_name: "Fondamento-Italic",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Fondamento Italic\"",
+            filename: "Fondamento-Italic.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Fondamento Italic\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

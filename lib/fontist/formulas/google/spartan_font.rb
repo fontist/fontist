@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Spartan[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Spartan",
+            style: "Thin",
+            full_name: "Spartan Thin",
+            post_script_name: "Spartan-Thin",
+            version: "1.003",
+            filename: "Spartan[wght].ttf",
+            copyright: "Copyright 2020 The Spartan Project Authors (https://github.com/bghryct/Spartan-MB)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

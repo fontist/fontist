@@ -12,9 +12,20 @@ module Fontist
         sha256 "adf78af6e6d53062554abcbf1a3ae463ef161a5368e1106350db0876e4b20d0c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Abel-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Abel",
+            style: "Regular",
+            full_name: "Abel Regular",
+            post_script_name: "Abel-Regular",
+            version: "1.003",
+            filename: "Abel-Regular.ttf",
+            copyright: "Copyright (c) 2011, Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name Abel.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

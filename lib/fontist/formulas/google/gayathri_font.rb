@@ -12,11 +12,41 @@ module Fontist
         sha256 "b262f5e63a422eeee8ada7f4bb02fe52071b4d69e360ecbf82069a672d3d73bc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "Gayathri-Thin.ttf",
-        "Regular" => "Gayathri-Regular.ttf",
-        "Bold" => "Gayathri-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gayathri",
+            style: "Thin",
+            full_name: "Gayathri Thin",
+            post_script_name: "Gayathri-Thin",
+            version: "1.000",
+            description: "A gentle and modern Malayalam display typeface. Available in three weights, Gayathri is best suited for headlines, posters, titles and captions. Unicode compliant and libre licensed.",
+            filename: "Gayathri-Thin.ttf",
+            copyright: "Copyright 2019 The Gayathri Project Authors (https://gitlab.com/smc/fonts/gayathri)",
+          },
+          {
+            family_name: "Gayathri",
+            style: "Regular",
+            full_name: "Gayathri Regular",
+            post_script_name: "Gayathri-Regular",
+            version: "1.000",
+            description: "A gentle and modern Malayalam display typeface. Available in three weights, Gayathri is best suited for headlines, posters, titles and captions. Unicode compliant and libre licensed.",
+            filename: "Gayathri-Regular.ttf",
+            copyright: "Copyright 2019 The Gayathri Project Authors (https://gitlab.com/smc/fonts/gayathri)",
+          },
+          {
+            family_name: "Gayathri",
+            style: "Bold",
+            full_name: "Gayathri Bold",
+            post_script_name: "Gayathri-Bold",
+            version: "1.000",
+            description: "A gentle and modern Malayalam display typeface. Available in three weights, Gayathri is best suited for headlines, posters, titles and captions. Unicode compliant and libre licensed.",
+            filename: "Gayathri-Bold.ttf",
+            copyright: "Copyright 2019 The Gayathri Project Authors (https://gitlab.com/smc/fonts/gayathri)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

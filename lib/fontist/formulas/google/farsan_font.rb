@@ -12,9 +12,20 @@ module Fontist
         sha256 "c642c1eec2b5da5d9dd42f6d85d0e323893e4ed2fde502f6d1c8718f4c89e243"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Farsan-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Farsan",
+            style: "Regular",
+            full_name: "Farsan Regular",
+            post_script_name: "Farsan-Regular",
+            version: "1.001g;PS 1.001;hotconv 1.0.86;makeotf.lib2.5.63406 DEVELOPMENT",
+            filename: "Farsan-Regular.ttf",
+            copyright: "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

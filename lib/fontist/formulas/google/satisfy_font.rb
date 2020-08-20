@@ -12,9 +12,20 @@ module Fontist
         sha256 "66587d29adb5dfa88ab83666a9f595e770445e34dedd12c8fc84643b39452ab4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Satisfy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Satisfy",
+            style: "Regular",
+            full_name: "Satisfy Regular",
+            post_script_name: "Satisfy-Regular",
+            version: "1.001",
+            filename: "Satisfy-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

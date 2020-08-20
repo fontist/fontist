@@ -12,9 +12,21 @@ module Fontist
         sha256 "0cdb005fb85c4b9bfe4641be578adec8cb161ecd3b845fb93120b09f93d20f83"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Allura-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Allura",
+            style: "Regular",
+            full_name: "Allura Regular",
+            post_script_name: "Allura-Regular",
+            version: "1.005",
+            filename: "Allura-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Allura\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "b99559df8316978623c76753642ba606d06b3c744b3c218c0892e3981e8e5a7a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ElMessiri[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "El Messiri",
+            style: "Regular",
+            full_name: "El Messiri Regular",
+            post_script_name: "ElMessiri-Regular",
+            version: "2.009; ttfautohint (v1.8.2)",
+            filename: "ElMessiri[wght].ttf",
+            copyright: "Copyright 2015 The El Messiri Project Authors (https://github.com/Gue3bara/El-Messiri)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

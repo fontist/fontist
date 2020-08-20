@@ -12,9 +12,20 @@ module Fontist
         sha256 "6b4c7e8cfa9fff847abdabbdf97b45f9e3ef70e985bbc55ac20235230efe7522"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Siemreap.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Siemreap",
+            style: "Regular",
+            full_name: "Siemreap",
+            post_script_name: "Siemreap",
+            version: "6.00 December 28, 2010",
+            filename: "Siemreap.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

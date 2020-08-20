@@ -9,13 +9,32 @@ module Fontist
 
       resource "#{CLEANNAME}.zip" do
         url "https://fonts.google.com/download?family=Rubik"
-        sha256 "65bb0586ab7a6dc63473904ee86d1467ca8a4250d7c489c668c4755996a80f7b"
+        # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rubik[wght].ttf",
-        "Italic" => "Rubik-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rubik",
+            style: "Light",
+            full_name: "Rubik Light",
+            post_script_name: "Rubik-Light",
+            version: "2.100",
+            filename: "Rubik[wght].ttf",
+            copyright: "Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)",
+          },
+          {
+            family_name: "Rubik",
+            style: "Light Italic",
+            full_name: "Rubik Light Italic",
+            post_script_name: "Rubik-LightItalic",
+            version: "2.100",
+            filename: "Rubik-Italic[wght].ttf",
+            copyright: "Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bitter[wght].ttf",
-        "Italic" => "Bitter-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bitter",
+            style: "Thin",
+            full_name: "Bitter Thin",
+            post_script_name: "Bitter-Thin",
+            version: "2.001",
+            filename: "Bitter[wght].ttf",
+            copyright: "Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)",
+          },
+          {
+            family_name: "Bitter",
+            style: "Thin Italic",
+            full_name: "Bitter Thin Italic",
+            post_script_name: "Bitter-ThinItalic",
+            version: "2.001",
+            filename: "Bitter-Italic[wght].ttf",
+            copyright: "Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

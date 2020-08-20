@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Oswald[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oswald",
+            style: "Regular",
+            full_name: "Oswald Regular",
+            post_script_name: "Oswald-Regular",
+            version: "4.100; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Oswald[wght].ttf",
+            copyright: "Copyright 2016 The Oswald Project Authors (https://github.com/googlefonts/OswaldFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

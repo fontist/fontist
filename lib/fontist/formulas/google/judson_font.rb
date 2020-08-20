@@ -12,11 +12,38 @@ module Fontist
         sha256 "aae01c9a95e0fb494d27dfdbc7abcbb1fc56b8a13d5cffaf614bc316e96d1287"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Judson-Regular.ttf",
-        "Italic" => "Judson-Italic.ttf",
-        "Bold" => "Judson-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Judson",
+            style: "Regular",
+            full_name: "Judson Regular",
+            post_script_name: "Judson-Regular",
+            version: "20110429",
+            filename: "Judson-Regular.ttf",
+            copyright: "Copyright (c) 2010, 2011 by Daniel Johnson. Released under the terms of the SIL Open Font License v1.1.",
+          },
+          {
+            family_name: "Judson",
+            style: "Italic",
+            full_name: "Judson Italic",
+            post_script_name: "Judson-Italic",
+            version: "20110429",
+            filename: "Judson-Italic.ttf",
+            copyright: "Copyright (c) 2010, 2011 by Daniel Johnson.  Released under the terms of the SIL Open Font License v1.1.",
+          },
+          {
+            family_name: "Judson",
+            style: "Bold",
+            full_name: "Judson Bold",
+            post_script_name: "Judson-Bold",
+            version: "20110429",
+            filename: "Judson-Bold.ttf",
+            copyright: "Copyright (c) 2010, 2011 by Daniel Johnson. Released under the terms of the SIL Open Font License v1.1.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

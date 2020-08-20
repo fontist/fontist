@@ -12,9 +12,20 @@ module Fontist
         sha256 "661eb8244d2a4bcf2a000449d7aec1d1ed27b17fa267474b6db110e2f19ce074"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BubblerOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bubbler One",
+            style: "Regular",
+            full_name: "Bubbler One Regular",
+            post_script_name: "BubblerOne-Regular",
+            version: "1.002",
+            filename: "BubblerOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brenda Gallo (gbrenda1987@gmail.com), with Reserved Font Name \"Bubbler\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

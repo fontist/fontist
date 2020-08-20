@@ -12,9 +12,20 @@ module Fontist
         sha256 "562918af912a57b0a1543b802a4003f217e7a937bdb7c64960b33e6fc1606a38"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LilitaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lilita One",
+            style: "Regular",
+            full_name: "Lilita One",
+            post_script_name: "LilitaOne",
+            version: "1.002",
+            filename: "LilitaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 Juan Montoreano (juan@remolacha.biz), with Reserved Font Names \"Lilita One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

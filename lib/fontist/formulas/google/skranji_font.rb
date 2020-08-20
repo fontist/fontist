@@ -12,10 +12,29 @@ module Fontist
         sha256 "eb8ebd1b3b970a3acd8312afdb2b58bcba694bf3d0d23d65e6f4c36cb300a13c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Skranji-Regular.ttf",
-        "Bold" => "Skranji-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Skranji",
+            style: "Regular",
+            full_name: "Skranji",
+            post_script_name: "Skranji",
+            version: "1.001",
+            filename: "Skranji-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Skranji\"",
+          },
+          {
+            family_name: "Skranji",
+            style: "Bold",
+            full_name: "Skranji Bold",
+            post_script_name: "Skranji-Bold",
+            version: "1.001",
+            filename: "Skranji-Bold.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Skranji Bold\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

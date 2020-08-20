@@ -12,9 +12,26 @@ module Fontist
         sha256 "783bcd79795ab260fc4e0e0520aa65175487ebf4c3fa1389e82453429d1470f0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HammersmithOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "HammersmithOne",
+            style: "Regular",
+            full_name: "HammersmithOne Regular",
+            post_script_name: "HammersmithOne-Regular",
+            version: "1.003",
+            description: "Hammersmith is a low contrast semi geometric typeface inspired by the UK lettering tradition and showing the quirks of  handmade brush written letters. It has been adapted for use as a web type.",
+            filename: "HammersmithOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co. (www.sorkintype.com)
+with Reserved Font Name \"Hammersmith\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

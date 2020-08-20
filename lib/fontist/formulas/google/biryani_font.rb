@@ -12,15 +12,74 @@ module Fontist
         sha256 "8aa58bb1a3cc7a719c3a7b6649538e1eb39e213d02fb944d1c47c77065a7b9e2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Biryani-ExtraLight.ttf",
-        "Light" => "Biryani-Light.ttf",
-        "Regular" => "Biryani-Regular.ttf",
-        "SemiBold" => "Biryani-SemiBold.ttf",
-        "Bold" => "Biryani-Bold.ttf",
-        "ExtraBold" => "Biryani-ExtraBold.ttf",
-        "Black" => "Biryani-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Biryani",
+            style: "ExtraLight",
+            full_name: "Biryani ExtraLight",
+            post_script_name: "Biryani-ExtraLight",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-ExtraLight.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "Light",
+            full_name: "Biryani Light",
+            post_script_name: "Biryani-Light",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-Light.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "Regular",
+            full_name: "Biryani Regular",
+            post_script_name: "Biryani-Regular",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-Regular.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "SemiBold",
+            full_name: "Biryani SemiBold",
+            post_script_name: "Biryani-SemiBold",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "Bold",
+            full_name: "Biryani Bold",
+            post_script_name: "Biryani-Bold",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-Bold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "ExtraBold",
+            full_name: "Biryani ExtraBold",
+            post_script_name: "Biryani-ExtraBold",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-ExtraBold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+          {
+            family_name: "Biryani",
+            style: "Black",
+            full_name: "Biryani Black",
+            post_script_name: "Biryani-Black",
+            version: "1.004; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Biryani-Black.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds. Copyright (c) 2015 Mathieu Reguer",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,14 +12,65 @@ module Fontist
         sha256 "fafdda5b4fe91e5e497451c0d96edf11a5b667473a422b8226f288de18973ecd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "Yantramanav-Thin.ttf",
-        "Light" => "Yantramanav-Light.ttf",
-        "Regular" => "Yantramanav-Regular.ttf",
-        "Medium" => "Yantramanav-Medium.ttf",
-        "Bold" => "Yantramanav-Bold.ttf",
-        "Black" => "Yantramanav-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yantramanav",
+            style: "Thin",
+            full_name: "Yantramanav Thin",
+            post_script_name: "Yantramanav-Thin",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Thin.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Yantramanav",
+            style: "Light",
+            full_name: "Yantramanav Light",
+            post_script_name: "Yantramanav-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Light.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Yantramanav",
+            style: "Regular",
+            full_name: "Yantramanav Regular",
+            post_script_name: "Yantramanav-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Regular.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Yantramanav",
+            style: "Medium",
+            full_name: "Yantramanav Medium",
+            post_script_name: "Yantramanav-Medium",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Medium.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Yantramanav",
+            style: "Bold",
+            full_name: "Yantramanav Bold",
+            post_script_name: "Yantramanav-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Bold.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Yantramanav",
+            style: "Black",
+            full_name: "Yantramanav Black",
+            post_script_name: "Yantramanav-Black",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Yantramanav-Black.ttf",
+            copyright: "Copyright 2014, Erin McLaughlin (hello@erinmclaughlin.com). Copyright 2010, Google Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

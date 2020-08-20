@@ -12,10 +12,29 @@ module Fontist
         sha256 "3df390f8c0e1a7775646f9d40a3d42d772916d950ce5295e18459bdde9e41a14"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Geo-Regular.ttf",
-        "Oblique" => "Geo-Oblique.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Geo",
+            style: "Regular",
+            full_name: "Geo",
+            post_script_name: "Geo-Regular",
+            version: "001.2",
+            filename: "Geo-Regular.ttf",
+            copyright: "Copyright (c) 2000-2010, Ben Weiner (ben@readingtype.org.uk), with Reserved Font Name Geo.",
+          },
+          {
+            family_name: "Geo",
+            style: "Oblique",
+            full_name: "Geo Oblique",
+            post_script_name: "Geo-Oblique",
+            version: "001.2",
+            filename: "Geo-Oblique.ttf",
+            copyright: "Copyright (c) 2000-2010, Ben Weiner (ben@readingtype.org.uk), with Reserved Font Name Geo.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "9c139c7a6423999ac3159ed80d13cd7cb9411699fd3e9f5e76b521b474b0b737"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AnticDidone-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Antic Didone",
+            style: "Regular",
+            full_name: "Antic Didone Regular",
+            post_script_name: "AnticDidone-Regular",
+            version: "2.001",
+            filename: "AnticDidone-Regular.ttf",
+            copyright: "Copyright (c) 2011, Santiago Orozco (hi@typemade.mx), with Reserved Font Name Antic Didone.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "fdc4365ef1182624cf090cc95d457843c679278fe41ce97c4cadb6ae66d2d669"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooThambi2-Regular.ttf",
-        "Medium" => "BalooThambi2-Medium.ttf",
-        "SemiBold" => "BalooThambi2-SemiBold.ttf",
-        "Bold" => "BalooThambi2-Bold.ttf",
-        "ExtraBold" => "BalooThambi2-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Thambi 2",
+            style: "Regular",
+            full_name: "Baloo Thambi 2 Regular",
+            post_script_name: "BalooThambi2-Regular",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooThambi2-Regular.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Thambi 2",
+            style: "Medium",
+            full_name: "Baloo Thambi 2 Medium",
+            post_script_name: "BalooThambi2-Medium",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooThambi2-Medium.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Thambi 2",
+            style: "SemiBold",
+            full_name: "Baloo Thambi 2 SemiBold",
+            post_script_name: "BalooThambi2-SemiBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooThambi2-SemiBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Thambi 2",
+            style: "Bold",
+            full_name: "Baloo Thambi 2 Bold",
+            post_script_name: "BalooThambi2-Bold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooThambi2-Bold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Thambi 2",
+            style: "ExtraBold",
+            full_name: "Baloo Thambi 2 ExtraBold",
+            post_script_name: "BalooThambi2-ExtraBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooThambi2-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

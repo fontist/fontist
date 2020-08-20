@@ -12,10 +12,31 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Petrona[wght].ttf",
-        "Italic" => "Petrona-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Petrona",
+            style: "Regular",
+            full_name: "Petrona Regular",
+            post_script_name: "Petrona-Regular",
+            version: "2.001; ttfautohint (v1.8.3)",
+            description: "How many characteristics can possibly be added to a font without undermining its purpose within the text-type genre? Petrona is inspired by the cook in every home, who playfully maneuvers ingredients with personal touches, without losing the essence of the original recipe. This font has been created “in the kitchen,” with sharp elements that forge its structure as well as gestural strokes for softer finishing touches.",
+            filename: "Petrona[wght].ttf",
+            copyright: "Copyright 2019 The Petrona Project Authors (https://github.com/RingoSeeber/Petrona)",
+          },
+          {
+            family_name: "Petrona",
+            style: "Italic",
+            full_name: "Petrona Italic",
+            post_script_name: "Petrona-Italic",
+            version: "2.001; ttfautohint (v1.8.3)",
+            description: "How many characteristics can possibly be added to a font without undermining its purpose within the text-type genre? Petrona is inspired by the cook in every home, who playfully maneuvers ingredients with personal touches, without losing the essence of the original recipe. This font has been created “in the kitchen,” with sharp elements that forge its structure as well as gestural strokes for softer finishing touches.",
+            filename: "Petrona-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Petrona Project Authors (https://github.com/RingoSeeber/Petrona)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

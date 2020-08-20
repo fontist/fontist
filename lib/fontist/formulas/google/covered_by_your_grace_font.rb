@@ -12,9 +12,19 @@ module Fontist
         sha256 "dab96538099ce525a402f9e3c6896372d4198392d7b160f48b9548d509322a61"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CoveredByYourGrace.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Covered By Your Grace",
+            style: "Regular",
+            full_name: "Covered By Your Grace",
+            post_script_name: "CoveredByYourGrace",
+            filename: "CoveredByYourGrace.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

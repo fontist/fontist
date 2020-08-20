@@ -12,9 +12,21 @@ module Fontist
         sha256 "9086510a9fd27472df20356a3e9a739e66ca56f799036a4f69de1066d5b90029"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MrsSheppards-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mrs Sheppards",
+            style: "Regular",
+            full_name: "Mrs Sheppards Regular",
+            post_script_name: "MrsSheppards-Regular",
+            version: "1.000",
+            filename: "MrsSheppards-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Mrs Sheppards\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

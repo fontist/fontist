@@ -12,9 +12,20 @@ module Fontist
         sha256 "d1a4c5eada8f8ddefd0b0a2683656801fe23b7172c881e224fc263c67038d7f3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MacondoSwashCaps-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Macondo Swash Caps",
+            style: "Regular",
+            full_name: "Macondo Swash Caps",
+            post_script_name: "MacondoSwashCaps-Regular",
+            version: "2.001",
+            filename: "MacondoSwashCaps-Regular.ttf",
+            copyright: "Copyright (c) 1997 - 2011, John Vargas Beltran. (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com), with Reserved Font Name \"Macondo\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mulish[wght].ttf",
-        "Italic" => "Mulish-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mulish",
+            style: "Regular",
+            full_name: "Mulish Regular",
+            post_script_name: "Mulish-Regular",
+            version: "2.100; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Mulish[wght].ttf",
+            copyright: "Copyright 2011 The Mulish Project Authors (github.com/googlefonts/mulish)",
+          },
+          {
+            family_name: "Mulish",
+            style: "Italic",
+            full_name: "Mulish Italic",
+            post_script_name: "Mulish-Italic",
+            version: "2.100; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Mulish-Italic[wght].ttf",
+            copyright: "Copyright 2011 The Mulish Project Authors (github.com/googlefonts/mulish)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

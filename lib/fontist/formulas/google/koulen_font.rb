@@ -12,9 +12,20 @@ module Fontist
         sha256 "8f22a7e04c909eb98a16b67550d1ea530a6145679476dc0a02ae75dde6f00516"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Koulen.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Koulen",
+            style: "Regular",
+            full_name: "Koulen",
+            post_script_name: "Koulen",
+            version: "6.00 December 28, 2010",
+            filename: "Koulen.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

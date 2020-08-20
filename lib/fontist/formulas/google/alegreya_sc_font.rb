@@ -12,18 +12,101 @@ module Fontist
         sha256 "d2e4890811f7783a9f68b4efbd3ee87c26285fe4e45e5f1d5a52eec389158b29"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AlegreyaSC-Regular.ttf",
-        "Italic" => "AlegreyaSC-Italic.ttf",
-        "Medium" => "AlegreyaSC-Medium.ttf",
-        "MediumItalic" => "AlegreyaSC-MediumItalic.ttf",
-        "Bold" => "AlegreyaSC-Bold.ttf",
-        "BoldItalic" => "AlegreyaSC-BoldItalic.ttf",
-        "ExtraBold" => "AlegreyaSC-ExtraBold.ttf",
-        "ExtraBoldItalic" => "AlegreyaSC-ExtraBoldItalic.ttf",
-        "Black" => "AlegreyaSC-Black.ttf",
-        "BlackItalic" => "AlegreyaSC-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alegreya SC",
+            style: "Regular",
+            full_name: "Alegreya SC Regular",
+            post_script_name: "AlegreyaSC-Regular",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-Regular.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Italic",
+            full_name: "Alegreya SC Italic",
+            post_script_name: "AlegreyaSC-Italic",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-Italic.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Medium",
+            full_name: "Alegreya SC Medium",
+            post_script_name: "AlegreyaSC-Medium",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-Medium.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Medium Italic",
+            full_name: "Alegreya SC Medium Italic",
+            post_script_name: "AlegreyaSC-MediumItalic",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-MediumItalic.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Bold",
+            full_name: "Alegreya SC Bold",
+            post_script_name: "AlegreyaSC-Bold",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-Bold.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Bold Italic",
+            full_name: "Alegreya SC Bold Italic",
+            post_script_name: "AlegreyaSC-BoldItalic",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-BoldItalic.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "ExtraBold",
+            full_name: "Alegreya SC ExtraBold",
+            post_script_name: "AlegreyaSC-ExtraBold",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-ExtraBold.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "ExtraBold Italic",
+            full_name: "Alegreya SC ExtraBold Italic",
+            post_script_name: "AlegreyaSC-ExtraBoldItalic",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-ExtraBoldItalic.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Black",
+            full_name: "Alegreya SC Black",
+            post_script_name: "AlegreyaSC-Black",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-Black.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+          {
+            family_name: "Alegreya SC",
+            style: "Black Italic",
+            full_name: "Alegreya SC Black Italic",
+            post_script_name: "AlegreyaSC-BlackItalic",
+            version: "2.003; ttfautohint (v1.6)",
+            filename: "AlegreyaSC-BlackItalic.ttf",
+            copyright: "Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

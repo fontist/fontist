@@ -12,10 +12,29 @@ module Fontist
         sha256 "5a94aafdf163bf6558aec01043ece93c225ca32cc30ee7e7ba387f6cb81d4b80"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Radley-Regular.ttf",
-        "Italic" => "Radley-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Radley",
+            style: "Regular",
+            full_name: "Radley Regular",
+            post_script_name: "Radley-Regular",
+            version: "1.003; ttfautohint (v1.6)",
+            filename: "Radley-Regular.ttf",
+            copyright: "Copyright 2011 The Radley Project Authors (https://github.com/googlefonts/RadleyFont)",
+          },
+          {
+            family_name: "Radley",
+            style: "Italic",
+            full_name: "Radley Italic",
+            post_script_name: "Radley-Italic",
+            version: "1.003; ttfautohint (v1.6)",
+            filename: "Radley-Italic.ttf",
+            copyright: "Copyright 2011 The Radley Project Authors (https://github.com/googlefonts/RadleyFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

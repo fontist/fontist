@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rokkitt[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rokkitt",
+            style: "Regular",
+            full_name: "Rokkitt Regular",
+            post_script_name: "Rokkitt-Regular",
+            version: "3.102; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Rokkitt[wght].ttf",
+            copyright: "Copyright 2016 The Rokkit Project Authors (https://github.com/googlefonts/RokkittFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

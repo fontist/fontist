@@ -12,9 +12,20 @@ module Fontist
         sha256 "2eaf650e7c35a393e9365d3ad3475e36d8a6aedd6d3866b3c45e02a09af6dfb6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dangrek.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dangrek",
+            style: "Regular",
+            full_name: "Dangrek",
+            post_script_name: "Dangrek",
+            version: "6.00 December 28, 2010",
+            filename: "Dangrek.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

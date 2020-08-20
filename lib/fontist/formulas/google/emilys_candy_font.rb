@@ -12,9 +12,20 @@ module Fontist
         sha256 "dd8af5397d73a1a2f020e0f6d2225f824bdaed5ff789f14035e5e07d456bd60e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EmilysCandy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Emilys Candy",
+            style: "Regular",
+            full_name: "Emilys Candy",
+            post_script_name: "EmilysCandy-Regular",
+            version: "1.000",
+            filename: "EmilysCandy-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Emilys Candy\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

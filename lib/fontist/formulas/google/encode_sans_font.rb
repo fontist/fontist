@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EncodeSans[wdth,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Encode Sans",
+            style: "Condensed Thin",
+            full_name: "Encode Sans Condensed Thin",
+            post_script_name: "EncodeSans-CondensedThin",
+            version: "3.002",
+            filename: "EncodeSans[wdth,wght].ttf",
+            copyright: "Copyright 2020 The Encode Project Authors (https://github.com/thundernixon/Encode-Sans), with Reserved Font Name 'Encode Sans'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ruda[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ruda",
+            style: "Regular",
+            full_name: "Ruda Regular",
+            post_script_name: "Ruda-Regular",
+            version: "2.000",
+            filename: "Ruda[wght].ttf",
+            copyright: "Copyright 2019 The Ruda Project Authors (https://github.com/marmonsalve/Ruda-new)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

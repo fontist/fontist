@@ -12,17 +12,92 @@ module Fontist
         sha256 "4b503a9d3a96ae42b6b9ce439acebfc4dcbda6939fda790c1825fcd45f145129"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "Saira-Thin.ttf",
-        "ExtraLight" => "Saira-ExtraLight.ttf",
-        "Light" => "Saira-Light.ttf",
-        "Regular" => "Saira-Regular.ttf",
-        "Medium" => "Saira-Medium.ttf",
-        "SemiBold" => "Saira-SemiBold.ttf",
-        "Bold" => "Saira-Bold.ttf",
-        "ExtraBold" => "Saira-ExtraBold.ttf",
-        "Black" => "Saira-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Saira",
+            style: "Thin",
+            full_name: "Saira Thin",
+            post_script_name: "Saira-Thin",
+            version: "0.072",
+            filename: "Saira-Thin.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "ExtraLight",
+            full_name: "Saira ExtraLight",
+            post_script_name: "Saira-ExtraLight",
+            version: "0.072",
+            filename: "Saira-ExtraLight.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "Light",
+            full_name: "Saira Light",
+            post_script_name: "Saira-Light",
+            version: "0.072",
+            filename: "Saira-Light.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "Regular",
+            full_name: "Saira Regular",
+            post_script_name: "Saira-Regular",
+            version: "0.072",
+            filename: "Saira-Regular.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "Medium",
+            full_name: "Saira Medium",
+            post_script_name: "Saira-Medium",
+            version: "0.072",
+            filename: "Saira-Medium.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "SemiBold",
+            full_name: "Saira SemiBold",
+            post_script_name: "Saira-SemiBold",
+            version: "0.072",
+            filename: "Saira-SemiBold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "Bold",
+            full_name: "Saira Bold",
+            post_script_name: "Saira-Bold",
+            version: "0.072",
+            filename: "Saira-Bold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "ExtraBold",
+            full_name: "Saira ExtraBold",
+            post_script_name: "Saira-ExtraBold",
+            version: "0.072",
+            filename: "Saira-ExtraBold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira",
+            style: "Black",
+            full_name: "Saira Black",
+            post_script_name: "Saira-Black",
+            version: "0.072",
+            filename: "Saira-Black.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

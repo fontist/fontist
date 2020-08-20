@@ -12,10 +12,29 @@ module Fontist
         sha256 "cd91264992ed819c3b8f3d52bbb2db9b6177f17d4637d26822ce13d231940ad5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "StardosStencil-Regular.ttf",
-        "Bold" => "StardosStencil-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stardos Stencil",
+            style: "Regular",
+            full_name: "Stardos Stencil Regular",
+            post_script_name: "StardosStencil-Regular",
+            version: "1.001; ttfautohint (v1.8.2)",
+            filename: "StardosStencil-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Stardos Stencil",
+            style: "Bold",
+            full_name: "Stardos Stencil Bold",
+            post_script_name: "StardosStencil-Bold",
+            version: "1.001",
+            filename: "StardosStencil-Bold.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

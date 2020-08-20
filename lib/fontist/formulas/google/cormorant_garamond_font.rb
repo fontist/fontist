@@ -12,18 +12,101 @@ module Fontist
         sha256 "368d1c52fe0cf3d592b0e4dedf9b4990e0c2092f78f845ac5245b38ac1dcb59b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "CormorantGaramond-Light.ttf",
-        "LightItalic" => "CormorantGaramond-LightItalic.ttf",
-        "Regular" => "CormorantGaramond-Regular.ttf",
-        "Italic" => "CormorantGaramond-Italic.ttf",
-        "Medium" => "CormorantGaramond-Medium.ttf",
-        "MediumItalic" => "CormorantGaramond-MediumItalic.ttf",
-        "SemiBold" => "CormorantGaramond-SemiBold.ttf",
-        "SemiBoldItalic" => "CormorantGaramond-SemiBoldItalic.ttf",
-        "Bold" => "CormorantGaramond-Bold.ttf",
-        "BoldItalic" => "CormorantGaramond-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cormorant Garamond",
+            style: "Light",
+            full_name: "Cormorant Garamond Light",
+            post_script_name: "CormorantGaramond-Light",
+            version: "3.303",
+            filename: "CormorantGaramond-Light.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Light Italic",
+            full_name: "Cormorant Garamond Light Italic",
+            post_script_name: "CormorantGaramond-LightItalic",
+            version: "3.303",
+            filename: "CormorantGaramond-LightItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Regular",
+            full_name: "Cormorant Garamond Regular",
+            post_script_name: "CormorantGaramond-Regular",
+            version: "3.303",
+            filename: "CormorantGaramond-Regular.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Italic",
+            full_name: "Cormorant Garamond Italic",
+            post_script_name: "CormorantGaramond-Italic",
+            version: "3.303",
+            filename: "CormorantGaramond-Italic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Medium",
+            full_name: "Cormorant Garamond Medium",
+            post_script_name: "CormorantGaramond-Medium",
+            version: "3.303",
+            filename: "CormorantGaramond-Medium.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Medium Italic",
+            full_name: "Cormorant Garamond Medium Italic",
+            post_script_name: "CormorantGaramond-MediumItalic",
+            version: "3.303",
+            filename: "CormorantGaramond-MediumItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "SemiBold",
+            full_name: "Cormorant Garamond SemiBold",
+            post_script_name: "CormorantGaramond-SemiBold",
+            version: "3.303",
+            filename: "CormorantGaramond-SemiBold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "SemiBold Italic",
+            full_name: "Cormorant Garamond SemiBold Italic",
+            post_script_name: "CormorantGaramond-SemiBoldItalic",
+            version: "3.303",
+            filename: "CormorantGaramond-SemiBoldItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Bold",
+            full_name: "Cormorant Garamond Bold",
+            post_script_name: "CormorantGaramond-Bold",
+            version: "3.303",
+            filename: "CormorantGaramond-Bold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Garamond",
+            style: "Bold Italic",
+            full_name: "Cormorant Garamond Bold Italic",
+            post_script_name: "CormorantGaramond-BoldItalic",
+            version: "3.303",
+            filename: "CormorantGaramond-BoldItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "cf40bf19fae5974ed970c57103cc9fa6d4e7a252847078d5fe3cd651759f7b0d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Baskervville-Regular.ttf",
-        "Italic" => "Baskervville-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baskervville",
+            style: "Regular",
+            full_name: "Baskervville Regular",
+            post_script_name: "Baskervville-Regular",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "Baskervville-Regular.ttf",
+            copyright: "Copyright 2018 The Baskervville Project Authors (https://github.com/anrt-type/ANRT-Baskervville)",
+          },
+          {
+            family_name: "Baskervville",
+            style: "Italic",
+            full_name: "Baskervville Italic",
+            post_script_name: "Baskervville-Italic",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "Baskervville-Italic.ttf",
+            copyright: "Copyright 2018 The Baskervville Project Authors (https://github.com/anrt-type/ANRT-Baskervville)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

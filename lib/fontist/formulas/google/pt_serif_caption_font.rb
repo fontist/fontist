@@ -12,10 +12,31 @@ module Fontist
         sha256 "9bd91d3fdfe6632b704e8ad9cce56db036f47ccb4360640a93547de26b4cb25d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PT_Serif-Caption-Web-Regular.ttf",
-        "Italic" => "PT_Serif-Caption-Web-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "PT Serif Caption",
+            style: "Regular",
+            full_name: "PT Serif Caption",
+            post_script_name: "PTSerif-Caption",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Caption-Web-Regular.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Serif Caption",
+            style: "Italic",
+            full_name: "PT Serif Caption Italic",
+            post_script_name: "PTSerif-CaptionItalic",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Caption-Web-Italic.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

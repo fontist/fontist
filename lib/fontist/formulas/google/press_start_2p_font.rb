@@ -12,9 +12,20 @@ module Fontist
         sha256 "61132d4834ccd756edbd58e0c230d8bffe24cad29829ea29c77e6f667119dc4b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PressStart2P-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Press Start 2P",
+            style: "Regular",
+            full_name: "Press Start 2P Regular",
+            post_script_name: "PressStart2P-Regular",
+            version: "3.000",
+            filename: "PressStart2P-Regular.ttf",
+            copyright: "Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net), with Reserved Font Name \"Press Start 2P\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "bb86e16bfc4ca631a65118251b12abcaffaf1e7783f12b8a2efab266beaf23ca"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bokor-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bokor",
+            style: "Regular",
+            full_name: "Bokor Regular",
+            post_script_name: "Bokor-Regular",
+            version: "6.00 December 28, 2010",
+            filename: "Bokor-Regular.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

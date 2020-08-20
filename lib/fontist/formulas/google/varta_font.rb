@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Varta[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Varta",
+            style: "Light",
+            full_name: "Varta Light",
+            post_script_name: "Varta-Light",
+            version: "1.004",
+            filename: "Varta[wght].ttf",
+            copyright: "Copyright 2019 The Varta Project Authors (https://github.com/SorkinType/Varta)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

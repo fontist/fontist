@@ -12,9 +12,20 @@ module Fontist
         sha256 "d161fc9e213d7ce0481fb7f3b14de77b98752f8d0e0d9d7e731713c9fc6aedf6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Stylish-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stylish",
+            style: "Regular",
+            full_name: "Stylish Regular",
+            post_script_name: "Stylish-Regular",
+            version: "1.64",
+            filename: "Stylish-Regular.ttf",
+            copyright: "Copyright (c) 1992-2018 AsiaSoft Inc. Seoul Korea All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

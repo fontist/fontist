@@ -12,9 +12,20 @@ module Fontist
         sha256 "45926ac5c9474dff6263ae2d9ad8cb51d7ffa1c9c6c53e665f1eaddb7bb78b89"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jomhuria-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jomhuria",
+            style: "Regular",
+            full_name: "Jomhuria Regular",
+            post_script_name: "Jomhuria-Regular",
+            version: "1.0010",
+            filename: "Jomhuria-Regular.ttf",
+            copyright: "Copyright 2015 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015 Lasse Fister (lasse@graphicore.de). Copyright 2015 Sorkin Type Co (www.sorkintype.com). Copyright 2010-2015 Khaled Hosny (khaledhosny@eglug.org).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

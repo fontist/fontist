@@ -12,9 +12,23 @@ module Fontist
         sha256 "0d557c9b2319c7b8b894ba12064e389ad1e671d66a999c4fc40a848927f0a667"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PinyonScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pinyon Script",
+            style: "Regular",
+            full_name: "Pinyon Script",
+            post_script_name: "PinyonScript",
+            version: "1.005",
+            description: "Pinyon Script is a romantic round hand script style font. It also sports swashes which are confident and showy somehow giving the type a feeling suggestive of the American west. Perhaps this is why, despite refinement and aristocratic style; Pinyon Script manages to feel so friendly . Nicole Script uses a high stroke contrast and is very slanted making it most suitable for use at larger sizes.",
+            filename: "PinyonScript-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Pinyon Script.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

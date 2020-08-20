@@ -12,9 +12,20 @@ module Fontist
         sha256 "745a9ec1ad6ea2122a53c88c2246ce7066161842c886b16e870a357b4b77c140"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dhurjati-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dhurjati",
+            style: "Regular",
+            full_name: "Dhurjati",
+            post_script_name: "Dhurjati",
+            version: "1.0.5; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "Dhurjati-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

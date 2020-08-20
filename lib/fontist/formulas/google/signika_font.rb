@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Signika[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Signika",
+            style: "Light",
+            full_name: "Signika",
+            post_script_name: "Signika-Light",
+            version: "2.000",
+            filename: "Signika[wght].ttf",
+            copyright: "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

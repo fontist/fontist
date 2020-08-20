@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Inter[slnt,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inter",
+            style: "Regular",
+            full_name: "Inter",
+            post_script_name: "Inter-Regular",
+            version: "3.012;git-06b166889",
+            filename: "Inter[slnt,wght].ttf",
+            copyright: "Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

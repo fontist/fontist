@@ -12,10 +12,29 @@ module Fontist
         sha256 "22ad785426f7353fd501feecde77bc8b40c27aeb2fb5dc89ddb32cf2aa23e5d9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MiriamLibre-Regular.ttf",
-        "Bold" => "MiriamLibre-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Miriam Libre",
+            style: "Regular",
+            full_name: "Miriam Libre Regular",
+            post_script_name: "MiriamLibre-Regular",
+            version: "1.001",
+            filename: "MiriamLibre-Regular.ttf",
+            copyright: "Copyright 2016 Michal Sahar. All rights reserved.",
+          },
+          {
+            family_name: "Miriam Libre",
+            style: "Bold",
+            full_name: "Miriam Libre Bold",
+            post_script_name: "MiriamLibre-Bold",
+            version: "1.001",
+            filename: "MiriamLibre-Bold.ttf",
+            copyright: "Copyright 2016 Michal Sahar. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

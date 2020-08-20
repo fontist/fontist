@@ -12,9 +12,25 @@ module Fontist
         sha256 "d78fd5d0f9a9da7860bacc58a70a910b251a8924399506fe7f5d8c5c2c14cec3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Limelight-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Limelight",
+            style: "Regular",
+            full_name: "Limelight Regular",
+            post_script_name: "Limelight-Regular",
+            version: "1.002",
+            description: "Limelight is a hight contrast semi geometric typeface with a 20's art deco feeling. It has adapted for use as a web type.",
+            filename: "Limelight-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Limelight.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

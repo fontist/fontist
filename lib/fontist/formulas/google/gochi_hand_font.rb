@@ -12,9 +12,20 @@ module Fontist
         sha256 "5abef4ef15b830c94490be048eb13e2b15902dca1bb368a7317f7f38c9720b0c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GochiHand-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gochi Hand",
+            style: "Regular",
+            full_name: "Gochi Hand",
+            post_script_name: "GochiHand-Regular",
+            version: "1.001",
+            filename: "GochiHand-Regular.ttf",
+            copyright: "Copyright (c) 2011, Huerta Tipografica (www.huertatipografica.com.ar),  with Reserved Font Names \"Gochi\" and \"Gochi Hand\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

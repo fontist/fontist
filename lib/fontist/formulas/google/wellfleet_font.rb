@@ -12,9 +12,21 @@ module Fontist
         sha256 "0c9f8c3926932cc4bf545f829413cb1ab4df739a1f83a15fe1b7d2798342feab"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Wellfleet-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Wellfleet",
+            style: "Regular",
+            full_name: "Wellfleet",
+            post_script_name: "Wellfleet-Regular",
+            version: "1.002",
+            description: "Wellfleet is a versatile low contrast slab serif text typeface with a a bouncy upbeat feeling. Wellfleet was inspired by German poster lettering. Despite having display letters as a source of inspiration Wellfleet is functional in a wide range of sizes.",
+            filename: "Wellfleet-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com), with Reserved Font Name Wellfleet",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

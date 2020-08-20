@@ -12,9 +12,20 @@ module Fontist
         sha256 "64527060ccae23c9bf4e9fdc0333adca6d533ee1a407447247f5ca4b5ed127ea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ZCOOLXiaoWei-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "ZCOOL XiaoWei",
+            style: "Regular",
+            full_name: "ZCOOL XiaoWei Regular",
+            post_script_name: "ZCOOLXiaoWei-Regular",
+            version: "1.000",
+            filename: "ZCOOLXiaoWei-Regular.ttf",
+            copyright: "Copyright 2018 The ZCOOL XiaoWei Project Authors (https://www.github.com/googlefonts/xiaowei)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

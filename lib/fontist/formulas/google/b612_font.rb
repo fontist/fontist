@@ -12,12 +12,47 @@ module Fontist
         sha256 "021f2fc581b54cf453518c2bea03bef0244f0f453ca8e028807f5618c4dd7917"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "B612-Regular.ttf",
-        "Italic" => "B612-Italic.ttf",
-        "Bold" => "B612-Bold.ttf",
-        "BoldItalic" => "B612-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "B612",
+            style: "Regular",
+            full_name: "B612 Regular",
+            post_script_name: "B612-Regular",
+            version: "1.008",
+            filename: "B612-Regular.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612",
+            style: "Italic",
+            full_name: "B612 Italic",
+            post_script_name: "B612-Italic",
+            version: "1.008",
+            filename: "B612-Italic.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612",
+            style: "Bold",
+            full_name: "B612 Bold",
+            post_script_name: "B612-Bold",
+            version: "1.008",
+            filename: "B612-Bold.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612",
+            style: "Bold Italic",
+            full_name: "B612 Bold Italic",
+            post_script_name: "B612-BoldItalic",
+            version: "1.008",
+            filename: "B612-BoldItalic.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

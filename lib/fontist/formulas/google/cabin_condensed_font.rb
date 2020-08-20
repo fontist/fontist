@@ -12,12 +12,47 @@ module Fontist
         sha256 "13549bed5769749045c072ccc00e186ad2fdca910c50e677650655c0a3bee171"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CabinCondensed-Regular.ttf",
-        "Medium" => "CabinCondensed-Medium.ttf",
-        "SemiBold" => "CabinCondensed-SemiBold.ttf",
-        "Bold" => "CabinCondensed-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cabin Condensed",
+            style: "Regular",
+            full_name: "Cabin Condensed Regular",
+            post_script_name: "CabinCondensed-Regular",
+            version: "2.200",
+            filename: "CabinCondensed-Regular.ttf",
+            copyright: "Copyright 2016 The Cabin Project Authors (impallari@gmail.com)",
+          },
+          {
+            family_name: "Cabin Condensed",
+            style: "Medium",
+            full_name: "Cabin Condensed Medium",
+            post_script_name: "CabinCondensed-Medium",
+            version: "2.200",
+            filename: "CabinCondensed-Medium.ttf",
+            copyright: "Copyright 2016 The Cabin Project Authors (impallari@gmail.com)",
+          },
+          {
+            family_name: "Cabin Condensed",
+            style: "SemiBold",
+            full_name: "Cabin Condensed SemiBold",
+            post_script_name: "CabinCondensed-SemiBold",
+            version: "2.200",
+            filename: "CabinCondensed-SemiBold.ttf",
+            copyright: "Copyright 2016 The Cabin Project Authors (impallari@gmail.com)",
+          },
+          {
+            family_name: "Cabin Condensed",
+            style: "Bold",
+            full_name: "Cabin Condensed Bold",
+            post_script_name: "CabinCondensed-Bold",
+            version: "2.200",
+            filename: "CabinCondensed-Bold.ttf",
+            copyright: "Copyright 2016 The Cabin Project Authors (impallari@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

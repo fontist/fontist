@@ -12,10 +12,31 @@ module Fontist
         sha256 "d7daebba1dfce881848b722af00b61d7c2b0a23b5cc846cb117af55cc5e8958c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFELLDoublePica-Regular.ttf",
-        "Italic" => "IMFELLDoublePica-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL Double Pica",
+            style: "Regular",
+            full_name: "IM FELL Double Pica Roman",
+            post_script_name: "IM_FELL_Double_Pica_Roman",
+            version: "3.00",
+            description: "Fell Types -Double Pica size - Roman. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1684. To be printed at 21 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFELLDoublePica-Regular.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL Double Pica Roman",
+          },
+          {
+            family_name: "IM FELL Double Pica",
+            style: "Italic",
+            full_name: "IM FELL Double Pica Italic",
+            post_script_name: "IM_FELL_Double_Pica_Italic",
+            version: "3.00",
+            description: "Fell Types -Double Pica size - Italic. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1684. To be printed at 21 points to match the original size. Autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFELLDoublePica-Italic.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) with reserved name IM FELL Double Pica Italic",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

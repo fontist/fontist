@@ -12,9 +12,20 @@ module Fontist
         sha256 "d5065366eb86082584d350acf5ca06bff79ee312aad75aaabfad3453c48b232d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AverageSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Average Sans",
+            style: "Regular",
+            full_name: "Average Sans Regular",
+            post_script_name: "AverageSans-Regular",
+            version: "1.002",
+            filename: "AverageSans-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Average'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

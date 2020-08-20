@@ -12,9 +12,21 @@ module Fontist
         sha256 "8a233c679555455802b6c2d92e4420142a8a38685babe450af18ff3e0b704b33"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Aclonica-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aclonica",
+            style: "Regular",
+            full_name: "Aclonica Regular",
+            post_script_name: "Aclonica-Regular",
+            version: "1.001",
+            filename: "Aclonica-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

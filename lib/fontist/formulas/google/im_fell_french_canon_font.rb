@@ -12,10 +12,31 @@ module Fontist
         sha256 "ae609a50b638b27c62fff1d32ad648cb75194c254a07bbc378f262fd4e319508"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFeFCrm28P.ttf",
-        "Italic" => "IMFeFCit28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL French Canon",
+            style: "Regular",
+            full_name: "IM FELL French Canon Roman",
+            post_script_name: "IM_FELL_French_Canon_Roman",
+            version: "3.00",
+            description: "Fell Types - French Canon size - Roman. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1686. To be printed at 39 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeFCrm28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL French Canon Roman",
+          },
+          {
+            family_name: "IM FELL French Canon",
+            style: "Italic",
+            full_name: "IM FELL French Canon Italic",
+            post_script_name: "IM_FELL_French_Canon_Italic",
+            version: "3.00",
+            description: "Fell Types - French Canon size - Italic. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1686. To be printed at 39 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeFCit28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL French Canon Italic",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

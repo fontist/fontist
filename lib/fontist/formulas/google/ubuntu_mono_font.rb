@@ -12,12 +12,47 @@ module Fontist
         sha256 "30ff410ad1d76f73fc415bbe6e6f916d6a15ad95887646c181d20cee55c0f8ea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "UbuntuMono-Regular.ttf",
-        "Italic" => "UbuntuMono-Italic.ttf",
-        "Bold" => "UbuntuMono-Bold.ttf",
-        "BoldItalic" => "UbuntuMono-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ubuntu Mono",
+            style: "Regular",
+            full_name: "Ubuntu Mono",
+            post_script_name: "UbuntuMono-Regular",
+            version: "0.80",
+            filename: "UbuntuMono-Regular.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu Mono",
+            style: "Italic",
+            full_name: "Ubuntu Mono Italic",
+            post_script_name: "UbuntuMono-Italic",
+            version: "0.80",
+            filename: "UbuntuMono-Italic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu Mono",
+            style: "Bold",
+            full_name: "Ubuntu Mono Bold",
+            post_script_name: "UbuntuMono-Bold",
+            version: "0.80",
+            filename: "UbuntuMono-Bold.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu Mono",
+            style: "Bold Italic",
+            full_name: "Ubuntu Mono Bold Italic",
+            post_script_name: "UbuntuMono-BoldItalic",
+            version: "0.80",
+            filename: "UbuntuMono-BoldItalic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

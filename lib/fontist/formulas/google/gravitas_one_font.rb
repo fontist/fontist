@@ -12,9 +12,21 @@ module Fontist
         sha256 "2e53791b951f1335a7c94dea45d21c3857a4f83d7a70d7c734a61a380805ff60"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GravitasOne.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gravitas One",
+            style: "Regular",
+            full_name: "Gravitas One",
+            post_script_name: "GravitasOne",
+            version: "1.001",
+            description: "Gravitas is modeled on the \"UK fat face\" which is a kind of very heavy advertising type created during the industrial revolution in England. The letter forms are characterized by an attention getting and strong contrast between the very heavy vertical shapes and the thin horizontal ones. The contrast of the design means that it will be most useful when set from medium to large sizes.",
+            filename: "GravitasOne.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

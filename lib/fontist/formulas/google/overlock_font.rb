@@ -12,14 +12,65 @@ module Fontist
         sha256 "4cc337f5b4309dead359687466b6a31cbab26154038b8b6185fdb2169978cbe7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Overlock-Regular.ttf",
-        "Italic" => "Overlock-Italic.ttf",
-        "Bold" => "Overlock-Bold.ttf",
-        "BoldItalic" => "Overlock-BoldItalic.ttf",
-        "Black" => "Overlock-Black.ttf",
-        "BlackItalic" => "Overlock-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Overlock",
+            style: "Regular",
+            full_name: "Overlock Regular",
+            post_script_name: "Overlock-Regular",
+            version: "1.002",
+            filename: "Overlock-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+          {
+            family_name: "Overlock",
+            style: "Italic",
+            full_name: "Overlock Italic",
+            post_script_name: "Overlock-Italic",
+            version: "1.002",
+            filename: "Overlock-Italic.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+          {
+            family_name: "Overlock",
+            style: "Bold",
+            full_name: "Overlock Bold",
+            post_script_name: "Overlock-Bold",
+            version: "1.002",
+            filename: "Overlock-Bold.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+          {
+            family_name: "Overlock",
+            style: "Bold Italic",
+            full_name: "Overlock Bold Italic",
+            post_script_name: "Overlock-BoldItalic",
+            version: "1.002",
+            filename: "Overlock-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+          {
+            family_name: "Overlock",
+            style: "Black",
+            full_name: "Overlock Black",
+            post_script_name: "Overlock-Black",
+            version: "1.002",
+            filename: "Overlock-Black.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+          {
+            family_name: "Overlock",
+            style: "Black Italic",
+            full_name: "Overlock Black Italic",
+            post_script_name: "Overlock-BlackItalic",
+            version: "1.002",
+            filename: "Overlock-BlackItalic.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

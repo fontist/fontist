@@ -12,9 +12,20 @@ module Fontist
         sha256 "34a7567b84e6a755301dc5536bb9be444694067777129ae72b23722d03fdf0e8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Pattaya-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pattaya",
+            style: "Regular",
+            full_name: "Pattaya Regular",
+            post_script_name: "Pattaya-Regular",
+            version: "2.001",
+            filename: "Pattaya-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2010, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2010, 2011, Alexei Vanyashin (www.cyreal.org|a@cyreal.org), with Reserved Font Name Lobster.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

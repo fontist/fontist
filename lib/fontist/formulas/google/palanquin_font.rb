@@ -12,15 +12,74 @@ module Fontist
         sha256 "085a963110833f838a23ce2891d58bbf273c6256903e3782b39c54ffa66378c2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "Palanquin-Thin.ttf",
-        "ExtraLight" => "Palanquin-ExtraLight.ttf",
-        "Light" => "Palanquin-Light.ttf",
-        "Regular" => "Palanquin-Regular.ttf",
-        "Medium" => "Palanquin-Medium.ttf",
-        "SemiBold" => "Palanquin-SemiBold.ttf",
-        "Bold" => "Palanquin-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Palanquin",
+            style: "Thin",
+            full_name: "Palanquin Thin",
+            post_script_name: "Palanquin-Thin",
+            version: "1.001",
+            filename: "Palanquin-Thin.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "ExtraLight",
+            full_name: "Palanquin ExtraLight",
+            post_script_name: "Palanquin-ExtraLight",
+            version: "1.001",
+            filename: "Palanquin-ExtraLight.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "Light",
+            full_name: "Palanquin Light",
+            post_script_name: "Palanquin-Light",
+            version: "1.0.4",
+            filename: "Palanquin-Light.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "Regular",
+            full_name: "Palanquin Regular",
+            post_script_name: "Palanquin-Regular",
+            version: "1.0.4",
+            filename: "Palanquin-Regular.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "Medium",
+            full_name: "Palanquin Medium",
+            post_script_name: "Palanquin-Medium",
+            version: "1.0.4",
+            filename: "Palanquin-Medium.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "SemiBold",
+            full_name: "Palanquin SemiBold",
+            post_script_name: "Palanquin-SemiBold",
+            version: "1.0.4",
+            filename: "Palanquin-SemiBold.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin",
+            style: "Bold",
+            full_name: "Palanquin Bold",
+            post_script_name: "Palanquin-Bold",
+            version: "1.0.4",
+            filename: "Palanquin-Bold.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

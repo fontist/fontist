@@ -12,15 +12,74 @@ module Fontist
         sha256 "4c3f9148c7b701c82c9eb5120f39018f4d24e3747e464143d420afe297a85dea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Oxanium-ExtraLight.ttf",
-        "Light" => "Oxanium-Light.ttf",
-        "Regular" => "Oxanium-Regular.ttf",
-        "Medium" => "Oxanium-Medium.ttf",
-        "SemiBold" => "Oxanium-SemiBold.ttf",
-        "Bold" => "Oxanium-Bold.ttf",
-        "ExtraBold" => "Oxanium-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oxanium",
+            style: "ExtraLight",
+            full_name: "Oxanium ExtraLight",
+            post_script_name: "Oxanium-ExtraLight",
+            version: "1.001",
+            filename: "Oxanium-ExtraLight.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "Light",
+            full_name: "Oxanium Light",
+            post_script_name: "Oxanium-Light",
+            version: "1.001",
+            filename: "Oxanium-Light.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "Regular",
+            full_name: "Oxanium Regular",
+            post_script_name: "Oxanium-Regular",
+            version: "1.001",
+            filename: "Oxanium-Regular.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "Medium",
+            full_name: "Oxanium Medium",
+            post_script_name: "Oxanium-Medium",
+            version: "1.001",
+            filename: "Oxanium-Medium.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "SemiBold",
+            full_name: "Oxanium SemiBold",
+            post_script_name: "Oxanium-SemiBold",
+            version: "1.001",
+            filename: "Oxanium-SemiBold.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "Bold",
+            full_name: "Oxanium Bold",
+            post_script_name: "Oxanium-Bold",
+            version: "1.001",
+            filename: "Oxanium-Bold.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+          {
+            family_name: "Oxanium",
+            style: "ExtraBold",
+            full_name: "Oxanium ExtraBold",
+            post_script_name: "Oxanium-ExtraBold",
+            version: "1.001",
+            filename: "Oxanium-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Oxanium Project Authors (https://github.com/sevmeyer/oxanium)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

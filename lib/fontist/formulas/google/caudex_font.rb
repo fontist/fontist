@@ -12,12 +12,51 @@ module Fontist
         sha256 "6e92016c37051888f3e64c555b60a0f402e18857f8acc75e2ac33d8112a4a394"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Caudex-Regular.ttf",
-        "Italic" => "Caudex-Italic.ttf",
-        "Bold" => "Caudex-Bold.ttf",
-        "BoldItalic" => "Caudex-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Caudex",
+            style: "Regular",
+            full_name: "Caudex",
+            post_script_name: "Caudex",
+            version: "1.01",
+            description: "MUFI 3.0 font",
+            filename: "Caudex-Regular.ttf",
+            copyright: "Copyright (c) 2011 Hjort Nidudsson",
+          },
+          {
+            family_name: "Caudex",
+            style: "Italic",
+            full_name: "Caudex Italic",
+            post_script_name: "Caudex-Italic",
+            version: "1.01",
+            description: "MUFI 3.0 font",
+            filename: "Caudex-Italic.ttf",
+            copyright: "Copyright (c) 2011 Hjort Nidudsson",
+          },
+          {
+            family_name: "Caudex",
+            style: "Bold",
+            full_name: "Caudex Bold",
+            post_script_name: "Caudex-Bold",
+            version: "1.01",
+            description: "MUFI 3.0 font",
+            filename: "Caudex-Bold.ttf",
+            copyright: "Copyright (c) 2011 Hjort Nidudsson",
+          },
+          {
+            family_name: "Caudex",
+            style: "Bold Italic",
+            full_name: "Caudex Bold Italic",
+            post_script_name: "Caudex-BoldItalic",
+            version: "1.01",
+            description: "MUFI 3.0 font",
+            filename: "Caudex-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011 Hjort Nidudsson",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

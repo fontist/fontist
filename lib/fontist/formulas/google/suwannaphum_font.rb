@@ -12,9 +12,20 @@ module Fontist
         sha256 "3faf12d36eb995ea447ab1ecea0a3fa18a065f451bed1119825b09fea40a123d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Suwannaphum-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Suwannaphum",
+            style: "Regular",
+            full_name: "Suwannaphum Regular",
+            post_script_name: "Suwannaphum-Regular",
+            version: "2.001 February 6, 2013",
+            filename: "Suwannaphum-Regular.ttf",
+            copyright: "Copyright (c) 2013, Danh Hong (khmertype.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

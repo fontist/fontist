@@ -12,9 +12,20 @@ module Fontist
         sha256 "f7cae5e1b02f1e50543a81854ae44e818a67e77f7a000497e8ac0957826dfb74"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bentham-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bentham",
+            style: "Regular",
+            full_name: "Bentham Regular",
+            post_script_name: "Bentham-Regular",
+            version: "002.002",
+            filename: "Bentham-Regular.ttf",
+            copyright: "Copyright (c) 1999-2010, Ben Weiner (ben@readingtype.org.uk), with Reserved Font Name Bentham.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

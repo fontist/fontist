@@ -12,9 +12,20 @@ module Fontist
         sha256 "244a357fbfaf6401e6c4e1de94ffc9ee7f6bd2ef2fc0b70b0dc301a8e60220f4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Boogaloo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Boogaloo",
+            style: "Regular",
+            full_name: "Boogaloo Regular",
+            post_script_name: "Boogaloo-Regular",
+            version: "1.002",
+            filename: "Boogaloo-Regular.ttf",
+            copyright: "Copyright (c) 2011, John Vargas Beltran (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com), with Reserved Font Name \"Boogaloo\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

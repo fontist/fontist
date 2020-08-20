@@ -12,9 +12,20 @@ module Fontist
         sha256 "d730590bd495a93c489afff668cfc8f55f7e16dc5ac8793b185b5c8f06f3fa4e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Megrim.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Megrim",
+            style: "Medium",
+            full_name: "Megrim",
+            post_script_name: "Megrim",
+            version: "20110427",
+            filename: "Megrim.ttf",
+            copyright: "Copyright (c) 2010, 2011 by Daniel Johnson. Released under the terms of the SIL Open Font License.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

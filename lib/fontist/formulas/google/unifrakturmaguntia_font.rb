@@ -12,9 +12,20 @@ module Fontist
         sha256 "034bfe931ab9463dd1bfbd19c214a0846ee651dd9c08d04da1234eb27dca59dd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "UnifrakturMaguntia-Book.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "UnifrakturMaguntia",
+            style: "Book",
+            full_name: "UnifrakturMaguntia",
+            post_script_name: "UnifrakturMaguntia",
+            version: "2010-11-24",
+            filename: "UnifrakturMaguntia-Book.ttf",
+            copyright: "Copyright (c) 2010 j. 'mach' wust with Reserved Font Name UnifrakturMaguntia.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

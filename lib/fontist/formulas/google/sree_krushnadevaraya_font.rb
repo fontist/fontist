@@ -12,9 +12,20 @@ module Fontist
         sha256 "87abab1a53f5ef8be650e1b647020b4ce542c533f2bc0c9b1329a07f248925ab"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SreeKrushnadevaraya-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sree Krushnadevaraya",
+            style: "Regular",
+            full_name: "Sree Krushnadevaraya",
+            post_script_name: "SreeKrushnadevaraya",
+            version: "1.0.5; ttfautohint (v1.2.42-39fb)",
+            filename: "SreeKrushnadevaraya-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Cantata'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "8fa818891a705a416e5c4a832a3f277ee39b6ad78ed2c77bd466433f355dbd3b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chonburi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chonburi",
+            style: "Regular",
+            full_name: "Chonburi",
+            post_script_name: "Chonburi-Regular",
+            version: "1.000g",
+            filename: "Chonburi-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

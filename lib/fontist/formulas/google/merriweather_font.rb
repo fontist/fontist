@@ -12,16 +12,83 @@ module Fontist
         sha256 "ca4c6e75d8a95b21a026835d4a6f9bcefe88a20016af6b4aa0bc0860a04276d6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Merriweather-Light.ttf",
-        "LightItalic" => "Merriweather-LightItalic.ttf",
-        "Regular" => "Merriweather-Regular.ttf",
-        "Italic" => "Merriweather-Italic.ttf",
-        "Bold" => "Merriweather-Bold.ttf",
-        "BoldItalic" => "Merriweather-BoldItalic.ttf",
-        "Black" => "Merriweather-Black.ttf",
-        "BlackItalic" => "Merriweather-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Merriweather",
+            style: "Light",
+            full_name: "Merriweather Light",
+            post_script_name: "Merriweather-Light",
+            version: "2.002",
+            filename: "Merriweather-Light.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Light Italic",
+            full_name: "Merriweather Light Italic",
+            post_script_name: "Merriweather-LightItalic",
+            version: "2.002",
+            filename: "Merriweather-LightItalic.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Regular",
+            full_name: "Merriweather Regular",
+            post_script_name: "Merriweather-Regular",
+            version: "2.002",
+            filename: "Merriweather-Regular.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Italic",
+            full_name: "Merriweather Italic",
+            post_script_name: "Merriweather-Italic",
+            version: "2.002",
+            filename: "Merriweather-Italic.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Bold",
+            full_name: "Merriweather Bold",
+            post_script_name: "Merriweather-Bold",
+            version: "2.002",
+            filename: "Merriweather-Bold.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Bold Italic",
+            full_name: "Merriweather Bold Italic",
+            post_script_name: "Merriweather-BoldItalic",
+            version: "2.002",
+            filename: "Merriweather-BoldItalic.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Black",
+            full_name: "Merriweather Black",
+            post_script_name: "Merriweather-Black",
+            version: "2.002",
+            filename: "Merriweather-Black.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+          {
+            family_name: "Merriweather",
+            style: "Black Italic",
+            full_name: "Merriweather Black Italic",
+            post_script_name: "Merriweather-BlackItalic",
+            version: "2.002",
+            filename: "Merriweather-BlackItalic.ttf",
+            copyright: "Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name \"Merriweather\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "c3275ba8d171173ef9f2b835a0eeaceca0d28549c96cb39c1ab597431915cf40"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MouseMemoirs-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mouse Memoirs",
+            style: "Regular",
+            full_name: "Mouse Memoirs",
+            post_script_name: "MouseMemoirs-Regular",
+            version: "1.000",
+            filename: "MouseMemoirs-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Mouse Memoirs\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "5a7519ad8a5b85ba12be4f7ea2fc8a755325b77e4f8ec5d9dfdb4bc5f6e30d66"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Niconne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Niconne",
+            style: "Regular",
+            full_name: "Niconne",
+            post_script_name: "Niconne-Regular",
+            version: "1.002",
+            filename: "Niconne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Name Niconne.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

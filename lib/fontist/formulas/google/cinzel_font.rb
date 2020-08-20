@@ -9,12 +9,23 @@ module Fontist
 
       resource "#{CLEANNAME}.zip" do
         url "https://fonts.google.com/download?family=Cinzel"
-        sha256 "2c9db3253dcca899bd2ba7b2c38be1fafa7beb7a959d5ae7f0869be701c905c5"
+        # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cinzel[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cinzel",
+            style: "Regular",
+            full_name: "Cinzel Regular",
+            post_script_name: "Cinzel-Regular",
+            version: "2.000",
+            filename: "Cinzel[wght].ttf",
+            copyright: "Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

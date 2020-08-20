@@ -12,9 +12,21 @@ module Fontist
         sha256 "b9d8d025490a6fe4d06a58e7e1c561b0e61c9890c6977d7893c841c5369b1f15"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFeFCsc28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL French Canon SC",
+            style: "Regular",
+            full_name: "IM FELL French Canon SC",
+            post_script_name: "IM_FELL_French_Canon_SC",
+            version: "3.00",
+            description: "Fell Types - French Canon size - Roman. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1686. To be printed at 39 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeFCsc28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL French Canon SC",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

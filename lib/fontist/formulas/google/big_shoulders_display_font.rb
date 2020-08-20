@@ -12,16 +12,83 @@ module Fontist
         sha256 "8c49992c5c01b452096534fb7de6c74e193ac685fa5e4443a810f07269c7b71a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "BigShouldersDisplay-Thin.ttf",
-        "Light" => "BigShouldersDisplay-Light.ttf",
-        "Regular" => "BigShouldersDisplay-Regular.ttf",
-        "Medium" => "BigShouldersDisplay-Medium.ttf",
-        "SemiBold" => "BigShouldersDisplay-SemiBold.ttf",
-        "Bold" => "BigShouldersDisplay-Bold.ttf",
-        "ExtraBold" => "BigShouldersDisplay-ExtraBold.ttf",
-        "Black" => "BigShouldersDisplay-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Big Shoulders Display",
+            style: "Thin",
+            full_name: "Big Shoulders Display Thin",
+            post_script_name: "BigShouldersDisplay-Thin",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Thin.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "Light",
+            full_name: "Big Shoulders Display Light",
+            post_script_name: "BigShouldersDisplay-Light",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Light.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "Regular",
+            full_name: "Big Shoulders Display Regular",
+            post_script_name: "BigShouldersDisplay-Regular",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Regular.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "Medium",
+            full_name: "Big Shoulders Display Medium",
+            post_script_name: "BigShouldersDisplay-Medium",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Medium.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "SemiBold",
+            full_name: "Big Shoulders Display SemiBold",
+            post_script_name: "BigShouldersDisplay-SemiBold",
+            version: "1.100",
+            filename: "BigShouldersDisplay-SemiBold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "Bold",
+            full_name: "Big Shoulders Display Bold",
+            post_script_name: "BigShouldersDisplay-Bold",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Bold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "ExtraBold",
+            full_name: "Big Shoulders Display ExtraBold",
+            post_script_name: "BigShouldersDisplay-ExtraBold",
+            version: "1.100",
+            filename: "BigShouldersDisplay-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Display",
+            style: "Black",
+            full_name: "Big Shoulders Display Black",
+            post_script_name: "BigShouldersDisplay-Black",
+            version: "1.100",
+            filename: "BigShouldersDisplay-Black.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

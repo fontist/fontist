@@ -12,12 +12,47 @@ module Fontist
         sha256 "6e2a0310ca324240aedb104cbe3c38995a36728a0a08809bbad852bffcd06cc6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PalanquinDark-Regular.ttf",
-        "Medium" => "PalanquinDark-Medium.ttf",
-        "SemiBold" => "PalanquinDark-SemiBold.ttf",
-        "Bold" => "PalanquinDark-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Palanquin Dark",
+            style: "Regular",
+            full_name: "Palanquin Dark Regular",
+            post_script_name: "PalanquinDark-Regular",
+            version: "1.001",
+            filename: "PalanquinDark-Regular.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin Dark",
+            style: "Medium",
+            full_name: "Palanquin Dark Medium",
+            post_script_name: "PalanquinDark-Medium",
+            version: "1.001",
+            filename: "PalanquinDark-Medium.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin Dark",
+            style: "SemiBold",
+            full_name: "Palanquin Dark SemiBold",
+            post_script_name: "PalanquinDark-SemiBold",
+            version: "1.001",
+            filename: "PalanquinDark-SemiBold.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+          {
+            family_name: "Palanquin Dark",
+            style: "Bold",
+            full_name: "Palanquin Dark Bold",
+            post_script_name: "PalanquinDark-Bold",
+            version: "1.001",
+            filename: "PalanquinDark-Bold.ttf",
+            copyright: "Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

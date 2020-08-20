@@ -12,10 +12,31 @@ module Fontist
         sha256 "901652afef968de1eebf2a3d7b94d00b5542fdefd1223d426b123c7bcd60c5b5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LibreCaslonText[wght].ttf",
-        "Italic" => "LibreCaslonText-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Libre Caslon Text",
+            style: "Regular",
+            full_name: "Libre Caslon Text Regular",
+            post_script_name: "LibreCaslonText-Regular",
+            version: "2.000",
+            description: "Libre Caslon in Text is optimized for web body text",
+            filename: "LibreCaslonText[wght].ttf",
+            copyright: "Copyright 2020 The Libre Caslon Text Project Authors (https://github.com/thundernixon/Libre-Caslon)",
+          },
+          {
+            family_name: "Libre Caslon Text",
+            style: "Italic",
+            full_name: "Libre Caslon Text Italic",
+            post_script_name: "LibreCaslonText-Italic",
+            version: "2.000",
+            description: "Libre Caslon in Text is optimized for web body text",
+            filename: "LibreCaslonText-Italic[wght].ttf",
+            copyright: "Copyright 2020 The Libre Caslon Text Project Authors (https://github.com/thundernixon/Libre-Caslon)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

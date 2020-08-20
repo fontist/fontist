@@ -12,9 +12,20 @@ module Fontist
         sha256 "6c2776adc82efa3ce367014211b8d93d5de250b09d8d0c092ade5f1dd85eec5c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kurale-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kurale",
+            style: "Regular",
+            full_name: "Kurale Regular",
+            post_script_name: "Kurale-Regular",
+            version: "2.000",
+            filename: "Kurale-Regular.ttf",
+            copyright: "Copyright 2013 The Kurale Project Authors (edu@tipo.net.ar)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Manrope[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Manrope",
+            style: "ExtraLight",
+            full_name: "Manrope ExtraLight",
+            post_script_name: "Manrope-ExtraLight",
+            version: "4.501",
+            filename: "Manrope[wght].ttf",
+            copyright: "Copyright 2019 The Manrope Project Authors (https://github.com/sharanda/manrope)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

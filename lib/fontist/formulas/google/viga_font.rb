@@ -12,9 +12,20 @@ module Fontist
         sha256 "b8876fced9d13a9456a6b11dd977784dec8f923fb725523ab8f4cb9066f1c0d9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Viga-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Viga",
+            style: "Regular",
+            full_name: "Viga-Regular",
+            post_script_name: "Viga-Regular",
+            version: "1.001",
+            filename: "Viga-Regular.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Viga\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

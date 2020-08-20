@@ -12,9 +12,20 @@ module Fontist
         sha256 "f6374d562d22de636f3487da0658ddfba21ae246fc57b1645e14490bf3c4bd99"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Freehand.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Freehand",
+            style: "Regular",
+            full_name: "Freehand",
+            post_script_name: "Freehand",
+            version: "6.00 December 28, 2010",
+            filename: "Freehand.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

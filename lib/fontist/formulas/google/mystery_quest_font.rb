@@ -12,9 +12,20 @@ module Fontist
         sha256 "5bbe7a40cd001ceb2dab78daeae5760514f149c2ad6ee7b216a88b41d46246a6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MysteryQuest-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mystery Quest",
+            style: "Regular",
+            full_name: "Mystery Quest",
+            post_script_name: "MysteryQuest",
+            version: "1.000",
+            filename: "MysteryQuest-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reseved Font Name \"Mystery Quest\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

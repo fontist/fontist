@@ -12,9 +12,20 @@ module Fontist
         sha256 "851ca21f89acdca25aac49578d618202678eee9f8db7cd0d36bc1d83aa91dd76"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KumarOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kumar One",
+            style: "Regular",
+            full_name: "Kumar One Regular",
+            post_script_name: "KumarOne-Regular",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800",
+            filename: "KumarOne-Regular.ttf",
+            copyright: "Copyright (c) 2016 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

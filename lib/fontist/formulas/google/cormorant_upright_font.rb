@@ -12,13 +12,56 @@ module Fontist
         sha256 "b14be8fe91a2fe9946a1e641252a9fc34be395ed91aca692df25c6b1ca7c1877"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "CormorantUpright-Light.ttf",
-        "Regular" => "CormorantUpright-Regular.ttf",
-        "Medium" => "CormorantUpright-Medium.ttf",
-        "SemiBold" => "CormorantUpright-SemiBold.ttf",
-        "Bold" => "CormorantUpright-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cormorant Upright",
+            style: "Light",
+            full_name: "Cormorant Upright Light",
+            post_script_name: "CormorantUpright-Light",
+            version: "3.302",
+            filename: "CormorantUpright-Light.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Upright",
+            style: "Regular",
+            full_name: "Cormorant Upright Regular",
+            post_script_name: "CormorantUpright-Regular",
+            version: "3.302",
+            filename: "CormorantUpright-Regular.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Upright",
+            style: "Medium",
+            full_name: "Cormorant Upright Medium",
+            post_script_name: "CormorantUpright-Medium",
+            version: "3.302",
+            filename: "CormorantUpright-Medium.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Upright",
+            style: "SemiBold",
+            full_name: "Cormorant Upright SemiBold",
+            post_script_name: "CormorantUpright-SemiBold",
+            version: "3.302",
+            filename: "CormorantUpright-SemiBold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Upright",
+            style: "Bold",
+            full_name: "Cormorant Upright Bold",
+            post_script_name: "CormorantUpright-Bold",
+            version: "3.302",
+            filename: "CormorantUpright-Bold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

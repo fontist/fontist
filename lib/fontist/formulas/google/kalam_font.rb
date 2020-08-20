@@ -12,11 +12,38 @@ module Fontist
         sha256 "8c6376c5d8aba4560064a8c3c8cb918dc60a499a6628af03e882e0453e84873e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Kalam-Light.ttf",
-        "Regular" => "Kalam-Regular.ttf",
-        "Bold" => "Kalam-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kalam",
+            style: "Light",
+            full_name: "Kalam Light",
+            post_script_name: "Kalam-Light",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.3)",
+            filename: "Kalam-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Kalam",
+            style: "Regular",
+            full_name: "Kalam",
+            post_script_name: "Kalam-Regular",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.3)",
+            filename: "Kalam-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Kalam",
+            style: "Bold",
+            full_name: "Kalam Bold",
+            post_script_name: "Kalam-Bold",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.3)",
+            filename: "Kalam-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

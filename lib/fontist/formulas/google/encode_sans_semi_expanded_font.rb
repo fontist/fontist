@@ -12,17 +12,92 @@ module Fontist
         sha256 "a9e27007ecd5b7bd934339878d899b9fe41d82b2af655782c9ca5aa6b8b16ffb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "EncodeSansSemiExpanded-Thin.ttf",
-        "ExtraLight" => "EncodeSansSemiExpanded-ExtraLight.ttf",
-        "Light" => "EncodeSansSemiExpanded-Light.ttf",
-        "Regular" => "EncodeSansSemiExpanded-Regular.ttf",
-        "Medium" => "EncodeSansSemiExpanded-Medium.ttf",
-        "SemiBold" => "EncodeSansSemiExpanded-SemiBold.ttf",
-        "Bold" => "EncodeSansSemiExpanded-Bold.ttf",
-        "ExtraBold" => "EncodeSansSemiExpanded-ExtraBold.ttf",
-        "Black" => "EncodeSansSemiExpanded-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Thin",
+            full_name: "Encode Sans Semi Expanded Thin",
+            post_script_name: "EncodeSansSemiExpanded-Thin",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Thin.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "ExtraLight",
+            full_name: "Encode Sans Semi Expanded ExtraLight",
+            post_script_name: "EncodeSansSemiExpanded-ExtraLight",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-ExtraLight.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Light",
+            full_name: "Encode Sans Semi Expanded Light",
+            post_script_name: "EncodeSansSemiExpanded-Light",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Light.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Regular",
+            full_name: "Encode Sans Semi Expanded Regular",
+            post_script_name: "EncodeSansSemiExpanded-Regular",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Regular.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Medium",
+            full_name: "Encode Sans Semi Expanded Medium",
+            post_script_name: "EncodeSansSemiExpanded-Medium",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Medium.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "SemiBold",
+            full_name: "Encode Sans Semi Expanded SemiBold",
+            post_script_name: "EncodeSansSemiExpanded-SemiBold",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-SemiBold.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Bold",
+            full_name: "Encode Sans Semi Expanded Bold",
+            post_script_name: "EncodeSansSemiExpanded-Bold",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Bold.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "ExtraBold",
+            full_name: "Encode Sans Semi Expanded ExtraBold",
+            post_script_name: "EncodeSansSemiExpanded-ExtraBold",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-ExtraBold.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+          {
+            family_name: "Encode Sans Semi Expanded",
+            style: "Black",
+            full_name: "Encode Sans Semi Expanded Black",
+            post_script_name: "EncodeSansSemiExpanded-Black",
+            version: "2.000",
+            filename: "EncodeSansSemiExpanded-Black.ttf",
+            copyright: "Copyright 2012 The Encode Project Authors (impallari@gmail.com), with Reserved Font Name \"Encode Sans\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

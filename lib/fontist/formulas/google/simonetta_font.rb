@@ -12,12 +12,47 @@ module Fontist
         sha256 "7d5271cdc766aaef0e3c1bc4e7b6a55f9ddd43802cf343148bb52edc734cdb60"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Simonetta-Regular.ttf",
-        "Italic" => "Simonetta-Italic.ttf",
-        "Black" => "Simonetta-Black.ttf",
-        "BlackItalic" => "Simonetta-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Simonetta",
+            style: "Regular",
+            full_name: "Simonetta Regular",
+            post_script_name: "Simonetta-Regular",
+            version: "1.004",
+            filename: "Simonetta-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Brownfox (www.brownfox.org gayaneh.b@gmail.com), with Reserved Font Name \"Simonetta\"",
+          },
+          {
+            family_name: "Simonetta",
+            style: "Italic",
+            full_name: "Simonetta Italic",
+            post_script_name: "Simonetta-Italic",
+            version: "1.004",
+            filename: "Simonetta-Italic.ttf",
+            copyright: "Copyright (c) 2011-2012, Brownfox (www.brownfox.org gayaneh.b@gmail.com), with Reserved Font Name \"Simonetta\"",
+          },
+          {
+            family_name: "Simonetta",
+            style: "Black",
+            full_name: "Simonetta Black",
+            post_script_name: "Simonetta-Black",
+            version: "1.004",
+            filename: "Simonetta-Black.ttf",
+            copyright: "Copyright (c) 2011-2012, Brownfox (www.brownfox.org gayaneh.b@gmail.com), with Reserved Font Name \"Simonetta\"",
+          },
+          {
+            family_name: "Simonetta",
+            style: "Black Italic",
+            full_name: "Simonetta Black Italic",
+            post_script_name: "Simonetta-BlackItalic",
+            version: "1.004",
+            filename: "Simonetta-BlackItalic.ttf",
+            copyright: "Copyright (c) 2011-2012, Brownfox (www.brownfox.org gayaneh.b@gmail.com), with Reserved Font Name \"Simonetta\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

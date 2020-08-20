@@ -12,10 +12,29 @@ module Fontist
         sha256 "5cb5baa25a5d36a17b330de7429a770c4d49f255d35438e67417030254eb5e0b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mina-Regular.ttf",
-        "Bold" => "Mina-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mina",
+            style: "Regular",
+            full_name: "Mina",
+            post_script_name: "Mina-Regular",
+            version: "1.000",
+            filename: "Mina-Regular.ttf",
+            copyright: "Copyright 2015 The Mina Project Authors, with Reserved Font Name 'Exo'",
+          },
+          {
+            family_name: "Mina",
+            style: "Bold",
+            full_name: "Mina Bold",
+            post_script_name: "Mina-Bold",
+            version: "1.000",
+            filename: "Mina-Bold.ttf",
+            copyright: "Copyright 2015 The Mina Project Authors, with Reserved Font Name 'Exo'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

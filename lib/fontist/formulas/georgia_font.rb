@@ -13,12 +13,47 @@ module Fontist
         sha256 "2c2c7dcda6606ea5cf08918fb7cd3f3359e9e84338dc690013f20cd42e930301"
       end
 
-      provides_font("Georgia", match_styles_from_file: {
-        "Regular" => "Georgia.TTF",
-        "Italic" => "Georgiai.TTF",
-        "Bold Italic" => "Georgiaz.TTF",
-        "Bold" => "Georgiab.TTF"
-      })
+      provides_font(
+        "Georgia",
+        match_styles_from_file: [
+          {
+            family_name: "Georgia",
+            style: "Regular",
+            full_name: "Georgia",
+            post_script_name: "Georgia",
+            version: "2.05",
+            filename: "Georgia.TTF",
+            copyright: "Typeface and data copyright 1996 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Georgia",
+            style: "Italic",
+            full_name: "Georgia Italic",
+            post_script_name: "Georgia-Italic",
+            version: "2.05",
+            filename: "Georgiai.TTF",
+            copyright: "Typeface and data copyright 1996 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Georgia",
+            style: "Bold",
+            full_name: "Georgia Bold",
+            post_script_name: "Georgia-Bold",
+            version: "2.05",
+            filename: "Georgiab.TTF",
+            copyright: "Typeface and data copyright 1996 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Georgia",
+            style: "Bold Italic",
+            full_name: "Georgia Bold Italic",
+            post_script_name: "Georgia-BoldItalic",
+            version: "2.05",
+            filename: "Georgiaz.TTF",
+            copyright: "Typeface and data copyright 1996 Microsoft Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource "georgi32.exe" do |resource|

@@ -12,9 +12,26 @@ module Fontist
         sha256 "5ccd2745df8910115876044f22f43683c8b415d68ec36bc9bdfb49871db9e3fb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HeadlandOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "HeadlandOne",
+            style: "Regular",
+            full_name: "HeadlandOne-Regular",
+            post_script_name: "HeadlandOne-Regular",
+            version: "1.002",
+            description: "Headland is a text typeface designed to be highly legible and comfortable when reading screens.ÊHeadland is useful from very small sizes to headlines. Headland's personality recalls the genialityÊof the UK private press movement types made at the turn of the 20th century. Headland's eccentric details contribute to the distinctive feeling of the type at smaller sizes but do not become obviousÊuntil the type becomes much larger.",
+            filename: "HeadlandOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Headland\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "984cf6c876759996e1e049bc8ff5ad01ee82e9948e33982f5108b63523f2c9ae"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GloriaHallelujah.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gloria Hallelujah",
+            style: "Regular",
+            full_name: "Gloria Hallelujah",
+            post_script_name: "GloriaHallelujah",
+            version: "1.004 2010",
+            filename: "GloriaHallelujah.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

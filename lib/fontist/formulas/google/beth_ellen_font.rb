@@ -12,9 +12,20 @@ module Fontist
         sha256 "e2c8ab87e0abab282bb4f2bf0cdb01607032f8b34bec0585ba3d1a80cb5a0fa1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BethEllen-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Beth Ellen",
+            style: "Regular",
+            full_name: "Beth Ellen Regular",
+            post_script_name: "BethEllen-Regular",
+            version: "2.000",
+            filename: "BethEllen-Regular.ttf",
+            copyright: "Copyright 2019 The Beth Ellen Project Authors (https://github.com/googlefonts/BethEllen)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

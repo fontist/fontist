@@ -12,12 +12,71 @@ module Fontist
         sha256 "e011456b41d6b06c943135701406ec954764218e563d34ec183100769aa00862"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "QuattrocentoSans-Regular.ttf",
-        "Italic" => "QuattrocentoSans-Italic.ttf",
-        "Bold" => "QuattrocentoSans-Bold.ttf",
-        "BoldItalic" => "QuattrocentoSans-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quattrocento Sans",
+            style: "Regular",
+            full_name: "Quattrocento Sans",
+            post_script_name: "QuattrocentoSans",
+            version: "2.000",
+            description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
+Warm, readable and not intrusive. 
+It's the perfect sans-serif companion for Quattrocento.",
+            filename: "QuattrocentoSans-Regular.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento Sans.",
+          },
+          {
+            family_name: "Quattrocento Sans",
+            style: "Italic",
+            full_name: "Quattrocento Sans Italic",
+            post_script_name: "QuattrocentoSans-Italic",
+            version: "2.000",
+            description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
+Warm, readable and not intrusive. 
+It's the perfect sans-serif companion for Quattrocento.",
+            filename: "QuattrocentoSans-Italic.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento Sans.",
+          },
+          {
+            family_name: "Quattrocento Sans",
+            style: "Bold",
+            full_name: "Quattrocento Sans Bold",
+            post_script_name: "QuattrocentoSans-Bold",
+            version: "2.000",
+            description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
+Warm, readable and not intrusive. 
+It's the perfect sans-serif companion for Quattrocento.",
+            filename: "QuattrocentoSans-Bold.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento Sans.",
+          },
+          {
+            family_name: "Quattrocento Sans",
+            style: "Bold Italic",
+            full_name: "Quattrocento Sans Bold Italic",
+            post_script_name: "QuattrocentoSans-BoldItalic",
+            version: "2.000",
+            description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
+Warm, readable and not intrusive. 
+It's the perfect sans-serif companion for Quattrocento.",
+            filename: "QuattrocentoSans-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento Sans.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

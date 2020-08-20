@@ -12,9 +12,20 @@ module Fontist
         sha256 "2330941ef090aae5884afb67299b2f3ddf86b1850e1d20142a3891ae413fa3bc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NTR-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "NTR",
+            style: "Regular",
+            full_name: "NTR",
+            post_script_name: "NTR",
+            version: "1.0.5; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "NTR-Regular.ttf",
+            copyright: "Copyright (c) 2012 SiliconAndhra (fonts.siliconandhra.org). Copyright (c) 2011, Joe Prince, Admix Designs (http://www.admixdesigns.com/) with Reserved Font Name Varela Round.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "599f234253cc0a238c222663e3dad8c02ca0423a9eca2326aea3c4a3165baeed"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Flamenco-Light.ttf",
-        "Regular" => "Flamenco-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Flamenco",
+            style: "Light",
+            full_name: "Flamenco Light",
+            post_script_name: "Flamenco-Light",
+            version: "1.003",
+            filename: "Flamenco-Light.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Flamenco\"",
+          },
+          {
+            family_name: "Flamenco",
+            style: "Regular",
+            full_name: "Flamenco Regular",
+            post_script_name: "Flamenco-Regular",
+            version: "1.003",
+            filename: "Flamenco-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Flamenco\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

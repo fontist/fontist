@@ -9,13 +9,32 @@ module Fontist
 
       resource "#{CLEANNAME}.zip" do
         url "https://fonts.google.com/download?family=Merriweather%20Sans"
-        sha256 "243d5e82254d741d97d22e757227f8a86025d1bafc61ea7e4b336ac10564e7ad"
+        # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MerriweatherSans[wght].ttf",
-        "Italic" => "MerriweatherSans-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Merriweather Sans",
+            style: "Regular",
+            full_name: "Merriweather Sans Regular",
+            post_script_name: "MerriweatherSans-Regular",
+            version: "2.000",
+            filename: "MerriweatherSans[wght].ttf",
+            copyright: "Copyright 2019 The Merriweather Project Authors (https://github.com/SorkinType/Merriweather-Sans)",
+          },
+          {
+            family_name: "Merriweather Sans",
+            style: "Italic",
+            full_name: "Merriweather Sans Italic",
+            post_script_name: "MerriweatherSans-Italic",
+            version: "2.000",
+            filename: "MerriweatherSans-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Merriweather Project Authors (https://github.com/SorkinType/Merriweather-Sans)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

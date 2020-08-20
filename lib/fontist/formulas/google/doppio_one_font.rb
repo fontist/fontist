@@ -12,9 +12,21 @@ module Fontist
         sha256 "dc5492de78c4c1c2486ddc4c15ffefc8c4d98a342603ab0e1dd71f7bd277f5a6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DoppioOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Doppio One",
+            style: "Regular",
+            full_name: "Doppio One Regular",
+            post_script_name: "DoppioOne-Regular",
+            version: "1.002",
+            description: "Doppio is a robust low contrast sans serif type with a contemporary feeling. Doppio will work from small text sizes through large display sizes. Doppio's boxy style makes it especially suitable for screen use.",
+            filename: "DoppioOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com), with Reserved Font Name \"Doppio\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

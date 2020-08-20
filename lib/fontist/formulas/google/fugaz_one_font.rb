@@ -12,9 +12,20 @@ module Fontist
         sha256 "74775b01572da37bd237a99ef234fab8202aae2677911acb2172ea95e175454e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FugazOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fugaz One",
+            style: "Regular",
+            full_name: "Fugaz One",
+            post_script_name: "FugazOne-Regular",
+            version: "1.002",
+            filename: "FugazOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Fugaz\" and \"Fugaz One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

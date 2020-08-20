@@ -12,9 +12,23 @@ module Fontist
         sha256 "567f68f02f9f4b0ae293875b737091eea10d3583131ed9000b0b5184af528680"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VastShadow-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vast Shadow",
+            style: "Regular",
+            full_name: "Vast Shadow Regular",
+            post_script_name: "VastShadow-Regular",
+            version: "1.002",
+            description: "Vast is a Victorian slab serif advertising type. Vast has a feeling of sturdy solidity combined with just a little bit of refinement. Because Vast Shadow has a thin shadow that won't display well at small sizes we recommend that you use it from 32px and larger.",
+            filename: "VastShadow-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Vast and Vast Shadow.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

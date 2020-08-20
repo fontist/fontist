@@ -12,14 +12,71 @@ module Fontist
         sha256 "562718adf896c014a30fa0c720a795ef9ea9f68d16c17799a5b8353a97af31dc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Nobile-Regular.ttf",
-        "Italic" => "Nobile-Italic.ttf",
-        "Medium" => "Nobile-Medium.ttf",
-        "MediumItalic" => "Nobile-MediumItalic.ttf",
-        "Bold" => "Nobile-Bold.ttf",
-        "BoldItalic" => "Nobile-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nobile",
+            style: "Regular",
+            full_name: "Nobile",
+            post_script_name: "Nobile-Regular",
+            version: "001.001",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-Regular.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Nobile",
+            style: "Italic",
+            full_name: "Nobile Italic",
+            post_script_name: "Nobile-Italic",
+            version: "1.000;PS 001.000;hotconv 1.0.38",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-Italic.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Nobile",
+            style: "Medium",
+            full_name: "Nobile Medium",
+            post_script_name: "Nobile-Medium",
+            version: "001.000",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-Medium.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Nobile",
+            style: "Medium Italic",
+            full_name: "Nobile Medium Italic",
+            post_script_name: "Nobile-MediumItalic",
+            version: "1.000;PS 001.000;hotconv 1.0.38",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-MediumItalic.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Nobile",
+            style: "Bold",
+            full_name: "Nobile Bold",
+            post_script_name: "Nobile-Bold",
+            version: "001.000",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-Bold.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Nobile",
+            style: "Bold Italic",
+            full_name: "Nobile Bold Italic",
+            post_script_name: "Nobile-BoldItalic",
+            version: "1.000;PS 001.000;hotconv 1.0.38",
+            description: "Copyright (c) 2007-2010 by vernon adams. All rights reserved.",
+            filename: "Nobile-BoldItalic.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

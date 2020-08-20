@@ -12,9 +12,24 @@ module Fontist
         sha256 "bc5bf24586aecd3d1311e384d50ecd5f137be5f8f92b9282f2ee063cf11d0993"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FjordOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fjord",
+            style: "One",
+            full_name: "Fjord One",
+            post_script_name: "Fjord-One",
+            version: "1.002",
+            description: "Fjord is a serif typeface, originally designed with printed books in mind, and particularly intended for long texts in small print sizes. Fjord features sturdy construction, prominent serifs, low-contrast modulation and long elegant ascenders and descenders relative to the 'x' height. Fjord performs well in sizes form 12 px and higher but because of its original design and careful detailing Fjord can also be a distinctive font choice for larger text headlines and in corporate design. Fjord is inspired by the feeling found in both renaissance and contemporary typeface design.",
+            filename: "FjordOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Names \"Fjord\" and \"Fjord One\"
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

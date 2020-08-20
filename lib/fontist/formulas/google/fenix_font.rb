@@ -12,9 +12,20 @@ module Fontist
         sha256 "7dc101548d385cbf51a5c6103e431f3e81deb57b790ea443abc75c1b4b7c37b0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Fenix-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fenix",
+            style: "Regular",
+            full_name: "Fenix",
+            post_script_name: "Fenix",
+            version: "004.301",
+            filename: "Fenix-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Fernando Diaz (fer@ferfolio.com), with Reserved Font Name 'Fenix'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

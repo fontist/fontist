@@ -12,9 +12,20 @@ module Fontist
         sha256 "68e73f57d2497315c7c6696489f3fac2137d3ef58ae56b95bdb9f7ab6b602f84"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FrederickatheGreat-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fredericka the Great",
+            style: "Regular",
+            full_name: "Fredericka the Great",
+            post_script_name: "FrederickatheGreat-Regular",
+            version: "1.001",
+            filename: "FrederickatheGreat-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reseved Font Name \"Fredericka the Great\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

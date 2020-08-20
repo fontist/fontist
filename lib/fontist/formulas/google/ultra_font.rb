@@ -12,9 +12,21 @@ module Fontist
         sha256 "3f6f54243bc6b2852c893dd0a0a051cbd5585a98926cc1dbd372fa91e02e4bd0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ultra-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ultra",
+            style: "Regular",
+            full_name: "Ultra Regular",
+            post_script_name: "Ultra-Regular",
+            version: "1.001",
+            filename: "Ultra-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

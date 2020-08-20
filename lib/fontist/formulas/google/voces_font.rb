@@ -12,9 +12,20 @@ module Fontist
         sha256 "3ea7561a60fb3a75b7f23ddbf1e2c73eb18cb111ffc4cb2074a19affd1815ef9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Voces-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Voces",
+            style: "Regular",
+            full_name: "Voces Regular",
+            post_script_name: "Voces-Regular",
+            version: "1.100",
+            filename: "Voces-Regular.ttf",
+            copyright: "Copyright 2012 The Voces Project Authors (https://github.com/googlefonts/VocesFont), with Reserved Font Names \"Voces\", \"Voceso Pro\", \"Voces UGR\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

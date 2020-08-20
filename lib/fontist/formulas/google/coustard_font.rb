@@ -12,10 +12,29 @@ module Fontist
         sha256 "383556379ae3e8248620d684bb9379c4facd52c818dc99d142e41c07d5f09236"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Coustard-Regular.ttf",
-        "Black" => "Coustard-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Coustard",
+            style: "Regular",
+            full_name: "Coustard Regular",
+            post_script_name: "Coustard-Regular",
+            version: "1.001",
+            filename: "Coustard-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved. with",
+          },
+          {
+            family_name: "Coustard",
+            style: "Black",
+            full_name: "Coustard Black",
+            post_script_name: "Coustard-Black",
+            version: "1.001;",
+            filename: "Coustard-Black.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved. with",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

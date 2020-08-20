@@ -12,9 +12,20 @@ module Fontist
         sha256 "c7b5cda56346e969774e8afdd9c5c1949831169488457fc36668a2701b5e8e56"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NovaMono.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "NovaMono",
+            style: "Regular",
+            full_name: "NovaMono",
+            post_script_name: "NovaMono",
+            version: "1.2",
+            filename: "NovaMono.ttf",
+            copyright: "wmk69",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,11 +12,38 @@ module Fontist
         sha256 "41d36e072a8398c7e9c619e484258fea37dae11e5a647511d14a3bc9bcd7f293"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gudea-Regular.ttf",
-        "Italic" => "Gudea-Italic.ttf",
-        "Bold" => "Gudea-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gudea",
+            style: "Regular",
+            full_name: "Gudea",
+            post_script_name: "Gudea",
+            version: "1.003",
+            filename: "Gudea-Regular.ttf",
+            copyright: "Copyright (c) 2012, Agustina Mingote (agustinamingote@gmail.com), with Reserved Font Names \"Gudea\"",
+          },
+          {
+            family_name: "Gudea",
+            style: "Italic",
+            full_name: "Gudea Italic",
+            post_script_name: "Gudea-Italic",
+            version: "1.002",
+            filename: "Gudea-Italic.ttf",
+            copyright: "Copyright (c) 2012, Agustina Mingote (agustinamingote@gmail.com), with Reserved Font Names \"Gudea\"",
+          },
+          {
+            family_name: "Gudea",
+            style: "Bold",
+            full_name: "Gudea Bold",
+            post_script_name: "Gudea-Bold",
+            version: "1.002",
+            filename: "Gudea-Bold.ttf",
+            copyright: "Copyright (c) 2012, Agustina Mingote (agustinamingote@gmail.com), with Reserved Font Names \"Gudea\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

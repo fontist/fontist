@@ -12,10 +12,29 @@ module Fontist
         sha256 "4ab06b878968d51ed635931bbe747676c13f29e5af16f1c2ce6ac935003f5906"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FanwoodText-Regular.ttf",
-        "Italic" => "FanwoodText-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fanwood Text",
+            style: "Regular",
+            full_name: "Fanwood Text",
+            post_script_name: "FanwoodText-Regular",
+            version: "1.1001",
+            filename: "FanwoodText-Regular.ttf",
+            copyright: "Copyright (c) 2011, Barry Schwartz  (chemoelectric@chemoelectric.org)",
+          },
+          {
+            family_name: "Fanwood Text",
+            style: "Italic",
+            full_name: "Fanwood Text Italic",
+            post_script_name: "FanwoodText-Italic",
+            version: "1.101",
+            filename: "FanwoodText-Italic.ttf",
+            copyright: "Copyright (c) 2011, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

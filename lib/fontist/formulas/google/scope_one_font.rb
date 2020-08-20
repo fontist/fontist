@@ -12,9 +12,20 @@ module Fontist
         sha256 "fd23281a3001e34b877b4e98861d0b8a9165f3adab89fb2d41eba57314a00987"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ScopeOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Scope One",
+            style: "Regular",
+            full_name: "Scope One Regular",
+            post_script_name: "ScopeOne-Regular",
+            version: "1.002; ttfautohint (v1.4.1) -l 11 -r 50 -G 50 -x 14 -D latn -f latn -m \"ttfautohint.ctrl\" -w G -X \"\"",
+            filename: "ScopeOne-Regular.ttf",
+            copyright: "Copyright 2015 Dalton Maag Ltd (info@daltonmaag.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

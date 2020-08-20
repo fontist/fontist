@@ -12,9 +12,20 @@ module Fontist
         sha256 "18199420b2c1497146f778cccfcbc4a167390a792a20841201c24850afb0137a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ruluko-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ruluko",
+            style: "Regular",
+            full_name: "Ruluko",
+            post_script_name: "Ruluko",
+            version: "1.001",
+            filename: "Ruluko-Regular.ttf",
+            copyright: "Copyright (c) 2011, Ana Sanfelippo, Angelica Diaz y Meme Hernandez (anasanfe@gmail.com - angiecina@gmail.com), with Reserved Font Name \"Ruluko\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

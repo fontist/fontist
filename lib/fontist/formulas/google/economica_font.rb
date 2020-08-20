@@ -12,12 +12,47 @@ module Fontist
         sha256 "04288b2e295129f0984b0931a5cf21d3caf5939bc543ab4f69a300cbc7d63ae1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Economica-Regular.ttf",
-        "Italic" => "Economica-Italic.ttf",
-        "Bold" => "Economica-Bold.ttf",
-        "BoldItalic" => "Economica-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Economica",
+            style: "Regular",
+            full_name: "Economica",
+            post_script_name: "Economica-Regular",
+            version: "1.101",
+            filename: "Economica-Regular.ttf",
+            copyright: "Copyright (c) 2012, Vicente Lamonaca (produccion.taller@gmail.com www.tipografia-montevideo.info www.tipotype.com)",
+          },
+          {
+            family_name: "Economica",
+            style: "Italic",
+            full_name: "Economica Italic",
+            post_script_name: "Economica-Italic",
+            version: "1.100",
+            filename: "Economica-Italic.ttf",
+            copyright: "Copyright (c) 2012, Vicente Lamonaca (produccion.taller@gmail.com www.tipografia-montevideo.info www.tipotype.com)",
+          },
+          {
+            family_name: "Economica",
+            style: "Bold",
+            full_name: "Economica Bold",
+            post_script_name: "Economica-Bold",
+            version: "1.100",
+            filename: "Economica-Bold.ttf",
+            copyright: "Copyright (c) 2012, Vicente Lamonaca (produccion.taller@gmail.com www.tipografia-montevideo.info www.tipotype.com)",
+          },
+          {
+            family_name: "Economica",
+            style: "Bold Italic",
+            full_name: "Economica Bold Italic",
+            post_script_name: "Economica-BoldItalic",
+            version: "1.100",
+            filename: "Economica-BoldItalic.ttf",
+            copyright: "Copyright (c) 2012, Vicente Lamonaca (produccion.taller@gmail.com www.tipografia-montevideo.info www.tipotype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

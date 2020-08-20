@@ -12,9 +12,20 @@ module Fontist
         sha256 "862cf2b23655a4b0761715c1d6a5694ac3303d9ec0d00d036b70eadbe4534d46"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ArchitectsDaughter-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Architects Daughter",
+            style: "Regular",
+            full_name: "Architects Daughter Regular",
+            post_script_name: "ArchitectsDaughter-Regular",
+            version: "1.003 2010",
+            filename: "ArchitectsDaughter-Regular.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

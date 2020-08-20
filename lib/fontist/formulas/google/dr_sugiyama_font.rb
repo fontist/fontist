@@ -12,9 +12,21 @@ module Fontist
         sha256 "ec75c4e38b347a95adedaf59c289e4b804b63dba01e9d31d4d940aaed5faf7c9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DrSugiyama-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dr Sugiyama",
+            style: "Regular",
+            full_name: "Dr Sugiyama Regular",
+            post_script_name: "DrSugiyama-Regular",
+            version: "1.000",
+            filename: "DrSugiyama-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Dr Sujiyama\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

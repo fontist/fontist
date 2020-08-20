@@ -12,9 +12,20 @@ module Fontist
         sha256 "9cd2efe1e528efbb522839dfbcffabdee345b200c6816b9069bc740c6a591d2c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Alike-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alike",
+            style: "Regular",
+            full_name: "Alike Regular",
+            post_script_name: "Alike-Regular",
+            version: "1.213",
+            filename: "Alike-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name 'Alike'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

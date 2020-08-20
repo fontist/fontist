@@ -12,10 +12,29 @@ module Fontist
         sha256 "9f90993277345a133089e7bca06d24f22d46426d39bd01da3471316e803bf0e8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rosarivo-Regular.ttf",
-        "Italic" => "Rosarivo-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rosarivo",
+            style: "Regular",
+            full_name: "Rosarivo",
+            post_script_name: "Rosarivo-Regular",
+            version: "1.003",
+            filename: "Rosarivo-Regular.ttf",
+            copyright: "Copyright (c) 2011, UGR Design (www.ugrdesign.com.ar),  with Reserved Font Names \"Rosarivo\", \"Rosarivo Pro\", \"Rosarivo UGR\"",
+          },
+          {
+            family_name: "Rosarivo",
+            style: "Italic",
+            full_name: "Rosarivo Italic",
+            post_script_name: "Rosarivo-Italic",
+            version: "1.003",
+            filename: "Rosarivo-Italic.ttf",
+            copyright: "Copyright (c) 2011, UGR Design (www.ugrdesign.com.ar),  with Reserved Font Names \"Rosarivo\", \"Rosarivo Pro\", \"Rosarivo UGR\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

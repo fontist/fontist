@@ -12,9 +12,20 @@ module Fontist
         sha256 "ae620c2694b742aae5f85b37694be082c6793b1fb3842bde8e5576e554d993f9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Actor-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Actor",
+            style: "Regular",
+            full_name: "Actor Regular",
+            post_script_name: "Actor-Regular",
+            version: "1.001",
+            filename: "Actor-Regular.ttf",
+            copyright: "Copyright (c) 2011, Thomas Junold <hallo@buerofueraufmerksamkeit.de>, with Reserved Font Name \"Actor\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

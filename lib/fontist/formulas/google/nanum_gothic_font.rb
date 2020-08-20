@@ -12,11 +12,38 @@ module Fontist
         sha256 "3c613e10f6a1f08640c99212a864c2af52942606fee233ef53878978e8a2dc4f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NanumGothic-Regular.ttf",
-        "Bold" => "NanumGothic-Bold.ttf",
-        "ExtraBold" => "NanumGothic-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "NanumGothic",
+            style: "Regular",
+            full_name: "NanumGothic",
+            post_script_name: "NanumGothic",
+            version: "3.020;PS 1;hotconv 1.0.57;makeotf.lib2.0.21895",
+            filename: "NanumGothic-Regular.ttf",
+            copyright: "Copyright © 2011 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+          {
+            family_name: "NanumGothic",
+            style: "Bold",
+            full_name: "NanumGothicBold",
+            post_script_name: "NanumGothicBold",
+            version: "3.020;PS 1;hotconv 1.0.57;makeotf.lib2.0.21895",
+            filename: "NanumGothic-Bold.ttf",
+            copyright: "Copyright © 2011 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+          {
+            family_name: "NanumGothic",
+            style: "ExtraBold",
+            full_name: "NanumGothicExtraBold",
+            post_script_name: "NanumGothicExtraBold",
+            version: "3.020;PS 1;hotconv 1.0.57;makeotf.lib2.0.21895",
+            filename: "NanumGothic-ExtraBold.ttf",
+            copyright: "Copyright © 2011 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

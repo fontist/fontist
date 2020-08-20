@@ -12,9 +12,20 @@ module Fontist
         sha256 "54b4cb77a4e079a5454e361492f298d4701ccbe8cd080cc25a0b91c19c44bc08"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BlackHanSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Black Han Sans",
+            style: "Regular",
+            full_name: "Black Han Sans Regular",
+            post_script_name: "BlackHanSans-Regular",
+            version: "1.00",
+            filename: "BlackHanSans-Regular.ttf",
+            copyright: "(c) ZESSTYPE 2015",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

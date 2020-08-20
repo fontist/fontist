@@ -12,9 +12,21 @@ module Fontist
         sha256 "debbd3e676e79ae784ea388661fedca3b5e578491769db160ba46ad6ed6213ed"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Romanesco-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Romanesco",
+            style: "Regular",
+            full_name: "Romanesco",
+            post_script_name: "Romanesco-Regular",
+            version: "1.000",
+            filename: "Romanesco-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Romanesco\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

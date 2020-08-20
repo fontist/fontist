@@ -12,9 +12,20 @@ module Fontist
         sha256 "d7c7da6b4b18aa0c94812afdc159a71670f868b8bddfe8df107866cf01791b24"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Aldrich-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aldrich",
+            style: "Regular",
+            full_name: "Aldrich Regular",
+            post_script_name: "Aldrich-Regular",
+            version: "1.002 2011",
+            filename: "Aldrich-Regular.ttf",
+            copyright: "Copyright (c) Matthew Desmond, 2011. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "847a47e90c4fd5ef8a61916a4905f5f6ac5f0ec268ac744dc59a3f6c24d369fb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Metal.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Metal",
+            style: "Regular",
+            full_name: "Metal",
+            post_script_name: "Metal",
+            version: "6.00 December 28, 2010",
+            filename: "Metal.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

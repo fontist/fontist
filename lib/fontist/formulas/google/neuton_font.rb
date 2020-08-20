@@ -12,14 +12,65 @@ module Fontist
         sha256 "6b601b4af6f1c3b17fe30692c62cc828da607302097859b2e56aa2210405b700"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Neuton-ExtraLight.ttf",
-        "Light" => "Neuton-Light.ttf",
-        "Regular" => "Neuton-Regular.ttf",
-        "Italic" => "Neuton-Italic.ttf",
-        "Bold" => "Neuton-Bold.ttf",
-        "ExtraBold" => "Neuton-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Neuton",
+            style: "ExtraLight",
+            full_name: "Neuton ExtraLight",
+            post_script_name: "Neuton-ExtraLight",
+            version: "1.560",
+            filename: "Neuton-ExtraLight.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+          {
+            family_name: "Neuton",
+            style: "Light",
+            full_name: "Neuton Light",
+            post_script_name: "Neuton-Light",
+            version: "1.560",
+            filename: "Neuton-Light.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+          {
+            family_name: "Neuton",
+            style: "Regular",
+            full_name: "Neuton Regular",
+            post_script_name: "Neuton-Regular",
+            version: "1.560",
+            filename: "Neuton-Regular.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+          {
+            family_name: "Neuton",
+            style: "Italic",
+            full_name: "Neuton Italic",
+            post_script_name: "Neuton-Italic",
+            version: "1.560",
+            filename: "Neuton-Italic.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+          {
+            family_name: "Neuton",
+            style: "Bold",
+            full_name: "Neuton Bold",
+            post_script_name: "Neuton-Bold",
+            version: "1.560",
+            filename: "Neuton-Bold.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+          {
+            family_name: "Neuton",
+            style: "ExtraBold",
+            full_name: "Neuton ExtraBold",
+            post_script_name: "Neuton-ExtraBold",
+            version: "1.560",
+            filename: "Neuton-ExtraBold.ttf",
+            copyright: "Copyright 2010 The Neuton Project Authors (http://www.21326.info/), with Reserved Font Name \"Neuton\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

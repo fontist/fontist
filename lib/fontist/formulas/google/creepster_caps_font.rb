@@ -12,9 +12,21 @@ module Fontist
         sha256 "5bee226633cf3b6747314b4a7eea5a806b175fec76c245c3b7804508b54a4787"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CreepsterCaps-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Creepster Caps",
+            style: "Regular",
+            full_name: "Creepster Caps Regular",
+            post_script_name: "CreepsterCaps-Regular",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Font Diner, Inc. All rights reserved.",
+            filename: "CreepsterCaps-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

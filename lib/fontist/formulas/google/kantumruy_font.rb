@@ -12,11 +12,38 @@ module Fontist
         sha256 "8908a7ee7a7b47d5052f7b7f0e602e026ee0a80879b5a9412c9f3e5891df87a6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Kantumruy-Light.ttf",
-        "Regular" => "Kantumruy-Regular.ttf",
-        "Bold" => "Kantumruy-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kantumruy",
+            style: "Light",
+            full_name: "Kantumruy Light",
+            post_script_name: "Kantumruy-Light",
+            version: "1.2001 August 16, 2013",
+            filename: "Kantumruy-Light.ttf",
+            copyright: "Copyright (c) 2013 by Sovichet Tep with Reserved Font Name \"Kantumruy\". Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1.",
+          },
+          {
+            family_name: "Kantumruy",
+            style: "Regular",
+            full_name: "Kantumruy Regular",
+            post_script_name: "Kantumruy-Regular",
+            version: "1.2001 August 16, 2013",
+            filename: "Kantumruy-Regular.ttf",
+            copyright: "Copyright (c) 2013 by Sovichet Tep with Reserved Font Name \"Kantumruy\". Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1.",
+          },
+          {
+            family_name: "Kantumruy",
+            style: "Bold",
+            full_name: "Kantumruy Bold",
+            post_script_name: "Kantumruy-Bold",
+            version: "1.2001 August 16, 2013",
+            filename: "Kantumruy-Bold.ttf",
+            copyright: "Copyright (c) 2013 by Sovichet Tep with Reserved Font Name \"Kantumruy\". Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

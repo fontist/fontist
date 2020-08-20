@@ -12,10 +12,31 @@ module Fontist
         sha256 "6dd6f7a9d29bc1bac0964b569bad745073743fd698376bb9b9d3186c43d42f05"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sarala-Regular.ttf",
-        "Bold" => "Sarala-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sarala",
+            style: "Regular",
+            full_name: "Sarala",
+            post_script_name: "Sarala-Regular",
+            version: "1.004;PS 001.003;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            description: "Humanist sans serif font for print and web with Devanagari support.",
+            filename: "Sarala-Regular.ttf",
+            copyright: "Copyright 2015 by Andres Torresi. All rights reserved.",
+          },
+          {
+            family_name: "Sarala",
+            style: "Bold",
+            full_name: "Sarala Bold",
+            post_script_name: "Sarala-Bold",
+            version: "1.004;PS 001.003;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            description: "Humanist sans serif font for print and web with Devanagari support.",
+            filename: "Sarala-Bold.ttf",
+            copyright: "Copyright 2015 by Andres Torresi. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

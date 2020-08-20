@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rosario[wght].ttf",
-        "Italic" => "Rosario-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rosario",
+            style: "Light",
+            full_name: "Rosario Light",
+            post_script_name: "Rosario-Light",
+            version: "1.101; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Rosario[wght].ttf",
+            copyright: "Copyright 2019 The Rosario Project Authors (https://github.com/Omnibus-Type/Rosario)",
+          },
+          {
+            family_name: "Rosario",
+            style: "Light Italic",
+            full_name: "Rosario Light Italic",
+            post_script_name: "Rosario-LightItalic",
+            version: "1.101; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Rosario-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Rosario Project Authors (https://github.com/Omnibus-Type/Rosario)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

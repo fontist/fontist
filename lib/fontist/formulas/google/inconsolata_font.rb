@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Inconsolata[wdth,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inconsolata",
+            style: "Regular",
+            full_name: "Inconsolata Regular",
+            post_script_name: "Inconsolata-Regular",
+            version: "3.001",
+            filename: "Inconsolata[wdth,wght].ttf",
+            copyright: "Copyright 2006 The Inconsolata Project Authors (https://github.com/cyrealtype/Inconsolata)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

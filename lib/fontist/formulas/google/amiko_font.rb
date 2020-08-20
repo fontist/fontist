@@ -12,11 +12,38 @@ module Fontist
         sha256 "e2e4d0aecbe18b0b541165d717075d451ac63049785ddfe9e6a802119d45f7ce"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amiko-Regular.ttf",
-        "SemiBold" => "Amiko-SemiBold.ttf",
-        "Bold" => "Amiko-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amiko",
+            style: "Regular",
+            full_name: "Amiko Regular",
+            post_script_name: "Amiko-Regular",
+            version: "1.001; ttfautohint (v1.3)",
+            filename: "Amiko-Regular.ttf",
+            copyright: "Copyright (c) 2014, Impallari Type (www.impallari.com).",
+          },
+          {
+            family_name: "Amiko",
+            style: "SemiBold",
+            full_name: "Amiko SemiBold",
+            post_script_name: "Amiko-SemiBold",
+            version: "1.001; ttfautohint (v1.3)",
+            filename: "Amiko-SemiBold.ttf",
+            copyright: "Copyright (c) 2014, Impallari Type (www.impallari.com).",
+          },
+          {
+            family_name: "Amiko",
+            style: "Bold",
+            full_name: "Amiko Bold",
+            post_script_name: "Amiko-Bold",
+            version: "1.001; ttfautohint (v1.3)",
+            filename: "Amiko-Bold.ttf",
+            copyright: "Copyright (c) 2014, Impallari Type (www.impallari.com).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

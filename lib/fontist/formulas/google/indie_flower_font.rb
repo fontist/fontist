@@ -12,9 +12,20 @@ module Fontist
         sha256 "767fbcbd7eca85701f0b3c406dbbbbaabfdfdfb645cd010ce306aa2c27770478"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IndieFlower-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Indie Flower",
+            style: "Regular",
+            full_name: "Indie Flower Regular",
+            post_script_name: "IndieFlower-Regular",
+            version: "2.000",
+            filename: "IndieFlower-Regular.ttf",
+            copyright: "Copyright 2010 The Indie Flower Authors (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

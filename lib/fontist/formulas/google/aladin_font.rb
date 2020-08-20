@@ -12,9 +12,22 @@ module Fontist
         sha256 "b36c5ea7f012e0c955d9ac13725e051a259ec8914ba6f8e88f3cbbdd52cc02ee"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Aladin-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aladin",
+            style: "Regular",
+            full_name: "Aladin Regular",
+            post_script_name: "Aladin-Regular",
+            version: "1.000",
+            filename: "Aladin-Regular.ttf",
+            copyright: "Copyright (c) 2009 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2009 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Aladin\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

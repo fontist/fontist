@@ -12,10 +12,31 @@ module Fontist
         sha256 "1958354b9a8234f7b5ed6c07fd46819fcee71c1c2c4154e1d250fc77253a8ba4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ArchivoNarrow[wght].ttf",
-        "Italic" => "ArchivoNarrow-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Archivo Narrow",
+            style: "Regular",
+            full_name: "Archivo Narrow Regular",
+            post_script_name: "ArchivoNarrow-Regular",
+            version: "3.000",
+            description: "Archivo Narrow was designed to be used simultaneously in print and digital platforms. The technical and aesthetic characteristics of the font are both crafted for high performance typography.",
+            filename: "ArchivoNarrow[wght].ttf",
+            copyright: "Copyright 2019 The Archivo Narrow Project Authors (https://github.com/Omnibus-Type/ArchivoNarrow)",
+          },
+          {
+            family_name: "Archivo Narrow",
+            style: "Italic",
+            full_name: "Archivo Narrow Italic",
+            post_script_name: "ArchivoNarrow-Italic",
+            version: "3.000",
+            description: "Archivo Narrow was designed to be used simultaneously in print and digital platforms. The technical and aesthetic characteristics of the font are both crafted for high performance typography.",
+            filename: "ArchivoNarrow-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Archivo Narrow Project Authors (https://github.com/Omnibus-Type/ArchivoNarrow)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,15 +12,74 @@ module Fontist
         sha256 "7c74904c461dd47a290ab442423bbf93ed8218fc78973bffabb61833125a3ca7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "MuktaMalar-ExtraLight.ttf",
-        "Light" => "MuktaMalar-Light.ttf",
-        "Regular" => "MuktaMalar-Regular.ttf",
-        "Medium" => "MuktaMalar-Medium.ttf",
-        "SemiBold" => "MuktaMalar-SemiBold.ttf",
-        "Bold" => "MuktaMalar-Bold.ttf",
-        "ExtraBold" => "MuktaMalar-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mukta Malar",
+            style: "ExtraLight",
+            full_name: "Mukta Malar ExtraLight",
+            post_script_name: "MuktaMalar-ExtraLight",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-ExtraLight.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "Light",
+            full_name: "Mukta Malar Light",
+            post_script_name: "MuktaMalar-Light",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-Light.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "Regular",
+            full_name: "Mukta Malar Regular",
+            post_script_name: "MuktaMalar-Regular",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-Regular.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "Medium",
+            full_name: "Mukta Malar Medium",
+            post_script_name: "MuktaMalar-Medium",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-Medium.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "SemiBold",
+            full_name: "Mukta Malar SemiBold",
+            post_script_name: "MuktaMalar-SemiBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-SemiBold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "Bold",
+            full_name: "Mukta Malar Bold",
+            post_script_name: "MuktaMalar-Bold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-Bold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Malar",
+            style: "ExtraBold",
+            full_name: "Mukta Malar ExtraBold",
+            post_script_name: "MuktaMalar-ExtraBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMalar-ExtraBold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

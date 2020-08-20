@@ -12,10 +12,29 @@ module Fontist
         sha256 "0d27cc0b0ee8835814f57de171c22f06a6ecc5f63524aa1968923fccafa0d416"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Allan-Regular.ttf",
-        "Bold" => "Allan-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Allan",
+            style: "Regular",
+            full_name: "Allan Regular",
+            post_script_name: "Allan-Regular",
+            version: "1.002",
+            filename: "Allan-Regular.ttf",
+            copyright: "Copyright (c) 2010-2012, Anton Koovit (anton@korkork.com), with Reserved Font Name 'Allan'",
+          },
+          {
+            family_name: "Allan",
+            style: "Bold",
+            full_name: "Allan Bold",
+            post_script_name: "Allan-Bold",
+            version: "1.005",
+            filename: "Allan-Bold.ttf",
+            copyright: "Copyright (c) 2010-2012, Anton Koovit (anton@korkork.com), with Reserved Font Name 'Allan'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

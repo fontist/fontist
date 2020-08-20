@@ -12,13 +12,56 @@ module Fontist
         sha256 "01868ad1b3e5d1141528238ccb9a741bb615b6e0699381de1b57d70a0bc33f8b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "FrankRuhlLibre-Light.ttf",
-        "Regular" => "FrankRuhlLibre-Regular.ttf",
-        "Medium" => "FrankRuhlLibre-Medium.ttf",
-        "Bold" => "FrankRuhlLibre-Bold.ttf",
-        "Black" => "FrankRuhlLibre-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Frank Ruhl Libre",
+            style: "Light",
+            full_name: "Frank Ruhl Libre Light",
+            post_script_name: "FrankRuhlLibre-Light",
+            version: "5.001",
+            filename: "FrankRuhlLibre-Light.ttf",
+            copyright: "Copyright 2015 The Frank Ruhl Libre Project Authors.",
+          },
+          {
+            family_name: "Frank Ruhl Libre",
+            style: "Regular",
+            full_name: "Frank Ruhl Libre Regular",
+            post_script_name: "FrankRuhlLibre-Regular",
+            version: "5.001",
+            filename: "FrankRuhlLibre-Regular.ttf",
+            copyright: "Copyright 2015 The Frank Ruhl Libre Project Authors.",
+          },
+          {
+            family_name: "Frank Ruhl Libre",
+            style: "Medium",
+            full_name: "Frank Ruhl Libre Medium",
+            post_script_name: "FrankRuhlLibre-Medium",
+            version: "5.001",
+            filename: "FrankRuhlLibre-Medium.ttf",
+            copyright: "Copyright 2015 The Frank Ruhl Libre Project Authors.",
+          },
+          {
+            family_name: "Frank Ruhl Libre",
+            style: "Bold",
+            full_name: "Frank Ruhl Libre Bold",
+            post_script_name: "FrankRuhlLibre-Bold",
+            version: "5.001",
+            filename: "FrankRuhlLibre-Bold.ttf",
+            copyright: "Copyright 2015 The Frank Ruhl Libre Project Authors.",
+          },
+          {
+            family_name: "Frank Ruhl Libre",
+            style: "Black",
+            full_name: "Frank Ruhl Libre Black",
+            post_script_name: "FrankRuhlLibre-Black",
+            version: "5.001",
+            filename: "FrankRuhlLibre-Black.ttf",
+            copyright: "Copyright 2015 by Yanek Iontef. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

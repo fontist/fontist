@@ -12,15 +12,74 @@ module Fontist
         sha256 "db20ccfb61f5d28aaf2c09825d4dc108e0d36aa4eb51840c7326f341c822d778"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "EkMukta-ExtraLight.ttf",
-        "Light" => "EkMukta-Light.ttf",
-        "Regular" => "EkMukta-Regular.ttf",
-        "Medium" => "EkMukta-Medium.ttf",
-        "SemiBold" => "EkMukta-SemiBold.ttf",
-        "Bold" => "EkMukta-Bold.ttf",
-        "ExtraBold" => "EkMukta-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ek Mukta",
+            style: "ExtraLight",
+            full_name: "Ek Mukta ExtraLight",
+            post_script_name: "EkMukta-ExtraLight",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-ExtraLight.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "Light",
+            full_name: "Ek Mukta Light",
+            post_script_name: "EkMukta-Light",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-Light.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "Regular",
+            full_name: "Ek Mukta Regular",
+            post_script_name: "EkMukta-Regular",
+            version: "2.538;PS 1.001;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-Regular.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "Medium",
+            full_name: "Ek Mukta Medium",
+            post_script_name: "EkMukta-Medium",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-Medium.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "SemiBold",
+            full_name: "Ek Mukta SemiBold",
+            post_script_name: "EkMukta-SemiBold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-SemiBold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "Bold",
+            full_name: "Ek Mukta Bold",
+            post_script_name: "EkMukta-Bold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-Bold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Ek Mukta",
+            style: "ExtraBold",
+            full_name: "Ek Mukta ExtraBold",
+            post_script_name: "EkMukta-ExtraBold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "EkMukta-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,11 +12,38 @@ module Fontist
         sha256 "4eb739b54480e38b92ba1f3eef90801847b55ff1b121b8ae5d0c6e0c852fc055"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Rowdies-Light.ttf",
-        "Regular" => "Rowdies-Regular.ttf",
-        "Bold" => "Rowdies-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rowdies",
+            style: "Light",
+            full_name: "Rowdies Light",
+            post_script_name: "Rowdies-Light",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "Rowdies-Light.ttf",
+            copyright: "Copyright 2018 The Rowdies Project Authors (https://github.com/magictype/rowdies)",
+          },
+          {
+            family_name: "Rowdies",
+            style: "Regular",
+            full_name: "Rowdies Regular",
+            post_script_name: "Rowdies-Regular",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "Rowdies-Regular.ttf",
+            copyright: "Copyright 2018 The Rowdies Project Authors (https://github.com/magictype/rowdies)",
+          },
+          {
+            family_name: "Rowdies",
+            style: "Bold",
+            full_name: "Rowdies Bold",
+            post_script_name: "Rowdies-Bold",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "Rowdies-Bold.ttf",
+            copyright: "Copyright 2018 The Rowdies Project Authors (https://github.com/magictype/rowdies)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

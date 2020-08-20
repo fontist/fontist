@@ -12,9 +12,20 @@ module Fontist
         sha256 "38cbc4ebfefdbe903cce367075468b4f49ce2356edd274a3050bd3764e4659d2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PathwayGothicOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pathway Gothic One",
+            style: "Regular",
+            full_name: "Pathway Gothic One Regular",
+            post_script_name: "PathwayGothicOne-Regular",
+            version: "1.002",
+            filename: "PathwayGothicOne-Regular.ttf",
+            copyright: "Copyright (c) 2013, Eduardo Tunni (http://www.tipo.net.ar edu@tipo.net.ar), with Reserved Font Name 'Pathway'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

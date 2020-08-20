@@ -12,10 +12,29 @@ module Fontist
         sha256 "eee81bc364a824d6d80c7b54a03579b4c9ccb7de7ea7649888d26eb954aa042f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SortsMillGoudy-Regular.ttf",
-        "Italic" => "SortsMillGoudy-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sorts Mill Goudy",
+            style: "Regular",
+            full_name: "Sorts Mill Goudy Regular",
+            post_script_name: "SortsMillGoudy-Regular",
+            version: "003.101",
+            filename: "SortsMillGoudy-Regular.ttf",
+            copyright: "Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+          {
+            family_name: "Sorts Mill Goudy",
+            style: "Italic",
+            full_name: "Sorts Mill Goudy Italic",
+            post_script_name: "SortsMillGoudy-Italic",
+            version: "003.101",
+            filename: "SortsMillGoudy-Italic.ttf",
+            copyright: "Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

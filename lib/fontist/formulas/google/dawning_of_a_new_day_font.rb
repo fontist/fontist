@@ -12,9 +12,20 @@ module Fontist
         sha256 "87b6c75e506f55ee439dfb0a7f94d34e3b63d936e50c103e5264d1e6dd4be7b7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DawningofaNewDay.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dawning of a New Day",
+            style: "Regular",
+            full_name: "Dawning of a New Day",
+            post_script_name: "DawningofaNewDay",
+            version: "1.002 2010",
+            filename: "DawningofaNewDay.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

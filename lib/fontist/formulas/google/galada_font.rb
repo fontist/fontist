@@ -12,9 +12,20 @@ module Fontist
         sha256 "0306cc61b1da4a991651cbc1f6424a567e55272402a48a487d671791f237c54d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Galada-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Galada",
+            style: "Regular",
+            full_name: "Galada Regular",
+            post_script_name: "Galada-Regular",
+            version: "1.261;PS 1.261;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Galada-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Pablo Impallari (www.impallari.com). Copyright (c) 2015 by black foundry (www.black-foundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

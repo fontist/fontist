@@ -12,9 +12,20 @@ module Fontist
         sha256 "73097b403b63aefc096da9d250adb46f8ad9ba3edfe972c49d792ed6c1083c6e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Andika-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Andika",
+            style: "Regular",
+            full_name: "Andika Regular",
+            post_script_name: "Andika-Regular",
+            version: "1.001",
+            filename: "Andika-Regular.ttf",
+            copyright: "Copyright (c) 2004-2011, SIL International (http://www.sil.org/). Licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL), with Reserved Font Names \"Andika\" and \"SIL\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

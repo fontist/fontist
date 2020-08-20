@@ -12,9 +12,20 @@ module Fontist
         sha256 "fe3bc41ebb03754968f2a88c5126a9b7504e6c78db9bb2a2a424e2067203ddf6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Katibeh-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Katibeh",
+            style: "Regular",
+            full_name: "Katibeh Regular",
+            post_script_name: "Katibeh-Regular",
+            version: "1.0010g",
+            filename: "Katibeh-Regular.ttf",
+            copyright: "Copyright 2015, 2016 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015, 2016 Lasse Fister (lasse@graphicore.de). Copyright 2015, 2016 Eduardo Tunni(edu@tipo.net.ar).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

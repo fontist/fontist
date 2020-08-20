@@ -12,12 +12,47 @@ module Fontist
         sha256 "3803f28b9a8c116d0f15d16b3ae744c56b446854cc0aca649760872426969cac"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Caladea-Regular.ttf",
-        "Italic" => "Caladea-Italic.ttf",
-        "Bold" => "Caladea-Bold.ttf",
-        "BoldItalic" => "Caladea-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Caladea",
+            style: "Regular",
+            full_name: "Caladea Regular",
+            post_script_name: "Caladea-Regular",
+            version: "1.001",
+            filename: "Caladea-Regular.ttf",
+            copyright: "Copyright 2012 The Caladea Project Authors (https://github.com/huertatipografica/Caladea)",
+          },
+          {
+            family_name: "Caladea",
+            style: "Italic",
+            full_name: "Caladea Italic",
+            post_script_name: "Caladea-Italic",
+            version: "1.001",
+            filename: "Caladea-Italic.ttf",
+            copyright: "Copyright 2012 The Caladea Project Authors (https://github.com/huertatipografica/Caladea)",
+          },
+          {
+            family_name: "Caladea",
+            style: "Bold",
+            full_name: "Caladea Bold",
+            post_script_name: "Caladea-Bold",
+            version: "1.001",
+            filename: "Caladea-Bold.ttf",
+            copyright: "Copyright 2012 The Caladea Project Authors (https://github.com/huertatipografica/Caladea)",
+          },
+          {
+            family_name: "Caladea",
+            style: "Bold Italic",
+            full_name: "Caladea Bold Italic",
+            post_script_name: "Caladea-BoldItalic",
+            version: "1.001",
+            filename: "Caladea-BoldItalic.ttf",
+            copyright: "Copyright 2012 The Caladea Project Authors (https://github.com/huertatipografica/Caladea)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,25 @@ module Fontist
         sha256 "32fdcfde3ef7ab52beba8509ccf10fdec7cd3dabaaee1fb4dda7ea2cf4300259"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arbutus-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arbutus",
+            style: "Regular",
+            full_name: "Arbutus Regular",
+            post_script_name: "Arbutus-Regular",
+            version: "1.003",
+            filename: "Arbutus-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Arbutus\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "c692505ee16a91832134f48837898a7cafe1c01f25c0bd367d81dc9c4aa9315f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SigmarOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sigmar One",
+            style: "Regular",
+            full_name: "Sigmar One Regular",
+            post_script_name: "SigmarOne-Regular",
+            version: "2.000",
+            filename: "SigmarOne-Regular.ttf",
+            copyright: "Copyright 2011 The Sigmar One Project Authors (contact@sansoxygen.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "276038bf3ae10128520597009aa033be8627edcb5d739a8f4c70240d23a64924"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ContrailOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Contrail One",
+            style: "Regular",
+            full_name: "Contrail One",
+            post_script_name: "ContrailOne-Regular",
+            version: "1.003",
+            filename: "ContrailOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Names \"Contrail\" and \"Contrail One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

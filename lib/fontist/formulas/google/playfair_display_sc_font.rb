@@ -12,14 +12,65 @@ module Fontist
         sha256 "d7ef7e1065720093d53de4d9d0e979e33d5c0c6f005898f0a4da639844c4be7f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PlayfairDisplaySC-Regular.ttf",
-        "Italic" => "PlayfairDisplaySC-Italic.ttf",
-        "Bold" => "PlayfairDisplaySC-Bold.ttf",
-        "BoldItalic" => "PlayfairDisplaySC-BoldItalic.ttf",
-        "Black" => "PlayfairDisplaySC-Black.ttf",
-        "BlackItalic" => "PlayfairDisplaySC-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Playfair Display SC",
+            style: "Regular",
+            full_name: "Playfair Display SC Regular",
+            post_script_name: "PlayfairDisplaySC-Regular",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-Regular.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display SC",
+            style: "Italic",
+            full_name: "Playfair Display SC Italic",
+            post_script_name: "PlayfairDisplaySC-Italic",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-Italic.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display SC",
+            style: "Bold",
+            full_name: "Playfair Display SC Bold",
+            post_script_name: "PlayfairDisplaySC-Bold",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-Bold.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display SC",
+            style: "Bold Italic",
+            full_name: "Playfair Display SC Bold Italic",
+            post_script_name: "PlayfairDisplaySC-BoldItalic",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-BoldItalic.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display SC",
+            style: "Black",
+            full_name: "Playfair Display SC Black",
+            post_script_name: "PlayfairDisplaySC-Black",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-Black.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display SC",
+            style: "Black Italic",
+            full_name: "Playfair Display SC Black Italic",
+            post_script_name: "PlayfairDisplaySC-BlackItalic",
+            version: "1.200; ttfautohint (v1.6)",
+            filename: "PlayfairDisplaySC-BlackItalic.ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

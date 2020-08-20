@@ -12,9 +12,20 @@ module Fontist
         sha256 "8e1205cc2feba0972711b725727dda2b4c6fc0bb8c0e746ad6e60c51251e94d6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rochester-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rochester",
+            style: "Regular",
+            full_name: "Rochester Regular",
+            post_script_name: "Rochester-Regular",
+            version: "1.006",
+            filename: "Rochester-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved. Available under the Apache 2.0 licence.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

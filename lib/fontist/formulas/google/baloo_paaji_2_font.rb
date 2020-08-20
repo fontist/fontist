@@ -12,13 +12,56 @@ module Fontist
         sha256 "ceafccf6742f7715ef929a05e415be0d89e9725ec7cd53ac3bfefac8c9addacb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooPaaji2-Regular.ttf",
-        "Medium" => "BalooPaaji2-Medium.ttf",
-        "SemiBold" => "BalooPaaji2-SemiBold.ttf",
-        "Bold" => "BalooPaaji2-Bold.ttf",
-        "ExtraBold" => "BalooPaaji2-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Paaji 2",
+            style: "Regular",
+            full_name: "Baloo Paaji 2 Regular",
+            post_script_name: "BalooPaaji2-Regular",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooPaaji2-Regular.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Paaji 2",
+            style: "Medium",
+            full_name: "Baloo Paaji 2 Medium",
+            post_script_name: "BalooPaaji2-Medium",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooPaaji2-Medium.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Paaji 2",
+            style: "SemiBold",
+            full_name: "Baloo Paaji 2 SemiBold",
+            post_script_name: "BalooPaaji2-SemiBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooPaaji2-SemiBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Paaji 2",
+            style: "Bold",
+            full_name: "Baloo Paaji 2 Bold",
+            post_script_name: "BalooPaaji2-Bold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooPaaji2-Bold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Paaji 2",
+            style: "ExtraBold",
+            full_name: "Baloo Paaji 2 ExtraBold",
+            post_script_name: "BalooPaaji2-ExtraBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooPaaji2-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

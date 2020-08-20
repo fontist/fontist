@@ -12,9 +12,20 @@ module Fontist
         sha256 "050de7f009d498a5be0df37f6b39996347c6ebf4a681228662726d2f3794da5f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "YatraOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yatra One",
+            style: "Regular",
+            full_name: "Yatra One Regular",
+            post_script_name: "YatraOne-Regular",
+            version: "1.002g;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.4.1)",
+            filename: "YatraOne-Regular.ttf",
+            copyright: "Copyright 2014 The Yatra Project Authors.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

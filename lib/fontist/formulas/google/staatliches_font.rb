@@ -12,9 +12,20 @@ module Fontist
         sha256 "45b23875a81ec80ae5dd4806337555065abdb57d8d341eafa7f6b181cb319c6f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Staatliches-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Staatliches",
+            style: "Regular",
+            full_name: "Staatliches Regular",
+            post_script_name: "Staatliches-Regular",
+            version: "1.000; ttfautohint (v1.8.2) -l 8 -r 50 -G 200 -x 14 -D latn -f none -a qsq -X \"\"",
+            filename: "Staatliches-Regular.ttf",
+            copyright: "Copyright 2018 The Staatliches Project Authors (https://github.com/googlefonts/staatliches)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

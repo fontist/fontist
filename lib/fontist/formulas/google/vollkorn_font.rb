@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Vollkorn[wght].ttf",
-        "Italic" => "Vollkorn-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vollkorn",
+            style: "Regular",
+            full_name: "Vollkorn Regular",
+            post_script_name: "Vollkorn-Regular",
+            version: "5.000",
+            filename: "Vollkorn[wght].ttf",
+            copyright: "Copyright 2018 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+          {
+            family_name: "Vollkorn",
+            style: "Italic",
+            full_name: "Vollkorn Italic",
+            post_script_name: "Vollkorn-Italic",
+            version: "5.000",
+            filename: "Vollkorn-Italic[wght].ttf",
+            copyright: "Copyright 2018 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

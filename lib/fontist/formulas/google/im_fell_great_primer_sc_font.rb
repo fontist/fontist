@@ -12,9 +12,21 @@ module Fontist
         sha256 "a0f21abe13a267c2e604d3a71f45208935c98ab1f8dab5b6cbd1bc74bc67a5c7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFeGPsc28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL Great Primer SC",
+            style: "Regular",
+            full_name: "IM FELL Great Primer SC",
+            post_script_name: "IM_FELL_Great_Primer_SC",
+            version: "3.00",
+            description: "Fell Types - Great Primer size - Small Caps. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1684. To be printed at 17 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeGPsc28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL Great Primer SC",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

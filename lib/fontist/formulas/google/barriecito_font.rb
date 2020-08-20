@@ -12,9 +12,20 @@ module Fontist
         sha256 "8a299e3069969e886ad7f1a115f4d1a027265a61da458049b64a1408452de48a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Barriecito-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Barriecito",
+            style: "Regular",
+            full_name: "Barriecito Regular",
+            post_script_name: "Barriecito-Regular",
+            version: "1.001",
+            filename: "Barriecito-Regular.ttf",
+            copyright: "Copyright 2018 The Barriecito Project Authors (https://github.com/Omnibus-Type/Barrio/Barriecito)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

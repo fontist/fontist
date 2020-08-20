@@ -12,9 +12,20 @@ module Fontist
         sha256 "0be6dc9e4a07464692444ede7b98db100cfd1ddcc5ebb5f021b62010a372abb1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JotiOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Joti One",
+            style: "Regular",
+            full_name: "Joti One",
+            post_script_name: "JotiOne-Regular",
+            version: "1.001",
+            filename: "JotiOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Joti'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

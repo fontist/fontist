@@ -12,11 +12,38 @@ module Fontist
         sha256 "a4cb282b83c3e1ff3fa714f8f3f0b6fb90970a19296db1e87f917acc7575437d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FiraMono-Regular.ttf",
-        "Medium" => "FiraMono-Medium.ttf",
-        "Bold" => "FiraMono-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fira Mono",
+            style: "Regular",
+            full_name: "Fira Mono Regular",
+            post_script_name: "FiraMono-Regular",
+            version: "3.206",
+            filename: "FiraMono-Regular.ttf",
+            copyright: "Digitized data copyright © 2012-2015, The Mozilla Foundation and Telefonica S.A.",
+          },
+          {
+            family_name: "Fira Mono",
+            style: "Medium",
+            full_name: "Fira Mono Medium",
+            post_script_name: "FiraMono-Medium",
+            version: "3.206",
+            filename: "FiraMono-Medium.ttf",
+            copyright: "Digitized data copyright © 2012-2015, The Mozilla Foundation and Telefonica S.A.",
+          },
+          {
+            family_name: "Fira Mono",
+            style: "Bold",
+            full_name: "Fira Mono Bold",
+            post_script_name: "FiraMono-Bold",
+            version: "3.206",
+            filename: "FiraMono-Bold.ttf",
+            copyright: "Digitized data copyright © 2012-2015, The Mozilla Foundation and Telefonica S.A.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

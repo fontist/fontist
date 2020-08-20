@@ -12,16 +12,83 @@ module Fontist
         sha256 "8e25dda0d8a3c582c8eea3a872a299fd9cdd232663686493afd0dac80b7cddef"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sansita-Regular.ttf",
-        "Italic" => "Sansita-Italic.ttf",
-        "Bold" => "Sansita-Bold.ttf",
-        "BoldItalic" => "Sansita-BoldItalic.ttf",
-        "ExtraBold" => "Sansita-ExtraBold.ttf",
-        "ExtraBoldItalic" => "Sansita-ExtraBoldItalic.ttf",
-        "Black" => "Sansita-Black.ttf",
-        "BlackItalic" => "Sansita-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sansita",
+            style: "Regular",
+            full_name: "Sansita Regular",
+            post_script_name: "Sansita-Regular",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-Regular.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "Italic",
+            full_name: "Sansita Italic",
+            post_script_name: "Sansita-Italic",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-Italic.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "Bold",
+            full_name: "Sansita Bold",
+            post_script_name: "Sansita-Bold",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-Bold.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "Bold Italic",
+            full_name: "Sansita Bold Italic",
+            post_script_name: "Sansita-BoldItalic",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-BoldItalic.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "ExtraBold",
+            full_name: "Sansita ExtraBold",
+            post_script_name: "Sansita-ExtraBold",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-ExtraBold.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "ExtraBold Italic",
+            full_name: "Sansita ExtraBold Italic",
+            post_script_name: "Sansita-ExtraBoldItalic",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-ExtraBoldItalic.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "Black",
+            full_name: "Sansita Black",
+            post_script_name: "Sansita-Black",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-Black.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Sansita",
+            style: "Black Italic",
+            full_name: "Sansita Black Italic",
+            post_script_name: "Sansita-BlackItalic",
+            version: "1.006; ttfautohint (v1.5)",
+            filename: "Sansita-BlackItalic.ttf",
+            copyright: "Copyright 2016 The Sansita Project Authors (omnibus.type@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

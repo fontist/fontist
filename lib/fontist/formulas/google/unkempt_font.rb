@@ -12,10 +12,29 @@ module Fontist
         sha256 "2b317bbddd9bddca20ac6e6c4e710f09bbfd974a7deb12df7d188489f8adfa34"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Unkempt-Regular.ttf",
-        "Bold" => "Unkempt-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Unkempt",
+            style: "Regular",
+            full_name: "Unkempt Regular",
+            post_script_name: "Unkempt-Regular",
+            version: "1.001",
+            filename: "Unkempt-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+          {
+            family_name: "Unkempt",
+            style: "Bold",
+            full_name: "Unkempt Bold",
+            post_script_name: "Unkempt-Bold",
+            version: "1.002",
+            filename: "Unkempt-Bold.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reseved Font Name \"Unkempt Bold\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

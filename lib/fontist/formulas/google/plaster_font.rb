@@ -12,9 +12,21 @@ module Fontist
         sha256 "6cbaa0dcf12e6dbc8fd55d69a033e7e31f59e324f0acd49903658f21cc592d79"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Plaster-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Plaster",
+            style: "Regular",
+            full_name: "Plaster",
+            post_script_name: "Plaster-Regular",
+            version: "1.007",
+            description: "Plaster is a very low contrast extremely geometric design done in the tradition of the work of Joseph Albers. Many of the solutions to the glyph design vary from Alber's choices. Plaster is suitable for use in medium to large sizes including headlines.",
+            filename: "Plaster-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Plaster\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,12 +12,47 @@ module Fontist
         sha256 "7e686b4fefc3242eb5d16f1bbcd17934bcaa9fe1469ab174174bbaf6a5bd2fdc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arimo-Regular.ttf",
-        "Italic" => "Arimo-Italic.ttf",
-        "Bold" => "Arimo-Bold.ttf",
-        "BoldItalic" => "Arimo-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arimo",
+            style: "Regular",
+            full_name: "Arimo Regular",
+            post_script_name: "Arimo-Regular",
+            version: "1.23",
+            filename: "Arimo-Regular.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Arimo",
+            style: "Italic",
+            full_name: "Arimo Italic",
+            post_script_name: "Arimo-Italic",
+            version: "1.23",
+            filename: "Arimo-Italic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Arimo",
+            style: "Bold",
+            full_name: "Arimo Bold",
+            post_script_name: "Arimo-Bold",
+            version: "1.23",
+            filename: "Arimo-Bold.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Arimo",
+            style: "Bold Italic",
+            full_name: "Arimo Bold Italic",
+            post_script_name: "Arimo-BoldItalic",
+            version: "1.23",
+            filename: "Arimo-BoldItalic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

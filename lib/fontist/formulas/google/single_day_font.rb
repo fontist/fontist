@@ -12,9 +12,20 @@ module Fontist
         sha256 "2ac190a249adf574efc093db54e43097b2ea87b8622d690c44fc7591a54d1da0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SingleDay-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Single Day",
+            style: "Regular",
+            full_name: "Single Day Regular",
+            post_script_name: "SingleDay-Regular",
+            version: "1.00",
+            filename: "SingleDay-Regular.ttf",
+            copyright: "Copyright 2015 DXKorea Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

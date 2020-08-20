@@ -12,9 +12,20 @@ module Fontist
         sha256 "ff0c61c674571700feaf1cd8ac92ac269dbea51f21b320a4040d77396df7d213"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Revalia-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Revalia",
+            style: "Regular",
+            full_name: "Revalia-Regular",
+            post_script_name: "Revalia-Regular",
+            version: "1.001",
+            filename: "Revalia-Regular.ttf",
+            copyright: "Copyright (c) 2011, Johan Kallas (johankallas@gmail.com), Copyright (c) 2011, Mihkel Virkus (mihkelvirkus@gmail.com), with Reserved Font Name Revalia.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

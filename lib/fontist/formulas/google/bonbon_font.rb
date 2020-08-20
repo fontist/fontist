@@ -12,9 +12,25 @@ module Fontist
         sha256 "ede848c22d50d8f8614831d39e93a25b3abaaf5d25c772deded3757ac4cf6c4d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bonbon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bonbon",
+            style: "Regular",
+            full_name: "Bonbon Regular",
+            post_script_name: "Bonbon-Regular",
+            version: "1.001",
+            filename: "Bonbon-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Bonbon\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

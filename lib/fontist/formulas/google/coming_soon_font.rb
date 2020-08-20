@@ -12,9 +12,20 @@ module Fontist
         sha256 "1749a16a91b2128301a4b7ef8eabfea6c41a2049e7b3fb00b8d453c00b40c4d9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ComingSoon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Coming Soon",
+            style: "Regular",
+            full_name: "Coming Soon Regular",
+            post_script_name: "ComingSoon-Regular",
+            version: "1.002",
+            filename: "ComingSoon-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Open Window. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

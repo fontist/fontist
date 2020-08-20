@@ -12,9 +12,21 @@ module Fontist
         sha256 "48ac88d6c517ca8542a078cb11ea2c19a10dad9e3dfd713a334856a72c9b5906"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Combo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Combo",
+            style: "Regular",
+            full_name: "Combo",
+            post_script_name: "Combo-Regular",
+            version: "1.001",
+            description: "Combo has a simple structure, based on the elliptical arcs and strokes of a flat-tipped marker pen. This display typeface is suitable for use in advertisements, headlines and short texts.",
+            filename: "Combo-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Combo'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

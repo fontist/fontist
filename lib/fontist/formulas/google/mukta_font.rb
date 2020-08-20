@@ -12,15 +12,74 @@ module Fontist
         sha256 "8e3c18500529f014682f438be21754ca499431547c12d9e2a823ec9532cffff9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Mukta-ExtraLight.ttf",
-        "Light" => "Mukta-Light.ttf",
-        "Regular" => "Mukta-Regular.ttf",
-        "Medium" => "Mukta-Medium.ttf",
-        "SemiBold" => "Mukta-SemiBold.ttf",
-        "Bold" => "Mukta-Bold.ttf",
-        "ExtraBold" => "Mukta-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mukta",
+            style: "ExtraLight",
+            full_name: "Mukta ExtraLight",
+            post_script_name: "Mukta-ExtraLight",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-ExtraLight.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "Light",
+            full_name: "Mukta Light",
+            post_script_name: "Mukta-Light",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-Light.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "Regular",
+            full_name: "Mukta Regular",
+            post_script_name: "Mukta-Regular",
+            version: "2.538;PS 1.001;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-Regular.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "Medium",
+            full_name: "Mukta Medium",
+            post_script_name: "Mukta-Medium",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-Medium.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "SemiBold",
+            full_name: "Mukta SemiBold",
+            post_script_name: "Mukta-SemiBold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-SemiBold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "Bold",
+            full_name: "Mukta Bold",
+            post_script_name: "Mukta-Bold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-Bold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta",
+            style: "ExtraBold",
+            full_name: "Mukta ExtraBold",
+            post_script_name: "Mukta-ExtraBold",
+            version: "2.538;PS 1.002;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "Mukta-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014, Girish Dalvi, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

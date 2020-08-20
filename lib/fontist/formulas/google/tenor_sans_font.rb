@@ -12,9 +12,21 @@ module Fontist
         sha256 "eee288086179243f95074dba3283c39f4df5eae15fd0b256d3d816405a81727c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TenorSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tenor Sans",
+            style: "Regular",
+            full_name: "Tenor Sans",
+            post_script_name: "TenorSans",
+            version: "1.1",
+            description: "Copyright (c) 2010, 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "TenorSans-Regular.ttf",
+            copyright: "Copyright (c) 2010, 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

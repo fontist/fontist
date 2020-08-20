@@ -12,12 +12,47 @@ module Fontist
         sha256 "7faf17148feb3b6759dea572a9bd9930412360650d90be1779e9ea237fd0e492"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cuprum-Regular.ttf",
-        "Italic" => "Cuprum-Italic.ttf",
-        "Bold" => "Cuprum-Bold.ttf",
-        "BoldItalic" => "Cuprum-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cuprum",
+            style: "Regular",
+            full_name: "Cuprum Regular",
+            post_script_name: "Cuprum-Regular",
+            version: "2.000",
+            filename: "Cuprum-Regular.ttf",
+            copyright: "Copyright 2010 The Cuprum Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Cuprum\".",
+          },
+          {
+            family_name: "Cuprum",
+            style: "Italic",
+            full_name: "Cuprum Italic",
+            post_script_name: "Cuprum-Italic",
+            version: "2.000",
+            filename: "Cuprum-Italic.ttf",
+            copyright: "Copyright 2010 The Cuprum Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Cuprum\".",
+          },
+          {
+            family_name: "Cuprum",
+            style: "Bold",
+            full_name: "Cuprum Bold",
+            post_script_name: "Cuprum-Bold",
+            version: "2.000",
+            filename: "Cuprum-Bold.ttf",
+            copyright: "Copyright 2010 The Cuprum Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Cuprum\".",
+          },
+          {
+            family_name: "Cuprum",
+            style: "Bold Italic",
+            full_name: "Cuprum Bold Italic",
+            post_script_name: "Cuprum-BoldItalic",
+            version: "2.000",
+            filename: "Cuprum-BoldItalic.ttf",
+            copyright: "Copyright 2010 The Cuprum Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Cuprum\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

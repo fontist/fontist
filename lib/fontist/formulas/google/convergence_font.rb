@@ -12,9 +12,20 @@ module Fontist
         sha256 "44e28282debdb8174c64c105a27e33a054ef539b9fd8154fd525e09f301ec523"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Convergence-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Convergence",
+            style: "Regular",
+            full_name: "Convergence-Regular",
+            post_script_name: "Convergence-Regular",
+            version: "1.002",
+            filename: "Convergence-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Jos Nicols Silva Schwarzenberg.<info@nsilva.com> and John Vargas Beltran <http://www.johnvargasbeltran.com/>, with Reserved Font Names \"Convergence\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

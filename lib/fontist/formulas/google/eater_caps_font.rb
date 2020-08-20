@@ -12,9 +12,20 @@ module Fontist
         sha256 "c185b7acb167034d68aed86d4c191343251d2dc38b6d93c089c0b50e3a5ffb60"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EaterCaps-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Eater Caps",
+            style: "Regular",
+            full_name: "Eater Caps Regular",
+            post_script_name: "EaterCaps-Regular",
+            version: "001.002",
+            filename: "EaterCaps-Regular.ttf",
+            copyright: "Copyright (c) 2011, Typomondo, with Reserved Font Name  \"Eater\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

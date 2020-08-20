@@ -12,9 +12,20 @@ module Fontist
         sha256 "bb72cfb973c6ae5e4af3db42734389ca1cfe851077be3b171a25f00f7d93db5a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LiuJianMaoCao-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Liu Jian Mao Cao",
+            style: "Regular",
+            full_name: "Liu Jian Mao Cao Regular",
+            post_script_name: "LiuJianMaoCao-Regular",
+            version: "1.001",
+            filename: "LiuJianMaoCao-Regular.ttf",
+            copyright: "Copyright 2018 The Liu Jian Mao Cao Project Authors (https://www.github.com/googlefonts/liujianmaocao)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

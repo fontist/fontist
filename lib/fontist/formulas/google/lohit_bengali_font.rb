@@ -12,9 +12,20 @@ module Fontist
         sha256 "969d61c500ba56119d9440b70bc306c412817e61d4f2bd2ce41f70c8b0293269"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lohit-Bengali.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lohit Bengali",
+            style: "Regular",
+            full_name: "Lohit Bengali",
+            post_script_name: "Lohit-Bengali",
+            version: "2.5.1",
+            filename: "Lohit-Bengali.ttf",
+            copyright: "Copyright 2011-12 Lohit Fonts Project contributors.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

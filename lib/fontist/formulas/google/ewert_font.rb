@@ -12,9 +12,20 @@ module Fontist
         sha256 "b9084078fd96fab5738501d9c2d626d02c8bc9ed8aef712bc68b5b327c1fb415"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ewert-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ewert",
+            style: "Regular",
+            full_name: "Ewert",
+            post_script_name: "Ewert-Regular",
+            version: "1.001",
+            filename: "Ewert-Regular.ttf",
+            copyright: "Copyright (c) 2011, Johan Kallas (johankallas@gmail.com), Copyright (c) 2011 Mihkel Virkus (mihkelvirkus@gmail.com) with Reserved Font Name Ewert.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

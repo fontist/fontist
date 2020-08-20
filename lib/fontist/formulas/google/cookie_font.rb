@@ -12,9 +12,20 @@ module Fontist
         sha256 "d3730e910fbd599b55c40181ccbae5020bdd912915143601cadfcc0df7b8f610"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cookie-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cookie",
+            style: "Regular",
+            full_name: "Cookie-Regular",
+            post_script_name: "Cookie-Regular",
+            version: "1.004",
+            filename: "Cookie-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Ania Kruk (hello@aniakruk.com), with Reserved Font Name Cookie.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,15 +12,74 @@ module Fontist
         sha256 "7d3e91bc464596a04ec7e90858a9e8fa70466a1d284aee0ed9b603d11c0cd61e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "MartelSans-ExtraLight.ttf",
-        "Light" => "MartelSans-Light.ttf",
-        "Regular" => "MartelSans-Regular.ttf",
-        "SemiBold" => "MartelSans-SemiBold.ttf",
-        "Bold" => "MartelSans-Bold.ttf",
-        "ExtraBold" => "MartelSans-ExtraBold.ttf",
-        "Black" => "MartelSans-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Martel Sans",
+            style: "ExtraLight",
+            full_name: "Martel Sans ExtraLight",
+            post_script_name: "MartelSans-ExtraLight",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-ExtraLight.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "Light",
+            full_name: "Martel Sans Light",
+            post_script_name: "MartelSans-Light",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-Light.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "Regular",
+            full_name: "Martel Sans Regular",
+            post_script_name: "MartelSans-Regular",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-Regular.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "SemiBold",
+            full_name: "Martel Sans SemiBold",
+            post_script_name: "MartelSans-SemiBold",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "Bold",
+            full_name: "Martel Sans Bold",
+            post_script_name: "MartelSans-Bold",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-Bold.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "ExtraBold",
+            full_name: "Martel Sans ExtraBold",
+            post_script_name: "MartelSans-ExtraBold",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+          {
+            family_name: "Martel Sans",
+            style: "Black",
+            full_name: "Martel Sans Black",
+            post_script_name: "MartelSans-Black",
+            version: "1.002; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "MartelSans-Black.ttf",
+            copyright: "Copyright (c) 2014 Dan Reynolds. Copyright (c) 2014 Mathieu Réguer.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

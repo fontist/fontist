@@ -12,9 +12,20 @@ module Fontist
         sha256 "ad4cda6b559393c5229b5e8cc3723be0e7ab564db7a33ac841328a7287624fae"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Pangolin-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pangolin",
+            style: "Regular",
+            full_name: "Pangolin Regular",
+            post_script_name: "Pangolin-Regular",
+            version: "1.101",
+            filename: "Pangolin-Regular.ttf",
+            copyright: "Copyright 2016 The Pangolin Project Authors (https://github.com/googlefonts/pangolin)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

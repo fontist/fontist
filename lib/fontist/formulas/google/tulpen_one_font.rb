@@ -12,9 +12,20 @@ module Fontist
         sha256 "56618c5b99cca3a83e350e65bdac99823690c44e1b17ee7b9139e28eb92f462f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TulpenOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tulpen One",
+            style: "Regular",
+            full_name: "Tulpen One",
+            post_script_name: "TulpenOne-Regular",
+            version: "1.002",
+            filename: "TulpenOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Naima Ben Ayed, with Reserved Font Names \"Tulpen\" and \"Tulpen One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

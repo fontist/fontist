@@ -12,9 +12,20 @@ module Fontist
         sha256 "005c1b9d5bf5ab25e846711e9686430497c225e472f18e0695b542aafbef34b2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooBhaina-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Bhaina",
+            style: "Regular",
+            full_name: "Baloo Bhaina Regular",
+            post_script_name: "BalooBhaina-Regular",
+            version: "1.443;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "BalooBhaina-Regular.ttf",
+            copyright: "Copyright (c) 2015 Ek Type (www.ektype.in)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,22 @@ module Fontist
         sha256 "b17f58df37654a6f7c3a986ef1e811f565c7974a8f1ba9789afb65f31d4f3dd6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sarina-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sarina",
+            style: "Regular",
+            full_name: "Sarina",
+            post_script_name: "Sarina-Regular",
+            version: "1.001",
+            description: "Sarina is a display typeface with brush style letterforms. Sarina's medium contrast and wide setting offers a casual breezy feeling. Sarina is appropriate for medium to larger sizes.",
+            filename: "Sarina-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Sarina\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

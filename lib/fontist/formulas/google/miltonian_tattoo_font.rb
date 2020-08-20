@@ -12,9 +12,20 @@ module Fontist
         sha256 "329a90aa99989a25d4a4a65b2b1b6b1100b921e74dd76c23244187bfc7cde335"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MiltonianTattoo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Miltonian Tattoo",
+            style: "Regular",
+            full_name: "Miltonian Tattoo",
+            post_script_name: "MiltonianTattoo-Regular",
+            version: "1.008",
+            filename: "MiltonianTattoo-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Pablo Impallari (www.impallari.com impallari@gmail.com). Igino Marini (www.ikern.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

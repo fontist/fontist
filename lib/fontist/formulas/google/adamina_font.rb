@@ -12,9 +12,20 @@ module Fontist
         sha256 "aa3f14fa827c51747b7728e18d54105c933b88b6103195f48a0bf3db9bd8d3aa"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Adamina-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Adamina",
+            style: "Regular",
+            full_name: "Adamina Regular",
+            post_script_name: "Adamina-Regular",
+            version: "1.013",
+            filename: "Adamina-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name 'Adamina'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

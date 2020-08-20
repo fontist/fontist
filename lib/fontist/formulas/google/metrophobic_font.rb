@@ -12,9 +12,20 @@ module Fontist
         sha256 "272c97fab17664618efe73e227296a3d5b5a719165021a9b4f197fe2a9c68a32"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Metrophobic-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Metrophobic",
+            style: "Regular",
+            full_name: "Metrophobic Regular",
+            post_script_name: "Metrophobic-Regular",
+            version: "3.100",
+            filename: "Metrophobic-Regular.ttf",
+            copyright: "Copyright 2011 The Metrophobic Project Authors (https://github.com/googlefonts/MetrophobicFont), with Reserved Font Name 'Metrophobic'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

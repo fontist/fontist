@@ -12,13 +12,56 @@ module Fontist
         sha256 "32989a14a7085655d05546ee7cf0e53bf1e86e16f02915834208ddba66377f37"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Rasa-Light.ttf",
-        "Regular" => "Rasa-Regular.ttf",
-        "Medium" => "Rasa-Medium.ttf",
-        "SemiBold" => "Rasa-SemiBold.ttf",
-        "Bold" => "Rasa-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rasa",
+            style: "Light",
+            full_name: "Rasa Light",
+            post_script_name: "Rasa-Light",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Rasa-Light.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Rasa",
+            style: "Regular",
+            full_name: "Rasa Regular",
+            post_script_name: "Rasa-Regular",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Rasa-Regular.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Rasa",
+            style: "Medium",
+            full_name: "Rasa Medium",
+            post_script_name: "Rasa-Medium",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Rasa-Medium.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Rasa",
+            style: "SemiBold",
+            full_name: "Rasa SemiBold",
+            post_script_name: "Rasa-SemiBold",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Rasa-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Rasa",
+            style: "Bold",
+            full_name: "Rasa Bold",
+            post_script_name: "Rasa-Bold",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Rasa-Bold.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

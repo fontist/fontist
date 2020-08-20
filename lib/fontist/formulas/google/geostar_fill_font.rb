@@ -12,9 +12,21 @@ module Fontist
         sha256 "43d420764e24204a4aad3b738f78e3baf378cb00d1f116e5c2915120e8ca05ad"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GeostarFill-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Geostar Fill",
+            style: "Regular",
+            full_name: "Geostar Fill",
+            post_script_name: "GeostarFill-Regular",
+            version: "1.002",
+            description: "Copyright (c) 2011, Admix Designs (http://www.admixdesigns.com/) with Reserved Font Name Geostar.",
+            filename: "GeostarFill-Regular.ttf",
+            copyright: "Copyright (c) 2011, Admix Designs (http://www.admixdesigns.com/) with Reserved Font Name Geostar.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

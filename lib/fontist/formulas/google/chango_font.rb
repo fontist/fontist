@@ -12,9 +12,20 @@ module Fontist
         sha256 "ba860ab827227b5e450e498a56d0c1c53396b98306f2ffbdf8d911c0e83e16ad"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chango-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chango",
+            style: "Regular",
+            full_name: "Chango Regular",
+            post_script_name: "Chango-Regular",
+            version: "1.001",
+            filename: "Chango-Regular.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Chango\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

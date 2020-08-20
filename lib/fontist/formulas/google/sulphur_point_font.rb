@@ -12,11 +12,38 @@ module Fontist
         sha256 "4d8617d8e468760809248d5c36990f143260ba67370006c22e384361c19f5f46"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "SulphurPoint-Light.ttf",
-        "Regular" => "SulphurPoint-Regular.ttf",
-        "Bold" => "SulphurPoint-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sulphur Point",
+            style: "Light",
+            full_name: "Sulphur Point Light",
+            post_script_name: "SulphurPoint-Light",
+            version: "1.000; ttfautohint (v1.8)",
+            filename: "SulphurPoint-Light.ttf",
+            copyright: "Copyright 2019 The Sulphur Point Project Authors (https://github.com/noponies)",
+          },
+          {
+            family_name: "Sulphur Point",
+            style: "Regular",
+            full_name: "Sulphur Point Regular",
+            post_script_name: "SulphurPoint-Regular",
+            version: "1.000; ttfautohint (v1.8)",
+            filename: "SulphurPoint-Regular.ttf",
+            copyright: "Copyright 2019 The Sulphur Point Project Authors (https://github.com/noponies)",
+          },
+          {
+            family_name: "Sulphur Point",
+            style: "Bold",
+            full_name: "Sulphur Point Bold",
+            post_script_name: "SulphurPoint-Bold",
+            version: "1.000; ttfautohint (v1.8)",
+            filename: "SulphurPoint-Bold.ttf",
+            copyright: "Copyright 2019 The Sulphur Point Project Authors (https://github.com/noponies)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

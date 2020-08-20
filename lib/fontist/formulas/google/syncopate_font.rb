@@ -12,10 +12,31 @@ module Fontist
         sha256 "198c1be26a6b5a64efc9c58e0c6ccb78657bb24284b992fefe3eb811325919e5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Syncopate-Regular.ttf",
-        "Bold" => "Syncopate-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Syncopate",
+            style: "Regular",
+            full_name: "Syncopate Regular",
+            post_script_name: "Syncopate-Regular",
+            version: "001.001",
+            filename: "Syncopate-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+          {
+            family_name: "Syncopate",
+            style: "Bold",
+            full_name: "Syncopate Bold",
+            post_script_name: "Syncopate-Bold",
+            version: "1.001 2011",
+            filename: "Syncopate-Bold.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

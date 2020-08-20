@@ -12,9 +12,20 @@ module Fontist
         sha256 "69ca9bb8b9138e3ddffcb988093e2949f48906a3515f9ed01504d7953251c2dc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TextMeOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Text Me One",
+            style: "Regular",
+            full_name: "Text Me One",
+            post_script_name: "TextMeOne-Regular",
+            version: "1.003",
+            filename: "TextMeOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Julia Petretta (julia.petretta@googlemail.com), with Reserved Font Name 'Text Me'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

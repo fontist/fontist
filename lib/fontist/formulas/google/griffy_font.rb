@@ -12,9 +12,20 @@ module Fontist
         sha256 "4c0acadd228ede7f1737088377ffb04fd231fdd58ff4b94089765e2a03a4a676"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Griffy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Griffy",
+            style: "Regular",
+            full_name: "Griffy",
+            post_script_name: "Griffy-Regular",
+            version: "1.000",
+            filename: "Griffy-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Griffy\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

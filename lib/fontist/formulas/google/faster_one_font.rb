@@ -12,9 +12,20 @@ module Fontist
         sha256 "042bba0236c4d21a526f41b247366cd1b2a22fde81132f0d09bc13c596655589"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FasterOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Faster One",
+            style: "Regular",
+            full_name: "Faster One",
+            post_script_name: "FasterOne-Regular",
+            version: "1.002",
+            filename: "FasterOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Faster'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

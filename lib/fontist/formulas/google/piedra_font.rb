@@ -12,9 +12,22 @@ module Fontist
         sha256 "69b88c4a735282f06f39407eec98af6615b493a76680758cb8321cdb9d071a58"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Piedra-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Piedra",
+            style: "Regular",
+            full_name: "Piedra Regular",
+            post_script_name: "Piedra-Regular",
+            version: "1.000",
+            filename: "Piedra-Regular.ttf",
+            copyright: "Copyright (c) 2011 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2011 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Piedra\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Comfortaa[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Comfortaa",
+            style: "Regular",
+            full_name: "Comfortaa Regular",
+            post_script_name: "Comfortaa-Regular",
+            version: "3.104; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Comfortaa[wght].ttf",
+            copyright: "Copyright 2011 The Comfortaa Project Authors (https://github.com/alexeiva/comfortaa), with Reserved Font Name \"Comfortaa\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

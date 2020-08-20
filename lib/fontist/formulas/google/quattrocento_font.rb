@@ -12,10 +12,41 @@ module Fontist
         sha256 "85e839f1ba17a6843320c02ddef7581f445b9a5ab68ce63b68f1b8559a713001"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Quattrocento-Regular.ttf",
-        "Bold" => "Quattrocento-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quattrocento",
+            style: "Regular",
+            full_name: "Quattrocento",
+            post_script_name: "Quattrocento",
+            version: "2.000",
+            description: "Quattrocento Roman is a Classic, Elegant, Sober and Strong typeface.
+Their wide and open letterforms, and great x-height, make it very legible for body text at small sizes.
+And their tiny details that only shows up at bigger sizes make it also great for display use.",
+            filename: "Quattrocento-Regular.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento.",
+          },
+          {
+            family_name: "Quattrocento",
+            style: "Bold",
+            full_name: "Quattrocento Bold",
+            post_script_name: "Quattrocento-Bold",
+            version: "2.000",
+            description: "Quattrocento Roman is a Classic, Elegant, Sober and Strong typeface.
+Their wide and open letterforms, and great x-height, make it very legible for body text at small sizes.
+And their tiny details that only shows up at bigger sizes make it also great for display use.",
+            filename: "Quattrocento-Bold.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+with Reserved Font Name Quattrocento.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

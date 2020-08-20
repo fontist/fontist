@@ -12,9 +12,20 @@ module Fontist
         sha256 "f5ebbbff2f324a31ca67e8028a02e9afc0b4170362c5fc9fbd2d8f221079bbe0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LakkiReddy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lakki Reddy",
+            style: "Regular",
+            full_name: "Lakki Reddy",
+            post_script_name: "LakkiReddy",
+            version: "1.0.4; ttfautohint (v1.2.42-39fb)",
+            filename: "LakkiReddy-Regular.ttf",
+            copyright: "Copyright (c) 2011 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2010 by Font Diner, Inc DBA Sideshow.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

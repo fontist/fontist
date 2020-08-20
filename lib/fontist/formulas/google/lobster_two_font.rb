@@ -12,12 +12,51 @@ module Fontist
         sha256 "994bb680db25f72c527fc6b963a23291657fee1ba041a0461385d8d724a27c61"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LobsterTwo-Regular.ttf",
-        "Italic" => "LobsterTwo-Italic.ttf",
-        "Bold" => "LobsterTwo-Bold.ttf",
-        "BoldItalic" => "LobsterTwo-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lobster Two",
+            style: "Regular",
+            full_name: "Lobster Two",
+            post_script_name: "LobsterTwo",
+            version: "1.006",
+            description: "Copyright (c) 2011 by Pablo Impallari. All rights reserved.",
+            filename: "LobsterTwo-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Pablo Impallari. www.impallari.com. All rights reserved.",
+          },
+          {
+            family_name: "Lobster Two",
+            style: "Italic",
+            full_name: "Lobster Two Italic",
+            post_script_name: "LobsterTwo-Italic",
+            version: "1.006",
+            description: "Copyright (c) 2011 by Pablo Impallari. All rights reserved.",
+            filename: "LobsterTwo-Italic.ttf",
+            copyright: "Copyright (c) 2011 by Pablo Impallari. www.impallari.com. All rights reserved.",
+          },
+          {
+            family_name: "Lobster Two",
+            style: "Bold",
+            full_name: "Lobster Two Bold",
+            post_script_name: "LobsterTwo-Bold",
+            version: "1.006",
+            description: "Copyright (c) 2011 by Pablo Impallari. All rights reserved.",
+            filename: "LobsterTwo-Bold.ttf",
+            copyright: "Copyright (c) 2011 by Pablo Impallari. www.impallari.com. All rights reserved.",
+          },
+          {
+            family_name: "Lobster Two",
+            style: "Bold Italic",
+            full_name: "Lobster Two Bold Italic",
+            post_script_name: "LobsterTwo-BoldItalic",
+            version: "1.006",
+            description: "Copyright (c) 2011 by Pablo Impallari. All rights reserved.",
+            filename: "LobsterTwo-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011 by Pablo Impallari. www.impallari.com. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

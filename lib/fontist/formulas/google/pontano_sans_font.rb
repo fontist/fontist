@@ -12,9 +12,20 @@ module Fontist
         sha256 "44750de2748973e22154c698d160e7259bcffd7a231ddeee753f65c47bc6a539"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PontanoSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pontano Sans",
+            style: "Regular",
+            full_name: "Pontano Sans",
+            post_script_name: "PontanoSans-Regular",
+            version: "1.001",
+            filename: "PontanoSans-Regular.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Potano\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

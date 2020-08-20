@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Recursive",
+            style: "Sans Linear Light",
+            full_name: "Recursive Sans Linear Light",
+            post_script_name: "Recursive-SansLinearLight",
+            version: "1.047",
+            filename: "Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
+            copyright: "Copyright 2019 The Recursive Project Authors (github.com/arrowtype/recursive)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,22 @@ module Fontist
         sha256 "d3abc808a79684b8e070e172a6bc9292733c409c2765c7977869a1fc505a711f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chicle-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chicle",
+            style: "Regular",
+            full_name: "Chicle Regular",
+            post_script_name: "Chicle-Regular",
+            version: "1.000",
+            filename: "Chicle-Regular.ttf",
+            copyright: "Copyright (c) 2007 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2007 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Chicle\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

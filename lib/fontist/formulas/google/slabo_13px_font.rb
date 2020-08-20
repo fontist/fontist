@@ -12,9 +12,20 @@ module Fontist
         sha256 "2aa72f1f91f7138e499636536fd923cb48cd991b8d1bfcb0f5e05dc4ae1aaea8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Slabo13px-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Slabo 13px",
+            style: "Regular",
+            full_name: "Slabo 13px",
+            post_script_name: "Slabo13px-Regular",
+            version: "1.02 Build 005a",
+            filename: "Slabo13px-Regular.ttf",
+            copyright: "Copyright (c) 2013, Tiro Typeworks Ltd (www.tiro.com).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

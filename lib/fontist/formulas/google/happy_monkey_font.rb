@@ -12,9 +12,20 @@ module Fontist
         sha256 "4d13565209b3257005ab1404e3602e6dec31a34a0b1796a4ad190c6b4858a68b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HappyMonkey-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Happy Monkey",
+            style: "Regular",
+            full_name: "Happy Monkey",
+            post_script_name: "HappyMonkey-Regular",
+            version: "1.001",
+            filename: "HappyMonkey-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brenda Gallo (gbrenda1987@gmail.com), with Reserved Font Name \"Happy Monkey\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

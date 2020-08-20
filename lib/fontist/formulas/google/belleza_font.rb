@@ -12,9 +12,20 @@ module Fontist
         sha256 "c4e849cb0d80be40007053fd311e6efbaa0e227b365b7092901e3a59b84f3a85"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Belleza-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Belleza",
+            style: "Regular",
+            full_name: "Belleza Regular",
+            post_script_name: "Belleza-Regular",
+            version: "1.002",
+            filename: "Belleza-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Belleza\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

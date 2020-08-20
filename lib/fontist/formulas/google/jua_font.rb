@@ -12,9 +12,20 @@ module Fontist
         sha256 "7f92253d2681bed77e6674df74739bff563c05048482db854e5300f0e62a8ab4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jua-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jua",
+            style: "Regular",
+            full_name: "Jua Regular",
+            post_script_name: "Jua-Regular",
+            version: "1.00",
+            filename: "Jua-Regular.ttf",
+            copyright: "Copyright 2018 The BM JUA Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

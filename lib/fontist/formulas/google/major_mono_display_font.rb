@@ -12,9 +12,20 @@ module Fontist
         sha256 "edc41608af028e326145ea27ce2c6344e9a7dfdf29117dabf5ffb65c93d847c0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MajorMonoDisplay-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Major Mono Display",
+            style: "Regular",
+            full_name: "Major Mono Display Regular",
+            post_script_name: "MajorMonoDisplay-Regular",
+            version: "2.000; ttfautohint (v1.8) -l 8 -r 50 -G 200 -x 14 -D latn -f none -a qsq -X \"\"",
+            filename: "MajorMonoDisplay-Regular.ttf",
+            copyright: "Copyright 2018 The Major Mono Project Authors (https://github.com/googlefonts/majormono)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

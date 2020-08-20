@@ -12,9 +12,21 @@ module Fontist
         sha256 "209667b1fd094ca8d796cc2f73e95ed7ca32a062c2e474b27c29c43e25fc5dca"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JustAnotherHand-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Just Another Hand",
+            style: "Regular",
+            full_name: "Just Another Hand Regular",
+            post_script_name: "JustAnotherHand-Regular",
+            version: "1.001",
+            filename: "JustAnotherHand-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

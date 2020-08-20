@@ -12,9 +12,20 @@ module Fontist
         sha256 "6ba52c9cb275d280718135966912c14e6812712ec3216ab664cdc43e36b18df2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Telex-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Telex",
+            style: "Regular",
+            full_name: "Telex Regular",
+            post_script_name: "Telex-Regular",
+            version: "1.100",
+            filename: "Telex-Regular.ttf",
+            copyright: "Copyright 2011 The Telex Project Authors (info@andrestorresi.com.ar), with Reserved Font Name Telex.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

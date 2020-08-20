@@ -12,9 +12,23 @@ module Fontist
         sha256 "df03cbd101b82ae4b08b4e503cb7a9505436bb77d3ea706ddf357621fa91761e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Armata-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Armata",
+            style: "Regular",
+            full_name: "Armata Regular",
+            post_script_name: "Armata-Regular",
+            version: "1.003",
+            filename: "Armata-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Armata\"
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

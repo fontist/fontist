@@ -12,9 +12,21 @@ module Fontist
         sha256 "62b292c8507c6cff550c06c01039a04d174f995b90aa5316cd6ca57f54658817"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "UncialAntiqua-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Uncial Antiqua",
+            style: "Regular",
+            full_name: "Uncial Antiqua",
+            post_script_name: "UncialAntiqua-Regular",
+            version: "1.000",
+            filename: "UncialAntiqua-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Uncial Antiqua\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "9deb4f73d002883fa27d31318dbe6aa7a7ab8e876ce5835c949a4f3e18847fea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gorditas-Regular.ttf",
-        "Bold" => "Gorditas-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gorditas",
+            style: "Regular",
+            full_name: "Gorditas",
+            post_script_name: "Gorditas-Regular",
+            version: "1.001",
+            filename: "Gorditas-Regular.ttf",
+            copyright: "Copyright (c) 2011, Gustavo Dipre (gbrenda1987@gmail.com), with Reserved Font Name \"Gorditas\".",
+          },
+          {
+            family_name: "Gorditas",
+            style: "Bold",
+            full_name: "Gorditas Bold",
+            post_script_name: "Gorditas-Bold",
+            version: "001.001",
+            filename: "Gorditas-Bold.ttf",
+            copyright: "Copyright (c) 2011, Gustavo Dipre (gbrenda1987@gmail.com), with Reserved Font Name \"Gorditas\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

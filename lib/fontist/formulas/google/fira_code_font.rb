@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FiraCode[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fira Code",
+            style: "Light",
+            full_name: "Fira Code Light",
+            post_script_name: "FiraCode-Light",
+            version: "1.208",
+            filename: "FiraCode[wght].ttf",
+            copyright: "Copyright 2012-2015 The Fira Code Project Authors (https://github.com/tonsky/FiraCode)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

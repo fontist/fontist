@@ -12,14 +12,65 @@ module Fontist
         sha256 "7abadbf1f572e49fdc765851546cd2b5a33abd491bd4d6c53ff256702b52b6b3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "InriaSans-Light.ttf",
-        "LightItalic" => "InriaSans-LightItalic.ttf",
-        "Regular" => "InriaSans-Regular.ttf",
-        "Italic" => "InriaSans-Italic.ttf",
-        "Bold" => "InriaSans-Bold.ttf",
-        "BoldItalic" => "InriaSans-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inria Sans",
+            style: "Light",
+            full_name: "Inria Sans Light",
+            post_script_name: "InriaSans-Light",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-Light.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+          {
+            family_name: "Inria Sans",
+            style: "Light Italic",
+            full_name: "Inria Sans Light Italic",
+            post_script_name: "InriaSans-LightItalic",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-LightItalic.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+          {
+            family_name: "Inria Sans",
+            style: "Regular",
+            full_name: "Inria Sans Regular",
+            post_script_name: "InriaSans-Regular",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-Regular.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+          {
+            family_name: "Inria Sans",
+            style: "Italic",
+            full_name: "Inria Sans Italic",
+            post_script_name: "InriaSans-Italic",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-Italic.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+          {
+            family_name: "Inria Sans",
+            style: "Bold",
+            full_name: "Inria Sans Bold",
+            post_script_name: "InriaSans-Bold",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-Bold.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+          {
+            family_name: "Inria Sans",
+            style: "Bold Italic",
+            full_name: "Inria Sans Bold Italic",
+            post_script_name: "InriaSans-BoldItalic",
+            version: "1.2; ttfautohint (v1.8.3)",
+            filename: "InriaSans-BoldItalic.ttf",
+            copyright: "Copyright 2017 The Inria Sans Project Authors (https://github.com/BlackFoundryCom/InriaFonts)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

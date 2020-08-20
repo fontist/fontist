@@ -12,9 +12,22 @@ module Fontist
         sha256 "446ff95fe2b0673e20f1508f9303e8f218e780b0df39a8b53d400549355f413b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NewRocker-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "New Rocker",
+            style: "Regular",
+            full_name: "New Rocker",
+            post_script_name: "NewRocker-Regular",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "NewRocker is a loud, harsh, screaming font.
+With Blackletter, Tattoo and Heavy Metal logos as inspiration.",
+            filename: "NewRocker-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com), Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name 'New Rocker'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

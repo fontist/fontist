@@ -12,13 +12,56 @@ module Fontist
         sha256 "72b67ccb23947064a03385f5cb569403cf2f4ad559222a25ffbc6e575c33e128"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Khula-Light.ttf",
-        "Regular" => "Khula-Regular.ttf",
-        "SemiBold" => "Khula-SemiBold.ttf",
-        "Bold" => "Khula-Bold.ttf",
-        "ExtraBold" => "Khula-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Khula",
+            style: "Light",
+            full_name: "Khula Light",
+            post_script_name: "Khula-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D deva -f latn -w G",
+            filename: "Khula-Light.ttf",
+            copyright: "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+          },
+          {
+            family_name: "Khula",
+            style: "Regular",
+            full_name: "Khula Regular",
+            post_script_name: "Khula-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D deva -f latn -w G",
+            filename: "Khula-Regular.ttf",
+            copyright: "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+          },
+          {
+            family_name: "Khula",
+            style: "SemiBold",
+            full_name: "Khula SemiBold",
+            post_script_name: "Khula-SemiBold",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D deva -f latn -w G",
+            filename: "Khula-SemiBold.ttf",
+            copyright: "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+          },
+          {
+            family_name: "Khula",
+            style: "Bold",
+            full_name: "Khula Bold",
+            post_script_name: "Khula-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D deva -f latn -w G",
+            filename: "Khula-Bold.ttf",
+            copyright: "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+          },
+          {
+            family_name: "Khula",
+            style: "ExtraBold",
+            full_name: "Khula ExtraBold",
+            post_script_name: "Khula-ExtraBold",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D deva -f latn -w G",
+            filename: "Khula-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014, Erin McLaughlin (hello@erinmclaughlin.com). Digitized data copyright 2010, Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

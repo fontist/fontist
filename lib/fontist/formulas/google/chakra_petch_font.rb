@@ -12,18 +12,101 @@ module Fontist
         sha256 "41d52f43fe7940faa00844ac2621867e79c5e0279020661027539bf240dcefcf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "ChakraPetch-Light.ttf",
-        "LightItalic" => "ChakraPetch-LightItalic.ttf",
-        "Regular" => "ChakraPetch-Regular.ttf",
-        "Italic" => "ChakraPetch-Italic.ttf",
-        "Medium" => "ChakraPetch-Medium.ttf",
-        "MediumItalic" => "ChakraPetch-MediumItalic.ttf",
-        "SemiBold" => "ChakraPetch-SemiBold.ttf",
-        "SemiBoldItalic" => "ChakraPetch-SemiBoldItalic.ttf",
-        "Bold" => "ChakraPetch-Bold.ttf",
-        "BoldItalic" => "ChakraPetch-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chakra Petch",
+            style: "Light",
+            full_name: "Chakra Petch Light",
+            post_script_name: "ChakraPetch-Light",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-Light.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Light Italic",
+            full_name: "Chakra Petch Light Italic",
+            post_script_name: "ChakraPetch-LightItalic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-LightItalic.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Regular",
+            full_name: "Chakra Petch Regular",
+            post_script_name: "ChakraPetch-Regular",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-Regular.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Italic",
+            full_name: "Chakra Petch Italic",
+            post_script_name: "ChakraPetch-Italic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-Italic.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Medium",
+            full_name: "Chakra Petch Medium",
+            post_script_name: "ChakraPetch-Medium",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-Medium.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Medium Italic",
+            full_name: "Chakra Petch Medium Italic",
+            post_script_name: "ChakraPetch-MediumItalic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-MediumItalic.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "SemiBold",
+            full_name: "Chakra Petch SemiBold",
+            post_script_name: "ChakraPetch-SemiBold",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-SemiBold.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "SemiBold Italic",
+            full_name: "Chakra Petch SemiBold Italic",
+            post_script_name: "ChakraPetch-SemiBoldItalic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-SemiBoldItalic.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Bold",
+            full_name: "Chakra Petch Bold",
+            post_script_name: "ChakraPetch-Bold",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-Bold.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+          {
+            family_name: "Chakra Petch",
+            style: "Bold Italic",
+            full_name: "Chakra Petch Bold Italic",
+            post_script_name: "ChakraPetch-BoldItalic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "ChakraPetch-BoldItalic.ttf",
+            copyright: "Copyright 2018 The Chakra Petch Project Authors (https://github.com/m4rc1e/Chakra-Petch.git)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

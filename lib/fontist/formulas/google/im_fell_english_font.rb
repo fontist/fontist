@@ -12,10 +12,31 @@ module Fontist
         sha256 "e664b884913fbe1b29a42dd22dc3feceb570f5141763df3a35f930aefcde57e1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFeENrm28P.ttf",
-        "Italic" => "IMFeENit28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL English",
+            style: "Regular",
+            full_name: "IM FELL English Roman",
+            post_script_name: "IM_FELL_English_Roman",
+            version: "3.00",
+            description: "Fell Types - English size - Roman. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Christoffel van Dijck. To be printed at 13.5 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeENrm28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL English Roman",
+          },
+          {
+            family_name: "IM FELL English",
+            style: "Italic",
+            full_name: "IM FELL English Italic",
+            post_script_name: "IM_FELL_English_Italic",
+            version: "3.00",
+            description: "Fell Types - English size - Roman Small Caps. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by  by Robert Granjon. To be printed at 13.5 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeENit28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL English Italic",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

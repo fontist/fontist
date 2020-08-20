@@ -12,9 +12,21 @@ module Fontist
         sha256 "718dc2cb6149ddeaf38530781c7ba4e565eb54a08f5156cd9571545fb9663130"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lancelot-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lancelot",
+            style: "Regular",
+            full_name: "Lancelot",
+            post_script_name: "Lancelot",
+            version: "1.004",
+            description: "Copyright (c) 2011 by Marion Kadi. All rights reserved under SIL openfont License 1.1",
+            filename: "Lancelot-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Marion Kadi. All rights reserved. Licenced under SIL OFL v1.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

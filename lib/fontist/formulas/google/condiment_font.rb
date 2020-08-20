@@ -12,9 +12,22 @@ module Fontist
         sha256 "2b392f7711531c187f9b7fa88beec966d916bead1a035679bc2caf6090e3cb9e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Condiment-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Condiment",
+            style: "Regular",
+            full_name: "Condiment",
+            post_script_name: "Condiment-Regular",
+            version: "1.001",
+            filename: "Condiment-Regular.ttf",
+            copyright: "Copyright (c) 2010 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2010 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Condiment\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

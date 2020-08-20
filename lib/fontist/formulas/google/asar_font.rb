@@ -12,9 +12,20 @@ module Fontist
         sha256 "9ea465122ef0246de4ec90f75b81b5356d9a717c1a0e1fc6534ea85706539682"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Asar-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Asar",
+            style: "Regular",
+            full_name: "Asar Regular",
+            post_script_name: "Asar-Regular",
+            version: "1.003; ttfautohint (v1.3) -l 8 -r 50 -G 0 -x 0 -H 45 -D deva -f latn -m \"\" -w gG -t -X \"\"",
+            filename: "Asar-Regular.ttf",
+            copyright: "Copyright (c) 2014-2015, Sorkin Type Co (sorkintype.com | sorkintype@gmail.com). Copyright 2014 Pria Ravichandran (pria.ravichandran@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

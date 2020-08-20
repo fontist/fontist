@@ -12,9 +12,21 @@ module Fontist
         sha256 "54db87a7ad99a8633202cc9566c92600b0dab4ed7fc042ed6a1936d0294bb90b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MrDafoe-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mr Dafoe",
+            style: "Regular",
+            full_name: "Mr Dafoe Regular",
+            post_script_name: "MrDafoe-Regular",
+            version: "1.000",
+            filename: "MrDafoe-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Mr Dafoe\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

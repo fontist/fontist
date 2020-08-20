@@ -12,9 +12,21 @@ module Fontist
         sha256 "46cec44f17068bb4c6bc21c4848bcdfabac3916b719532c2788ac29db0080d5f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Pompiere-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pompiere",
+            style: "Regular",
+            full_name: "Pompiere",
+            post_script_name: "Pompiere-Regular",
+            version: "1.002",
+            description: "Pompiere is a low contrast condensed sans serif font. However unlike most sans it has very tall ascenders and and very small x height. Pompiere is playful and even a little sweet. This font was inspired by a handmade sign seen outside of NYC firefighters Squad Co. 18 in the West Village of Manhattan. Because of its small x height and modest weight it will work best at medium to large sizes.",
+            filename: "Pompiere-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

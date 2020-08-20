@@ -12,11 +12,41 @@ module Fontist
         sha256 "f3ae01d1566d164c2fa8037e48c9fef6b60c4df83dc486704daab1e1a1e1f409"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LibreBaskerville-Regular.ttf",
-        "Italic" => "LibreBaskerville-Italic.ttf",
-        "Bold" => "LibreBaskerville-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Libre Baskerville",
+            style: "Regular",
+            full_name: "Libre Baskerville",
+            post_script_name: "LibreBaskerville-Regular",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "Libre Baskerville is webfont optimized for web body text (typically 16px). It's based on 1941 ATF Specimens, but it has a taller x height, wider counters and minor contrast that allow it to work on small sizes in any screen.",
+            filename: "LibreBaskerville-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name Libre Baskerville.",
+          },
+          {
+            family_name: "Libre Baskerville",
+            style: "Italic",
+            full_name: "Libre Baskerville Italic",
+            post_script_name: "LibreBaskerville-Italic",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "Libre Baskerville is webfont optimized for web body text (typically 16px). It's based on 1941 ATF Specimens, but it has a taller x height, wider counters and minor contrast that allow it to work on small sizes in any screen.",
+            filename: "LibreBaskerville-Italic.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name Libre Baskerville.",
+          },
+          {
+            family_name: "Libre Baskerville",
+            style: "Bold",
+            full_name: "Libre Baskerville Bold",
+            post_script_name: "LibreBaskerville-Bold",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "Libre Baskerville is webfont optimized for web body text (typically 16px). It's based on 1941 ATF Specimens, but it has a taller x height, wider counters and minor contrast that allow it to work on small sizes in any screen.",
+            filename: "LibreBaskerville-Bold.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name Libre Baskerville.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

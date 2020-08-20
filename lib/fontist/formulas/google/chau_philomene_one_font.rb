@@ -12,10 +12,29 @@ module Fontist
         sha256 "ca76ef16c85a55081266bd11de173f46ac89701b2be118d656e00fdfba79a27e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ChauPhilomeneOne-Regular.ttf",
-        "Italic" => "ChauPhilomeneOne-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chau Philomene One",
+            style: "Regular",
+            full_name: "Chau Philomene One Regular",
+            post_script_name: "ChauPhilomeneOne-Regular",
+            version: "1.002",
+            filename: "ChauPhilomeneOne-Regular.ttf",
+            copyright: "Copyright (c) 2010-2012, TipoType (produccion.taller@gmail.com), with Reserved Font Name \"Chau Philomene\"",
+          },
+          {
+            family_name: "Chau Philomene One",
+            style: "Italic",
+            full_name: "Chau Philomene One Italic",
+            post_script_name: "ChauPhilomeneOne-Italic",
+            version: "1.002",
+            filename: "ChauPhilomeneOne-Italic.ttf",
+            copyright: "Copyright (c) 2010-2012, TipoType (produccion.taller@gmail.com www.tipotype.com), with Reserved Font Name \"Chau Philomene\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

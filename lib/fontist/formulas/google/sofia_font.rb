@@ -12,9 +12,20 @@ module Fontist
         sha256 "c2f8744f279cebb8a149bdebb218fa9e602b9740ad8d7de10ed1d81349e9fc07"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sofia-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sofia",
+            style: "Regular",
+            full_name: "Sofia",
+            post_script_name: "Sofia-Regular",
+            version: "1.001",
+            filename: "Sofia-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Sofia\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

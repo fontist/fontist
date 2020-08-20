@@ -12,9 +12,20 @@ module Fontist
         sha256 "74fe7e46c8dcdac3762625b89c5eb1bae66d64bee24e6ed51a83180d3308a0ea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Alice-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alice",
+            style: "Regular",
+            full_name: "Alice Regular",
+            post_script_name: "Alice-Regular",
+            version: "2.000",
+            filename: "Alice-Regular.ttf",
+            copyright: "Copyright 2011 The Alice Project Authors (contact@cyreal.org) with Reserved Font Name \"Alice\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

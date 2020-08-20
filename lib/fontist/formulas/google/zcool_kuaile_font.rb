@@ -12,9 +12,20 @@ module Fontist
         sha256 "43236c852cb574f0260fda3940a5ac7432afaaab482e49fd7b39b196ffbf5227"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ZCOOLKuaiLe-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "ZCOOL KuaiLe",
+            style: "Regular",
+            full_name: "ZCOOL KuaiLe Regular",
+            post_script_name: "ZCOOLKuaiLe-Regular",
+            version: "2.000",
+            filename: "ZCOOLKuaiLe-Regular.ttf",
+            copyright: "Copyright 2018 The ZCOOL KuaiLe Project Authors (https://www.github.com/googlefonts/zcool-kuaile)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

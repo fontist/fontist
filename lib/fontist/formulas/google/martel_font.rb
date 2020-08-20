@@ -12,15 +12,74 @@ module Fontist
         sha256 "c969913e586887e96cc093adcc4dcc9367f5d0397b2106cc39861e91c9fbd60f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "UltraLight" => "Martel-UltraLight.ttf",
-        "Light" => "Martel-Light.ttf",
-        "Regular" => "Martel-Regular.ttf",
-        "DemiBold" => "Martel-DemiBold.ttf",
-        "Bold" => "Martel-Bold.ttf",
-        "ExtraBold" => "Martel-ExtraBold.ttf",
-        "Heavy" => "Martel-Heavy.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Martel",
+            style: "UltraLight",
+            full_name: "Martel UltraLight",
+            post_script_name: "Martel-UltraLight",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-UltraLight.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "Light",
+            full_name: "Martel Light",
+            post_script_name: "Martel-Light",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-Light.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "Regular",
+            full_name: "Martel",
+            post_script_name: "Martel-Regular",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-Regular.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "DemiBold",
+            full_name: "Martel DemiBold",
+            post_script_name: "Martel-DemiBold",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-DemiBold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "Bold",
+            full_name: "Martel Bold",
+            post_script_name: "Martel-Bold",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-Bold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "ExtraBold",
+            full_name: "Martel ExtraBold",
+            post_script_name: "Martel-ExtraBold",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-ExtraBold.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+          {
+            family_name: "Martel",
+            style: "Heavy",
+            full_name: "Martel Heavy",
+            post_script_name: "Martel-Heavy",
+            version: "1.001; ttfautohint (v1.1) -l 5 -r 5 -G 72 -x 0 -D latn -f none -w gGD -W -c",
+            filename: "Martel-Heavy.ttf",
+            copyright: "Copyright (c) 2015 Dan Reynolds.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

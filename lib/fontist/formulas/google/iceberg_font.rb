@@ -12,9 +12,20 @@ module Fontist
         sha256 "3822dfbb459367ca7ccd2cf61b42a13c8db13990c81afa47c514fbbfd71e7567"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Iceberg-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Iceberg",
+            style: "Regular",
+            full_name: "Iceberg",
+            post_script_name: "Iceberg-Regular",
+            version: "1.002",
+            filename: "Iceberg-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org), with Reserved Font Name \"Iceberg\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

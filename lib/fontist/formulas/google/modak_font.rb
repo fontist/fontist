@@ -12,9 +12,21 @@ module Fontist
         sha256 "4e3ed237dc022a5c1c28b34e1c4c57c0f91e3c8902fec68b7046bed943466f8e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Modak-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Modak",
+            style: "Regular",
+            full_name: "Modak",
+            post_script_name: "Modak",
+            version: "1.036;PS 1.000;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            description: "Modak is a Free and Open Source, Heavy-Chubby Devanagari-Latin display typeface. The design started off as one of our heavy hand sketched letterform explorations ...  The characters were cute/round and not bulky/rigid. The consonants and Matras were overlapping, instead of them being successive characters. Conjuncts were drawn as fused forms in which the two separate characters would merge into each other. The challenge was to maintain legibility and consistency in the thin white counter spaces across all characters irrespective of their structural complexity. In an attempt to translate this into a functional font, we designed additional Matras that would match exactly with every character, leaving a thin counter space in between. Custom Ukars were designed according to each character. The resulting typeface is one of its kind and probably the chubbiest Devanagari typeface to be designed so far. Modak Devanagari was designed by Sarang Kulkarni and Maithili Shingre and Modak Latin by Noopur Datye with support from Girish Dalvi and Pradnya Naik. We would like to thank Santosh Kshirsagar, Shubhanand Jog, Vinay Saynekar and Yashodeep Gholap for their suggestions and feedback during the font design process. We would also like to thank faculty and friends from the Industrial Design Centre, IIT Bombay and from Sir J J Institute of Applied Art for their support and encouragement. This project is led by [Ek Type]( http://ektype.in/), a collective of type designers based in Mumbai focused on designing contemporary Indian typefaces.",
+            filename: "Modak-Regular.ttf",
+            copyright: "Copyright (c) 2014, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

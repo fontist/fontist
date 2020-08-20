@@ -12,9 +12,21 @@ module Fontist
         sha256 "6406d0bd0ff4136db432bba26c4ee27d50e67a0af29a4f9cfa53bd423cb225d1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GiveYouGlory.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Give You Glory",
+            style: "Regular",
+            full_name: "Give You Glory",
+            post_script_name: "GiveYouGlory",
+            version: "1.002",
+            description: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com). This Font Software is licensed under the SIL Open Font License, Version 1.1.  This license is available with a FAQ at:  http://scripts.sil.org/OFL",
+            filename: "GiveYouGlory.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com). This Font Software is licensed under the SIL Open Font License, Version 1.1.  This license is available with a FAQ at:  http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

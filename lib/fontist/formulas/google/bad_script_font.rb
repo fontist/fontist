@@ -12,9 +12,20 @@ module Fontist
         sha256 "63ab83f6df273c1b20b178766195fc21c5af1765ed492a2ad5a4b021aa47d2d7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BadScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bad Script",
+            style: "Regular",
+            full_name: "Bad Script Regular",
+            post_script_name: "BadScript-Regular",
+            version: "2.000",
+            filename: "BadScript-Regular.ttf",
+            copyright: "Copyright 2011 The Bad Script Project Authors (gaslighttypefoundry@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lora[wght].ttf",
-        "Italic" => "Lora-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lora",
+            style: "Regular",
+            full_name: "Lora Regular",
+            post_script_name: "Lora-Regular",
+            version: "3.000",
+            filename: "Lora[wght].ttf",
+            copyright: "Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic), with Reserved Font Name \"Lora\".",
+          },
+          {
+            family_name: "Lora",
+            style: "Italic",
+            full_name: "Lora Italic",
+            post_script_name: "Lora-Italic",
+            version: "3.000",
+            filename: "Lora-Italic[wght].ttf",
+            copyright: "Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic), with Reserved Font Name \"Lora\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

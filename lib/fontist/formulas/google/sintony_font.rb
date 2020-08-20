@@ -12,10 +12,29 @@ module Fontist
         sha256 "c46920465a8e322e2f522be1182e321bc120d56d51550ad526e7ce729947f262"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sintony-Regular.ttf",
-        "Bold" => "Sintony-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sintony",
+            style: "Regular",
+            full_name: "Sintony",
+            post_script_name: "Sintony",
+            version: "001.001",
+            filename: "Sintony-Regular.ttf",
+            copyright: "Copyright (c) 2013, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Sintony'",
+          },
+          {
+            family_name: "Sintony",
+            style: "Bold",
+            full_name: "Sintony Bold",
+            post_script_name: "Sintony-Bold",
+            version: "1.001",
+            filename: "Sintony-Bold.ttf",
+            copyright: "Copyright (c) 2013, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Sintony'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

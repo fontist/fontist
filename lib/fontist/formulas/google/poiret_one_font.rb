@@ -12,9 +12,20 @@ module Fontist
         sha256 "faefcc38ccca536f759f532bc7967e437a62cccc0ddf6e96dfe102423ac3763d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PoiretOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Poiret One",
+            style: "Regular",
+            full_name: "Poiret One Regular",
+            post_script_name: "PoiretOne-Regular",
+            version: "1.101",
+            filename: "PoiretOne-Regular.ttf",
+            copyright: "Copyright 2011 The Poiret One Project Authors (https://github.com/alexeiva/poiretone)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

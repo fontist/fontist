@@ -12,9 +12,20 @@ module Fontist
         sha256 "70f8049a66a1f4a8027a4807621c7d4aaf1360b4c4b8f77dba2a4ef7ca287687"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Miniver-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Miniver",
+            style: "Regular",
+            full_name: "Miniver",
+            post_script_name: "Miniver",
+            version: "1.000",
+            filename: "Miniver-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Open Window (dathanboardman@gmail.com) with Reseved Font Name \"Miniver\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

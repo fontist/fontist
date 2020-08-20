@@ -12,9 +12,20 @@ module Fontist
         sha256 "891e94d738c44e1c477345f0f9b240b7afc9a2ff3bc1b9999efcada37e0f9fd5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Zeyada.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Zeyada",
+            style: "Regular",
+            full_name: "Zeyada",
+            post_script_name: "Zeyada",
+            version: "1.002 2010",
+            filename: "Zeyada.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

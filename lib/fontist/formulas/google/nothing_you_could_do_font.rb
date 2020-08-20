@@ -12,9 +12,21 @@ module Fontist
         sha256 "edc392e651bf112a9e4f11a93602d2a71e204bf585e5ff998b037e1c2a081457"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NothingYouCouldDo.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nothing You Could Do",
+            style: "Regular",
+            full_name: "Nothing You Could Do",
+            post_script_name: "NothingYouCouldDo",
+            version: "1.005",
+            description: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com). This Font Software is licensed under the SIL Open Font License, Version 1.1.  This license available with a FAQ at:  http://scripts.sil.org/OFL",
+            filename: "NothingYouCouldDo.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com). This Font Software is licensed under the SIL Open Font License, Version 1.1.  This license available with a FAQ at:  http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

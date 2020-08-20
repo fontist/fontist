@@ -12,9 +12,20 @@ module Fontist
         sha256 "c4f9328effa0cab56a9150c4fcbc215a0ccd03355cae9fb5f160fc33848b9918"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mallanna-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mallanna",
+            style: "Regular",
+            full_name: "Mallanna",
+            post_script_name: "Mallanna",
+            version: "1.0.4; ttfautohint (vUNKNOWN) -l 7 -r 28 -G 50 -x 13 -D telu -f telu -w G -X \"\"",
+            filename: "Mallanna-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Name Nunito",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

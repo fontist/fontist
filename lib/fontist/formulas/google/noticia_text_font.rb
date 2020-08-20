@@ -12,12 +12,47 @@ module Fontist
         sha256 "ae5fe9aa9b2c89b95cde54f4c3af2dc1f8648d38a1ff961ce5d7fab59183a44c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NoticiaText-Regular.ttf",
-        "Italic" => "NoticiaText-Italic.ttf",
-        "Bold" => "NoticiaText-Bold.ttf",
-        "BoldItalic" => "NoticiaText-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Noticia Text",
+            style: "Regular",
+            full_name: "Noticia Text",
+            post_script_name: "NoticiaText-Regular",
+            version: "1.003",
+            filename: "NoticiaText-Regular.ttf",
+            copyright: "Copyright (c) 2011 JM Sole (info@jmsole.cl), with Reserved Font Name \"Noticia Text\".",
+          },
+          {
+            family_name: "Noticia Text",
+            style: "Italic",
+            full_name: "Noticia Text Italic",
+            post_script_name: "NoticiaText-Italic",
+            version: "1.003",
+            filename: "NoticiaText-Italic.ttf",
+            copyright: "Copyright (c) 2011 JM Sole (info@jmsole.cl), with Reserved Font Name \"Noticia Text\".",
+          },
+          {
+            family_name: "Noticia Text",
+            style: "Bold",
+            full_name: "Noticia Text Bold",
+            post_script_name: "NoticiaText-Bold",
+            version: "1.003",
+            filename: "NoticiaText-Bold.ttf",
+            copyright: "Copyright (c) 2011 JM Sole (info@jmsole.cl), with Reserved Font Name \"Noticia Text\".",
+          },
+          {
+            family_name: "Noticia Text",
+            style: "Bold Italic",
+            full_name: "Noticia Text Bold Italic",
+            post_script_name: "NoticiaText-BoldItalic",
+            version: "1.003",
+            filename: "NoticiaText-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011 JM Sole (info@jmsole.cl), with Reserved Font Name \"Noticia Text\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

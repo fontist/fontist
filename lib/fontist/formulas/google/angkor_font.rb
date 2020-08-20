@@ -12,9 +12,20 @@ module Fontist
         sha256 "f70e32040be6c77f600ea20c4bcc8a5aeb1b0f282552407145c1a39adddb3cd4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Angkor-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Angkor",
+            style: "Regular",
+            full_name: "Angkor Regular",
+            post_script_name: "Angkor-Regular",
+            version: "3.10 December 28, 2010",
+            filename: "Angkor-Regular.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

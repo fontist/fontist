@@ -12,9 +12,21 @@ module Fontist
         sha256 "953dfb36011925661aa757f6b33439ed6248e11170aaff3141b222303e658498"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HerrVonMuellerhoff-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Herr Von Muellerhoff",
+            style: "Regular",
+            full_name: "Herr Von Muellerhoff Regular",
+            post_script_name: "HerrVonMuellerhoff-Regular",
+            version: "1.000",
+            filename: "HerrVonMuellerhoff-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Herr Von Mullerhoff\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

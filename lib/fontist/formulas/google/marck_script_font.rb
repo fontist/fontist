@@ -12,9 +12,20 @@ module Fontist
         sha256 "6e44a2562ba5a8cc6582df4783a0aa6f5033e754af49e83a849964d841552495"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MarckScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Marck Script",
+            style: "Regular",
+            full_name: "Marck Script",
+            post_script_name: "MarckScript-Regular",
+            version: "1.002",
+            filename: "MarckScript-Regular.ttf",
+            copyright: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>, Marck Fogel, with Reserved Font Names \"Marck Script\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

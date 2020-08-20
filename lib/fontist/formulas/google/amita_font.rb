@@ -12,10 +12,29 @@ module Fontist
         sha256 "51ce9cf7601a111bd3a147b5a7482ab0c802e2ecd36eaf05565d022decc87528"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amita-Regular.ttf",
-        "Bold" => "Amita-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amita",
+            style: "Regular",
+            full_name: "Amita Regular",
+            post_script_name: "Amita-Regular",
+            version: "1.004",
+            filename: "Amita-Regular.ttf",
+            copyright: "Copyright (c) 2014, Eduardo Rodriguez Tunni. Copyright (c) 2000, Modular Infotech, Pune, INDIA. All rights reserved. Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com). All rights reserved.",
+          },
+          {
+            family_name: "Amita",
+            style: "Bold",
+            full_name: "Amita Bold",
+            post_script_name: "Amita-Bold",
+            version: "1.004",
+            filename: "Amita-Bold.ttf",
+            copyright: "Copyright (c) 2014, Eduardo Rodriguez Tunni. Copyright (c) 2000, Modular Infotech, Pune, INDIA. All rights reserved. Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com). All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

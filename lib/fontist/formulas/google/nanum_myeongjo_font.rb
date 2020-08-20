@@ -12,11 +12,38 @@ module Fontist
         sha256 "39dedef2a8b552ef57de77c55d06b2b9d15dcca5cd68b802a00664f5275de654"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NanumMyeongjo-Regular.ttf",
-        "Bold" => "NanumMyeongjo-Bold.ttf",
-        "ExtraBold" => "NanumMyeongjo-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "NanumMyeongjo",
+            style: "Regular",
+            full_name: "NanumMyeongjo",
+            post_script_name: "NanumMyeongjo",
+            version: "2.030;PS 1;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "NanumMyeongjo-Regular.ttf",
+            copyright: "Copyright © 2010 NHN Corporation. All rights reserved. Font designed by FONTRIX.",
+          },
+          {
+            family_name: "NanumMyeongjo",
+            style: "Bold",
+            full_name: "NanumMyeongjoBold",
+            post_script_name: "NanumMyeongjoBold",
+            version: "2.030;PS 1;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "NanumMyeongjo-Bold.ttf",
+            copyright: "Copyright © 2010 NHN Corporation. All rights reserved. Font designed by FONTRIX.",
+          },
+          {
+            family_name: "NanumMyeongjo",
+            style: "ExtraBold",
+            full_name: "NanumMyeongjoExtraBold",
+            post_script_name: "NanumMyeongjoExtraBold",
+            version: "2.030;PS 1;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "NanumMyeongjo-ExtraBold.ttf",
+            copyright: "Copyright © 2010 NHN Corporation. All rights reserved. Font designed by FONTRIX.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

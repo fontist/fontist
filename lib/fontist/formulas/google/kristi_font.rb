@@ -12,9 +12,20 @@ module Fontist
         sha256 "bd30d4463d81befd1c09249aee1325d057f066b063af159db59c3c349e8e9f15"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kristi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kristi",
+            style: "Regular",
+            full_name: "Kristi Regular",
+            post_script_name: "Kristi-Regular",
+            version: "1.004",
+            filename: "Kristi-Regular.ttf",
+            copyright: "Copyright (c) 2010, Birgit Pulk (birgitpulk@gmail.com). All rights reserved. Licenced under SIL OFL v1.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

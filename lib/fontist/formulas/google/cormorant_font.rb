@@ -12,18 +12,101 @@ module Fontist
         sha256 "cc5bea52047836135a770d01895bf194e9d4dd90d3f3583cef4389841adc6c82"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Cormorant-Light.ttf",
-        "LightItalic" => "Cormorant-LightItalic.ttf",
-        "Regular" => "Cormorant-Regular.ttf",
-        "Italic" => "Cormorant-Italic.ttf",
-        "Medium" => "Cormorant-Medium.ttf",
-        "MediumItalic" => "Cormorant-MediumItalic.ttf",
-        "SemiBold" => "Cormorant-SemiBold.ttf",
-        "SemiBoldItalic" => "Cormorant-SemiBoldItalic.ttf",
-        "Bold" => "Cormorant-Bold.ttf",
-        "BoldItalic" => "Cormorant-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cormorant",
+            style: "Light",
+            full_name: "Cormorant Light",
+            post_script_name: "Cormorant-Light",
+            version: "3.303",
+            filename: "Cormorant-Light.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Light Italic",
+            full_name: "Cormorant Light Italic",
+            post_script_name: "Cormorant-LightItalic",
+            version: "3.303",
+            filename: "Cormorant-LightItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Regular",
+            full_name: "Cormorant Regular",
+            post_script_name: "Cormorant-Regular",
+            version: "3.303",
+            filename: "Cormorant-Regular.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Italic",
+            full_name: "Cormorant Italic",
+            post_script_name: "Cormorant-Italic",
+            version: "3.303",
+            filename: "Cormorant-Italic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Medium",
+            full_name: "Cormorant Medium",
+            post_script_name: "Cormorant-Medium",
+            version: "3.303",
+            filename: "Cormorant-Medium.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Medium Italic",
+            full_name: "Cormorant Medium Italic",
+            post_script_name: "Cormorant-MediumItalic",
+            version: "3.303",
+            filename: "Cormorant-MediumItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "SemiBold",
+            full_name: "Cormorant SemiBold",
+            post_script_name: "Cormorant-SemiBold",
+            version: "3.303",
+            filename: "Cormorant-SemiBold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "SemiBold Italic",
+            full_name: "Cormorant SemiBold Italic",
+            post_script_name: "Cormorant-SemiBoldItalic",
+            version: "3.303",
+            filename: "Cormorant-SemiBoldItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Bold",
+            full_name: "Cormorant Bold",
+            post_script_name: "Cormorant-Bold",
+            version: "3.303",
+            filename: "Cormorant-Bold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant",
+            style: "Bold Italic",
+            full_name: "Cormorant Bold Italic",
+            post_script_name: "Cormorant-BoldItalic",
+            version: "3.303",
+            filename: "Cormorant-BoldItalic.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

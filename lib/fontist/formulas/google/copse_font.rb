@@ -12,9 +12,23 @@ module Fontist
         sha256 "26b2d0498c4b2a7a1a5c409e687de49ae41b875fd3a31f9ce93fab99a4e6893d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Copse-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Copse",
+            style: "Regular",
+            full_name: "Copse",
+            post_script_name: "Copse",
+            version: "1.000",
+            description: "\"Copyright (c) 2010, Daniel Rhatigan
+(sparky@ultrasparky.org) with Reserved Font Name Copse\"",
+            filename: "Copse-Regular.ttf",
+            copyright: "\"Copyright (c) 2010, Daniel Rhatigan
+(sparky@ultrasparky.org) with Reserved Font Name Copse\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "6a6741c4f07bd8b523d859b14e2a640239d3e0002bd531239c9a957cb5d19511"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooChettan2-Regular.ttf",
-        "Medium" => "BalooChettan2-Medium.ttf",
-        "SemiBold" => "BalooChettan2-SemiBold.ttf",
-        "Bold" => "BalooChettan2-Bold.ttf",
-        "ExtraBold" => "BalooChettan2-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Chettan 2",
+            style: "Regular",
+            full_name: "Baloo Chettan 2 Regular",
+            post_script_name: "BalooChettan2-Regular",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooChettan2-Regular.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Chettan 2",
+            style: "Medium",
+            full_name: "Baloo Chettan 2 Medium",
+            post_script_name: "BalooChettan2-Medium",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooChettan2-Medium.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Chettan 2",
+            style: "SemiBold",
+            full_name: "Baloo Chettan 2 SemiBold",
+            post_script_name: "BalooChettan2-SemiBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooChettan2-SemiBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Chettan 2",
+            style: "Bold",
+            full_name: "Baloo Chettan 2 Bold",
+            post_script_name: "BalooChettan2-Bold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooChettan2-Bold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Chettan 2",
+            style: "ExtraBold",
+            full_name: "Baloo Chettan 2 ExtraBold",
+            post_script_name: "BalooChettan2-ExtraBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooChettan2-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

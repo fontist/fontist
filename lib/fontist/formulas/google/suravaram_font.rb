@@ -12,9 +12,20 @@ module Fontist
         sha256 "9e1bfaa7aa53bdbf72a62d4820c2a5112548b1fe19f4bebfecfc45bf5e5b87fc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Suravaram-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Suravaram",
+            style: "Regular",
+            full_name: "Suravaram",
+            post_script_name: "Suravaram",
+            version: "1.0.4; ttfautohint (v1.2.42-39fb)",
+            filename: "Suravaram-Regular.ttf",
+            copyright: "Copyright (c) 2012 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2011 by vernon adams (vern@newtypography.co.uk) with Reserved Font Name 'Tienne'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "62e5c675957758a302b42e862b6b15b987c3ad754f66aa0256b553e6d7818409"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PragatiNarrow-Regular.ttf",
-        "Bold" => "PragatiNarrow-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pragati Narrow",
+            style: "Regular",
+            full_name: "Pragati Narrow",
+            post_script_name: "PragatiNarrow-Regular",
+            version: "1.010; ttfautohint (v1.3)",
+            filename: "PragatiNarrow-Regular.ttf",
+            copyright: "Copyright (c) 2012-2015, Omnibus-Type (www.omnibus-type.com omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Pragati Narrow",
+            style: "Bold",
+            full_name: "Pragati Narrow Bold",
+            post_script_name: "PragatiNarrow-Bold",
+            version: "1.010; ttfautohint (v1.3)",
+            filename: "PragatiNarrow-Bold.ttf",
+            copyright: "Copyright (c) 2012-2015, Omnibus-Type (www.omnibus-type.com omnibus.type@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

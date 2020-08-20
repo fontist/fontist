@@ -12,9 +12,20 @@ module Fontist
         sha256 "b6e36a5b10be717bebd049800df2b424a1532ecf01c00347cf7da2016918ba34"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BigshotOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bigshot One",
+            style: "Regular",
+            full_name: "Bigshot One Regular",
+            post_script_name: "BigshotOne-Regular",
+            version: "1.001",
+            filename: "BigshotOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

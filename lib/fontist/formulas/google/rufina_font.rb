@@ -12,10 +12,29 @@ module Fontist
         sha256 "5e2a7341b941b032fd70a9995ff41550082da4774d195cc0f69c6d96894ead8b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rufina-Regular.ttf",
-        "Bold" => "Rufina-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rufina",
+            style: "Regular",
+            full_name: "Rufina",
+            post_script_name: "Rufina-Regular",
+            version: "1.001",
+            filename: "Rufina-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rufina'",
+          },
+          {
+            family_name: "Rufina",
+            style: "Bold",
+            full_name: "Rufina Bold",
+            post_script_name: "Rufina-Bold",
+            version: "1.001",
+            filename: "Rufina-Bold.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rufina'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

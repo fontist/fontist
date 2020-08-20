@@ -12,9 +12,21 @@ module Fontist
         sha256 "50339c7c9fe0ba531afb64b3982cc6930700e41c8ad94cb8b70cc7f242f72456"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BigelowRules-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bigelow Rules",
+            style: "Regular",
+            full_name: "Bigelow Rules Regular",
+            post_script_name: "BigelowRules-Regular",
+            version: "1.001",
+            filename: "BigelowRules-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Bigelow Rules\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

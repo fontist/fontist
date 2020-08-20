@@ -12,9 +12,20 @@ module Fontist
         sha256 "586d3c1b6e23c845f4ba9ebbf8069b857666d424306a86b454a7d04cc66e1ede"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RhodiumLibre-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rhodium Libre",
+            style: "Regular",
+            full_name: "Rhodium Libre",
+            post_script_name: "RhodiumLibre-Regular",
+            version: "1.001; ttfautohint (v1.3)",
+            filename: "RhodiumLibre-Regular.ttf",
+            copyright: "Copyright © 2015 by James Puckett. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

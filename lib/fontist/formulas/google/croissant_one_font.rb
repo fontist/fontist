@@ -12,9 +12,21 @@ module Fontist
         sha256 "576dfefe9e1aaeaccc4d88d7ed0c2ad09a261d45b4878572d129a30ed8ef4bb5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CroissantOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Croissant One",
+            style: "Regular",
+            full_name: "Croissant One",
+            post_script_name: "CroissantOne-Regular",
+            version: "1.001",
+            description: "Croissant is a typeface inspired by the Parisian spirit, in the people and the landscapes there. The lowercase letters have smooth round shapes, and a nice long out-stroke to connect nearly every glyph, reminding the reader of elegant French handwriting. The uppercases have a classical structure and soft terminals that embody the spirit of this multi-purpose typeface.",
+            filename: "CroissantOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Croissant'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

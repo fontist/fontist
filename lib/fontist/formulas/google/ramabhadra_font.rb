@@ -12,9 +12,20 @@ module Fontist
         sha256 "fd2b0a66164363d7f23441907f112995869978c99f33a9899443a6836c8355cb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ramabhadra-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ramabhadra",
+            style: "Regular",
+            full_name: "Ramabhadra",
+            post_script_name: "Ramabhadra",
+            version: "1.0.5; ttfautohint (vUNKNOWN) -l 7 -r 28 -G 50 -x 13 -D telu -f telu -w G -X \"\"",
+            filename: "Ramabhadra-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhra Pradesh Society for Knowledge Networks (fonts.siliconandhra.org). Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

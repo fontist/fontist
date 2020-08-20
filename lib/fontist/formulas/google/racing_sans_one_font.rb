@@ -12,9 +12,29 @@ module Fontist
         sha256 "3db80aa362082c02eebd0752d31fbf7f41afb2bf3d2fd1a1baf3d7424b1ed7d3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RacingSansOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Racing Sans One",
+            style: "Regular",
+            full_name: "Racing Sans One",
+            post_script_name: "RacingSansOne-Regular",
+            version: "1.001; ttfautohint (v0.8) -G 200 -r 50",
+            description: "Around 1800 (100 years before Helvetica and Univers) the first Sans Serif typefaces to include lowercase letters used to have very High Contrast (the difference between thick and thin lines). Maybe because the were derived from the more traditional serif typefaces of the time.
+
+But for same reason, as the genre evolved, the fashion was to create 'monoline' sans, of very little contrast.
+Today, contrasted Sans are very rare, and only a few are successful.
+
+While digging in old specimens, we found three that immediately caught our attention:
+Doric Italic and Taylor Gothic from American Type Founders (1897), and Charter Oak from Keystone Type Foundry of Philadelphia (1906).
+
+Racing Sans is a current high contrast sans, paying tribute to this forgotten genre.",
+            filename: "RacingSansOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com) and Rodrigo Fuenzalida (www.rfuenzalida.com), with Reserved Font Name Racing Sans.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

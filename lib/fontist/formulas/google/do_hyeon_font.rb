@@ -12,9 +12,20 @@ module Fontist
         sha256 "b63006594154e02845e8867fd0d0edf5e08810a936a5c0485c7f3eada7be36f9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DoHyeon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Do Hyeon",
+            style: "Regular",
+            full_name: "Do Hyeon Regular",
+            post_script_name: "DoHyeon-Regular",
+            version: "1.00",
+            filename: "DoHyeon-Regular.ttf",
+            copyright: "Copyright 2018 The Do Hyeon Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "9257e05aca236df5f58cca39ea2f838a397de2d6f0d9ecdeb0fa54c5f0e4af18"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LaBelleAurore.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "La Belle Aurore",
+            style: "Regular",
+            full_name: "La Belle Aurore",
+            post_script_name: "LaBelleAurore",
+            version: "1.001 2001",
+            description: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+            filename: "LaBelleAurore.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

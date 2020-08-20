@@ -12,9 +12,20 @@ module Fontist
         sha256 "77fab33a289cb25b647c830a71f721bf0f45593cc348052fc2367992c1dac7b4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BungeeInline-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bungee Inline",
+            style: "Regular",
+            full_name: "Bungee Inline Regular",
+            post_script_name: "BungeeInline-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.72;makeotf.lib2.5.5900",
+            filename: "BungeeInline-Regular.ttf",
+            copyright: "Copyright 2008 The Bungee Project Authors (david@djr.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

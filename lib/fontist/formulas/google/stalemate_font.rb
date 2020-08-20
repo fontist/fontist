@@ -12,9 +12,21 @@ module Fontist
         sha256 "3cd88a15315650d059767d9217155c50a84003e43bd1f8e95ce847c0c66651f8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Stalemate-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stalemate",
+            style: "Regular",
+            full_name: "Stalemate",
+            post_script_name: "Stalemate-Regular",
+            version: "001.000",
+            filename: "Stalemate-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Jim Lyles for Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Stalemate\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

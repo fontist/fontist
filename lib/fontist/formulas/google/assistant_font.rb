@@ -12,14 +12,65 @@ module Fontist
         sha256 "cd628c8c220e3a2db14802d7e71b4feeb29b3d74ff6d0fba64aa1c1d0ff7da0f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Assistant-ExtraLight.ttf",
-        "Light" => "Assistant-Light.ttf",
-        "Regular" => "Assistant-Regular.ttf",
-        "SemiBold" => "Assistant-SemiBold.ttf",
-        "Bold" => "Assistant-Bold.ttf",
-        "ExtraBold" => "Assistant-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Assistant",
+            style: "ExtraLight",
+            full_name: "Assistant ExtraLight",
+            post_script_name: "Assistant-ExtraLight",
+            version: "2.002",
+            filename: "Assistant-ExtraLight.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Assistant",
+            style: "Light",
+            full_name: "Assistant Light",
+            post_script_name: "Assistant-Light",
+            version: "2.002",
+            filename: "Assistant-Light.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Assistant",
+            style: "Regular",
+            full_name: "Assistant Regular",
+            post_script_name: "Assistant-Regular",
+            version: "2.002",
+            filename: "Assistant-Regular.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Assistant",
+            style: "SemiBold",
+            full_name: "Assistant SemiBold",
+            post_script_name: "Assistant-SemiBold",
+            version: "2.002",
+            filename: "Assistant-SemiBold.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Assistant",
+            style: "Bold",
+            full_name: "Assistant Bold",
+            post_script_name: "Assistant-Bold",
+            version: "2.002",
+            filename: "Assistant-Bold.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Assistant",
+            style: "ExtraBold",
+            full_name: "Assistant ExtraBold",
+            post_script_name: "Assistant-ExtraBold",
+            version: "2.002",
+            filename: "Assistant-ExtraBold.ttf",
+            copyright: "Copyright 2010 The Amirim Project Authors, with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

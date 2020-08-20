@@ -12,9 +12,20 @@ module Fontist
         sha256 "f752b16148cd9f06860d71ef0d29a47254059f20113b902c1e958122f0179567"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Yellowtail-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yellowtail",
+            style: "Regular",
+            full_name: "Yellowtail Regular",
+            post_script_name: "Yellowtail-Regular",
+            version: "001.002",
+            filename: "Yellowtail-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

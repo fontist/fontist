@@ -12,10 +12,31 @@ module Fontist
         sha256 "e7a253e678dbb2dbede3ee005c6e63c94e0b98624bdb37be1a667459f595facd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kameron-Regular.ttf",
-        "Bold" => "Kameron-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kameron",
+            style: "Regular",
+            full_name: "Kameron",
+            post_script_name: "Kameron",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "Kameron-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+          {
+            family_name: "Kameron",
+            style: "Bold",
+            full_name: "Kameron Bold",
+            post_script_name: "Kameron-Bold",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "Kameron-Bold.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

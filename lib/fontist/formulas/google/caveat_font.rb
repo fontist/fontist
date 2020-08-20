@@ -12,10 +12,29 @@ module Fontist
         sha256 "e7570bc4dde365351c105febfbd09fa3451f4b9d3f8655bfa6a9513b98537a5f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Caveat-Regular.ttf",
-        "Bold" => "Caveat-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Caveat",
+            style: "Regular",
+            full_name: "Caveat Regular",
+            post_script_name: "Caveat-Regular",
+            version: "1.500; ttfautohint (v1.6)",
+            filename: "Caveat-Regular.ttf",
+            copyright: "Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)",
+          },
+          {
+            family_name: "Caveat",
+            style: "Bold",
+            full_name: "Caveat Bold",
+            post_script_name: "Caveat-Bold",
+            version: "1.500; ttfautohint (v1.6)",
+            filename: "Caveat-Bold.ttf",
+            copyright: "Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

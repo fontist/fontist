@@ -13,10 +13,31 @@ module Fontist
         sha256 "9c6df3feefde26d4e41d4a4fe5db2a89f9123a772594d7f59afd062625cd204e"
       end
 
-      provides_font("Comic Sans", match_styles_from_file: {
-        "Regular" => "Comic.TTF",
-        "Bold" => "Comicbd.TTF"
-      })
+      provides_font(
+        "Comic Sans",
+        match_styles_from_file: [
+          {
+            family_name: "Comic Sans MS",
+            style: "Bold",
+            full_name: "Comic Sans MS Bold",
+            post_script_name: "ComicSansMS-Bold",
+            version: "2.10",
+            description: "Designed by Microsoft's Vincent Connare, this is a face based on the lettering from comic magazines. This casual but legible face has proved very popular with a wide variety of people.",
+            filename: "Comicbd.TTF",
+            copyright: "Copyright (c) 1995 Microsoft Corporation. All rights reserved.",
+          },
+          {
+            family_name: "Comic Sans MS",
+            style: "Regular",
+            full_name: "Comic Sans MS",
+            post_script_name: "ComicSansMS",
+            version: "2.10",
+            description: "Designed by Microsoft's Vincent Connare, this is a face based on the lettering from comic magazines. This casual but legible face has proved very popular with a wide variety of people.",
+            filename: "Comic.TTF",
+            copyright: "Copyright (c) 1995 Microsoft Corporation. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource "comic32.exe" do |resource|

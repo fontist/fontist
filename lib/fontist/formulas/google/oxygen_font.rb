@@ -12,11 +12,38 @@ module Fontist
         sha256 "affe195ad091f2c7b5b98ebbffdc8fbdbf0336750ed409206891a1df5e6b2c45"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Oxygen-Light.ttf",
-        "Regular" => "Oxygen-Regular.ttf",
-        "Bold" => "Oxygen-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oxygen",
+            style: "Light",
+            full_name: "Oxygen Light",
+            post_script_name: "Oxygen-Light",
+            version: "Release 0.2.3 webfont; ttfautohint (v0.93.3-1d66) -l 8 -r 50 -G 200 -x 0 -w \"gGD\" -c",
+            filename: "Oxygen-Light.ttf",
+            copyright: "Copyright (c) 2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oxygen'",
+          },
+          {
+            family_name: "Oxygen",
+            style: "Regular",
+            full_name: "Oxygen Regular",
+            post_script_name: "Oxygen-Regular",
+            version: "Release 0.2.3 webfont; ttfautohint (v0.93.3-1d66) -l 8 -r 50 -G 200 -x 0 -w \"gGD\" -c",
+            filename: "Oxygen-Regular.ttf",
+            copyright: "Copyright (c) 2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oxygen'",
+          },
+          {
+            family_name: "Oxygen",
+            style: "Bold",
+            full_name: "Oxygen Bold",
+            post_script_name: "Oxygen-Bold",
+            version: "0.2.3 webfont; ttfautohint (v0.93.3-1d66) -l 8 -r 50 -G 200 -x 0 -w \"gGD\" -c",
+            filename: "Oxygen-Bold.ttf",
+            copyright: "Copyright (c) 2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oxygen'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

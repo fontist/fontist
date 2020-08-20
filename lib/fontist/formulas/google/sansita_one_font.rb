@@ -12,9 +12,20 @@ module Fontist
         sha256 "7955f3dfa937431eb823bf3bc8a14b3dc147c42fa48ddf2de7ded0058907470d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SansitaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sansita One",
+            style: "Regular",
+            full_name: "Sansita One Regular",
+            post_script_name: "SansitaOne-Regular",
+            version: "1.002",
+            filename: "SansitaOne-Regular.ttf",
+            copyright: "Copyright 2011 The Sansita One Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "c20ea1538f8436c929ba17786e55fbc32e4df840485dc56895027a1f478a37d1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HiMelody-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hi Melody",
+            style: "Regular",
+            full_name: "Hi Melody Regular",
+            post_script_name: "HiMelody-Regular",
+            version: "3.00",
+            filename: "HiMelody-Regular.ttf",
+            copyright: "Copyright (c) YoonDesign Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

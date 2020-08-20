@@ -12,9 +12,20 @@ module Fontist
         sha256 "77b4f661f11bc2627140f8aea765bd3bb6517f150fafc9b0637c3a1b475c55d4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mogra-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mogra",
+            style: "Regular",
+            full_name: "Mogra Regular",
+            post_script_name: "Mogra-Regular",
+            version: "1.002",
+            filename: "Mogra-Regular.ttf",
+            copyright: "Copyright (c) 2015 Lipi Raval (raval.lipi@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

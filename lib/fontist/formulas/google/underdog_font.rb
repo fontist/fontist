@@ -12,9 +12,20 @@ module Fontist
         sha256 "11cae78370099a1916ae0ee6814567c4497c08ab167848c369c3a7cf04833e9e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Underdog-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Underdog",
+            style: "Regular",
+            full_name: "Underdog",
+            post_script_name: "Underdog-Regular",
+            version: "1.001; ttfautohint (v0.9)",
+            filename: "Underdog-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sergey Steblina (sergey@steblina.com), Jovanny Lemonad (lemonad@jovanny.ru), with Reserved Font Name 'Underdog'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

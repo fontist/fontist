@@ -12,9 +12,21 @@ module Fontist
         sha256 "bf140df1c29b0e8869822896f2328970bd02ce5d421df0701c56acd9274072b0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Federant-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Federant",
+            style: "Regular",
+            full_name: "Federant",
+            post_script_name: "Federant-Regular",
+            version: "1.011; ttfautohint (v1.4.1)",
+            description: "Federant is designed by Olexa M. Volochay (http://www.olexa.kiev.ua), Alexei Vanyashin for Cyreal. Based on Feder Antiqua by Otto Ludwig Naegele (1911).",
+            filename: "Federant-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name 'Federant'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

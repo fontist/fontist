@@ -12,9 +12,21 @@ module Fontist
         sha256 "7a211846b7c3a9a72cdfea336cfee5416e675ceb9f620abc8dbc9d8e9cdd2dd3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RammettoOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rammetto One",
+            style: "Regular",
+            full_name: "Rammetto One Regular",
+            post_script_name: "RammettoOne-Regular",
+            version: "1.001",
+            description: "Copyright (c) 2011 by Vernon Adams. All rights reserved.",
+            filename: "RammettoOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Rammetto\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

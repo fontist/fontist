@@ -12,9 +12,20 @@ module Fontist
         sha256 "495a24cd586a214051e14de4ea4faacbbde05ffa93cbe9d148be6a77cbdcae3a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sriracha-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sriracha",
+            style: "Regular",
+            full_name: "Sriracha",
+            post_script_name: "Sriracha-Regular",
+            version: "1.002g",
+            filename: "Sriracha-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2014, Pablo Impallari (www.impallari.com|impallari@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

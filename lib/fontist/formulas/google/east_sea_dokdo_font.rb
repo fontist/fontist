@@ -12,9 +12,20 @@ module Fontist
         sha256 "dde9e7bd1d7172f2eb15e851310804e94720c38b65d86a17edbd8a98e9711a50"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EastSeaDokdo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "East Sea Dokdo",
+            style: "Regular",
+            full_name: "East Sea Dokdo Regular",
+            post_script_name: "EastSeaDokdo-Regular",
+            version: "1.00",
+            filename: "EastSeaDokdo-Regular.ttf",
+            copyright: "Copyright (c) YoonDesign Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "bb493f0fbaf4365f51d2523348066e62aba4da8f621e160560674e043e911231"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GreatVibes-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Great Vibes",
+            style: "Regular",
+            full_name: "Great Vibes",
+            post_script_name: "GreatVibes-Regular",
+            version: "1.001",
+            filename: "GreatVibes-Regular.ttf",
+            copyright: "Copyright (c) 2012 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Great Vibes\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

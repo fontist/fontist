@@ -12,13 +12,56 @@ module Fontist
         sha256 "791df1502c3490b5e202776df1c8e61e689c4e5769c949b200d71efab4a9c6ba"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooTammudu2-Regular.ttf",
-        "Medium" => "BalooTammudu2-Medium.ttf",
-        "SemiBold" => "BalooTammudu2-SemiBold.ttf",
-        "Bold" => "BalooTammudu2-Bold.ttf",
-        "ExtraBold" => "BalooTammudu2-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Tammudu 2",
+            style: "Regular",
+            full_name: "Baloo Tammudu 2 Regular",
+            post_script_name: "BalooTammudu2-Regular",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooTammudu2-Regular.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Tammudu 2",
+            style: "Medium",
+            full_name: "Baloo Tammudu 2 Medium",
+            post_script_name: "BalooTammudu2-Medium",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooTammudu2-Medium.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Tammudu 2",
+            style: "SemiBold",
+            full_name: "Baloo Tammudu 2 SemiBold",
+            post_script_name: "BalooTammudu2-SemiBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooTammudu2-SemiBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Tammudu 2",
+            style: "Bold",
+            full_name: "Baloo Tammudu 2 Bold",
+            post_script_name: "BalooTammudu2-Bold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooTammudu2-Bold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Tammudu 2",
+            style: "ExtraBold",
+            full_name: "Baloo Tammudu 2 ExtraBold",
+            post_script_name: "BalooTammudu2-ExtraBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooTammudu2-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

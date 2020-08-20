@@ -12,12 +12,51 @@ module Fontist
         sha256 "6fa11bef62d1331f968c804d59fe35a8a38cccc5036593fcc39f1892534f5960"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PT_Serif-Web-Regular.ttf",
-        "Italic" => "PT_Serif-Web-Italic.ttf",
-        "Bold" => "PT_Serif-Web-Bold.ttf",
-        "BoldItalic" => "PT_Serif-Web-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "PT Serif",
+            style: "Regular",
+            full_name: "PT Serif",
+            post_script_name: "PTSerif-Regular",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Web-Regular.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Serif",
+            style: "Italic",
+            full_name: "PT Serif Italic",
+            post_script_name: "PTSerif-Italic",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Web-Italic.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Serif",
+            style: "Bold",
+            full_name: "PT Serif Bold",
+            post_script_name: "PTSerif-Bold",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Web-Bold.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Serif",
+            style: "Bold Italic",
+            full_name: "PT Serif Bold Italic",
+            post_script_name: "PTSerif-BoldItalic",
+            version: "1.000W OFL",
+            description: "PT Serif is a universal type family designed for use together with PT Sans released earlier. PT Serif coordinates with PT Sans on metrics, proportions, weights and design. It consists of six styles: regular and bold weights with corresponding italics form a standard computer font family; two caption styles (regular and italic) are for texts of small point sizes. The letterforms are distinguished by large x-height, modest stroke contrast, robust wedge-like serifs, and triangular terminals. Due to these features the face can be qualified as matched to modern trends of type design and of enhanced legibility. Mentioned characteristics beside conventional use in business applications and printed stuff make the fonts quite useable for advertising and display typography.",
+            filename: "PT_Serif-Web-BoldItalic.ttf",
+            copyright: "Copyright © 2010 ParaType Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

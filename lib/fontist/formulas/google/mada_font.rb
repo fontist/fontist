@@ -12,15 +12,74 @@ module Fontist
         sha256 "fd7cc12577b73e7ffe85966e2ccde994687a9bd223170e33bfefc186056d1f07"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Mada-ExtraLight.ttf",
-        "Light" => "Mada-Light.ttf",
-        "Regular" => "Mada-Regular.ttf",
-        "Medium" => "Mada-Medium.ttf",
-        "SemiBold" => "Mada-SemiBold.ttf",
-        "Bold" => "Mada-Bold.ttf",
-        "Black" => "Mada-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mada",
+            style: "ExtraLight",
+            full_name: "Mada ExtraLight",
+            post_script_name: "Mada-ExtraLight",
+            version: "1.004",
+            filename: "Mada-ExtraLight.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "Light",
+            full_name: "Mada Light",
+            post_script_name: "Mada-Light",
+            version: "1.004",
+            filename: "Mada-Light.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "Regular",
+            full_name: "Mada Regular",
+            post_script_name: "Mada-Regular",
+            version: "1.004",
+            filename: "Mada-Regular.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "Medium",
+            full_name: "Mada Medium",
+            post_script_name: "Mada-Medium",
+            version: "1.004",
+            filename: "Mada-Medium.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "SemiBold",
+            full_name: "Mada SemiBold",
+            post_script_name: "Mada-SemiBold",
+            version: "1.004",
+            filename: "Mada-SemiBold.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "Bold",
+            full_name: "Mada Bold",
+            post_script_name: "Mada-Bold",
+            version: "1.004",
+            filename: "Mada-Bold.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+          {
+            family_name: "Mada",
+            style: "Black",
+            full_name: "Mada Black",
+            post_script_name: "Mada-Black",
+            version: "1.004",
+            filename: "Mada-Black.ttf",
+            copyright: "Copyright © 2015-2016 The Mada Project Authors, with Reserved Font Name \"Source\". Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

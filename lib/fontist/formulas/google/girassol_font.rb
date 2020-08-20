@@ -12,9 +12,20 @@ module Fontist
         sha256 "a4a5538ef6f1633163eddd24c7f68c009b02347dc9391bfb108b638b82bf6884"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Girassol-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Girassol",
+            style: "Regular",
+            full_name: "Girassol Regular",
+            post_script_name: "Girassol-Regular",
+            version: "1.004",
+            filename: "Girassol-Regular.ttf",
+            copyright: "Copyright 2019 The Girassol Project Authors (https://github.com/liamspradlin/Girassol-Display)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

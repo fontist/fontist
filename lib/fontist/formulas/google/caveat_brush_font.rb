@@ -12,9 +12,20 @@ module Fontist
         sha256 "92090897cafa1f0b2517c8674abdc9e4afb333292745f4e26c05aab41d045943"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CaveatBrush-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Caveat Brush",
+            style: "Regular",
+            full_name: "Caveat Brush",
+            post_script_name: "CaveatBrush-Regular",
+            version: "1.096; ttfautohint (v1.3)",
+            filename: "CaveatBrush-Regular.ttf",
+            copyright: "Copyright 2015 Google Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

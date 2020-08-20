@@ -12,9 +12,20 @@ module Fontist
         sha256 "9666920fb68a6d893145d4950386b625358da7e95e0f6025be5bb92edbbdec54"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ZhiMangXing-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Zhi Mang Xing",
+            style: "Regular",
+            full_name: "Zhi Mang Xing Regular",
+            post_script_name: "ZhiMangXing-Regular",
+            version: "2.001",
+            filename: "ZhiMangXing-Regular.ttf",
+            copyright: "Copyright 2018 The ZhiMangXing Project Authors (https://github.com/googlefonts/zhimangxing)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

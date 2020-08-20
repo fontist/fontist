@@ -12,9 +12,20 @@ module Fontist
         sha256 "e88d89d1d6b935186c1a274dd187e2d6df3046468149acacbade260f83d0fdea"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Butcherman-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Butcherman",
+            style: "Regular",
+            full_name: "Butcherman Regular",
+            post_script_name: "Butcherman-Regular",
+            version: "001.004",
+            filename: "Butcherman-Regular.ttf",
+            copyright: "Copyright (c) 2011, Typomondo, with Reserved Font Name  \"Butcherman\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

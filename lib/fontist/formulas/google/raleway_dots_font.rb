@@ -12,9 +12,21 @@ module Fontist
         sha256 "e807f7be45d2ac1e022124d9aca2e5f4782bb84e7e91144a9585ca291ad55845"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RalewayDots-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Raleway Dots",
+            style: "Regular",
+            full_name: "Raleway Dots",
+            post_script_name: "RalewayDots-Regular",
+            version: "1.000",
+            description: "It is a display face that features both old style and lining numerals, standard and discretionary ligatures, a pretty complete set of diacritics, as well as a stylistic alternate inspired by more geometric sans-serif typefaces than it's neo-grotesque inspired default character set.",
+            filename: "RalewayDots-Regular.ttf",
+            copyright: "Copyright (c) 2010 - 2012, Matt McInerney (matt@pixelspread.com), Pablo Impallari(impallari@gmail.com), Rodrigo Fuenzalida (hello@rfuenzalida.com) and Brenda Gallo(gbrenda1987@gmail.com), with Reserved Font Name \"Raleway\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

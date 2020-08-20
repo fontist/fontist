@@ -12,12 +12,47 @@ module Fontist
         sha256 "8c844215ae1cb4bd5c8593f3387ff97d4c1fb50f8dd49545cd8c8f18360fdd92"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AnonymousPro-Regular.ttf",
-        "Italic" => "AnonymousPro-Italic.ttf",
-        "Bold" => "AnonymousPro-Bold.ttf",
-        "BoldItalic" => "AnonymousPro-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Anonymous Pro",
+            style: "Regular",
+            full_name: "Anonymous Pro Regular",
+            post_script_name: "AnonymousPro-Regular",
+            version: "1.003",
+            filename: "AnonymousPro-Regular.ttf",
+            copyright: "Copyright (c) Mark Simonson 2009-2010. All rights reserved.",
+          },
+          {
+            family_name: "Anonymous Pro",
+            style: "Italic",
+            full_name: "Anonymous Pro Italic",
+            post_script_name: "AnonymousPro-Italic",
+            version: "1.003",
+            filename: "AnonymousPro-Italic.ttf",
+            copyright: "Copyright (c) Mark Simonson 2009-2010. All rights reserved.",
+          },
+          {
+            family_name: "Anonymous Pro",
+            style: "Bold",
+            full_name: "Anonymous Pro Bold",
+            post_script_name: "AnonymousPro-Bold",
+            version: "1.003",
+            filename: "AnonymousPro-Bold.ttf",
+            copyright: "Copyright (c) Mark Simonson 2009-2010. All rights reserved.",
+          },
+          {
+            family_name: "Anonymous Pro",
+            style: "Bold Italic",
+            full_name: "Anonymous Pro Bold Italic",
+            post_script_name: "AnonymousPro-BoldItalic",
+            version: "1.003",
+            filename: "AnonymousPro-BoldItalic.ttf",
+            copyright: "Copyright (c) Mark Simonson 2009-2010. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RobotoMono[wght].ttf",
-        "Italic" => "RobotoMono-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Roboto Mono",
+            style: "Regular",
+            full_name: "Roboto Mono Regular",
+            post_script_name: "RobotoMono-Regular",
+            version: "3.000",
+            filename: "RobotoMono[wght].ttf",
+            copyright: "Copyright 2015 The Roboto Mono Project Authors (https://github.com/googlefonts/robotomono)",
+          },
+          {
+            family_name: "Roboto Mono",
+            style: "Italic",
+            full_name: "Roboto Mono Italic",
+            post_script_name: "RobotoMono-Italic",
+            version: "3.000",
+            filename: "RobotoMono-Italic[wght].ttf",
+            copyright: "Copyright 2015 The Roboto Mono Project Authors (https://github.com/googlefonts/robotomono)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

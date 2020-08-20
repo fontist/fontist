@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EBGaramond[wght].ttf",
-        "Italic" => "EBGaramond-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "EB Garamond",
+            style: "Regular",
+            full_name: "EB Garamond Regular",
+            post_script_name: "EBGaramond-Regular",
+            version: "1.000; ttfautohint (v1.8.2)",
+            filename: "EBGaramond[wght].ttf",
+            copyright: "Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)",
+          },
+          {
+            family_name: "EB Garamond",
+            style: "Italic",
+            full_name: "EB Garamond Italic",
+            post_script_name: "EBGaramond-Italic",
+            version: "1.000; ttfautohint (v1.8.2)",
+            filename: "EBGaramond-Italic[wght].ttf",
+            copyright: "Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

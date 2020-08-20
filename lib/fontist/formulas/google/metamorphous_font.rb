@@ -12,9 +12,22 @@ module Fontist
         sha256 "7d50935f55b10aa61b9b9d846ef326a366991a61844d9110797d56ff5f5d405a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Metamorphous-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Metamorphous",
+            style: "Regular",
+            full_name: "Metamorphous",
+            post_script_name: "Metamorphous",
+            version: "1.001",
+            description: "Metamorphous is a medium contrast design taking style cues from a wide variety of sources. It draws on and mixes together Romanesque, Gothic and the more familiar Remaissance letter shapes. Originally inspired by display fonts including the free font Morpheous designed by Kiwi Media as well as the work of Jonathan Barnbrook; Metamorphous is designed to be useful in a broad range of applications and sizes. Metamorphous also covers most languages that use Latin letters.",
+            filename: "Metamorphous-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Metamorphous\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

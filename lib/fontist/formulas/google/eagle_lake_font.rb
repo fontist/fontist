@@ -12,9 +12,21 @@ module Fontist
         sha256 "287362cc7cfd2431d65c863b1ac7eac194d485ae13a20f1701abf1016061a5a9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EagleLake-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Eagle Lake",
+            style: "Regular",
+            full_name: "Eagle Lake",
+            post_script_name: "EagleLake-Regular",
+            version: "1.000",
+            filename: "EagleLake-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Eagle Lake\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

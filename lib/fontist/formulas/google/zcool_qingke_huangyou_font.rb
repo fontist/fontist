@@ -12,9 +12,20 @@ module Fontist
         sha256 "5ea3c9a40950000c24051b082d633cf1a4c951e2b6615ace563d8b1d207ca777"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ZCOOLQingKeHuangYou-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "ZCOOL QingKe HuangYou",
+            style: "Regular",
+            full_name: "ZCOOL QingKe HuangYou Regular",
+            post_script_name: "ZCOOLQingKeHuangYou-Regular",
+            version: "1.000",
+            filename: "ZCOOLQingKeHuangYou-Regular.ttf",
+            copyright: "Copyright 2018 The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,14 +12,65 @@ module Fontist
         sha256 "52426d961ccb0b98a6a5a3ba51229e1022bf586eded3382ec8668049cde10996"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Aleo-Light.ttf",
-        "LightItalic" => "Aleo-LightItalic.ttf",
-        "Regular" => "Aleo-Regular.ttf",
-        "Italic" => "Aleo-Italic.ttf",
-        "Bold" => "Aleo-Bold.ttf",
-        "BoldItalic" => "Aleo-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aleo",
+            style: "Light",
+            full_name: "Aleo Light",
+            post_script_name: "Aleo-Light",
+            version: "1.302",
+            filename: "Aleo-Light.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+          {
+            family_name: "Aleo",
+            style: "Light Italic",
+            full_name: "Aleo Light Italic",
+            post_script_name: "Aleo-LightItalic",
+            version: "1.302",
+            filename: "Aleo-LightItalic.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+          {
+            family_name: "Aleo",
+            style: "Regular",
+            full_name: "Aleo Regular",
+            post_script_name: "Aleo-Regular",
+            version: "1.302",
+            filename: "Aleo-Regular.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+          {
+            family_name: "Aleo",
+            style: "Italic",
+            full_name: "Aleo Italic",
+            post_script_name: "Aleo-Italic",
+            version: "1.302",
+            filename: "Aleo-Italic.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+          {
+            family_name: "Aleo",
+            style: "Bold",
+            full_name: "Aleo Bold",
+            post_script_name: "Aleo-Bold",
+            version: "1.302",
+            filename: "Aleo-Bold.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+          {
+            family_name: "Aleo",
+            style: "Bold Italic",
+            full_name: "Aleo Bold Italic",
+            post_script_name: "Aleo-BoldItalic",
+            version: "1.302",
+            filename: "Aleo-BoldItalic.ttf",
+            copyright: "Copyright 2018 The Aleo Project Authors (https://github.com/AlessioLaiso/aleo)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

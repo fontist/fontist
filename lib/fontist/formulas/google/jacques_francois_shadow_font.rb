@@ -12,9 +12,20 @@ module Fontist
         sha256 "cde291ded9d3d0181d792b751c8abd9fe2c068021d09014435c325773e5d166e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JacquesFrancoisShadow-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jacques Francois Shadow",
+            style: "Regular",
+            full_name: "Jacques Francois Shadow",
+            post_script_name: "JacquesFrancoisShadow-Regular",
+            version: "1.003",
+            filename: "JacquesFrancoisShadow-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name 'Jacques Francois'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

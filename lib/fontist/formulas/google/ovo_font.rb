@@ -12,9 +12,21 @@ module Fontist
         sha256 "08b7ea2b5b38e415931988f71be4be793734a7d8713e442633aced9cb4e269a5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ovo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ovo",
+            style: "Regular",
+            full_name: "Ovo",
+            post_script_name: "Ovo",
+            version: "1.001",
+            description: "Ovo was inspired by a set of hand lettered caps seen in a 1930's lettering guide. The capitals suggested the time in which they were made because of the soft serif treatment used. This detail and a subtle casual feeling creeping into the otherwise classical forms led to the soft genial lowercase and the whimsical numbers now seen in Ovo. Ovo is a medium contrast serif font. Because of the old style variable letter widths and subtle detail it will work best at medium to large sizes.",
+            filename: "Ovo-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

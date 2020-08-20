@@ -12,9 +12,21 @@ module Fontist
         sha256 "51d5b60c316e49abe86ba8a439794d381cf768a7b97165da199ac91e0e6e88ff"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Peralta-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Peralta",
+            style: "Regular",
+            full_name: "Peralta",
+            post_script_name: "Peralta-Regular",
+            version: "1.000",
+            filename: "Peralta-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Peralta\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

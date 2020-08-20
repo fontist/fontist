@@ -12,9 +12,21 @@ module Fontist
         sha256 "c8d44d30e798c3281e374853d71714d3babb3bacfe11ce6c9218730a6d06d746"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MarkoOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Marko One",
+            style: "Regular",
+            full_name: "Marko One",
+            post_script_name: "MarkoOne-Regular",
+            version: "1.003",
+            filename: "MarkoOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Marko\" and \"Marko One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

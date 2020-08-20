@@ -12,9 +12,20 @@ module Fontist
         sha256 "d6cdf64ffe75dc68212ab3947fd6ad1920251613f42c507825c52472d025f749"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Molengo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Molengo",
+            style: "Regular",
+            full_name: "Molengo",
+            post_script_name: "Molengo-Regular",
+            version: "0.11; ttfautohint (v0.8) -G 32 -r 16 -x",
+            filename: "Molengo-Regular.ttf",
+            copyright: "Copyright (c) 2007, Denis Moyogo Jacquerye <moyogo@gmail.com>, with Reserved Font Name Molengo",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

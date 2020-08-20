@@ -12,9 +12,20 @@ module Fontist
         sha256 "57d07c26c091340eeab9715d3fae33296f2abd72986aace1054073d86011550e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Felipa-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Felipa",
+            style: "Regular",
+            full_name: "Felipa",
+            post_script_name: "Felipa-Regular",
+            version: "1.001",
+            filename: "Felipa-Regular.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Felipa\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

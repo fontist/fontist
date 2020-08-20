@@ -12,13 +12,56 @@ module Fontist
         sha256 "15e2a853f52c0db473b5f2c0a2bdf116c73208f799a010c5213e7e0eff068312"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "CormorantSC-Light.ttf",
-        "Regular" => "CormorantSC-Regular.ttf",
-        "Medium" => "CormorantSC-Medium.ttf",
-        "SemiBold" => "CormorantSC-SemiBold.ttf",
-        "Bold" => "CormorantSC-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cormorant SC",
+            style: "Light",
+            full_name: "Cormorant SC Light",
+            post_script_name: "CormorantSC-Light",
+            version: "3.303",
+            filename: "CormorantSC-Light.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant SC",
+            style: "Regular",
+            full_name: "Cormorant SC Regular",
+            post_script_name: "CormorantSC-Regular",
+            version: "3.303",
+            filename: "CormorantSC-Regular.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant SC",
+            style: "Medium",
+            full_name: "Cormorant SC Medium",
+            post_script_name: "CormorantSC-Medium",
+            version: "3.303",
+            filename: "CormorantSC-Medium.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant SC",
+            style: "SemiBold",
+            full_name: "Cormorant SC SemiBold",
+            post_script_name: "CormorantSC-SemiBold",
+            version: "3.303",
+            filename: "CormorantSC-SemiBold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant SC",
+            style: "Bold",
+            full_name: "Cormorant SC Bold",
+            post_script_name: "CormorantSC-Bold",
+            version: "3.303",
+            filename: "CormorantSC-Bold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

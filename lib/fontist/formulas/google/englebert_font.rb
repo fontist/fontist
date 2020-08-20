@@ -12,9 +12,21 @@ module Fontist
         sha256 "12dd810f64d9a442363465b137136426fb3f576bcad8b60f9bc354000a38b428"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Englebert-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Englebert",
+            style: "Regular",
+            full_name: "Englebert",
+            post_script_name: "Englebert-Regular",
+            version: "1.000",
+            filename: "Englebert-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Englebert\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "72a4b26f157a8bbaaac1427507f4a3f2d27312729575407389f6b58e5a971d28"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Aubrey-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aubrey",
+            style: "Regular",
+            full_name: "Aubrey Regular",
+            post_script_name: "Aubrey-Regular",
+            version: "1.001",
+            filename: "Aubrey-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Gayaneh Bagdasaryan | Cyreal.org. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

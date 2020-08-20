@@ -12,9 +12,23 @@ module Fontist
         sha256 "c69624543c2051bcd305fae4457f65d8db967b23d3cfdfb327b6737dea420412"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rye-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rye",
+            style: "Regular",
+            full_name: "Rye Regular",
+            post_script_name: "Rye-Regular",
+            version: "1.001",
+            description: "Rye's bold attention getting shapes are useful for advertising. Sasparilly is a medium contrast design inspired by posters using wood type. It gives off a feeling of the American West. It is suitable for use in medium to large sizes including headlines. This font was made specifically to be web type.",
+            filename: "Rye-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Rye.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,14 +12,71 @@ module Fontist
         sha256 "5c1bcb28df3c33f1084f7173a893e0b15c19a451dac37e3790c10a1e6d5dc75f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RedHatText-Regular.ttf",
-        "Italic" => "RedHatText-Italic.ttf",
-        "Medium" => "RedHatText-Medium.ttf",
-        "MediumItalic" => "RedHatText-MediumItalic.ttf",
-        "Bold" => "RedHatText-Bold.ttf",
-        "BoldItalic" => "RedHatText-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Red Hat Text",
+            style: "Regular",
+            full_name: "Red Hat Text",
+            post_script_name: "RedHatText-Regular",
+            version: "1.005; Red Hat Text",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-Regular.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Text",
+            style: "Italic",
+            full_name: "Red Hat Text It",
+            post_script_name: "RedHatText-Italic",
+            version: "1.005; Red Hat Text Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-Italic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Text",
+            style: "Medium",
+            full_name: "Red Hat Text Medium",
+            post_script_name: "RedHatText-Medium",
+            version: "1.005; Red Hat Text Medium",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-Medium.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Text",
+            style: "Medium Italic",
+            full_name: "Red Hat Text Medium It",
+            post_script_name: "RedHatText-MediumItalic",
+            version: "1.005; Red Hat Text Medium Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-MediumItalic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Text",
+            style: "Bold",
+            full_name: "Red Hat Text Bold",
+            post_script_name: "RedHatText-Bold",
+            version: "1.005; Red Hat Text Bold",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-Bold.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Text",
+            style: "Bold Italic",
+            full_name: "Red Hat Text Bold It",
+            post_script_name: "RedHatText-BoldItalic",
+            version: "1.005; Red Hat Text Bold Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatText-BoldItalic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

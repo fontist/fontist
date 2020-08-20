@@ -12,9 +12,21 @@ module Fontist
         sha256 "6ceabf269f8df703a844f9e04ed44e3e90c8b396ed8e5c3c883a192c9b11b24f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MissFajardose-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Miss Fajardose",
+            style: "Regular",
+            full_name: "Miss Fajardose Regular",
+            post_script_name: "MissFajardose-Regular",
+            version: "1.000",
+            filename: "MissFajardose-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"MissFajardose\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

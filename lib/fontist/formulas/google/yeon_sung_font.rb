@@ -12,9 +12,20 @@ module Fontist
         sha256 "7637dace1ee8f459adb836043b83a8a9bc51f20801b699f379125963a56adf71"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "YeonSung-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yeon Sung",
+            style: "Regular",
+            full_name: "Yeon Sung Regular",
+            post_script_name: "YeonSung-Regular",
+            version: "1.00",
+            filename: "YeonSung-Regular.ttf",
+            copyright: "Copyright 2018 The Yeon Sung Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

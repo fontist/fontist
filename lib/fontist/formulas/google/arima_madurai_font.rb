@@ -12,16 +12,83 @@ module Fontist
         sha256 "562704381242cda592dce6be9d152856f81ca286163077502a19fdfd8f8ade10"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "ArimaMadurai-Thin.ttf",
-        "ExtraLight" => "ArimaMadurai-ExtraLight.ttf",
-        "Light" => "ArimaMadurai-Light.ttf",
-        "Regular" => "ArimaMadurai-Regular.ttf",
-        "Medium" => "ArimaMadurai-Medium.ttf",
-        "Bold" => "ArimaMadurai-Bold.ttf",
-        "ExtraBold" => "ArimaMadurai-ExtraBold.ttf",
-        "Black" => "ArimaMadurai-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arima Madurai",
+            style: "Thin",
+            full_name: "Arima Madurai Thin",
+            post_script_name: "ArimaMadurai-Thin",
+            version: "1.020; ttfautohint (v1.5) -l 7 -r 28 -G 50 -x 13 -D latn -f none -w G -X \"\"",
+            filename: "ArimaMadurai-Thin.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "ExtraLight",
+            full_name: "Arima Madurai ExtraLight",
+            post_script_name: "ArimaMadurai-ExtraLight",
+            version: "1.020",
+            filename: "ArimaMadurai-ExtraLight.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "Light",
+            full_name: "Arima Madurai Light",
+            post_script_name: "ArimaMadurai-Light",
+            version: "1.020",
+            filename: "ArimaMadurai-Light.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "Regular",
+            full_name: "Arima Madurai Regular",
+            post_script_name: "ArimaMadurai-Regular",
+            version: "1.020",
+            filename: "ArimaMadurai-Regular.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "Medium",
+            full_name: "Arima Madurai Medium",
+            post_script_name: "ArimaMadurai-Medium",
+            version: "1.020",
+            filename: "ArimaMadurai-Medium.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "Bold",
+            full_name: "Arima Madurai Bold",
+            post_script_name: "ArimaMadurai-Bold",
+            version: "1.020",
+            filename: "ArimaMadurai-Bold.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "ExtraBold",
+            full_name: "Arima Madurai ExtraBold",
+            post_script_name: "ArimaMadurai-ExtraBold",
+            version: "1.020",
+            filename: "ArimaMadurai-ExtraBold.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+          {
+            family_name: "Arima Madurai",
+            style: "Black",
+            full_name: "Arima Madurai Black",
+            post_script_name: "ArimaMadurai-Black",
+            version: "1.020",
+            filename: "ArimaMadurai-Black.ttf",
+            copyright: "Copyright 2015 The Arima Project Authors (info@ndiscovered.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Epilogue[wght].ttf",
-        "Italic" => "Epilogue-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Epilogue",
+            style: "Regular",
+            full_name: "Epilogue Regular",
+            post_script_name: "Epilogue-Regular",
+            version: "2.111",
+            filename: "Epilogue[wght].ttf",
+            copyright: "Copyright 2020 The Epilogue Project Authors (https://github.com/Etcetera-Type-Co/Epilogue)",
+          },
+          {
+            family_name: "Epilogue",
+            style: "Italic",
+            full_name: "Epilogue Italic",
+            post_script_name: "Epilogue-Italic",
+            version: "2.111",
+            filename: "Epilogue-Italic[wght].ttf",
+            copyright: "Copyright 2020 The Epilogue Project Authors (https://github.com/Etcetera-Type-Co/Epilogue)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

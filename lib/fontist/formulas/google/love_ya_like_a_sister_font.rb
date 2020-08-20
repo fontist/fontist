@@ -12,9 +12,21 @@ module Fontist
         sha256 "2a7c8a3a8ac708d81b253217e27b345239c01b71842c4f4beb09bf0fb425f71e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LoveYaLikeASister.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Love Ya Like A Sister",
+            style: "Regular",
+            full_name: "Love Ya Like A Sister Regular",
+            post_script_name: "LoveYaLikeASister-Regular",
+            version: "1.002 2007",
+            description: "Copyright (c) 2011 by Kimberly Geswein. All rights reserved.",
+            filename: "LoveYaLikeASister.ttf",
+            copyright: "Copyright (c) 2011 by Kimberly Geswein. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

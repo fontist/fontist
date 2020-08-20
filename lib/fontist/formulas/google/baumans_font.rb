@@ -12,9 +12,25 @@ module Fontist
         sha256 "6f360747b5b45d2b2f88d01267c185b4dd193357b23ae988a73b9e6fdcf5ad41"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Baumans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baumans",
+            style: "Regular",
+            full_name: "Baumans Regular",
+            post_script_name: "Baumans-Regular",
+            version: "001.002",
+            filename: "Baumans-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Baumans\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

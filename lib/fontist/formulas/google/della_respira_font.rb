@@ -12,9 +12,20 @@ module Fontist
         sha256 "0d88ac7e221edc63303f9b3159dcc4808b567d6df3888ef2fdc5f32be0a94880"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DellaRespira-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Della Respira",
+            style: "Regular",
+            full_name: "Della Respira",
+            post_script_name: "DellaRespira-Regular",
+            version: "0.201",
+            filename: "DellaRespira-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Nathan Willis (nwillis@glyphography.com), with Reserved Font Names \"Della Respira\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

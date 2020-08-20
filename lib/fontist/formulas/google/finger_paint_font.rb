@@ -12,9 +12,20 @@ module Fontist
         sha256 "2bb1f829da18e89b5659a9133b13d07c74b599b349d4507b8d663fd8cdcfae80"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FingerPaint-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Finger Paint",
+            style: "Regular",
+            full_name: "Finger Paint Regular",
+            post_script_name: "FingerPaint-Regular",
+            version: "1.002",
+            filename: "FingerPaint-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Ralph du Carrois, with Reserved Font Name 'Finger Paint'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

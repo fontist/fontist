@@ -12,9 +12,20 @@ module Fontist
         sha256 "2d57a72a739819d888384c2a0a7f0d6f65996889392b4f2f25a7a6972cca1197"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GoudyBookletter1911.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Goudy Bookletter 1911",
+            style: "Regular",
+            full_name: "Goudy Bookletter 1911",
+            post_script_name: "GoudyBookletter1911",
+            version: "2010.07.03",
+            filename: "GoudyBookletter1911.ttf",
+            copyright: "Copyright (c) 2010, Barry Schwartz (crudfactory.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

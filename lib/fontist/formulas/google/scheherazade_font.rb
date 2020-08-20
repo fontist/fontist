@@ -12,10 +12,31 @@ module Fontist
         sha256 "82a8af062a80d72631860ae4f583b3a20c97418df1d3252b7576c35dc9f86977"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Scheherazade-Regular.ttf",
-        "Bold" => "Scheherazade-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Scheherazade",
+            style: "Regular",
+            full_name: "Scheherazade",
+            post_script_name: "Scheherazade-Regular",
+            version: "2.100 (build 932/914)",
+            description: "Scheherazade is an Arabic font with a design based on traditional typefaces such as Monotype Naskh, extended to cover the full Unicode Arabic repertoire. It is named after the heroine of the classic Arabian Nights tale.",
+            filename: "Scheherazade-Regular.ttf",
+            copyright: "Copyright (c) 1994 - 2015 by SIL International. All rights reserved.",
+          },
+          {
+            family_name: "Scheherazade",
+            style: "Bold",
+            full_name: "Scheherazade Bold",
+            post_script_name: "Scheherazade-Bold",
+            version: "2.100 (build 932/914)",
+            description: "Scheherazade is an Arabic font with a design based on traditional typefaces such as Monotype Naskh, extended to cover the full Unicode Arabic repertoire. It is named after the heroine of the classic Arabian Nights tale.",
+            filename: "Scheherazade-Bold.ttf",
+            copyright: "Copyright (c) 1994-2015 SIL International. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

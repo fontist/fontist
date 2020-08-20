@@ -12,9 +12,21 @@ module Fontist
         sha256 "bd549541211683a4babb783f2720de9b8bdb1734b8bc43c1d27a8470ce2cf5d7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LoversQuarrel-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lovers Quarrel",
+            style: "Regular",
+            full_name: "Lovers Quarrel",
+            post_script_name: "LoversQuarrel-Regular",
+            version: "1.001",
+            filename: "LoversQuarrel-Regular.ttf",
+            copyright: "Copyright (c) 2012 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Lovers Quarrel\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "e154a1c2cb1b41d9b734afca8e1659fae3d7e11b10b89c7dc612482588808a02"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chilanka-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chilanka",
+            style: "Regular",
+            full_name: "Chilanka Regular",
+            post_script_name: "Chilanka-Regular",
+            version: "1.510",
+            description: "Chilanka is Malayalam handwriting style font designed by Santhosh Thottingal. Chilanka follows the common style one can see in everyday handwriting of Malayalam. It has a comprehensive Malayalam glyph set that contains most of the unique Malayalam conjuncts. The glyph strokes are of uniform width with round ends giving the impression of written with either a thin felt-tip pen, or a ball-point pen. Sharp corners are completely avoided and gives the fine touch of beautiful curves of Malayalam script. The style is not the handwriting style of designer, but is based on many handwriting samples he observed. A uniform set was selected from them for the font. Even though the style is handwriting, the glyphs follow the horizontal baseline and can be used for body text too.",
+            filename: "Chilanka-Regular.ttf",
+            copyright: "Copyright 2019 The Chilanka Project Authors (https://gitlab.com/smc/fonts/chilanka)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "6cbf152fbd55d51decef68c80d9a23bbd19a2803bd9259f786abfce0e107d5fe"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AdobeBlank-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Adobe Blank",
+            style: "Regular",
+            full_name: "Adobe Blank",
+            post_script_name: "AdobeBlank-Regular",
+            version: "1.045;PS 1.045;hotconv 1.0.82;makeotf.lib2.5.63406",
+            filename: "AdobeBlank-Regular.ttf",
+            copyright: "Copyright © 2013, 2015 Adobe Systems Incorporated (http://www.adobe.com/).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

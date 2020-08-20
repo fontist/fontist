@@ -12,9 +12,20 @@ module Fontist
         sha256 "e65b0c2bf10ef570546d8ef486414122aa5ea4c8e51c1eb9c077d8001737d475"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Imprima-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Imprima",
+            style: "Regular",
+            full_name: "Imprima",
+            post_script_name: "Imprima-Regular",
+            version: "1.001",
+            filename: "Imprima-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Imprima\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

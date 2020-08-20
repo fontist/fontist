@@ -12,12 +12,47 @@ module Fontist
         sha256 "a4a31c5b371211ca36e9bcc345d333dde58f499c3bcc768f401254200f5f1cd2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Puritan-Regular.ttf",
-        "Italic" => "Puritan-Italic.ttf",
-        "Bold" => "Puritan-Bold.ttf",
-        "BoldItalic" => "Puritan-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Puritan",
+            style: "Regular",
+            full_name: "Puritan Regular",
+            post_script_name: "Puritan-Regular",
+            version: "2.0a",
+            filename: "Puritan-Regular.ttf",
+            copyright: "Copyright 1999-2010 Ben Weiner. Licensed under the Open Font License v1.1 (http://scripts.sil.org/OFL)",
+          },
+          {
+            family_name: "Puritan",
+            style: "Italic",
+            full_name: "Puritan Italic",
+            post_script_name: "Puritan-Italic",
+            version: "2.0a",
+            filename: "Puritan-Italic.ttf",
+            copyright: "Copyright 1999-2010 Ben Weiner. Licensed under the Open Font License v1.1 (http://scripts.sil.org/OFL)",
+          },
+          {
+            family_name: "Puritan",
+            style: "Bold",
+            full_name: "Puritan Bold",
+            post_script_name: "Puritan-Bold",
+            version: "2.1",
+            filename: "Puritan-Bold.ttf",
+            copyright: "Copyright 1999-2010 Ben Weiner. Licensed under the Open Font License v1.1 (http://scripts.sil.org/OFL)",
+          },
+          {
+            family_name: "Puritan",
+            style: "BoldItalic",
+            full_name: "Puritan Bold Italic",
+            post_script_name: "Puritan-BoldItalic",
+            version: "2.1",
+            filename: "Puritan-BoldItalic.ttf",
+            copyright: "Copyright 1999-2010 Ben Weiner. Licensed under the Open Font License v1.1 (http://scripts.sil.org/OFL)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

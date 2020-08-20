@@ -12,10 +12,29 @@ module Fontist
         sha256 "3b8f0151cb4d6759730167d4390dc25f071ddb26dd512b009acd8af2483dcff2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Karla[wght].ttf",
-        "Italic" => "Karla-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Karla",
+            style: "ExtraLight",
+            full_name: "Karla ExtraLight",
+            post_script_name: "Karla-ExtraLight",
+            version: "2.001",
+            filename: "Karla[wght].ttf",
+            copyright: "Copyright 2019 The Karla Project Authors (https://github.com/bghryct/karmilla)",
+          },
+          {
+            family_name: "Karla",
+            style: "ExtraLight Italic",
+            full_name: "Karla ExtraLight Italic",
+            post_script_name: "Karla-ExtraLightItalic",
+            version: "2.001",
+            filename: "Karla-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Karla Project Authors (https://github.com/bghryct/karmilla)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

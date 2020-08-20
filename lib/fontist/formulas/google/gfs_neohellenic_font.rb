@@ -12,12 +12,47 @@ module Fontist
         sha256 "94d5693a57b0285000d709653f3172d656f47bbee45fa585e0070dd8b4b074ef"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GFSNeohellenic.ttf",
-        "Italic" => "GFSNeohellenicItalic.ttf",
-        "Bold" => "GFSNeohellenicBold.ttf",
-        "BoldItalic" => "GFSNeohellenicBoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "GFS Neohellenic",
+            style: "Regular",
+            full_name: "GFS Neohellenic Regular",
+            post_script_name: "GFSNeohellenic-Regular",
+            version: "1.0",
+            filename: "GFSNeohellenic.ttf",
+            copyright: "Copyright (c) Takis Katsoulidis and George D. Matthiopoulos, 1993-2001. All rights reserved.",
+          },
+          {
+            family_name: "GFS Neohellenic",
+            style: "Italic",
+            full_name: "GFS Neohellenic Italic",
+            post_script_name: "GFSNeohellenic-Italic",
+            version: "1.0",
+            filename: "GFSNeohellenicItalic.ttf",
+            copyright: "Copyright (c) Takis Katsoulidis and George D. Matthiopoulos  , 2001. All rights reserved.",
+          },
+          {
+            family_name: "GFS Neohellenic",
+            style: "Bold",
+            full_name: "GFS Neohellenic Bold",
+            post_script_name: "GFSNeohellenic-Bold",
+            version: "1.0",
+            filename: "GFSNeohellenicBold.ttf",
+            copyright: "Copyright (c) Designed by Takis Katsoulidis and George D. Matthiopoulos., 2001. All rights reserved.",
+          },
+          {
+            family_name: "GFS Neohellenic",
+            style: "Bold Italic",
+            full_name: "GFS Neohellenic Bold Italic",
+            post_script_name: "GFSNeohellenic-BoldItalic",
+            version: "1.0",
+            filename: "GFSNeohellenicBoldItalic.ttf",
+            copyright: "Copyright (c) Designed by Takis Katsoulidis and George D. Matthiopoulos., 2001. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "55e40e1edd06d81e0e03d1262a2e0c73bbf9739ee3f5e36e1e691a4ac71c224c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AbrilFatface-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Abril Fatface",
+            style: "Regular",
+            full_name: "Abril Fatface",
+            post_script_name: "AbrilFatface-Regular",
+            version: "1.001",
+            filename: "AbrilFatface-Regular.ttf",
+            copyright: "Copyright (c) 2011, Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Abril\" and \"Abril Fatface\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "b30821091151c0e19207dba9dbae8078833d825a4cdfdda01ddd0945b910b5e2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Timmana-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Timmana",
+            style: "Regular",
+            full_name: "Timmana",
+            post_script_name: "Timmana",
+            version: "1.0.4; ttfautohint (v1.2.42-39fb)",
+            filename: "Timmana-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011, Sergiy Tkachenko (www.4thfebruary.com.ua info@4thfebruary.com.ua), with Reserved Font Names 'Sansus', 'Webissimo'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

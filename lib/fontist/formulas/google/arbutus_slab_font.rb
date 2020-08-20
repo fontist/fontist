@@ -12,9 +12,20 @@ module Fontist
         sha256 "407d9f9fbe5b13f086a0c67189fb44a6a10665713d219ce39655c3acef284b36"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ArbutusSlab-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arbutus Slab",
+            style: "Regular",
+            full_name: "Arbutus Slab Regular",
+            post_script_name: "ArbutusSlab-Regular",
+            version: "1.002; ttfautohint (v0.92) -l 10 -r 16 -G 200 -x 7 -w \"GD\"",
+            filename: "ArbutusSlab-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Sorkin Type Co.. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "5d995a58395706ec60842c3dd6777c128e9662bf46246b7613e096e2bc6448d0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Brawler-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Brawler",
+            style: "Regular",
+            full_name: "Brawler Regular",
+            post_script_name: "Brawler-Regular",
+            version: "1.001",
+            filename: "Brawler-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Oleg Frolov | Cyreal. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

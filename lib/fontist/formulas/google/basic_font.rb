@@ -12,9 +12,21 @@ module Fontist
         sha256 "55f54b6b53ca82b65215c3c59be5ba412a1e0429a06c4a3ac4e8b5bb90d9eba4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Basic-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Basic",
+            style: "Regular",
+            full_name: "Basic Regular",
+            post_script_name: "Basic-Regular",
+            version: "1.003; ttfautohint (v1.1) -l 6 -r 16 -G 0 -x 16 -D latn -f none -w \"\"",
+            description: "Basic is a low contrast san serif text face. Basic mixes familiar forms with a hint of novelty. It is is easy to read and is slightly elegant. Basic can be used from small sizes to larger display settings.",
+            filename: "Basic-Regular.ttf",
+            copyright: "Copyright (c) 2011-2014, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Basic'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

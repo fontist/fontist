@@ -12,16 +12,83 @@ module Fontist
         sha256 "80642634535921e96ca17a3cc1a0f74299a325c4339ffa81688898ba156631d0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Chivo-Light.ttf",
-        "LightItalic" => "Chivo-LightItalic.ttf",
-        "Regular" => "Chivo-Regular.ttf",
-        "Italic" => "Chivo-Italic.ttf",
-        "Bold" => "Chivo-Bold.ttf",
-        "BoldItalic" => "Chivo-BoldItalic.ttf",
-        "Black" => "Chivo-Black.ttf",
-        "BlackItalic" => "Chivo-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chivo",
+            style: "Light",
+            full_name: "Chivo Light",
+            post_script_name: "Chivo-Light",
+            version: "1.007",
+            filename: "Chivo-Light.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Light Italic",
+            full_name: "Chivo Light Italic",
+            post_script_name: "Chivo-LightItalic",
+            version: "1.007",
+            filename: "Chivo-LightItalic.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Regular",
+            full_name: "Chivo Regular",
+            post_script_name: "Chivo-Regular",
+            version: "1.007",
+            filename: "Chivo-Regular.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Italic",
+            full_name: "Chivo Italic",
+            post_script_name: "Chivo-Italic",
+            version: "1.007",
+            filename: "Chivo-Italic.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Bold",
+            full_name: "Chivo Bold",
+            post_script_name: "Chivo-Bold",
+            version: "1.007",
+            filename: "Chivo-Bold.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Bold Italic",
+            full_name: "Chivo Bold Italic",
+            post_script_name: "Chivo-BoldItalic",
+            version: "1.007",
+            filename: "Chivo-BoldItalic.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Black",
+            full_name: "Chivo Black",
+            post_script_name: "Chivo-Black",
+            version: "1.007",
+            filename: "Chivo-Black.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Chivo",
+            style: "Black Italic",
+            full_name: "Chivo Black Italic",
+            post_script_name: "Chivo-BlackItalic",
+            version: "1.007",
+            filename: "Chivo-BlackItalic.ttf",
+            copyright: "Copyright 2016 The Chivo Project Authors (omnibus.type@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

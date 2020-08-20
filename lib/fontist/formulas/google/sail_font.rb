@@ -12,9 +12,20 @@ module Fontist
         sha256 "8e162dbc5cd55556588c2cb9c3ae11909b09e739365f473f800b4b809c9ed4a5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sail-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sail",
+            style: "Regular",
+            full_name: "Sail",
+            post_script_name: "Sail-Regular",
+            version: "1.002",
+            filename: "Sail-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (luciano@latinotype.com), with Reserved Font Names \"Sail\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

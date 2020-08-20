@@ -14,9 +14,21 @@ module Fontist
         sha256 "0524fe42951adc3a7eb870e32f0920313c71f170c859b5f770d82b4ee111e970"
       end
 
-      provides_font("Andale Mono", match_styles_from_file: {
-        "Regular" => "AndaleMo.TTF"
-      })
+      provides_font(
+        "Andale Mono",
+        match_styles_from_file: [
+          {
+            family_name: "Andale Mono",
+            style: "Regular",
+            full_name: "Andale Mono",
+            post_script_name: "AndaleMono",
+            version: "2.00",
+            description: "Andale Monospaced is a highly legible monospaced font.",
+            filename: "AndaleMo.TTF",
+            copyright: "Digitized data copyright (C) 1993-1997 The Monotype Corporation. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource "andale32.exe" do |resource|

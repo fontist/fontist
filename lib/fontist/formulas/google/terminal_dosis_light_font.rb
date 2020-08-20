@@ -12,9 +12,21 @@ module Fontist
         sha256 "7c30b40ae9e4af22343599c128dd4eaa834de0746d31bd0a4c683f7e7cc3c864"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "TerminalDosis-Light.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Terminal Dosis",
+            style: "Light",
+            full_name: "Terminal Dosis Light",
+            post_script_name: "TerminalDosis-Light",
+            version: "1.005",
+            description: "Copyright (c) 2010 by EdgarTolentino, PabloImpallari, IginoMarini. All rights reserved.",
+            filename: "TerminalDosis-Light.ttf",
+            copyright: "Copyright (c) 2011 by EdgarTolentino, PabloImpallari, IginoMarini. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

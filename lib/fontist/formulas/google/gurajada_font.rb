@@ -12,9 +12,20 @@ module Fontist
         sha256 "1347a4e80c0c7eb8208e3a89e2bf986f35878afd7dc70043af56e93f18bc7d2d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gurajada-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gurajada",
+            style: "Regular",
+            full_name: "Gurajada",
+            post_script_name: "Gurajada",
+            version: "1.0.3; ttfautohint (v1.2.42-39fb)",
+            filename: "Gurajada-Regular.ttf",
+            copyright: "Copyright (c) 2012 SiliconAndhra (fonts.siliconandhra.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "bb8501204ad20b70077381a290ae9e807848aaf0352759f8763ff245a8850e7f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dhyana-Regular.ttf",
-        "Bold" => "Dhyana-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dhyana",
+            style: "Regular",
+            full_name: "Dhyana",
+            post_script_name: "Dhyana-Regular",
+            version: "1.002; ttfautohint (v0.8.51-6076)",
+            filename: "Dhyana-Regular.ttf",
+            copyright: "Copyright (c) 2010-12, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names \"Nobile\" and \"Dhyana\"",
+          },
+          {
+            family_name: "Dhyana",
+            style: "Bold",
+            full_name: "Dhyana Bold",
+            post_script_name: "Dhyana-Bold",
+            version: "1.002; ttfautohint (v0.8.51-6076)",
+            filename: "Dhyana-Bold.ttf",
+            copyright: "Copyright (c) 2010-12, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names \"Nobile\" and \"Dhyana\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

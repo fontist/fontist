@@ -12,9 +12,21 @@ module Fontist
         sha256 "d35f03a70e5ebfbeb24b4b61d5923dbee4c91828f7449f42cf70cf45343d5ad2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Devonshire-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Devonshire",
+            style: "Regular",
+            full_name: "Devonshire-Regular",
+            post_script_name: "Devonshire-Regular",
+            version: "1.001",
+            filename: "Devonshire-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Devonshire\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

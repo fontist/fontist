@@ -12,10 +12,29 @@ module Fontist
         sha256 "7ccdf5970f0a7b0e6c44677fc51b7e2b04ed97b570388d8936ad2c1f59348284"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DMSerifDisplay-Regular.ttf",
-        "Italic" => "DMSerifDisplay-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "DM Serif Display",
+            style: "Regular",
+            full_name: "DM Serif Display Regular",
+            post_script_name: "DMSerifDisplay-Regular",
+            version: "5.200; ttfautohint (v1.8.3)",
+            filename: "DMSerifDisplay-Regular.ttf",
+            copyright: "Copyright 2014 - 2017 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Serif Display",
+            style: "Italic",
+            full_name: "DM Serif Display Italic",
+            post_script_name: "DMSerifDisplay-Italic",
+            version: "5.200; ttfautohint (v1.8.3)",
+            filename: "DMSerifDisplay-Italic.ttf",
+            copyright: "Copyright 2014 - 2017 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. Copyright 2019 Google LLC.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

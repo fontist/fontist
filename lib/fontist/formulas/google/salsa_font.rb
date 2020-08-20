@@ -12,9 +12,20 @@ module Fontist
         sha256 "120ae0a124e41c4d930494c003a406a6a3dabb549a38b96a7e900cfce187b669"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Salsa-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Salsa",
+            style: "Regular",
+            full_name: "Salsa-Regular",
+            post_script_name: "Salsa-Regular",
+            version: "1.002",
+            filename: "Salsa-Regular.ttf",
+            copyright: "Copyright (c) 2011 by John Vargas Beltrn (john.vargasbeltran@gmail.com), with Reserved Font Name Salsa.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

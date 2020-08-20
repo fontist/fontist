@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Exo[wght].ttf",
-        "Italic" => "Exo-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Exo",
+            style: "Thin",
+            full_name: "Exo Thin",
+            post_script_name: "Exo-Thin",
+            version: "2.000",
+            filename: "Exo[wght].ttf",
+            copyright: "Copyright 2017 The Exo Project Authors (https://github.com/NDISCOVER/Exo-1.0)",
+          },
+          {
+            family_name: "Exo",
+            style: "Thin Italic",
+            full_name: "Exo Thin Italic",
+            post_script_name: "Exo-ThinItalic",
+            version: "2.000",
+            filename: "Exo-Italic[wght].ttf",
+            copyright: "Copyright 2017 The Exo Project Authors (https://github.com/NDISCOVER/Exo-1.0)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

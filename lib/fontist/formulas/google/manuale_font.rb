@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Manuale[wght].ttf",
-        "Italic" => "Manuale-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Manuale",
+            style: "Regular",
+            full_name: "Manuale Regular",
+            post_script_name: "Manuale-Regular",
+            version: "1.000; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Manuale[wght].ttf",
+            copyright: "Copyright 2016 The Manuale Project Authors (https://github.com/Omnibus-Type/Manuale)",
+          },
+          {
+            family_name: "Manuale",
+            style: "Italic",
+            full_name: "Manuale Italic",
+            post_script_name: "Manuale-Italic",
+            version: "1.000; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Manuale-Italic[wght].ttf",
+            copyright: "Copyright 2016 The Manuale Project Authors (https://github.com/Omnibus-Type/Manuale)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

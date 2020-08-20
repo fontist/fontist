@@ -12,14 +12,65 @@ module Fontist
         sha256 "92e14403e9ae3a74f66f6d9f4dab43cf5cd0413e71eec0d57b59d4bf42aca752"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "DMMono-Light.ttf",
-        "LightItalic" => "DMMono-LightItalic.ttf",
-        "Regular" => "DMMono-Regular.ttf",
-        "Italic" => "DMMono-Italic.ttf",
-        "Medium" => "DMMono-Medium.ttf",
-        "MediumItalic" => "DMMono-MediumItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "DM Mono",
+            style: "Light",
+            full_name: "DM Mono Light",
+            post_script_name: "DMMono-Light",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-Light.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+          {
+            family_name: "DM Mono",
+            style: "Light Italic",
+            full_name: "DM Mono Light Italic",
+            post_script_name: "DMMono-LightItalic",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-LightItalic.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+          {
+            family_name: "DM Mono",
+            style: "Regular",
+            full_name: "DM Mono Regular",
+            post_script_name: "DMMono-Regular",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-Regular.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+          {
+            family_name: "DM Mono",
+            style: "Italic",
+            full_name: "DM Mono Italic",
+            post_script_name: "DMMono-Italic",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-Italic.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+          {
+            family_name: "DM Mono",
+            style: "Medium",
+            full_name: "DM Mono Medium",
+            post_script_name: "DMMono-Medium",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-Medium.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+          {
+            family_name: "DM Mono",
+            style: "Medium Italic",
+            full_name: "DM Mono Medium Italic",
+            post_script_name: "DMMono-MediumItalic",
+            version: "1.000; ttfautohint (v1.8.2.53-6de2)",
+            filename: "DMMono-MediumItalic.ttf",
+            copyright: "Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "d90677997db9a9a6688aea80949ad723b4dda6a450f9178877bb400b3cc4153d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Tillana-Regular.ttf",
-        "Medium" => "Tillana-Medium.ttf",
-        "SemiBold" => "Tillana-SemiBold.ttf",
-        "Bold" => "Tillana-Bold.ttf",
-        "ExtraBold" => "Tillana-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tillana",
+            style: "Regular",
+            full_name: "Tillana Regular",
+            post_script_name: "Tillana-Regular",
+            version: "2.003;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            filename: "Tillana-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Tillana",
+            style: "Medium",
+            full_name: "Tillana Medium",
+            post_script_name: "Tillana-Medium",
+            version: "2.003;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            filename: "Tillana-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Tillana",
+            style: "SemiBold",
+            full_name: "Tillana SemiBold",
+            post_script_name: "Tillana-SemiBold",
+            version: "2.003;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            filename: "Tillana-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Tillana",
+            style: "Bold",
+            full_name: "Tillana Bold",
+            post_script_name: "Tillana-Bold",
+            version: "2.003;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            filename: "Tillana-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Tillana",
+            style: "ExtraBold",
+            full_name: "Tillana ExtraBold",
+            post_script_name: "Tillana-ExtraBold",
+            version: "2.003;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.2.42-39fb)",
+            filename: "Tillana-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

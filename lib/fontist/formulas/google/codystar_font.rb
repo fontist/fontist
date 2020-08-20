@@ -12,10 +12,29 @@ module Fontist
         sha256 "8db3f09060771949803b8228de86d38cda11b56fc0a467b3b5799466ec739355"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Codystar-Light.ttf",
-        "Regular" => "Codystar-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Codystar",
+            style: "Light",
+            full_name: "Codystar Light",
+            post_script_name: "Codystar-Light",
+            version: "1.000",
+            filename: "Codystar-Light.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Codystar Light\"",
+          },
+          {
+            family_name: "Codystar",
+            style: "Regular",
+            full_name: "Codystar",
+            post_script_name: "Codystar",
+            version: "1.000",
+            filename: "Codystar-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Codystar\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "842ca6b8e17ac060b756cf31e7680efe03e60250760d6749562da57e2074dbbf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Teko-Light.ttf",
-        "Regular" => "Teko-Regular.ttf",
-        "Medium" => "Teko-Medium.ttf",
-        "SemiBold" => "Teko-SemiBold.ttf",
-        "Bold" => "Teko-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Teko",
+            style: "Light",
+            full_name: "Teko Light",
+            post_script_name: "Teko-Light",
+            version: "1.106;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Teko-Light.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Teko",
+            style: "Regular",
+            full_name: "Teko Regular",
+            post_script_name: "Teko-Regular",
+            version: "1.106;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Teko-Regular.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Teko",
+            style: "Medium",
+            full_name: "Teko Medium",
+            post_script_name: "Teko-Medium",
+            version: "1.106;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Teko-Medium.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Teko",
+            style: "SemiBold",
+            full_name: "Teko SemiBold",
+            post_script_name: "Teko-SemiBold",
+            version: "1.106;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Teko-SemiBold.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Teko",
+            style: "Bold",
+            full_name: "Teko Bold",
+            post_script_name: "Teko-Bold",
+            version: "1.106;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Teko-Bold.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

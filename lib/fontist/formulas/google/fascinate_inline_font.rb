@@ -12,9 +12,21 @@ module Fontist
         sha256 "6bc6ee269fdb4dbf0f05afd6055b5fe70836cdf5197a0c8e5bdf30e3d42c8d60"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FascinateInline-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fascinate Inline",
+            style: "Regular",
+            full_name: "Fascinate Inline",
+            post_script_name: "FascinateInline-Regular",
+            version: "1.000",
+            filename: "FascinateInline-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Fascinate Inline\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

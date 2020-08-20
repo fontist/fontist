@@ -12,9 +12,21 @@ module Fontist
         sha256 "410a303c5ed8d546cec8ee3293c3094d1d1b05901aa1a1e27cbe65243e9cefaa"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Marcellus-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Marcellus",
+            style: "Regular",
+            full_name: "Marcellus",
+            post_script_name: "Marcellus-Regular",
+            version: "1.000",
+            filename: "Marcellus-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Marcellus\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

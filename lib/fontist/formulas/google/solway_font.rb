@@ -12,13 +12,56 @@ module Fontist
         sha256 "d6daba35496381d1382b4d4dacce97922b00efa580bf9477588cd47dd187ab10"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Solway-Light.ttf",
-        "Regular" => "Solway-Regular.ttf",
-        "Medium" => "Solway-Medium.ttf",
-        "Bold" => "Solway-Bold.ttf",
-        "ExtraBold" => "Solway-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Solway",
+            style: "Light",
+            full_name: "Solway Light",
+            post_script_name: "Solway-Light",
+            version: "1.000",
+            filename: "Solway-Light.ttf",
+            copyright: "Copyright 2018 The Solway Project Authors (https://github.com/mashavp/Solway)",
+          },
+          {
+            family_name: "Solway",
+            style: "Regular",
+            full_name: "Solway Regular",
+            post_script_name: "Solway-Regular",
+            version: "1.000",
+            filename: "Solway-Regular.ttf",
+            copyright: "Copyright 2018 The Solway Project Authors (https://github.com/mashavp/Solway)",
+          },
+          {
+            family_name: "Solway",
+            style: "Medium",
+            full_name: "Solway Medium",
+            post_script_name: "Solway-Medium",
+            version: "1.000",
+            filename: "Solway-Medium.ttf",
+            copyright: "Copyright 2018 The Solway Project Authors (https://github.com/mashavp/Solway)",
+          },
+          {
+            family_name: "Solway",
+            style: "Bold",
+            full_name: "Solway Bold",
+            post_script_name: "Solway-Bold",
+            version: "1.000",
+            filename: "Solway-Bold.ttf",
+            copyright: "Copyright 2018 The Solway Project Authors (https://github.com/mashavp/Solway)",
+          },
+          {
+            family_name: "Solway",
+            style: "ExtraBold",
+            full_name: "Solway ExtraBold",
+            post_script_name: "Solway-ExtraBold",
+            version: "1.000",
+            filename: "Solway-ExtraBold.ttf",
+            copyright: "Copyright 2018 The Solway Project Authors (https://github.com/mashavp/Solway)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

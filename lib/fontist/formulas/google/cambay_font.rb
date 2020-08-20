@@ -12,12 +12,47 @@ module Fontist
         sha256 "46364400e33b7b6fd7143e8ddd3fe15330ad64200c2609fa54e8a2d0a47c75bc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cambay-Regular.ttf",
-        "Italic" => "Cambay-Italic.ttf",
-        "Bold" => "Cambay-Bold.ttf",
-        "BoldItalic" => "Cambay-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cambay",
+            style: "Regular",
+            full_name: "Cambay Regular",
+            post_script_name: "Cambay-Regular",
+            version: "1.181;PS 001.181;hotconv 1.0.70;makeotf.lib2.5.58329",
+            filename: "Cambay-Regular.ttf",
+            copyright: "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
+          },
+          {
+            family_name: "Cambay",
+            style: "Italic",
+            full_name: "Cambay Italic",
+            post_script_name: "Cambay-Italic",
+            version: "1.019;PS 001.019;hotconv 1.0.70;makeotf.lib2.5.58329",
+            filename: "Cambay-Italic.ttf",
+            copyright: "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
+          },
+          {
+            family_name: "Cambay",
+            style: "Bold",
+            full_name: "Cambay Bold",
+            post_script_name: "Cambay-Bold",
+            version: "1.096;PS 001.096;hotconv 1.0.70;makeotf.lib2.5.58329",
+            filename: "Cambay-Bold.ttf",
+            copyright: "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
+          },
+          {
+            family_name: "Cambay",
+            style: "Bold Italic",
+            full_name: "Cambay Bold Italic",
+            post_script_name: "Cambay-BoldItalic",
+            version: "1.006;PS 001.006;hotconv 1.0.70;makeotf.lib2.5.58329",
+            filename: "Cambay-BoldItalic.ttf",
+            copyright: "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

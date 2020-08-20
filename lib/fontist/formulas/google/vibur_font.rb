@@ -12,9 +12,20 @@ module Fontist
         sha256 "335a7be72bb5b64ae682dbf51d7c959580efdc6d652cbb4353bafef404a3c23c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Vibur-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vibur",
+            style: "Medium",
+            full_name: "Vibur",
+            post_script_name: "Vibur",
+            version: "1.004",
+            filename: "Vibur-Regular.ttf",
+            copyright: "Copyright (c) 2010, Johan Kallas (johan.kallas@gmail.com). All rights reserved. Licenced under SIL OFL v1.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

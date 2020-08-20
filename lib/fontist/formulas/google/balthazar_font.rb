@@ -12,9 +12,20 @@ module Fontist
         sha256 "31d8e5846066176d8a060f849f528d99c19c42de13d6431a9a9b6fdc339dda22"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Balthazar-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Balthazar",
+            style: "Regular",
+            full_name: "Balthazar Regular",
+            post_script_name: "Balthazar-Regular",
+            version: "1.000",
+            filename: "Balthazar-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Balthazar\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

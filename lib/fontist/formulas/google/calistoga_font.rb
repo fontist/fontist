@@ -12,9 +12,21 @@ module Fontist
         sha256 "54f47d8b875b4013ab35ad748d1c1aafcf6368b83569256f00749a03cdcfd7b5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Calistoga-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Calistoga",
+            style: "Regular",
+            full_name: "Calistoga Regular",
+            post_script_name: "Calistoga-Regular",
+            version: "1.005",
+            description: "Calistoga was inspired by the posters Oscar M. Bryn made for the Santa Fe Railroad.",
+            filename: "Calistoga-Regular.ttf",
+            copyright: "Copyright 2019 The Calistoga Project Authors (https://github.com/SorkinType/Calistoga)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "fb13ac6c55a7759172a8248b43cd480d0eee5f5fa084277594b521a613ac00a8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Trykker-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Trykker",
+            style: "Regular",
+            full_name: "Trykker Regular",
+            post_script_name: "Trykker-Regular",
+            version: "1.001",
+            description: "Trykker is a high contrast serifed text face. Trykker has a pleasant old fashioned elegance derived from on 16th century text faces. Trykker can be used from small sizes to larger display settings.",
+            filename: "Trykker-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Trykker\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

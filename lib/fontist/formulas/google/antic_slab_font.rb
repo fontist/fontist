@@ -12,9 +12,20 @@ module Fontist
         sha256 "4f17295a32858671aec3384f8965f75a61f6adb59fd11c9216199b423f757d34"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AnticSlab-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Antic Slab",
+            style: "Regular",
+            full_name: "Antic Slab Regular",
+            post_script_name: "AnticSlab-Regular",
+            version: "001.002",
+            filename: "AnticSlab-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Santiago Orozco(hi@typemade.mx) with reserved name Antic Slab",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

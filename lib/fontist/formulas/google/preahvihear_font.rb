@@ -12,9 +12,20 @@ module Fontist
         sha256 "27980d32062c33639ee5e2e2339e6b1ff76d98f6c742877f08976d70617b1e9b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Preahvihear.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Preah Vihear",
+            style: "Regular",
+            full_name: "Preah Vihear",
+            post_script_name: "PreahVihear",
+            version: "6.00 March 3, 2011",
+            filename: "Preahvihear.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

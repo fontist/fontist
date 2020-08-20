@@ -12,9 +12,21 @@ module Fontist
         sha256 "146fc21490ecf4559fb61c35e94c9dc1e86c86084e4e1814b40309086e8f3e4a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AlexBrush-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alex Brush",
+            style: "Regular",
+            full_name: "Alex Brush Regular",
+            post_script_name: "AlexBrush-Regular",
+            version: "1.004",
+            filename: "AlexBrush-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Alex Brush\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

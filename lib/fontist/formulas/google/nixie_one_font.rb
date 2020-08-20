@@ -12,9 +12,20 @@ module Fontist
         sha256 "7eb0142bb97a3d4f53e7c0b8661946172f669d4f0c297ea489f1269c492a4aaa"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NixieOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nixie One",
+            style: "Regular",
+            full_name: "Nixie One",
+            post_script_name: "NixieOne-Regular",
+            version: "1.004",
+            filename: "NixieOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Jovanny Lemonad (lemonad@jovanny.ru), with Reserved Font Name \"Nixie\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

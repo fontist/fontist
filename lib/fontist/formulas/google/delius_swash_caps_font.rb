@@ -12,9 +12,20 @@ module Fontist
         sha256 "4cead236801882563f21694676a864c17916a79cc88645deed3e32f8cb2f6b1e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DeliusSwashCaps-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Delius Swash Caps",
+            style: "Regular",
+            full_name: "Delius Swash Caps",
+            post_script_name: "DeliusSwashCaps-Regular",
+            version: "1.002",
+            filename: "DeliusSwashCaps-Regular.ttf",
+            copyright: "Copyright (c) 2010, 2011, Natalia Raices <nraices@gmail.com>, with Reserved Font Name \"Delius\" \"Delius Unicase\" \"Delius Swash Caps\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "3982d63551390eb9bdfb22a441a5e35bf57d7e56a09e4e2da9582df5d296c7dc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KiteOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kite One",
+            style: "Regular",
+            full_name: "Kite One",
+            post_script_name: "KiteOne-Regular",
+            version: "1.001",
+            filename: "KiteOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Kite'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

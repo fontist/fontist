@@ -12,9 +12,21 @@ module Fontist
         sha256 "c2c0ccb1a12fd50759399f5062a34851d28fbad28ed6215fc41de9b1a5b0827e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Shanti-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Shanti",
+            style: "Regular",
+            full_name: "Shanti",
+            post_script_name: "Shanti",
+            version: "1.000",
+            description: "Copyright (c) 2011 by . All rights reserved.",
+            filename: "Shanti-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

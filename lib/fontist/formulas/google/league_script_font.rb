@@ -12,9 +12,20 @@ module Fontist
         sha256 "8b4bd7886855913e24bdf76f1fde7277905b142ad1184e975affb7159a4b3fcc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LeagueScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "League Script",
+            style: "League Script",
+            full_name: "League Script",
+            post_script_name: "LeagueScript",
+            version: "1.001",
+            filename: "LeagueScript-Regular.ttf",
+            copyright: "Copyright (c) 2010, Haley Fiege (haley@kingdomofawesome.com",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "88d0f067cdae85117563ff2c4f658a7ced9798d32d71daa68fcc8b26d061070a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SeaweedScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Seaweed Script",
+            style: "Regular",
+            full_name: "Seaweed Script",
+            post_script_name: "SeaweedScript-Regular",
+            version: "1.000",
+            filename: "SeaweedScript-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Seaweed Script\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

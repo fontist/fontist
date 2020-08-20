@@ -12,10 +12,29 @@ module Fontist
         sha256 "30cb1754d8eb6b8fc47b9c6bba179121e09df281800255df169272178d6f9fb9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Elsie-Regular.ttf",
-        "Black" => "Elsie-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Elsie",
+            style: "Regular",
+            full_name: "Elsie Regular",
+            post_script_name: "Elsie-Regular",
+            version: "1.002",
+            filename: "Elsie-Regular.ttf",
+            copyright: "Copyright (c) 2010-2012, Alejandro Inler (alejandroinler@gmail.com), with Reserved Font Name 'Elsie'",
+          },
+          {
+            family_name: "Elsie",
+            style: "Black",
+            full_name: "Elsie Black",
+            post_script_name: "Elsie-Black",
+            version: "1.002",
+            filename: "Elsie-Black.ttf",
+            copyright: "Copyright (c) 2010-2012, Alejandro Inler (alejandroinler@gmail.com), with Reserved Font Name 'Elsie'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

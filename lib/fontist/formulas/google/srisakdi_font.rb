@@ -12,10 +12,29 @@ module Fontist
         sha256 "2b32a04b8cfadb8c03ec05a18b88d389bd10dc18babaaab5fb9da55c70d82f80"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Srisakdi-Regular.ttf",
-        "Bold" => "Srisakdi-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Srisakdi",
+            style: "Regular",
+            full_name: "Srisakdi Regular",
+            post_script_name: "Srisakdi-Regular",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Srisakdi-Regular.ttf",
+            copyright: "Copyright 2018 The Srisakdi Project Authors (https://github.com/cadsondemak/Srisakdi)",
+          },
+          {
+            family_name: "Srisakdi",
+            style: "Bold",
+            full_name: "Srisakdi Bold",
+            post_script_name: "Srisakdi-Bold",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Srisakdi-Bold.ttf",
+            copyright: "Copyright 2018 The Srisakdi Project Authors (https://github.com/cadsondemak/Srisakdi)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

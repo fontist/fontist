@@ -12,9 +12,20 @@ module Fontist
         sha256 "3ac17e44178bf63eb89a35d7d5d8da93cf435e2a114fb070e26ac94102bd3f0a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Vibes-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vibes",
+            style: "Regular",
+            full_name: "Vibes Regular",
+            post_script_name: "Vibes-Regular",
+            version: "1.100",
+            filename: "Vibes-Regular.ttf",
+            copyright: "Copyright 2019 The Vibes Project Authors (https://github.com/bluemix/vibes-typeface)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

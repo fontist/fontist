@@ -12,9 +12,20 @@ module Fontist
         sha256 "dd1d7739556c580e36252f9df4363b3d53d03477d5ea3cf9b2a9c90d5937fa2c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Pavanam-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pavanam",
+            style: "Regular",
+            full_name: "Pavanam Regular",
+            post_script_name: "Pavanam-Regular",
+            version: "1.86; ttfautohint (v1.3) -l 8 -r 50 -G 200 -x 14 -D latn -f none -m \"\" -w G -t -X \"\"",
+            filename: "Pavanam-Regular.ttf",
+            copyright: "Copyright (c) 2015, Tharique Azeez (http://thariqueazeez.com | zeezat@gmail.com). Copyright (c) 2012, vernon adams (vern@newtypography.co.uk)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

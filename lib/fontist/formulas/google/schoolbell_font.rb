@@ -12,9 +12,20 @@ module Fontist
         sha256 "91a31e180bb5aa4ebb548ca93e6cf8544e949efb25b95088d1c05fb8527458e3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Schoolbell-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Schoolbell",
+            style: "Regular",
+            full_name: "Schoolbell Regular",
+            post_script_name: "Schoolbell-Regular",
+            version: "1.001",
+            filename: "Schoolbell-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

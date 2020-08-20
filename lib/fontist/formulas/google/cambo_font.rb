@@ -12,9 +12,22 @@ module Fontist
         sha256 "534b95aeac217db5aba205139f30d8d13c4a55a052b8f3d8fdf907b15cfb90da"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cambo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cambo",
+            style: "Regular",
+            full_name: "Cambo",
+            post_script_name: "Cambo-Regular",
+            version: "2.001",
+            filename: "Cambo-Regular.ttf",
+            copyright: "Copyright (c) 2011, Carolina Giovagnoli (caro@huertatipografica.com.ar),
+Copyright (c) 2011, Andres Torresi (andres@huertatipografica.com.ar),
+with Reserved Font Name Cambo.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

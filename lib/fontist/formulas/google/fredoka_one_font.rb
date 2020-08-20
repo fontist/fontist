@@ -12,9 +12,20 @@ module Fontist
         sha256 "bd70b3c662dde03bc03a5831a2e99779da9976d0101b4fff894f6f9af5162c36"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FredokaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fredoka One",
+            style: "Regular",
+            full_name: "Fredoka One",
+            post_script_name: "FredokaOne-Regular",
+            version: "1.001",
+            filename: "FredokaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 Milena B Brandao (milenabbrandao@gmail.com), with Reserved Font Name \"Fredoka\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

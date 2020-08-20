@@ -12,9 +12,20 @@ module Fontist
         sha256 "f70b45dc55d0cc50b7ad667e4d219aa7e6fa25bda8ffcc8a00920173b6db7df3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Belgrano-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Belgrano",
+            style: "Regular",
+            full_name: "Belgrano Regular",
+            post_script_name: "Belgrano-Regular",
+            version: "1.003",
+            filename: "Belgrano-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Belgrano\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

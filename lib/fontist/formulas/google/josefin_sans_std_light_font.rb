@@ -12,9 +12,21 @@ module Fontist
         sha256 "a4ccf93eb5e49fb432a580c447a9c30abcdf5c98d5bc641c3b5ae05301b0027a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "JosefinSansStd-Light.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Josefin Sans Std",
+            style: "Regular",
+            full_name: "Josefin Sans Std Light",
+            post_script_name: "JosefinSansStd-Light",
+            version: "1.000",
+            description: "Copyright (c) 2010 by Santiago Orozco. All rights reserved.",
+            filename: "JosefinSansStd-Light.ttf",
+            copyright: "Copyright (c) 2010 by Santiago Orozco. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,31 @@ module Fontist
         sha256 "09a29cc3089916c10360c0f1f3af4b6493ceb3f5b3546ad4bf5eea77ef56a82c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Harmattan-Regular.ttf",
-        "Bold" => "Harmattan-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Harmattan",
+            style: "Regular",
+            full_name: "Harmattan",
+            post_script_name: "Harmattan-Regular",
+            version: "2.000",
+            description: "Arabic script font designed for use by languages in West Africa",
+            filename: "Harmattan-Regular.ttf",
+            copyright: "Copyright (c) 2007-2008, The C&MA Guinea Fulbe Team;",
+          },
+          {
+            family_name: "Harmattan",
+            style: "Bold",
+            full_name: "Harmattan Bold",
+            post_script_name: "Harmattan-Bold",
+            version: "2.000",
+            description: "Arabic script font designed for use by languages in West Africa",
+            filename: "Harmattan-Bold.ttf",
+            copyright: "Copyright (c) 2007-2008, The C&MA Guinea Fulbe Team;",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|
@@ -48,7 +69,7 @@ module Fontist
 Copyright renewed 2011-2012, George W. Nuss (http://www.fulbefouta.com),
 with the Reserved Font Name \"Fouta\".
 
-Copyright (c) 2004-2020, SIL International (http://www.sil.org),
+Copyright (c) 2004-2020, SIL International (http://www.sil.org), 
 with Reserved Font Names 'Andika' and 'SIL'.
 
 Copyright (c) 2014-2020, SIL International (http://www.sil.org/).

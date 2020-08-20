@@ -12,9 +12,20 @@ module Fontist
         sha256 "76f27ee3b9f2a9f28236ef05d867c141b2574e1b23c2ae568e7c05a06e0634a3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bangers-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bangers",
+            style: "Regular",
+            full_name: "Bangers Regular",
+            post_script_name: "Bangers-Regular",
+            version: "2.000",
+            filename: "Bangers-Regular.ttf",
+            copyright: "Copyright 2010 The Bangers Project Authors (contact@sansoxygen.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,31 @@ module Fontist
         sha256 "e0bcbd913e16c8dc5a4699cab0c145df6087650d6ba360e3557f288754788574"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jaldi-Regular.ttf",
-        "Bold" => "Jaldi-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jaldi",
+            style: "Regular",
+            full_name: "Jaldi",
+            post_script_name: "Jaldi-Regular",
+            version: "1.007",
+            description: "Jaldi is the devanagari version of Asap",
+            filename: "Jaldi-Regular.ttf",
+            copyright: "Copyright (c) 2011-2015, Omnibus-Type (www.omnibus-type.com omnibus.type@gmail.com) with Reserved Font Name 'Jaldi' and 'Asap'",
+          },
+          {
+            family_name: "Jaldi",
+            style: "Bold",
+            full_name: "Jaldi Bold",
+            post_script_name: "Jaldi-Bold",
+            version: "1.007",
+            description: "Jaldi is the devanagari version of Asap",
+            filename: "Jaldi-Bold.ttf",
+            copyright: "Copyright (c) 2011-2015, Omnibus-Type (www.omnibus-type.com omnibus.type@gmail.com) with Reserved Font Name 'Jaldi' and 'Asap'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

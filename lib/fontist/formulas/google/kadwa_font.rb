@@ -12,10 +12,29 @@ module Fontist
         sha256 "e97cb9e54e7b6c0a1568c387bcc453d2a0cdfa2fb31dc90671eea2fc139d63e3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kadwa-Regular.ttf",
-        "Bold" => "Kadwa-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kadwa",
+            style: "Regular",
+            full_name: "Kadwa",
+            post_script_name: "Kadwa-Regular",
+            version: "1.001;PS 001.000;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            filename: "Kadwa-Regular.ttf",
+            copyright: "Copyright (c) 2014-2015, Sol Matas (www.huertatipografica.com - sol@huertatipografica.com)",
+          },
+          {
+            family_name: "Kadwa",
+            style: "Bold",
+            full_name: "Kadwa Bold",
+            post_script_name: "Kadwa-Bold",
+            version: "1.001;PS 001.000;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            filename: "Kadwa-Bold.ttf",
+            copyright: "Copyright (c) 2014-2015, Sol Matas (www.huertatipografica.com - sol@huertatipografica.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

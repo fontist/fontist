@@ -13,9 +13,21 @@ module Fontist
         sha256 "6061ef3b7401d9642f5dfdb5f2b376aa14663f6275e60a51207ad4facf2fccfb"
       end
 
-      provides_font("Impact", match_styles_from_file: {
-        "Regular" => "Impact.TTF"
-      })
+      provides_font(
+        "Impact",
+        match_styles_from_file: [
+          {
+            family_name: "Impact",
+            style: "Regular",
+            full_name: "Impact",
+            post_script_name: "Impact",
+            version: "2.35",
+            description: "1965. Designed for the Stephenson Blake type foundry. A very heavy, narrow, sans serif face intended for use in newspapers, for headlines and in advertisements. Aptly named, this face has a very large \"x\" height with short ascenders and descenders.",
+            filename: "Impact.TTF",
+            copyright: "Digitized data copyright (C) 1991-1996 The Monotype Corporation. All rights reserved. Impact is a trademark of Stephenson Blake (Holdings) Ltd.",
+          },
+        ]
+      )
 
       def extract
         resource "impact32.exe" do |resource|

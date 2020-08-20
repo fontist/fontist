@@ -12,9 +12,21 @@ module Fontist
         sha256 "30bf9d08afcce006266d287688cf32b1691f738390e00278d16b1bc02cce9c2c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RumRaisin-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rum Raisin",
+            style: "Regular",
+            full_name: "Rum Raisin",
+            post_script_name: "RumRaisin-Regular",
+            version: "1.000",
+            filename: "RumRaisin-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Rum Raisin\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

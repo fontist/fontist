@@ -12,16 +12,83 @@ module Fontist
         sha256 "8f7ff195b4b017d950050b22fbcb97910dd75dbb7f85f1f028de27f028871088"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AsapCondensed-Regular.ttf",
-        "Italic" => "AsapCondensed-Italic.ttf",
-        "Medium" => "AsapCondensed-Medium.ttf",
-        "MediumItalic" => "AsapCondensed-MediumItalic.ttf",
-        "SemiBold" => "AsapCondensed-SemiBold.ttf",
-        "SemiBoldItalic" => "AsapCondensed-SemiBoldItalic.ttf",
-        "Bold" => "AsapCondensed-Bold.ttf",
-        "BoldItalic" => "AsapCondensed-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Asap Condensed",
+            style: "Regular",
+            full_name: "Asap Condensed Regular",
+            post_script_name: "AsapCondensed-Regular",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-Regular.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "Italic",
+            full_name: "Asap Condensed Italic",
+            post_script_name: "AsapCondensed-Italic",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-Italic.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "Medium",
+            full_name: "Asap Condensed Medium",
+            post_script_name: "AsapCondensed-Medium",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-Medium.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "Medium Italic",
+            full_name: "Asap Condensed Medium Italic",
+            post_script_name: "AsapCondensed-MediumItalic",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-MediumItalic.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "SemiBold",
+            full_name: "Asap Condensed SemiBold",
+            post_script_name: "AsapCondensed-SemiBold",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-SemiBold.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "SemiBold Italic",
+            full_name: "Asap Condensed SemiBold Italic",
+            post_script_name: "AsapCondensed-SemiBoldItalic",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-SemiBoldItalic.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "Bold",
+            full_name: "Asap Condensed Bold",
+            post_script_name: "AsapCondensed-Bold",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-Bold.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+          {
+            family_name: "Asap Condensed",
+            style: "Bold Italic",
+            full_name: "Asap Condensed Bold Italic",
+            post_script_name: "AsapCondensed-BoldItalic",
+            version: "1.010; ttfautohint (v1.8)",
+            filename: "AsapCondensed-BoldItalic.ttf",
+            copyright: "Copyright 2018 The Asap Condensed Project Authors (https://github.com/Omnibus-Type/AsapCondensed), with Reserved Font Name \"(Asap Condensed)\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

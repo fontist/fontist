@@ -12,9 +12,20 @@ module Fontist
         sha256 "f5c9c654e4bb1ed10cd7b73f8273593705367e9b570d204419ed0bb01c3fdbc8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Shrikhand-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Shrikhand",
+            style: "Regular",
+            full_name: "Shrikhand Regular",
+            post_script_name: "Shrikhand-Regular",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800",
+            filename: "Shrikhand-Regular.ttf",
+            copyright: "Copyright (c) 2015 Jonny Pinhorn (jonpinhorn.typedesign@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "54ee8d79bb48aec60bd835b25766fbf489b6f04a6cf03559821fd00b33e83ded"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HoltwoodOneSC.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Holtwood One SC",
+            style: "Regular",
+            full_name: "Holtwood One SC",
+            post_script_name: "HoltwoodOneSC",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "HoltwoodOneSC.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

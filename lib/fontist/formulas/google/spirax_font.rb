@@ -12,9 +12,20 @@ module Fontist
         sha256 "e746f72bd2f804205a3030180887ea63b00a9c10b556f85d09a8f34366f3f8d2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Spirax-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Spirax",
+            style: "Regular",
+            full_name: "Spirax-Regular",
+            post_script_name: "Spirax-Regular",
+            version: "1.002",
+            filename: "Spirax-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brenda Gallo (gbrenda1987@gmail.com), with Reserved Font Name Spirax.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

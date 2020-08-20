@@ -12,9 +12,21 @@ module Fontist
         sha256 "05b982e3b7924f99d9b58e90a63f2a8c9018b0935c6dac8a71792a80d69418a4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Fruktur-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fruktur",
+            style: "Regular",
+            full_name: "Fruktur",
+            post_script_name: "Fruktur-Regular",
+            version: "1.004; ttfautohint (v1.4.1)",
+            description: "Fruktur appears to be a playful and powerful black letter type at Fruktur initially appears to be a playful and powerful black letter type with a warm friendly feeling. However its construction is closer to that of an upright italic. Fruktur offers some of the feeling of a black letter but with higher legibility and greater utility than is typical of black letter type. Fruktur will be most useful from medium to large sizes.",
+            filename: "Fruktur-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Fruktur'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

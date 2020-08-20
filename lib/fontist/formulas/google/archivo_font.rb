@@ -12,16 +12,91 @@ module Fontist
         sha256 "48f42e25ab0ce8a0d59ea04b99b338e6dd4667bf925fbeddd34958dcb814512f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Archivo-Regular.ttf",
-        "Italic" => "Archivo-Italic.ttf",
-        "Medium" => "Archivo-Medium.ttf",
-        "MediumItalic" => "Archivo-MediumItalic.ttf",
-        "SemiBold" => "Archivo-SemiBold.ttf",
-        "SemiBoldItalic" => "Archivo-SemiBoldItalic.ttf",
-        "Bold" => "Archivo-Bold.ttf",
-        "BoldItalic" => "Archivo-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Archivo",
+            style: "Regular",
+            full_name: "Archivo Regular",
+            post_script_name: "Archivo-Regular",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-Regular.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "Italic",
+            full_name: "Archivo Italic",
+            post_script_name: "Archivo-Italic",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-Italic.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "Medium",
+            full_name: "Archivo Medium",
+            post_script_name: "Archivo-Medium",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-Medium.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "Medium Italic",
+            full_name: "Archivo Medium Italic",
+            post_script_name: "Archivo-MediumItalic",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-MediumItalic.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "SemiBold",
+            full_name: "Archivo SemiBold",
+            post_script_name: "Archivo-SemiBold",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-SemiBold.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "SemiBold Italic",
+            full_name: "Archivo SemiBold Italic",
+            post_script_name: "Archivo-SemiBoldItalic",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-SemiBoldItalic.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "Bold",
+            full_name: "Archivo Bold",
+            post_script_name: "Archivo-Bold",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-Bold.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+          {
+            family_name: "Archivo",
+            style: "Bold Italic",
+            full_name: "Archivo Bold Italic",
+            post_script_name: "Archivo-BoldItalic",
+            version: "1.004; ttfautohint (v1.8)",
+            description: "Archivo is a grotesque sans serif typeface family from Omnibus-Type. It was originally designed for highlights and headlines. This family is reminiscent of late nineteenth century American typefaces.",
+            filename: "Archivo-BoldItalic.ttf",
+            copyright: "Copyright 2019 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

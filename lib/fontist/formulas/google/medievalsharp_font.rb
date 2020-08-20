@@ -12,9 +12,20 @@ module Fontist
         sha256 "49633ec1059d38850ab962d2f5f64527387c574978f126a5871bb22ec3549a9a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MedievalSharp.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "MedievalSharp",
+            style: "Regular",
+            full_name: "MedievalSharp",
+            post_script_name: "MedievalSharp",
+            version: "1.0",
+            filename: "MedievalSharp.ttf",
+            copyright: "wmk69",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

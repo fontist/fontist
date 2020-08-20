@@ -12,12 +12,51 @@ module Fontist
         sha256 "caa6744e3c28754156a294332433ed0e559b5e20a214b56f20f5c8eb5ea078a3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NotoSerif-Regular.ttf",
-        "Italic" => "NotoSerif-Italic.ttf",
-        "Bold" => "NotoSerif-Bold.ttf",
-        "BoldItalic" => "NotoSerif-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Noto Serif",
+            style: "Regular",
+            full_name: "Noto Serif",
+            post_script_name: "NotoSerif",
+            version: "1.03",
+            description: "Designed by Monotype design team",
+            filename: "NotoSerif-Regular.ttf",
+            copyright: "Copyright 2012 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Noto Serif",
+            style: "Italic",
+            full_name: "Noto Serif Italic",
+            post_script_name: "NotoSerif-Italic",
+            version: "1.03",
+            description: "Designed by Monotype design team",
+            filename: "NotoSerif-Italic.ttf",
+            copyright: "Copyright 2012 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Noto Serif",
+            style: "Bold",
+            full_name: "Noto Serif Bold",
+            post_script_name: "NotoSerif-Bold",
+            version: "1.03",
+            description: "Designed by Monotype design team",
+            filename: "NotoSerif-Bold.ttf",
+            copyright: "Copyright 2012 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Noto Serif",
+            style: "Bold Italic",
+            full_name: "Noto Serif Bold Italic",
+            post_script_name: "NotoSerif-BoldItalic",
+            version: "1.03",
+            description: "Designed by Monotype design team",
+            filename: "NotoSerif-BoldItalic.ttf",
+            copyright: "Copyright 2012 Google Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

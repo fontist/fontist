@@ -12,13 +12,56 @@ module Fontist
         sha256 "93caeda6f084bea689914ded9ecc7b29780b6efd1302d0400cafb8328ecb5554"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Khand-Light.ttf",
-        "Regular" => "Khand-Regular.ttf",
-        "Medium" => "Khand-Medium.ttf",
-        "SemiBold" => "Khand-SemiBold.ttf",
-        "Bold" => "Khand-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Khand",
+            style: "Light",
+            full_name: "Khand Light",
+            post_script_name: "Khand-Light",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Khand-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Khand",
+            style: "Regular",
+            full_name: "Khand Regular",
+            post_script_name: "Khand-Regular",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Khand-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Khand",
+            style: "Medium",
+            full_name: "Khand Medium",
+            post_script_name: "Khand-Medium",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Khand-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Khand",
+            style: "SemiBold",
+            full_name: "Khand SemiBold",
+            post_script_name: "Khand-SemiBold",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Khand-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Khand",
+            style: "Bold",
+            full_name: "Khand Bold",
+            post_script_name: "Khand-Bold",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Khand-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

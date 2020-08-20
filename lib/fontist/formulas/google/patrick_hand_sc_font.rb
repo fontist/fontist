@@ -12,9 +12,20 @@ module Fontist
         sha256 "67a52e8f10b756720380fff246e7dab8532c970423ee330d075923b26cff093d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PatrickHandSC-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Patrick Hand SC",
+            style: "Regular",
+            full_name: "Patrick Hand SC Regular",
+            post_script_name: "PatrickHandSC-Regular",
+            version: "2.001; ttfautohint (v1.8.2)",
+            filename: "PatrickHandSC-Regular.ttf",
+            copyright: "Copyright 2012 The Patrick Hand Authors (mail@patrickwagesreiter.at)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

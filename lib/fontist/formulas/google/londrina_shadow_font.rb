@@ -12,9 +12,20 @@ module Fontist
         sha256 "5875f54dd307cf5c625f35fb438368f846b9564cc27bdf3ceadc1a7ae1ffa76a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LondrinaShadow-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Londrina Shadow",
+            style: "Regular",
+            full_name: "Londrina Shadow Regular",
+            post_script_name: "LondrinaShadow-Regular",
+            version: "1.002",
+            filename: "LondrinaShadow-Regular.ttf",
+            copyright: "Copyright 2011 The Londrina Shadow Authors (https://github.com/marcelommp/Londrina-Typeface), with Reserved Font Name \"Londrina Shadow\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

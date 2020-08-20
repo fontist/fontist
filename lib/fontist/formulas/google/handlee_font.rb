@@ -12,9 +12,20 @@ module Fontist
         sha256 "263f690040ad681b4580ad7fec0a341fde941d70805918ec795939e8bdcfbe31"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Handlee-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Handlee",
+            style: "Regular",
+            full_name: "Handlee Regular",
+            post_script_name: "Handlee-Regular",
+            version: "1.001",
+            filename: "Handlee-Regular.ttf",
+            copyright: "Copyright (c) 2011, Admix Designs (http://www.admixdesigns.com/) with Reserved Font Name Handlee.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

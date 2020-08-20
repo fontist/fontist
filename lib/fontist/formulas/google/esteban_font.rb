@@ -12,9 +12,20 @@ module Fontist
         sha256 "09ced9f85a503171d053c3f5f223100e5b2a32f347902328f690df252be3de65"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Esteban-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Esteban",
+            style: "Regular",
+            full_name: "Esteban",
+            post_script_name: "Esteban",
+            version: "1.002",
+            filename: "Esteban-Regular.ttf",
+            copyright: "Copyright (c) 2011, Angelica Diaz Rivera (www.typereview.wordpress.com), with Reserved Font Name \"Esteban\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

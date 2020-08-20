@@ -12,9 +12,20 @@ module Fontist
         sha256 "a958743e52096691effa3ee99c7104ddbe73910bc7f0cfa1eb1d35c676ccf1ef"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Montaga-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Montaga",
+            style: "Regular",
+            full_name: "Montaga",
+            post_script_name: "Montaga-Regular",
+            version: "1.001",
+            filename: "Montaga-Regular.ttf",
+            copyright: "Copyright (c) 2011, Alejandra Rodriguez (ale_guez@yahoo.com.ar http://twitter.com/ale_guez), with Reserved Font Name \"Montaga\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

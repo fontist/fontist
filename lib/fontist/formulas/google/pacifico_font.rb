@@ -12,9 +12,20 @@ module Fontist
         sha256 "576ca38f06e477cbe218af416657ec33b67bc98c5ddb626ebc8a1b2ab453e4b7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Pacifico-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pacifico",
+            style: "Regular",
+            full_name: "Pacifico Regular",
+            post_script_name: "Pacifico-Regular",
+            version: "3.001",
+            filename: "Pacifico-Regular.ttf",
+            copyright: "Copyright 2018 The Pacifico Project Authors (https://github.com/googlefonts/Pacifico)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

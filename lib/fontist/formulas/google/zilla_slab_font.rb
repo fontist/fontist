@@ -12,18 +12,104 @@ module Fontist
         sha256 "4eab15ba355a61dae94e1fcf1d2719988af037c9b3a81155718eb2d12c2ebef1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "ZillaSlab-Light.ttf",
-        "LightItalic" => "ZillaSlab-LightItalic.ttf",
-        "Regular" => "ZillaSlab-Regular.ttf",
-        "Italic" => "ZillaSlab-Italic.ttf",
-        "Medium" => "ZillaSlab-Medium.ttf",
-        "MediumItalic" => "ZillaSlab-MediumItalic.ttf",
-        "SemiBold" => "ZillaSlab-SemiBold.ttf",
-        "SemiBoldItalic" => "ZillaSlab-SemiBoldItalic.ttf",
-        "Bold" => "ZillaSlab-Bold.ttf",
-        "BoldItalic" => "ZillaSlab-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Zilla Slab",
+            style: "Light",
+            full_name: "Zilla Slab Light",
+            post_script_name: "ZillaSlab-Light",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-Light.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Light Italic",
+            full_name: "Zilla Slab Light Italic",
+            post_script_name: "ZillaSlab-LightItalic",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-LightItalic.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Regular",
+            full_name: "Zilla Slab",
+            post_script_name: "ZillaSlab-Regular",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            description: "Zilla is a Slab serif display typeface specifically designed for Mozilla brand",
+            filename: "ZillaSlab-Regular.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Italic",
+            full_name: "Zilla Slab Italic",
+            post_script_name: "ZillaSlab-Italic",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            description: "Zilla is a Slab serif display typeface specifically designed for Mozilla brand",
+            filename: "ZillaSlab-Italic.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Medium",
+            full_name: "Zilla Slab Medium",
+            post_script_name: "ZillaSlab-Medium",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-Medium.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Medium Italic",
+            full_name: "Zilla Slab Medium Italic",
+            post_script_name: "ZillaSlab-MediumItalic",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-MediumItalic.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "SemiBold",
+            full_name: "Zilla Slab SemiBold",
+            post_script_name: "ZillaSlab-SemiBold",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-SemiBold.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "SemiBold Italic",
+            full_name: "Zilla Slab SemiBold Italic",
+            post_script_name: "ZillaSlab-SemiBoldItalic",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-SemiBoldItalic.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Bold",
+            full_name: "Zilla Slab Bold",
+            post_script_name: "ZillaSlab-Bold",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            description: "Zilla is a Slab serif display typeface specifically designed for Mozilla brand",
+            filename: "ZillaSlab-Bold.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab",
+            style: "Bold Italic",
+            full_name: "Zilla Slab Bold Italic",
+            post_script_name: "ZillaSlab-BoldItalic",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlab-BoldItalic.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "4272bb0810b991dead346466a30528ca64b550d01dc45c62c5fc9cbc0f6cc021"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PTM55FT.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "PT Mono",
+            style: "Regular",
+            full_name: "PT Mono",
+            post_script_name: "PTMono-Regular",
+            version: "1.001W OFL",
+            description: "PT Mono -- is a monospaced font of the PT Project series. First families PT Sans and PT Serif were released in 2009 and 2010. PT Mono was developed  for the special needs -- for use in forms, tables, work sheets etc. Equal widths of characters are very helpful in setting complex documents, with such font you may easily calculate size of entry fields, column widths in tables and so on. One of the most important area of use is Web sites of \"electronic governments\" where visitors have to fill different request forms. Designer Alexandra Korolkova with a participation of Bella Chaeva. Released by ParaType in 2011.",
+            filename: "PTM55FT.ttf",
+            copyright: "Copyright © 2010 ParaType Inc., ParaType Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

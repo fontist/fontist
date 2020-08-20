@@ -12,16 +12,83 @@ module Fontist
         sha256 "0e3119759d748129a7008ad98c1139de6a4f2e343d89e53ddd088fbac08fd754"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Asap-Regular.ttf",
-        "Italic" => "Asap-Italic.ttf",
-        "Medium" => "Asap-Medium.ttf",
-        "MediumItalic" => "Asap-MediumItalic.ttf",
-        "SemiBold" => "Asap-SemiBold.ttf",
-        "SemiBoldItalic" => "Asap-SemiBoldItalic.ttf",
-        "Bold" => "Asap-Bold.ttf",
-        "BoldItalic" => "Asap-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Asap",
+            style: "Regular",
+            full_name: "Asap Regular",
+            post_script_name: "Asap-Regular",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-Regular.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "Italic",
+            full_name: "Asap Italic",
+            post_script_name: "Asap-Italic",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-Italic.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "Medium",
+            full_name: "Asap Medium",
+            post_script_name: "Asap-Medium",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-Medium.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "Medium Italic",
+            full_name: "Asap Medium Italic",
+            post_script_name: "Asap-MediumItalic",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-MediumItalic.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "SemiBold",
+            full_name: "Asap SemiBold",
+            post_script_name: "Asap-SemiBold",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-SemiBold.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "SemiBold Italic",
+            full_name: "Asap SemiBold Italic",
+            post_script_name: "Asap-SemiBoldItalic",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-SemiBoldItalic.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "Bold",
+            full_name: "Asap Bold",
+            post_script_name: "Asap-Bold",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-Bold.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+          {
+            family_name: "Asap",
+            style: "Bold Italic",
+            full_name: "Asap Bold Italic",
+            post_script_name: "Asap-BoldItalic",
+            version: "2.000; ttfautohint (v1.8)",
+            filename: "Asap-BoldItalic.ttf",
+            copyright: "Copyright 2018 The Asap Project Authors (https://github.com/Omnibus-Type/Asap) with Reserved Font Name \"Asap\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

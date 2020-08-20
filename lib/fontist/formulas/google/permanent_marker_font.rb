@@ -12,9 +12,20 @@ module Fontist
         sha256 "22ac9cb8e38f9c78e9a6bae39753c68bef3b65174a3980ccd4173d2a76690164"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PermanentMarker-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Permanent Marker",
+            style: "Regular",
+            full_name: "Permanent Marker Regular",
+            post_script_name: "PermanentMarker-Regular",
+            version: "1.001",
+            filename: "PermanentMarker-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

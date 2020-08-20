@@ -12,12 +12,47 @@ module Fontist
         sha256 "1157fbd54ad734d74ef535896dbe986d9705a002e0d19f2fc213818f4ac8138f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Marvel-Regular.ttf",
-        "Italic" => "Marvel-Italic.ttf",
-        "Bold" => "Marvel-Bold.ttf",
-        "BoldItalic" => "Marvel-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Marvel",
+            style: "Regular",
+            full_name: "Marvel",
+            post_script_name: "Marvel-Regular",
+            version: "1.001",
+            filename: "Marvel-Regular.ttf",
+            copyright: "Copyright (c) 2011, Carolina Trebol <ca@fromzero.org>, with Reserved Font Name \"Marvel\".",
+          },
+          {
+            family_name: "Marvel",
+            style: "Italic",
+            full_name: "Marvel Italic",
+            post_script_name: "Marvel-Italic",
+            version: "1.001",
+            filename: "Marvel-Italic.ttf",
+            copyright: "Copyright (c) 2011, Carolina Trebol <ca@fromzero.org>, with Reserved Font Name \"Marvel\".",
+          },
+          {
+            family_name: "Marvel",
+            style: "Bold",
+            full_name: "Marvel Bold",
+            post_script_name: "Marvel-Bold",
+            version: "1.001",
+            filename: "Marvel-Bold.ttf",
+            copyright: "Copyright (c) 2011, Carolina Trebol <ca@fromzero.org>, with Reserved Font Name \"Marvel\".",
+          },
+          {
+            family_name: "Marvel",
+            style: "Bold Italic",
+            full_name: "Marvel Bold Italic",
+            post_script_name: "Marvel-BoldItalic",
+            version: "1.001",
+            filename: "Marvel-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011, Carolina Trebol <ca@fromzero.org>, with Reserved Font Name \"Marvel\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

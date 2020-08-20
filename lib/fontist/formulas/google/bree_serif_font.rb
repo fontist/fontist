@@ -12,9 +12,20 @@ module Fontist
         sha256 "e799776e957a2c2dda6a4b74f0989b56f3d80bd420b8daefea4755a5a4167ec1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BreeSerif-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bree Serif",
+            style: "Regular",
+            full_name: "Bree Serif Regular",
+            post_script_name: "BreeSerif-Regular",
+            version: "1.002",
+            filename: "BreeSerif-Regular.ttf",
+            copyright: "Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Bree\" and \"Bree Serif\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

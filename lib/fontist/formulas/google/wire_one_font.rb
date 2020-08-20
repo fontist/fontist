@@ -12,9 +12,20 @@ module Fontist
         sha256 "62362f419c2f9117341ab695b6650468de4bff793fdb4aafa7cf7aae2a1ffa38"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "WireOne.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Wire One",
+            style: "Regular",
+            full_name: "Wire One",
+            post_script_name: "WireOne",
+            version: "1.012",
+            filename: "WireOne.ttf",
+            copyright: "Copyright (c) 2011, Cyreal Type Foundry (a@cyreal.org), with Reserved Font Name 'Wire'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "633ebeabd79cf3cd792179dbab2664d9777cc2553cd1651cf10f0ad3d8b137f7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Charmonman-Regular.ttf",
-        "Bold" => "Charmonman-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Charmonman",
+            style: "Regular",
+            full_name: "Charmonman Regular",
+            post_script_name: "Charmonman-Regular",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Charmonman-Regular.ttf",
+            copyright: "Copyright 2018 The Charmonman Project Authors (https://github.com/cadsondemak/Charmonman)",
+          },
+          {
+            family_name: "Charmonman",
+            style: "Bold",
+            full_name: "Charmonman Bold",
+            post_script_name: "Charmonman-Bold",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Charmonman-Bold.ttf",
+            copyright: "Copyright 2018 The Charmonman Project Authors (https://github.com/cadsondemak/Charmonman)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

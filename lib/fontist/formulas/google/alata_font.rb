@@ -12,9 +12,21 @@ module Fontist
         sha256 "a1266d0d6df4b52aee442767822ae81c5b0e8ebb3a8611111c1280e7f0cc7943"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Alata-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alata",
+            style: "Regular",
+            full_name: "Alata Regular",
+            post_script_name: "Alata-Regular",
+            version: "1.004",
+            description: "Alata is a geometric sans.",
+            filename: "Alata-Regular.ttf",
+            copyright: "Copyright 2019 The Alata Project Authors (https://github.com/SorkinType/Alata)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

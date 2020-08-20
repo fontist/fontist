@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CrimsonPro[wght].ttf",
-        "Italic" => "CrimsonPro-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Crimson Pro",
+            style: "ExtraLight",
+            full_name: "Crimson Pro ExtraLight",
+            post_script_name: "CrimsonPro-ExtraLight",
+            version: "1.002",
+            filename: "CrimsonPro[wght].ttf",
+            copyright: "Copyright 2018 The Crimson Pro Project Authors (https://github.com/Fonthausen/CrimsonPro)",
+          },
+          {
+            family_name: "Crimson Pro",
+            style: "ExtraLight Italic",
+            full_name: "Crimson Pro ExtraLight Italic",
+            post_script_name: "CrimsonPro-ExtraLightItalic",
+            version: "1.002",
+            filename: "CrimsonPro-Italic[wght].ttf",
+            copyright: "Copyright 2018 The Crimson Pro Project Authors (https://github.com/Fonthausen/CrimsonPro)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

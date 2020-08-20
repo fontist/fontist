@@ -12,9 +12,21 @@ module Fontist
         sha256 "72bfc81765632f475889971d7c82b63dedfd86d3d57200e07118a9812092fdb0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "McLaren-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "McLaren",
+            style: "Regular",
+            full_name: "McLaren",
+            post_script_name: "McLaren-Regular",
+            version: "1.000",
+            filename: "McLaren-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"McLaren\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

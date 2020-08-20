@@ -12,10 +12,29 @@ module Fontist
         sha256 "092a18f17ee97cdfbfd29bc2db699b03ff2a511f033f28066185ece48df17c5f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OFLGoudyStMTT.ttf",
-        "Italic" => "OFLGoudyStMTT-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "OFL Sorts Mill Goudy TT",
+            style: "Regular",
+            full_name: "OFL Sorts Mill Goudy TT",
+            post_script_name: "OFLGoudyStMTT",
+            version: "003.000",
+            filename: "OFLGoudyStMTT.ttf",
+            copyright: "Copyright (c) 2009 Barry Schwartz (http://crudfactory.com)",
+          },
+          {
+            family_name: "OFL Sorts Mill Goudy TT",
+            style: "Italic",
+            full_name: "OFL Sorts Mill Goudy TT Italic",
+            post_script_name: "OFLGoudyStMTT-Italic",
+            version: "003.000",
+            filename: "OFLGoudyStMTT-Italic.ttf",
+            copyright: "Copyright (c) 2009 Barry Schwartz (http://crudfactory.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

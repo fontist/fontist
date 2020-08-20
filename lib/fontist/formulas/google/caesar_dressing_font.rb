@@ -12,9 +12,20 @@ module Fontist
         sha256 "2d67aa69c93bd0d46fde7a7ce1ba1a875e3ef7174d885ac52be1c976b0fbf51d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CaesarDressing-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Caesar Dressing",
+            style: "Regular",
+            full_name: "Caesar Dressing",
+            post_script_name: "CaesarDressing",
+            version: "1.000",
+            filename: "CaesarDressing-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Open Window (dathanboardman@gmail.com) with Reseved Font Name \"Caesar Dressing\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "9d47d062c220e1f289bbf6ddc1d323259610349d0ef05a7fbe69a5ef286dd0cb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TitanOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Titan One",
+            style: "Regular",
+            full_name: "Titan One",
+            post_script_name: "TitanOne",
+            version: "1.001",
+            filename: "TitanOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 Rodrigo Fuenzalida (hello@rfuenzalida.com), with Reserved Font Name \"Titan One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

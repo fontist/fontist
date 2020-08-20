@@ -12,9 +12,20 @@ module Fontist
         sha256 "2a6249c12ff0c3e6ece78bf444390d9dc2394a3a0a7084648825e8774b8af86f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Calligraffitti-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Calligraffitti",
+            style: "Regular",
+            full_name: "Calligraffitti Regular",
+            post_script_name: "Calligraffitti-Regular",
+            version: "1.002",
+            filename: "Calligraffitti-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Open Window. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,28 @@ module Fontist
         sha256 "ce4c4ddcdd0e5a045c115559414c834df76c67fd73fcc6b6a1a2491543f28c29"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Iceland-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Iceland",
+            style: "Regular",
+            full_name: "Iceland",
+            post_script_name: "Iceland-Regular",
+            version: "1.001",
+            description: "Iceland is designed by Victor Kharyk for Cyreal.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Iceland-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Iceland\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

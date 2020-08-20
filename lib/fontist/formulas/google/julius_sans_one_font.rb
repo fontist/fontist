@@ -12,9 +12,20 @@ module Fontist
         sha256 "69a07b695a574577661fc5579950c976e15b2e98b75787f799cfa597cb08d1ed"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JuliusSansOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Julius Sans One",
+            style: "Regular",
+            full_name: "Julius Sans One",
+            post_script_name: "JuliusSansOne-Regular",
+            version: "1.002; ttfautohint (v1.3)",
+            filename: "JuliusSansOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, LatinoType (www.latinotype.com), with Reserved Font Name 'Julius'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

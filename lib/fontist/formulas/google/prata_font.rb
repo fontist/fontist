@@ -12,9 +12,20 @@ module Fontist
         sha256 "7cbdf0e63bc68df70d73488610c85dce078b9a769aa5bd0029dd9ec100266710"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Prata-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Prata",
+            style: "Regular",
+            full_name: "Prata Regular",
+            post_script_name: "Prata-Regular",
+            version: "2.000",
+            filename: "Prata-Regular.ttf",
+            copyright: "Copyright 2011 The Prata Project Authors (contact@cyreal.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

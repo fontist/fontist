@@ -12,9 +12,20 @@ module Fontist
         sha256 "1f970f8bc52b00b71978d295e4762c71bb3b67d500f502368005f63178390fdc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OdorMeanChey.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "OdorMeanChey",
+            style: "Regular",
+            full_name: "OdorMeanChey",
+            post_script_name: "OdorMeanChey",
+            version: "6.00 December 28, 2010",
+            filename: "OdorMeanChey.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "fb12f086cf5153f84499808f40c03f5579afabf4d82d907ccc14d7b9e5833ad3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arya-Regular.ttf",
-        "Bold" => "Arya-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arya",
+            style: "Regular",
+            full_name: "Arya Regular",
+            post_script_name: "Arya-Regular",
+            version: "1.002",
+            filename: "Arya-Regular.ttf",
+            copyright: "Copyright (c) 2014, Eduardo Rodriguez Tunni. Copyright (c) 2000, Modular Infotech, Pune, INDIA. All rights reserved.",
+          },
+          {
+            family_name: "Arya",
+            style: "Bold",
+            full_name: "Arya Bold",
+            post_script_name: "Arya-Bold",
+            version: "1.002",
+            filename: "Arya-Bold.ttf",
+            copyright: "Copyright (c) 2014, Eduardo Rodriguez Tunni. Copyright (c) 2000, Modular Infotech, Pune, INDIA. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

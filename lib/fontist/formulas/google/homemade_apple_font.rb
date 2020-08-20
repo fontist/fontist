@@ -12,9 +12,20 @@ module Fontist
         sha256 "9b3890562978f3d714a41720d5649fddd65526d24e580bce9360972f55a9455a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HomemadeApple-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Homemade Apple",
+            style: "Regular",
+            full_name: "Homemade Apple Regular",
+            post_script_name: "HomemadeApple-Regular",
+            version: "1.001",
+            filename: "HomemadeApple-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

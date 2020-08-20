@@ -12,9 +12,20 @@ module Fontist
         sha256 "2284dc6172dc70edf6185354757a405677bc9d27581e6991eaaed5ae09050c78"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AutourOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Autour One",
+            style: "Regular",
+            full_name: "Autour One Regular",
+            post_script_name: "AutourOne-Regular",
+            version: "1.007; ttfautohint (v0.92) -l 24 -r 24 -G 200 -x 7 -w \"GD\"",
+            filename: "AutourOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Autour'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

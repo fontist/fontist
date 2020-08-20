@@ -12,12 +12,47 @@ module Fontist
         sha256 "706b102aaa9ec2d1b8d30262349a55ec5efcbe6d20f21cabbcdff76759f4fdd2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Almendra-Regular.ttf",
-        "Italic" => "Almendra-Italic.ttf",
-        "Bold" => "Almendra-Bold.ttf",
-        "BoldItalic" => "Almendra-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Almendra",
+            style: "Regular",
+            full_name: "Almendra Regular",
+            post_script_name: "Almendra-Regular",
+            version: "1.004",
+            filename: "Almendra-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Ana Sanfelippo (anasanfe@gmail.com), with Reserved Font Name 'Almendra'",
+          },
+          {
+            family_name: "Almendra",
+            style: "Italic",
+            full_name: "Almendra Italic",
+            post_script_name: "Almendra-Italic",
+            version: "1.004",
+            filename: "Almendra-Italic.ttf",
+            copyright: "Copyright (c) 2011-2012, Ana Sanfelippo (anasanfe@gmail.com), with Reserved Font Name 'Almendra'",
+          },
+          {
+            family_name: "Almendra",
+            style: "Bold",
+            full_name: "Almendra Bold",
+            post_script_name: "Almendra-Bold",
+            version: "1.004",
+            filename: "Almendra-Bold.ttf",
+            copyright: "Copyright (c) 2011-2012, Ana Sanfelippo (anasanfe@gmail.com), with Reserved Font Name 'Almendra'",
+          },
+          {
+            family_name: "Almendra",
+            style: "Bold Italic",
+            full_name: "Almendra Bold Italic",
+            post_script_name: "Almendra-BoldItalic",
+            version: "1.004",
+            filename: "Almendra-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011-2012, Ana Sanfelippo (anasanfe@gmail.com), with Reserved Font Name 'Almendra'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

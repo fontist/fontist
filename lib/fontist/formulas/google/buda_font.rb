@@ -12,9 +12,20 @@ module Fontist
         sha256 "a1b09677a0ab4810b5cb5aa1caadd37949f3f155cfa3f4e18982867d8af793f2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Buda-Light.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Buda",
+            style: "Light",
+            full_name: "Buda Light",
+            post_script_name: "Buda-Light",
+            version: "1.003",
+            filename: "Buda-Light.ttf",
+            copyright: "Copyright (c) 2010, Adele Antignac (a.antignac@hotmail.fr). All rights reserved. Licenced under SIL OFL vl.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

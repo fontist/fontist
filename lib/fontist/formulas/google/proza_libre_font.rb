@@ -12,18 +12,101 @@ module Fontist
         sha256 "838f889cc3c46b1206619852cd06aaf1b6c96f2dedbb714a4ddfcc5b32f5bfeb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ProzaLibre-Regular.ttf",
-        "Italic" => "ProzaLibre-Italic.ttf",
-        "Medium" => "ProzaLibre-Medium.ttf",
-        "MediumItalic" => "ProzaLibre-MediumItalic.ttf",
-        "SemiBold" => "ProzaLibre-SemiBold.ttf",
-        "SemiBoldItalic" => "ProzaLibre-SemiBoldItalic.ttf",
-        "Bold" => "ProzaLibre-Bold.ttf",
-        "BoldItalic" => "ProzaLibre-BoldItalic.ttf",
-        "ExtraBold" => "ProzaLibre-ExtraBold.ttf",
-        "ExtraBoldItalic" => "ProzaLibre-ExtraBoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Proza Libre",
+            style: "Regular",
+            full_name: "Proza Libre Regular",
+            post_script_name: "ProzaLibre-Regular",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-Regular.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "Italic",
+            full_name: "Proza Libre Italic",
+            post_script_name: "ProzaLibre-Italic",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-Italic.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "Medium",
+            full_name: "Proza Libre Medium",
+            post_script_name: "ProzaLibre-Medium",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-Medium.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "Medium Italic",
+            full_name: "Proza Libre Medium Italic",
+            post_script_name: "ProzaLibre-MediumItalic",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-MediumItalic.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "SemiBold",
+            full_name: "Proza Libre SemiBold",
+            post_script_name: "ProzaLibre-SemiBold",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc) -l 8 -r 50 -G 200 -x 14 -D latn -f none -m \"ohint (v1.4.1.8-43bc) -l 8 -r 50 -G 200 -x 14\" -w G -t -X \"\"",
+            filename: "ProzaLibre-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "SemiBold Italic",
+            full_name: "Proza Libre SemiBold Italic",
+            post_script_name: "ProzaLibre-SemiBoldItalic",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-SemiBoldItalic.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "Bold",
+            full_name: "Proza Libre Bold",
+            post_script_name: "ProzaLibre-Bold",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-Bold.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "Bold Italic",
+            full_name: "Proza Libre Bold Italic",
+            post_script_name: "ProzaLibre-BoldItalic",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-BoldItalic.ttf",
+            copyright: "Copyright (c) 2015 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "ExtraBold",
+            full_name: "Proza Libre ExtraBold",
+            post_script_name: "ProzaLibre-ExtraBold",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-ExtraBold.ttf",
+            copyright: "Copyright (c) 2013 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Proza Libre",
+            style: "ExtraBold Italic",
+            full_name: "Proza Libre ExtraBold Italic",
+            post_script_name: "ProzaLibre-ExtraBoldItalic",
+            version: "1.001; ttfautohint (v1.4.1.8-43bc)",
+            filename: "ProzaLibre-ExtraBoldItalic.ttf",
+            copyright: "Copyright (c) 2013 by Jasper de Waard. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

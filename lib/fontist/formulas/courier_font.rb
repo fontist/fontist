@@ -13,12 +13,51 @@ module Fontist
         sha256 "bb511d861655dde879ae552eb86b134d6fae67cb58502e6ff73ec5d9151f3384"
       end
 
-      provides_font("Courier", match_styles_from_file: {
-        "Regular" => "cour.ttf",
-        "Italic" => "couri.ttf",
-        "Bold Italic" => "courbi.ttf",
-        "Bold" => "courbd.ttf"
-      })
+      provides_font(
+        "Courier",
+        match_styles_from_file: [
+          {
+            family_name: "Courier New",
+            style: "Regular",
+            full_name: "Courier New",
+            post_script_name: "CourierNewPSMT",
+            version: "2.82",
+            description: "Designed as a typewriter face for IBM, Courier was re drawn by Adrian Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in weight and slab serif in concept.  Used to emulate typewriter output for reports, tabular work and technical documentation.",
+            filename: "cour.ttf",
+            copyright: "Typeface © The Monotype Corporation plc. Data © The Monotype Corporation plc/Type Solutions Inc. 1990-1994. All Rights Reserved",
+          },
+          {
+            family_name: "Courier New",
+            style: "Bold",
+            full_name: "Courier New Bold",
+            post_script_name: "CourierNewPS-BoldMT",
+            version: "2.82",
+            description: "Designed as a typewriter face for IBM, Courier was re drawn by Adrian Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in weight and slab serif in concept.  Used to emulate typewriter output for reports, tabular work and technical documentation.",
+            filename: "courbd.ttf",
+            copyright: "Typeface © The Monotype Corporation plc. Data © The Monotype Corporation plc/Type Solutions Inc. 1990-1992. All Rights Reserved",
+          },
+          {
+            family_name: "Courier New",
+            style: "Bold Italic",
+            full_name: "Courier New Bold Italic",
+            post_script_name: "CourierNewPS-BoldItalicMT",
+            version: "2.82",
+            description: "Designed as a typewriter face for IBM, Courier was re drawn by Adrian Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in weight and slab serif in concept.  Used to emulate typewriter output for reports, tabular work and technical documentation.",
+            filename: "courbi.ttf",
+            copyright: "Typeface © The Monotype Corporation plc. Data © The Monotype Corporation plc/Type Solutions Inc. 1990-1992. All Rights Reserved",
+          },
+          {
+            family_name: "Courier New",
+            style: "Italic",
+            full_name: "Courier New Italic",
+            post_script_name: "CourierNewPS-ItalicMT",
+            version: "2.82",
+            description: "Designed as a typewriter face for IBM, Courier was re drawn by Adrian Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in weight and slab serif in concept.  Used to emulate typewriter output for reports, tabular work and technical documentation.",
+            filename: "couri.ttf",
+            copyright: "Typeface © The Monotype Corporation plc. Data © The Monotype Corporation plc/Type Solutions Inc. 1990-1992. All Rights Reserved",
+          },
+        ]
+      )
 
       def extract
         resource "courie32.exe" do |resource|

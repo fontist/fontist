@@ -12,17 +12,92 @@ module Fontist
         sha256 "19abf8d44670b5fd3a3c562bdf90fbfce7fdab6eb96f2c3afb5bcef34607e115"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "SairaCondensed-Thin.ttf",
-        "ExtraLight" => "SairaCondensed-ExtraLight.ttf",
-        "Light" => "SairaCondensed-Light.ttf",
-        "Regular" => "SairaCondensed-Regular.ttf",
-        "Medium" => "SairaCondensed-Medium.ttf",
-        "SemiBold" => "SairaCondensed-SemiBold.ttf",
-        "Bold" => "SairaCondensed-Bold.ttf",
-        "ExtraBold" => "SairaCondensed-ExtraBold.ttf",
-        "Black" => "SairaCondensed-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Saira Condensed",
+            style: "Thin",
+            full_name: "Saira Condensed Thin",
+            post_script_name: "SairaCondensed-Thin",
+            version: "0.072",
+            filename: "SairaCondensed-Thin.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "ExtraLight",
+            full_name: "Saira Condensed ExtraLight",
+            post_script_name: "SairaCondensed-ExtraLight",
+            version: "0.072",
+            filename: "SairaCondensed-ExtraLight.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "Light",
+            full_name: "Saira Condensed Light",
+            post_script_name: "SairaCondensed-Light",
+            version: "0.072",
+            filename: "SairaCondensed-Light.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "Regular",
+            full_name: "Saira Condensed Regular",
+            post_script_name: "SairaCondensed-Regular",
+            version: "0.072",
+            filename: "SairaCondensed-Regular.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "Medium",
+            full_name: "Saira Condensed Medium",
+            post_script_name: "SairaCondensed-Medium",
+            version: "0.072",
+            filename: "SairaCondensed-Medium.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "SemiBold",
+            full_name: "Saira Condensed SemiBold",
+            post_script_name: "SairaCondensed-SemiBold",
+            version: "0.072",
+            filename: "SairaCondensed-SemiBold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "Bold",
+            full_name: "Saira Condensed Bold",
+            post_script_name: "SairaCondensed-Bold",
+            version: "0.072",
+            filename: "SairaCondensed-Bold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "ExtraBold",
+            full_name: "Saira Condensed ExtraBold",
+            post_script_name: "SairaCondensed-ExtraBold",
+            version: "0.072",
+            filename: "SairaCondensed-ExtraBold.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+          {
+            family_name: "Saira Condensed",
+            style: "Black",
+            full_name: "Saira Condensed Black",
+            post_script_name: "SairaCondensed-Black",
+            version: "0.072",
+            filename: "SairaCondensed-Black.ttf",
+            copyright: "Copyright 2016 The Saira Project Authors (omnibus.type@gmail.com), with reserved font name \"Saira\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,30 @@ module Fontist
         sha256 "959d3417ca31c6036bf4a2202c32a03cfe249e7584942efa6b427dc15df822ee"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Inika-Regular.ttf",
-        "Bold" => "Inika-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inika",
+            style: "Regular",
+            full_name: "Inika",
+            post_script_name: "Inika",
+            version: "1.001",
+            filename: "Inika-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Constanza Artigas Preller. All rights reserved.",
+          },
+          {
+            family_name: "Inika",
+            style: "Bold",
+            full_name: "Inika Bold",
+            post_script_name: "Inika-Bold",
+            version: "1.001",
+            description: "Copyright (c) 2011 by Constanza Artigas Preller. All rights reserved.",
+            filename: "Inika-Bold.ttf",
+            copyright: "Copyright (c) 2011 by Constanza Artigas Preller. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

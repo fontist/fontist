@@ -12,9 +12,20 @@ module Fontist
         sha256 "4da60f8942e5bf2a03c42cafb4c953b1d0c60530d3155337958f0a377aa6889e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Anton-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Anton",
+            style: "Regular",
+            full_name: "Anton Regular",
+            post_script_name: "Anton-Regular",
+            version: "2.000",
+            filename: "Anton-Regular.ttf",
+            copyright: "Copyright 2011 The Anton Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

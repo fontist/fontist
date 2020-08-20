@@ -12,9 +12,21 @@ module Fontist
         sha256 "9ab2c4db9f2e10d9cae14cbf30bced5c1978efa872ad9c66e9dbfec68b41b24e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Yesteryear-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yesteryear",
+            style: "Regular",
+            full_name: "Yesteryear",
+            post_script_name: "Yesteryear-Regular",
+            version: "1.000",
+            filename: "Yesteryear-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Yesteryear\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

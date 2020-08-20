@@ -12,9 +12,20 @@ module Fontist
         sha256 "8d4a7a9af4e1b90eace1b645ac1ac81bb4eb7dbd2aa7599a602802eeaf64b60f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VT323-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "VT323",
+            style: "Regular",
+            full_name: "VT323 Regular",
+            post_script_name: "VT323-Regular",
+            version: "2.000",
+            filename: "VT323-Regular.ttf",
+            copyright: "Copyright 2011, The VT323 Project Authors (peter.hull@oikoi.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "bd58e6997aa9dd9ac8e9be1e78fcecf336859d60aa00757404ef931ee2832454"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gruppo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gruppo",
+            style: "Regular",
+            full_name: "Gruppo",
+            post_script_name: "Gruppo",
+            version: "1.000",
+            description: "Gruppo X was concieved as a display typeface for style conscious, laid-back branding where 'little is more', or, in Jasper Morrison's words \"Special is generally less useful than normal\".",
+            filename: "Gruppo-Regular.ttf",
+            copyright: "Copyright (c) 2010 Vernon Adams (vern@newtypography.co.uk). Available under the terms of the SIL OFL v1.1 from http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

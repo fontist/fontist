@@ -12,10 +12,29 @@ module Fontist
         sha256 "2f1166abe44c09941d7666e5710e120d76926ee11c5b2a01cd6f1e95092d7c58"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MontserratSubrayada-Regular.ttf",
-        "Bold" => "MontserratSubrayada-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Montserrat Subrayada",
+            style: "Regular",
+            full_name: "MontserratSubrayada-Regular",
+            post_script_name: "MontserratSubrayada-Regular",
+            version: "2.001",
+            filename: "MontserratSubrayada-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Julieta Ulanovsky (julieta.ulanovsky@gmail.com), with Reserved Font Names 'Montserrat'",
+          },
+          {
+            family_name: "Montserrat Subrayada",
+            style: "Bold",
+            full_name: "MontserratSubrayada-Bold",
+            post_script_name: "MontserratSubrayada-Bold",
+            version: "2.001",
+            filename: "MontserratSubrayada-Bold.ttf",
+            copyright: "Copyright (c) 2011-2012, Julieta Ulanovsky (julieta.ulanovsky@gmail.com), with Reserved Font Names 'Montserrat'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

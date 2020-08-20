@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RobotoSlab[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Roboto Slab",
+            style: "Regular",
+            full_name: "Roboto Slab Regular",
+            post_script_name: "RobotoSlab-Regular",
+            version: "2.000; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "RobotoSlab[wght].ttf",
+            copyright: "Copyright 2018 The Roboto Slab Project Authors (https://github.com/googlefonts/robotoslab)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

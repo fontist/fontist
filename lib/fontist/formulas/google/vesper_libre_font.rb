@@ -12,12 +12,46 @@ module Fontist
         sha256 "3b1fc71090e7fb02302a778a2010e8bb412ae34d8a1158536ed8875f65516874"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VesperLibre-Regular.ttf",
-        "Medium" => "VesperLibre-Medium.ttf",
-        "Bold" => "VesperLibre-Bold.ttf",
-        "Heavy" => "VesperLibre-Heavy.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vesper Libre",
+            style: "Regular",
+            full_name: "Vesper Libre",
+            post_script_name: "VesperLibre-Regular",
+            version: "1.058",
+            filename: "VesperLibre-Regular.ttf",
+          },
+          {
+            family_name: "Vesper Libre",
+            style: "Medium",
+            full_name: "Vesper Libre Medium",
+            post_script_name: "VesperLibre-Medium",
+            version: "1.058",
+            filename: "VesperLibre-Medium.ttf",
+            copyright: "Copyright (c) 2007, Robert Keller (www.motaitalic.com)",
+          },
+          {
+            family_name: "Vesper Libre",
+            style: "Bold",
+            full_name: "Vesper Libre Bold",
+            post_script_name: "VesperLibre-Bold",
+            version: "1.058",
+            filename: "VesperLibre-Bold.ttf",
+            copyright: "Copyright (c) 2007, Robert Keller (www.motaitalic.com)",
+          },
+          {
+            family_name: "Vesper Libre",
+            style: "Heavy",
+            full_name: "Vesper Libre Heavy",
+            post_script_name: "VesperLibre-Heavy",
+            version: "1.058",
+            filename: "VesperLibre-Heavy.ttf",
+            copyright: "Copyright (c) 2007, Robert Keller (www.motaitalic.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

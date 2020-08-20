@@ -12,9 +12,21 @@ module Fontist
         sha256 "80cd23997da0dd8d19ebc06dab4e2f462bf2acbf8d905705b867ac91c4e2145c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PollerOne.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Poller One",
+            style: "Regular",
+            full_name: "Poller One",
+            post_script_name: "PollerOne-Regular",
+            version: "1.002",
+            description: "Poller is a high contrast semi-extended style sans serif. Poller's is both readable and full of personality. Because of the higher contrast it is best used from medium sizes to larger display settings. Voltaire was inspired by hand lettering on early 20th century German posters.",
+            filename: "PollerOne.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

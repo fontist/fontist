@@ -12,12 +12,51 @@ module Fontist
         sha256 "7b6516649c7ffc15faf32d9dac36a655885f0f5baa7baf5618ede31b71c47188"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amiri-Regular.ttf",
-        "Italic" => "Amiri-Italic.ttf",
-        "Bold" => "Amiri-Bold.ttf",
-        "BoldItalic" => "Amiri-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amiri",
+            style: "Regular",
+            full_name: "Amiri Regular",
+            post_script_name: "Amiri-Regular",
+            version: "0.113",
+            description: "Amiri is a classical Arabic typeface in Naskh style for typesetting books and other running text. Its design is a revival of the beautiful typeface pioneered in early 20th century by Bulaq Press in Cairo, also known as Amiria Press, after which the font is named.",
+            filename: "Amiri-Regular.ttf",
+            copyright: "Copyright 2010-2020 The Amiri Project Authors (https://github.com/alif-type/amiri).",
+          },
+          {
+            family_name: "Amiri",
+            style: "Italic",
+            full_name: "Amiri Italic",
+            post_script_name: "Amiri-Italic",
+            version: "0.113",
+            description: "Amiri is a classical Arabic typeface in Naskh style for typesetting books and other running text. Its design is a revival of the beautiful typeface pioneered in early 20th century by Bulaq Press in Cairo, also known as Amiria Press, after which the font is named.",
+            filename: "Amiri-Italic.ttf",
+            copyright: "Copyright 2010-2020 The Amiri Project Authors (https://github.com/alif-type/amiri).",
+          },
+          {
+            family_name: "Amiri",
+            style: "Bold",
+            full_name: "Amiri Bold",
+            post_script_name: "Amiri-Bold",
+            version: "0.113",
+            description: "Amiri is a classical Arabic typeface in Naskh style for typesetting books and other running text. Its design is a revival of the beautiful typeface pioneered in early 20th century by Bulaq Press in Cairo, also known as Amiria Press, after which the font is named.",
+            filename: "Amiri-Bold.ttf",
+            copyright: "Copyright 2010-2020 The Amiri Project Authors (https://github.com/alif-type/amiri).",
+          },
+          {
+            family_name: "Amiri",
+            style: "Bold Italic",
+            full_name: "Amiri Bold Italic",
+            post_script_name: "Amiri-BoldItalic",
+            version: "0.113",
+            description: "Amiri is a classical Arabic typeface in Naskh style for typesetting books and other running text. Its design is a revival of the beautiful typeface pioneered in early 20th century by Bulaq Press in Cairo, also known as Amiria Press, after which the font is named.",
+            filename: "Amiri-BoldItalic.ttf",
+            copyright: "Copyright 2010-2020 The Amiri Project Authors (https://github.com/alif-type/amiri).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|
