@@ -1,6 +1,8 @@
 require "erb"
 require_relative "google/fonts_public.pb"
-require_relative "styles"
+require_relative "template_helper"
+require_relative "otf_parser"
+require_relative "otf_style"
 
 module Fontist
   module Import
@@ -87,7 +89,9 @@ module Fontist
       end
 
       def fetch_font(metadata, path)
-        h = from_metadata(metadata).merge(from_otfinfo(path))
+        h = from_metadata(metadata)
+          .merge(from_otfinfo(path))
+          .merge(styles: styles_from_otfinfo(path, metadata.fonts))
           .merge(from_license(path))
 
         OpenStruct.new(h)
@@ -97,8 +101,13 @@ module Fontist
         { fullname: metadata.name,
           cleanname: metadata.name.gsub(/ /, ""),
           sha256: sha256(metadata.name),
-          styles: styles(metadata.fonts),
-          copyright: metadata.fonts.first.copyright.strip }
+          copyright: cleanup(metadata.fonts.first.copyright) }
+      end
+
+      def cleanup(text)
+        return unless text
+
+        text.gsub("\r\n", "\n").gsub("\r", "\n").strip
       end
 
       def sha256(name)
@@ -106,39 +115,6 @@ module Fontist
                              open_timeout: 10,
                              read_timeout: 10)
         Digest::SHA256.file(file).to_s
-      end
-
-      def styles(fonts)
-        styles = []
-        taken = []
-
-        fonts.each do |f|
-          style = style(f, taken)
-          taken << style
-          styles << OpenStruct.new(style: style, filename: f.filename)
-        end
-
-        styles
-      end
-
-      def style(font, taken)
-        match_style(font.filename) ||
-          default_if_first(taken) ||
-          match_style(font.post_script_name) ||
-          default_style
-      end
-
-      def default_if_first(taken)
-        default_style unless taken.include?(default_style)
-      end
-
-      def match_style(name)
-        match = name.scan(/(-|_)([[:alnum:]]+)/).last
-        match.last if match && Fontist::Import::STYLES.include?(match.last)
-      end
-
-      def default_style
-        "Regular"
       end
 
       def from_license(path)
@@ -158,32 +134,24 @@ module Fontist
 
       def from_otfinfo(path)
         font_file = Dir.glob(File.join(path, "*.ttf")).first
-        text = `otfinfo --info #{font_file}`
-        otf = text.split("\n")
-          .select { |x| x.include?(":") }
-          .map { |x| x.split(":", 2).map(&:strip) }
-          .to_h
+        otf = OtfParser.new(font_file).call
 
         { homepage: otf["Vendor URL"],
           license_url: otf["License URL"] }
       end
 
+      def styles_from_otfinfo(path, fonts)
+        fonts.map do |f|
+          file_path = File.join(path, f.filename)
+          info = OtfParser.new(file_path).call
+          OtfStyle.new(info, file_path).call
+        end
+      end
+
       def render_code(font)
         template = File.read(TEMPLATE_PATH)
         renderer = ERB.new(template, trim_mode: "-")
-        renderer.result(restrict_binding(font))
-      end
-
-      def restrict_binding(data)
-        @binding_module ||= begin
-                              Module.new do
-                                def self.bind(font)
-                                  binding
-                                end
-                              end
-                            end
-
-        @binding_module.bind(data)
+        renderer.result(Fontist::Import::TemplateHelper.bind(font, "font"))
       end
 
       def save_formula(code, font)

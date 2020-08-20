@@ -1,0 +1,20 @@
+        <%- resource.each do |s| -%>
+          {
+            family_name: "<%= s.family_name %>",
+            style: "<%= s.style %>",
+            full_name: "<%= s.full_name %>",
+            <%- if s.post_script_name -%>
+            post_script_name: "<%= s.post_script_name %>",
+            <%- end -%>
+            <%- if s.version -%>
+            version: "<%= esc(s.version) %>",
+            <%- end -%>
+            <%- if s.description -%>
+            description: "<%= esc(s.description) %>",
+            <%- end -%>
+            filename: "<%= s.filename %>",
+            <%- if s.copyright -%>
+            copyright: "<%= esc(s.copyright) %>",
+            <%- end -%>
+          },
+        <%- end -%>
