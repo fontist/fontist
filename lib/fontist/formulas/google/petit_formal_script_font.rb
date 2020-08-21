@@ -25,7 +25,7 @@ module Fontist
             filename: "PetitFormalScript-Regular.ttf",
             copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
 Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
-Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), 
+Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com),
 
 with Reserved Font Name Petit Formal Script.",
           },

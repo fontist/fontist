@@ -22,7 +22,7 @@ module Fontist
             post_script_name: "QuattrocentoSans",
             version: "2.000",
             description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
-Warm, readable and not intrusive. 
+Warm, readable and not intrusive.
 It's the perfect sans-serif companion for Quattrocento.",
             filename: "QuattrocentoSans-Regular.ttf",
             copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
@@ -37,7 +37,7 @@ with Reserved Font Name Quattrocento Sans.",
             post_script_name: "QuattrocentoSans-Italic",
             version: "2.000",
             description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
-Warm, readable and not intrusive. 
+Warm, readable and not intrusive.
 It's the perfect sans-serif companion for Quattrocento.",
             filename: "QuattrocentoSans-Italic.ttf",
             copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
@@ -52,7 +52,7 @@ with Reserved Font Name Quattrocento Sans.",
             post_script_name: "QuattrocentoSans-Bold",
             version: "2.000",
             description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
-Warm, readable and not intrusive. 
+Warm, readable and not intrusive.
 It's the perfect sans-serif companion for Quattrocento.",
             filename: "QuattrocentoSans-Bold.ttf",
             copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
@@ -67,7 +67,7 @@ with Reserved Font Name Quattrocento Sans.",
             post_script_name: "QuattrocentoSans-BoldItalic",
             version: "2.000",
             description: "Quattrocento Sans is a Classic, Elegant & Sober typeface.
-Warm, readable and not intrusive. 
+Warm, readable and not intrusive.
 It's the perfect sans-serif companion for Quattrocento.",
             filename: "QuattrocentoSans-BoldItalic.ttf",
             copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),

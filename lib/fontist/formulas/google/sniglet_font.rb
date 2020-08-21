@@ -28,9 +28,9 @@ In 2013 Brenda Gallo and Pablo Impallari added a Regular weight
 
 To contribute to the project contact Haley Fiege (haley@kingdomofawesome.com) or Pablo Impallari (impallari@gmail.com)",
             filename: "Sniglet-Regular.ttf",
-            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com), 
+            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com),
 Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com)
-Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com), 
+Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com),
 with no Reserved Font Name.",
           },
           {
@@ -46,9 +46,9 @@ In 2013 Brenda Gallo and Pablo Impallari added a Regular weight
 
 To contribute to the project contact Haley Fiege (haley@kingdomofawesome.com) or Pablo Impallari (impallari@gmail.com)",
             filename: "Sniglet-ExtraBold.ttf",
-            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com), 
+            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com),
 Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com)
-Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com), 
+Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com),
 with no Reserved Font Name.",
           },
         ]
