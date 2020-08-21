@@ -1,12 +1,18 @@
+require_relative "otfinfo/otfinfo_requirement"
+
 module Fontist
   module Import
     class OtfParser
+      REQUIREMENTS = {
+        otfinfo: Fontist::Import::Otfinfo::OtfinfoRequirement.new,
+      }.freeze
+
       def initialize(path)
         @path = path
       end
 
       def call
-        text = `otfinfo --info '#{@path}'`
+        text = REQUIREMENTS[:otfinfo].call(@path)
         text.split("\n")
           .select { |x| x.include?(":") }
           .map { |x| x.split(":", 2).map { |y| cleanup(y) } }
