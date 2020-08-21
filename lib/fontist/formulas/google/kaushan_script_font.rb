@@ -23,7 +23,7 @@ module Fontist
             version: "1.002",
             description: "Kaushan Script feels like writing quickly with an inked brush.
 
-When making digital typefaces, the more you refine the shapes of the letters, the more energy you take away from them. Because of that, Kaushan is unrefined - and carries a lot of energy. 
+When making digital typefaces, the more you refine the shapes of the letters, the more energy you take away from them. Because of that, Kaushan is unrefined - and carries a lot of energy.
 
 By avoiding typographical perfection, it stays more natural. The angles of the vertical strokes vary a little, and the positioning along the baseline jumps around, giving it a more rustic and natural feeling.
 

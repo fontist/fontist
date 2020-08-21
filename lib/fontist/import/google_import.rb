@@ -1,6 +1,7 @@
 require "erb"
 require_relative "google/fonts_public.pb"
 require_relative "template_helper"
+require_relative "text_helper"
 require_relative "otf_parser"
 require_relative "otf_style"
 
@@ -98,16 +99,11 @@ module Fontist
       end
 
       def from_metadata(metadata)
+        copyright = metadata.fonts.first.copyright
         { fullname: metadata.name,
           cleanname: metadata.name.gsub(/ /, ""),
           sha256: sha256(metadata.name),
-          copyright: cleanup(metadata.fonts.first.copyright) }
-      end
-
-      def cleanup(text)
-        return unless text
-
-        text.gsub("\r\n", "\n").gsub("\r", "\n").strip
+          copyright: Fontist::Import::TextHelper.cleanup(copyright) }
       end
 
       def sha256(name)

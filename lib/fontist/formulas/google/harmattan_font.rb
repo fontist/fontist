@@ -69,7 +69,7 @@ module Fontist
 Copyright renewed 2011-2012, George W. Nuss (http://www.fulbefouta.com),
 with the Reserved Font Name \"Fouta\".
 
-Copyright (c) 2004-2020, SIL International (http://www.sil.org), 
+Copyright (c) 2004-2020, SIL International (http://www.sil.org),
 with Reserved Font Names 'Andika' and 'SIL'.
 
 Copyright (c) 2014-2020, SIL International (http://www.sil.org/).

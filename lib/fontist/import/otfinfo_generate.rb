@@ -1,5 +1,6 @@
 require "erb"
 require_relative "template_helper"
+require_relative "text_helper"
 require_relative "otf_parser"
 require_relative "otf_style"
 
