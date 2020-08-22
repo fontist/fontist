@@ -12,9 +12,20 @@ module Fontist
         sha256 "7228d5fcdf7e678b2cf4050f899da7f552bfc66e92ba63e34753d6cef4c599a7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SedgwickAveDisplay-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sedgwick Ave Display",
+            style: "Regular",
+            full_name: "Sedgwick Ave Display Regular",
+            post_script_name: "SedgwickAveDisplay-Regular",
+            version: "1.000",
+            filename: "SedgwickAveDisplay-Regular.ttf",
+            copyright: "Copyright 2017 The Sedgwick Ave Project Authors (https://github.com/googlefonts/sedgwickave)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

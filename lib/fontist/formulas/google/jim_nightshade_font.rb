@@ -12,9 +12,21 @@ module Fontist
         sha256 "ebcda16d74cfe3b46c3c9bd85b1bc858588dbcad11e4b21e8dac8a1f3cfb0c02"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JimNightshade-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jim Nightshade",
+            style: "Regular",
+            full_name: "Jim Nightshade",
+            post_script_name: "JimNightshade-Regular",
+            version: "1.000",
+            filename: "JimNightshade-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Jim Nightshade\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

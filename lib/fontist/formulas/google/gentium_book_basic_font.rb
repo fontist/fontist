@@ -12,12 +12,47 @@ module Fontist
         sha256 "55c829f46d371cbd6a9075375936ff4d2d7309529e12a4765947b6aaf0479144"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GenBkBasR.ttf",
-        "Italic" => "GenBkBasI.ttf",
-        "Bold" => "GenBkBasB.ttf",
-        "BoldItalic" => "GenBkBasBI.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gentium Book Basic",
+            style: "Regular",
+            full_name: "Gentium Book Basic",
+            post_script_name: "GentiumBookBasic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBkBasR.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Book Basic",
+            style: "Italic",
+            full_name: "Gentium Book Basic Italic",
+            post_script_name: "GentiumBookBasic-Italic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBkBasI.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Book Basic",
+            style: "Bold",
+            full_name: "Gentium Book Basic Bold",
+            post_script_name: "GentiumBookBasic-Bold",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBkBasB.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Book Basic",
+            style: "Bold Italic",
+            full_name: "Gentium Book Basic Bold Italic",
+            post_script_name: "GentiumBookBasic-BoldItalic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBkBasBI.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

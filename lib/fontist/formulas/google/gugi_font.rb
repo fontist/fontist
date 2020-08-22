@@ -12,9 +12,20 @@ module Fontist
         sha256 "fd8a615a9400416e6d52c7569dc6dc63da9002c790b00eebf975cd6717121bc4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gugi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gugi",
+            style: "Regular",
+            full_name: "Gugi Regular",
+            post_script_name: "Gugi-Regular",
+            version: "3.00",
+            filename: "Gugi-Regular.ttf",
+            copyright: "Copyright (c) 2017 by TAE System & Typefaces Co.. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

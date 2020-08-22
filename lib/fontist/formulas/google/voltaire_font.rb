@@ -12,9 +12,22 @@ module Fontist
         sha256 "b158f4348eadaf51f03335c6641e16eb3b5684c937e682ac3b3cd280db6b0a66"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Voltaire-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Voltaire",
+            style: "Regular",
+            full_name: "Voltaire",
+            post_script_name: "Voltaire",
+            version: "1.003",
+            description: "Voltaire is a low contrast condensed semi-geometric style sans serif. Voltaire is highly readable and will work from medium yext sizes all the way up to larger display settings. Voltaire was inspired by 20th century Swedish posters whose letters  have similar forms.",
+            filename: "Voltaire-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Names \"Voltaire\" and \"Voltaire One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,12 +12,47 @@ module Fontist
         sha256 "1c9cef336d134ffe557103a3cf34a1d9796139619b468538c114a164aae836d8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mirza-Regular.ttf",
-        "Medium" => "Mirza-Medium.ttf",
-        "SemiBold" => "Mirza-SemiBold.ttf",
-        "Bold" => "Mirza-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mirza",
+            style: "Regular",
+            full_name: "Mirza Regular",
+            post_script_name: "Mirza-Regular",
+            version: "1.0010g",
+            filename: "Mirza-Regular.ttf",
+            copyright: "Copyright 2015, 2016 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015, 2016 Lasse Fister (lasse@graphicore.de). Copyright 2015, 2016 Eduardo Tunni(edu@tipo.net.ar).",
+          },
+          {
+            family_name: "Mirza",
+            style: "Medium",
+            full_name: "Mirza Medium",
+            post_script_name: "Mirza-Medium",
+            version: "1.0010g",
+            filename: "Mirza-Medium.ttf",
+            copyright: "Copyright 2015, 2016 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015, 2016 Lasse Fister (lasse@graphicore.de). Copyright 2015, 2016 Eduardo Tunni(edu@tipo.net.ar).",
+          },
+          {
+            family_name: "Mirza",
+            style: "SemiBold",
+            full_name: "Mirza SemiBold",
+            post_script_name: "Mirza-SemiBold",
+            version: "1.0010g",
+            filename: "Mirza-SemiBold.ttf",
+            copyright: "Copyright 2015, 2016 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015, 2016 Lasse Fister (lasse@graphicore.de). Copyright 2015, 2016 Eduardo Tunni(edu@tipo.net.ar).",
+          },
+          {
+            family_name: "Mirza",
+            style: "Bold",
+            full_name: "Mirza Bold",
+            post_script_name: "Mirza-Bold",
+            version: "1.0010g",
+            filename: "Mirza-Bold.ttf",
+            copyright: "Copyright 2015, 2016 KB-Studio (www.k-b-studio.com|tarobish@gmail.com). Copyright 2015, 2016 Lasse Fister (lasse@graphicore.de). Copyright 2015, 2016 Eduardo Tunni(edu@tipo.net.ar).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

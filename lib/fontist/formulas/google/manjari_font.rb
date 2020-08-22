@@ -12,11 +12,41 @@ module Fontist
         sha256 "86624975e8528d58ce2a3226b37ba796be9caa4eb5125e251bb473bd25b9b491"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "Manjari-Thin.ttf",
-        "Regular" => "Manjari-Regular.ttf",
-        "Bold" => "Manjari-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Manjari",
+            style: "Thin",
+            full_name: "Manjari Thin",
+            post_script_name: "Manjari-Thin",
+            version: "1.710",
+            description: "Malayalam unicode font with rounded terminals suitable for body text",
+            filename: "Manjari-Thin.ttf",
+            copyright: "Copyright 2018 The Manjari Project Authors (https://gitlab.com/smc/fonts/manjari)",
+          },
+          {
+            family_name: "Manjari",
+            style: "Regular",
+            full_name: "Manjari Regular",
+            post_script_name: "Manjari-Regular",
+            version: "1.710",
+            description: "Malayalam unicode font with rounded terminals suitable for body text",
+            filename: "Manjari-Regular.ttf",
+            copyright: "Copyright 2018 The Manjari Project Authors (https://gitlab.com/smc/fonts/manjari)",
+          },
+          {
+            family_name: "Manjari",
+            style: "Bold",
+            full_name: "Manjari Bold",
+            post_script_name: "Manjari-Bold",
+            version: "1.710",
+            description: "Malayalam unicode font with rounded terminals suitable for body text",
+            filename: "Manjari-Bold.ttf",
+            copyright: "Copyright 2018 The Manjari Project Authors (https://gitlab.com/smc/fonts/manjari)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

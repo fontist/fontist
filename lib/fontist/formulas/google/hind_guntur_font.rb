@@ -12,13 +12,56 @@ module Fontist
         sha256 "d66d8bbe7c06a68d717b7746149d9e1429e0e7d99168ffb3d52da746b5614f34"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "HindGuntur-Light.ttf",
-        "Regular" => "HindGuntur-Regular.ttf",
-        "Medium" => "HindGuntur-Medium.ttf",
-        "SemiBold" => "HindGuntur-SemiBold.ttf",
-        "Bold" => "HindGuntur-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hind Guntur",
+            style: "Light",
+            full_name: "Hind Guntur Light",
+            post_script_name: "HindGuntur-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f telu -w G -W -c -X \"\"",
+            filename: "HindGuntur-Light.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Guntur",
+            style: "Regular",
+            full_name: "Hind Guntur Regular",
+            post_script_name: "HindGuntur-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f telu -w G -W -c -X \"\"",
+            filename: "HindGuntur-Regular.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Guntur",
+            style: "Medium",
+            full_name: "Hind Guntur Medium",
+            post_script_name: "HindGuntur-Medium",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f telu -w G -W -c -X \"\"",
+            filename: "HindGuntur-Medium.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Guntur",
+            style: "SemiBold",
+            full_name: "Hind Guntur SemiBold",
+            post_script_name: "HindGuntur-SemiBold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f telu -w G -W -c -X \"\"",
+            filename: "HindGuntur-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Guntur",
+            style: "Bold",
+            full_name: "Hind Guntur Bold",
+            post_script_name: "HindGuntur-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f telu -w G -W -c -X \"\"",
+            filename: "HindGuntur-Bold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

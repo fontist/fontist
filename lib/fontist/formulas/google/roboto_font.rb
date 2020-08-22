@@ -12,10 +12,29 @@ module Fontist
         sha256 "017a959dbef25cf37cb3cd407b174799b09b8b28ad72494be389ee3b563e3751"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Roboto[wdth,wght].ttf",
-        "Italic" => "Roboto-Italic[wdth,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Roboto",
+            style: "Regular",
+            full_name: "Roboto Regular",
+            post_script_name: "Roboto-Regular",
+            version: "2.136",
+            filename: "Roboto[wdth,wght].ttf",
+            copyright: "Copyright 2011 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Roboto",
+            style: "Italic",
+            full_name: "Roboto Italic",
+            post_script_name: "Roboto-Italic",
+            version: "2.136",
+            filename: "Roboto-Italic[wdth,wght].ttf",
+            copyright: "Copyright 2011 Google Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

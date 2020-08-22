@@ -12,9 +12,32 @@ module Fontist
         sha256 "738795250daad44254dc5f2916ff615f090c1840b78c58f11c8335270371f2c4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KaushanScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kaushan Script",
+            style: "Regular",
+            full_name: "Kaushan Script",
+            post_script_name: "KaushanScript-Regular",
+            version: "1.002",
+            description: "Kaushan Script feels like writing quickly with an inked brush.
+
+When making digital typefaces, the more you refine the shapes of the letters, the more energy you take away from them. Because of that, Kaushan is unrefined - and carries a lot of energy.
+
+By avoiding typographical perfection, it stays more natural. The angles of the vertical strokes vary a little, and the positioning along the baseline jumps around, giving it a more rustic and natural feeling.
+
+Most script fonts have long ascenders and descenders, and this means they look too small when used at normal sizes on the web. This font it's optimized in the technical details to be very readable as a web font, even when used as small as at 16 pixels.
+
+It was funded by people like you, via Kickstarter.
+Special thanks to the project backers! They are all listed on the website: http://www.impallari.com/kaushan",
+            filename: "KaushanScript-Regular.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+with Reserved Font Name Kaushan Script.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

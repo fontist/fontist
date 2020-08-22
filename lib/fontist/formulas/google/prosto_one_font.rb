@@ -12,9 +12,20 @@ module Fontist
         sha256 "1493b7294ccd77e89f73e3488dc70b6441fb0c5e3c3b5465a9e55cc007041358"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ProstoOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Prosto One",
+            style: "Regular",
+            full_name: "Prosto One",
+            post_script_name: "ProstoOne-Regular",
+            version: "1.001",
+            filename: "ProstoOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Jovanny Lemonad (http://www.jovanny.ru), Copyright (c) 2012, Pavel Emelyanov (zakachka2006@mail.ru), with Reserved Font Name \"Prosto\" and \"Prosto One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

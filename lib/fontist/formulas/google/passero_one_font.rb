@@ -12,9 +12,21 @@ module Fontist
         sha256 "f6ae695b9a3b0ce3b9416bf5bbddc214b7c6a65f56bcb4905d0279d158183804"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PasseroOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Passero One",
+            style: "Regular",
+            full_name: "Passero One",
+            post_script_name: "PasseroOne-Regular",
+            version: "1.003",
+            description: "Passero is an innovative low contrast sans serif type. Despite having an utterly distinctive voice it remains remarkably legible and versatile. Perhaps this is because of the way Passero gently echos old style text letterforms. Passero will work best from medium text sizes through large display sizes.",
+            filename: "PasseroOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Names \"Passero\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "fe883134dbfab68a9954d8de93be7012f482e67869a5d948b73cf3e31335f5d0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SquadaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Squada One",
+            style: "Regular",
+            full_name: "Squada One",
+            post_script_name: "SquadaOne-Regular",
+            version: "1.001",
+            filename: "SquadaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Admix Designs (http://www.admixdesigns.com/) with Reserved Font Name Squada.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

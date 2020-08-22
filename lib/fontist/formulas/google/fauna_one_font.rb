@@ -12,9 +12,21 @@ module Fontist
         sha256 "1cbcb20da78ea04bc8bebbe650917b63e383733b483706dc4cff298e54ceb5ab"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FaunaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fauna One",
+            style: "Regular",
+            full_name: "Fauna One",
+            post_script_name: "FaunaOne",
+            version: "1.001",
+            description: "Fauna is a modern typeface with low contrast strokes and soft terminals that form traditional serifs. Its structure is soft and slightly condensed. It reads clearly in paragraph composition and looks beautiful in headlines.",
+            filename: "FaunaOne-Regular.ttf",
+            copyright: "Copyright (c) 2013, Eduardo Tunni (http://www.tipo.net.ar edu@tipo.net.ar), with Reserved Font Name 'Fauna'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

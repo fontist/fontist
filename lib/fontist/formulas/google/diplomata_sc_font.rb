@@ -12,9 +12,20 @@ module Fontist
         sha256 "2fc27f99c6643abeae1e230838cdd6e5bbc41cb2650d3f8623b7f82620146466"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DiplomataSC-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Diplomata SC",
+            style: "Regular",
+            full_name: "Diplomata SC",
+            post_script_name: "DiplomataSC-Regular",
+            version: "1.001",
+            filename: "DiplomataSC-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Diplomata\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

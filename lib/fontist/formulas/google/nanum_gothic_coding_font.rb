@@ -12,10 +12,29 @@ module Fontist
         sha256 "d998c1823da8092c6b3de584246c689b93399dbc090f55666b225efdcfeac372"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NanumGothicCoding-Regular.ttf",
-        "Bold" => "NanumGothicCoding-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "NanumGothicCoding",
+            style: "Regular",
+            full_name: "NanumGothicCoding",
+            post_script_name: "NanumGothicCoding",
+            version: "2.000;PS 1;hotconv 1.0.49;makeotf.lib2.0.14853",
+            filename: "NanumGothicCoding-Regular.ttf",
+            copyright: "Copyright © 2009 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+          {
+            family_name: "NanumGothicCoding",
+            style: "Bold",
+            full_name: "NanumGothicCoding-Bold",
+            post_script_name: "NanumGothicCoding-Bold",
+            version: "2.000;PS 1;hotconv 1.0.49;makeotf.lib2.0.14853",
+            filename: "NanumGothicCoding-Bold.ttf",
+            copyright: "Copyright © 2009 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

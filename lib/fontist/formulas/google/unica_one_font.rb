@@ -12,9 +12,20 @@ module Fontist
         sha256 "1f444344339b45118645b84915cbb78fd33d091d236f0f4d2c35614b0ffa6b3d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "UnicaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Unica One",
+            style: "Regular",
+            full_name: "Unica One",
+            post_script_name: "UnicaOne-Regular",
+            version: "1.001",
+            filename: "UnicaOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Unica'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "07afac869579594077d491623e5f7ed7f9e0ae5e195311b6ac403dcecc6eef98"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "WaitingfortheSunrise.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Waiting for the Sunrise",
+            style: "Regular",
+            full_name: "Waiting for the Sunrise",
+            post_script_name: "WaitingfortheSunrise",
+            version: "1.001 2001",
+            filename: "WaitingfortheSunrise.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

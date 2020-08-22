@@ -12,9 +12,21 @@ module Fontist
         sha256 "2826c506586e4108f5ade557dfeebcc1d1cc43274f008a003cb90c6fe2cd13e9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GrandHotel-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Grand Hotel",
+            style: "Regular",
+            full_name: "Grand Hotel",
+            post_script_name: "GrandHotel-Regular",
+            version: "001.000",
+            filename: "GrandHotel-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Grand Hotel\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

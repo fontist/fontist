@@ -12,9 +12,20 @@ module Fontist
         sha256 "4f1dbfc547b6c00c19e62971c818fe903a62720bae9994d68022130c820bf48b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MaShanZheng-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ma Shan Zheng",
+            style: "Regular",
+            full_name: "Ma Shan Zheng Regular",
+            post_script_name: "MaShanZheng-Regular",
+            version: "2.001",
+            filename: "MaShanZheng-Regular.ttf",
+            copyright: "Copyright 2018 The MaShanZheng Project Authors (https://github.com/googlefonts/mashanzheng)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

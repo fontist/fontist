@@ -12,9 +12,20 @@ module Fontist
         sha256 "4c91a29fe0255a2a0d6103b37f39c8f765dbba32ed9a0f6f2b044ac36e4706ac"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CherryCreamSoda-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cherry Cream Soda",
+            style: "Regular",
+            full_name: "Cherry Cream Soda Regular",
+            post_script_name: "CherryCreamSoda-Regular",
+            version: "1.001",
+            filename: "CherryCreamSoda-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

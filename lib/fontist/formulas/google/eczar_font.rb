@@ -12,13 +12,56 @@ module Fontist
         sha256 "b5c4700a75f6df39d327838eded8af1389dd173032d67fa22b08d12b6b0a09de"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Eczar-Regular.ttf",
-        "Medium" => "Eczar-Medium.ttf",
-        "SemiBold" => "Eczar-SemiBold.ttf",
-        "Bold" => "Eczar-Bold.ttf",
-        "ExtraBold" => "Eczar-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Eczar",
+            style: "Regular",
+            full_name: "Eczar Regular",
+            post_script_name: "Eczar-Regular",
+            version: "1.103;PS 1.000;hotconv 1.0.70;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Eczar-Regular.ttf",
+            copyright: "Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).",
+          },
+          {
+            family_name: "Eczar",
+            style: "Medium",
+            full_name: "Eczar Medium",
+            post_script_name: "Eczar-Medium",
+            version: "1.103;PS 1.000;hotconv 1.0.70;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Eczar-Medium.ttf",
+            copyright: "Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).",
+          },
+          {
+            family_name: "Eczar",
+            style: "SemiBold",
+            full_name: "Eczar SemiBold",
+            post_script_name: "Eczar-SemiBold",
+            version: "1.103;PS 1.000;hotconv 1.0.70;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Eczar-SemiBold.ttf",
+            copyright: "Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).",
+          },
+          {
+            family_name: "Eczar",
+            style: "Bold",
+            full_name: "Eczar Bold",
+            post_script_name: "Eczar-Bold",
+            version: "1.103;PS 1.000;hotconv 1.0.70;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Eczar-Bold.ttf",
+            copyright: "Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).",
+          },
+          {
+            family_name: "Eczar",
+            style: "ExtraBold",
+            full_name: "Eczar ExtraBold",
+            post_script_name: "Eczar-ExtraBold",
+            version: "1.103;PS 1.000;hotconv 1.0.70;makeotf.lib2.5.5900; ttfautohint (v1.3)",
+            filename: "Eczar-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

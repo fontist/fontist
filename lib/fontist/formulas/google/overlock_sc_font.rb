@@ -12,9 +12,20 @@ module Fontist
         sha256 "20cd550d42b43fc8f5c2410124ff5590574ecdd5e7ef551e74d141531f87c3c1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OverlockSC-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Overlock SC",
+            style: "Regular",
+            full_name: "Overlock SC",
+            post_script_name: "OverlockSC-Regular",
+            version: "1.001",
+            filename: "OverlockSC-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

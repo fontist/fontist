@@ -12,10 +12,29 @@ module Fontist
         sha256 "f97b871b80e3d62d008a5d92e1edbea9f01d73d844717f0fab3503cd7d32b567"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RopaSans-Regular.ttf",
-        "Italic" => "RopaSans-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ropa Sans",
+            style: "Regular",
+            full_name: "Ropa Sans Regular",
+            post_script_name: "RopaSans-Regular",
+            version: "1.100",
+            filename: "RopaSans-Regular.ttf",
+            copyright: "Copyright 2013 The Ropa Sans Project Authors (nikoltchev@lettersoup.de), with Reserved Font Name \"Ropa Sans\".",
+          },
+          {
+            family_name: "Ropa Sans",
+            style: "Italic",
+            full_name: "Ropa Sans Italic",
+            post_script_name: "RopaSans-Italic",
+            version: "1.100",
+            filename: "RopaSans-Italic.ttf",
+            copyright: "Copyright 2013 The Ropa Sans Project Authors (nikoltchev@lettersoup.de), with Reserved Font Name \"Ropa Sans\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

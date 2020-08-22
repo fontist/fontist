@@ -12,10 +12,31 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Raleway[wght].ttf",
-        "Italic" => "Raleway-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Raleway",
+            style: "Thin",
+            full_name: "Raleway Thin",
+            post_script_name: "Raleway-Thin",
+            version: "4.026",
+            description: "Raleway is an elegant sans-serif typeface family. Initially designed by Matt McInerney as a single thin weight, it was expanded into a 9 weight family by Pablo Impallari and Rodrigo Fuenzalida in 2012 and iKerned by Igino Marini. It is a display face and the download features both old style and lining numerals, standard and discretionary ligatures, a pretty complete set of diacritics, as well as a stylistic alternate inspired by more geometric sans-serif typefaces than its neo-grotesque inspired default character set.",
+            filename: "Raleway[wght].ttf",
+            copyright: "Copyright 2010 The Raleway Project Authors (impallari@gmail.com), with Reserved Font Name \"Raleway\".",
+          },
+          {
+            family_name: "Raleway",
+            style: "Thin Italic",
+            full_name: "Raleway Thin Italic",
+            post_script_name: "Raleway-ThinItalic",
+            version: "4.026",
+            description: "Raleway is an elegant sans-serif typeface family. Initially designed by Matt McInerney as a single thin weight, it was expanded into a 9 weight family by Pablo Impallari and Rodrigo Fuenzalida in 2012 and iKerned by Igino Marini. It is a display face and the download features both old style and lining numerals, standard and discretionary ligatures, a pretty complete set of diacritics, as well as a stylistic alternate inspired by more geometric sans-serif typefaces than its neo-grotesque inspired default character set.",
+            filename: "Raleway-Italic[wght].ttf",
+            copyright: "Copyright 2010 The Raleway Project Authors (impallari@gmail.com), with Reserved Font Name \"Raleway\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

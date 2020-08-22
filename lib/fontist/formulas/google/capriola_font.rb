@@ -12,9 +12,21 @@ module Fontist
         sha256 "dd053898e7c637c2d470647c102441326370e15de4651363049bfaf087d867ab"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Capriola-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Capriola",
+            style: "Regular",
+            full_name: "Capriola Regular",
+            post_script_name: "Capriola-Regular",
+            version: "1.007",
+            description: "Capriola is a sans-serif typeface whose unique style draws upon forms seen in handwriting and italic types. Skeletons of the most characteristic glyphs are inspired by quick handwriting and based on a single hand movement (G,a,g,k,e). Capriola ambitiously seeks to push the boundaries of originality in the genre without losing legibility. The unusual glyphs are quite noticeable in large sizes which allows for distinctive headlines. However in small sizes these gestures become less noticeable making it possible to set longer texts. The name \"Capriola\" means somersault in English. Such glyphs as \"a\", \"e\" or \"G\" are the real acrobats and the \"g\" makes a double salto! Capriola was spaced for web. Capriola's originality combined with utility makes it ideal for a wide range of uses.",
+            filename: "Capriola-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Capriola\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "e2e5ba094883d753a6eb4b20387eae1b81b382e7bcaf9708533db2aa34ef507e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Alatsi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alatsi",
+            style: "Regular",
+            full_name: "Alatsi Regular",
+            post_script_name: "Alatsi-Regular",
+            version: "1.004",
+            filename: "Alatsi-Regular.ttf",
+            copyright: "Copyright 2019 The Alatsi Project Authors (https://github.com/SorkinType/Alatsi)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

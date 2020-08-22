@@ -12,9 +12,21 @@ module Fontist
         sha256 "f16b2b2b91400518ef42e89c590d2ed9496f4e0bfd525723f0cd585dd4279c61"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PurplePurse-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Purple Purse",
+            style: "Regular",
+            full_name: "Purple Purse",
+            post_script_name: "PurplePurse-Regular",
+            version: "1.000",
+            filename: "PurplePurse-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Purple Purse\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

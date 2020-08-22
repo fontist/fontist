@@ -12,9 +12,20 @@ module Fontist
         sha256 "38c4508b75052daf6e27ce0e43797bac89515777999814de1eb5bc0c30701f44"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rakkas-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rakkas",
+            style: "Regular",
+            full_name: "Rakkas Regular",
+            post_script_name: "Rakkas-Regular",
+            version: "2.000",
+            filename: "Rakkas-Regular.ttf",
+            copyright: "Copyright 2017 The Rakkas Project Authors (https://github.com/zeynepakay/Rakkas)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

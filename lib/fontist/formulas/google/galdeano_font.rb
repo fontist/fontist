@@ -12,9 +12,20 @@ module Fontist
         sha256 "3952c3f3a5768d27de03b4ab22eeac38b66e46b18b8a25279319728320a07678"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Galdeano-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Galdeano",
+            style: "Regular",
+            full_name: "Galdeano Regular",
+            post_script_name: "Galdeano-Regular",
+            version: "1.001",
+            filename: "Galdeano-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Galdeano\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

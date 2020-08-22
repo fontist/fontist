@@ -12,12 +12,47 @@ module Fontist
         sha256 "07fc3a40f4a34cc07a87985711862077c9640970a17edd3ff28ef4a82faca6bd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CourierPrime-Regular.ttf",
-        "Italic" => "CourierPrime-Italic.ttf",
-        "Bold" => "CourierPrime-Bold.ttf",
-        "BoldItalic" => "CourierPrime-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Courier Prime",
+            style: "Regular",
+            full_name: "Courier Prime Regular",
+            post_script_name: "CourierPrime-Regular",
+            version: "3.018",
+            filename: "CourierPrime-Regular.ttf",
+            copyright: "Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).",
+          },
+          {
+            family_name: "Courier Prime",
+            style: "Italic",
+            full_name: "Courier Prime Italic",
+            post_script_name: "CourierPrime-Italic",
+            version: "3.018",
+            filename: "CourierPrime-Italic.ttf",
+            copyright: "Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).",
+          },
+          {
+            family_name: "Courier Prime",
+            style: "Bold",
+            full_name: "Courier Prime Bold",
+            post_script_name: "CourierPrime-Bold",
+            version: "3.018",
+            filename: "CourierPrime-Bold.ttf",
+            copyright: "Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).",
+          },
+          {
+            family_name: "Courier Prime",
+            style: "Bold Italic",
+            full_name: "Courier Prime Bold Italic",
+            post_script_name: "CourierPrime-BoldItalic",
+            version: "3.018",
+            filename: "CourierPrime-BoldItalic.ttf",
+            copyright: "Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

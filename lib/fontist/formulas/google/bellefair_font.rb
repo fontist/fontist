@@ -12,9 +12,20 @@ module Fontist
         sha256 "7ef6290662a7ccf6e712449b42492ea7548bacd3cb4b0b8318ca2dad37781ac6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bellefair-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bellefair",
+            style: "Regular",
+            full_name: "Bellefair Regular",
+            post_script_name: "Bellefair-Regular",
+            version: "1.003",
+            filename: "Bellefair-Regular.ttf",
+            copyright: "Copyright 2015 The Bellefair Project Authors (https://github.com/shinntype/bellefair)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

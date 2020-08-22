@@ -12,9 +12,20 @@ module Fontist
         sha256 "5751cfbdfc9eb12c2b24d8404378973f2c7c41b0a6f71f4ecf4f389ea2990f47"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dekko-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dekko",
+            style: "Regular",
+            full_name: "Dekko",
+            post_script_name: "Dekko",
+            version: "1.001; ttfautohint (v1.1) -l 8 -r 50 -G 0 -x 0 -D deva -f latn -w gG -W",
+            filename: "Dekko-Regular.ttf",
+            copyright: "Copyright (c) 2000, Modular Infotech, Pune, INDIA. Latin Portions added 2014 by Eben Sorkin Sorkin Type Co, Boston MA, USA",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

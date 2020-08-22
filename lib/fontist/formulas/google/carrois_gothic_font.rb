@@ -12,9 +12,20 @@ module Fontist
         sha256 "0ed228bdf4005643e4faf7773312284d7bc7b1faa237476d42c6810252b78bfb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CarroisGothic-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Carrois Gothic",
+            style: "Regular",
+            full_name: "Carrois Gothic Regular",
+            post_script_name: "CarroisGothic-Regular",
+            version: "1.002",
+            filename: "CarroisGothic-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Ralph du Carrois, with Reserved Font Name 'Carrois'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

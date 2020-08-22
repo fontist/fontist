@@ -12,9 +12,20 @@ module Fontist
         sha256 "62f9875a19c44e395dd9731e6943aedbce2d3d28b4dfda19ac54e1a15133b26f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BowlbyOneSC-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bowlby One SC",
+            style: "Regular",
+            full_name: "Bowlby One SC Regular",
+            post_script_name: "BowlbyOneSC-Regular",
+            version: "1.2",
+            filename: "BowlbyOneSC-Regular.ttf",
+            copyright: "Copyright (c) 2011, vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Bowlby\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

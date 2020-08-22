@@ -12,9 +12,20 @@ module Fontist
         sha256 "a2daabf3bd160e78329793ae8def70bd377233540ef7d97539eb0c4d336b46cb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IrishGrover-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Irish Grover",
+            style: "Regular",
+            full_name: "Irish Grover Regular",
+            post_script_name: "IrishGrover-Regular",
+            version: "1.001",
+            filename: "IrishGrover-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

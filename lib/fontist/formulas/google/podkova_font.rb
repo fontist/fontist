@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Podkova[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Podkova",
+            style: "Regular",
+            full_name: "Podkova Regular",
+            post_script_name: "Podkova-Regular",
+            version: "2.102; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Podkova[wght].ttf",
+            copyright: "Copyright 2011 The Podkova Project Authors (https://github.com/cyrealtype/Podkova)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "2816324bb768d3efca4ea3bc4d312460cf3245776ee44b9fb0aef16da05094d6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lemon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lemon",
+            style: "Regular",
+            full_name: "Lemon Regular",
+            post_script_name: "Lemon-Regular",
+            version: "1.002",
+            filename: "Lemon-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Lemon\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

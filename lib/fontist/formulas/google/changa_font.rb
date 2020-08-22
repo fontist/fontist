@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Changa[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Changa",
+            style: "ExtraLight",
+            full_name: "Changa ExtraLight",
+            post_script_name: "Changa-ExtraLight",
+            version: "3.002; ttfautohint (v1.8.2)",
+            filename: "Changa[wght].ttf",
+            copyright: "Copyright 2011 The Changa Project Authors (https://github.com/etunni/Changa)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

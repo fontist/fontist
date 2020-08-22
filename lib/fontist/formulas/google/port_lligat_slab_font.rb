@@ -12,9 +12,20 @@ module Fontist
         sha256 "6e07460d1c268831c332446310aa076d9d96227008914e6a65a621b00a19b679"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PortLligatSlab-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Port Lligat Slab",
+            style: "Regular",
+            full_name: "Port Lligat Slab",
+            post_script_name: "PortLligatSlab-Regular",
+            version: "1.002",
+            filename: "PortLligatSlab-Regular.ttf",
+            copyright: "Copyright (c) 2011, Tipo (http://www.tipo.net.ar), with Reserved Font Name \"Port Lligat Slab\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Faustina[wght].ttf",
-        "Italic" => "Faustina-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Faustina",
+            style: "Regular",
+            full_name: "Faustina Regular",
+            post_script_name: "Faustina-Regular",
+            version: "1.100; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Faustina[wght].ttf",
+            copyright: "Copyright 2016 The Faustina Project Authors (https://github.com/Omnibus-Type/Faustina)",
+          },
+          {
+            family_name: "Faustina",
+            style: "Italic",
+            full_name: "Faustina Italic",
+            post_script_name: "Faustina-Italic",
+            version: "1.100; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "Faustina-Italic[wght].ttf",
+            copyright: "Copyright 2016 The Faustina Project Authors (https://github.com/Omnibus-Type/Faustina)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

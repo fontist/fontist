@@ -12,14 +12,65 @@ module Fontist
         sha256 "92104996e8b24650cb97cc957d531492c5c1ce8c4bd84b0a03e80c400555c63a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sarpanch-Regular.ttf",
-        "Medium" => "Sarpanch-Medium.ttf",
-        "SemiBold" => "Sarpanch-SemiBold.ttf",
-        "Bold" => "Sarpanch-Bold.ttf",
-        "ExtraBold" => "Sarpanch-ExtraBold.ttf",
-        "Black" => "Sarpanch-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sarpanch",
+            style: "Regular",
+            full_name: "Sarpanch Regular",
+            post_script_name: "Sarpanch-Regular",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Sarpanch",
+            style: "Medium",
+            full_name: "Sarpanch Medium",
+            post_script_name: "Sarpanch-Medium",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Sarpanch",
+            style: "SemiBold",
+            full_name: "Sarpanch SemiBold",
+            post_script_name: "Sarpanch-SemiBold",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Sarpanch",
+            style: "Bold",
+            full_name: "Sarpanch Bold",
+            post_script_name: "Sarpanch-Bold",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Sarpanch",
+            style: "ExtraBold",
+            full_name: "Sarpanch ExtraBold",
+            post_script_name: "Sarpanch-ExtraBold",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Sarpanch",
+            style: "Black",
+            full_name: "Sarpanch Black",
+            post_script_name: "Sarpanch-Black",
+            version: "2.004;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Sarpanch-Black.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

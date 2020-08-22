@@ -12,9 +12,21 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GrenzeGotisch[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Grenze Gotisch",
+            style: "Regular",
+            full_name: "Grenze Gotisch Regular",
+            post_script_name: "GrenzeGotisch-Regular",
+            version: "1.001",
+            description: "Grenze Gotisch: a peculiar version of Grenze, now presenting Blackletter uppercase letters and little dramatic details in certain lowercase letters, which intensify its expressive burden.",
+            filename: "GrenzeGotisch[wght].ttf",
+            copyright: "Copyright 2020 The Grenze Gotisch Project Authors (https://github.com/Omnibus-Type/Grenze-Gotisch)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

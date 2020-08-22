@@ -12,12 +12,47 @@ module Fontist
         sha256 "3398b53c45c86626deb75e8fef90c32f18b20208b700feac4e90d19790bfa1a4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "SignikaNegative-Light.ttf",
-        "Regular" => "SignikaNegative-Regular.ttf",
-        "SemiBold" => "SignikaNegative-SemiBold.ttf",
-        "Bold" => "SignikaNegative-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Signika Negative",
+            style: "Light",
+            full_name: "Signika Negative Light",
+            post_script_name: "SignikaNegative-Light",
+            version: "2.000; ttfautohint (v1.8.3) -l 8 -r 50 -G 200 -x 9 -D latn -f none -a nnn -X \"\"",
+            filename: "SignikaNegative-Light.ttf",
+            copyright: "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+          },
+          {
+            family_name: "Signika Negative",
+            style: "Regular",
+            full_name: "Signika Negative Regular",
+            post_script_name: "SignikaNegative-Regular",
+            version: "2.000; ttfautohint (v1.8.3) -l 8 -r 50 -G 200 -x 9 -D latn -f none -a nnn -X \"\"",
+            filename: "SignikaNegative-Regular.ttf",
+            copyright: "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+          },
+          {
+            family_name: "Signika Negative",
+            style: "SemiBold",
+            full_name: "Signika Negative SemiBold",
+            post_script_name: "SignikaNegative-SemiBold",
+            version: "2.000; ttfautohint (v1.8.3) -l 8 -r 50 -G 200 -x 9 -D latn -f none -a nnn -X \"\"",
+            filename: "SignikaNegative-SemiBold.ttf",
+            copyright: "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+          },
+          {
+            family_name: "Signika Negative",
+            style: "Bold",
+            full_name: "Signika Negative Bold",
+            post_script_name: "SignikaNegative-Bold",
+            version: "2.000; ttfautohint (v1.8.3) -l 8 -r 50 -G 200 -x 9 -D latn -f none -a nnn -X \"\"",
+            filename: "SignikaNegative-Bold.ttf",
+            copyright: "Copyright 2018 The Signika Project Authors (https://github.com/googlefonts/Signika).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

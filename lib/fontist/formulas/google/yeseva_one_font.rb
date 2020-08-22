@@ -12,9 +12,20 @@ module Fontist
         sha256 "b8ac691355e9df4b08d206b430f9e928ed7a1961ab56135f15eb8612716f8ff3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "YesevaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yeseva One",
+            style: "Regular",
+            full_name: "Yeseva One Regular",
+            post_script_name: "YesevaOne-Regular",
+            version: "2.000",
+            filename: "YesevaOne-Regular.ttf",
+            copyright: "Copyright 2012 The Yeseva One Project Authors (lemonad@jovanny.ru), with Reserved Font Name \"Yeseva\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

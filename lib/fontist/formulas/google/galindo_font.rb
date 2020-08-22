@@ -12,9 +12,21 @@ module Fontist
         sha256 "10455813e6d694749c64c0da2c8e5dd513a08a95c5d8d315a68a38d20d9b4efa"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Galindo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Galindo",
+            style: "Regular",
+            full_name: "Galindo",
+            post_script_name: "Galindo-Regular",
+            version: "1.000",
+            filename: "Galindo-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Galindo\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,12 +12,47 @@ module Fontist
         sha256 "10bf0b0467fca6720fb274f858517cf0f901eb84195310bd10da0c30500dcc31"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Almarai-Light.ttf",
-        "Regular" => "Almarai-Regular.ttf",
-        "Bold" => "Almarai-Bold.ttf",
-        "ExtraBold" => "Almarai-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Almarai",
+            style: "Light",
+            full_name: "Almarai Light",
+            post_script_name: "Almarai-Light",
+            version: "1.10",
+            filename: "Almarai-Light.ttf",
+            copyright: "Copyright (c) 2019 by Almarai. All rights reserved.",
+          },
+          {
+            family_name: "Almarai",
+            style: "Regular",
+            full_name: "Almarai",
+            post_script_name: "Almarai-Regular",
+            version: "1.10",
+            filename: "Almarai-Regular.ttf",
+            copyright: "Copyright (c) 2019 by Almarai. All rights reserved.",
+          },
+          {
+            family_name: "Almarai",
+            style: "Bold",
+            full_name: "Almarai Bold",
+            post_script_name: "Almarai-Bold",
+            version: "1.10",
+            filename: "Almarai-Bold.ttf",
+            copyright: "Copyright (c) 2019 by Almarai. All rights reserved.",
+          },
+          {
+            family_name: "Almarai",
+            style: "ExtraBold",
+            full_name: "Almarai Extrabold",
+            post_script_name: "Almarai-ExtraBold",
+            version: "1.10",
+            filename: "Almarai-ExtraBold.ttf",
+            copyright: "Copyright (c) 2019 by Almarai. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

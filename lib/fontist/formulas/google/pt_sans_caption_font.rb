@@ -12,10 +12,31 @@ module Fontist
         sha256 "6bafa75b429061409015d7a1f9db1da9a959567bdec70835a844b578d8e1cf5e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PT_Sans-Caption-Web-Regular.ttf",
-        "Bold" => "PT_Sans-Caption-Web-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "PT Sans Caption",
+            style: "Regular",
+            full_name: "PT Sans Caption",
+            post_script_name: "PTSans-Caption",
+            version: "2.004W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Caption-Web-Regular.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Sans Caption",
+            style: "Bold",
+            full_name: "PT Sans Caption Bold",
+            post_script_name: "PTSans-CaptionBold",
+            version: "2.003W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Caption-Web-Bold.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

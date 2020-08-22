@@ -12,12 +12,47 @@ module Fontist
         sha256 "615a5cec088b209149ef862591afb3b9544a4f7a5dd74bc036d4ae9c44ac5583"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cousine-Regular.ttf",
-        "Italic" => "Cousine-Italic.ttf",
-        "Bold" => "Cousine-Bold.ttf",
-        "BoldItalic" => "Cousine-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cousine",
+            style: "Regular",
+            full_name: "Cousine Regular",
+            post_script_name: "Cousine-Regular",
+            version: "1.21",
+            filename: "Cousine-Regular.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Cousine",
+            style: "Italic",
+            full_name: "Cousine Italic",
+            post_script_name: "Cousine-Italic",
+            version: "1.21",
+            filename: "Cousine-Italic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Cousine",
+            style: "Bold",
+            full_name: "Cousine Bold",
+            post_script_name: "Cousine-Bold",
+            version: "1.21",
+            filename: "Cousine-Bold.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Cousine",
+            style: "Bold Italic",
+            full_name: "Cousine Bold Italic",
+            post_script_name: "Cousine-BoldItalic",
+            version: "1.21",
+            filename: "Cousine-BoldItalic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "d5267b2bdde18c8782be77b9ec3c623eb17530cd530435244f59ed57a432fa37"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Inder-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inder",
+            style: "Regular",
+            full_name: "Inder",
+            post_script_name: "Inder-Regular",
+            version: "1.001",
+            description: "Inder is a low contrast workhorse sans serif text face design. It was inspired by german art noveau style lettering and the Amsterdam School of architecture. Inder has been carefully adjusted to the restrictions of the screen. Inder can be used in a wide range of sizes.",
+            filename: "Inder-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Inder.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

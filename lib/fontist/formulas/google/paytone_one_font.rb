@@ -12,9 +12,20 @@ module Fontist
         sha256 "5fb8d7e1afaeced0277ecae687fb1d0221d13097ab4e1b250778ef5b1d3e7ade"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PaytoneOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Paytone One",
+            style: "Regular",
+            full_name: "Paytone One Regular",
+            post_script_name: "PaytoneOne-Regular",
+            version: "1.001",
+            filename: "PaytoneOne-Regular.ttf",
+            copyright: "Copyright 2011 The Paytone Project Authors (https://github.com/googlefonts/paytoneFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

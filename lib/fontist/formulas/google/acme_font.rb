@@ -12,9 +12,20 @@ module Fontist
         sha256 "488f89d1ff0c46b39e0c8f2d399f7bf7ea869a471f9c9135aebdd7439c513f83"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Acme-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Acme",
+            style: "Regular",
+            full_name: "Acme Regular",
+            post_script_name: "Acme-Regular",
+            version: "1.002",
+            filename: "Acme-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Juan Pablo del Peral (huertatipografica.com.ar), , with Reserved Font Name \"Acme\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

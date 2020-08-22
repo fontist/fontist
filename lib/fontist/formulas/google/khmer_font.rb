@@ -12,9 +12,20 @@ module Fontist
         sha256 "7ec6837ceccaf9c186ff9a4daa45366578f82e0007d89030abf0a00155883625"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Khmer.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Khmer",
+            style: "Regular",
+            full_name: "Khmer",
+            post_script_name: "Khmer",
+            version: "2.00 February 8, 2013",
+            filename: "Khmer.ttf",
+            copyright: "Copyright (c) 2013, Danh Hong (khmertype.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

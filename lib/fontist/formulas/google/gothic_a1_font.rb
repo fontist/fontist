@@ -12,17 +12,92 @@ module Fontist
         sha256 "861b53266ab89fc481d653d370fdc54d799d2cf35d7e1a0b8698c231387668a9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "GothicA1-Thin.ttf",
-        "ExtraLight" => "GothicA1-ExtraLight.ttf",
-        "Light" => "GothicA1-Light.ttf",
-        "Regular" => "GothicA1-Regular.ttf",
-        "Medium" => "GothicA1-Medium.ttf",
-        "SemiBold" => "GothicA1-SemiBold.ttf",
-        "Bold" => "GothicA1-Bold.ttf",
-        "ExtraBold" => "GothicA1-ExtraBold.ttf",
-        "Black" => "GothicA1-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gothic A1",
+            style: "Thin",
+            full_name: "Gothic A1 Thin",
+            post_script_name: "GothicA1-Thin",
+            version: "2.50",
+            filename: "GothicA1-Thin.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "ExtraLight",
+            full_name: "Gothic A1 ExtraLight",
+            post_script_name: "GothicA1-ExtraLight",
+            version: "2.50",
+            filename: "GothicA1-ExtraLight.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "Light",
+            full_name: "Gothic A1 Light",
+            post_script_name: "GothicA1-Light",
+            version: "2.50",
+            filename: "GothicA1-Light.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "Regular",
+            full_name: "Gothic A1 Regular",
+            post_script_name: "GothicA1-Regular",
+            version: "2.50",
+            filename: "GothicA1-Regular.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "Medium",
+            full_name: "Gothic A1 Medium",
+            post_script_name: "GothicA1-Medium",
+            version: "2.50",
+            filename: "GothicA1-Medium.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "SemiBold",
+            full_name: "Gothic A1 SemiBold",
+            post_script_name: "GothicA1-SemiBold",
+            version: "2.50",
+            filename: "GothicA1-SemiBold.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "Bold",
+            full_name: "Gothic A1 Bold",
+            post_script_name: "GothicA1-Bold",
+            version: "2.50",
+            filename: "GothicA1-Bold.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "ExtraBold",
+            full_name: "Gothic A1 ExtraBold",
+            post_script_name: "GothicA1-ExtraBold",
+            version: "2.50",
+            filename: "GothicA1-ExtraBold.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+          {
+            family_name: "Gothic A1",
+            style: "Black",
+            full_name: "Gothic A1 Black",
+            post_script_name: "GothicA1-Black",
+            version: "2.50",
+            filename: "GothicA1-Black.ttf",
+            copyright: "(C) Copyright HanYang I&C Co.,Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

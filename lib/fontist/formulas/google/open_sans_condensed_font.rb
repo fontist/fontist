@@ -12,11 +12,38 @@ module Fontist
         sha256 "7cdde7b0a0a572f80c2b80cfb4d7964f05579c386974eaaf6f873fc3035a42c2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "OpenSansCondensed-Light.ttf",
-        "LightItalic" => "OpenSansCondensed-LightItalic.ttf",
-        "Bold" => "OpenSansCondensed-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Open Sans Condensed",
+            style: "Light",
+            full_name: "Open Sans Condensed Light",
+            post_script_name: "OpenSansCondensed-Light",
+            version: "1.10",
+            filename: "OpenSansCondensed-Light.ttf",
+            copyright: "Digitized data copyright © 2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans Condensed",
+            style: "Light Italic",
+            full_name: "Open Sans Condensed Light Italic",
+            post_script_name: "OpenSansCondensed-LightItalic",
+            version: "1.10",
+            filename: "OpenSansCondensed-LightItalic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans Condensed",
+            style: "Bold",
+            full_name: "Open Sans Condensed Bold",
+            post_script_name: "OpenSansCondensed-Bold",
+            version: "1.11",
+            filename: "OpenSansCondensed-Bold.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

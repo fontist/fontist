@@ -12,9 +12,20 @@ module Fontist
         sha256 "1a5ba1e39ed3713fd4c148fc5ef423c17331b86b12d4986bd697387b4cf2688c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AnnieUseYourTelescope-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Annie Use Your Telescope",
+            style: "Regular",
+            full_name: "Annie Use Your Telescope Regular",
+            post_script_name: "AnnieUseYourTelescope-Regular",
+            version: "1.003 2001",
+            filename: "AnnieUseYourTelescope-Regular.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

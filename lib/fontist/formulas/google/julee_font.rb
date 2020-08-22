@@ -12,9 +12,20 @@ module Fontist
         sha256 "151d3a76cc5d21fb11228f099bd125e99131bbb6a7414e2d12b2d21376893188"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Julee-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Julee",
+            style: "Regular",
+            full_name: "Julee-Regular",
+            post_script_name: "Julee-Regular",
+            version: "1.001",
+            filename: "Julee-Regular.ttf",
+            copyright: "Copyright (c) 2011, Julian Tunni (jotadejulian@hotmail.com), with Reserved Font Name \"Julee\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

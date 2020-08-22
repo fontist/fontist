@@ -12,9 +12,20 @@ module Fontist
         sha256 "43c68388834e331dc4f722231a8622953a14091922e196802d142eab6f97c23a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jomolhari-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jomolhari",
+            style: "Regular",
+            full_name: "Jomolhari Regular",
+            post_script_name: "Jomolhari-Regular",
+            version: "1.000",
+            filename: "Jomolhari-Regular.ttf",
+            copyright: "Copyright (c) 2006 by Christopher Fynn. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "a2ca7f0acaca4a2fed86497f08b739aa98ad82f5b2c933dd783f03fab7e97c3e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cabin[wdth,wght].ttf",
-        "Italic" => "Cabin-Italic[wdth,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cabin",
+            style: "Regular",
+            full_name: "Cabin Regular",
+            post_script_name: "Cabin-Regular",
+            version: "3.001",
+            filename: "Cabin[wdth,wght].ttf",
+            copyright: "Copyright 2018 The Cabin Project Authors (https://github.com/impallari/Cabin)",
+          },
+          {
+            family_name: "Cabin",
+            style: "Italic",
+            full_name: "Cabin Italic",
+            post_script_name: "Cabin-Italic",
+            version: "3.001",
+            filename: "Cabin-Italic[wdth,wght].ttf",
+            copyright: "Copyright 2018 The Cabin Project Authors (https://github.com/impallari/Cabin)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

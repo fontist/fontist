@@ -12,10 +12,29 @@ module Fontist
         sha256 "7345c47cf1e782d4a99e0f2c693c14a89cdf2a6ab13c23db6bbfe1fc7a1277d7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sanchez-Regular.ttf",
-        "Italic" => "Sanchez-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sanchez",
+            style: "Regular",
+            full_name: "Sanchez",
+            post_script_name: "Sanchez-Regular",
+            version: "1.001",
+            filename: "Sanchez-Regular.ttf",
+            copyright: "Copyright (c) 2012, LatinoType (www.latinotype.com), with Reserved Font Name 'Sanchez'",
+          },
+          {
+            family_name: "Sanchez",
+            style: "Italic",
+            full_name: "Sanchez Italic",
+            post_script_name: "Sanchez-Italic",
+            version: "1.001",
+            filename: "Sanchez-Italic.ttf",
+            copyright: "Copyright (c) 2012, LatinoType (www.latinotype.com), with Reserved Font Name 'Sanchez'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

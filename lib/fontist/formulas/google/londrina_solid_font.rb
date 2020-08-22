@@ -12,12 +12,47 @@ module Fontist
         sha256 "afb1145b64170dcbc497c6f85b9fa3b4c1699417a65701608528fbca439f4b5c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "LondrinaSolid-Thin.ttf",
-        "Light" => "LondrinaSolid-Light.ttf",
-        "Regular" => "LondrinaSolid-Regular.ttf",
-        "Black" => "LondrinaSolid-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Londrina Solid",
+            style: "Thin",
+            full_name: "Londrina Solid Thin",
+            post_script_name: "LondrinaSolid-Thin",
+            version: "1.002",
+            filename: "LondrinaSolid-Thin.ttf",
+            copyright: "Copyright 2011 The Londrina Solid Authors (https://github.com/marcelommp/Londrina-Typeface), with Reserved Font Name \"Londrina Solid\"",
+          },
+          {
+            family_name: "Londrina Solid",
+            style: "Light",
+            full_name: "Londrina Solid Light",
+            post_script_name: "LondrinaSolid-Light",
+            version: "1.002",
+            filename: "LondrinaSolid-Light.ttf",
+            copyright: "Copyright 2011 The Londrina Solid Authors (https://github.com/marcelommp/Londrina-Typeface), with Reserved Font Name \"Londrina Solid\"",
+          },
+          {
+            family_name: "Londrina Solid",
+            style: "Regular",
+            full_name: "Londrina Solid Regular",
+            post_script_name: "LondrinaSolid-Regular",
+            version: "1.002",
+            filename: "LondrinaSolid-Regular.ttf",
+            copyright: "Copyright 2011 The Londrina Solid Authors (https://github.com/marcelommp/Londrina-Typeface), with Reserved Font Name \"Londrina Solid\"",
+          },
+          {
+            family_name: "Londrina Solid",
+            style: "Black",
+            full_name: "Londrina Solid Black",
+            post_script_name: "LondrinaSolid-Black",
+            version: "1.002",
+            filename: "LondrinaSolid-Black.ttf",
+            copyright: "Copyright 2011 The Londrina Solid Authors (https://github.com/marcelommp/Londrina-Typeface), with Reserved Font Name \"Londrina Solid\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

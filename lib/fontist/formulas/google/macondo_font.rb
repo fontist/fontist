@@ -12,9 +12,20 @@ module Fontist
         sha256 "01b36510728fd9f7a714f664951954750d48994b778bcc5ab1e8785b8956a746"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Macondo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Macondo",
+            style: "Regular",
+            full_name: "Macondo",
+            post_script_name: "Macondo-Regular",
+            version: "2.001",
+            filename: "Macondo-Regular.ttf",
+            copyright: "Copyright (c) 1997 - 2011, John Vargas Beltran. (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com), with Reserved Font Name \"Macondo\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "efc41c8a1967e9acad6345b6be25c1e69735c72dd35c4c95b245a5a7fc8f11b9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MrDeHaviland-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mr De Haviland",
+            style: "Regular",
+            full_name: "Mr De Haviland Regular",
+            post_script_name: "MrDeHaviland-Regular",
+            version: "1.000",
+            filename: "MrDeHaviland-Regular.ttf",
+            copyright: "Copyright (c) 2006 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Mr De Haviland\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

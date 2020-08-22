@@ -12,12 +12,47 @@ module Fontist
         sha256 "d2fc82b22e885c0c7c58fac2bffdca2608288e3750742191c19d7abc5aa4592c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Quantico-Regular.ttf",
-        "Italic" => "Quantico-Italic.ttf",
-        "Bold" => "Quantico-Bold.ttf",
-        "BoldItalic" => "Quantico-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quantico",
+            style: "Regular",
+            full_name: "Quantico",
+            post_script_name: "Quantico-Regular",
+            version: "2.002",
+            filename: "Quantico-Regular.ttf",
+            copyright: "Copyright (c) 2011 Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name \"Quantico\"",
+          },
+          {
+            family_name: "Quantico",
+            style: "Italic",
+            full_name: "Quantico-Italic",
+            post_script_name: "Quantico-Italic",
+            version: "2.002",
+            filename: "Quantico-Italic.ttf",
+            copyright: "Copyright (c) 2011 Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name \"Quantico\"",
+          },
+          {
+            family_name: "Quantico",
+            style: "Bold",
+            full_name: "Quantico-Bold",
+            post_script_name: "Quantico-Bold",
+            version: "2.002",
+            filename: "Quantico-Bold.ttf",
+            copyright: "Copyright (c) 2011 Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name \"Quantico\"",
+          },
+          {
+            family_name: "Quantico",
+            style: "Bold Italic",
+            full_name: "Quantico-BoldItalic",
+            post_script_name: "Quantico-BoldItalic",
+            version: "2.002",
+            filename: "Quantico-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011 Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name \"Quantico\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

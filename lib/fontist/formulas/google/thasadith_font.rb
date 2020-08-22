@@ -12,12 +12,47 @@ module Fontist
         sha256 "f9681096651186a14d17fb14531e7f3f195e071ee0f1b7de8386b8d21736e82e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Thasadith-Regular.ttf",
-        "Italic" => "Thasadith-Italic.ttf",
-        "Bold" => "Thasadith-Bold.ttf",
-        "BoldItalic" => "Thasadith-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Thasadith",
+            style: "Regular",
+            full_name: "Thasadith Regular",
+            post_script_name: "Thasadith-Regular",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Thasadith-Regular.ttf",
+            copyright: "Copyright 2018 The Thasadith Project Authors (https://github.com/cadsondemak/Thasadith)",
+          },
+          {
+            family_name: "Thasadith",
+            style: "Italic",
+            full_name: "Thasadith Italic",
+            post_script_name: "Thasadith-Italic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Thasadith-Italic.ttf",
+            copyright: "Copyright 2018 The Thasadith Project Authors (https://github.com/cadsondemak/Thasadith)",
+          },
+          {
+            family_name: "Thasadith",
+            style: "Bold",
+            full_name: "Thasadith Bold",
+            post_script_name: "Thasadith-Bold",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Thasadith-Bold.ttf",
+            copyright: "Copyright 2018 The Thasadith Project Authors (https://github.com/cadsondemak/Thasadith)",
+          },
+          {
+            family_name: "Thasadith",
+            style: "Bold Italic",
+            full_name: "Thasadith Bold Italic",
+            post_script_name: "Thasadith-BoldItalic",
+            version: "1.000; ttfautohint (v1.6)",
+            filename: "Thasadith-BoldItalic.ttf",
+            copyright: "Copyright 2018 The Thasadith Project Authors (https://github.com/cadsondemak/Thasadith)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

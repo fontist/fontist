@@ -12,9 +12,21 @@ module Fontist
         sha256 "dabbd4190dc8893b692ba31dc20d82ec96dccc6b83b3efa59d2db0d8dcf8c9e1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Quando-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quando",
+            style: "Regular",
+            full_name: "Quando-Regular",
+            post_script_name: "Quando-Regular",
+            version: "1.002",
+            description: "Quando is a serifed text typeface inspired by brushy handwritten letters seen on an italian poster from the second world war. Quando is a flexible text typeface made for the web whose personality consistently shows in both small and large sizes. Quando's low contrast design helps it work better on screens and smaller sizes. Especially distinctive letterforms include letters like the a, g, x and Q. Quando's friendly feeling along with its clarity and familiarity makes it suitable for a broad range of uses.",
+            filename: "Quando-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Quando\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

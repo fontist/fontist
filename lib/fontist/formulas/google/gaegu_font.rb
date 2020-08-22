@@ -12,11 +12,38 @@ module Fontist
         sha256 "1e32045fe7b0ebd30eb8035e8b5560482a44a044b050111918ae7232d206a50a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Gaegu-Light.ttf",
-        "Regular" => "Gaegu-Regular.ttf",
-        "Bold" => "Gaegu-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gaegu",
+            style: "Light",
+            full_name: "Gaegu Light",
+            post_script_name: "Gaegu-Light",
+            version: "1.00",
+            filename: "Gaegu-Light.ttf",
+            copyright: "Copyright 2018 The Gaegu Project Authors",
+          },
+          {
+            family_name: "Gaegu",
+            style: "Regular",
+            full_name: "Gaegu Regular",
+            post_script_name: "Gaegu-Regular",
+            version: "1.00",
+            filename: "Gaegu-Regular.ttf",
+            copyright: "Copyright 2018 The Gaegu Project Authors",
+          },
+          {
+            family_name: "Gaegu",
+            style: "Bold",
+            full_name: "Gaegu Bold",
+            post_script_name: "Gaegu-Bold",
+            version: "1.00",
+            filename: "Gaegu-Bold.ttf",
+            copyright: "Copyright 2018 The Gaegu Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

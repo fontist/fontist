@@ -12,9 +12,21 @@ module Fontist
         sha256 "c335329717d4a0d269b77aee06e697c887b32c3a68b2013edbb1ea1bfce90b16"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Italianno-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Italianno",
+            style: "Regular",
+            full_name: "Italianno",
+            post_script_name: "Italianno-Regular",
+            version: "1.003",
+            filename: "Italianno-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Italianno\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

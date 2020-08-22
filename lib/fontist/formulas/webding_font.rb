@@ -13,9 +13,20 @@ module Fontist
         sha256 "64595b5abc1080fba8610c5c34fab5863408e806aafe84653ca8575bed17d75a"
       end
 
-      provides_font("Webdings", match_styles_from_file: {
-        "Regular" => "Webdings.TTF"
-      })
+      provides_font(
+        "Webdings",
+        match_styles_from_file: [
+          {
+            family_name: "Webdings",
+            style: "Regular",
+            full_name: "Webdings",
+            post_script_name: "Webdings",
+            version: "1.03",
+            filename: "Webdings.TTF",
+            copyright: "Copyright (c) 1997 Microsoft Corporation. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource "webdin32.exe" do |resource|

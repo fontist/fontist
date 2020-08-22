@@ -12,9 +12,20 @@ module Fontist
         sha256 "7b00a6b804ef9f4623f5b00624e997a91689326eebd761d8c30660e68436520d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ChelaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chela One",
+            style: "Regular",
+            full_name: "Chela One",
+            post_script_name: "ChelaOne-Regular",
+            version: "1.001",
+            filename: "ChelaOne-Regular.ttf",
+            copyright: "Copyright (c) 2012 by LatinoType (www.latinotype.com), with Reserved Font Name 'Chela'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

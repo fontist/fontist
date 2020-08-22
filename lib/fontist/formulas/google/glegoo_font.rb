@@ -12,10 +12,29 @@ module Fontist
         sha256 "e4f62b4f1a712e721f42c8ef2dca3ec328159ec593e4214181fcfa05bce7c96e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Glegoo-Regular.ttf",
-        "Bold" => "Glegoo-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Glegoo",
+            style: "Regular",
+            full_name: "Glegoo",
+            post_script_name: "Glegoo-Regular",
+            version: "2.0.1; ttfautohint (v0.9) -r 48 -G 60",
+            filename: "Glegoo-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), Copyright 2011-13 Lohit Fonts Project contributors (http://fedorahosted.org/lohit)",
+          },
+          {
+            family_name: "Glegoo",
+            style: "Bold",
+            full_name: "Glegoo Bold",
+            post_script_name: "Glegoo-Bold",
+            version: "2.0.1; ttfautohint (v0.9) -r 48 -G 60",
+            filename: "Glegoo-Bold.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), Copyright 2011-13 Lohit Fonts Project contributors (http://fedorahosted.org/lohit)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "398a30e01bdc51462951a12048a412c35673c5b06ec6b0f9a49cc8cff6bbe8ce"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AveriaGruesaLibre-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Averia Gruesa Libre",
+            style: "Regular",
+            full_name: "Averia Gruesa Libre Regular",
+            post_script_name: "AveriaGruesaLibre-Regular",
+            version: "1.002",
+            filename: "AveriaGruesaLibre-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

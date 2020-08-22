@@ -12,11 +12,38 @@ module Fontist
         sha256 "ec3c8e6c933e5497868409e5ddc3d19d664198f7dd95f5b3380544bf9a6495c5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lekton-Regular.ttf",
-        "Italic" => "Lekton-Italic.ttf",
-        "Bold" => "Lekton-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lekton",
+            style: "Regular",
+            full_name: "Lekton",
+            post_script_name: "Lekton-Regular",
+            version: "34.000",
+            filename: "Lekton-Regular.ttf",
+            copyright: "Copyright (c) 2008, 2009, 2010, Accademia di Belle Arti di Urbino. Licensed under the SIL Open Font License, Version 1.1",
+          },
+          {
+            family_name: "Lekton",
+            style: "Italic",
+            full_name: "Lekton-Italic",
+            post_script_name: "Lekton-Italic",
+            version: "3.000",
+            filename: "Lekton-Italic.ttf",
+            copyright: "Copyright (c) 2008, 2009, 2010, Accademia di Belle Arti di Urbino. Licensed under the SIL Open Font License, Version 1.1",
+          },
+          {
+            family_name: "Lekton",
+            style: "Bold",
+            full_name: "Lekton-Bold",
+            post_script_name: "Lekton-Bold",
+            version: "34.000",
+            filename: "Lekton-Bold.ttf",
+            copyright: "Copyright (c) 2008, 2009, 2010, Accademia di Belle Arti di Urbino. Licensed under the SIL Open Font License, Version 1.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "0bda3ebcfe571f366dc6016129e926567d3fcd3e9389f76b382c393a426c84ca"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalooDa2-Regular.ttf",
-        "Medium" => "BalooDa2-Medium.ttf",
-        "SemiBold" => "BalooDa2-SemiBold.ttf",
-        "Bold" => "BalooDa2-Bold.ttf",
-        "ExtraBold" => "BalooDa2-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Baloo Da 2",
+            style: "Regular",
+            full_name: "Baloo Da 2 Regular",
+            post_script_name: "BalooDa2-Regular",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooDa2-Regular.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Da 2",
+            style: "Medium",
+            full_name: "Baloo Da 2 Medium",
+            post_script_name: "BalooDa2-Medium",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooDa2-Medium.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Da 2",
+            style: "SemiBold",
+            full_name: "Baloo Da 2 SemiBold",
+            post_script_name: "BalooDa2-SemiBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooDa2-SemiBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Da 2",
+            style: "Bold",
+            full_name: "Baloo Da 2 Bold",
+            post_script_name: "BalooDa2-Bold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooDa2-Bold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+          {
+            family_name: "Baloo Da 2",
+            style: "ExtraBold",
+            full_name: "Baloo Da 2 ExtraBold",
+            post_script_name: "BalooDa2-ExtraBold",
+            version: "1.640;hotconv 1.0.111;makeotfexe 2.5.65597; ttfautohint (v1.8.3)",
+            filename: "BalooDa2-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

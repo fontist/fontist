@@ -12,9 +12,20 @@ module Fontist
         sha256 "a5102eba1f0262845f741c2b7bca6f90b07188db53284d56a9f0a6f6d201ce6f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraBold" => "CodaCaption-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Coda Caption",
+            style: "ExtraBold",
+            full_name: "Coda Caption ExtraBold",
+            post_script_name: "CodaCaption-ExtraBold",
+            version: "1.002",
+            filename: "CodaCaption-ExtraBold.ttf",
+            copyright: "Copyright (c) 2009 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

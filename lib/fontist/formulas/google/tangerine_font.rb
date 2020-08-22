@@ -12,10 +12,29 @@ module Fontist
         sha256 "257e5ef0b05df0e26aa0634c44dcb24b7ded2f39708ba22e933d898decc1291b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Tangerine-Regular.ttf",
-        "Bold" => "Tangerine-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tangerine",
+            style: "Regular",
+            full_name: "Tangerine Regular",
+            post_script_name: "Tangerine-Regular",
+            version: "1.3",
+            filename: "Tangerine-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Toshi Omagari. All rights reserved.",
+          },
+          {
+            family_name: "Tangerine",
+            style: "Bold",
+            full_name: "Tangerine Bold",
+            post_script_name: "Tangerine-Bold",
+            version: "1.3",
+            filename: "Tangerine-Bold.ttf",
+            copyright: "Copyright (c) 2010 by Toshi Omagari. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

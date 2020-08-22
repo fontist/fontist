@@ -12,9 +12,25 @@ module Fontist
         sha256 "2aa7ec4bb51b8edb90fffdd95f127a30e4b6cd5bbc45a80817d2cb6201c783ce"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PetitFormalScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Petit Formal Script",
+            style: "Regular",
+            full_name: "Petit Formal Script",
+            post_script_name: "PetitFormalScript-Regular",
+            version: "1.001; ttfautohint (v0.8) -G 200 -r 50",
+            description: "A Petit Formal Script specifically tailored to be used on the web, that can resist being set as small as 13px.",
+            filename: "PetitFormalScript-Regular.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com),
+Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com),
+
+with Reserved Font Name Petit Formal Script.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

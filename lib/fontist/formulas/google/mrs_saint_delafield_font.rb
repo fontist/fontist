@@ -12,9 +12,21 @@ module Fontist
         sha256 "0279ad6179af2e161674e2a949fb698777fc04af8d4ed6333164df30c0eedf4d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MrsSaintDelafield-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mrs Saint Delafield",
+            style: "Regular",
+            full_name: "Mrs Saint Delafield",
+            post_script_name: "MrsSaintDelafield-Regular",
+            version: "1.001",
+            filename: "MrsSaintDelafield-Regular.ttf",
+            copyright: "Copyright (c) 2004 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Mrs Saint Delafield\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

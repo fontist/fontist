@@ -12,14 +12,65 @@ module Fontist
         sha256 "c205ec944b24727da5dd1e7ea0ed23f4c7737efa018b01083147d73ee1cddcbc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Athiti-ExtraLight.ttf",
-        "Light" => "Athiti-Light.ttf",
-        "Regular" => "Athiti-Regular.ttf",
-        "Medium" => "Athiti-Medium.ttf",
-        "SemiBold" => "Athiti-SemiBold.ttf",
-        "Bold" => "Athiti-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Athiti",
+            style: "ExtraLight",
+            full_name: "Athiti ExtraLight",
+            post_script_name: "Athiti-ExtraLight",
+            version: "1.033",
+            filename: "Athiti-ExtraLight.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Athiti",
+            style: "Light",
+            full_name: "Athiti Light",
+            post_script_name: "Athiti-Light",
+            version: "1.033",
+            filename: "Athiti-Light.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Athiti",
+            style: "Regular",
+            full_name: "Athiti Regular",
+            post_script_name: "Athiti-Regular",
+            version: "1.033",
+            filename: "Athiti-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Athiti",
+            style: "Medium",
+            full_name: "Athiti Medium",
+            post_script_name: "Athiti-Medium",
+            version: "1.033",
+            filename: "Athiti-Medium.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Athiti",
+            style: "SemiBold",
+            full_name: "Athiti SemiBold",
+            post_script_name: "Athiti-SemiBold",
+            version: "1.033",
+            filename: "Athiti-SemiBold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Athiti",
+            style: "Bold",
+            full_name: "Athiti Bold",
+            post_script_name: "Athiti-Bold",
+            version: "1.033",
+            filename: "Athiti-Bold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

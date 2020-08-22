@@ -17,12 +17,31 @@ module Fontist
         <%- end -%>
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        <%-# TODO: update this structure after implementation of #109 -%>
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
         <%- font.styles.each do |s| -%>
-        "<%= s.style %>" => "<%= s.filename %>",
+          {
+            family_name: "<%= s.family_name %>",
+            style: "<%= s.style %>",
+            full_name: "<%= s.full_name %>",
+            <%- if s.post_script_name -%>
+            post_script_name: "<%= s.post_script_name %>",
+            <%- end -%>
+            <%- if s.version -%>
+            version: "<%= esc(s.version) %>",
+            <%- end -%>
+            <%- if s.description -%>
+            description: "<%= esc(s.description) %>",
+            <%- end -%>
+            filename: "<%= s.filename %>",
+            <%- if s.copyright -%>
+            copyright: "<%= esc(s.copyright) %>",
+            <%- end -%>
+          },
         <%- end -%>
-      })
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|
@@ -50,7 +69,7 @@ module Fontist
         end
       end
 
-      copyright "<%= font.copyright.gsub(/"/, '\"') %>"
+      copyright "<%= esc(font.copyright) %>"
       license_url "<%= font.license_url %>"
 
       open_license <<~TEXT

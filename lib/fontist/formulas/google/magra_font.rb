@@ -12,10 +12,29 @@ module Fontist
         sha256 "6a73273eef99c4aec1277f9984238615df084f76f855ab00fc91afd04185326d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Magra-Regular.ttf",
-        "Bold" => "Magra-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Magra",
+            style: "Regular",
+            full_name: "Magra",
+            post_script_name: "Magra",
+            version: "1.001",
+            filename: "Magra-Regular.ttf",
+            copyright: "Copyright (c) 2011, FontFuror (info@fontfuror), with Reserved Names \"Magra\" \"Magra Pro\"",
+          },
+          {
+            family_name: "Magra",
+            style: "Bold",
+            full_name: "Magra Bold",
+            post_script_name: "Magra-Bold",
+            version: "1.001",
+            filename: "Magra-Bold.ttf",
+            copyright: "Copyright (c) 2011, FontFuror (info@fontfuror), with Reserved Names \"Magra\" \"Magra Pro\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

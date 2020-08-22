@@ -12,9 +12,20 @@ module Fontist
         sha256 "7fcbd8b943b71d6f1d8a44b219e1fc251f42b7b320d9b7bb4eb9881b1bbe787a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "UbuntuCondensed-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ubuntu Condensed",
+            style: "Regular",
+            full_name: "Ubuntu Condensed",
+            post_script_name: "UbuntuCondensed-Regular",
+            version: "0.83",
+            filename: "UbuntuCondensed-Regular.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

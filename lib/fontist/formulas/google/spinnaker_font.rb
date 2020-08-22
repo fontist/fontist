@@ -12,9 +12,21 @@ module Fontist
         sha256 "336384af6dcd589beffafc633cfba45323b26037cee1267160960a2a935e2be8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Spinnaker-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Spinnaker",
+            style: "Regular",
+            full_name: "Spinnaker",
+            post_script_name: "Spinnaker-Regular",
+            version: "1.001",
+            description: "Spinaker is based on French and UK lettering found on posters for travel by ship. Spinaker is a low contrast slightly wide sans serif design. Spinaker has a whimsy youthful sense of play to offer in addition to the expected utility that a sans design commonly offers. Spinaker is suitable for medium to large sizes.",
+            filename: "Spinnaker-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Spinnaker\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

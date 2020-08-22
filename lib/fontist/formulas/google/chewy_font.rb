@@ -12,9 +12,20 @@ module Fontist
         sha256 "7626a8ef33d169cef9be327282682f1891d7e2516a929483655ededa68c887b3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chewy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chewy",
+            style: "Regular",
+            full_name: "Chewy Regular",
+            post_script_name: "Chewy-Regular",
+            version: "1.001",
+            filename: "Chewy-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

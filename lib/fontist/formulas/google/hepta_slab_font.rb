@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HeptaSlab[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hepta Slab",
+            style: "ExtraLight",
+            full_name: "Hepta Slab ExtraLight",
+            post_script_name: "HeptaSlab-ExtraLight",
+            version: "1.100",
+            filename: "HeptaSlab[wght].ttf",
+            copyright: "Copyright 2018 The Hepta Slab Project Authors (https://github.com/mjlagattuta/Hepta-Slab)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

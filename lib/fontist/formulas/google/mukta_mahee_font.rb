@@ -12,15 +12,74 @@ module Fontist
         sha256 "f845dd8057f9aeb7e440f25805ce06233c807392f1e517cdb68e12a436a3f6e2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "MuktaMahee-ExtraLight.ttf",
-        "Light" => "MuktaMahee-Light.ttf",
-        "Regular" => "MuktaMahee-Regular.ttf",
-        "Medium" => "MuktaMahee-Medium.ttf",
-        "SemiBold" => "MuktaMahee-SemiBold.ttf",
-        "Bold" => "MuktaMahee-Bold.ttf",
-        "ExtraBold" => "MuktaMahee-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mukta Mahee",
+            style: "ExtraLight",
+            full_name: "Mukta Mahee ExtraLight",
+            post_script_name: "MuktaMahee-ExtraLight",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-ExtraLight.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "Light",
+            full_name: "Mukta Mahee Light",
+            post_script_name: "MuktaMahee-Light",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-Light.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "Regular",
+            full_name: "Mukta Mahee Regular",
+            post_script_name: "MuktaMahee-Regular",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-Regular.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "Medium",
+            full_name: "Mukta Mahee Medium",
+            post_script_name: "MuktaMahee-Medium",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-Medium.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "SemiBold",
+            full_name: "Mukta Mahee SemiBold",
+            post_script_name: "MuktaMahee-SemiBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-SemiBold.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "Bold",
+            full_name: "Mukta Mahee Bold",
+            post_script_name: "MuktaMahee-Bold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-Bold.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Mahee",
+            style: "ExtraBold",
+            full_name: "Mukta Mahee ExtraBold",
+            post_script_name: "MuktaMahee-ExtraBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaMahee-ExtraBold.ttf",
+            copyright: "Copyright (c) 2017, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

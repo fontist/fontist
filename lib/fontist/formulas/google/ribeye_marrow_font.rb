@@ -12,9 +12,21 @@ module Fontist
         sha256 "2c85189570c0840f40c70a55849746159006f029088b5493a6e00b0bf37506a0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RibeyeMarrow-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ribeye Marrow",
+            style: "Regular",
+            full_name: "Ribeye Marrow",
+            post_script_name: "RibeyeMarrow-Regular",
+            version: "1.000",
+            filename: "RibeyeMarrow-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Ribeye Marrow\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

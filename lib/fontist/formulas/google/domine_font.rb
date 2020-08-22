@@ -12,9 +12,21 @@ module Fontist
         sha256 "14075e71809ed59474d4b1094d211751acf84b3243d228af95e48b6da350e46c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Domine[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Domine",
+            style: "Regular",
+            full_name: "Domine Regular",
+            post_script_name: "Domine-Regular",
+            version: "2.000",
+            description: "Domine was designed, tested and optimized for body text on the web. It shines at 14 and 16 px. Domine is a perfect choice for newspapers or magazines websites, where text is the main focus.",
+            filename: "Domine[wght].ttf",
+            copyright: "Copyright 2020 The Domine Project Authors (https://github.com/googlefonts/domine)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

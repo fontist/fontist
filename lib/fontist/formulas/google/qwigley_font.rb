@@ -12,9 +12,21 @@ module Fontist
         sha256 "2fa3fd14201d118857ab60436c44da2f4a17a673364dc6f12e856d465508ee6b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Qwigley-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Qwigley",
+            style: "Regular",
+            full_name: "Qwigley",
+            post_script_name: "Qwigley-Regular",
+            version: "1.003",
+            filename: "Qwigley-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Qwigley\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,14 +12,65 @@ module Fontist
         sha256 "06c43f6b17ddf522d9fb8368cd6773ad1f0bec447c1cea8fe6396515c086de0b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DMSans-Regular.ttf",
-        "Italic" => "DMSans-Italic.ttf",
-        "Medium" => "DMSans-Medium.ttf",
-        "MediumItalic" => "DMSans-MediumItalic.ttf",
-        "Bold" => "DMSans-Bold.ttf",
-        "BoldItalic" => "DMSans-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "DM Sans",
+            style: "Regular",
+            full_name: "DM Sans Regular",
+            post_script_name: "DMSans-Regular",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-Regular.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Sans",
+            style: "Italic",
+            full_name: "DM Sans Italic",
+            post_script_name: "DMSans-Italic",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-Italic.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Sans",
+            style: "Medium",
+            full_name: "DM Sans Medium",
+            post_script_name: "DMSans-Medium",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-Medium.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Sans",
+            style: "Medium Italic",
+            full_name: "DM Sans Medium Italic",
+            post_script_name: "DMSans-MediumItalic",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-MediumItalic.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Sans",
+            style: "Bold",
+            full_name: "DM Sans Bold",
+            post_script_name: "DMSans-Bold",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-Bold.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+          {
+            family_name: "DM Sans",
+            style: "Bold Italic",
+            full_name: "DM Sans Bold Italic",
+            post_script_name: "DMSans-BoldItalic",
+            version: "1.200; ttfautohint (v1.8.3)",
+            filename: "DMSans-BoldItalic.ttf",
+            copyright: "Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com) with Reserved Font Name 'Poppins'. Copyright 2019 Google LLC.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

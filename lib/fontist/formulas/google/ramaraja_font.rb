@@ -12,9 +12,20 @@ module Fontist
         sha256 "07dd41b48fea83c8f529660e7052e97778b100a26cb8c2eef8e84c4b4eb9a385"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ramaraja-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ramaraja",
+            style: "Regular",
+            full_name: "Ramaraja",
+            post_script_name: "Ramaraja",
+            version: "1.0.4; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "Ramaraja-Regular.ttf",
+            copyright: "Copyright (c) 2012 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org), with Reserved Font Name 'Crimson'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

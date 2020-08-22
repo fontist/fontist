@@ -12,9 +12,20 @@ module Fontist
         sha256 "f1270278496650ade974d4dfb3acdbbc8d8b43e385ed102546ffdad6b5cb788e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dorsa-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dorsa",
+            style: "Regular",
+            full_name: "Dorsa",
+            post_script_name: "Dorsa-Regular",
+            version: "1.002",
+            filename: "Dorsa-Regular.ttf",
+            copyright: "Copyright (c) 2011, Santiago Orozco (hi@typemade.mx), with Reserved Font Name \"Dorsa\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

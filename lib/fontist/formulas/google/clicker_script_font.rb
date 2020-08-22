@@ -12,9 +12,21 @@ module Fontist
         sha256 "6f03b122cff06ace53f02801accff5dacf11cb79dd5b3963b4781af81b33a211"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ClickerScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Clicker Script",
+            style: "Regular",
+            full_name: "Clicker Script",
+            post_script_name: "ClickerScript-Regular",
+            version: "1.000",
+            filename: "ClickerScript-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky and Jim Lyles for Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Clicker Script\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

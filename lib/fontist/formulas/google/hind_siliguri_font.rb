@@ -12,13 +12,56 @@ module Fontist
         sha256 "cd9556068b97db0e69286cd8a5d18b3323097765da27911a07ac0333b993a699"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "HindSiliguri-Light.ttf",
-        "Regular" => "HindSiliguri-Regular.ttf",
-        "Medium" => "HindSiliguri-Medium.ttf",
-        "SemiBold" => "HindSiliguri-SemiBold.ttf",
-        "Bold" => "HindSiliguri-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hind Siliguri",
+            style: "Light",
+            full_name: "Hind Siliguri Light",
+            post_script_name: "HindSiliguri-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f beng -w G -W -c -X \"\"",
+            filename: "HindSiliguri-Light.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Siliguri",
+            style: "Regular",
+            full_name: "Hind Siliguri Regular",
+            post_script_name: "HindSiliguri-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f beng -w G -W -c -X \"\"",
+            filename: "HindSiliguri-Regular.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Siliguri",
+            style: "Medium",
+            full_name: "Hind Siliguri Medium",
+            post_script_name: "HindSiliguri-Medium",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f beng -w G -W -c -X \"\"",
+            filename: "HindSiliguri-Medium.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Siliguri",
+            style: "SemiBold",
+            full_name: "Hind Siliguri SemiBold",
+            post_script_name: "HindSiliguri-SemiBold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f beng -w G -W -c -X \"\"",
+            filename: "HindSiliguri-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Siliguri",
+            style: "Bold",
+            full_name: "Hind Siliguri Bold",
+            post_script_name: "HindSiliguri-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f beng -w G -W -c -X \"\"",
+            filename: "HindSiliguri-Bold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

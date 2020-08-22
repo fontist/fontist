@@ -12,9 +12,20 @@ module Fontist
         sha256 "417f43a14862d639b415f4257b349a3ecc9d228c883ca9a9d12d2866f01ec113"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bayon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bayon",
+            style: "Regular",
+            full_name: "Bayon Regular",
+            post_script_name: "Bayon-Regular",
+            version: "6.00 December 28, 2010",
+            filename: "Bayon-Regular.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

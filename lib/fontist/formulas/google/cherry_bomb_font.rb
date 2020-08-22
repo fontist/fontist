@@ -12,9 +12,20 @@ module Fontist
         sha256 "72df11895333f8e74d6a7e4e80f746d90b8a02fcfe872deccd57de3e9652b27b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CherryBomb-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cherry Bomb",
+            style: "Regular",
+            full_name: "Cherry Bomb Regular",
+            post_script_name: "CherryBomb-Regular",
+            version: "4.000",
+            filename: "CherryBomb-Regular.ttf",
+            copyright: "Copyright 2019 The Cherry Bomb Project Authors (https://github.com/satsuyako/CherryBomb)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

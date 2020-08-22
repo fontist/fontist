@@ -12,10 +12,47 @@ module Fontist
         sha256 "f3dd5ad09bfbdeea39c231c8629ba4a9d022d1c11902e04346cfc110bfa5389a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sniglet-Regular.ttf",
-        "ExtraBold" => "Sniglet-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sniglet",
+            style: "Regular",
+            full_name: "Sniglet Regular",
+            post_script_name: "Sniglet-Regular",
+            version: "2.000; ttfautohint (v0.95) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "A rounded display face thatÕs great for headlines.
+
+Originally designed in 2008 by Haley Fiege in Extra-bold.
+In 2013 Brenda Gallo and Pablo Impallari added a Regular weight
+
+To contribute to the project contact Haley Fiege (haley@kingdomofawesome.com) or Pablo Impallari (impallari@gmail.com)",
+            filename: "Sniglet-Regular.ttf",
+            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com),
+Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com)
+Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+with no Reserved Font Name.",
+          },
+          {
+            family_name: "Sniglet",
+            style: "ExtraBold",
+            full_name: "Sniglet ExtraBold",
+            post_script_name: "Sniglet-ExtraBold",
+            version: "2.000; ttfautohint (v0.95) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "A rounded display face thatÕs great for headlines.
+
+Originally designed in 2008 by Haley Fiege in Extra-bold.
+In 2013 Brenda Gallo and Pablo Impallari added a Regular weight
+
+To contribute to the project contact Haley Fiege (haley@kingdomofawesome.com) or Pablo Impallari (impallari@gmail.com)",
+            filename: "Sniglet-ExtraBold.ttf",
+            copyright: "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com),
+Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com)
+Copyright (c) 2013, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+with no Reserved Font Name.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

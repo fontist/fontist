@@ -12,9 +12,21 @@ module Fontist
         sha256 "afe61369c441c1969c8a0afb4201a0f12fc23b2b3c3b51fac543c639908f8f49"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Smythe-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Smythe",
+            style: "Regular",
+            full_name: "Smythe",
+            post_script_name: "Smythe",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Vernon Adams. All rights reserved.",
+            filename: "Smythe-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Vernon Adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

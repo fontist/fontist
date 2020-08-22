@@ -12,9 +12,21 @@ module Fontist
         sha256 "40f175907fbf93851c414ea0b0c6479c1aaef166f5c1102f6d51931e789ec527"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KronaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Krona One",
+            style: "Regular",
+            full_name: "Krona One",
+            post_script_name: "KronaOne-Regular",
+            version: "1.003",
+            description: "Krona is a low contrast semi-extended style sans serif. Krona is both readable and full of personality. Krona can be used from small sizes to larger display settings. Krona was inspired by hand lettering on early 20th century Swedish posters.",
+            filename: "KronaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Krona\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

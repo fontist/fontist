@@ -12,9 +12,20 @@ module Fontist
         sha256 "1ccaa2771c537d7257ab38400c38291ee5878751c81817cf14182adde26fbbeb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SecularOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Secular One",
+            style: "Regular",
+            full_name: "Secular One Regular",
+            post_script_name: "SecularOne-Regular",
+            version: "1.001",
+            filename: "SecularOne-Regular.ttf",
+            copyright: "Copyright 2016 Michal Sahar. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

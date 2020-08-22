@@ -12,9 +12,21 @@ module Fontist
         sha256 "22dfebb99f940b3408b0e4f12a4b68f5071d4c791dc4388ffa3559345117e1b7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Forum-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Forum",
+            style: "Regular",
+            full_name: "Forum",
+            post_script_name: "Forum",
+            version: "1.000",
+            description: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "Forum-Regular.ttf",
+            copyright: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

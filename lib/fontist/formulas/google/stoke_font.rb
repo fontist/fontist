@@ -12,10 +12,33 @@ module Fontist
         sha256 "4a4ab29536669e9668432eec58cfe9263f9bcaddc0e8d7a762d1fe9261939990"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Stoke-Light.ttf",
-        "Regular" => "Stoke-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stoke",
+            style: "Light",
+            full_name: "Stoke Light",
+            post_script_name: "Stoke-Light",
+            version: "1.001",
+            description: "Stoke is a semi-wide high contrast serifed text typeface. Stoke is inspired by letters found on 20th century UK posters showing an odd combination of seriousness of form and whimsical proportions and details. Stoke's low x height make it most suitable for use at medium to large sizes.",
+            filename: "Stoke-Light.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Stoke.",
+          },
+          {
+            family_name: "Stoke",
+            style: "Regular",
+            full_name: "Stoke Regular",
+            post_script_name: "Stoke-Regular",
+            version: "1.002",
+            description: "Stoke is a semi-wide high contrast serifed text typeface. Stoke is inspired by letters found on 20th century UK posters showing an odd combination of seriousness of form and whimsical proportions and details. Stoke's low x height make it most suitable for use at medium to large sizes.",
+            filename: "Stoke-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012 by Sorkin Type Co with Reserved Font Name Stoke.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

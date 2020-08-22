@@ -12,9 +12,21 @@ module Fontist
         sha256 "ba7a1d8cc1aa0598d0d2d36486cb8e2ca58bfb4dd49721bb948e004ee9f60de0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RugeBoogie-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ruge Boogie",
+            style: "Regular",
+            full_name: "Ruge Boogie",
+            post_script_name: "RugeBoogie-Regular",
+            version: "1.003",
+            filename: "RugeBoogie-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Ruge Boogie\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "0596de6527b0565fccd73ed1f2fd509d6d051c2f8a4761b850b277be356b1a6f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Fasthand-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fasthand",
+            style: "Regular",
+            full_name: "Fasthand",
+            post_script_name: "Fasthand-Regular",
+            version: "1.01 May 24, 2012, initial release",
+            filename: "Fasthand-Regular.ttf",
+            copyright: "Copyright (c) 2012, Danh Hong (khmertype.blogspot.com), with Reserved Font Name Fasthand",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

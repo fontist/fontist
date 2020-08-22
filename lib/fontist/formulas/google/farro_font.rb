@@ -12,12 +12,47 @@ module Fontist
         sha256 "5c40a9e674da1c5b8ba2970989913aa95ae615f289978e9cfca42fcf63766388"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Farro-Light.ttf",
-        "Regular" => "Farro-Regular.ttf",
-        "Medium" => "Farro-Medium.ttf",
-        "Bold" => "Farro-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Farro",
+            style: "Light",
+            full_name: "Farro Light",
+            post_script_name: "Farro-Light",
+            version: "1.101",
+            filename: "Farro-Light.ttf",
+            copyright: "Copyright 2018 The Farro Project Authors (https://github.com/grayscaleltd/farro)",
+          },
+          {
+            family_name: "Farro",
+            style: "Regular",
+            full_name: "Farro Regular",
+            post_script_name: "Farro-Regular",
+            version: "1.101",
+            filename: "Farro-Regular.ttf",
+            copyright: "Copyright 2018 The Farro Project Authors (https://github.com/grayscaleltd/farro)",
+          },
+          {
+            family_name: "Farro",
+            style: "Medium",
+            full_name: "Farro Medium",
+            post_script_name: "Farro-Medium",
+            version: "1.101",
+            filename: "Farro-Medium.ttf",
+            copyright: "Copyright 2018 The Farro Project Authors (https://github.com/grayscaleltd/farro)",
+          },
+          {
+            family_name: "Farro",
+            style: "Bold",
+            full_name: "Farro Bold",
+            post_script_name: "Farro-Bold",
+            version: "1.101",
+            filename: "Farro-Bold.ttf",
+            copyright: "Copyright 2018 The Farro Project Authors (https://github.com/grayscaleltd/farro)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

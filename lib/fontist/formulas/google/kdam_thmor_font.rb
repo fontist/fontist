@@ -12,9 +12,20 @@ module Fontist
         sha256 "1e3983e1566874f1971ea9d66d1cb4d7d1c80df8bc3e622fb3e36ea4ded6a52a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KdamThmor-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kdam Thmor",
+            style: "Regular",
+            full_name: "Kdam Thmor",
+            post_script_name: "KdamThmor",
+            version: "1.10 August 16, 2013",
+            filename: "KdamThmor-Regular.ttf",
+            copyright: "Copyright (c) 2013 by Sovichet Tep with Reserved Font Name \"Kdam Thmor\". Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

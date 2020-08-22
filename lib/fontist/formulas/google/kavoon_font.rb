@@ -12,9 +12,21 @@ module Fontist
         sha256 "99c4464c56a9ffef36ea3a25af1c5dd0c0abe2c26cacadf04b759ea762228334"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kavoon-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kavoon",
+            style: "Regular",
+            full_name: "Kavoon",
+            post_script_name: "Kavoon-Regular",
+            version: "1.004; ttfautohint (v1.4.1)",
+            description: "Kavoon is a display face based on experiments with brush and ink. Kavoon's expressive features make words vivid and powerfully draw the reader in. Kavoon may be used from medium to large sizes.",
+            filename: "Kavoon-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Kavoon'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "37c02647a653c984fbad65f508e7752b4295f4fec84ce5dc2916213f03856b88"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EricaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Erica One",
+            style: "Regular",
+            full_name: "Erica One",
+            post_script_name: "EricaOne-Regular",
+            version: "1.003",
+            filename: "EricaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Erica\" \"Erica One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

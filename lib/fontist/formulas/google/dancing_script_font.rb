@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DancingScript[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dancing Script",
+            style: "Regular",
+            full_name: "Dancing Script Regular",
+            post_script_name: "DancingScript-Regular",
+            version: "2.000",
+            filename: "DancingScript[wght].ttf",
+            copyright: "Copyright 2016 The Dancing Script Project Authors (impallari@gmail.com), with Reserved Font Name 'Dancing Script'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

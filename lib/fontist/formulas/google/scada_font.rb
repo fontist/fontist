@@ -12,12 +12,47 @@ module Fontist
         sha256 "18eafd852b50f2416c7e1c68cb73bb85cccf523750fc498d8835244f0db4d3d0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Scada-Regular.ttf",
-        "Italic" => "Scada-Italic.ttf",
-        "Bold" => "Scada-Bold.ttf",
-        "BoldItalic" => "Scada-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Scada",
+            style: "Regular",
+            full_name: "Scada Regular",
+            post_script_name: "Scada-Regular",
+            version: "4.000",
+            filename: "Scada-Regular.ttf",
+            copyright: "Copyright 2012 The Scada Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Scada",
+            style: "Italic",
+            full_name: "Scada Italic",
+            post_script_name: "Scada-Italic",
+            version: "4.000",
+            filename: "Scada-Italic.ttf",
+            copyright: "Copyright 2012 The Scada Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Scada",
+            style: "Bold",
+            full_name: "Scada Bold",
+            post_script_name: "Scada-Bold",
+            version: "4.000",
+            filename: "Scada-Bold.ttf",
+            copyright: "Copyright 2012 The Scada Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Scada",
+            style: "Bold Italic",
+            full_name: "Scada Bold Italic",
+            post_script_name: "Scada-BoldItalic",
+            version: "4.000",
+            filename: "Scada-BoldItalic.ttf",
+            copyright: "Copyright 2012 The Scada Project Authors (lemonad@jovanny.ru)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

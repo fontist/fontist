@@ -12,9 +12,20 @@ module Fontist
         sha256 "2e041bbaa124b1aacf2970f51a024f614f65b8fdf612887ae9de743024c96ff0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Prociono-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Prociono",
+            style: "Regular",
+            full_name: "Prociono",
+            post_script_name: "Prociono-Regular",
+            version: "2.301",
+            filename: "Prociono-Regular.ttf",
+            copyright: "Copyright (c) 2011, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

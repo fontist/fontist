@@ -12,9 +12,20 @@ module Fontist
         sha256 "126abde47b8d8c661bf0cef1b9571e9579b3449ffc6e345854e48bf40247b56e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DidactGothic-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Didact Gothic",
+            style: "Regular",
+            full_name: "Didact Gothic Regular",
+            post_script_name: "DidactGothic-Regular",
+            version: "2.101",
+            filename: "DidactGothic-Regular.ttf",
+            copyright: "Copyright 2016 The Didact Gothic Project Authors (il.basso.buffo@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

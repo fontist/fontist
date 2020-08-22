@@ -12,14 +12,65 @@ module Fontist
         sha256 "f9c530a8e949c0b3cd220806d67e35f09b69c5306702efb8b60971884119432e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Maitree-ExtraLight.ttf",
-        "Light" => "Maitree-Light.ttf",
-        "Regular" => "Maitree-Regular.ttf",
-        "Medium" => "Maitree-Medium.ttf",
-        "SemiBold" => "Maitree-SemiBold.ttf",
-        "Bold" => "Maitree-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Maitree",
+            style: "ExtraLight",
+            full_name: "Maitree ExtraLight",
+            post_script_name: "Maitree-ExtraLight",
+            version: "1.003",
+            filename: "Maitree-ExtraLight.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Maitree",
+            style: "Light",
+            full_name: "Maitree Light",
+            post_script_name: "Maitree-Light",
+            version: "1.001",
+            filename: "Maitree-Light.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Maitree",
+            style: "Regular",
+            full_name: "Maitree Regular",
+            post_script_name: "Maitree-Regular",
+            version: "1.001",
+            filename: "Maitree-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Maitree",
+            style: "Medium",
+            full_name: "Maitree Medium",
+            post_script_name: "Maitree-Medium",
+            version: "1.001",
+            filename: "Maitree-Medium.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Maitree",
+            style: "SemiBold",
+            full_name: "Maitree SemiBold",
+            post_script_name: "Maitree-SemiBold",
+            version: "1.001",
+            filename: "Maitree-SemiBold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Maitree",
+            style: "Bold",
+            full_name: "Maitree Bold",
+            post_script_name: "Maitree-Bold",
+            version: "1.003",
+            filename: "Maitree-Bold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

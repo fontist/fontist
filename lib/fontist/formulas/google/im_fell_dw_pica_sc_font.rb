@@ -12,9 +12,21 @@ module Fontist
         sha256 "3d81d054f38c9ed48d2034cb4ef9766459a965d595fbcd679d93410e2e611f73"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFePIsc28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL DW Pica SC",
+            style: "Regular",
+            full_name: "IM FELL DW Pica SC",
+            post_script_name: "IM_FELL_DW_Pica_SC",
+            version: "3.00",
+            description: "Fell Types - De Walpergen Pica size - Roman . Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1692 (after the bequest). To be printed at 12.5 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFePIsc28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL DW Pica SC",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

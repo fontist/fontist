@@ -12,11 +12,38 @@ module Fontist
         sha256 "f07f208f5f60c1c444f4258ee5cdca2122fa2c8541e0d36c7d50bba695d8edc6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Sunflower-Light.ttf",
-        "Medium" => "Sunflower-Medium.ttf",
-        "Bold" => "Sunflower-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sunflower",
+            style: "Light",
+            full_name: "Sunflower Light",
+            post_script_name: "Sunflower-Light",
+            version: "1.00",
+            filename: "Sunflower-Light.ttf",
+            copyright: "Copyright 2008 The Sunflower Project Authors",
+          },
+          {
+            family_name: "Sunflower",
+            style: "Medium",
+            full_name: "Sunflower Medium",
+            post_script_name: "Sunflower-Medium",
+            version: "1.00",
+            filename: "Sunflower-Medium.ttf",
+            copyright: "Copyright 2008 The Sunflower Project Authors",
+          },
+          {
+            family_name: "Sunflower",
+            style: "Bold",
+            full_name: "Sunflower Bold",
+            post_script_name: "Sunflower-Bold",
+            version: "1.00",
+            filename: "Sunflower-Bold.ttf",
+            copyright: "Copyright 2008 The Sunflower Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

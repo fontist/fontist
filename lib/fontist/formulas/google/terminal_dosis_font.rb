@@ -12,15 +12,81 @@ module Fontist
         sha256 "135848d2ad61d95d071470ccefe82a6e73870705fda944696ef205443260b054"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "TerminalDosis-ExtraLight.ttf",
-        "Light" => "TerminalDosis-Light.ttf",
-        "Regular" => "TerminalDosis-Regular.ttf",
-        "Medium" => "TerminalDosis-Medium.ttf",
-        "SemiBold" => "TerminalDosis-SemiBold.ttf",
-        "Bold" => "TerminalDosis-Bold.ttf",
-        "ExtraBold" => "TerminalDosis-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dosis",
+            style: "ExtraLight",
+            full_name: "Dosis ExtraLight",
+            post_script_name: "Dosis-ExtraLight",
+            version: "1.007",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-ExtraLight.ttf",
+            copyright: "Copyright (c) 2011, Edgar Tolentino, Pablo Impallari, Igino Marini (impallari.com), with Reserved Font Name Dosis.",
+          },
+          {
+            family_name: "Dosis",
+            style: "Light",
+            full_name: "Dosis Light",
+            post_script_name: "Dosis-Light",
+            version: "1.007",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-Light.ttf",
+            copyright: "Copyright (c) 2011, Edgar Tolentino, Pablo Impallari, Igino Marini (impallari.com), with Reserved Font Name Dosis.",
+          },
+          {
+            family_name: "Dosis",
+            style: "Regular",
+            full_name: "Dosis Regular",
+            post_script_name: "Dosis-Regular",
+            version: "1.007",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-Regular.ttf",
+            copyright: "Copyright (c) 2011, Edgar Tolentino, Pablo Impallari, Igino Marini (impallari.com), with Reserved Font Name Dosis.",
+          },
+          {
+            family_name: "Dosis",
+            style: "Medium",
+            full_name: "Dosis Medium",
+            post_script_name: "Dosis-Medium",
+            version: "1.007",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-Medium.ttf",
+            copyright: "Copyright (c) 2011, Edgar Tolentino, Pablo Impallari, Igino Marini (impallari.com), with Reserved Font Name Dosis.",
+          },
+          {
+            family_name: "Dosis",
+            style: "SemiBold",
+            full_name: "Dosis SemiBold",
+            post_script_name: "Dosis-SemiBold",
+            version: "1.007",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-SemiBold.ttf",
+            copyright: "Copyright (c) 2011, Edgar Tolentino, Pablo Impallari, Igino Marini (impallari.com), with Reserved Font Name Dosis.",
+          },
+          {
+            family_name: "Dosis",
+            style: "Bold",
+            full_name: "Dosis Bold",
+            post_script_name: "Dosis-Bold",
+            version: "1.006",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-Bold.ttf",
+            copyright: "Copyright (c) 2011 by EdgarTolentino, PabloImpallari, IginoMarini. All rights reserved.",
+          },
+          {
+            family_name: "Dosis",
+            style: "ExtraBold",
+            full_name: "Dosis ExtraBold",
+            post_script_name: "Dosis-ExtraBold",
+            version: "1.006",
+            description: "Dosis is a very simple, monoline rounded sans serif. We like you to have some freedom over how the letters should look, so we bundled Dosis with a few alternates that you can use to make your text look the way you want to.",
+            filename: "TerminalDosis-ExtraBold.ttf",
+            copyright: "Copyright (c) 2011 by EdgarTolentino, PabloImpallari, IginoMarini. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

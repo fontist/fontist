@@ -12,9 +12,20 @@ module Fontist
         sha256 "3ff3a063b24eefd446df7e81f3a26c9fd8fbc1d061de8376f4726c1881fc5860"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MeeraInimai-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Meera Inimai",
+            style: "Regular",
+            full_name: "Meera Inimai Regular",
+            post_script_name: "MeeraInimai-Regular",
+            version: "2.0.0+20160526",
+            filename: "MeeraInimai-Regular.ttf",
+            copyright: "Copyright 2012-2016 Hussain K.H, Santhosh Thottingal, Anilan NG, AKM Kutty, Swathanthra Malayalam Computing (http://smc.org.in)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

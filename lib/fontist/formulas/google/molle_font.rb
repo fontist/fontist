@@ -12,9 +12,21 @@ module Fontist
         sha256 "08d927b57176d28827261dc7d8a364cfe8719cb25a3230f3dc3ca96fb3bc309e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Molle-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Molle",
+            style: "Regular",
+            full_name: "Molle",
+            post_script_name: "Molle-Regular",
+            version: "1.002",
+            description: "Molle is a distinctive looking bottom heavy display script inspired by lettering seen on an Italian poster. Molle is best used from medium to large sizes.",
+            filename: "Molle-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Molle\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

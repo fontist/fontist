@@ -12,9 +12,20 @@ module Fontist
         sha256 "da6712ffb5ce2b605fa645a8787c061ca0859cdceb6cb88e30a8866cb6090189"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sevillana-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sevillana",
+            style: "Regular",
+            full_name: "Sevillana",
+            post_script_name: "Sevillana-Regular",
+            version: "1.001",
+            filename: "Sevillana-Regular.ttf",
+            copyright: "Copyright (c) 2011, Brownfox (gayaneh.b@gmail.com), with Reserved Font Names \"Sevillana\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

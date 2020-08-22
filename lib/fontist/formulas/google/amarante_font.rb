@@ -12,9 +12,21 @@ module Fontist
         sha256 "54d2834632f44e01fb66ca167637599929ed7940ed703eec911f5e7fc8f6974b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amarante-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amarante",
+            style: "Regular",
+            full_name: "Amarante Regular",
+            post_script_name: "Amarante-Regular",
+            version: "1.001",
+            description: "Amarante is a medium contrast condensed type. It uses unconventional Art Nouveau inspired shapes. Amarante is a display face but works surprisingly well in text and headlines too. Amarante supports a very broad range of languages.",
+            filename: "Amarante-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Amarante\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

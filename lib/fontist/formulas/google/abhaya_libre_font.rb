@@ -12,13 +12,51 @@ module Fontist
         sha256 "82c16ee1bf501ab73e6e86d4731d53bcebbf402d5c87a28238f310622e02e879"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AbhayaLibre-Regular.ttf",
-        "Medium" => "AbhayaLibre-Medium.ttf",
-        "SemiBold" => "AbhayaLibre-SemiBold.ttf",
-        "Bold" => "AbhayaLibre-Bold.ttf",
-        "ExtraBold" => "AbhayaLibre-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Abhaya Libre",
+            style: "Regular",
+            full_name: "Abhaya Libre Regular",
+            post_script_name: "AbhayaLibre-Regular",
+            version: "1.050 ; ttfautohint (v1.6)",
+            filename: "AbhayaLibre-Regular.ttf",
+          },
+          {
+            family_name: "Abhaya Libre Medium",
+            style: "Regular",
+            full_name: "Abhaya Libre Medium",
+            post_script_name: "AbhayaLibre-Medium",
+            version: "1.050 ; ttfautohint (v1.6)",
+            filename: "AbhayaLibre-Medium.ttf",
+          },
+          {
+            family_name: "Abhaya Libre SemiBold",
+            style: "Regular",
+            full_name: "Abhaya Libre SemiBold",
+            post_script_name: "AbhayaLibre-SemiBold",
+            version: "1.050 ; ttfautohint (v1.6)",
+            filename: "AbhayaLibre-SemiBold.ttf",
+          },
+          {
+            family_name: "Abhaya Libre",
+            style: "Bold",
+            full_name: "Abhaya Libre Bold",
+            post_script_name: "AbhayaLibre-Bold",
+            version: "1.050 ; ttfautohint (v1.6)",
+            filename: "AbhayaLibre-Bold.ttf",
+          },
+          {
+            family_name: "Abhaya Libre ExtraBold",
+            style: "Regular",
+            full_name: "Abhaya Libre ExtraBold",
+            post_script_name: "AbhayaLibre-ExtraBold",
+            version: "1.050 ; ttfautohint (v1.6)",
+            filename: "AbhayaLibre-ExtraBold.ttf",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

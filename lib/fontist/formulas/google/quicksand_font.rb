@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Quicksand[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quicksand",
+            style: "Light",
+            full_name: "Quicksand Light",
+            post_script_name: "Quicksand-Light",
+            version: "3.004",
+            filename: "Quicksand[wght].ttf",
+            copyright: "Copyright 2019 The Quicksand Project Authors (https://github.com/andrew-paglinawan/QuicksandFamily.git), with Reserved Font Name \"Quicksand\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

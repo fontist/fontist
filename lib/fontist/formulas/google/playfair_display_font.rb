@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PlayfairDisplay[wght].ttf",
-        "Italic" => "PlayfairDisplay-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Playfair Display",
+            style: "Regular",
+            full_name: "Playfair Display Regular",
+            post_script_name: "PlayfairDisplay-Regular",
+            version: "1.200; ttfautohint (v1.8.2)",
+            filename: "PlayfairDisplay[wght].ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+          {
+            family_name: "Playfair Display",
+            style: "Italic",
+            full_name: "Playfair Display Italic",
+            post_script_name: "PlayfairDisplay-Italic",
+            version: "1.200; ttfautohint (v1.8.2)",
+            filename: "PlayfairDisplay-Italic[wght].ttf",
+            copyright: "Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name \"Playfair Display\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

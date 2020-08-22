@@ -12,13 +12,56 @@ module Fontist
         sha256 "c9c11b0ea2cc7e4b156fac5358fea70cafaa973a9f0dc3b3a9735bb4b8e32759"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "HindMadurai-Light.ttf",
-        "Regular" => "HindMadurai-Regular.ttf",
-        "Medium" => "HindMadurai-Medium.ttf",
-        "SemiBold" => "HindMadurai-SemiBold.ttf",
-        "Bold" => "HindMadurai-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hind Madurai",
+            style: "Light",
+            full_name: "Hind Madurai Light",
+            post_script_name: "HindMadurai-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f taml -w G -W -c -X \"\"",
+            filename: "HindMadurai-Light.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Madurai",
+            style: "Regular",
+            full_name: "Hind Madurai Regular",
+            post_script_name: "HindMadurai-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f taml -w G -W -c -X \"\"",
+            filename: "HindMadurai-Regular.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Madurai",
+            style: "Medium",
+            full_name: "Hind Madurai Medium",
+            post_script_name: "HindMadurai-Medium",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f taml -w G -W -c -X \"\"",
+            filename: "HindMadurai-Medium.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Madurai",
+            style: "SemiBold",
+            full_name: "Hind Madurai SemiBold",
+            post_script_name: "HindMadurai-SemiBold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f taml -w G -W -c -X \"\"",
+            filename: "HindMadurai-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Madurai",
+            style: "Bold",
+            full_name: "Hind Madurai Bold",
+            post_script_name: "HindMadurai-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f taml -w G -W -c -X \"\"",
+            filename: "HindMadurai-Bold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

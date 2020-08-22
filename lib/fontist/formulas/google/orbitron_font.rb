@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Orbitron[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Orbitron",
+            style: "Regular",
+            full_name: "Orbitron Regular",
+            post_script_name: "Orbitron-Regular",
+            version: "2.000; ttfautohint (v1.8.2)",
+            filename: "Orbitron[wght].ttf",
+            copyright: "Copyright 2018 The Orbitron Project Authors (https://github.com/theleagueof/orbitron)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

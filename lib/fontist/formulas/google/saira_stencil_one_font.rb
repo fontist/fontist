@@ -12,9 +12,20 @@ module Fontist
         sha256 "3c735489b43708a725fa0e079d3ccc0730cea8ec772529f36aff0b8068d9bac8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SairaStencilOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Saira Stencil One",
+            style: "Regular",
+            full_name: "Saira Stencil One Regular",
+            post_script_name: "SairaStencilOne-Regular",
+            version: "1.004",
+            filename: "SairaStencilOne-Regular.ttf",
+            copyright: "Copyright 2019 The Saira Stencil Project Authors (https://github.com/Omnibus-Type/Saira)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

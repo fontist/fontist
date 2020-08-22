@@ -12,12 +12,47 @@ module Fontist
         sha256 "b94b54c02e2619b07299cbf500cc0a37b5318215ed68dd3958e17e8faf627c8a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IstokWeb-Regular.ttf",
-        "Italic" => "IstokWeb-Italic.ttf",
-        "Bold" => "IstokWeb-Bold.ttf",
-        "BoldItalic" => "IstokWeb-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Istok Web",
+            style: "Regular",
+            full_name: "Istok Web Regular",
+            post_script_name: "IstokWeb-Regular",
+            version: "1.0.2g",
+            filename: "IstokWeb-Regular.ttf",
+            copyright: "Copyright (c) 2008-2014, Andrey V. Panov (panov@canopus.iacp.dvo.ru), with Reserved Font Name Istok",
+          },
+          {
+            family_name: "Istok Web",
+            style: "Italic",
+            full_name: "Istok Web Italic",
+            post_script_name: "IstokWeb-Italic",
+            version: "1.0.2g",
+            filename: "IstokWeb-Italic.ttf",
+            copyright: "Copyright (c) 2008-2014, Andrey V. Panov (panov@canopus.iacp.dvo.ru), with Reserved Font Name Istok",
+          },
+          {
+            family_name: "Istok Web",
+            style: "Bold",
+            full_name: "Istok Web Bold",
+            post_script_name: "IstokWeb-Bold",
+            version: "1.0.2g",
+            filename: "IstokWeb-Bold.ttf",
+            copyright: "Copyright (c) 2008-2014, Andrey V. Panov (panov@canopus.iacp.dvo.ru), with Reserved Font Name Istok",
+          },
+          {
+            family_name: "Istok Web",
+            style: "BoldItalic",
+            full_name: "Istok Web Bold Italic",
+            post_script_name: "IstokWeb-BoldItalic",
+            version: "1.0.2g",
+            filename: "IstokWeb-BoldItalic.ttf",
+            copyright: "Copyright (c) 2008-2014, Andrey V. Panov (panov@canopus.iacp.dvo.ru), with Reserved Font Name Istok",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

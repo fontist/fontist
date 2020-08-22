@@ -12,9 +12,20 @@ module Fontist
         sha256 "d88e67aecd8f8b125a2b10f52bd197b8a4e37165408b5cc69d8f6d9531846ab6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bahianita-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bahianita",
+            style: "Regular",
+            full_name: "Bahianita Regular",
+            post_script_name: "Bahianita-Regular",
+            version: "1.008",
+            filename: "Bahianita-Regular.ttf",
+            copyright: "Copyright 2018 The Bahianita Project Authors (https://github.com/Omnibus-Type/Bahiana/Bahianita)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

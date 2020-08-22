@@ -9,11 +9,41 @@ module Fontist
         sha256 "3a8a7181faf1a50e4cab35ad128ff11df7980c45e9c57e1f190f4355433b59f7"
       end
 
-      provides_font("Euphemia UCAS", match_styles_from_file: {
-        "Italic" => "Euphemia UCAS Italic 2.6.6.ttf",
-        "Regular" => "Euphemia UCAS Regular 2.6.6.ttf",
-        "Bold" => "Euphemia UCAS Bold 2.6.6.ttf"
-      })
+      provides_font(
+        "Euphemia UCAS",
+        match_styles_from_file: [
+          {
+            family_name: "Euphemia UCAS",
+            style: "Italic",
+            full_name: "Euphemia UCAS Italic",
+            post_script_name: "EuphemiaUCAS-Italic",
+            version: "2.660 2004",
+            description: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+            filename: "Euphemia UCAS Italic 2.6.6.ttf",
+            copyright: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+          },
+          {
+            family_name: "Euphemia UCAS",
+            style: "Regular",
+            full_name: "Euphemia UCAS",
+            post_script_name: "EuphemiaUCAS",
+            version: "2.660 2004",
+            description: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+            filename: "Euphemia UCAS Regular 2.6.6.ttf",
+            copyright: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+          },
+          {
+            family_name: "Euphemia UCAS",
+            style: "Bold",
+            full_name: "Euphemia UCAS Bold",
+            post_script_name: "EuphemiaUCAS-Bold",
+            version: "2.660 2005",
+            description: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+            filename: "Euphemia UCAS Bold 2.6.6.ttf",
+            copyright: "Copyright (c) 2004 by Tiro Typeworks. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("euphemia.zip") do |resource|

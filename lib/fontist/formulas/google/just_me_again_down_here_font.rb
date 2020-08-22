@@ -12,9 +12,21 @@ module Fontist
         sha256 "36cdf03b25203dd51205299802b76cca1b38e0e47dc132fe5889985c8a2a1829"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JustMeAgainDownHere.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Just Me Again Down Here",
+            style: "Regular",
+            full_name: "Just Me Again Down Here",
+            post_script_name: "JustMeAgainDownHere",
+            version: "1.002 2007",
+            description: "Copyright (c) 2011 by Kimberly Geswein. All rights reserved.",
+            filename: "JustMeAgainDownHere.ttf",
+            copyright: "Copyright (c) 2011 by Kimberly Geswein. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

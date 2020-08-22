@@ -12,9 +12,20 @@ module Fontist
         sha256 "d140cc8c957792a5b2daf9ccef0661f55417cd34bd1fc35f08cf3ecda7553ee4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rationale-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rationale",
+            style: "Regular",
+            full_name: "Rationale",
+            post_script_name: "Rationale-Regular",
+            version: "1.011",
+            filename: "Rationale-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name \"Rationale\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

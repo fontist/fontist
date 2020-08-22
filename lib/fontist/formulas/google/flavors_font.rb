@@ -12,9 +12,20 @@ module Fontist
         sha256 "cda9a16002dfa8756b7d5106d26c30d46b87f57c832332d22782f379c52ca290"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Flavors-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Flavors",
+            style: "Regular",
+            full_name: "Flavors Regular",
+            post_script_name: "Flavors-Regular",
+            version: "1.001",
+            filename: "Flavors-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reseved Font Name \"Flavors\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

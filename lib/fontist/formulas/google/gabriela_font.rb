@@ -12,9 +12,20 @@ module Fontist
         sha256 "179337a4edf88953eb4a25757a1d01f02a1de602e09786a5971f25f81d151a4a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gabriela-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gabriela",
+            style: "Regular",
+            full_name: "Gabriela Regular",
+            post_script_name: "Gabriela-Regular",
+            version: "2.000",
+            filename: "Gabriela-Regular.ttf",
+            copyright: "Copyright 2013 The Gabriela Project Authors (edu@tipo.net.ar), with Reserved Font Name \"Gabriela\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,22 @@ module Fontist
         sha256 "abf231a8e5d4dc38375468e03ac71c75eab6d855fe2899faee3e7a916a92aabd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SonsieOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sonsie One",
+            style: "Regular",
+            full_name: "Sonsie One",
+            post_script_name: "SonsieOne-Regular",
+            version: "1.003",
+            description: "Sonsie One is a heavy, medium contrast, large x height script font. It was inspired by hand painted signs seen in Munich. Sonsie One improves on its sources by adding warmth, smoother flow and of touch of funkiness. Sonsie One is best used for display purposes at medium to large sizes.",
+            filename: "SonsieOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Sonsie One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

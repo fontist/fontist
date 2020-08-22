@@ -12,9 +12,20 @@ module Fontist
         sha256 "ede70bf84116cc98944a118dbfdcb55b98c68043c0a2e8eafbd519a877de5aec"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AlfaSlabOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alfa Slab One",
+            style: "Regular",
+            full_name: "Alfa Slab One Regular",
+            post_script_name: "AlfaSlabOne-Regular",
+            version: "2.000",
+            filename: "AlfaSlabOne-Regular.ttf",
+            copyright: "Copyright 2016 The Alfa Slab One Project Authors (http://www.jmsole.cl | info@jmsole.cl), with Reserved Font Name \"Alfa Slab\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

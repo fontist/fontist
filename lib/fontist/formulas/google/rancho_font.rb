@@ -12,9 +12,20 @@ module Fontist
         sha256 "e1b583fb711e62b7572aafced4318573794c3ab15eb3967d30ca3894b63ec20f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rancho-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rancho",
+            style: "Regular",
+            full_name: "Rancho Regular",
+            post_script_name: "Rancho-Regular",
+            version: "1.001",
+            filename: "Rancho-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

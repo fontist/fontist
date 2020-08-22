@@ -12,10 +12,31 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PublicSans[wght].ttf",
-        "Italic" => "PublicSans-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Public Sans",
+            style: "Thin",
+            full_name: "Public Sans Thin",
+            post_script_name: "PublicSans-Thin",
+            version: "1.007",
+            description: "Public Sans is based on Libre Franklin, which is a reinterpretation and expansion of the 1912 Morris Fuller Benton’s classic.",
+            filename: "PublicSans[wght].ttf",
+            copyright: "Copyright (c) 2015, Impallari Type (www.impallari.com)",
+          },
+          {
+            family_name: "Public Sans",
+            style: "Thin Italic",
+            full_name: "Public Sans Thin Italic",
+            post_script_name: "PublicSans-ThinItalic",
+            version: "1.007",
+            description: "Public Sans is based on Libre Franklin, which is a reinterpretation and expansion of the 1912 Morris Fuller Benton’s classic.",
+            filename: "PublicSans-Italic[wght].ttf",
+            copyright: "Copyright (c) 2015, Impallari Type (www.impallari.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

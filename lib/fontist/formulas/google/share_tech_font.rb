@@ -12,9 +12,20 @@ module Fontist
         sha256 "a35fec9150502fad152175f39d60a201e85b348c34e361380f48dca27a216b8a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ShareTech-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Share Tech",
+            style: "Regular",
+            full_name: "Share Tech Regular",
+            post_script_name: "ShareTech-Regular",
+            version: "1.100",
+            filename: "ShareTech-Regular.ttf",
+            copyright: "Copyright 2012 The Share Tech Project Authors (post@carrois.com), with Reserved Font Name 'Share’.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

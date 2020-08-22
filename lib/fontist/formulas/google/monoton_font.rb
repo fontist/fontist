@@ -12,9 +12,21 @@ module Fontist
         sha256 "3b8cc40998902dd9e31c371dfba1fe14ad8b530ce84d73f8483b951c179e57b4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Monoton-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Monoton",
+            style: "Regular",
+            full_name: "Monoton",
+            post_script_name: "Monoton-Regular",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "Monoton-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

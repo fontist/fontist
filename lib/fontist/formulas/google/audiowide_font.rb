@@ -12,9 +12,21 @@ module Fontist
         sha256 "5d6432956bb57868e8110b15c7c4e823f6cacb325f0a9cac15303041cf3a3a9d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Audiowide-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Audiowide",
+            style: "Regular",
+            full_name: "Audiowide Regular",
+            post_script_name: "Audiowide-Regular",
+            version: "1.003",
+            filename: "Audiowide-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Audiowide\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

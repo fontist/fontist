@@ -12,11 +12,44 @@ module Fontist
         sha256 "af7941441c2b0ca39e3eda6d1e1a98d1060b42768135cf2b1410ecb067782be2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LifeSavers-Regular.ttf",
-        "Bold" => "LifeSavers-Bold.ttf",
-        "ExtraBold" => "LifeSavers-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Life Savers",
+            style: "Regular",
+            full_name: "Life Savers Regular",
+            post_script_name: "LifeSavers-Regular",
+            version: "3.001; ttfautohint (v0.95) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            filename: "LifeSavers-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com),
+Copyright (c) 2012, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+with Reserved Font Name Life Savers.",
+          },
+          {
+            family_name: "Life Savers",
+            style: "Bold",
+            full_name: "Life Savers Bold",
+            post_script_name: "LifeSavers-Bold",
+            version: "3.001; ttfautohint (v0.95) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            filename: "LifeSavers-Bold.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com),
+Copyright (c) 2012, Igino Marini. (www.ikern.com|mail@iginomarini.com),
+with Reserved Font Name Life Savers.",
+          },
+          {
+            family_name: "Life Savers",
+            style: "ExtraBold",
+            full_name: "Life Savers ExtraBold",
+            post_script_name: "LifeSavers-ExtraBold",
+            version: "3.001; ttfautohint (v0.95) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            filename: "LifeSavers-ExtraBold.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "7fb681f15894706b976cf92a30a4ca57fdd4fa17cd78b0e9add683ea0ad56495"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Damion-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Damion",
+            style: "Regular",
+            full_name: "Damion",
+            post_script_name: "Damion",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "Damion-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

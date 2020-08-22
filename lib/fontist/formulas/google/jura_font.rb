@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jura[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jura",
+            style: "Light",
+            full_name: "Jura Light",
+            post_script_name: "Jura-Light",
+            version: "5.104",
+            filename: "Jura[wght].ttf",
+            copyright: "Copyright 2019 The Jura Project Authors (https://github.com/ossobuffo/jura)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "edc80b3c6d508cf42aba94fc096547162089c4d940cff09d7922fc01ba54e76f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Michroma.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Michroma",
+            style: "Regular",
+            full_name: "Michroma",
+            post_script_name: "Michroma",
+            version: "1.000",
+            filename: "Michroma.ttf",
+            copyright: "vernon adams",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

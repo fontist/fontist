@@ -12,9 +12,20 @@ module Fontist
         sha256 "3835a054825cb7da8d8b937becea1d7013a75715475f714fe295d2833a478887"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VarelaRound-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Varela Round",
+            style: "Regular",
+            full_name: "Varela Round Regular",
+            post_script_name: "VarelaRound-Regular",
+            version: "3.000",
+            filename: "VarelaRound-Regular.ttf",
+            copyright: "Copyright 2011-2016 The Varela Round Project Authors (https://github.com/alefalefalef/Varela-Round-Hebrew/), with Reserved Font Names 'Varela' and ‘Varela Round’.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

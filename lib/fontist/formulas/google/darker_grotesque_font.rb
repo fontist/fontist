@@ -12,15 +12,74 @@ module Fontist
         sha256 "460ccb128463ac0b4cb837dd19c80a63cb4a1a5ae21450bca0b4ef34a160d489"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "DarkerGrotesque-Light.ttf",
-        "Regular" => "DarkerGrotesque-Regular.ttf",
-        "Medium" => "DarkerGrotesque-Medium.ttf",
-        "SemiBold" => "DarkerGrotesque-SemiBold.ttf",
-        "Bold" => "DarkerGrotesque-Bold.ttf",
-        "ExtraBold" => "DarkerGrotesque-ExtraBold.ttf",
-        "Black" => "DarkerGrotesque-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Darker Grotesque",
+            style: "Light",
+            full_name: "Darker Grotesque Light",
+            post_script_name: "DarkerGrotesque-Light",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-Light.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "Regular",
+            full_name: "Darker Grotesque Regular",
+            post_script_name: "DarkerGrotesque-Regular",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-Regular.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "Medium",
+            full_name: "Darker Grotesque Medium",
+            post_script_name: "DarkerGrotesque-Medium",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-Medium.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "SemiBold",
+            full_name: "Darker Grotesque SemiBold",
+            post_script_name: "DarkerGrotesque-SemiBold",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-SemiBold.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "Bold",
+            full_name: "Darker Grotesque Bold",
+            post_script_name: "DarkerGrotesque-Bold",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-Bold.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "ExtraBold",
+            full_name: "Darker Grotesque ExtraBold",
+            post_script_name: "DarkerGrotesque-ExtraBold",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+          {
+            family_name: "Darker Grotesque",
+            style: "Black",
+            full_name: "Darker Grotesque Black",
+            post_script_name: "DarkerGrotesque-Black",
+            version: "1.000; ttfautohint (v1.8.3)",
+            filename: "DarkerGrotesque-Black.ttf",
+            copyright: "Copyright 2019 The Darkergrotesque Project Authors (https://github.com/bettergui/DarkerGrotesque)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

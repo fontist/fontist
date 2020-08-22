@@ -12,12 +12,47 @@ module Fontist
         sha256 "5558804a5522408e3482e00b4fc0ee8aa62a86ec01e1831cdc4c5af695ba7273"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cantarell-Regular.ttf",
-        "Oblique" => "Cantarell-Oblique.ttf",
-        "Bold" => "Cantarell-Bold.ttf",
-        "BoldOblique" => "Cantarell-BoldOblique.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cantarell",
+            style: "Regular",
+            full_name: "Cantarell Regular",
+            post_script_name: "Cantarell-Regular",
+            version: "001.001",
+            filename: "Cantarell-Regular.ttf",
+            copyright: "Copyright (c) 2009 Dave Crossland <dave@lab6.com>",
+          },
+          {
+            family_name: "Cantarell",
+            style: "Oblique",
+            full_name: "Cantarell Oblique",
+            post_script_name: "Cantarell-Oblique",
+            version: "001.001",
+            filename: "Cantarell-Oblique.ttf",
+            copyright: "Copyright (c) 2009 Dave Crossland <dave@lab6.com>",
+          },
+          {
+            family_name: "Cantarell",
+            style: "Bold",
+            full_name: "Cantarell Bold",
+            post_script_name: "Cantarell-Bold",
+            version: "001.001",
+            filename: "Cantarell-Bold.ttf",
+            copyright: "Copyright (c) 2009 Dave Crossland <dave@lab6.com>",
+          },
+          {
+            family_name: "Cantarell",
+            style: "BoldOblique",
+            full_name: "Cantarell Bold Oblique",
+            post_script_name: "Cantarell-BoldOblique",
+            version: "001.001",
+            filename: "Cantarell-BoldOblique.ttf",
+            copyright: "Copyright (c) 2009 Dave Crossland <dave@lab6.com>",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

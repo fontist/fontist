@@ -12,9 +12,20 @@ module Fontist
         sha256 "665f262a769a55751d47ca9c25a4b7fea64f91ba74d8762ac15c8babff86de48"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Itim-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Itim",
+            style: "Regular",
+            full_name: "Itim",
+            post_script_name: "Itim-Regular",
+            version: "1.002g",
+            filename: "Itim-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2014, Pablo Impallari (www.impallari.com|impallari@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

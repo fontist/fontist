@@ -12,9 +12,21 @@ module Fontist
         sha256 "0f59a65539e8c197a7980f547e672abf5bd3ecac2c08a14532d1d17ee315901b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Risque-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Risque",
+            style: "Regular",
+            full_name: "Risque",
+            post_script_name: "Risque-Regular",
+            version: "1.000",
+            filename: "Risque-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Risque\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

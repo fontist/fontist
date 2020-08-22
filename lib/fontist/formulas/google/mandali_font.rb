@@ -12,9 +12,20 @@ module Fontist
         sha256 "7a1d9d00181eb93f622d817c368eca8ff6905f2ebf771c13b2d36017e3a6383f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mandali-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mandali",
+            style: "Regular",
+            full_name: "Mandali",
+            post_script_name: "Mandali",
+            version: "1.0.5; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "Mandali-Regular.ttf",
+            copyright: "Copyright (c) 2012 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Name Nunito",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

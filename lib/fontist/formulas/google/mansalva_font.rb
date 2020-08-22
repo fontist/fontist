@@ -12,9 +12,20 @@ module Fontist
         sha256 "6ff195a1de3fdc22f6667079e2a7c1733820edc7a8bd8b50ae247438b28b2140"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mansalva-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mansalva",
+            style: "Regular",
+            full_name: "Mansalva Regular",
+            post_script_name: "Mansalva-Regular",
+            version: "2.002",
+            filename: "Mansalva-Regular.ttf",
+            copyright: "Copyright 2019 The Mansalva Project Authors (https://github.com/carolinashort/mansalva)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

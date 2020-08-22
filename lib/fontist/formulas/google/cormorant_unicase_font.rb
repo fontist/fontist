@@ -12,13 +12,56 @@ module Fontist
         sha256 "4f82afeef65287e30f3e31361aa4dd7c24e512c7e339adc674999b852e7e8d4d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "CormorantUnicase-Light.ttf",
-        "Regular" => "CormorantUnicase-Regular.ttf",
-        "Medium" => "CormorantUnicase-Medium.ttf",
-        "SemiBold" => "CormorantUnicase-SemiBold.ttf",
-        "Bold" => "CormorantUnicase-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cormorant Unicase",
+            style: "Light",
+            full_name: "Cormorant Unicase Light",
+            post_script_name: "CormorantUnicase-Light",
+            version: "3.303",
+            filename: "CormorantUnicase-Light.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Unicase",
+            style: "Regular",
+            full_name: "Cormorant Unicase Regular",
+            post_script_name: "CormorantUnicase-Regular",
+            version: "3.303",
+            filename: "CormorantUnicase-Regular.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Unicase",
+            style: "Medium",
+            full_name: "Cormorant Unicase Medium",
+            post_script_name: "CormorantUnicase-Medium",
+            version: "3.303",
+            filename: "CormorantUnicase-Medium.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Unicase",
+            style: "SemiBold",
+            full_name: "Cormorant Unicase SemiBold",
+            post_script_name: "CormorantUnicase-SemiBold",
+            version: "3.303",
+            filename: "CormorantUnicase-SemiBold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+          {
+            family_name: "Cormorant Unicase",
+            style: "Bold",
+            full_name: "Cormorant Unicase Bold",
+            post_script_name: "CormorantUnicase-Bold",
+            version: "3.303",
+            filename: "CormorantUnicase-Bold.ttf",
+            copyright: "Copyright 2015 The Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

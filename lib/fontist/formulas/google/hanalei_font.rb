@@ -12,9 +12,21 @@ module Fontist
         sha256 "54130976bd694f712cb6130dadff09fecc112211061e2fe0c97aad05cdfe11b9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Hanalei-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hanalei",
+            style: "Regular",
+            full_name: "Hanalei",
+            post_script_name: "Hanalei-Regular",
+            version: "1.000",
+            filename: "Hanalei-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Hanalei\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "74a951164bd8fdbfa985e28981c620b74473d6d4401b461c16e32ed2c3688ee4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cedarville-Cursive.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cedarville Cursive",
+            style: "Regular",
+            full_name: "Cedarville Cursive",
+            post_script_name: "Cedarville-Cursive",
+            version: "1.001 2010",
+            filename: "Cedarville-Cursive.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

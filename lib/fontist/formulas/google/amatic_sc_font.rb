@@ -12,10 +12,29 @@ module Fontist
         sha256 "41537030438d50e42bc9308ad0bf2cd2d5258c02c864e8a56789aa785e314724"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AmaticSC-Regular.ttf",
-        "Bold" => "AmaticSC-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amatic SC",
+            style: "Regular",
+            full_name: "Amatic SC Regular",
+            post_script_name: "AmaticSC-Regular",
+            version: "2.505",
+            filename: "AmaticSC-Regular.ttf",
+            copyright: "Copyright 2015 The Amatic SC Project Authors (https://github.com/googlefonts/AmaticSC)",
+          },
+          {
+            family_name: "Amatic SC",
+            style: "Bold",
+            full_name: "Amatic SC Bold",
+            post_script_name: "AmaticSC-Bold",
+            version: "2.505",
+            filename: "AmaticSC-Bold.ttf",
+            copyright: "Copyright 2015 The Amatic SC Project Authors (https://github.com/googlefonts/AmaticSC)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

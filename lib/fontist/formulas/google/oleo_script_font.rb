@@ -12,10 +12,29 @@ module Fontist
         sha256 "4ad1a7b4c48a3e65312f1af86789da5b4dff892ae371c05fb6cbf33e1b1a6861"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OleoScript-Regular.ttf",
-        "Bold" => "OleoScript-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oleo Script",
+            style: "Regular",
+            full_name: "Oleo Script",
+            post_script_name: "OleoScript-Regular",
+            version: "1.002",
+            filename: "OleoScript-Regular.ttf",
+            copyright: "Copyright (c) 2012, Soytutype (contact@soytutype.com.ar|soytutype@gmail.com), with reserved fontname 'Oleo'",
+          },
+          {
+            family_name: "Oleo Script",
+            style: "Bold",
+            full_name: "Oleo Script Bold",
+            post_script_name: "OleoScript-Bold",
+            version: "1.002",
+            filename: "OleoScript-Bold.ttf",
+            copyright: "Copyright (c) 2012, Soytutype (contact@soytutype.com.ar|soytutype@gmail.com), with reserved fontname 'Oleo'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

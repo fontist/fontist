@@ -6,5 +6,6 @@ module Fontist
     class TamperedFileError < StandardError; end
     class InvalidResourceError < StandardError; end
     class TimeoutError < StandardError; end
+    class MissingAttributeError < StandardError; end
   end
 end

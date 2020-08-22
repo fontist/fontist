@@ -12,9 +12,20 @@ module Fontist
         sha256 "321193559633b78109a2a659c6fd9aa59e35944ceeff6621fa7542ac0313afa6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AllertaStencil-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Allerta Stencil",
+            style: "Regular",
+            full_name: "Allerta Stencil Regular",
+            post_script_name: "AllertaStencil-Regular",
+            version: "1.02",
+            filename: "AllertaStencil-Regular.ttf",
+            copyright: "Copyright (c) 2009, Matt McInerney <matt@pixelspread.com> with Reserved Font Name Allerta.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

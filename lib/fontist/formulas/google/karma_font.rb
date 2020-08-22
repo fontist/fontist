@@ -12,13 +12,56 @@ module Fontist
         sha256 "0fa0e6c531a3a607596ff553a95e5abd6f50aafed0d66bf462396dc0005d5be3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Karma-Light.ttf",
-        "Regular" => "Karma-Regular.ttf",
-        "Medium" => "Karma-Medium.ttf",
-        "SemiBold" => "Karma-SemiBold.ttf",
-        "Bold" => "Karma-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Karma",
+            style: "Light",
+            full_name: "Karma Light",
+            post_script_name: "Karma-Light",
+            version: "1.202;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Karma-Light.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Karma",
+            style: "Regular",
+            full_name: "Karma Regular",
+            post_script_name: "Karma-Regular",
+            version: "1.202;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Karma-Regular.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Karma",
+            style: "Medium",
+            full_name: "Karma Medium",
+            post_script_name: "Karma-Medium",
+            version: "1.202;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Karma-Medium.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Karma",
+            style: "SemiBold",
+            full_name: "Karma SemiBold",
+            post_script_name: "Karma-SemiBold",
+            version: "1.202;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Karma-SemiBold.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+          {
+            family_name: "Karma",
+            style: "Bold",
+            full_name: "Karma Bold",
+            post_script_name: "Karma-Bold",
+            version: "1.202;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Karma-Bold.ttf",
+            copyright: "Copyright 2014 Indian Type Foundry. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

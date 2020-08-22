@@ -12,12 +12,47 @@ module Fontist
         sha256 "53001bd8c2d1d2ef9720dfba3bad1b8ba5ccd6d7d601f74d6c4ec754667d9286"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Thabit.ttf",
-        "Oblique" => "Thabit-Oblique.ttf",
-        "Bold" => "Thabit-Bold.ttf",
-        "BoldOblique" => "Thabit-BoldOblique.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Thabit",
+            style: "Regular",
+            full_name: "Thabit",
+            post_script_name: "Thabit",
+            version: "0.01",
+            filename: "Thabit.ttf",
+            copyright: "Typeface and data (C) 2002-2008, Khaled Hosny.This font is distributed under the terms of OFL license. Latin glyphs are Copyright (c) IBM Corporation 1990,1991.",
+          },
+          {
+            family_name: "Thabit",
+            style: "Oblique",
+            full_name: "Thabit-Oblique Oblique",
+            post_script_name: "Thabit-Oblique",
+            version: "0.01",
+            filename: "Thabit-Oblique.ttf",
+            copyright: "Typeface and data (C) 2002-2008, Khaled Hosny.This font is distributed under the terms of OFL license. Latin glyphs are Copyright (c) IBM Corporation 1990,1991.",
+          },
+          {
+            family_name: "Thabit",
+            style: "Bold",
+            full_name: "Thabit-Bold Bold",
+            post_script_name: "Thabit-Bold",
+            version: "0.01",
+            filename: "Thabit-Bold.ttf",
+            copyright: "Typeface and data (C) 2002-2008, Khaled Hosny. This font is distributed under the terms of OFL license. Latin glyphs are Copyright (c) IBM Corporation 1990,1991.",
+          },
+          {
+            family_name: "Thabit",
+            style: "Bold Oblique",
+            full_name: "Thabit-Bold-Oblique Bold Oblique",
+            post_script_name: "Thabit-Bold-Oblique",
+            version: "0.01",
+            filename: "Thabit-BoldOblique.ttf",
+            copyright: "Typeface and data (C) 2002-2008, Khaled Hosny. This font is distributed under the terms of OFL license. Latin glyphs are Copyright (c) IBM Corporation 1990,1991.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

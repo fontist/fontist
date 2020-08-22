@@ -12,9 +12,20 @@ module Fontist
         sha256 "0b5bbf7848e5898350129e1372674670ced4e59bf05c31b2d382ed661f8686b4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Shojumaru-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Shojumaru",
+            style: "Regular",
+            full_name: "Shojumaru",
+            post_script_name: "Shojumaru-Regular",
+            version: "1.001",
+            filename: "Shojumaru-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Name \"Shojumaru\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

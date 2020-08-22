@@ -12,12 +12,47 @@ module Fontist
         sha256 "6f2af0aceb18ea6d4caa2a777b7c94df99f0efb5a072ab30199129ab28e6017b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Rambla-Regular.ttf",
-        "Italic" => "Rambla-Italic.ttf",
-        "Bold" => "Rambla-Bold.ttf",
-        "BoldItalic" => "Rambla-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rambla",
+            style: "Regular",
+            full_name: "Rambla",
+            post_script_name: "Rambla-Regular",
+            version: "1.001",
+            filename: "Rambla-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rambla'",
+          },
+          {
+            family_name: "Rambla",
+            style: "Italic",
+            full_name: "Rambla Italic",
+            post_script_name: "Rambla-Italic",
+            version: "1.001",
+            filename: "Rambla-Italic.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rambla'",
+          },
+          {
+            family_name: "Rambla",
+            style: "Bold",
+            full_name: "Rambla Bold",
+            post_script_name: "Rambla-Bold",
+            version: "1.001",
+            filename: "Rambla-Bold.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rambla'",
+          },
+          {
+            family_name: "Rambla",
+            style: "Bold Italic",
+            full_name: "Rambla Bold Italic",
+            post_script_name: "Rambla-BoldItalic",
+            version: "1.001",
+            filename: "Rambla-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011-2012, Martin Sommaruga (martin@estudiotrama.com), with Reserved Font Name 'Rambla'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

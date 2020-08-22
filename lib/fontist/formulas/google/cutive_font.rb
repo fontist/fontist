@@ -12,9 +12,20 @@ module Fontist
         sha256 "517d65f7adaa57148fe281c342a9381e46beff040f71c599066ba65954ce9cf9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cutive-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cutive",
+            style: "Regular",
+            full_name: "Cutive",
+            post_script_name: "Cutive-Regular",
+            version: "1.002",
+            filename: "Cutive-Regular.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Cutive\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

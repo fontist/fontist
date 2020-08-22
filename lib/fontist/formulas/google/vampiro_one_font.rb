@@ -12,9 +12,21 @@ module Fontist
         sha256 "5bce01cf328cb1297a18a944fb5ff956a9b631ba74d56e735cf97a1a2fd1ec6b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VampiroOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vampiro One",
+            style: "Regular",
+            full_name: "Vampiro One",
+            post_script_name: "VampiroOne-Regular",
+            version: "1.002",
+            description: "Vampiro is a low contrast script font. It was inspired by the 20th C. Italian tradition of monoline scripts. Vampiro is best used for display purposes at medium to large sizes.",
+            filename: "VampiroOne-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Sorkin Type Co (www.sorkintype.com), with Reserved Font Name 'Vampiro'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

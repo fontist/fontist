@@ -12,9 +12,20 @@ module Fontist
         sha256 "6fabad9bfc199f64863641874a59bf36978baab4e89fab5e8e738681d95afd52"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PirataOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pirata One",
+            style: "Regular",
+            full_name: "Pirata One",
+            post_script_name: "PirataOne-Regular",
+            version: "1.001",
+            filename: "PirataOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Rodrigo Fuenzalida, Nicolas Massi (www.taip.com.ar / abc.taip.com.ar), with Reserved Font Name 'Pirata'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

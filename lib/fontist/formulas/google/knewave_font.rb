@@ -12,9 +12,20 @@ module Fontist
         sha256 "9be82f15f36f921079f5f60d243b8e528c2ca897cc92b51ccaa97b6b4bd8780d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Knewave-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Knewave",
+            style: "Regular",
+            full_name: "Knewave",
+            post_script_name: "Knewave-Regular",
+            version: "1.001",
+            filename: "Knewave-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Tyler Finck. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

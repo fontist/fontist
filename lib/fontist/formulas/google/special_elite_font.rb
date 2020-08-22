@@ -12,9 +12,21 @@ module Fontist
         sha256 "fd2d25b09da96ba77b4a11141cdaffbfeb18f6788ef787f5b7cbfec1a0abfdc7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SpecialElite-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Special Elite",
+            style: "Regular",
+            full_name: "Special Elite Regular",
+            post_script_name: "SpecialElite-Regular",
+            version: "1.001",
+            filename: "SpecialElite-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

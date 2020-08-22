@@ -12,11 +12,38 @@ module Fontist
         sha256 "e4939f218c8e66013a9066f8fa48e5934279611f554f93fdc04ac6009cf4e585"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PassionOne-Regular.ttf",
-        "Bold" => "PassionOne-Bold.ttf",
-        "Black" => "PassionOne-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Passion One",
+            style: "Regular",
+            full_name: "Passion One Regular",
+            post_script_name: "PassionOne-Regular",
+            version: "1.002",
+            filename: "PassionOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Passion\"",
+          },
+          {
+            family_name: "Passion One",
+            style: "Bold",
+            full_name: "Passion One Bold",
+            post_script_name: "PassionOne-Bold",
+            version: "1.002",
+            filename: "PassionOne-Bold.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Passion\"",
+          },
+          {
+            family_name: "Passion One",
+            style: "Black",
+            full_name: "Passion One Black",
+            post_script_name: "PassionOne-Black",
+            version: "1.002",
+            filename: "PassionOne-Black.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Passion\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

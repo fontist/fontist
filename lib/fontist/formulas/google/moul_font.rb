@@ -12,9 +12,20 @@ module Fontist
         sha256 "4a008aaf307c3d6fb6ef886f25afe69c9ffb12f29b9bcce0bd993e13acac7ed5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Moul.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Moul",
+            style: "Regular",
+            full_name: "Moul",
+            post_script_name: "Moul",
+            version: "6.00 December 28, 2010",
+            filename: "Moul.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

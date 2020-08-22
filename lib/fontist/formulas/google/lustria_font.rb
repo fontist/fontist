@@ -12,9 +12,20 @@ module Fontist
         sha256 "6be3145d847986c2fbcb076fcb16ab69853457020047a2472d9d5f49ae46b775"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lustria-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lustria",
+            style: "Regular",
+            full_name: "Lustria",
+            post_script_name: "Lustria-Regular",
+            version: "001.001",
+            filename: "Lustria-Regular.ttf",
+            copyright: "Copyright (c) 2011, Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name Lustria",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

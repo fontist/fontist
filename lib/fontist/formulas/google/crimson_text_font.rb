@@ -12,14 +12,65 @@ module Fontist
         sha256 "b6cf9d8f697b512c1bb2e2c61463c558e5a6b453a0fd7c0c7ad5e18a9b2bf5c2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CrimsonText-Regular.ttf",
-        "Italic" => "CrimsonText-Italic.ttf",
-        "SemiBold" => "CrimsonText-SemiBold.ttf",
-        "SemiBoldItalic" => "CrimsonText-SemiBoldItalic.ttf",
-        "Bold" => "CrimsonText-Bold.ttf",
-        "BoldItalic" => "CrimsonText-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Crimson Text",
+            style: "Regular",
+            full_name: "Crimson Text Regular",
+            post_script_name: "CrimsonText-Regular",
+            version: "0.13",
+            filename: "CrimsonText-Regular.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+          {
+            family_name: "Crimson Text",
+            style: "Italic",
+            full_name: "Crimson Text Italic",
+            post_script_name: "CrimsonText-Italic",
+            version: "0.12",
+            filename: "CrimsonText-Italic.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+          {
+            family_name: "Crimson Text",
+            style: "SemiBold",
+            full_name: "Crimson Text SemiBold",
+            post_script_name: "CrimsonText-SemiBold",
+            version: "0.12",
+            filename: "CrimsonText-SemiBold.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+          {
+            family_name: "Crimson Text",
+            style: "SemiBold Italic",
+            full_name: "Crimson Text SemiBold Italic",
+            post_script_name: "CrimsonText-SemiBoldItalic",
+            version: "0.12",
+            filename: "CrimsonText-SemiBoldItalic.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+          {
+            family_name: "Crimson Text",
+            style: "Bold",
+            full_name: "Crimson Text Bold",
+            post_script_name: "CrimsonText-Bold",
+            version: "0.12",
+            filename: "CrimsonText-Bold.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+          {
+            family_name: "Crimson Text",
+            style: "Bold Italic",
+            full_name: "Crimson Text Bold Italic",
+            post_script_name: "CrimsonText-BoldItalic",
+            version: "0.12",
+            filename: "CrimsonText-BoldItalic.ttf",
+            copyright: "Copyright (c) 2010, Sebastian Kosch (sebastian@aldusleaf.org),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

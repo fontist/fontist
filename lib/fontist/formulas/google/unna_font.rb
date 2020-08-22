@@ -12,12 +12,47 @@ module Fontist
         sha256 "51e62441c2ed338705f75d6d7842be7a936f5a4db87d3980c65836336e5077a6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Unna-Regular.ttf",
-        "Italic" => "Unna-Italic.ttf",
-        "Bold" => "Unna-Bold.ttf",
-        "BoldItalic" => "Unna-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Unna",
+            style: "Regular",
+            full_name: "Unna Regular",
+            post_script_name: "Unna-Regular",
+            version: "2.007; ttfautohint (v1.5)",
+            filename: "Unna-Regular.ttf",
+            copyright: "Copyright 2016 The Unna Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Unna",
+            style: "Italic",
+            full_name: "Unna Italic",
+            post_script_name: "Unna-Italic",
+            version: "2.007; ttfautohint (v1.5)",
+            filename: "Unna-Italic.ttf",
+            copyright: "Copyright 2016 The Unna Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Unna",
+            style: "Bold",
+            full_name: "Unna Bold",
+            post_script_name: "Unna-Bold",
+            version: "2.007; ttfautohint (v1.5)",
+            filename: "Unna-Bold.ttf",
+            copyright: "Copyright 2016 The Unna Project Authors (omnibus.type@gmail.com)",
+          },
+          {
+            family_name: "Unna",
+            style: "Bold Italic",
+            full_name: "Unna Bold Italic",
+            post_script_name: "Unna-BoldItalic",
+            version: "2.007; ttfautohint (v1.5)",
+            filename: "Unna-BoldItalic.ttf",
+            copyright: "Copyright 2016 The Unna Project Authors (omnibus.type@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

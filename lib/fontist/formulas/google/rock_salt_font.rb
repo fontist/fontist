@@ -12,9 +12,20 @@ module Fontist
         sha256 "a14f6a56752eeab049472a9ac59cfbc6767d69bc19df79053b1a499a6b1aff35"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RockSalt-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rock Salt",
+            style: "Regular",
+            full_name: "Rock Salt Regular",
+            post_script_name: "RockSalt-Regular",
+            version: "1.001",
+            filename: "RockSalt-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

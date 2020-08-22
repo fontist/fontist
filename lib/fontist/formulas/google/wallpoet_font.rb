@@ -12,9 +12,21 @@ module Fontist
         sha256 "3cbd24f6398367c60d85067777e218410b126cf7de0c547e707d28ec0b88c115"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Wallpoet-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Wallpoet",
+            style: "Regular",
+            full_name: "Wallpoet",
+            post_script_name: "Wallpoet",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Lars Berggren. All rights reserved.",
+            filename: "Wallpoet-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Lars Berggren. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

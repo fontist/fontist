@@ -12,9 +12,20 @@ module Fontist
         sha256 "b0cfcf3f5a27a4cc17cefc802901a34f1e6920627fa3769de7c4fc2cc6de13e6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Chenla.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chenla",
+            style: "Regular",
+            full_name: "Chenla",
+            post_script_name: "Chenla",
+            version: "6.00 December 28, 2010",
+            filename: "Chenla.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

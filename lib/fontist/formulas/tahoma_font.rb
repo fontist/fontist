@@ -13,10 +13,31 @@ module Fontist
         sha256 "c1be3fb8f0042570be76ec6daa03a99142c88367c1bc810240b85827c715961a"
       end
 
-      provides_font("Tahoma", match_styles_from_file: {
-        "Regular" => "tahoma.ttf",
-        "Bold" => "tahomabd.ttf"
-      })
+      provides_font(
+        "Tahoma",
+        match_styles_from_file: [
+          {
+            family_name: "Tahoma",
+            style: "Regular",
+            full_name: "Tahoma",
+            post_script_name: "Tahoma",
+            version: "2.60",
+            description: "Tahoma is one of Microsoft's new sans serif typeface families. It consists of two Windows TrueType fonts (regular and bold), and was created to address the challenges of on-screen display, particularly at small sizes in dialog boxes and menus.",
+            filename: "tahoma.ttf",
+            copyright: "Typeface and data © 1995-1999 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Tahoma",
+            style: "Bold",
+            full_name: "Tahoma Bold",
+            post_script_name: "Tahoma-Bold",
+            version: "2.60",
+            description: "Tahoma is one of Microsoft's new sans serif typeface families. It consists of two Windows TrueType fonts (regular and bold), and was created to address the challenges of on-screen display, particularly at small sizes in dialog boxes and menus.",
+            filename: "tahomabd.ttf",
+            copyright: "Typeface and data © 1995-1999 Microsoft Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("IELPKTH.CAB") do |resource|

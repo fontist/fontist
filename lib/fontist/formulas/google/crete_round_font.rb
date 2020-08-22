@@ -12,10 +12,29 @@ module Fontist
         sha256 "695a78fafccec514518d25bf1977b1fca495d46002718cbac1dc2e9a9a5bcdcb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CreteRound-Regular.ttf",
-        "Italic" => "CreteRound-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Crete Round",
+            style: "Regular",
+            full_name: "Crete Round",
+            post_script_name: "CreteRound-Regular",
+            version: "1.001",
+            filename: "CreteRound-Regular.ttf",
+            copyright: "Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Crete\" and \"Crete Round\"",
+          },
+          {
+            family_name: "Crete Round",
+            style: "Italic",
+            full_name: "Crete Round Italic",
+            post_script_name: "CreteRound-Italic",
+            version: "1.001",
+            filename: "CreteRound-Italic.ttf",
+            copyright: "Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Crete\" and \"Crete Round\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

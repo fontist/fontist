@@ -12,9 +12,20 @@ module Fontist
         sha256 "b576d303c637502fb9472860adbde621f6b5936fa722377e97700056b8d39a75"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GamjaFlower-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gamja Flower",
+            style: "Regular",
+            full_name: "Gamja Flower Regular",
+            post_script_name: "GamjaFlower-Regular",
+            version: "3.00;build 20171102",
+            filename: "GamjaFlower-Regular.ttf",
+            copyright: "Copyright (c) YoonDesign Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

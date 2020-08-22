@@ -12,9 +12,21 @@ module Fontist
         sha256 "5ee4f5dad230f729dc11b31cdeac239abc407e6b9f730ada5aed90630e7582ca"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EmblemaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Emblema One",
+            style: "Regular",
+            full_name: "Emblema One",
+            post_script_name: "EmblemaOne-Regular",
+            version: "1.003",
+            description: "Emblema One is inspired by UK Victorian era bold italic display type. It breaks from tradition by using a stenciled kind of construction. The stencil style too is atypical and gives the font its distinctive feeling. Emblema One has been made for display purposes and should be used from medium to large sizes.",
+            filename: "EmblemaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Sorkin Type Co with Reserved Font Names \"Emblema\" and \"Emblema One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

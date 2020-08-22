@@ -12,15 +12,74 @@ module Fontist
         sha256 "7c1a99126aa1995749e9caa09724e2781fdefa6c5327223325a0347f444929c4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "InknutAntiqua-Light.ttf",
-        "Regular" => "InknutAntiqua-Regular.ttf",
-        "Medium" => "InknutAntiqua-Medium.ttf",
-        "SemiBold" => "InknutAntiqua-SemiBold.ttf",
-        "Bold" => "InknutAntiqua-Bold.ttf",
-        "ExtraBold" => "InknutAntiqua-ExtraBold.ttf",
-        "Black" => "InknutAntiqua-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Inknut Antiqua",
+            style: "Light",
+            full_name: "Inknut Antiqua Light",
+            post_script_name: "InknutAntiqua-Light",
+            version: "1.003",
+            filename: "InknutAntiqua-Light.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "Regular",
+            full_name: "Inknut Antiqua Regular",
+            post_script_name: "InknutAntiqua-Regular",
+            version: "1.003",
+            filename: "InknutAntiqua-Regular.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "Medium",
+            full_name: "Inknut Antiqua Medium",
+            post_script_name: "InknutAntiqua-Medium",
+            version: "1.003",
+            filename: "InknutAntiqua-Medium.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "SemiBold",
+            full_name: "Inknut Antiqua SemiBold",
+            post_script_name: "InknutAntiqua-SemiBold",
+            version: "1.003",
+            filename: "InknutAntiqua-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "Bold",
+            full_name: "Inknut Antiqua Bold",
+            post_script_name: "InknutAntiqua-Bold",
+            version: "1.003",
+            filename: "InknutAntiqua-Bold.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "ExtraBold",
+            full_name: "Inknut Antiqua ExtraBold",
+            post_script_name: "InknutAntiqua-ExtraBold",
+            version: "1.003",
+            filename: "InknutAntiqua-ExtraBold.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+          {
+            family_name: "Inknut Antiqua",
+            style: "Black",
+            full_name: "Inknut Antiqua Black",
+            post_script_name: "InknutAntiqua-Black",
+            version: "1.003",
+            filename: "InknutAntiqua-Black.ttf",
+            copyright: "Copyright (c) 2014 by Claus Eggers Sørensen (es@forthehearts.net).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

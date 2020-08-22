@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MarkaziText[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Markazi Text",
+            style: "Regular",
+            full_name: "Markazi Text Regular",
+            post_script_name: "MarkaziText-Regular",
+            version: "1.000",
+            filename: "MarkaziText[wght].ttf",
+            copyright: "Copyright 2017 The Markazi Text Authors (https://github.com/BornaIz/markazitext)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

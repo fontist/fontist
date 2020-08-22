@@ -12,9 +12,21 @@ module Fontist
         sha256 "0610436145c3d635710fc26ed45b5c301e4c306cff07d3c3aba871f3521012a1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Parisienne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Parisienne",
+            style: "Regular",
+            full_name: "Parisienne",
+            post_script_name: "Parisienne-Regular",
+            version: "1.000",
+            filename: "Parisienne-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Parisienne\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

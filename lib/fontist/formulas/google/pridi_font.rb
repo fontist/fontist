@@ -12,14 +12,65 @@ module Fontist
         sha256 "334ab4a297ecf198e0c9dfbbc2ec762bea1fa361f587fff097219baf2b6d3fe2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Pridi-ExtraLight.ttf",
-        "Light" => "Pridi-Light.ttf",
-        "Regular" => "Pridi-Regular.ttf",
-        "Medium" => "Pridi-Medium.ttf",
-        "SemiBold" => "Pridi-SemiBold.ttf",
-        "Bold" => "Pridi-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Pridi",
+            style: "ExtraLight",
+            full_name: "Pridi ExtraLight",
+            post_script_name: "Pridi-ExtraLight",
+            version: "1.001",
+            filename: "Pridi-ExtraLight.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Pridi",
+            style: "Light",
+            full_name: "Pridi Light",
+            post_script_name: "Pridi-Light",
+            version: "1.003",
+            filename: "Pridi-Light.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Pridi",
+            style: "Regular",
+            full_name: "Pridi Regular",
+            post_script_name: "Pridi-Regular",
+            version: "1.001",
+            filename: "Pridi-Regular.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Pridi",
+            style: "Medium",
+            full_name: "Pridi Medium",
+            post_script_name: "Pridi-Medium",
+            version: "1.001",
+            filename: "Pridi-Medium.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Pridi",
+            style: "SemiBold",
+            full_name: "Pridi SemiBold",
+            post_script_name: "Pridi-SemiBold",
+            version: "1.001",
+            filename: "Pridi-SemiBold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+          {
+            family_name: "Pridi",
+            style: "Bold",
+            full_name: "Pridi Bold",
+            post_script_name: "Pridi-Bold",
+            version: "1.001",
+            filename: "Pridi-Bold.ttf",
+            copyright: "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

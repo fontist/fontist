@@ -12,14 +12,65 @@ module Fontist
         sha256 "1ab80602bbb936c167d5c1c4024708da3120bc427a82a8e9f3bbb3810674cde6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "TurretRoad-ExtraLight.ttf",
-        "Light" => "TurretRoad-Light.ttf",
-        "Regular" => "TurretRoad-Regular.ttf",
-        "Medium" => "TurretRoad-Medium.ttf",
-        "Bold" => "TurretRoad-Bold.ttf",
-        "ExtraBold" => "TurretRoad-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Turret Road",
+            style: "ExtraLight",
+            full_name: "Turret Road ExtraLight",
+            post_script_name: "TurretRoad-ExtraLight",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-ExtraLight.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+          {
+            family_name: "Turret Road",
+            style: "Light",
+            full_name: "Turret Road Light",
+            post_script_name: "TurretRoad-Light",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-Light.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+          {
+            family_name: "Turret Road",
+            style: "Regular",
+            full_name: "Turret Road Regular",
+            post_script_name: "TurretRoad-Regular",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-Regular.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+          {
+            family_name: "Turret Road",
+            style: "Medium",
+            full_name: "Turret Road Medium",
+            post_script_name: "TurretRoad-Medium",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-Medium.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+          {
+            family_name: "Turret Road",
+            style: "Bold",
+            full_name: "Turret Road Bold",
+            post_script_name: "TurretRoad-Bold",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-Bold.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+          {
+            family_name: "Turret Road",
+            style: "ExtraBold",
+            full_name: "Turret Road ExtraBold",
+            post_script_name: "TurretRoad-ExtraBold",
+            version: "1.001; ttfautohint (v1.8)",
+            filename: "TurretRoad-ExtraBold.ttf",
+            copyright: "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

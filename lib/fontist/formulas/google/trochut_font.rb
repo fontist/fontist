@@ -12,11 +12,38 @@ module Fontist
         sha256 "be2a31500221e839010d03163746267a60da6c30f74f342e335b733c656982c5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Trochut-Regular.ttf",
-        "Italic" => "Trochut-Italic.ttf",
-        "Bold" => "Trochut-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Trochut",
+            style: "Regular",
+            full_name: "Trochut",
+            post_script_name: "Trochut",
+            version: "1.001",
+            filename: "Trochut-Regular.ttf",
+            copyright: "Copyright (c) 2011, Andreu Balius (www.andreubalius.com|mail@andreubalius.com), with Reserved Font Name Trochut",
+          },
+          {
+            family_name: "Trochut",
+            style: "Italic",
+            full_name: "Trochut Italic",
+            post_script_name: "Trochut-Italic",
+            version: "1.001",
+            filename: "Trochut-Italic.ttf",
+            copyright: "Copyright (c) 2011, Andreu Balius (www.andreubalius.com|mail@andreubalius.com), with Reserved Font Name Trochut",
+          },
+          {
+            family_name: "Trochut",
+            style: "Bold",
+            full_name: "Trochut Bold",
+            post_script_name: "Trochut-Bold",
+            version: "1.001",
+            filename: "Trochut-Bold.ttf",
+            copyright: "Copyright (c) 2011, Andreu Balius (www.andreubalius.com|mail@andreubalius.com), with Reserved Font Name Trochut",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

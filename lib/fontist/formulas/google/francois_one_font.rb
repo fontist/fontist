@@ -12,9 +12,20 @@ module Fontist
         sha256 "463499a23c63b4455766c1449f7c96b96d63d5c7bdcf463fdb5271cdc23faaa8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FrancoisOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Francois One",
+            style: "Regular",
+            full_name: "Francois One Regular",
+            post_script_name: "FrancoisOne-Regular",
+            version: "2.000",
+            filename: "FrancoisOne-Regular.ttf",
+            copyright: "Copyright 2011 The Francois One Project Authors (contact@sansoxygen.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

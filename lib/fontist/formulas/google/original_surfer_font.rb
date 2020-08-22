@@ -12,9 +12,21 @@ module Fontist
         sha256 "da8d8b4fe971ca8168e7a3740fd7855efe2742762e35275c6c351490acff2ada"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OriginalSurfer-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Original Surfer",
+            style: "Regular",
+            full_name: "Original Surfer",
+            post_script_name: "OriginalSurfer-Regular",
+            version: "1.001",
+            filename: "OriginalSurfer-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Original Surfer\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

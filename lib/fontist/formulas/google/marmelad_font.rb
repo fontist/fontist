@@ -12,9 +12,20 @@ module Fontist
         sha256 "63a745e45c15c079965ef2680da5f52c52d6e2312de9dc4d30505a959ba4d732"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Marmelad-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Marmelad",
+            style: "Regular",
+            full_name: "Marmelad Regular",
+            post_script_name: "Marmelad-Regular",
+            version: "1.100",
+            filename: "Marmelad-Regular.ttf",
+            copyright: "Copyright 2016 The Marmelad Project Authors (manveltype@gmail.com), with Reserved Font Name \"Marmelad\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "3e7f3c889502172ae8559dd993c9ec1d89be397597218b25f97ac6444f665fd7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "HindVadodara-Light.ttf",
-        "Regular" => "HindVadodara-Regular.ttf",
-        "Medium" => "HindVadodara-Medium.ttf",
-        "SemiBold" => "HindVadodara-SemiBold.ttf",
-        "Bold" => "HindVadodara-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hind Vadodara",
+            style: "Light",
+            full_name: "Hind Vadodara Light",
+            post_script_name: "HindVadodara-Light",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f gujr -w G -W -c -X \"\"",
+            filename: "HindVadodara-Light.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Vadodara",
+            style: "Regular",
+            full_name: "Hind Vadodara Regular",
+            post_script_name: "HindVadodara-Regular",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f gujr -w G -W -c -X \"\"",
+            filename: "HindVadodara-Regular.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Vadodara",
+            style: "Medium",
+            full_name: "Hind Vadodara Medium",
+            post_script_name: "HindVadodara-Medium",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f gujr -w G -W -c -X \"\"",
+            filename: "HindVadodara-Medium.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Vadodara",
+            style: "SemiBold",
+            full_name: "Hind Vadodara SemiBold",
+            post_script_name: "HindVadodara-SemiBold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f gujr -w G -W -c -X \"\"",
+            filename: "HindVadodara-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind Vadodara",
+            style: "Bold",
+            full_name: "Hind Vadodara Bold",
+            post_script_name: "HindVadodara-Bold",
+            version: "1.001;PS 1.0;hotconv 1.0.86;makeotf.lib2.5.63406; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f gujr -w G -W -c -X \"\"",
+            filename: "HindVadodara-Bold.ttf",
+            copyright: "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

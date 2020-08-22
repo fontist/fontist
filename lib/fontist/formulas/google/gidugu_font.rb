@@ -12,9 +12,20 @@ module Fontist
         sha256 "6f5b04fbfa380dce90a761ba33b7eefe14ce2582cd18ee082b394f5bdb46a873"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gidugu-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gidugu",
+            style: "Regular",
+            full_name: "Gidugu",
+            post_script_name: "Gidugu",
+            version: "1.0.5; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "Gidugu-Regular.ttf",
+            copyright: "Copyright (c) 2012 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2014 Eduardo Tunni (http://www.tipo.net.ar)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

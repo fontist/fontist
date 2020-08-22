@@ -12,11 +12,38 @@ module Fontist
         sha256 "0694c9e96553c689d01558d92cfe4308abece1b5162a99f9499e065ad18439b5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OldStandard-Regular.ttf",
-        "Italic" => "OldStandard-Italic.ttf",
-        "Bold" => "OldStandard-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Old Standard TT",
+            style: "Regular",
+            full_name: "Old Standard TT Regular",
+            post_script_name: "OldStandardTT-Regular",
+            version: "3.000",
+            filename: "OldStandard-Regular.ttf",
+            copyright: "Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)",
+          },
+          {
+            family_name: "Old Standard TT",
+            style: "Italic",
+            full_name: "Old Standard TT Italic",
+            post_script_name: "OldStandardTT-Italic",
+            version: "3.000",
+            filename: "OldStandard-Italic.ttf",
+            copyright: "Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)",
+          },
+          {
+            family_name: "Old Standard TT",
+            style: "Bold",
+            full_name: "Old Standard TT Bold",
+            post_script_name: "OldStandardTT-Bold",
+            version: "3.000",
+            filename: "OldStandard-Bold.ttf",
+            copyright: "Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

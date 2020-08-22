@@ -12,10 +12,29 @@ module Fontist
         sha256 "1e6a3cae7b7169ebcc19967c2f9221f40261d22f01805dfa5ef78aa394386a61"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Poly-Regular.ttf",
-        "Italic" => "Poly-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Poly",
+            style: "Regular",
+            full_name: "Poly-Regular",
+            post_script_name: "Poly-Regular",
+            version: "1.001",
+            filename: "Poly-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Jos Nicols Silva Schwarzenberg.<info@nsilva.com>, with Reserved Font Names \"Poly\".",
+          },
+          {
+            family_name: "Poly",
+            style: "Italic",
+            full_name: "Poly-Italic",
+            post_script_name: "Poly-Italic",
+            version: "1.003",
+            filename: "Poly-Italic.ttf",
+            copyright: "Copyright (c) 2010 by Jos Nicols Silva Schwarzenberg.<info@nsilva.com>, with Reserved Font Names \"Poly\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

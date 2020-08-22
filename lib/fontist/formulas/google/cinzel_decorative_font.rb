@@ -12,11 +12,38 @@ module Fontist
         sha256 "52658c70672b8e5022955316c2ca306250e4e849170f47cd8a65f232854a2556"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CinzelDecorative-Regular.ttf",
-        "Bold" => "CinzelDecorative-Bold.ttf",
-        "Black" => "CinzelDecorative-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cinzel Decorative",
+            style: "Regular",
+            full_name: "Cinzel Decorative Regular",
+            post_script_name: "CinzelDecorative-Regular",
+            version: "1.002;PS 001.002;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "CinzelDecorative-Regular.ttf",
+            copyright: "Copyright © 2012 Natanael Gama (info@ndiscovered.com), with Reserved Font Name 'Cinzel'",
+          },
+          {
+            family_name: "Cinzel Decorative",
+            style: "Bold",
+            full_name: "Cinzel Decorative Bold",
+            post_script_name: "CinzelDecorative-Bold",
+            version: "1.002;PS 001.002;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "CinzelDecorative-Bold.ttf",
+            copyright: "Copyright © 2012 Natanael Gama (info@ndiscovered.com), with Reserved Font Name 'Cinzel'",
+          },
+          {
+            family_name: "Cinzel Decorative",
+            style: "Black",
+            full_name: "Cinzel Decorative Black",
+            post_script_name: "CinzelDecorative-Black",
+            version: "1.002;PS 001.002;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "CinzelDecorative-Black.ttf",
+            copyright: "Copyright © 2012 Natanael Gama (info@ndiscovered.com), with Reserved Font Name 'Cinzel'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

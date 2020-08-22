@@ -12,9 +12,20 @@ module Fontist
         sha256 "a620436b13ca8109f46dd766ec25ea0c1b1ac189ebee00465b46c7c75c508895"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Questrial-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Questrial",
+            style: "Regular",
+            full_name: "Questrial Regular",
+            post_script_name: "Questrial-Regular",
+            version: "2.000; ttfautohint (v1.8.3)",
+            filename: "Questrial-Regular.ttf",
+            copyright: "Copyright 2011 The Questrial Project Authors (https://github.com/googlefonts/questrial)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

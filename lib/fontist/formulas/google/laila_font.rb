@@ -12,13 +12,56 @@ module Fontist
         sha256 "edd7fadfcb2187637e2d8cc03350eeda83104ba39977985d3488a199da20e5ed"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Laila-Light.ttf",
-        "Regular" => "Laila-Regular.ttf",
-        "Medium" => "Laila-Medium.ttf",
-        "SemiBold" => "Laila-SemiBold.ttf",
-        "Bold" => "Laila-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Laila",
+            style: "Light",
+            full_name: "Laila Light",
+            post_script_name: "Laila-Light",
+            version: "1.302;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Laila-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Laila",
+            style: "Regular",
+            full_name: "Laila Regular",
+            post_script_name: "Laila-Regular",
+            version: "1.302;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Laila-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Laila",
+            style: "Medium",
+            full_name: "Laila Medium",
+            post_script_name: "Laila-Medium",
+            version: "1.302;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Laila-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Laila",
+            style: "SemiBold",
+            full_name: "Laila SemiBold",
+            post_script_name: "Laila-SemiBold",
+            version: "1.302;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Laila-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Laila",
+            style: "Bold",
+            full_name: "Laila Bold",
+            post_script_name: "Laila-Bold",
+            version: "1.302;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Laila-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

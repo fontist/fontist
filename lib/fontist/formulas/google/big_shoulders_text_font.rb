@@ -12,16 +12,83 @@ module Fontist
         sha256 "6db5457899f4acd57910ad7a285665eb8f52d8d49ce97a538b1335337846d98d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "BigShouldersText-Thin.ttf",
-        "Light" => "BigShouldersText-Light.ttf",
-        "Regular" => "BigShouldersText-Regular.ttf",
-        "Medium" => "BigShouldersText-Medium.ttf",
-        "SemiBold" => "BigShouldersText-SemiBold.ttf",
-        "Bold" => "BigShouldersText-Bold.ttf",
-        "ExtraBold" => "BigShouldersText-ExtraBold.ttf",
-        "Black" => "BigShouldersText-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Big Shoulders Text",
+            style: "Thin",
+            full_name: "Big Shoulders Text Thin",
+            post_script_name: "BigShouldersText-Thin",
+            version: "1.100",
+            filename: "BigShouldersText-Thin.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "Light",
+            full_name: "Big Shoulders Text Light",
+            post_script_name: "BigShouldersText-Light",
+            version: "1.100",
+            filename: "BigShouldersText-Light.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "Regular",
+            full_name: "Big Shoulders Text Regular",
+            post_script_name: "BigShouldersText-Regular",
+            version: "1.100",
+            filename: "BigShouldersText-Regular.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "Medium",
+            full_name: "Big Shoulders Text Medium",
+            post_script_name: "BigShouldersText-Medium",
+            version: "1.100",
+            filename: "BigShouldersText-Medium.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "SemiBold",
+            full_name: "Big Shoulders Text SemiBold",
+            post_script_name: "BigShouldersText-SemiBold",
+            version: "1.100",
+            filename: "BigShouldersText-SemiBold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "Bold",
+            full_name: "Big Shoulders Text Bold",
+            post_script_name: "BigShouldersText-Bold",
+            version: "1.100",
+            filename: "BigShouldersText-Bold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "ExtraBold",
+            full_name: "Big Shoulders Text ExtraBold",
+            post_script_name: "BigShouldersText-ExtraBold",
+            version: "1.100",
+            filename: "BigShouldersText-ExtraBold.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+          {
+            family_name: "Big Shoulders Text",
+            style: "Black",
+            full_name: "Big Shoulders Text Black",
+            post_script_name: "BigShouldersText-Black",
+            version: "1.100",
+            filename: "BigShouldersText-Black.ttf",
+            copyright: "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "aba9407fd94818752bec7fdd81020bec3d4afadaaaf0a39410fe1e13bb23d38a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Warnes-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Warnes",
+            style: "Regular",
+            full_name: "Warnes",
+            post_script_name: "Warnes-Regular",
+            version: "1.001",
+            description: "The retro look of this typeface reminds us of the metal badges used in the past to show car model names. The family name “Warnes” is the name of a street in the city of Buenos Aires where all the shops are garages selling spare parts.",
+            filename: "Warnes-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Warnes'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

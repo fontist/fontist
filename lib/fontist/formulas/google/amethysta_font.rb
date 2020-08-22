@@ -12,9 +12,25 @@ module Fontist
         sha256 "4b967d6df0b737ee375b49f6aa3d3e2eaf602c553cb1743010e1648accf17ff4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amethysta-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amethysta",
+            style: "Regular",
+            full_name: "Amethysta Regular",
+            post_script_name: "Amethysta-Regular",
+            version: "1.003",
+            filename: "Amethysta-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Amethysta\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,26 @@ module Fontist
         sha256 "47b2bea6498dde55c310de26537362176a5387a921e5a2ccb9f1bcf926c1ee7e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Milonga-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Milonga",
+            style: "Regular",
+            full_name: "Milonga",
+            post_script_name: "Milonga-Regular",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 14 -w \"G\"",
+            description: "Milonga is a Font inspired on ÒtanguerosÓ art.
+This is a tribute to the ÒrioplatenseÓ culture, so colored, full of love and hate, family, friends and enemies stories told in countless Tangos and Milongas (folk music genre from Argentina).
+This graceful, flowing and rhythmic font is conformed by graphic elements from a kind of classic painting from this area called Òfileteado porteoÓ; with terminations involving petals, round and pointy details.
+Milonga is useful for headlines, where the characteristics of font are highlighted.",
+            filename: "Milonga-Regular.ttf",
+            copyright: "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),
+Copyright (c) 2011, Brenda Gallo (gbrenda1987@gmail.com),
+Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name Milonga.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

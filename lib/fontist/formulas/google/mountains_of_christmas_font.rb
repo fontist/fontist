@@ -12,10 +12,29 @@ module Fontist
         sha256 "6f8ab12c75e8452cfb25fae781ec6238200279c40dcb544d8816b4c8c2640dce"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MountainsofChristmas-Regular.ttf",
-        "Bold" => "MountainsofChristmas-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mountains of Christmas",
+            style: "Regular",
+            full_name: "Mountains of Christmas Regular",
+            post_script_name: "MountainsofChristmas-Regular",
+            version: "1.003",
+            filename: "MountainsofChristmas-Regular.ttf",
+            copyright: "Copyright (c) 2010 2011, Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reserved Font Name \"Mountains of Christmas\"",
+          },
+          {
+            family_name: "Mountains of Christmas",
+            style: "Bold",
+            full_name: "Mountains of Christmas Bold",
+            post_script_name: "MountainsofChristmas-Bold",
+            version: "1.003",
+            filename: "MountainsofChristmas-Bold.ttf",
+            copyright: "Copyright (c) 2010 2011, Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reserved Font Name \"Mountains of Christmas\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

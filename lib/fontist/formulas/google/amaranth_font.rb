@@ -12,12 +12,47 @@ module Fontist
         sha256 "a416196e087fc68dc19cfd9043bf30c6a20a248ae999d17dbcbd7de28358db45"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Amaranth-Regular.ttf",
-        "Italic" => "Amaranth-Italic.ttf",
-        "Bold" => "Amaranth-Bold.ttf",
-        "BoldItalic" => "Amaranth-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Amaranth",
+            style: "Regular",
+            full_name: "Amaranth Regular",
+            post_script_name: "Amaranth-Regular",
+            version: "1.001",
+            filename: "Amaranth-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+          },
+          {
+            family_name: "Amaranth",
+            style: "Italic",
+            full_name: "Amaranth Italic",
+            post_script_name: "Amaranth-Italic",
+            version: "1.001",
+            filename: "Amaranth-Italic.ttf",
+            copyright: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+          },
+          {
+            family_name: "Amaranth",
+            style: "Bold",
+            full_name: "Amaranth Bold",
+            post_script_name: "Amaranth-Bold",
+            version: "1.001",
+            filename: "Amaranth-Bold.ttf",
+            copyright: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+          },
+          {
+            family_name: "Amaranth",
+            style: "Bold Italic",
+            full_name: "Amaranth Bold Italic",
+            post_script_name: "Amaranth-BoldItalic",
+            version: "1.001",
+            filename: "Amaranth-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

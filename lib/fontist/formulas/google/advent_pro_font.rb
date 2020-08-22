@@ -12,15 +12,74 @@ module Fontist
         sha256 "54c921aa6490090439c37608a9d8b97439a3fb7bbb3a7ec708c6d5448dfb9ad4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "AdventPro-Thin.ttf",
-        "ExtraLight" => "AdventPro-ExtraLight.ttf",
-        "Light" => "AdventPro-Light.ttf",
-        "Regular" => "AdventPro-Regular.ttf",
-        "Medium" => "AdventPro-Medium.ttf",
-        "SemiBold" => "AdventPro-SemiBold.ttf",
-        "Bold" => "AdventPro-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Advent Pro",
+            style: "Thin",
+            full_name: "Advent Pro Thin",
+            post_script_name: "AdventPro-Thin",
+            version: "2.002",
+            filename: "AdventPro-Thin.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "ExtraLight",
+            full_name: "Advent Pro ExtraLight",
+            post_script_name: "AdventPro-ExtraLight",
+            version: "2.002",
+            filename: "AdventPro-ExtraLight.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "Light",
+            full_name: "Advent Pro Light",
+            post_script_name: "AdventPro-Light",
+            version: "2.002",
+            filename: "AdventPro-Light.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "Regular",
+            full_name: "Advent Pro Regular",
+            post_script_name: "AdventPro-Regular",
+            version: "2.002",
+            filename: "AdventPro-Regular.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "Medium",
+            full_name: "Advent Pro Medium",
+            post_script_name: "AdventPro-Medium",
+            version: "2.002",
+            filename: "AdventPro-Medium.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "SemiBold",
+            full_name: "Advent Pro SemiBold",
+            post_script_name: "AdventPro-SemiBold",
+            version: "2.002",
+            filename: "AdventPro-SemiBold.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+          {
+            family_name: "Advent Pro",
+            style: "Bold",
+            full_name: "Advent Pro Bold",
+            post_script_name: "AdventPro-Bold",
+            version: "2.002",
+            filename: "AdventPro-Bold.ttf",
+            copyright: "Copyright (c) 2008 Andreas Kalpakidis (hello@inderesting.com), with Reserved Font Name \"Advent Pro\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

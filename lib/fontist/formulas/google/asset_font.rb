@@ -12,9 +12,25 @@ module Fontist
         sha256 "09e7bf0b9540846132e78a73164c9a5618a19858dcce86f19fe6fd2ca22b35b1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Asset-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Asset",
+            style: "Regular",
+            full_name: "Asset Regular",
+            post_script_name: "Asset-Regular",
+            version: "1.002",
+            filename: "Asset-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Asset\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

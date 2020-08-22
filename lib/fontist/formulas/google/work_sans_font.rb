@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "WorkSans[wght].ttf",
-        "Italic" => "WorkSans-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Work Sans",
+            style: "Regular",
+            full_name: "Work Sans Regular",
+            post_script_name: "WorkSans-Regular",
+            version: "2.009; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "WorkSans[wght].ttf",
+            copyright: "Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)",
+          },
+          {
+            family_name: "Work Sans",
+            style: "Italic",
+            full_name: "Work Sans Italic",
+            post_script_name: "WorkSans-Italic",
+            version: "2.009; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "WorkSans-Italic[wght].ttf",
+            copyright: "Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

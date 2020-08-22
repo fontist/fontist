@@ -12,9 +12,21 @@ module Fontist
         sha256 "451603d81c842b50d15e1326c22f8578d8878fab73584c9295d942ec1163b0f8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dynalight-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dynalight",
+            style: "Regular",
+            full_name: "Dynalight",
+            post_script_name: "Dynalight-Regular",
+            version: "1.000",
+            filename: "Dynalight-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Dynalight\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

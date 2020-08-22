@@ -12,9 +12,21 @@ module Fontist
         sha256 "d3e8b6d48f0474f03a8c4817a0c76a1f005bbe7fab8ec0168897b12c6b72f563"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DonegalOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Donegal One",
+            style: "Regular",
+            full_name: "Donegal One",
+            post_script_name: "DonegalOne-Regular",
+            version: "1.004",
+            description: "Donegal is a text typeface designed to be highly legible and comfortable when reading screens. Donegal's utility and personality consistently shows from small text sizes to display. Donegal uses the cut interior curve associated with W.A. Dwiggins. This feature is one of many that contribute to Donegal's distinctive and pleasing character.",
+            filename: "DonegalOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Donegal'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,16 +12,91 @@ module Fontist
         sha256 "1bc17bb9033852590cc4cbbcccef0d41559d51a59694a09b192c2f27a74f4725"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gelasio-Regular.ttf",
-        "Italic" => "Gelasio-Italic.ttf",
-        "Medium" => "Gelasio-Medium.ttf",
-        "MediumItalic" => "Gelasio-MediumItalic.ttf",
-        "SemiBold" => "Gelasio-SemiBold.ttf",
-        "SemiBoldItalic" => "Gelasio-SemiBoldItalic.ttf",
-        "Bold" => "Gelasio-Bold.ttf",
-        "BoldItalic" => "Gelasio-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gelasio",
+            style: "Regular",
+            full_name: "Gelasio Regular",
+            post_script_name: "Gelasio-Regular",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-Regular.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "Italic",
+            full_name: "Gelasio Italic",
+            post_script_name: "Gelasio-Italic",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-Italic.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "Medium",
+            full_name: "Gelasio Medium",
+            post_script_name: "Gelasio-Medium",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-Medium.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "Medium Italic",
+            full_name: "Gelasio Medium Italic",
+            post_script_name: "Gelasio-MediumItalic",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-MediumItalic.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "SemiBold",
+            full_name: "Gelasio SemiBold",
+            post_script_name: "Gelasio-SemiBold",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-SemiBold.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "SemiBold Italic",
+            full_name: "Gelasio SemiBold Italic",
+            post_script_name: "Gelasio-SemiBoldItalic",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-SemiBoldItalic.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "Bold",
+            full_name: "Gelasio Bold",
+            post_script_name: "Gelasio-Bold",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-Bold.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+          {
+            family_name: "Gelasio",
+            style: "Bold Italic",
+            full_name: "Gelasio Bold Italic",
+            post_script_name: "Gelasio-BoldItalic",
+            version: "1.006",
+            description: "Gelasio's metrics match Georgia's. Gelasio is a text face based on the Romain du Roi style.",
+            filename: "Gelasio-BoldItalic.ttf",
+            copyright: "Copyright 2019 The Gelasio Project Authors (https://github.com/SorkinType/Gelasio)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

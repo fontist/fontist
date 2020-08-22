@@ -12,9 +12,20 @@ module Fontist
         sha256 "ff493914aab04525950f7f7e68ab51f5c5819b53899bb9ccafeb1c3d553bee4d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PatuaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Patua One",
+            style: "Regular",
+            full_name: "Patua One",
+            post_script_name: "PatuaOne-Regular",
+            version: "1.002",
+            filename: "PatuaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com),  with Reserved Font Names \"Patua\" and \"Patua One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

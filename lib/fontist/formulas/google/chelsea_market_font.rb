@@ -12,9 +12,20 @@ module Fontist
         sha256 "50313b9cb6c3b4a32a350088b384d73bd82c42fef56ff42607aa8ab03e668db1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ChelseaMarket-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Chelsea Market",
+            style: "Regular",
+            full_name: "Chelsea Market",
+            post_script_name: "ChelseaMarket-Regular",
+            version: "1.001",
+            filename: "ChelseaMarket-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reseved Font Name \"Chelsea Market\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

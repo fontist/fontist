@@ -12,9 +12,20 @@ module Fontist
         sha256 "783c5df091d7d86fd92aa581b7efacc478f70d4271e8e9b4298c8da1ac13df48"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NovaScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nova Script",
+            style: "Regular",
+            full_name: "Nova Script Regular",
+            post_script_name: "NovaScript-Regular",
+            version: "2.001",
+            filename: "NovaScript-Regular.ttf",
+            copyright: "Copyright (c) 2011, wmk69 (wmk69@o2.pl)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

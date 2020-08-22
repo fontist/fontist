@@ -12,9 +12,20 @@ module Fontist
         sha256 "772246b056c8f57f35d4826f29b89a39b8cb8f9bb88f937b1af003a8b0727f91"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Anaheim-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Anaheim",
+            style: "Regular",
+            full_name: "Anaheim Regular",
+            post_script_name: "Anaheim-Regular",
+            version: "2.000",
+            filename: "Anaheim-Regular.ttf",
+            copyright: "Copyright 2012 The Anaheim Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

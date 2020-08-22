@@ -12,9 +12,20 @@ module Fontist
         sha256 "82edef239f5b9c3db4d4a320540e2acda8e9a105945eadd651c62e1588681417"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Nosifer-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nosifer",
+            style: "Regular",
+            full_name: "Nosifer",
+            post_script_name: "Nosifer-Regular",
+            version: "001.002",
+            filename: "Nosifer-Regular.ttf",
+            copyright: "Copyright (c) 2011, Typomondo, with Reserved Font Name \"Nosifer\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

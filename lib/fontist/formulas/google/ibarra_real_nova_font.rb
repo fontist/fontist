@@ -12,14 +12,65 @@ module Fontist
         sha256 "09675f34cd576f4474b8df48c5622fd00b7847eb9cc76767a24aeee59f825a67"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IbarraRealNova-Regular.ttf",
-        "Italic" => "IbarraRealNova-Italic.ttf",
-        "SemiBold" => "IbarraRealNova-SemiBold.ttf",
-        "SemiBoldItalic" => "IbarraRealNova-SemiBoldItalic.ttf",
-        "Bold" => "IbarraRealNova-Bold.ttf",
-        "BoldItalic" => "IbarraRealNova-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ibarra Real Nova",
+            style: "Regular",
+            full_name: "Ibarra Real Nova Regular",
+            post_script_name: "IbarraRealNova-Regular",
+            version: "1.015",
+            filename: "IbarraRealNova-Regular.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+          {
+            family_name: "Ibarra Real Nova",
+            style: "Italic",
+            full_name: "Ibarra Real Nova Italic",
+            post_script_name: "IbarraRealNova-Italic",
+            version: "1.015",
+            filename: "IbarraRealNova-Italic.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+          {
+            family_name: "Ibarra Real Nova",
+            style: "SemiBold",
+            full_name: "Ibarra Real Nova SemiBold",
+            post_script_name: "IbarraRealNova-SemiBold",
+            version: "1.015",
+            filename: "IbarraRealNova-SemiBold.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+          {
+            family_name: "Ibarra Real Nova",
+            style: "SemiBold Italic",
+            full_name: "Ibarra Real Nova SemiBold Italic",
+            post_script_name: "IbarraRealNova-SemiBoldItalic",
+            version: "1.015",
+            filename: "IbarraRealNova-SemiBoldItalic.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+          {
+            family_name: "Ibarra Real Nova",
+            style: "Bold",
+            full_name: "Ibarra Real Nova Bold",
+            post_script_name: "IbarraRealNova-Bold",
+            version: "1.015",
+            filename: "IbarraRealNova-Bold.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+          {
+            family_name: "Ibarra Real Nova",
+            style: "Bold Italic",
+            full_name: "Ibarra Real Nova Bold Italic",
+            post_script_name: "IbarraRealNova-BoldItalic",
+            version: "1.015",
+            filename: "IbarraRealNova-BoldItalic.ttf",
+            copyright: "Copyright 2007 The Ibarra Real Nova Project Authors (https://github.com/googlefonts/ibarrareal)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

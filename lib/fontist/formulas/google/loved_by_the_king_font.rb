@@ -12,9 +12,21 @@ module Fontist
         sha256 "b420952223a40c97205d2b50bd8cbef05291a76bf4c5f136d68dc1e9e111cd9f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LovedbytheKing.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Loved by the King",
+            style: "Regular",
+            full_name: "Loved by the King",
+            post_script_name: "LovedbytheKing",
+            version: "1.002 2006",
+            description: "Copyright (c) 2006 by Kimberly Geswein. All rights reserved.",
+            filename: "LovedbytheKing.ttf",
+            copyright: "Copyright (c) 2006 by Kimberly Geswein. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

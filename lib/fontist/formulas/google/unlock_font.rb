@@ -12,9 +12,20 @@ module Fontist
         sha256 "63c5c03a048145acc1ccae08ca6af626354c12f638ad4e39d3848bbc94d4d71d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Unlock-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Unlock",
+            style: "Regular",
+            full_name: "Unlock Regular",
+            post_script_name: "Unlock-Regular",
+            version: "1.002",
+            filename: "Unlock-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Unlock\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

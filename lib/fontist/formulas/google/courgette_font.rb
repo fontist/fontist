@@ -12,9 +12,21 @@ module Fontist
         sha256 "2091cdd4e397379220ffcf6184ff839e12a22667b582e9534ccf3e5c8630a60e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Courgette-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Courgette",
+            style: "Regular",
+            full_name: "Courgette Regular",
+            post_script_name: "Courgette-Regular",
+            version: "1.002",
+            description: "Courgette is a medium low contrast brushy italic script type. A brushy italic style is traditionally for display and unsurprisingly Courgette works well in display. However Courgette's low contrast and carefully made forms mean that it also works well in smaller sizes and even in massed text.",
+            filename: "Courgette-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name \"Courgette\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "acf2c4db5586cb75292c1fdc7cee82a7fe76d15f18ad06afb13830c1f39da0bf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Oranienbaum-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oranienbaum",
+            style: "Regular",
+            full_name: "Oranienbaum",
+            post_script_name: "Oranienbaum-Regular",
+            version: "1.001; ttfautohint (v0.91) -l 8 -r 50 -G 200 -x 0 -w \"gGD\"",
+            filename: "Oranienbaum-Regular.ttf",
+            copyright: "Copyright (c) 2012, Oleg Pospelov (oleg@pospelov.com), Jovanny Lemonad (lemonad@jovanny.ru), with Reserved Font Name 'Oranienbaum'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

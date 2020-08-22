@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JosefinSans[wght].ttf",
-        "Italic" => "JosefinSans-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Josefin Sans",
+            style: "Thin",
+            full_name: "Josefin Sans Thin",
+            post_script_name: "JosefinSans-Thin",
+            version: "2.000",
+            filename: "JosefinSans[wght].ttf",
+            copyright: "Copyright 2010 The Josefin Sans Project Authors (https://github.com/ThomasJockin/JosefinSansFont-master), with Reserved Font Name \"Josefin Sans\".",
+          },
+          {
+            family_name: "Josefin Sans",
+            style: "Thin Italic",
+            full_name: "Josefin Sans Thin Italic",
+            post_script_name: "JosefinSans-ThinItalic",
+            version: "2.000",
+            filename: "JosefinSans-Italic[wght].ttf",
+            copyright: "Copyright 2010 The Josefin Sans Project Authors (https://github.com/ThomasJockin/JosefinSansFont-master), with Reserved Font Name \"Josefin Sans\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

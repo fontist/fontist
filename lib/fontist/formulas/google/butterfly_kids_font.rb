@@ -12,9 +12,20 @@ module Fontist
         sha256 "a371e5dda6d08ca32dea9aa799f50049b1bfde6f7bdb40a24efac08f8c2d6110"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ButterflyKids-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Butterfly Kids",
+            style: "Regular",
+            full_name: "Butterfly Kids Regular",
+            post_script_name: "ButterflyKids-Regular",
+            version: "1.001",
+            filename: "ButterflyKids-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reseved Font Name \"Butterfly Kids\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

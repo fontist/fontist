@@ -12,10 +12,31 @@ module Fontist
         sha256 "60c87e9a5bccb9f9ef2191b9b5c9a2fc4f03ef5c5c1e2bed90e46a13b409050c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFeGPrm28P.ttf",
-        "Italic" => "IMFeGPit28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL Great Primer",
+            style: "Regular",
+            full_name: "IM FELL Great Primer Roman",
+            post_script_name: "IM_FELL_Great_Primer_Roman",
+            version: "3.00",
+            description: "Fell Types - Great Primer size - Roman. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1684. To be printed at 17 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeGPrm28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL Great Primer Roman",
+          },
+          {
+            family_name: "IM FELL Great Primer",
+            style: "Italic",
+            full_name: "IM FELL Great Primer Italic",
+            post_script_name: "IM_FELL_Great_Primer_Italic",
+            version: "3.00",
+            description: "Fell Types - Great Primer size - Italic. Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1687.  To be printed at 17 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFeGPit28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL Great Primer Italic",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,31 @@ module Fontist
         sha256 "05e40cba9de8c9d825c4ac882bc34e283ef4531086b8047578e9cd4f879bc111"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Oregano-Regular.ttf",
-        "Italic" => "Oregano-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oregano",
+            style: "Regular",
+            full_name: "Oregano",
+            post_script_name: "Oregano-Regular",
+            version: "1.000",
+            filename: "Oregano-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Oregano\"",
+          },
+          {
+            family_name: "Oregano",
+            style: "Italic",
+            full_name: "Oregano Italic",
+            post_script_name: "Oregano-Italic",
+            version: "1.000",
+            filename: "Oregano-Italic.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Oregano Italic\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

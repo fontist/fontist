@@ -12,9 +12,21 @@ module Fontist
         sha256 "d7edbc419328dee8c28bbb4d09f1c44427ee3218a147d8602f42963571511211"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Orienta-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Orienta",
+            style: "Regular",
+            full_name: "Orienta",
+            post_script_name: "Orienta-Regular",
+            version: "1.001",
+            description: "\"Orienta\" is a spacious sans serif, with excellent visual performance at very small text sizes.",
+            filename: "Orienta-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Orienta'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

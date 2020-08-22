@@ -12,11 +12,41 @@ module Fontist
         sha256 "203c68fe47587654a8b25cf30f74762fbaae937fd8db23a6d4e75ac765e59aa7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cardo-Regular.ttf",
-        "Italic" => "Cardo-Italic.ttf",
-        "Bold" => "Cardo-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cardo",
+            style: "Regular",
+            full_name: "Cardo",
+            post_script_name: "Cardo-Regular",
+            version: "1.0451",
+            description: "A font for scholarly use in classical and medieval languages. Contains characters for many languages as well as those required for quality typography. This version is compatible with MUFI Specification 3.0.",
+            filename: "Cardo-Regular.ttf",
+            copyright: "Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)",
+          },
+          {
+            family_name: "Cardo",
+            style: "Italic",
+            full_name: "Cardo Italic",
+            post_script_name: "Cardo-Italic",
+            version: "0.991",
+            description: "A font for scholarly use in classical and medieval languages. Contains characters for many languages as well as those required for quality typography.",
+            filename: "Cardo-Italic.ttf",
+            copyright: "Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)",
+          },
+          {
+            family_name: "Cardo",
+            style: "Bold",
+            full_name: "Cardo Bold",
+            post_script_name: "Cardo-Bold",
+            version: "1.0011",
+            description: "A font for scholarly use in classical and medieval languages. Contains characters for many languages as well as those required for quality typography.",
+            filename: "Cardo-Bold.ttf",
+            copyright: "Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

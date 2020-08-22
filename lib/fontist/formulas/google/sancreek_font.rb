@@ -12,9 +12,20 @@ module Fontist
         sha256 "445f137ade4c1cb82fb3506c80b0633377c15a7d288c339789ef1ce5cb575203"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sancreek-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sancreek",
+            style: "Regular",
+            full_name: "Sancreek Regular",
+            post_script_name: "Sancreek-Regular",
+            version: "1.002",
+            filename: "Sancreek-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Names \"Sancreek\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

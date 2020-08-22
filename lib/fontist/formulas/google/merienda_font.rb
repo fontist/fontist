@@ -12,10 +12,29 @@ module Fontist
         sha256 "a0a261d50c65f4eb02fbc4a02d0ceb455bb15c67d123d943f684a5b2f7f0a7d6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Merienda-Regular.ttf",
-        "Bold" => "Merienda-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Merienda",
+            style: "Regular",
+            full_name: "Merienda",
+            post_script_name: "Merienda-Regular_0_wt",
+            version: "1.001",
+            filename: "Merienda-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Merienda'",
+          },
+          {
+            family_name: "Merienda",
+            style: "Bold",
+            full_name: "Merienda Bold",
+            post_script_name: "Merienda-Bold",
+            version: "1.001",
+            filename: "Merienda-Bold.ttf",
+            copyright: "Copyright (c) 2011-2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Merienda'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

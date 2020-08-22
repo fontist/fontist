@@ -12,9 +12,20 @@ module Fontist
         sha256 "fdd1e0bfaf29394571479809be5c12f70640d35879c5a4c32c6f26bf0543acfe"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Strait-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Strait",
+            style: "Regular",
+            full_name: "Strait",
+            post_script_name: "Strait-Regular",
+            version: "1.001",
+            filename: "Strait-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Strait'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

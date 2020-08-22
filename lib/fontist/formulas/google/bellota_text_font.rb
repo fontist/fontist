@@ -12,14 +12,65 @@ module Fontist
         sha256 "708605831eaf3a4999f5deaefbe3177e5300efc7fe19594d0a41852c1b36db6d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "BellotaText-Light.ttf",
-        "LightItalic" => "BellotaText-LightItalic.ttf",
-        "Regular" => "BellotaText-Regular.ttf",
-        "Italic" => "BellotaText-Italic.ttf",
-        "Bold" => "BellotaText-Bold.ttf",
-        "BoldItalic" => "BellotaText-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bellota Text",
+            style: "Light",
+            full_name: "Bellota Text Light",
+            post_script_name: "BellotaText-Light",
+            version: "4.001",
+            filename: "BellotaText-Light.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+          {
+            family_name: "Bellota Text",
+            style: "Light Italic",
+            full_name: "Bellota Text Light Italic",
+            post_script_name: "BellotaText-LightItalic",
+            version: "4.001",
+            filename: "BellotaText-LightItalic.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+          {
+            family_name: "Bellota Text",
+            style: "Regular",
+            full_name: "Bellota Text Regular",
+            post_script_name: "BellotaText-Regular",
+            version: "4.001",
+            filename: "BellotaText-Regular.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+          {
+            family_name: "Bellota Text",
+            style: "Italic",
+            full_name: "Bellota Text Italic",
+            post_script_name: "BellotaText-Italic",
+            version: "4.001",
+            filename: "BellotaText-Italic.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+          {
+            family_name: "Bellota Text",
+            style: "Bold",
+            full_name: "Bellota Text Bold",
+            post_script_name: "BellotaText-Bold",
+            version: "4.001",
+            filename: "BellotaText-Bold.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+          {
+            family_name: "Bellota Text",
+            style: "Bold Italic",
+            full_name: "Bellota Text Bold Italic",
+            post_script_name: "BellotaText-BoldItalic",
+            version: "4.001",
+            filename: "BellotaText-BoldItalic.ttf",
+            copyright: "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

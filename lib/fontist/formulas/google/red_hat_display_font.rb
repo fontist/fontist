@@ -12,16 +12,91 @@ module Fontist
         sha256 "87c55eef973ce51b5e1bb663e14ef0b18c5d6c2394fa7c281e52a2d8f7a0e7a7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RedHatDisplay-Regular.ttf",
-        "Italic" => "RedHatDisplay-Italic.ttf",
-        "Medium" => "RedHatDisplay-Medium.ttf",
-        "MediumItalic" => "RedHatDisplay-MediumItalic.ttf",
-        "Bold" => "RedHatDisplay-Bold.ttf",
-        "BoldItalic" => "RedHatDisplay-BoldItalic.ttf",
-        "Black" => "RedHatDisplay-Black.ttf",
-        "BlackItalic" => "RedHatDisplay-BlackItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Red Hat Display",
+            style: "Regular",
+            full_name: "Red Hat Display",
+            post_script_name: "RedHatDisplay-Regular",
+            version: "1.005; Red Hat Display",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-Regular.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Italic",
+            full_name: "Red Hat Display It",
+            post_script_name: "RedHatDisplay-Italic",
+            version: "1.005; Red Hat Display Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-Italic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Medium",
+            full_name: "Red Hat Display Medium",
+            post_script_name: "RedHatDisplay-Medium",
+            version: "1.005; Red Hat Display Medium",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-Medium.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Medium Italic",
+            full_name: "Red Hat Display Medium It",
+            post_script_name: "RedHatDisplay-MediumItalic",
+            version: "1.005; Red Hat Display Medium Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-MediumItalic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Bold",
+            full_name: "Red Hat Display Bold",
+            post_script_name: "RedHatDisplay-Bold",
+            version: "1.005; Red Hat Display Bold",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-Bold.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Bold Italic",
+            full_name: "Red Hat Display Bold It",
+            post_script_name: "RedHatDisplay-BoldItalic",
+            version: "1.005; Red Hat Display Bold Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-BoldItalic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Black",
+            full_name: "Red Hat Display Black",
+            post_script_name: "RedHatDisplay-Black",
+            version: "1.005; Red Hat Display Black",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-Black.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+          {
+            family_name: "Red Hat Display",
+            style: "Black Italic",
+            full_name: "Red Hat Display Black It",
+            post_script_name: "RedHatDisplay-BlackItalic",
+            version: "1.005; Red Hat Display Black Italic",
+            description: "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+            filename: "RedHatDisplay-BlackItalic.ttf",
+            copyright: "Copyright 2019 The Red Hat Project Authors (https://github.com/RedHatOfficial/RedHatFont)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

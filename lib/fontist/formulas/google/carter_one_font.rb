@@ -12,9 +12,21 @@ module Fontist
         sha256 "9b5605af46c278c6dbb693c51465699d0b1f1defd262d3c3565adce6c3f8f90a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CarterOne.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Carter One",
+            style: "Regular",
+            full_name: "Carter One",
+            post_script_name: "CarterOne",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "CarterOne.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

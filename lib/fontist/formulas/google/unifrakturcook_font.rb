@@ -12,9 +12,20 @@ module Fontist
         sha256 "bf58531c64daadd593b7b22d33062cc09dbc542f665fcdf91b5a5b0e6664a597"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Bold" => "UnifrakturCook-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "UnifrakturCook",
+            style: "Bold",
+            full_name: "UnifrakturCook",
+            post_script_name: "UnifrakturCook-Bold",
+            version: "2011-09-01",
+            filename: "UnifrakturCook-Bold.ttf",
+            copyright: "Copyright (c) 2010 j. 'mach' wust with Reserved Font Name UnifrakturCook.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

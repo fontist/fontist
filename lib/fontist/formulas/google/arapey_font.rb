@@ -12,10 +12,29 @@ module Fontist
         sha256 "9d09d7aa5a700a45b3bf088cbdb72938864839fe4c46e4eed92580418aeeafa5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arapey-Regular.ttf",
-        "Italic" => "Arapey-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arapey",
+            style: "Regular",
+            full_name: "Arapey Regular",
+            post_script_name: "Arapey-Regular",
+            version: "1.002",
+            filename: "Arapey-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Arapey\"",
+          },
+          {
+            family_name: "Arapey",
+            style: "Italic",
+            full_name: "Arapey Italic",
+            post_script_name: "Arapey-Italic",
+            version: "1.002",
+            filename: "Arapey-Italic.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Arapey\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

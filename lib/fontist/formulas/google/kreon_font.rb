@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kreon[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kreon",
+            style: "Light",
+            full_name: "Kreon Light",
+            post_script_name: "Kreon-Light",
+            version: "2.001",
+            filename: "Kreon[wght].ttf",
+            copyright: "Copyright 2018 The Kreon Project Authors (https://github.com/googlefonts/kreon)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

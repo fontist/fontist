@@ -12,9 +12,22 @@ module Fontist
         sha256 "6710b38a98abdb1c44499df9138f3cd20602c7fa70e5c0f5f73b0321e14f017d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Habibi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Habibi",
+            style: "Regular",
+            full_name: "Habibi",
+            post_script_name: "Habibi-Regular",
+            version: "1.001",
+            description: "Habibi is a high contrast serifed text face. Habibi is easy to read and offers a certain elegance to go with this. Habibi draws both on the qualities of 15th and 16th century text faces and on crisp conteporary ones. Habibi can be used from small sizes to larger display settings.",
+            filename: "Habibi-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Habibi\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

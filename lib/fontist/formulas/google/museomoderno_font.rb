@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MuseoModerno[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "MuseoModerno",
+            style: "SemiBold",
+            full_name: "MuseoModerno SemiBold",
+            post_script_name: "MuseoModerno-SemiBold",
+            version: "1.001",
+            filename: "MuseoModerno[wght].ttf",
+            copyright: "Copyright 2020 The MuseoModerno Project Authors (https://github.com/Omnibus-Type/MuseoModerno)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

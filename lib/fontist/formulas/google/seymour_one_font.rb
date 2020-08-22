@@ -12,9 +12,21 @@ module Fontist
         sha256 "966425f0b526e935738755496a0d945b0293300328081719a26e502a28636214"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SeymourOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Seymour One",
+            style: "Book",
+            full_name: "Seymour One",
+            post_script_name: "SeymourOne",
+            version: "1.000; ttfautohint (v0.93) -l 8 -r 50 -G 200 -x 0 -w \"gGD\" -c",
+            description: "Copyright (c) 2011-12 by Vernon Adams. All rights reserved.",
+            filename: "SeymourOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-12 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "23ee5dd8f283e2d23f04c990e744f037421fd2f97fcea31ffe7a4a413ac3afb9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SpicyRice-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Spicy Rice",
+            style: "Regular",
+            full_name: "Spicy Rice",
+            post_script_name: "SpicyRice-Regular",
+            version: "1.000",
+            filename: "SpicyRice-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Spicy Rice\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "fff984fde52e8b6c18d921b651704b57409e0bdd4ea765a277523fd516ae029a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SixCaps.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Six Caps",
+            style: "Regular",
+            full_name: "Six Caps",
+            post_script_name: "SixCaps",
+            version: "001.000",
+            description: "Copyright (c) 251 by vernon adams. All rights reserved.",
+            filename: "SixCaps.ttf",
+            copyright: "Copyright (c) 2010 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

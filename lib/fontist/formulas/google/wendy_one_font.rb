@@ -12,9 +12,20 @@ module Fontist
         sha256 "431c790007e73b58f4fc041130bb6df3e65837188c73aa083c2b420f503d0cb4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "WendyOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Wendy One",
+            style: "Regular",
+            full_name: "Wendy One",
+            post_script_name: "WendyOne-Regular",
+            version: "1.001",
+            filename: "WendyOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Alejandro Inler (alejandroinler@gmail.com), with Reserved Font Name 'Wendy'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

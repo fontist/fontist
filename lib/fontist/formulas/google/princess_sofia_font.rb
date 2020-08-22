@@ -12,9 +12,20 @@ module Fontist
         sha256 "492bc8c5c2bd3c4097505825e6e6519c81970a2d6b93b028dda7d9e54dc8cef6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PrincessSofia-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Princess Sofia",
+            style: "Regular",
+            full_name: "Princess Sofia",
+            post_script_name: "PrincessSofia",
+            version: "1.000",
+            filename: "PrincessSofia-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reseved Font Name \"Princess Sofia\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

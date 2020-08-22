@@ -12,14 +12,65 @@ module Fontist
         sha256 "4e27f53a43bbb6765f797e4bb2c9e076a3f4eb85fa3bbb77de356f2355324c0d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "AveriaSansLibre-Light.ttf",
-        "LightItalic" => "AveriaSansLibre-LightItalic.ttf",
-        "Regular" => "AveriaSansLibre-Regular.ttf",
-        "Italic" => "AveriaSansLibre-Italic.ttf",
-        "Bold" => "AveriaSansLibre-Bold.ttf",
-        "BoldItalic" => "AveriaSansLibre-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Averia Sans Libre",
+            style: "Light",
+            full_name: "Averia Sans Libre Light",
+            post_script_name: "AveriaSansLibre-Light",
+            version: "1.002",
+            filename: "AveriaSansLibre-Light.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+          {
+            family_name: "Averia Sans Libre",
+            style: "Light Italic",
+            full_name: "Averia Sans Libre Light Italic",
+            post_script_name: "AveriaSansLibre-LightItalic",
+            version: "1.002",
+            filename: "AveriaSansLibre-LightItalic.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+          {
+            family_name: "Averia Sans Libre",
+            style: "Regular",
+            full_name: "Averia Sans Libre Regular",
+            post_script_name: "AveriaSansLibre-Regular",
+            version: "1.002",
+            filename: "AveriaSansLibre-Regular.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+          {
+            family_name: "Averia Sans Libre",
+            style: "Italic",
+            full_name: "Averia Sans Libre Italic",
+            post_script_name: "AveriaSansLibre-Italic",
+            version: "1.002",
+            filename: "AveriaSansLibre-Italic.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+          {
+            family_name: "Averia Sans Libre",
+            style: "Bold",
+            full_name: "Averia Sans Libre Bold",
+            post_script_name: "AveriaSansLibre-Bold",
+            version: "1.002",
+            filename: "AveriaSansLibre-Bold.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+          {
+            family_name: "Averia Sans Libre",
+            style: "Bold Italic",
+            full_name: "Averia Sans Libre Bold Italic",
+            post_script_name: "AveriaSansLibre-BoldItalic",
+            version: "1.002",
+            filename: "AveriaSansLibre-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011, Dan Sayers (i@iotic.com), with Reserved Font Name 'Averia' and 'Averia Libre'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

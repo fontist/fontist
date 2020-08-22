@@ -12,9 +12,20 @@ module Fontist
         sha256 "1ab47bba713677c470fc5b75955edf36c2f063121cdb9d5ef30e6c67ce078ae5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MedulaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Medula One",
+            style: "Regular",
+            full_name: "Medula One",
+            post_script_name: "MedulaOne-Regular",
+            version: "1.002",
+            filename: "MedulaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (luciano@latinotype.com), with Reserved Font Names \"Medula\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

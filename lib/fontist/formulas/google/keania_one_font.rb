@@ -12,9 +12,20 @@ module Fontist
         sha256 "4ee10581ece5c528462d624dca95d5b22389b098c0907e06540e773001b0a963"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KeaniaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Keania One",
+            style: "Regular",
+            full_name: "Keania One",
+            post_script_name: "KeaniaOne-Regular",
+            version: "1.003",
+            filename: "KeaniaOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Julia Petretta (julia.petretta@googlemail.com), with Reserved Font Name 'Keania'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "d7c729511f67e09589e9a5712a636f54c1c4ed63f9ddbb7d38b5cc2d4c8d4a40"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Rajdhani-Light.ttf",
-        "Regular" => "Rajdhani-Regular.ttf",
-        "Medium" => "Rajdhani-Medium.ttf",
-        "SemiBold" => "Rajdhani-SemiBold.ttf",
-        "Bold" => "Rajdhani-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rajdhani",
+            style: "Light",
+            full_name: "Rajdhani Light",
+            post_script_name: "Rajdhani-Light",
+            version: "1.201;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Rajdhani-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Rajdhani",
+            style: "Regular",
+            full_name: "Rajdhani Regular",
+            post_script_name: "Rajdhani-Regular",
+            version: "1.201;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Rajdhani-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Rajdhani",
+            style: "Medium",
+            full_name: "Rajdhani Medium",
+            post_script_name: "Rajdhani-Medium",
+            version: "1.201;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Rajdhani-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Rajdhani",
+            style: "SemiBold",
+            full_name: "Rajdhani SemiBold",
+            post_script_name: "Rajdhani-SemiBold",
+            version: "1.201;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Rajdhani-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Rajdhani",
+            style: "Bold",
+            full_name: "Rajdhani Bold",
+            post_script_name: "Rajdhani-Bold",
+            version: "1.201;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 7 -r 28 -G 50 -x 13 -D latn -f deva -w G",
+            filename: "Rajdhani-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

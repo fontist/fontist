@@ -12,9 +12,22 @@ module Fontist
         sha256 "ab5f577a0f3f4b961758bf0503fbde58e74a77179c8fe16a21712a7080e570d4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SnowburstOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Snowburst One",
+            style: "Regular",
+            full_name: "Snowburst One",
+            post_script_name: "SnowburstOne-Regular",
+            version: "1.001",
+            description: "Snowburst is a low contrast serifed text typeface inspired by one of Annet Stirling's distictive styles of lettering. Snowburst's personality consistently shows in both small and large sizes. Becuase of the thin stokes this font is best used from medium to large sizes.",
+            filename: "SnowburstOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name 'Snowburst'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

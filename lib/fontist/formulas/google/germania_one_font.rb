@@ -12,9 +12,20 @@ module Fontist
         sha256 "5ee47ef6b5c234a68f72b79849718b46d2c66b96364d75be9e49df2e18817599"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GermaniaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Germania One",
+            style: "Regular",
+            full_name: "Germania One",
+            post_script_name: "GermaniaOne-Regular",
+            version: "1.001",
+            filename: "GermaniaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by John Vargas Beltran (john.vargasbeltran@gmail.com), with Reserved Font Name \"Germania One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

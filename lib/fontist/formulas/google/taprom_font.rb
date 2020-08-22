@@ -12,9 +12,21 @@ module Fontist
         sha256 "5d530004ed164c6140224a0d228e959d0247efb01b56a3a32004c962d8cedb31"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Taprom.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Taprom",
+            style: "Regular",
+            full_name: "Taprom",
+            post_script_name: "Taprom",
+            version: "3.10 December 28, 2010",
+            description: "This font was created using FontCreator 5.6 from High-Logic.com",
+            filename: "Taprom.ttf",
+            copyright: "Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

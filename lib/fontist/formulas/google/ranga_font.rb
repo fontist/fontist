@@ -12,10 +12,29 @@ module Fontist
         sha256 "ed4d6fe1b77c056b8a74a282fd6adca6e2ee51c9d12adc8d49a2724b6a994663"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ranga-Regular.ttf",
-        "Bold" => "Ranga-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ranga",
+            style: "Regular",
+            full_name: "Ranga Regular",
+            post_script_name: "Ranga-Regular",
+            version: "1.0.2",
+            filename: "Ranga-Regular.ttf",
+            copyright: "Copyright (c) 2014 by TipTopTyp. All rights reserved under SIL openfont License 1.1",
+          },
+          {
+            family_name: "Ranga",
+            style: "Bold",
+            full_name: "Ranga Bold",
+            post_script_name: "Ranga-Bold",
+            version: "1.0.2",
+            filename: "Ranga-Bold.ttf",
+            copyright: "Copyright (c) 2014 by TipTopTyp. All rights reserved under SIL openfont License 1.1",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

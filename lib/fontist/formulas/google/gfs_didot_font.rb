@@ -12,9 +12,20 @@ module Fontist
         sha256 "3902a33894daafd01d5fc559fb8b13d590bcf7f71300c0e3390a4875532727b6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GFSDidot-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "GFS Didot",
+            style: "Regular",
+            full_name: "GFS Didot Regular",
+            post_script_name: "GFSDidot-Regular",
+            version: "1.0",
+            filename: "GFSDidot-Regular.ttf",
+            copyright: "Copyright (c) Takis Katsoulidis and George D. Matthiopoulos, 2001. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "4e0fd209b6feb0612be55122888e33701c5f622287dfa9f8380d79d933532635"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SofadiOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sofadi One",
+            style: "Regular",
+            full_name: "Sofadi One Regular",
+            post_script_name: "SofadiOne-Regular",
+            version: "1.002",
+            filename: "SofadiOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Botjo Nikoltchev, with Reserved Font Name 'Sofadi One'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

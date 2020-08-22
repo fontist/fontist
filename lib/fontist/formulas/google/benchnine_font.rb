@@ -12,11 +12,38 @@ module Fontist
         sha256 "3d7b0a2e86597938b13205c7b902fb99fe600af242d42d07eae66489474fda1b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "BenchNine-Light.ttf",
-        "Regular" => "BenchNine-Regular.ttf",
-        "Bold" => "BenchNine-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "BenchNine",
+            style: "Light",
+            full_name: "BenchNine Light",
+            post_script_name: "BenchNine-Light",
+            version: "1 ; ttfautohint (v0.92.18-e454-dirty) -l 8 -r 50 -G 200 -x 0 -w \"g\"",
+            filename: "BenchNine-Light.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Name 'BenchNine'",
+          },
+          {
+            family_name: "BenchNine",
+            style: "Regular",
+            full_name: "BenchNine Regular",
+            post_script_name: "BenchNine-Regular",
+            version: "1 ; ttfautohint (v0.92.18-e454-dirty) -l 8 -r 50 -G 200 -x 0 -w \"g\"",
+            filename: "BenchNine-Regular.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Name 'BenchNine'",
+          },
+          {
+            family_name: "BenchNine",
+            style: "Bold",
+            full_name: "BenchNine Bold",
+            post_script_name: "BenchNine-Bold",
+            version: "1 ; ttfautohint (v0.92.18-e454-dirty) -l 8 -r 50 -G 200 -x 0 -w \"g\"",
+            filename: "BenchNine-Bold.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Name 'BenchNine'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

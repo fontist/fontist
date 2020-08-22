@@ -12,9 +12,21 @@ module Fontist
         sha256 "55cbc4428248f8c5d00fe22787f008e0ca7ccd68bf8a8ba0ca3baaf66385e263"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Snippet.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Snippet",
+            style: "Regular",
+            full_name: "Snippet",
+            post_script_name: "Snippet",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Gesine Todt. All rights reserved.",
+            filename: "Snippet.ttf",
+            copyright: "Copyright (c) 2011 Gesine Todt Ê(www.gesine-todt.de), with Reserved Font Name \"Snippet\". This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

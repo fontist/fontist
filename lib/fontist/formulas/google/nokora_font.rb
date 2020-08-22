@@ -12,10 +12,29 @@ module Fontist
         sha256 "ce7d93088956590f63250df8578e6c0176afa0a693b224c2d16adf23174c986b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Nokora-Regular.ttf",
-        "Bold" => "Nokora-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nokora",
+            style: "Regular",
+            full_name: "Nokora Regular",
+            post_script_name: "Nokora-Regular",
+            version: "1.3 October 14, 2012",
+            filename: "Nokora-Regular.ttf",
+            copyright: "Digitized data copyright © 2007, Google Corporation. Copyright (c) 2012, Danh Hong (khmertype.blogspot.com)",
+          },
+          {
+            family_name: "Nokora",
+            style: "Bold",
+            full_name: "Nokora Bold",
+            post_script_name: "Nokora-Bold",
+            version: "1.3 October 14, 2012",
+            filename: "Nokora-Bold.ttf",
+            copyright: "Digitized data copyright © 2007, Google Corporation. Copyright (c) 2012, Danh Hong (khmertype.blogspot.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

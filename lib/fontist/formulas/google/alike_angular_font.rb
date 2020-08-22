@@ -12,9 +12,21 @@ module Fontist
         sha256 "4604ec355a23585066148995557129ecd011d583fd3ce82c16e69b82e3642c61"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AlikeAngular-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alike Angular",
+            style: "Regular",
+            full_name: "Alike Angular Regular",
+            post_script_name: "AlikeAngular-Regular",
+            version: "1.211",
+            filename: "AlikeAngular-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Alike\" and \"Alike Angular\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

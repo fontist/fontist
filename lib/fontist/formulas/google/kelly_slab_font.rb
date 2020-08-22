@@ -12,9 +12,20 @@ module Fontist
         sha256 "4a5ca50e39bb973221cdff47b582fca4ed644e9970a5b3a157f5bdca6d9c3fcc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KellySlab-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kelly Slab",
+            style: "Regular",
+            full_name: "Kelly Slab",
+            post_script_name: "KellySlab-Regular",
+            version: "1.001",
+            filename: "KellySlab-Regular.ttf",
+            copyright: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>, with Reserved Font Names \"Kelly\", \"Kelly Slab\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

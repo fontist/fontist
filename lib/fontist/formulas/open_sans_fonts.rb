@@ -16,18 +16,101 @@ module Fontist
         # sha256 "7a76476bd61eb3cb4fe19d08f528435db123f1a9167f8f0063f6f98cbf2662c4"
       end
 
-      provides_font("OpenSans", match_styles_from_file: {
-        "Light" => "OpenSans-Light.ttf",
-        "Light Italic" => "OpenSans-LightItalic.ttf",
-        "Regular" => "OpenSans-Regular.ttf",
-        "Italic" => "OpenSans-Italic.ttf",
-        "Semibold" => "OpenSans-Semibold.ttf",
-        "Semibold Italic" => "OpenSans-SemiboldItalic.ttf",
-        "Bold" => "OpenSans-Bold.ttf",
-        "Bold Italic" => "OpenSans-BoldItalic.ttf",
-        "Extra Bold" => "OpenSans-ExtraBold.ttf",
-        "Extra Bold Italic" => "OpenSans-ExtraBoldItalic.ttf"
-      })
+      provides_font(
+        "OpenSans",
+        match_styles_from_file: [
+          {
+            family_name: "Open Sans",
+            style: "Light",
+            full_name: "Open Sans Light",
+            post_script_name: "OpenSans-Light",
+            version: "1.10",
+            filename: "OpenSans-Light.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Light Italic",
+            full_name: "Open Sans Light Italic",
+            post_script_name: "OpenSansLight-Italic",
+            version: "1.10",
+            filename: "OpenSans-LightItalic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Regular",
+            full_name: "Open Sans",
+            post_script_name: "OpenSans",
+            version: "1.10",
+            filename: "OpenSans-Regular.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Italic",
+            full_name: "Open Sans Italic",
+            post_script_name: "OpenSans-Italic",
+            version: "1.10",
+            filename: "OpenSans-Italic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Semibold",
+            full_name: "Open Sans Semibold",
+            post_script_name: "OpenSans-Semibold",
+            version: "1.10",
+            filename: "OpenSans-Semibold.ttf",
+            copyright: "Digitized data copyright © 2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Semibold Italic",
+            full_name: "Open Sans Semibold Italic",
+            post_script_name: "OpenSans-SemiboldItalic",
+            version: "1.10",
+            filename: "OpenSans-SemiboldItalic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Bold",
+            full_name: "Open Sans Bold",
+            post_script_name: "OpenSans-Bold",
+            version: "1.10",
+            filename: "OpenSans-Bold.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Bold Italic",
+            full_name: "Open Sans Bold Italic",
+            post_script_name: "OpenSans-BoldItalic",
+            version: "1.10",
+            filename: "OpenSans-BoldItalic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Extrabold",
+            full_name: "Open Sans Extrabold",
+            post_script_name: "OpenSans-Extrabold",
+            version: "1.10",
+            filename: "OpenSans-ExtraBold.ttf",
+            copyright: "Digitized data copyright © 2011, Google Corporation.",
+          },
+          {
+            family_name: "Open Sans",
+            style: "Extrabold Italic",
+            full_name: "Open Sans Extrabold Italic",
+            post_script_name: "OpenSans-ExtraboldItalic",
+            version: "1.10",
+            filename: "OpenSans-ExtraBoldItalic.ttf",
+            copyright: "Digitized data copyright © 2010-2011, Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("open-sans.zip") do |resource|

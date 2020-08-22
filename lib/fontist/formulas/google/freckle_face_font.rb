@@ -12,9 +12,21 @@ module Fontist
         sha256 "8eafd77e7193bb88461272ec75114feb840d98773be13ece5506a4f0ee686be2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FreckleFace-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Freckle Face",
+            style: "Regular",
+            full_name: "Freckle Face",
+            post_script_name: "FreckleFace-Regular",
+            version: "1.000",
+            filename: "FreckleFace-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Freckle Face\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

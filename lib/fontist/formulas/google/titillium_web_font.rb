@@ -12,19 +12,110 @@ module Fontist
         sha256 "769c6f5120b30b1ef6ffff3bbc860de7265314be242b92d17dc23b91ec632194"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "TitilliumWeb-ExtraLight.ttf",
-        "ExtraLightItalic" => "TitilliumWeb-ExtraLightItalic.ttf",
-        "Light" => "TitilliumWeb-Light.ttf",
-        "LightItalic" => "TitilliumWeb-LightItalic.ttf",
-        "Regular" => "TitilliumWeb-Regular.ttf",
-        "Italic" => "TitilliumWeb-Italic.ttf",
-        "SemiBold" => "TitilliumWeb-SemiBold.ttf",
-        "SemiBoldItalic" => "TitilliumWeb-SemiBoldItalic.ttf",
-        "Bold" => "TitilliumWeb-Bold.ttf",
-        "BoldItalic" => "TitilliumWeb-BoldItalic.ttf",
-        "Black" => "TitilliumWeb-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Titillium Web",
+            style: "ExtraLight",
+            full_name: "Titillium Web ExtraLight",
+            post_script_name: "TitilliumWeb-ExtraLight",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-ExtraLight.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "ExtraLight Italic",
+            full_name: "Titillium Web ExtraLight Italic",
+            post_script_name: "TitilliumWeb-ExtraLightItalic",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-ExtraLightItalic.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Light",
+            full_name: "Titillium Web Light",
+            post_script_name: "TitilliumWeb-Light",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-Light.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Light Italic",
+            full_name: "Titillium Web Light Italic",
+            post_script_name: "TitilliumWeb-LightItalic",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-LightItalic.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Regular",
+            full_name: "Titillium Web Regular",
+            post_script_name: "TitilliumWeb-Regular",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-Regular.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Italic",
+            full_name: "Titillium Web Italic",
+            post_script_name: "TitilliumWeb-Italic",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-Italic.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "SemiBold",
+            full_name: "Titillium Web SemiBold",
+            post_script_name: "TitilliumWeb-SemiBold",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-SemiBold.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "SemiBold Italic",
+            full_name: "Titillium Web SemiBold Italic",
+            post_script_name: "TitilliumWeb-SemiBoldItalic",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-SemiBoldItalic.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Bold",
+            full_name: "Titillium Web Bold",
+            post_script_name: "TitilliumWeb-Bold",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-Bold.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Bold Italic",
+            full_name: "Titillium Web Bold Italic",
+            post_script_name: "TitilliumWeb-BoldItalic",
+            version: "1.002;PS 57.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-BoldItalic.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+          {
+            family_name: "Titillium Web",
+            style: "Black",
+            full_name: "Titillium Web Black",
+            post_script_name: "TitilliumWeb-Black",
+            version: "1.002;PS 35.000;hotconv 1.0.70;makeotf.lib2.5.55311",
+            filename: "TitilliumWeb-Black.ttf",
+            copyright: "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

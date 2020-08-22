@@ -12,9 +12,20 @@ module Fontist
         sha256 "35bd914b13b6e3371bb272a6af92f3aa35e1614bd5130500c6726f855e3d0de7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GildaDisplay-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gilda Display",
+            style: "Regular",
+            full_name: "Gilda Display",
+            post_script_name: "GildaDisplay-Regular",
+            version: "1.001",
+            filename: "GildaDisplay-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Gilda'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

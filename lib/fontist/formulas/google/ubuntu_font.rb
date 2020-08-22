@@ -12,16 +12,83 @@ module Fontist
         sha256 "b1fc69669051247c50202d5d40760c2c6e2a6eb5a29b44f549c6971661a6f69a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Ubuntu-Light.ttf",
-        "LightItalic" => "Ubuntu-LightItalic.ttf",
-        "Regular" => "Ubuntu-Regular.ttf",
-        "Italic" => "Ubuntu-Italic.ttf",
-        "Medium" => "Ubuntu-Medium.ttf",
-        "MediumItalic" => "Ubuntu-MediumItalic.ttf",
-        "Bold" => "Ubuntu-Bold.ttf",
-        "BoldItalic" => "Ubuntu-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ubuntu",
+            style: "Light",
+            full_name: "Ubuntu Light",
+            post_script_name: "Ubuntu-Light",
+            version: "0.83",
+            filename: "Ubuntu-Light.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Light Italic",
+            full_name: "Ubuntu Light Italic",
+            post_script_name: "Ubuntu-LightItalic",
+            version: "0.83",
+            filename: "Ubuntu-LightItalic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Regular",
+            full_name: "Ubuntu Regular",
+            post_script_name: "Ubuntu-Regular",
+            version: "0.83",
+            filename: "Ubuntu-Regular.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Italic",
+            full_name: "Ubuntu Italic",
+            post_script_name: "Ubuntu-Italic",
+            version: "0.83",
+            filename: "Ubuntu-Italic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Medium",
+            full_name: "Ubuntu Medium",
+            post_script_name: "Ubuntu-Medium",
+            version: "0.83",
+            filename: "Ubuntu-Medium.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Medium Italic",
+            full_name: "Ubuntu Medium Italic",
+            post_script_name: "Ubuntu-MediumItalic",
+            version: "0.83",
+            filename: "Ubuntu-MediumItalic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Bold",
+            full_name: "Ubuntu Bold",
+            post_script_name: "Ubuntu-Bold",
+            version: "0.83",
+            filename: "Ubuntu-Bold.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+          {
+            family_name: "Ubuntu",
+            style: "Bold Italic",
+            full_name: "Ubuntu Bold Italic",
+            post_script_name: "Ubuntu-BoldItalic",
+            version: "0.83",
+            filename: "Ubuntu-BoldItalic.ttf",
+            copyright: "Copyright 2011 Canonical Ltd.  Licensed under the Ubuntu Font Licence 1.0",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

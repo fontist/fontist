@@ -12,9 +12,20 @@ module Fontist
         sha256 "2e2b5704901b2a31c9a3993a5a4df153fa3d01d5a41f6e181ae93a65c6ccf2cc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TenaliRamakrishna-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tenali Ramakrishna",
+            style: "Regular",
+            full_name: "Tenali Ramakrishna",
+            post_script_name: "TenaliRamakrishna",
+            version: "1.0.5; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "TenaliRamakrishna-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011, Wojciech Kalinowski (wmk69@o2.pl), with Reserved Font Names 'Classica'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

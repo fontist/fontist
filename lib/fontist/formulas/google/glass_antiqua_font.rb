@@ -12,9 +12,21 @@ module Fontist
         sha256 "c30aaf231e1018d0aec966982c1b577dbd4074a9e83573caa48d8192dc54e93a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GlassAntiqua-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Glass Antiqua",
+            style: "Regular",
+            full_name: "Glass Antiqua",
+            post_script_name: "GlassAntiqua-Regular",
+            version: "1.001",
+            description: "Copyright (c) 2011 by Denis Masharov. All rights reserved.",
+            filename: "GlassAntiqua-Regular.ttf",
+            copyright: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "666402ef7bba9a16279ee7bb008891616ddee54ecf40520d72e9da177782a058"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Coiny-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Coiny",
+            style: "Regular",
+            full_name: "Coiny Regular",
+            post_script_name: "Coiny-Regular",
+            version: "001.001",
+            filename: "Coiny-Regular.ttf",
+            copyright: "Copyright (c) 2015, Marcelo Magalhaes",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

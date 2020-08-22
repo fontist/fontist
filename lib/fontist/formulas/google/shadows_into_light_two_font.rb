@@ -12,9 +12,21 @@ module Fontist
         sha256 "c30faaea95470d604e78a5bb3525b78912ad400ffb5221bc72583d59c25da9a7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ShadowsIntoLightTwo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Shadows Into Light Two",
+            style: "Regular",
+            full_name: "Shadows Into Light Two",
+            post_script_name: "ShadowsIntoLightTwo-Regular",
+            version: "1.003 2012",
+            description: "Copyright (c) 2012, Kimberly Geswein.",
+            filename: "ShadowsIntoLightTwo-Regular.ttf",
+            copyright: "Copyright (c) 2012, Kimberly Geswein.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

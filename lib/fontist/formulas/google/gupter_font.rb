@@ -12,11 +12,38 @@ module Fontist
         sha256 "3cd30b98f557c5da81f7dcb08eefc501e5f11d71d82d123c63bc6d02719eead1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gupter-Regular.ttf",
-        "Medium" => "Gupter-Medium.ttf",
-        "Bold" => "Gupter-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gupter",
+            style: "Regular",
+            full_name: "Gupter Regular",
+            post_script_name: "Gupter-Regular",
+            version: "1.000",
+            filename: "Gupter-Regular.ttf",
+            copyright: "Copyright 2019 The Gupter Project Authors (https://github.com/octaviopardo/GUPTER)",
+          },
+          {
+            family_name: "Gupter",
+            style: "Medium",
+            full_name: "Gupter Medium",
+            post_script_name: "Gupter-Medium",
+            version: "1.000",
+            filename: "Gupter-Medium.ttf",
+            copyright: "Copyright 2019 The Gupter Project Authors (https://github.com/octaviopardo/GUPTER)",
+          },
+          {
+            family_name: "Gupter",
+            style: "Bold",
+            full_name: "Gupter Bold",
+            post_script_name: "Gupter-Bold",
+            version: "1.000",
+            filename: "Gupter-Bold.ttf",
+            copyright: "Copyright 2019 The Gupter Project Authors (https://github.com/octaviopardo/GUPTER)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

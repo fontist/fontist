@@ -12,14 +12,65 @@ module Fontist
         sha256 "9f254e5cd219c1aa9b1f18e73c2588d8cd8587ac16997eeff9adb0d556fa6461"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "ComicNeue-Light.ttf",
-        "LightItalic" => "ComicNeue-LightItalic.ttf",
-        "Regular" => "ComicNeue-Regular.ttf",
-        "Italic" => "ComicNeue-Italic.ttf",
-        "Bold" => "ComicNeue-Bold.ttf",
-        "BoldItalic" => "ComicNeue-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Comic Neue",
+            style: "Light",
+            full_name: "Comic Neue Light",
+            post_script_name: "ComicNeue-Light",
+            version: "2.003",
+            filename: "ComicNeue-Light.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+          {
+            family_name: "Comic Neue",
+            style: "Light Italic",
+            full_name: "Comic Neue Light Italic",
+            post_script_name: "ComicNeue-LightItalic",
+            version: "2.003",
+            filename: "ComicNeue-LightItalic.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+          {
+            family_name: "Comic Neue",
+            style: "Regular",
+            full_name: "Comic Neue Regular",
+            post_script_name: "ComicNeue-Regular",
+            version: "2.003",
+            filename: "ComicNeue-Regular.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+          {
+            family_name: "Comic Neue",
+            style: "Italic",
+            full_name: "Comic Neue Italic",
+            post_script_name: "ComicNeue-Italic",
+            version: "2.003",
+            filename: "ComicNeue-Italic.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+          {
+            family_name: "Comic Neue",
+            style: "Bold",
+            full_name: "Comic Neue Bold",
+            post_script_name: "ComicNeue-Bold",
+            version: "2.003",
+            filename: "ComicNeue-Bold.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+          {
+            family_name: "Comic Neue",
+            style: "Bold Italic",
+            full_name: "Comic Neue Bold Italic",
+            post_script_name: "ComicNeue-BoldItalic",
+            version: "2.003",
+            filename: "ComicNeue-BoldItalic.ttf",
+            copyright: "Copyright 2014 The Comic Neue Project Authors (https://github.com/crozynski/comicneue)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

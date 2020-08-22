@@ -12,9 +12,22 @@ module Fontist
         sha256 "1e7dad59f3d85aa4ff0cd7c59c63b3869d6c3aa49f8818e1a52f098aa1b89adc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Tauri-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tauri",
+            style: "Regular",
+            full_name: "Tauri-Regular",
+            post_script_name: "TauriRegular",
+            version: "1.003; ttfautohint (v0.93.8-669f) -l 13 -r 13 -G 200 -x 13 -w \"gG\" -W -c",
+            description: "Tauri is a semi condense sans typeface with a sense of restraint, clarity and rigor. Tauri's unique qualities do not shout and instead emerge slowly and organically as it is used. Tauri is useful from small to medium sizes but has enough subtle detail to be used at large sizes as well if it is more tightly spaced.",
+            filename: "Tauri-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name 'Tauri'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

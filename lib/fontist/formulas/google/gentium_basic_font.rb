@@ -12,12 +12,47 @@ module Fontist
         sha256 "7b89bd5d4201f0a3a9c943705dc3aea58f139c99c866854fea12fb449996b09c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GenBasR.ttf",
-        "Italic" => "GenBasI.ttf",
-        "Bold" => "GenBasB.ttf",
-        "BoldItalic" => "GenBasBI.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gentium Basic",
+            style: "Regular",
+            full_name: "Gentium Basic",
+            post_script_name: "GentiumBasic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBasR.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Basic",
+            style: "Italic",
+            full_name: "Gentium Basic Italic",
+            post_script_name: "GentiumBasic-Italic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBasI.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Basic",
+            style: "Bold",
+            full_name: "Gentium Basic Bold",
+            post_script_name: "GentiumBasic-Bold",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBasB.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+          {
+            family_name: "Gentium Basic",
+            style: "Bold Italic",
+            full_name: "Gentium Basic Bold Italic",
+            post_script_name: "GentiumBasic-BoldItalic",
+            version: "1.102; 2013; Maintenance release",
+            filename: "GenBasBI.ttf",
+            copyright: "Copyright (c) 2003-2013, SIL International (http://scripts.sil.org/)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

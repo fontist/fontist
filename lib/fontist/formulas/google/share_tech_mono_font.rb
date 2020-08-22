@@ -12,9 +12,20 @@ module Fontist
         sha256 "b443aab5293a76c7a6b21fe5495c7a16aecbf82d4eb1cf59661af7518175f13f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ShareTechMono-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Share Tech Mono",
+            style: "Regular",
+            full_name: "Share Tech Mono",
+            post_script_name: "ShareTechMono-Regular",
+            version: "1.003",
+            filename: "ShareTechMono-Regular.ttf",
+            copyright: "Copyright (c) 2012, Carrois Type Design, Ralph du Carrois (post@carrois.com www.carrois.com), with Reserved Font Name 'Share'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

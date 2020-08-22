@@ -12,9 +12,22 @@ module Fontist
         sha256 "ff523a84ce55895f291cec4b928d254de6e473697d547a965567dfbda3d699ae"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ShortStack-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Short Stack",
+            style: "Regular",
+            full_name: "Short Stack",
+            post_script_name: "ShortStack",
+            version: "1.002",
+            description: "Short Stack is a low contrast semi geometric typeface inspired by childish written letters. Short Stack is sturdy, and clear but also whimsical and fun. Short stack works well from medium text sizes to larger display sizes.",
+            filename: "ShortStack-Regular.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Names \"Short Stack\" and \"Short Stack One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

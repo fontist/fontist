@@ -12,9 +12,27 @@ module Fontist
         sha256 "e117ac04349b3b31d08dcc6cf9a31c61ceb508423bdf0f2193aa41e307af9ae9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CantoraOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "CantoraOne",
+            style: "Regular",
+            full_name: "CantoraOne",
+            post_script_name: "CantoraOne-Regular",
+            version: "1.001; ttfautohint (v0.8) -G 200 -r 50",
+            description: "Cantora ('Singer' in Spanish) is a friendly semi formal, semi condensed, semi sans serif.
+It has reminiscences of hand lettering, mixing straight and bowed stems, and natural curves.
+
+It was born as an experiment in drawing from the outside to the inside (drawing the space surrounding the letters first, instead of drawing the letters themselves) in trying to apply the ideas and methods of Michael Harvey and Evert Bloemsma to my own glyphs construction.
+
+Although Cantora it's a sans, the lowercase letters have serif proportions.
+It's perfect for headlines (H1, H2, H3) in sizes larger than 20px.",
+            filename: "CantoraOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com) with Reserved Font Name Cantora.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

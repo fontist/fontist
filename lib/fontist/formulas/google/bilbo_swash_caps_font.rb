@@ -12,9 +12,21 @@ module Fontist
         sha256 "89ff6c8030b5a74d608ae4c9184326d99cb0f2718c62d4fbb498c39b58f10d32"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BilboSwashCaps-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bilbo Swash Caps",
+            style: "Regular",
+            full_name: "Bilbo Swash Caps Regular",
+            post_script_name: "BilboSwashCaps-Regular",
+            version: "1.003",
+            filename: "BilboSwashCaps-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Names \"Bilbo\" and \"Bilbo Swash Caps\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

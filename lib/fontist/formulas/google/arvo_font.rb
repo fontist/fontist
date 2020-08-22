@@ -12,12 +12,47 @@ module Fontist
         sha256 "7526e4564d304d06c04f8f6fd2ab0f8bdc89cdb46fc7c645fd8016c7de0ffdb7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arvo-Regular.ttf",
-        "Italic" => "Arvo-Italic.ttf",
-        "Bold" => "Arvo-Bold.ttf",
-        "BoldItalic" => "Arvo-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arvo",
+            style: "Regular",
+            full_name: "Arvo",
+            post_script_name: "Arvo",
+            version: "1.006 2010 beta release; ttfautohint (v1.8.2)",
+            filename: "Arvo-Regular.ttf",
+            copyright: "Copyright (c) 2010 Anton Koovit.",
+          },
+          {
+            family_name: "Arvo",
+            style: "Italic",
+            full_name: "Arvo-Italic",
+            post_script_name: "Arvo-Italic",
+            version: "1.006 2010 beta release; ttfautohint (v1.8.2)",
+            filename: "Arvo-Italic.ttf",
+            copyright: "Copyright 2010 Anton Koovit, Yassin Baggar.",
+          },
+          {
+            family_name: "Arvo",
+            style: "Bold",
+            full_name: "Arvo Bold",
+            post_script_name: "Arvo-Bold",
+            version: "1.006 2010 beta release; ttfautohint (v1.8.2)",
+            filename: "Arvo-Bold.ttf",
+            copyright: "Copyright (c) 2010 by Anton Koovit.",
+          },
+          {
+            family_name: "Arvo",
+            style: "Bold Italic",
+            full_name: "Arvo Bold Italic",
+            post_script_name: "Arvo-BoldItalic",
+            version: "1.006 2010 beta release; ttfautohint (v1.8.2)",
+            filename: "Arvo-BoldItalic.ttf",
+            copyright: "Copyright 2010 Anton Koovit, Yassin Baggar.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

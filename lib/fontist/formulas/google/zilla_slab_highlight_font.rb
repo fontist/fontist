@@ -12,10 +12,30 @@ module Fontist
         sha256 "a48344a16b89bc2167d9a99956f4dba89a36cb8be2a5611b6846c60394807115"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ZillaSlabHighlight-Regular.ttf",
-        "Bold" => "ZillaSlabHighlight-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Zilla Slab Highlight",
+            style: "Regular",
+            full_name: "Zilla Slab Highlight",
+            post_script_name: "ZillaSlabHighlight-Regular",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            description: "Zilla is a Slab serif display typeface specifically designed for Mozilla brand",
+            filename: "ZillaSlabHighlight-Regular.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+          {
+            family_name: "Zilla Slab Highlight",
+            style: "Bold",
+            full_name: "Zilla Slab Highlight Bold",
+            post_script_name: "ZillaSlabHighlight-Bold",
+            version: "1.1; 2017; ttfautohint (v1.6)",
+            filename: "ZillaSlabHighlight-Bold.ttf",
+            copyright: "Copyright 2017, The Mozilla Foundation",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

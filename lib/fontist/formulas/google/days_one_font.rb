@@ -12,9 +12,21 @@ module Fontist
         sha256 "f2c2b03df038104cb812945cde169906395019f5a364fffae354c0aa831f01b2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DaysOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Days One",
+            style: "Regular",
+            full_name: "Days One",
+            post_script_name: "DaysOne-Regular",
+            version: "1.002",
+            description: "Copyright (c) 2009 by Alexander Kalachev, Alexey Maslov, Jovanny Lemonad. All rights reserved.",
+            filename: "DaysOne-Regular.ttf",
+            copyright: "Copyright (c) 2009 by Alexander Kalachev, Alexey Maslov, Jovanny Lemonad. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

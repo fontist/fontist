@@ -12,9 +12,20 @@ module Fontist
         sha256 "9402932847138fff57087d821ac5141a85318b1b0b86b4ff46b172fe35582be6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Akronim-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Akronim",
+            style: "Regular",
+            full_name: "Akronim Regular",
+            post_script_name: "Akronim-Regular",
+            version: "1.002",
+            filename: "Akronim-Regular.ttf",
+            copyright: "Copyright (c) 2012 Grzegorz Klimczewski, Fonty.PL (www.fonty.pl), with Reserved Font Name 'Akronim'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "b4410d4c880d69fa0d3d61e28951e2d186ab50e65887896c91df750cd074dc3a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BebasNeue-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bebas Neue",
+            style: "Regular",
+            full_name: "Bebas Neue Regular",
+            post_script_name: "BebasNeue-Regular",
+            version: "2.000",
+            description: "Designed by Ryoichi Tsunekawa from Dharma Type in 2010.",
+            filename: "BebasNeue-Regular.ttf",
+            copyright: "Copyright 2019 The Bebas Neue Project Authors (https://github.com/dharmatype/Bebas-Neue)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

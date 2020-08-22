@@ -12,9 +12,20 @@ module Fontist
         sha256 "f48bfead9967e1caa9825e500b0bbee952dad25cb13b831c56eb6a379e9e6154"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Barrio-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Barrio",
+            style: "Regular",
+            full_name: "Barrio Regular",
+            post_script_name: "Barrio-Regular",
+            version: "1.005",
+            filename: "Barrio-Regular.ttf",
+            copyright: "Copyright 2016 The Barrio Project Authors (omnibus.type@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

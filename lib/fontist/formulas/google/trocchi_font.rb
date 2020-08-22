@@ -12,9 +12,20 @@ module Fontist
         sha256 "5fafdefcb67f355b47fa0b3278dd532f779eb3f2a6d7c73fdb277119b5a555be"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Trocchi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Trocchi",
+            style: "Regular",
+            full_name: "Trocchi Regular",
+            post_script_name: "Trocchi-Regular",
+            version: "1.100",
+            filename: "Trocchi-Regular.ttf",
+            copyright: "Copyright 2012 The Trocchi Project Authors (vern@newtypography.co.uk)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

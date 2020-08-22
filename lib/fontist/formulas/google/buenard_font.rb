@@ -12,10 +12,29 @@ module Fontist
         sha256 "4b17e784f85540993a8b3c553c031bc9b4347af86c3a73c352874855dd08b0ba"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Buenard-Regular.ttf",
-        "Bold" => "Buenard-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Buenard",
+            style: "Regular",
+            full_name: "Buenard Regular",
+            post_script_name: "Buenard-Regular",
+            version: "1.002 2011",
+            filename: "Buenard-Regular.ttf",
+            copyright: "Copyright (c) 2011, FontFuror (info@fontfuror.com), with Reserved Font Names \"Buenard\" and \"Buenard Pro\".",
+          },
+          {
+            family_name: "Buenard",
+            style: "Bold",
+            full_name: "Buenard Bold",
+            post_script_name: "Buenard-Bold",
+            version: "1.002 2011",
+            filename: "Buenard-Bold.ttf",
+            copyright: "Copyright (c) 2011, FontFuror (info@fontfuror.com), with Reserved Font Names \"Buenard\" and \"Buenard Pro\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

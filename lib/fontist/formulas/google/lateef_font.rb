@@ -12,9 +12,21 @@ module Fontist
         sha256 "e0ecc2bf1ef1228651a3e09ccc7cda9d946534d3aa50c19d898498a719ea4471"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LateefRegOT.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lateef",
+            style: "Regular",
+            full_name: "Lateef",
+            post_script_name: "Lateef",
+            version: "1.001 (build 117/117)",
+            description: "Lateef, an extended Arabic font, is named after Shah Abdul Lateef Bhitai, the famous Sindhi mystic and poet. It is intended to be an appropriate style for use in Sindhi and other languages of the South Asian region.",
+            filename: "LateefRegOT.ttf",
+            copyright: "Copyright (c) 2004-2008, SIL International (http://www.sil.org/), and released under the SIL Open Font License, with Reserved Font Names \"Lateef\" and \"SIL\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "8489744f2cb7b98ed406ca65196b9d9a7787590153e4b0f54c7d75adfa295537"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lusitana-Regular.ttf",
-        "Bold" => "Lusitana-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lusitana",
+            style: "Regular",
+            full_name: "Lusitana",
+            post_script_name: "Lusitana",
+            version: "1.001",
+            filename: "Lusitana-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Ana Paula Megda (www.anamegda.com|anapbm@gmail.com), with Reserved Font Name Lusitana.",
+          },
+          {
+            family_name: "Lusitana",
+            style: "Bold",
+            full_name: "Lusitana Bold",
+            post_script_name: "Lusitana-Bold",
+            version: "1.001",
+            filename: "Lusitana-Bold.ttf",
+            copyright: "Copyright (c) 2011 by Ana Paula Megda (www.anamegda.com|anapbm@gmail.com), with Reserved Font Name Lusitana.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

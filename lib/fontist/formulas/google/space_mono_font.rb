@@ -12,12 +12,47 @@ module Fontist
         sha256 "6eee62b1c38e4009c63f89df84e4851c2bd1949d360b006191f6fb3c33918835"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SpaceMono-Regular.ttf",
-        "Italic" => "SpaceMono-Italic.ttf",
-        "Bold" => "SpaceMono-Bold.ttf",
-        "BoldItalic" => "SpaceMono-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Space Mono",
+            style: "Regular",
+            full_name: "Space Mono Regular",
+            post_script_name: "SpaceMono-Regular",
+            version: "1.001;PS 1.003;hotconv 1.0.81;makeotf.lib2.5.63406",
+            filename: "SpaceMono-Regular.ttf",
+            copyright: "Copyright 2016 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Space Mono",
+            style: "Italic",
+            full_name: "Space Mono Italic",
+            post_script_name: "SpaceMono-Italic",
+            version: "1.001;PS 1.001;hotconv 1.0.81;makeotf.lib2.5.63406",
+            filename: "SpaceMono-Italic.ttf",
+            copyright: "Copyright 2016 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Space Mono",
+            style: "Bold",
+            full_name: "Space Mono Bold",
+            post_script_name: "SpaceMono-Bold",
+            version: "1.001;PS 1.001;hotconv 1.0.81;makeotf.lib2.5.63406",
+            filename: "SpaceMono-Bold.ttf",
+            copyright: "Copyright 2016 Google Inc. All Rights Reserved.",
+          },
+          {
+            family_name: "Space Mono",
+            style: "Bold Italic",
+            full_name: "Space Mono Bold Italic",
+            post_script_name: "SpaceMono-BoldItalic",
+            version: "1.001;PS 1.001;hotconv 1.0.81;makeotf.lib2.5.63406",
+            filename: "SpaceMono-BoldItalic.ttf",
+            copyright: "Copyright 2016 Google Inc. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "e57b5218c3ebb43f6e481a3cc83105af52c5851077dd2eff8dd52a9761a10499"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Atma-Light.ttf",
-        "Regular" => "Atma-Regular.ttf",
-        "Medium" => "Atma-Medium.ttf",
-        "SemiBold" => "Atma-SemiBold.ttf",
-        "Bold" => "Atma-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Atma",
+            style: "Light",
+            full_name: "Atma Light",
+            post_script_name: "Atma-Light",
+            version: "1.102;PS 1.100;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Atma-Light.ttf",
+            copyright: "Copyright 2015 The Atma Project Authors (www.black-foundry.com)",
+          },
+          {
+            family_name: "Atma",
+            style: "Regular",
+            full_name: "Atma Regular",
+            post_script_name: "Atma-Regular",
+            version: "1.102;PS 1.100;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Atma-Regular.ttf",
+            copyright: "Copyright 2015 The Atma Project Authors (www.black-foundry.com)",
+          },
+          {
+            family_name: "Atma",
+            style: "Medium",
+            full_name: "Atma Medium",
+            post_script_name: "Atma-Medium",
+            version: "1.102;PS 1.100;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Atma-Medium.ttf",
+            copyright: "Copyright 2015 The Atma Project Authors (www.black-foundry.com)",
+          },
+          {
+            family_name: "Atma",
+            style: "SemiBold",
+            full_name: "Atma SemiBold",
+            post_script_name: "Atma-SemiBold",
+            version: "1.102;PS 1.100;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Atma-SemiBold.ttf",
+            copyright: "Copyright 2015 The Atma Project Authors (www.black-foundry.com)",
+          },
+          {
+            family_name: "Atma",
+            style: "Bold",
+            full_name: "Atma Bold",
+            post_script_name: "Atma-Bold",
+            version: "1.102;PS 1.100;hotconv 1.0.86;makeotf.lib2.5.63406",
+            filename: "Atma-Bold.ttf",
+            copyright: "Copyright 2015 The Atma Project Authors (www.black-foundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

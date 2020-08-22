@@ -12,9 +12,20 @@ module Fontist
         sha256 "1fd4ff54701c85df6e1325505782f6e860bb6f9dbad364f41336444078b78e43"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Carme-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Carme",
+            style: "Regular",
+            full_name: "Carme Regular",
+            post_script_name: "Carme",
+            version: "1.000",
+            filename: "Carme-Regular.ttf",
+            copyright: "Copyright (c) 2010-2011, Ruben Prol (ipanemagrafica@gmail.com|www.ipanemagrafica.com),",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

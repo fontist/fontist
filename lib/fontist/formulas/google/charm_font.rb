@@ -12,10 +12,29 @@ module Fontist
         sha256 "9b07344c445755a53b25240ed9599d24d024d88cbe40621009d00f6ae1c25eb7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Charm-Regular.ttf",
-        "Bold" => "Charm-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Charm",
+            style: "Regular",
+            full_name: "Charm Regular",
+            post_script_name: "Charm-Regular",
+            version: "1.001",
+            filename: "Charm-Regular.ttf",
+            copyright: "Copyright 2018 The Charm Project Authors (https://github.com/cadsondemak/charm)",
+          },
+          {
+            family_name: "Charm",
+            style: "Bold",
+            full_name: "Charm Bold",
+            post_script_name: "Charm-Bold",
+            version: "1.001",
+            filename: "Charm-Bold.ttf",
+            copyright: "Copyright 2018 The Charm Project Authors (https://github.com/cadsondemak/charm)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

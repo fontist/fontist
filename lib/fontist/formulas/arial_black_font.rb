@@ -14,9 +14,21 @@ module Fontist
         sha256 "a425f0ffb6a1a5ede5b979ed6177f4f4f4fdef6ae7c302a7b7720ef332fec0a8"
       end
 
-      provides_font("Arial Black", match_styles_from_file: {
-        "Regular" => "AriBlk.TTF"
-      })
+      provides_font(
+        "Arial Black",
+        match_styles_from_file: [
+          {
+            family_name: "Arial Black",
+            style: "Regular",
+            full_name: "Arial Black",
+            post_script_name: "Arial-Black",
+            version: "2.35",
+            description: "Monotype Drawing Office 1982. A contemporary sans serif design, Arial contains more humanist characteristics than many of its predecessors and as such is more in tune with the mood of the last decades of the twentieth century. The overall treatment of curves is softer and fuller than in most industrial-style sans serif faces. Terminal strokes are cut on the diagonal which helps to give the face a less mechanical appearance. Arial is an extremely versatile family of typefaces which can be used with equal success for text setting in reports, presentations, magazines etc, and for display use in newspapers, advertising and promotions.",
+            filename: "AriBlk.TTF",
+            copyright: "Digitized data copyright The Monotype Corporation 1991-1995. All rights reserved. Arial® is a trademark of The Monotype Corporation which may be registered in certain jurisdictions.",
+          },
+        ]
+      )
 
       def extract
         resource "arialb32.exe" do |resource|

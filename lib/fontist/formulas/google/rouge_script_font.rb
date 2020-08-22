@@ -12,9 +12,20 @@ module Fontist
         sha256 "e4b240b0b92296cefe2b3b3a98533705292efd32f575dee118ae0341498c124b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RougeScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rouge Script",
+            style: "Regular",
+            full_name: "Rouge Script",
+            post_script_name: "RougeScript-Regular",
+            version: "1.003",
+            filename: "RougeScript-Regular.ttf",
+            copyright: "Copyright (c) 2011 Typesenses (typesenses@live.com.ar), with Reserved Font Name \"Rouge Script\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

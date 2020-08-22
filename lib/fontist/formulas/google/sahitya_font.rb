@@ -12,10 +12,29 @@ module Fontist
         sha256 "29c4f7a6933ec812b3002f072ae0b9159ad371991375a2646361652c95d7c6d0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sahitya-Regular.ttf",
-        "Bold" => "Sahitya-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sahitya",
+            style: "Regular",
+            full_name: "Sahitya",
+            post_script_name: "Sahitya-Regular",
+            version: "1.001;PS 001.000;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.2) -l 8 -r 50 -G 200 -x 16 -D latn -f none -w G -W -X \"\"",
+            filename: "Sahitya-Regular.ttf",
+            copyright: "Copyright (c) 2015 by Juan Pablo del Peral (http://www.huertatipografica.com). All rights reserved.",
+          },
+          {
+            family_name: "Sahitya",
+            style: "Bold",
+            full_name: "Sahitya Bold",
+            post_script_name: "Sahitya-Bold",
+            version: "1.001;PS 001.000;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.2) -l 8 -r 50 -G 200 -x 16 -D latn -f none -w G -W -X \"\"",
+            filename: "Sahitya-Bold.ttf",
+            copyright: "Copyright (c) 2015 by Juan Pablo del Peral (http://www.huertatipografica.com). All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

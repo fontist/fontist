@@ -12,10 +12,29 @@ module Fontist
         sha256 "cdc217651c1b6e279dcb8e18f82971cef3c34ae66a44c85ebc4fd74b324939f1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CherrySwash-Regular.ttf",
-        "Bold" => "CherrySwash-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cherry Swash",
+            style: "Regular",
+            full_name: "Cherry Swash",
+            post_script_name: "CherrySwash-Regular",
+            version: "1.001",
+            filename: "CherrySwash-Regular.ttf",
+            copyright: "Copyright (c) 2012, Natalia Kasatkina (kasatkinanataliya@gmail.com)",
+          },
+          {
+            family_name: "Cherry Swash",
+            style: "Bold",
+            full_name: "Cherry Swash Bold",
+            post_script_name: "CherrySwash-Bold",
+            version: "1.001",
+            filename: "CherrySwash-Bold.ttf",
+            copyright: "Copyright (c) 2012, Natalia Kasatkina (kasatkinanataliya@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

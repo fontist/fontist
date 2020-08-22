@@ -12,9 +12,21 @@ module Fontist
         sha256 "890f6bde91d3f0a1d4dce078ca2aa6e0384859d63f07d35a3035135d582cf659"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sacramento-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sacramento",
+            style: "Regular",
+            full_name: "Sacramento",
+            post_script_name: "Sacramento-Regular",
+            version: "1.000",
+            filename: "Sacramento-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Sacramento\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

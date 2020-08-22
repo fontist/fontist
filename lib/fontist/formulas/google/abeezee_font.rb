@@ -12,10 +12,29 @@ module Fontist
         sha256 "d9fd1179855e81c343b8419c1575da39b8e8819dc365a3144062054086849a01"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ABeeZee-Regular.ttf",
-        "Italic" => "ABeeZee-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "ABeeZee",
+            style: "Regular",
+            full_name: "ABeeZee Regular",
+            post_script_name: "ABeeZee-Regular",
+            version: "1.002",
+            filename: "ABeeZee-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Anja Meiners, with Reserved Font Name 'ABeeZee'",
+          },
+          {
+            family_name: "ABeeZee",
+            style: "Italic",
+            full_name: "ABeeZee Italic",
+            post_script_name: "ABeeZee-Italic",
+            version: "1.002",
+            filename: "ABeeZee-Italic.ttf",
+            copyright: "Copyright (c) 2011 by Anja Meiners, with Reserved Font Name 'ABeeZee'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

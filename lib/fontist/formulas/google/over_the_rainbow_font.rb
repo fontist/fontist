@@ -12,9 +12,20 @@ module Fontist
         sha256 "a736e9fdf9553b56f0b46cc6cc3ae874ad00f092ebecf918cb6ce1218e4636a5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OvertheRainbow.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Over the Rainbow",
+            style: "Regular",
+            full_name: "Over the Rainbow",
+            post_script_name: "OvertheRainbow",
+            version: "1.002 2010",
+            filename: "OvertheRainbow.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

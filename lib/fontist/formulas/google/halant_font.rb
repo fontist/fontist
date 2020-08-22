@@ -12,13 +12,56 @@ module Fontist
         sha256 "f52d7a1dc34ac21ce4c64cc1e2e0f0ca5f72e5f9b7619352f73557b12c61cfee"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Halant-Light.ttf",
-        "Regular" => "Halant-Regular.ttf",
-        "Medium" => "Halant-Medium.ttf",
-        "SemiBold" => "Halant-SemiBold.ttf",
-        "Bold" => "Halant-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Halant",
+            style: "Light",
+            full_name: "Halant Light",
+            post_script_name: "Halant-Light",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Halant-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Halant",
+            style: "Regular",
+            full_name: "Halant Regular",
+            post_script_name: "Halant-Regular",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Halant-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Halant",
+            style: "Medium",
+            full_name: "Halant Medium",
+            post_script_name: "Halant-Medium",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Halant-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Halant",
+            style: "SemiBold",
+            full_name: "Halant SemiBold",
+            post_script_name: "Halant-SemiBold",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Halant-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Halant",
+            style: "Bold",
+            full_name: "Halant Bold",
+            post_script_name: "Halant-Bold",
+            version: "1.101;PS 1.0;hotconv 1.0.78;makeotf.lib2.5.61930; ttfautohint (v1.1) -l 8 -r 50 -G 200 -x 14 -D latn -f deva -w gGD -W -c",
+            filename: "Halant-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

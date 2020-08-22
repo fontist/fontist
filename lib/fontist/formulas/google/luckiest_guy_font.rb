@@ -12,9 +12,21 @@ module Fontist
         sha256 "613f3a1473ad2a998fad455a7ceb475159f663f46753ee0d111fc10792d1c4c8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LuckiestGuy-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Luckiest Guy",
+            style: "Regular",
+            full_name: "Luckiest Guy Regular",
+            post_script_name: "LuckiestGuy-Regular",
+            version: "1.001",
+            filename: "LuckiestGuy-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

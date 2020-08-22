@@ -12,9 +12,22 @@ module Fontist
         sha256 "fdc06072a9dc05475d99df6006ed393d14b91602c163851d53ea444b3581678d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "FjallaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fjalla One",
+            style: "Regular",
+            full_name: "Fjalla One",
+            post_script_name: "FjallaOne-Regular",
+            version: "1.001; ttfautohint (v1.6)",
+            description: "Fjalla is a medium contrast display sans serif. Fjalla has been carefully adjusted to the restrictions of the screen. Despite having display characteristics Fjalla can be used in a wide range of sizes.",
+            filename: "FjallaOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Fjalla\" and Fjalla \"One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

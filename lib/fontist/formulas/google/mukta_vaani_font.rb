@@ -12,15 +12,74 @@ module Fontist
         sha256 "d0d1ac32c337db8dfaced8139651f688acfc05dbba22287d1d94601bdf471d4b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "MuktaVaani-ExtraLight.ttf",
-        "Light" => "MuktaVaani-Light.ttf",
-        "Regular" => "MuktaVaani-Regular.ttf",
-        "Medium" => "MuktaVaani-Medium.ttf",
-        "SemiBold" => "MuktaVaani-SemiBold.ttf",
-        "Bold" => "MuktaVaani-Bold.ttf",
-        "ExtraBold" => "MuktaVaani-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mukta Vaani",
+            style: "ExtraLight",
+            full_name: "Mukta Vaani ExtraLight",
+            post_script_name: "MuktaVaani-ExtraLight",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-ExtraLight.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "Light",
+            full_name: "Mukta Vaani Light",
+            post_script_name: "MuktaVaani-Light",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-Light.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "Regular",
+            full_name: "Mukta Vaani Regular",
+            post_script_name: "MuktaVaani-Regular",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-Regular.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "Medium",
+            full_name: "Mukta Vaani Medium",
+            post_script_name: "MuktaVaani-Medium",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-Medium.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "SemiBold",
+            full_name: "Mukta Vaani SemiBold",
+            post_script_name: "MuktaVaani-SemiBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-SemiBold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "Bold",
+            full_name: "Mukta Vaani Bold",
+            post_script_name: "MuktaVaani-Bold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-Bold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+          {
+            family_name: "Mukta Vaani",
+            style: "ExtraBold",
+            full_name: "Mukta Vaani ExtraBold",
+            post_script_name: "MuktaVaani-ExtraBold",
+            version: "2.538;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220; ttfautohint (v1.6)",
+            filename: "MuktaVaani-ExtraBold.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

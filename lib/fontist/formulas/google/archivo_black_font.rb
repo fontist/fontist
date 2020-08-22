@@ -12,9 +12,20 @@ module Fontist
         sha256 "dc2a3de7b69e778bbf5637ca10fec96699431283dcf42b87be177739169ddea6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ArchivoBlack-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Archivo Black",
+            style: "Regular",
+            full_name: "Archivo Black Regular",
+            post_script_name: "ArchivoBlack-Regular",
+            version: "1.006",
+            filename: "ArchivoBlack-Regular.ttf",
+            copyright: "Copyright 2017 The Archivo Black Project Authors (https://github.com/Omnibus-Type/ArchivoBlack)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "136b41193cdfe13f7bdc7b1883b2a75213e065a92d41a1c74b71e75f1a27675f"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "jsMath-cmex10.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "jsMath-cmex10",
+            style: "cmex10",
+            full_name: "jsMath-cmex10",
+            post_script_name: "jsMath-cmex10",
+            version: "001.001",
+            filename: "jsMath-cmex10.ttf",
+            copyright: "Generated from MetaFont bitmap by mftrace 1.0.33, http://www.cs.uu.nl/~hanwen/mftrace/",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

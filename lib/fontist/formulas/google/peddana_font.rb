@@ -12,9 +12,20 @@ module Fontist
         sha256 "be77900c7d329fc2ff1e4826446414ddec7d6630fe04bcbe05cba455e07fdbdf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Peddana-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Peddana",
+            style: "Regular",
+            full_name: "Peddana Regular",
+            post_script_name: "Peddana",
+            version: "1.0.4; ttfautohint (v1.2.25-373a) -l 7 -r 28 -G 50 -x 13 -D telu -f latn -w G -X \"\"",
+            filename: "Peddana-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 1997-2014, SIL International (http://scripts.sil.org/) with Reserved Font Names \"Charis\" and \"SIL\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

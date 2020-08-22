@@ -12,9 +12,20 @@ module Fontist
         sha256 "acbed70c5a100e00845e5c80f2f4e280671c4fd58f6b92dffe2f1a368662ed79"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MeieScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Meie Script",
+            style: "Regular",
+            full_name: "Meie Script",
+            post_script_name: "MeieScript-Regular",
+            version: "1.001",
+            filename: "MeieScript-Regular.ttf",
+            copyright: "Copyright (c) 2011, 2012 Johan Kallas (johankallas@gmail.com), Mihkel Virkus (mihkelvirkus@gmail.com), with Reserved Font Name 'Meie Script'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

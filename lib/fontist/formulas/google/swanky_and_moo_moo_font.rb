@@ -12,9 +12,20 @@ module Fontist
         sha256 "ab7529dcce5eade084e18742cb1dfb3ee5776d3c81ebb798640a9dae041947c3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SwankyandMooMoo.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Swanky and Moo Moo",
+            style: "Regular",
+            full_name: "Swanky and Moo Moo",
+            post_script_name: "SwankyandMooMoo",
+            version: "1.002 2001",
+            filename: "SwankyandMooMoo.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

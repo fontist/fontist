@@ -12,9 +12,20 @@ module Fontist
         sha256 "1574d2d8ce0f20971cf1f50a2da2b14a304a1f16911480df6b8a0592c860a47d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lobster-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lobster",
+            style: "Regular",
+            full_name: "Lobster Regular",
+            post_script_name: "Lobster-Regular",
+            version: "2.100",
+            filename: "Lobster-Regular.ttf",
+            copyright: "Copyright 2010 The Lobster Project Authors (https://github.com/impallari/The-Lobster-Font), with Reserved Font Name \"Lobster\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

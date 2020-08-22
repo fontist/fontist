@@ -12,9 +12,20 @@ module Fontist
         sha256 "7e021be668084e0f5a09665a7993c40b9dacf560d685ee64ee5ff5f3ae9ac4c5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TradeWinds-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Trade Winds",
+            style: "Regular",
+            full_name: "Trade Winds",
+            post_script_name: "TradeWinds",
+            version: "1.001",
+            filename: "TradeWinds-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reseved Font Name \"Trade Winds\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

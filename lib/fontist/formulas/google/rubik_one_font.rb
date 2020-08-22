@@ -12,9 +12,20 @@ module Fontist
         sha256 "8dda51e46a98923d5539854cb6b84d3825950ece88e7d414f9f0bad0af262500"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RubikOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Rubik One",
+            style: "Regular",
+            full_name: "Rubik One Regular",
+            post_script_name: "RubikOne-Regular",
+            version: "1.001",
+            filename: "RubikOne-Regular.ttf",
+            copyright: "Copyright (c) 2013, 2014, Hubert and Fischer, Philipp Hubert (philipp@hubertfischer.com), Sebastian Fischer (sebastian@hubertfischer.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

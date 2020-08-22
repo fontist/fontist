@@ -12,9 +12,21 @@ module Fontist
         sha256 "b83d95b64df5a7b02aeef16ab2108b93682bcde7ec14559b090f26d57075f436"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ReenieBeanie.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Reenie Beanie",
+            style: "Regular",
+            full_name: "Reenie Beanie",
+            post_script_name: "ReenieBeanie",
+            version: "1.000",
+            description: "Copyright (c) 2010 Typeco. All rights reserved.",
+            filename: "ReenieBeanie.ttf",
+            copyright: "Copyright (c) 2010 Typeco. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

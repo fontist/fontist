@@ -12,9 +12,20 @@ module Fontist
         sha256 "2db5852a48c15c1b69155cb6b7ea5769f745146281b5b26f0dd1fecd36ee6eaf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LongCang-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Long Cang",
+            style: "Regular",
+            full_name: "Long Cang Regular",
+            post_script_name: "LongCang-Regular",
+            version: "2.001",
+            filename: "LongCang-Regular.ttf",
+            copyright: "Copyright 2018 The LongCang Project Authors (https://github.com/googlefonts/longcang)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

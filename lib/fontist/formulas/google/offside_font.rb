@@ -12,9 +12,20 @@ module Fontist
         sha256 "4491d4a722d34b3b8960cd95eab5ecd8189bf8f9e9766903c682526c0b33d875"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Offside-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Offside",
+            style: "Regular",
+            full_name: "Offside",
+            post_script_name: "Offside-Regular",
+            version: "1.001",
+            filename: "Offside-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Offside'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

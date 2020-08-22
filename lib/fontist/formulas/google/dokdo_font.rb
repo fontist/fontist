@@ -12,9 +12,20 @@ module Fontist
         sha256 "b182f7709494cc42798ae1c6331a6d52dc96b8a441bb6058a95825327ae129e5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dokdo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dokdo",
+            style: "Regular",
+            full_name: "Dokdo Regular",
+            post_script_name: "Dokdo-Regular",
+            version: "2.00",
+            filename: "Dokdo-Regular.ttf",
+            copyright: "Copyright (c) 2005-2017 FONTRIX. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

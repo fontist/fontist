@@ -12,9 +12,20 @@ module Fontist
         sha256 "38f417dcd158c12bff98d06e49511466039509591f011a8fdb196bbbbafcaf53"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KirangHaerang-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kirang Haerang",
+            style: "Regular",
+            full_name: "Kirang Haerang Regular",
+            post_script_name: "KirangHaerang-Regular",
+            version: "1.00",
+            filename: "KirangHaerang-Regular.ttf",
+            copyright: "Copyright 2018 The Kirang Haerang Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

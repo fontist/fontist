@@ -12,9 +12,20 @@ module Fontist
         sha256 "82b2b5162117746f7897552c97fbc08fc706e3232f082a286162e9adf2a383bd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Slackey-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Slackey",
+            style: "Regular",
+            full_name: "Slackey Regular",
+            post_script_name: "Slackey-Regular",
+            version: "1.001",
+            filename: "Slackey-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

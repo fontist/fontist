@@ -12,9 +12,23 @@ module Fontist
         sha256 "5d56a7dc259d8847e8a733991134a3822a27268b27ccc761bf8e61e8c0cbe192"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DuruSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Duru Sans",
+            style: "Regular",
+            full_name: "Duru Sans Regular",
+            post_script_name: "DuruSans-Regular",
+            version: "1.002",
+            description: "Duru is low contrast a classic 20th century style sans design. Duru is a new take on mixing the humanist urge with the modernist one.ÊDuru also somehow manages to be elegant and a workhorse type at the same time. Duru can be used at a wide range ofÊsizes.",
+            filename: "DuruSans-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Duru.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "77c02e61ea275ebee73291d94a418e810f60b7ec5214792edc667e57712305ac"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CraftyGirls-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Crafty Girls",
+            style: "Regular",
+            full_name: "Crafty Girls Regular",
+            post_script_name: "CraftyGirls-Regular",
+            version: "1.001",
+            filename: "CraftyGirls-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Tart Workshop. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

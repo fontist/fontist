@@ -12,9 +12,20 @@ module Fontist
         sha256 "521a26b2167e66d396009bc6ca97315d76d388b56a352d1612011c3119152ce2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JollyLodger-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jolly Lodger",
+            style: "Regular",
+            full_name: "Jolly Lodger",
+            post_script_name: "JollyLodger",
+            version: "1.000",
+            filename: "JollyLodger-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Font Diner, Inc (diner@fontdiner.com) with Reseved Font Name \"Jolly Lodger\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "113c36e36ed0340e9b26653619d07746ff47858c18028de2235836919f85fb2d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RaviPrakash-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ravi Prakash",
+            style: "Regular",
+            full_name: "Ravi Prakash",
+            post_script_name: "RaviPrakash-Regular",
+            version: "1.0.4; ttfautohint (v1.2.42-39fb)",
+            filename: "RaviPrakash-Regular.ttf",
+            copyright: "Copyright (c) 2011 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Joti'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

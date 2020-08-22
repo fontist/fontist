@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Dosis[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Dosis",
+            style: "ExtraLight",
+            full_name: "Dosis ExtraLight",
+            post_script_name: "Dosis-ExtraLight",
+            version: "3.001; ttfautohint (v1.8.2)",
+            filename: "Dosis[wght].ttf",
+            copyright: "Copyright 2011 The Dosis Project Authors (impallari@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

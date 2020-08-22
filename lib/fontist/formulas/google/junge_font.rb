@@ -12,9 +12,25 @@ module Fontist
         sha256 "d77b11f1fc6a97f6433fd95225e5b87bc70c065e7999207f7432c74f111fba67"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Junge-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Junge",
+            style: "Regular",
+            full_name: "Junge",
+            post_script_name: "Junge-Regular",
+            version: "1.002",
+            filename: "Junge-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Junge\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,13 +12,56 @@ module Fontist
         sha256 "c82ba2bd2064a982844d18bd76236aa9d81a1f5c29b94055f7c2aae431702d55"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Hind-Light.ttf",
-        "Regular" => "Hind-Regular.ttf",
-        "Medium" => "Hind-Medium.ttf",
-        "SemiBold" => "Hind-SemiBold.ttf",
-        "Bold" => "Hind-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hind",
+            style: "Light",
+            full_name: "Hind Light",
+            post_script_name: "Hind-Light",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f deva -w G -W -c -X \"\"",
+            filename: "Hind-Light.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind",
+            style: "Regular",
+            full_name: "Hind Regular",
+            post_script_name: "Hind-Regular",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f deva -w G -W -c -X \"\"",
+            filename: "Hind-Regular.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind",
+            style: "Medium",
+            full_name: "Hind Medium",
+            post_script_name: "Hind-Medium",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f deva -w G -W -c -X \"\"",
+            filename: "Hind-Medium.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind",
+            style: "SemiBold",
+            full_name: "Hind SemiBold",
+            post_script_name: "Hind-SemiBold",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f deva -w G -W -c -X \"\"",
+            filename: "Hind-SemiBold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+          {
+            family_name: "Hind",
+            style: "Bold",
+            full_name: "Hind Bold",
+            post_script_name: "Hind-Bold",
+            version: "2.001;PS 1.0;hotconv 1.0.79;makeotf.lib2.5.61930; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 13 -D latn -f deva -w G -W -c -X \"\"",
+            filename: "Hind-Bold.ttf",
+            copyright: "Copyright (c) 2014 Indian Type Foundry (info@indiantypefoundry.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

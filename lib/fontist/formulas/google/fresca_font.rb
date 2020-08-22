@@ -12,9 +12,20 @@ module Fontist
         sha256 "8f3af365ba625e8d254b136d2d89f7447500dc12ab7cbaad231cd4e4085b0898"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Fresca-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Fresca",
+            style: "Regular",
+            full_name: "Fresca-Regular",
+            post_script_name: "Fresca-Regular",
+            version: "1.001",
+            filename: "Fresca-Regular.ttf",
+            copyright: "Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Name \"Fresca\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

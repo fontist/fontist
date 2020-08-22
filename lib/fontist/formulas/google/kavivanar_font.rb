@@ -12,9 +12,20 @@ module Fontist
         sha256 "8cd40aa78eea8849bd4e7276f174fbdfd2923678f352688392670fb8f19670e7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kavivanar-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kavivanar",
+            style: "Regular",
+            full_name: "Kavivanar Regular",
+            post_script_name: "Kavivanar-Regular",
+            version: "1.88",
+            filename: "Kavivanar-Regular.ttf",
+            copyright: "Copyright (c) 2015, Tharique Azeez (http://thariqueazeez.com|zeezat@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

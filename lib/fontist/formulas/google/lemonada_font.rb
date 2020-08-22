@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lemonada[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lemonada",
+            style: "Regular",
+            full_name: "Lemonada Regular",
+            post_script_name: "Lemonada-Regular",
+            version: "4.004; ttfautohint (v1.8.2)",
+            filename: "Lemonada[wght].ttf",
+            copyright: "Copyright 2011 The Lemonada Project Authors (https://github.com/Gue3bara/Lemonada)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

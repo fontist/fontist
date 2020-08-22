@@ -12,10 +12,29 @@ module Fontist
         sha256 "a01117f87134d1f5498c5c7affd3e6bcab79c77344b1f9ae58d3061591e040b0"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Coda-Regular.ttf",
-        "ExtraBold" => "Coda-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Coda",
+            style: "Regular",
+            full_name: "Coda Regular",
+            post_script_name: "Coda-Regular",
+            version: "2.001; ttfautohint (v0.8) -r 50 -G 200 -x",
+            filename: "Coda-Regular.ttf",
+            copyright: "Copyright (c) 2010-2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names \"Coda\"",
+          },
+          {
+            family_name: "Coda",
+            style: "ExtraBold",
+            full_name: "Coda ExtraBold",
+            post_script_name: "Coda-ExtraBold",
+            version: "2.001; ttfautohint (v0.8) -r 50 -G 200 -x",
+            filename: "Coda-ExtraBold.ttf",
+            copyright: "Copyright (c) 2010-2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names \"Coda\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

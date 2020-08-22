@@ -12,9 +12,21 @@ module Fontist
         sha256 "f637319a3141063e4a68be6159f545c1fe3264b4e2160c409b35b30396a8a209"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mako-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mako",
+            style: "Regular",
+            full_name: "Mako",
+            post_script_name: "Mako",
+            version: "1.000",
+            description: "Copyright (c) 2007 by vernon adams. All rights reserved.",
+            filename: "Mako-Regular.ttf",
+            copyright: "Copyright (c) 2007 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

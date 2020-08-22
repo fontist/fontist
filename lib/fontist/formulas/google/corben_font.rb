@@ -12,10 +12,31 @@ module Fontist
         sha256 "bda320b02113f7cb75b20468736072142a4631e251d12bfba580271a6686a1e7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Corben-Regular.ttf",
-        "Bold" => "Corben-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Corben",
+            style: "Regular",
+            full_name: "Corben",
+            post_script_name: "Corben-Regular",
+            version: "1.101",
+            description: "Copyright (c) 2009 by vernon adams. All rights reserved.",
+            filename: "Corben-Regular.ttf",
+            copyright: "Copyright (c) 2010, 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Name Corben.",
+          },
+          {
+            family_name: "Corben",
+            style: "Bold",
+            full_name: "Corben Bold",
+            post_script_name: "Corben-Bold",
+            version: "1.101; ttfautohint (v1.6)",
+            description: "Copyright (c) 2009 by vernon adams. All rights reserved.",
+            filename: "Corben-Bold.ttf",
+            copyright: "Copyright (c) 2010, 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Name Corben.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "22fd7f33f8d970bc824c54e49f3a83b7498957455c62656f7204687f2ce3bb76"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Candal.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Candal",
+            style: "Regular",
+            full_name: "Candal",
+            post_script_name: "Candal",
+            version: "1.000",
+            description: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+            filename: "Candal.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

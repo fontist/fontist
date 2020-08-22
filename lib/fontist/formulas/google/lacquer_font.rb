@@ -12,9 +12,20 @@ module Fontist
         sha256 "b4dd0488ac5318b5fcdb69400535a7a9a003fb24d9c1c738c053154b632d6836"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lacquer-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lacquer",
+            style: "Regular",
+            full_name: "Lacquer Regular",
+            post_script_name: "Lacquer-Regular",
+            version: "1.100",
+            filename: "Lacquer-Regular.ttf",
+            copyright: "Copyright 2019 The Lacquer Project Authors (https://github.com/Lacquer-Font/Lacquer)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

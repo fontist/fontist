@@ -12,9 +12,21 @@ module Fontist
         sha256 "c17ef095a9bbdd3b4e8ca4f5581ef5830fec61a944ea8ef3631dd368885bfd9e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Cagliostro-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cagliostro",
+            style: "Regular",
+            full_name: "Cagliostro Regular",
+            post_script_name: "Cagliostro-Regular",
+            version: "Version",
+            description: "Inspired by a design by Ozwald Bruce Cooper.",
+            filename: "Cagliostro-Regular.ttf",
+            copyright: "Copyright (c) 2011 Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.com), with Reserved Font Name \"Cagliostro\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

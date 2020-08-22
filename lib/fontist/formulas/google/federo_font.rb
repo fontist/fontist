@@ -12,9 +12,21 @@ module Fontist
         sha256 "e0642cbc01dd72bdb12863252370d2f65ed0db9e483ed1d2d45e7c585abbccb1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Federo-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Federo",
+            style: "Regular",
+            full_name: "Federo",
+            post_script_name: "Federo-Regular",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Olexa M. Volochay | Cyreal.org. All rights reserved. Based on Feder Grotesk by J.Erbar (1909)",
+            filename: "Federo-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Olexa M. Volochay | Cyreal.org. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

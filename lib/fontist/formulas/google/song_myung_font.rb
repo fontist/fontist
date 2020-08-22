@@ -12,9 +12,20 @@ module Fontist
         sha256 "64dd59d87d07a3f7a3f73c632740808be6b81aeabcf9e5e490dccac6f6a7f7e5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SongMyung-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Song Myung",
+            style: "Regular",
+            full_name: "Song Myung Regular",
+            post_script_name: "SongMyung-Regular",
+            version: "1.00",
+            filename: "SongMyung-Regular.ttf",
+            copyright: "Copyright 2018 The Song Myung Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

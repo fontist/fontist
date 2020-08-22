@@ -12,12 +12,47 @@ module Fontist
         sha256 "a8c5cbd12d8b0036db3386ffd30a409da75cf99b39e20ee026452ea7917bb2cc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arsenal-Regular.ttf",
-        "Italic" => "Arsenal-Italic.ttf",
-        "Bold" => "Arsenal-Bold.ttf",
-        "BoldItalic" => "Arsenal-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arsenal",
+            style: "Regular",
+            full_name: "Arsenal Regular",
+            post_script_name: "Arsenal-Regular",
+            version: "2.000",
+            filename: "Arsenal-Regular.ttf",
+            copyright: "Copyright 2012 The Arsenal Project Authors (andrij.design@gmail.com)",
+          },
+          {
+            family_name: "Arsenal",
+            style: "Italic",
+            full_name: "Arsenal Italic",
+            post_script_name: "Arsenal-Italic",
+            version: "1.001",
+            filename: "Arsenal-Italic.ttf",
+            copyright: "Copyright 2012 The Arsenal Project Authors (andrij.design@gmail.com)",
+          },
+          {
+            family_name: "Arsenal",
+            style: "Bold",
+            full_name: "Arsenal Bold",
+            post_script_name: "Arsenal-Bold",
+            version: "2.000",
+            filename: "Arsenal-Bold.ttf",
+            copyright: "Copyright 2012 The Arsenal Project Authors (andrij.design@gmail.com)",
+          },
+          {
+            family_name: "Arsenal",
+            style: "Bold Italic",
+            full_name: "Arsenal Bold Italic",
+            post_script_name: "Arsenal-BoldItalic",
+            version: "1.001",
+            filename: "Arsenal-BoldItalic.ttf",
+            copyright: "Copyright 2012 The Arsenal Project Authors (andrij.design@gmail.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

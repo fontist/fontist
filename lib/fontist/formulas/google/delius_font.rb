@@ -12,9 +12,21 @@ module Fontist
         sha256 "a37c866242293811e854b7b091fba7309054646130bec8da5a2239df1b1dca3c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Delius-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Delius",
+            style: "Regular",
+            full_name: "Delius-Regular",
+            post_script_name: "Delius-Regular",
+            version: "1.001",
+            description: "Delius is a high quality comic book lettering typeface.",
+            filename: "Delius-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Natalia Raices. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

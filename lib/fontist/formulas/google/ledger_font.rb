@@ -12,9 +12,20 @@ module Fontist
         sha256 "76bdc6eec8254d79d62b98ce8151fb70052fc8cf8a5301855374978b337b4d7d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ledger-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ledger",
+            style: "Regular",
+            full_name: "Ledger",
+            post_script_name: "Ledger-Regular",
+            version: "1.003",
+            filename: "Ledger-Regular.ttf",
+            copyright: "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "1d6b9ee0c017655022fa9c96135397bc2fb35ccc6307413753128a52607b4bfa"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "TheGirlNextDoor.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "The Girl Next Door",
+            style: "Regular",
+            full_name: "The Girl Next Door",
+            post_script_name: "TheGirlNextDoor",
+            version: "1.002 2010",
+            description: "Copyright (c) 2011 by Kimberly Geswein. This Font Software is licensed under the SIL Open Font License, Version 1.1.  This license is available with a FAQ at:  http://scripts.sil.org/OFL",
+            filename: "TheGirlNextDoor.ttf",
+            copyright: "Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

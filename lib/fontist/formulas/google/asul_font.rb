@@ -12,10 +12,29 @@ module Fontist
         sha256 "97b28265e56b54a0d3efc356f099b0f8006a0444aa51458e443bbcd52f9763a2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Asul-Regular.ttf",
-        "Bold" => "Asul-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Asul",
+            style: "Regular",
+            full_name: "Asul Regular",
+            post_script_name: "Asul-Regular",
+            version: "1.002",
+            filename: "Asul-Regular.ttf",
+            copyright: "Copyright (c) 2011, Mariela Monsalve (marmonsalve@gmail.com), with Reserved Font Name \"Asul\"",
+          },
+          {
+            family_name: "Asul",
+            style: "Bold",
+            full_name: "Asul Bold",
+            post_script_name: "Asul-Bold",
+            version: "1.002",
+            filename: "Asul-Bold.ttf",
+            copyright: "Copyright (c) 2011, Mariela Monsalve (marmonsalve@gmail.com), with Reserved Font Name \"Asul\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sora[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sora",
+            style: "Regular",
+            full_name: "Sora Regular",
+            post_script_name: "Sora-Regular",
+            version: "2.000",
+            filename: "Sora[wght].ttf",
+            copyright: "Copyright 2019 The Sora Project Authors (https://github.com/sora-xor/sora-font)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

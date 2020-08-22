@@ -12,10 +12,29 @@ module Fontist
         sha256 "df2b4db4b9f1c813c136359e01c213182df4d8cdb152322a9532d47fac64be00"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Alef-Regular.ttf",
-        "Bold" => "Alef-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Alef",
+            style: "Regular",
+            full_name: "Alef Regular",
+            post_script_name: "Alef-Regular",
+            version: "1.002;PS 001.002;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "Alef-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Hagilda. All rights reserved.",
+          },
+          {
+            family_name: "Alef",
+            style: "Bold",
+            full_name: "Alef Bold",
+            post_script_name: "Alef-Bold",
+            version: "1.002;PS 001.002;hotconv 1.0.56;makeotf.lib2.0.21325",
+            filename: "Alef-Bold.ttf",
+            copyright: "Copyright (c) 2012 by Hagilda. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

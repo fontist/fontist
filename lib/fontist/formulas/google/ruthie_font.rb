@@ -12,9 +12,21 @@ module Fontist
         sha256 "7905fc96c81adfe36c9f03988e96fafb40af35653b9c028d17b7a2fd3ab49822"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ruthie-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ruthie",
+            style: "Regular",
+            full_name: "Ruthie",
+            post_script_name: "Ruthie-Regular",
+            version: "1.003",
+            filename: "Ruthie-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Ruthie\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

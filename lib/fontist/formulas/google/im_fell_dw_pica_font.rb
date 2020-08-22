@@ -12,10 +12,31 @@ module Fontist
         sha256 "847aaad158f011c76353e12492f2d959596a0a595eb8ba76241cf61d6f9b3cd2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "IMFePIrm28P.ttf",
-        "Italic" => "IMFePIit28P.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "IM FELL DW Pica",
+            style: "Regular",
+            full_name: "IM FELL DW Pica Roman",
+            post_script_name: "IM_FELL_DW_Pica_Roman",
+            version: "3.00",
+            description: "Fell Types - De Walpergen Pica size - Roman . Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1692 (after the bequest). To be printed at 12.5 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFePIrm28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL DW Pica Roman",
+          },
+          {
+            family_name: "IM FELL DW Pica",
+            style: "Italic",
+            full_name: "IM FELL DW Pica Italic",
+            post_script_name: "IM_FELL_DW_Pica_Italic",
+            version: "3.00",
+            description: "Fell Types - De Walpergen Pica size - Italic . Typeface from the  types bequeathed in 1686 to the University of Oxford by John Fell. Originally cut by Peter De Walpergen. Acquisition in 1692 (after the bequest). To be printed at 12.5 points to match the original size. Autospaced and autokerned using iKern© developed by Igino Marini.",
+            filename: "IMFePIit28P.ttf",
+            copyright: "© 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL DW Pica Italic",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

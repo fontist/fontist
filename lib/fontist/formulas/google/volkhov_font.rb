@@ -12,12 +12,79 @@ module Fontist
         sha256 "acc525d23d7aeb2c71da8e62198ea43f79984ad546bf42e8f515d9493f56bb67"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Volkhov-Regular.ttf",
-        "Italic" => "Volkhov-Italic.ttf",
-        "Bold" => "Volkhov-Bold.ttf",
-        "BoldItalic" => "Volkhov-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Volkhov",
+            style: "Regular",
+            full_name: "Volkhov Regular",
+            post_script_name: "Volkhov-Regular",
+            version: "1.010",
+            description: "Volkhov is designed by Ivan Petrov for Cyreal.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Volkhov-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Volkhov\" and \"Volkhov Regular\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+          {
+            family_name: "Volkhov",
+            style: "Italic",
+            full_name: "Volkhov Italic",
+            post_script_name: "Volkhov-Italic",
+            version: "1.010",
+            description: "Volkhov is designed by Ivan Petrov for Cyreal.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Volkhov-Italic.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Volkhov\" and \"Volkhov Italic\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+          {
+            family_name: "Volkhov",
+            style: "Bold",
+            full_name: "Volkhov Bold",
+            post_script_name: "Volkhov-Bold",
+            version: "1.010",
+            description: "Volkhov is designed by Ivan Petrov for Cyreal.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Volkhov-Bold.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Volkhov\" and \"Volkhov Bold\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+          {
+            family_name: "Volkhov",
+            style: "Bold Italic",
+            full_name: "Volkhov Bold Italic",
+            post_script_name: "Volkhov-BoldItalic",
+            version: "1.001",
+            description: "Volkhov is designed by Ivan Petrov for Cyreal.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Volkhov-BoldItalic.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Volkhov\" and \"Volkhov Bold Italic\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

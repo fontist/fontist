@@ -12,9 +12,21 @@ module Fontist
         sha256 "e01b59d0ef7a0803a7c3ae27aaa2e0719d37f888697ea762e60ec77a754c2bad"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "RussoOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Russo One",
+            style: "Regular",
+            full_name: "Russo One",
+            post_script_name: "RussoOne-Regular",
+            version: "1.001",
+            description: "Copyright (c) 2012 by Jovanny Lemonad. All rights reserved.",
+            filename: "RussoOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Jovanny Lemonad (jovanny.ru), with Reserved Font Name \"Russo\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

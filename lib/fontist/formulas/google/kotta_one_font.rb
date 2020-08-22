@@ -12,9 +12,20 @@ module Fontist
         sha256 "919c21e91cf4fe2d37e2f638c561093cd411c7dec9dab36d255d4d4695fecbcb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "KottaOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kotta One",
+            style: "Regular",
+            full_name: "Kotta One",
+            post_script_name: "KottaOne-Regular",
+            version: "1.001",
+            filename: "KottaOne-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Ania Kruk (hello@aniakruk.com), with Reserved Font Name \"Kotta\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

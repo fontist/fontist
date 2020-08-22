@@ -12,9 +12,20 @@ module Fontist
         sha256 "a726c781e52a72a0b3ad6909af5c8d68a8e26e4fdf48a573dc5efc2859f84363"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ReemKufi-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Reem Kufi",
+            style: "Regular",
+            full_name: "Reem Kufi Regular",
+            post_script_name: "ReemKufi-Regular",
+            version: "0.004",
+            filename: "ReemKufi-Regular.ttf",
+            copyright: "Copyright © 2015-2016 The Reem Kufi Project Authors.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

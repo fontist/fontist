@@ -12,9 +12,20 @@ module Fontist
         sha256 "c77ee783276f8e1e3d1ed4f1c0f330dc35189ee4a7fa057d1b566bc4344c4dfd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Graduate-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Graduate",
+            style: "Regular",
+            full_name: "Graduate",
+            post_script_name: "Graduate-Regular",
+            version: "1.001",
+            filename: "Graduate-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Graduate\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

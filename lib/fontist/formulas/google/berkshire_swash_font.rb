@@ -12,9 +12,21 @@ module Fontist
         sha256 "571f3408396f59b332766f41a2cad2bdd8ae9d87fccee6b53d292da3779a3715"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BerkshireSwash-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Berkshire Swash",
+            style: "Regular",
+            full_name: "Berkshire Swash Regular",
+            post_script_name: "BerkshireSwash-Regular",
+            version: "1.001",
+            filename: "BerkshireSwash-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Berkshire Swash\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

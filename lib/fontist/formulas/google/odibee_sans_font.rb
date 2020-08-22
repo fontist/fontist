@@ -12,9 +12,20 @@ module Fontist
         sha256 "65ce1a08bc3c96a737341ed784a8e1f7f549cad88a348a1de23a6411af9194ee"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OdibeeSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Odibee Sans",
+            style: "Regular",
+            full_name: "Odibee Sans Regular",
+            post_script_name: "OdibeeSans-Regular",
+            version: "2.001; ttfautohint (v1.8.3)",
+            filename: "OdibeeSans-Regular.ttf",
+            copyright: "Copyright 2017 The Odibee Sans Project Authors (https://github.com/barnard555/odibeesans)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

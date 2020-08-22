@@ -12,9 +12,20 @@ module Fontist
         sha256 "bf0251e9b58c348953111bba2be4779a0556e2dbd1726561aaab5a79d5ecf79c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ViaodaLibre-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Viaoda Libre",
+            style: "Regular",
+            full_name: "Viaoda Libre Regular",
+            post_script_name: "ViaodaLibre-Regular",
+            version: "2.000",
+            filename: "ViaodaLibre-Regular.ttf",
+            copyright: "Copyright 2020 The Viaodalibre Project Authors (https://github.com/bettergui/ViaodaLibre)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

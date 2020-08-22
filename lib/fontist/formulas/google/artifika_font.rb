@@ -12,9 +12,20 @@ module Fontist
         sha256 "4af2dc0aa6d42ed634fcb5bb4bce35eedb760c2c6c5c0729dc57b74995aa73b9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Artifika-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Artifika",
+            style: "Regular",
+            full_name: "Artifika Regular",
+            post_script_name: "Artifika-Regular",
+            version: "1.001",
+            filename: "Artifika-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Yulya Zhdanova | Cyreal. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,16 +12,91 @@ module Fontist
         sha256 "f2d46ac36ea589982beb5aaa8c2109057b2d3e5b150dce3b84c2cb3460b5f63c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ExpletusSans-Regular.ttf",
-        "Italic" => "ExpletusSans-Italic.ttf",
-        "Medium" => "ExpletusSans-Medium.ttf",
-        "MediumItalic" => "ExpletusSans-MediumItalic.ttf",
-        "SemiBold" => "ExpletusSans-SemiBold.ttf",
-        "SemiBoldItalic" => "ExpletusSans-SemiBoldItalic.ttf",
-        "Bold" => "ExpletusSans-Bold.ttf",
-        "BoldItalic" => "ExpletusSans-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Expletus Sans",
+            style: "Regular",
+            full_name: "Expletus Sans",
+            post_script_name: "ExpletusSans",
+            version: "7.028",
+            description: "Copyright (c) 2009 by Designtown. All rights reserved.",
+            filename: "ExpletusSans-Regular.ttf",
+            copyright: "Copyright (c) 2009 by Designtown. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "Italic",
+            full_name: "Expletus Sans Italic",
+            post_script_name: "ExpletusSans-Italic",
+            version: "7.028",
+            description: "Copyright (c) 2009 by Designtown. All rights reserved.",
+            filename: "ExpletusSans-Italic.ttf",
+            copyright: "Copyright (c) 2009 by Designtown. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "Medium",
+            full_name: "Expletus Sans Medium",
+            post_script_name: "ExpletusSans-Medium",
+            version: "1.002",
+            description: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-Medium.ttf",
+            copyright: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "Medium Italic",
+            full_name: "Expletus Sans Medium Italic",
+            post_script_name: "ExpletusSans-MediumItalic",
+            version: "1.002",
+            description: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-MediumItalic.ttf",
+            copyright: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "SemiBold",
+            full_name: "Expletus Sans SemiBold",
+            post_script_name: "ExpletusSans-SemiBold",
+            version: "1.002",
+            description: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-SemiBold.ttf",
+            copyright: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "SemiBold Italic",
+            full_name: "Expletus Sans SemiBold Italic",
+            post_script_name: "ExpletusSans-SemiBoldItalic",
+            version: "1.002",
+            description: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-SemiBoldItalic.ttf",
+            copyright: "Copyright (c) 2010 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "Bold",
+            full_name: "Expletus Sans Bold",
+            post_script_name: "ExpletusSans-Bold",
+            version: "7.029",
+            description: "Copyright (c) 2009 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-Bold.ttf",
+            copyright: "Copyright (c) 2009 by Jasper de Waard. All rights reserved.",
+          },
+          {
+            family_name: "Expletus Sans",
+            style: "Bold Italic",
+            full_name: "Expletus Sans Bold Italic",
+            post_script_name: "ExpletusSans-BoldItalic",
+            version: "7.029",
+            description: "Copyright (c) 2009 by Jasper de Waard. All rights reserved.",
+            filename: "ExpletusSans-BoldItalic.ttf",
+            copyright: "Copyright (c) 2009 by Jasper de Waard. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

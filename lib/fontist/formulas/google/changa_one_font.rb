@@ -12,10 +12,29 @@ module Fontist
         sha256 "29075a2872a3eab78ed5800c49dd6ef696971c623859ef8642c611b21e5ecdf2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ChangaOne-Regular.ttf",
-        "Italic" => "ChangaOne-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Changa One",
+            style: "Regular",
+            full_name: "Changa One",
+            post_script_name: "ChangaOne",
+            version: "1.003",
+            filename: "ChangaOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Changa\"",
+          },
+          {
+            family_name: "Changa One",
+            style: "Italic",
+            full_name: "Changa One Italic",
+            post_script_name: "ChangaOne-Italic",
+            version: "1.003",
+            filename: "ChangaOne-Italic.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Changa\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

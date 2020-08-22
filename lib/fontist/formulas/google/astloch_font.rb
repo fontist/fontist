@@ -12,10 +12,29 @@ module Fontist
         sha256 "5d9a62a2eca0197406300dfdf9ec6c3ad67a9421196923a3de4bbf41aa45d48e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Astloch-Regular.ttf",
-        "Bold" => "Astloch-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Astloch",
+            style: "Regular",
+            full_name: "Astloch Regular",
+            post_script_name: "Astloch-Regular",
+            version: "1.002",
+            filename: "Astloch-Regular.ttf",
+            copyright: "Copyright 2011 The Astloch Project Authors",
+          },
+          {
+            family_name: "Astloch",
+            style: "Bold",
+            full_name: "Astloch Bold",
+            post_script_name: "Astloch-Bold",
+            version: "1.002",
+            filename: "Astloch-Bold.ttf",
+            copyright: "Copyright 2011 The Astloch Project Authors",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

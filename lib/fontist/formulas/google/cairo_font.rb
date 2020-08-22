@@ -12,14 +12,65 @@ module Fontist
         sha256 "22dc2a96e3d6ec18b7d45fdf42b74fc8976b12d550beba405d72e224885dc11e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Cairo-ExtraLight.ttf",
-        "Light" => "Cairo-Light.ttf",
-        "Regular" => "Cairo-Regular.ttf",
-        "SemiBold" => "Cairo-SemiBold.ttf",
-        "Bold" => "Cairo-Bold.ttf",
-        "Black" => "Cairo-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cairo",
+            style: "ExtraLight",
+            full_name: "Cairo ExtraLight",
+            post_script_name: "Cairo-ExtraLight",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-ExtraLight.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+          {
+            family_name: "Cairo",
+            style: "Light",
+            full_name: "Cairo Light",
+            post_script_name: "Cairo-Light",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-Light.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+          {
+            family_name: "Cairo",
+            style: "Regular",
+            full_name: "Cairo Regular",
+            post_script_name: "Cairo-Regular",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-Regular.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+          {
+            family_name: "Cairo",
+            style: "SemiBold",
+            full_name: "Cairo SemiBold",
+            post_script_name: "Cairo-SemiBold",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-SemiBold.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+          {
+            family_name: "Cairo",
+            style: "Bold",
+            full_name: "Cairo Bold",
+            post_script_name: "Cairo-Bold",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-Bold.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+          {
+            family_name: "Cairo",
+            style: "Black",
+            full_name: "Cairo Black",
+            post_script_name: "Cairo-Black",
+            version: "2.010; ttfautohint (v1.5.33-1714) -l 8 -r 50 -G 200 -x 0 -D latn -f arab -w G -W -c -X \"\"",
+            filename: "Cairo-Black.ttf",
+            copyright: "Copyright 2009 The Cairo Project Authors (gaber@gaberism.net)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

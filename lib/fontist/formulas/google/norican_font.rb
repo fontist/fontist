@@ -12,9 +12,20 @@ module Fontist
         sha256 "a463e737415e5127d225a6233961613cde2514bd56e4538c538c88d487090ca2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Norican-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Norican",
+            style: "Regular",
+            full_name: "Norican Regular",
+            post_script_name: "Norican-Regular",
+            version: "1.001",
+            filename: "Norican-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams (www.newtypography.co.uk), with Reserved Font Names \"Norican\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

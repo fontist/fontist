@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "YanoneKaffeesatz[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yanone Kaffeesatz",
+            style: "ExtraLight",
+            full_name: "Yanone Kaffeesatz ExtraLight",
+            post_script_name: "YanoneKaffeesatz-ExtraLight",
+            version: "2.001; ttfautohint (v1.8.1.43-b0c9)",
+            filename: "YanoneKaffeesatz[wght].ttf",
+            copyright: "Copyright 2010 The Yanone Kaffeesatz Project Authors (https://github.com/alexeiva/yanone-kaffeesatz)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

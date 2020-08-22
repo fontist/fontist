@@ -12,9 +12,22 @@ module Fontist
         sha256 "1f78a3e14d3f00c8e4c75135297c2099b7e7b559a0ada8a69b215b2cef8645a5"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Vidaloka-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vidaloka",
+            style: "Regular",
+            full_name: "Vidaloka",
+            post_script_name: "Vidaloka-Regular",
+            version: "1.011",
+            description: "Designed by Alexei Vanyashin and Olga Karpushina.
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Vidaloka-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name \"Vidaloka\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

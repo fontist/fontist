@@ -12,9 +12,21 @@ module Fontist
         sha256 "005f95ea60e2e4a2e546771bc7fa826451467709c480d0d346ad1fb077bf7fd3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Oldenburg-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oldenburg",
+            style: "Regular",
+            full_name: "Oldenburg",
+            post_script_name: "Oldenburg-Regular",
+            version: "1.001",
+            description: "Oldenburg is inspired by nearly monoline handwritting seen on a series of German posters. It has been changed and adaped to be more broadly useful design than a more faithful interpretation would have been. Despite the increased ulity in Oldernburg it still presenst plenty of the whimsical feeling that made it's source so attractive. Oldenburg can be used a in a wide range of sizes.",
+            filename: "Oldenburg-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Oldenburgh.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

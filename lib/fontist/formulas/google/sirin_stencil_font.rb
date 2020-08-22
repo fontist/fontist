@@ -12,9 +12,25 @@ module Fontist
         sha256 "4fc66b55237c76be3c2b38877bc087b3ce8e650f7fa5afc6e6bcd3c640080321"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SirinStencil-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "SirinStencil",
+            style: "Regular",
+            full_name: "SirinStencil",
+            post_script_name: "SirinStencil-Regular",
+            version: "1.002",
+            filename: "SirinStencil-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Sirin\" and \"Sirin Stencil\".
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

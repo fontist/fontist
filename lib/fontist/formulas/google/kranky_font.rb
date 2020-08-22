@@ -12,9 +12,20 @@ module Fontist
         sha256 "3ab4167721e24dd306a218e56056606da1e9182606893670cee7b08b23c273b9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Kranky-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Kranky",
+            style: "Regular",
+            full_name: "Kranky Regular",
+            post_script_name: "Kranky-Regular",
+            version: "1.001",
+            filename: "Kranky-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

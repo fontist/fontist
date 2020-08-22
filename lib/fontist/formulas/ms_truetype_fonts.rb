@@ -12,33 +12,177 @@ module Fontist
         sha256 "464dd2cd5f09f489f9ac86ea7790b7b8548fc4e46d9f889b68d2cdce47e09ea8"
       end
 
-      provides_font("Arial", match_styles_from_file: {
-        "Regular" => "Arial.ttf",
-        "Bold" => "ArialBd.ttf",
-        "Italic" => "ArialI.ttf",
-        "Bold Italic" => "ArialBI.ttf"
-      })
+      provides_font(
+        "Arial",
+        match_styles_from_file: [
+          {
+            family_name: "Arial",
+            style: "Regular",
+            full_name: "Arial",
+            post_script_name: "ArialMT",
+            version: "3.06",
+            filename: "Arial.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Arial",
+            style: "Bold",
+            full_name: "Arial Bold",
+            post_script_name: "Arial-BoldMT",
+            version: "3.06",
+            filename: "ArialBd.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Arial",
+            style: "Bold Italic",
+            full_name: "Arial Bold Italic",
+            post_script_name: "Arial-BoldItalicMT",
+            version: "3.06",
+            filename: "ArialBI.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Arial",
+            style: "Italic",
+            full_name: "Arial Italic",
+            post_script_name: "Arial-ItalicMT",
+            version: "3.06",
+            filename: "ArialI.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
-      provides_font("Trebuchet", match_styles_from_file: {
-        "Regular" => "trebuc.ttf",
-        "Bold" => "trebucbd.ttf",
-        "Italic" => "trebucit.ttf",
-        "Bold Italic" => "trebucbi.ttf"
-      })
+      provides_font(
+        "Trebuchet",
+        match_styles_from_file: [
+          {
+            family_name: "Trebuchet MS",
+            style: "Italic",
+            full_name: "Trebuchet MS Italic",
+            post_script_name: "TrebuchetMS-Italic",
+            version: "5.00",
+            description: "Trebuchet, designed by Vincent Connare in 1996, is a humanist sans serif designed for easy screen readability. Trebuchet takes its inspiration from the sans serifs of the 1930s which had large x heights and round features intended to promote readability on signs. The typeface name is credited to a puzzle heard at Microsoft, where the question was asked, \"could you build a Trebuchet (a form of medieval catapult) to launch a person from the main campus to the consumer campus, and how?\" The Trebuchet fonts are intended to be the vehicle that fires your messages across the Internet. \"Launch your message with a Trebuchet page\".",
+            filename: "trebucit.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Trebuchet MS",
+            style: "Regular",
+            full_name: "Trebuchet MS",
+            post_script_name: "TrebuchetMS",
+            version: "5.00",
+            description: "Trebuchet, designed by Vincent Connare in 1996, is a humanist sans serif designed for easy screen readability. Trebuchet takes its inspiration from the sans serifs of the 1930s which had large x heights and round features intended to promote readability on signs. The typeface name is credited to a puzzle heard at Microsoft, where the question was asked, \"could you build a Trebuchet (a form of medieval catapult) to launch a person from the main campus to the consumer campus, and how?\" The Trebuchet fonts are intended to be the vehicle that fires your messages across the Internet. \"Launch your message with a Trebuchet page\".",
+            filename: "trebuc.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Trebuchet MS",
+            style: "Bold",
+            full_name: "Trebuchet MS Bold",
+            post_script_name: "TrebuchetMS-Bold",
+            version: "5.00",
+            description: "Trebuchet, designed by Vincent Connare in 1996, is a humanist sans serif designed for easy screen readability. Trebuchet takes its inspiration from the sans serifs of the 1930s which had large x heights and round features intended to promote readability on signs. The typeface name is credited to a puzzle heard at Microsoft, where the question was asked, \"could you build a Trebuchet (a form of medieval catapult) to launch a person from the main campus to the consumer campus, and how?\" The Trebuchet fonts are intended to be the vehicle that fires your messages across the Internet. \"Launch your message with a Trebuchet page\".",
+            filename: "trebucbd.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Trebuchet MS",
+            style: "Bold Italic",
+            full_name: "Trebuchet MS Bold Italic",
+            post_script_name: "Trebuchet-BoldItalic",
+            version: "5.00",
+            description: "Trebuchet, designed by Vincent Connare in 1996, is a humanist sans serif designed for easy screen readability. Trebuchet takes its inspiration from the sans serifs of the 1930s which had large x heights and round features intended to promote readability on signs. The typeface name is credited to a puzzle heard at Microsoft, where the question was asked, \"could you build a Trebuchet (a form of medieval catapult) to launch a person from the main campus to the consumer campus, and how?\" The Trebuchet fonts are intended to be the vehicle that fires your messages across the Internet. \"Launch your message with a Trebuchet page\".",
+            filename: "trebucbi.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
-      provides_font("Verdana", match_styles_from_file: {
-        "Regular" => "Verdana.ttf",
-        "Bold" => "Verdanab.ttf",
-        "Italic" => "Verdanai.ttf",
-        "Bold Italic" => "Verdanaz.ttf"
-      })
+      provides_font(
+        "Verdana",
+        match_styles_from_file: [
+          {
+            family_name: "Verdana",
+            style: "Regular",
+            full_name: "Verdana",
+            post_script_name: "Verdana",
+            version: "5.01",
+            filename: "Verdana.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Verdana",
+            style: "Bold",
+            full_name: "Verdana Bold",
+            post_script_name: "Verdana-Bold",
+            version: "5.01",
+            filename: "Verdanab.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Verdana",
+            style: "Italic",
+            full_name: "Verdana Italic",
+            post_script_name: "Verdana-Italic",
+            version: "5.01",
+            filename: "Verdanai.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Verdana",
+            style: "Bold Italic",
+            full_name: "Verdana Bold Italic",
+            post_script_name: "Verdana-BoldItalic",
+            version: "5.01",
+            filename: "Verdanaz.ttf",
+            copyright: "© 2006 Microsoft Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
-      provides_font("Times New Roman", match_styles_from_file: {
-        "Regular" => "Times.ttf",
-        "Bold" => "TimesBd.ttf",
-        "Italic" => "TimesI.ttf",
-        "Bold Italic" => "TimesBI.ttf"
-      })
+      provides_font(
+        "Times New Roman",
+        match_styles_from_file: [
+          {
+            family_name: "Times New Roman",
+            style: "Regular",
+            full_name: "Times New Roman",
+            post_script_name: "TimesNewRomanPSMT",
+            version: "3.06",
+            filename: "Times.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Times New Roman",
+            style: "Bold",
+            full_name: "Times New Roman Bold",
+            post_script_name: "TimesNewRomanPS-BoldMT",
+            version: "3.06",
+            filename: "TimesBd.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Times New Roman",
+            style: "Bold Italic",
+            full_name: "Times New Roman Bold Italic",
+            post_script_name: "TimesNewRomanPS-BoldItalicMT",
+            version: "3.06",
+            filename: "TimesBI.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+          {
+            family_name: "Times New Roman",
+            style: "Italic",
+            full_name: "Times New Roman Italic",
+            post_script_name: "TimesNewRomanPS-ItalicMT",
+            version: "3.06",
+            filename: "TimesI.ttf",
+            copyright: "© 2006 The Monotype Corporation. All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("EUupdate.EXE") do |resource|

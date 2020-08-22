@@ -12,18 +12,101 @@ module Fontist
         sha256 "d04e9f4846e7766d20d3801669f921d3487c9076fff480f0cf3da6f9ea86b89b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Thin" => "JosefinSlab-Thin.ttf",
-        "ThinItalic" => "JosefinSlab-ThinItalic.ttf",
-        "Light" => "JosefinSlab-Light.ttf",
-        "LightItalic" => "JosefinSlab-LightItalic.ttf",
-        "Regular" => "JosefinSlab-Regular.ttf",
-        "Italic" => "JosefinSlab-Italic.ttf",
-        "SemiBold" => "JosefinSlab-SemiBold.ttf",
-        "SemiBoldItalic" => "JosefinSlab-SemiBoldItalic.ttf",
-        "Bold" => "JosefinSlab-Bold.ttf",
-        "BoldItalic" => "JosefinSlab-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Josefin Slab",
+            style: "Thin",
+            full_name: "Josefin Slab Thin",
+            post_script_name: "JosefinSlab-Thin",
+            version: "1.001",
+            filename: "JosefinSlab-Thin.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Thin Italic",
+            full_name: "Josefin Slab Thin Italic",
+            post_script_name: "JosefinSlab-ThinItalic",
+            version: "1.001",
+            filename: "JosefinSlab-ThinItalic.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Light",
+            full_name: "Josefin Slab Light",
+            post_script_name: "JosefinSlab-Light",
+            version: "1.001",
+            filename: "JosefinSlab-Light.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Light Italic",
+            full_name: "Josefin Slab Light Italic",
+            post_script_name: "JosefinSlab-LightItalic",
+            version: "1.001",
+            filename: "JosefinSlab-LightItalic.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Regular",
+            full_name: "Josefin Slab Regular",
+            post_script_name: "JosefinSlab-Regular",
+            version: "1.001",
+            filename: "JosefinSlab-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Italic",
+            full_name: "Josefin Slab Italic",
+            post_script_name: "JosefinSlab-Italic",
+            version: "1.001",
+            filename: "JosefinSlab-Italic.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "SemiBold",
+            full_name: "Josefin Slab SemiBold",
+            post_script_name: "JosefinSlab-SemiBold",
+            version: "1.001",
+            filename: "JosefinSlab-SemiBold.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "SemiBold Italic",
+            full_name: "Josefin Slab SemiBold Italic",
+            post_script_name: "JosefinSlab-SemiBoldItalic",
+            version: "1.001",
+            filename: "JosefinSlab-SemiBoldItalic.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Bold",
+            full_name: "Josefin Slab Bold",
+            post_script_name: "JosefinSlab-Bold",
+            version: "1.001",
+            filename: "JosefinSlab-Bold.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+          {
+            family_name: "Josefin Slab",
+            style: "Bold Italic",
+            full_name: "Josefin Slab Bold Italic",
+            post_script_name: "JosefinSlab-BoldItalic",
+            version: "1.0",
+            filename: "JosefinSlab-BoldItalic.ttf",
+            copyright: "Copyright (c) 2010 by Typemade. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,12 +12,47 @@ module Fontist
         sha256 "7af13388687ad9e446d57482754e4ff607ee1fce485c0ef31f0a97c3019de89c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Philosopher-Regular.ttf",
-        "Italic" => "Philosopher-Italic.ttf",
-        "Bold" => "Philosopher-Bold.ttf",
-        "BoldItalic" => "Philosopher-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Philosopher",
+            style: "Regular",
+            full_name: "Philosopher Regular",
+            post_script_name: "Philosopher-Regular",
+            version: "2.000",
+            filename: "Philosopher-Regular.ttf",
+            copyright: "Copyright 2011 The Philosopher Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Philosopher",
+            style: "Italic",
+            full_name: "Philosopher Italic",
+            post_script_name: "Philosopher-Italic",
+            version: "2.000",
+            filename: "Philosopher-Italic.ttf",
+            copyright: "Copyright 2011 The Philosopher Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Philosopher",
+            style: "Bold",
+            full_name: "Philosopher Bold",
+            post_script_name: "Philosopher-Bold",
+            version: "2.000",
+            filename: "Philosopher-Bold.ttf",
+            copyright: "Copyright 2011 The Philosopher Project Authors (lemonad@jovanny.ru)",
+          },
+          {
+            family_name: "Philosopher",
+            style: "Bold Italic",
+            full_name: "Philosopher Bold Italic",
+            post_script_name: "Philosopher-BoldItalic",
+            version: "2.000",
+            filename: "Philosopher-BoldItalic.ttf",
+            copyright: "Copyright 2011 The Philosopher Project Authors (lemonad@jovanny.ru)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

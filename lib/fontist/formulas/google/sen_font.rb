@@ -12,11 +12,38 @@ module Fontist
         sha256 "2114639e5efa10d240bb7521398e1eed0b647aa0f90bdb49db1483a42e9f7f8b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sen-Regular.ttf",
-        "Bold" => "Sen-Bold.ttf",
-        "ExtraBold" => "Sen-ExtraBold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sen",
+            style: "Regular",
+            full_name: "Sen Regular",
+            post_script_name: "Sen-Regular",
+            version: "1.004; ttfautohint (v1.8.3)",
+            filename: "Sen-Regular.ttf",
+            copyright: "Copyright 2015 The Sen Project Authors (https://github.com/philatype/Sen)",
+          },
+          {
+            family_name: "Sen",
+            style: "Bold",
+            full_name: "Sen Bold",
+            post_script_name: "Sen-Bold",
+            version: "1.004; ttfautohint (v1.8.3)",
+            filename: "Sen-Bold.ttf",
+            copyright: "Copyright 2015 The Sen Project Authors (https://github.com/philatype/Sen)",
+          },
+          {
+            family_name: "Sen",
+            style: "ExtraBold",
+            full_name: "Sen ExtraBold",
+            post_script_name: "Sen-ExtraBold",
+            version: "1.004; ttfautohint (v1.8.3)",
+            filename: "Sen-ExtraBold.ttf",
+            copyright: "Copyright 2015 The Sen Project Authors (https://github.com/philatype/Sen)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

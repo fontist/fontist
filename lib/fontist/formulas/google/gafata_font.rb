@@ -12,9 +12,20 @@ module Fontist
         sha256 "508a44e9a3efd30390a67a279a7ad7227c741c273feff061efd9e73d34a8f341"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gafata-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gafata",
+            style: "Regular",
+            full_name: "Gafata",
+            post_script_name: "Gafata-Regular",
+            version: "4.002; ttfautohint (v0.94.20-1c74) -l 7 -r 28 -G 0 -x 13 -w \"\" -W -c",
+            filename: "Gafata-Regular.ttf",
+            copyright: "Copyright (c) 2010-2012, Lautaro Hourcade (lautaro.uy@gmail.com), with Reserved Font Name 'Gafata'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

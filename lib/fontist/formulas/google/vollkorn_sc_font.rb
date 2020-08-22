@@ -12,12 +12,47 @@ module Fontist
         sha256 "75a71346a7826b814f860ffeeffbe21dbdd4cc30405b9f6e3aa3dbef307b0a0a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "VollkornSC-Regular.ttf",
-        "SemiBold" => "VollkornSC-SemiBold.ttf",
-        "Bold" => "VollkornSC-Bold.ttf",
-        "Black" => "VollkornSC-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Vollkorn SC",
+            style: "Regular",
+            full_name: "Vollkorn SC Regular",
+            post_script_name: "VollkornSC-Regular",
+            version: "4.015",
+            filename: "VollkornSC-Regular.ttf",
+            copyright: "Copyright 2017 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+          {
+            family_name: "Vollkorn SC",
+            style: "SemiBold",
+            full_name: "Vollkorn SC SemiBold",
+            post_script_name: "VollkornSC-SemiBold",
+            version: "4.015",
+            filename: "VollkornSC-SemiBold.ttf",
+            copyright: "Copyright 2017 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+          {
+            family_name: "Vollkorn SC",
+            style: "Bold",
+            full_name: "Vollkorn SC Bold",
+            post_script_name: "VollkornSC-Bold",
+            version: "4.015",
+            filename: "VollkornSC-Bold.ttf",
+            copyright: "Copyright 2017 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+          {
+            family_name: "Vollkorn SC",
+            style: "Black",
+            full_name: "Vollkorn SC Black",
+            post_script_name: "VollkornSC-Black",
+            version: "4.015",
+            filename: "VollkornSC-Black.ttf",
+            copyright: "Copyright 2017 The Vollkorn Project Authors (https://github.com/FAlthausen/Vollkorn-Typeface)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "6084298464cd76b8071667f73e8ff425646cadacc8c2244fb4459a7f11a93648"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Padauk-Regular.ttf",
-        "Bold" => "Padauk-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Padauk",
+            style: "Regular",
+            full_name: "Padauk Regular",
+            post_script_name: "Padauk-Regular",
+            version: "3.002",
+            filename: "Padauk-Regular.ttf",
+            copyright: "Copyright 2016 SIL International, all rights reserved",
+          },
+          {
+            family_name: "Padauk",
+            style: "Bold",
+            full_name: "Padauk Bold",
+            post_script_name: "Padauk-Bold",
+            version: "3.002",
+            filename: "Padauk-Bold.ttf",
+            copyright: "Copyright 2016 SIL International, all rights reserved",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

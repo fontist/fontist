@@ -12,9 +12,21 @@ module Fontist
         sha256 "601242692536302eff8fb8799b9de7b77bd49be40069f5b5d2f3ddbcb675cdd9"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Varela-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Varela",
+            style: "Regular",
+            full_name: "Varela",
+            post_script_name: "Varela",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Admix Designs. All rights reserved.",
+            filename: "Varela-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Admix Designs. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

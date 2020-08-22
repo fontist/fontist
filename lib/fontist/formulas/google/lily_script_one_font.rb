@@ -12,9 +12,20 @@ module Fontist
         sha256 "4b83fc538124e9fd9e3d0bd04a04fc4679c65f72741bdf01710359a9042cf8e8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LilyScriptOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lily Script One",
+            style: "Regular",
+            full_name: "Lily Script One",
+            post_script_name: "LilyScriptOne-Regular",
+            version: "1.002;PS 001.001;hotconv 1.0.70;makeotf.lib2.5.58329",
+            filename: "LilyScriptOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Julia Petretta (www.juliapetretta.com julia.petretta@googlemail.com), with Reserved Font Name 'Lily'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

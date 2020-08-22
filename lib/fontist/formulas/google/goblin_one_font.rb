@@ -12,9 +12,21 @@ module Fontist
         sha256 "15a1311dee003188a30387a10c4d5832f797b40273b6468b21adde03c225f325"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "GoblinOne.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Goblin One",
+            style: "Regular",
+            full_name: "Goblin One",
+            post_script_name: "GoblinOne",
+            version: "1.001",
+            description: "Goblin belongs to the category of display types called \"Latin\". This is because of its sharp triangular serifs. Goblin was inspired by a hand painted sign above a pub in the town of Reading (UK). Goblin is a somewhat wide medium contrast design with a large x height. Goblin is both attention getting and fun. Goblin is suitable for use in medium to large sizes including headlines. This font was made specifically to be web type.",
+            filename: "GoblinOne.ttf",
+            copyright: "Copyright (c) 2011, Sorkin Type Co (www.sorkintype.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "328900424bb176c9026e91318a44b9717baee105fda69295010e399597b425fb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "WalterTurncoat-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Walter Turncoat",
+            style: "Regular",
+            full_name: "Walter Turncoat Regular",
+            post_script_name: "WalterTurncoat-Regular",
+            version: "1.001",
+            filename: "WalterTurncoat-Regular.ttf",
+            copyright: "Copyright (c) 2010 by Font Diner, Inc DBA Sideshow. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

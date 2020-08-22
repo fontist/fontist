@@ -12,9 +12,21 @@ module Fontist
         sha256 "24a77dcd66463aab70c86fd0002750147c1a49666b61fd991e9a05ede689bff3"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Meddon.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Meddon",
+            style: "Regular",
+            full_name: "Meddon",
+            post_script_name: "Meddon",
+            version: "1.000",
+            description: "Copyright (c) 2011 by Vernon Adams. All rights reserved.",
+            filename: "Meddon.ttf",
+            copyright: "Copyright (c) 2011 by Vernon Adams. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

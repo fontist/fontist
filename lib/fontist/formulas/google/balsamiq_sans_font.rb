@@ -12,12 +12,47 @@ module Fontist
         sha256 "43711dc4bdd93a35ec6826f716f304cfb2a3f52988f449feaddc492ef915bade"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BalsamiqSans-Regular.ttf",
-        "Italic" => "BalsamiqSans-Italic.ttf",
-        "Bold" => "BalsamiqSans-Bold.ttf",
-        "BoldItalic" => "BalsamiqSans-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Balsamiq Sans",
+            style: "Regular",
+            full_name: "Balsamiq Sans Regular",
+            post_script_name: "BalsamiqSans-Regular",
+            version: "1.010",
+            filename: "BalsamiqSans-Regular.ttf",
+            copyright: "Copyright 2011 The Balsamiq Sans Project Authors (https://github.com/balsamiq/balsamiqsans)",
+          },
+          {
+            family_name: "Balsamiq Sans",
+            style: "Italic",
+            full_name: "Balsamiq Sans Italic",
+            post_script_name: "BalsamiqSans-Italic",
+            version: "1.010",
+            filename: "BalsamiqSans-Italic.ttf",
+            copyright: "Copyright 2011 The Balsamiq Sans Project Authors (https://github.com/balsamiq/balsamiqsans)",
+          },
+          {
+            family_name: "Balsamiq Sans",
+            style: "Bold",
+            full_name: "Balsamiq Sans Bold",
+            post_script_name: "BalsamiqSans-Bold",
+            version: "1.010",
+            filename: "BalsamiqSans-Bold.ttf",
+            copyright: "Copyright 2011 The Balsamiq Sans Project Authors (https://github.com/balsamiq/balsamiqsans)",
+          },
+          {
+            family_name: "Balsamiq Sans",
+            style: "Bold Italic",
+            full_name: "Balsamiq Sans Bold Italic",
+            post_script_name: "BalsamiqSans-BoldItalic",
+            version: "1.010",
+            filename: "BalsamiqSans-BoldItalic.ttf",
+            copyright: "Copyright 2011 The Balsamiq Sans Project Authors (https://github.com/balsamiq/balsamiqsans)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

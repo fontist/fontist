@@ -12,9 +12,20 @@ module Fontist
         sha256 "e95be0ebc51fe5e1defd3d9fc9a4d3741be27505f0f08b5b39bae2bfb5f0abe7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Paprika-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Paprika",
+            style: "Regular",
+            full_name: "Paprika",
+            post_script_name: "Paprika-Regular",
+            version: "1.001",
+            filename: "Paprika-Regular.ttf",
+            copyright: "Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name 'Paprika'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

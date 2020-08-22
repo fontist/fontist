@@ -12,12 +12,47 @@ module Fontist
         sha256 "48a7da3fa61ef067abefee300e921b2b5d438021bfc866ec529a670587073e12"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Enriqueta-Regular.ttf",
-        "Medium" => "Enriqueta-Medium.ttf",
-        "SemiBold" => "Enriqueta-SemiBold.ttf",
-        "Bold" => "Enriqueta-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Enriqueta",
+            style: "Regular",
+            full_name: "Enriqueta Regular",
+            post_script_name: "Enriqueta-Regular",
+            version: "2.000",
+            filename: "Enriqueta-Regular.ttf",
+            copyright: "Copyright 2018 The Enriqueta Project Authors (https://github.com/vv-monsalve/Enriqueta_2019)",
+          },
+          {
+            family_name: "Enriqueta",
+            style: "Medium",
+            full_name: "Enriqueta Medium",
+            post_script_name: "Enriqueta-Medium",
+            version: "2.000",
+            filename: "Enriqueta-Medium.ttf",
+            copyright: "Copyright 2018 The Enriqueta Project Authors (https://github.com/vv-monsalve/Enriqueta_2019)",
+          },
+          {
+            family_name: "Enriqueta",
+            style: "SemiBold",
+            full_name: "Enriqueta SemiBold",
+            post_script_name: "Enriqueta-SemiBold",
+            version: "2.000",
+            filename: "Enriqueta-SemiBold.ttf",
+            copyright: "Copyright 2018 The Enriqueta Project Authors (https://github.com/vv-monsalve/Enriqueta_2019)",
+          },
+          {
+            family_name: "Enriqueta",
+            style: "Bold",
+            full_name: "Enriqueta Bold",
+            post_script_name: "Enriqueta-Bold",
+            version: "2.000",
+            filename: "Enriqueta-Bold.ttf",
+            copyright: "Copyright 2018 The Enriqueta Project Authors (https://github.com/vv-monsalve/Enriqueta_2019)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

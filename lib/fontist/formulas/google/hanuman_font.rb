@@ -12,10 +12,29 @@ module Fontist
         sha256 "d9043db9d9e42f7a117b3a11e86391835ffec2b32f97efd6891f0d35c768e23a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Hanuman-Regular.ttf",
-        "Bold" => "Hanuman-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Hanuman",
+            style: "Regular",
+            full_name: "Hanuman Regular",
+            post_script_name: "Hanuman-Regular",
+            version: "2.00 August 13, 2011",
+            filename: "Hanuman-Regular.ttf",
+            copyright: "Copyright by Danh Hong, 2011.",
+          },
+          {
+            family_name: "Hanuman",
+            style: "Bold",
+            full_name: "Hanuman Bold",
+            post_script_name: "Hanuman-Bold",
+            version: "2.00 August 14, 2011",
+            filename: "Hanuman-Bold.ttf",
+            copyright: "Copyright by Danh Hong, 2011.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

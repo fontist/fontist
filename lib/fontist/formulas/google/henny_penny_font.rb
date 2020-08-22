@@ -12,9 +12,20 @@ module Fontist
         sha256 "dcc29a7a5106c75dbdd3a2bef778a92254fec53230a762b41fe4ad910c1b644d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "HennyPenny-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Henny Penny",
+            style: "Regular",
+            full_name: "Henny Penny",
+            post_script_name: "HennyPenny-Regular",
+            version: "1.001",
+            filename: "HennyPenny-Regular.ttf",
+            copyright: "Copyright (c) 2012, Brownfox (gayaneh.b@gmail.com), with Reserved Font Name \"Henny Penny\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "2834064d16c77c3523c1105d9e817a0d2619acbccdbb18a24634d404e8195ffe"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Gotu-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Gotu",
+            style: "Regular",
+            full_name: "Gotu",
+            post_script_name: "Gotu-Regular",
+            version: "2.320;hotconv 1.0.109;makeotfexe 2.5.65596; ttfautohint (v1.8.1)",
+            filename: "Gotu-Regular.ttf",
+            copyright: "Copyright (c) 2016, Ek Type. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

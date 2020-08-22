@@ -12,10 +12,29 @@ module Fontist
         sha256 "d9cf3177fe12ebd870779428b91cc8cedd9dd8062c63dee6af3e76ad4cdf8477"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Sura-Regular.ttf",
-        "Bold" => "Sura-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Sura",
+            style: "Regular",
+            full_name: "Sura",
+            post_script_name: "Sura-Regular",
+            version: "1.003;PS 001.002;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            filename: "Sura-Regular.ttf",
+            copyright: "Copyright 2015 by Carolina Giovagnoli. All rights reserved.",
+          },
+          {
+            family_name: "Sura",
+            style: "Bold",
+            full_name: "Sura Bold",
+            post_script_name: "Sura-Bold",
+            version: "1.002;PS 001.002;hotconv 1.0.70;makeotf.lib2.5.58329 DEVELOPMENT; ttfautohint (v1.00) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G",
+            filename: "Sura-Bold.ttf",
+            copyright: "Copyright 2015 by Carolina Giovagnoli. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

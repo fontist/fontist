@@ -12,10 +12,29 @@ module Fontist
         sha256 "00ca1cdc542969706ba1e8ba3d551de5c66be09f87b34ff8e6e7bf7ffd9655ce"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NewsCycle-Regular.ttf",
-        "Bold" => "NewsCycle-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "News Cycle",
+            style: "Regular",
+            full_name: "News Cycle",
+            post_script_name: "NewsCycle",
+            version: "0.5.1",
+            filename: "NewsCycle-Regular.ttf",
+            copyright: "Copyright (c) 2010-2011, Nathan Willis (nwillis@glyphography.com), with Reserved Font Name \"News Cycle.\"",
+          },
+          {
+            family_name: "News Cycle",
+            style: "Bold",
+            full_name: "News Cycle Bold",
+            post_script_name: "NewsCycle-Bold",
+            version: "0.5.1",
+            filename: "NewsCycle-Bold.ttf",
+            copyright: "Copyright (c) 2010-2011, Nathan Willis (nwillis@glyphography.com), with Reserved Font Name \"News Cycle.\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

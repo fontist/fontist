@@ -12,9 +12,20 @@ module Fontist
         sha256 "b1a758fd08cd20f510144a308f82475060f2e1cfa9d9f886520473d177a11ec2"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Frijole-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Frijole",
+            style: "Regular",
+            full_name: "Frijole",
+            post_script_name: "Frijole",
+            version: "1.000",
+            filename: "Frijole-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reseved Font Name \"Frijole\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

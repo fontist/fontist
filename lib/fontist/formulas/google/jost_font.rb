@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Jost[wght].ttf",
-        "Italic" => "Jost-Italic[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jost",
+            style: "Regular",
+            full_name: "Jost Regular",
+            post_script_name: "Jost-Regular",
+            version: "3.600",
+            filename: "Jost[wght].ttf",
+            copyright: "Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type)",
+          },
+          {
+            family_name: "Jost",
+            style: "Italic",
+            full_name: "Jost Italic",
+            post_script_name: "Jost-Italic",
+            version: "3.600",
+            filename: "Jost-Italic[wght].ttf",
+            copyright: "Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,21 @@ module Fontist
         sha256 "053be83985c160144d252e1e33ebfe8bc9d04f35d80f64bda16a8c313ea30ecc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BlackOpsOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Black Ops One",
+            style: "Regular",
+            full_name: "Black Ops One Regular",
+            post_script_name: "BlackOpsOne-Regular",
+            version: "1.003",
+            filename: "BlackOpsOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Names \"Black Ops\" and \"Black Ops One\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "41b049b39c4b14a9d690b47940903fed8f36504ba0f6f0023889f79165760a82"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AlmendraSC-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Almendra SC",
+            style: "Regular",
+            full_name: "Almendra SC Regular",
+            post_script_name: "AlmendraSC-Regular",
+            version: "1.002",
+            filename: "AlmendraSC-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Ana Sanfelippo (anasanfe@gmail.com). Reserved Font Names \"Almendra\" \"Almendra SC\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

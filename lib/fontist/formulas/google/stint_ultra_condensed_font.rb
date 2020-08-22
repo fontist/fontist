@@ -12,9 +12,21 @@ module Fontist
         sha256 "1ff297a3225d95e55dfe01ac4fcfe5dd2eb641b405bdaad1212d2e37e8b20137"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "StintUltraCondensed-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stint Ultra Condensed",
+            style: "Regular",
+            full_name: "Stint Ultra Condensed",
+            post_script_name: "StintUltraCondensed-Regular",
+            version: "1.000",
+            filename: "StintUltraCondensed-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Stint Ultra Condensed\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

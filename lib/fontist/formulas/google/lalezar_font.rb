@@ -12,9 +12,20 @@ module Fontist
         sha256 "dca902ff5acb9229f7a2f9b39ae732b6ff62408951a7e05978a429c3a8d29d58"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Lalezar-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Lalezar",
+            style: "Regular",
+            full_name: "Lalezar Regular",
+            post_script_name: "Lalezar-Regular",
+            version: "1.004",
+            filename: "Lalezar-Regular.ttf",
+            copyright: "Copyright 2015 The Lalezar Project Authors (https://github.com/BornaIz/Lalezar)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

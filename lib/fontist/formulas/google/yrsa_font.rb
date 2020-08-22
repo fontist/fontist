@@ -12,13 +12,56 @@ module Fontist
         sha256 "3e5070db81df19f440a93faf81be4f75f607255917baaa36b603c5b6774bc1f7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "Yrsa-Light.ttf",
-        "Regular" => "Yrsa-Regular.ttf",
-        "Medium" => "Yrsa-Medium.ttf",
-        "SemiBold" => "Yrsa-SemiBold.ttf",
-        "Bold" => "Yrsa-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Yrsa",
+            style: "Light",
+            full_name: "Yrsa Light",
+            post_script_name: "Yrsa-Light",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Yrsa-Light.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Yrsa",
+            style: "Regular",
+            full_name: "Yrsa Regular",
+            post_script_name: "Yrsa-Regular",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Yrsa-Regular.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Yrsa",
+            style: "Medium",
+            full_name: "Yrsa Medium",
+            post_script_name: "Yrsa-Medium",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Yrsa-Medium.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Yrsa",
+            style: "SemiBold",
+            full_name: "Yrsa SemiBold",
+            post_script_name: "Yrsa-SemiBold",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Yrsa-SemiBold.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+          {
+            family_name: "Yrsa",
+            style: "Bold",
+            full_name: "Yrsa Bold",
+            post_script_name: "Yrsa-Bold",
+            version: "1.001;PS 1.001;hotconv 1.0.88;makeotf.lib2.5.647800; ttfautohint (v1.3.34-f4db)",
+            filename: "Yrsa-Bold.ttf",
+            copyright: "Copyright (c) 2015 by Rosetta Type Foundry s.r.o. (info@rosettatype.com).",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

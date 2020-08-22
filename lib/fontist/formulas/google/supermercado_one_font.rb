@@ -12,9 +12,22 @@ module Fontist
         sha256 "de377300a141c009b1670356daa26fe469da6d5c4495ab5448cbd85ff7910b19"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SupermercadoOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Supermercado",
+            style: "Regular",
+            full_name: "Supermercado Regular",
+            post_script_name: "Supermercado-Regular",
+            version: "1.002",
+            description: "Supermercado One is a low contrast semi geometric typeface inspired by naive industrial letters. Supermercado One is not a typical mechanical sans because it incorporates unexpected swashes, especially in its capitals. Supermercado One is surprisingly versatile: it is certainly quite distinctive when set at larges sizes but it can also work at fairly small sizes and in blocks of text.",
+            filename: "SupermercadoOne-Regular.ttf",
+            copyright: "Copyright (c) 2011-2012, Sorkin Type Co (www.sorkintype.com)
+with Reserved Font Name \"Supermercado\".",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

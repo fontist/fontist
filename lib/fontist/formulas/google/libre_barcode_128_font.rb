@@ -12,9 +12,20 @@ module Fontist
         sha256 "781716a2f1fe34312d23492b571c4c6f58766feadea614014b26b167804928fd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LibreBarcode128-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Libre Barcode 128",
+            style: "Regular",
+            full_name: "Libre Barcode 128 Regular",
+            post_script_name: "LibreBarcode128-Regular",
+            version: "1.003; ttfautohint (v1.6) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G -X \"\"",
+            filename: "LibreBarcode128-Regular.ttf",
+            copyright: "Copyright 2017 The Libre Barcode Project Authors (lasse@graphicore.de)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

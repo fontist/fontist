@@ -12,9 +12,21 @@ module Fontist
         sha256 "e9d182473b62ef02681c34c55f0d4e519e3467081bd08364fb662a87162b83b1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "MrBedfort-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mr Bedfort",
+            style: "Regular",
+            full_name: "Mr Bedfort Regular",
+            post_script_name: "MrBedfort-Regular",
+            version: "1.000",
+            filename: "MrBedfort-Regular.ttf",
+            copyright: "Copyright (c) 2006 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Mr Bedfort\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

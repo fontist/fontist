@@ -12,9 +12,20 @@ module Fontist
         sha256 "12f9e5e91d61228d8398a9ae3ddf06ed9a407fea00c222eabd6e0cba670d463c"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CuteFont-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Cute Font",
+            style: "Regular",
+            full_name: "Cute Font Regular",
+            post_script_name: "CuteFont-Regular",
+            version: "1.00",
+            filename: "CuteFont-Regular.ttf",
+            copyright: "COPYRIGHT ⓒ 2004-2017 by TypoDesign Lab. Inc. All rights reserved. Font designed by TypoDesign Lab. Inc.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

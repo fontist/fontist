@@ -12,9 +12,20 @@ module Fontist
         sha256 "9f2d378e6c1612fd08366a0aeaac77688acb1d3a10876cba1b48099379a32833"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AtomicAge-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Atomic Age",
+            style: "Regular",
+            full_name: "Atomic Age Regular",
+            post_script_name: "AtomicAge-Regular",
+            version: "1.008; ttfautohint (v1.4.1) -l 6 -r 46 -G 0 -x 0 -H 200 -D latn -f none -m \"\" -w g -X \"\"",
+            filename: "AtomicAge-Regular.ttf",
+            copyright: "Copyright (c) 2013 - 2016, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Atomic Age'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

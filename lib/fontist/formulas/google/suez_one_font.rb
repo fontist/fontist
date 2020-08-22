@@ -12,9 +12,20 @@ module Fontist
         sha256 "be187c757589c55706ec5220629942e3c04c629afa28f1fb80eec30ca94b7a0b"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "SuezOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Suez One",
+            style: "Regular",
+            full_name: "Suez One Regular",
+            post_script_name: "SuezOne-Regular",
+            version: "1.001",
+            filename: "SuezOne-Regular.ttf",
+            copyright: "Copyright 2016 Michal Sahar. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

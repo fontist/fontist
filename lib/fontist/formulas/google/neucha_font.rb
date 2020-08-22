@@ -12,9 +12,21 @@ module Fontist
         sha256 "8238077bde39a03377d34d45f8d1335f6d0d59bdc6c0bee73d2afb54ca0570f8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Neucha.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Neucha",
+            style: "Regular",
+            full_name: "Neucha",
+            post_script_name: "Neucha",
+            version: "001.001",
+            description: "Copyright (c) 2005-2010 by Jovanny Lemonad. All rights reserved.",
+            filename: "Neucha.ttf",
+            copyright: "Copyright (c) 2005-2010 by Jovanny Lemonad. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

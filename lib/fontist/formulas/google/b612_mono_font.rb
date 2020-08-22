@@ -12,12 +12,47 @@ module Fontist
         sha256 "1c5a961c27d9173a0c83791a4da8f47906e8f24716c1de5cb174e7fc612ba22e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "B612Mono-Regular.ttf",
-        "Italic" => "B612Mono-Italic.ttf",
-        "Bold" => "B612Mono-Bold.ttf",
-        "BoldItalic" => "B612Mono-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "B612 Mono",
+            style: "Regular",
+            full_name: "B612 Mono Regular",
+            post_script_name: "B612Mono-Regular",
+            version: "1.008",
+            filename: "B612Mono-Regular.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612 Mono",
+            style: "Italic",
+            full_name: "B612 Mono Italic",
+            post_script_name: "B612Mono-Italic",
+            version: "1.008",
+            filename: "B612Mono-Italic.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612 Mono",
+            style: "Bold",
+            full_name: "B612 Mono Bold",
+            post_script_name: "B612Mono-Bold",
+            version: "1.008",
+            filename: "B612Mono-Bold.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+          {
+            family_name: "B612 Mono",
+            style: "Bold Italic",
+            full_name: "B612 Mono Bold Italic",
+            post_script_name: "B612Mono-BoldItalic",
+            version: "1.008",
+            filename: "B612Mono-BoldItalic.ttf",
+            copyright: "Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

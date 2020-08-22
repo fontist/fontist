@@ -12,9 +12,22 @@ module Fontist
         sha256 "68aa5aeeb8b6b735790df203653e949c5b9a1a10ff4d3dd69bd8236e227d1f28"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Ranchers-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ranchers",
+            style: "Regular",
+            full_name: "Ranchers",
+            post_script_name: "Ranchers-Regular",
+            version: "1.000; ttfautohint (v0.8) -G 200 -r 50",
+            description: "Ranchers is one of the many hand-lettering artist \"Relaxed interpretations\" of sans serif typefaces typical of 1950.
+It's great for big posters and fun headlines. Use it bigger than 40px for maximum effect.",
+            filename: "Ranchers-Regular.ttf",
+            copyright: "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com), Brenda Gallo. (gbrenda1987@gmail.com), with Reserved Font Name Ranchers.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

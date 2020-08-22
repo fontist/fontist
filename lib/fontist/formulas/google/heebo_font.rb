@@ -12,9 +12,20 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Heebo[wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Heebo",
+            style: "Regular",
+            full_name: "Heebo Regular",
+            post_script_name: "Heebo-Regular",
+            version: "3.001",
+            filename: "Heebo[wght].ttf",
+            copyright: "Copyright 2014 The Heebo Project Authors (https://github.com/OdedEzer/heebo)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

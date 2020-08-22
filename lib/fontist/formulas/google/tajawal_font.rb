@@ -12,15 +12,74 @@ module Fontist
         sha256 "2400d7fbfbd8dc72b4fb732f59237bd71d482716524815704cc522ba92160706"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "ExtraLight" => "Tajawal-ExtraLight.ttf",
-        "Light" => "Tajawal-Light.ttf",
-        "Regular" => "Tajawal-Regular.ttf",
-        "Medium" => "Tajawal-Medium.ttf",
-        "Bold" => "Tajawal-Bold.ttf",
-        "ExtraBold" => "Tajawal-ExtraBold.ttf",
-        "Black" => "Tajawal-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tajawal",
+            style: "ExtraLight",
+            full_name: "Tajawal ExtraLight",
+            post_script_name: "Tajawal-ExtraLight",
+            version: "1.700",
+            filename: "Tajawal-ExtraLight.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "Light",
+            full_name: "Tajawal Light",
+            post_script_name: "Tajawal-Light",
+            version: "1.700",
+            filename: "Tajawal-Light.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "Regular",
+            full_name: "Tajawal",
+            post_script_name: "Tajawal-Regular",
+            version: "1.700",
+            filename: "Tajawal-Regular.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "Medium",
+            full_name: "Tajawal-Medium",
+            post_script_name: "Tajawal-Medium",
+            version: "1.700",
+            filename: "Tajawal-Medium.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "Bold",
+            full_name: "Tajawal-Bold",
+            post_script_name: "Tajawal-Bold",
+            version: "1.700",
+            filename: "Tajawal-Bold.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "ExtraBold",
+            full_name: "Tajawal ExtraBold",
+            post_script_name: "Tajawal-ExtraBold",
+            version: "1.700",
+            filename: "Tajawal-ExtraBold.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+          {
+            family_name: "Tajawal",
+            style: "Black",
+            full_name: "Tajawal Black",
+            post_script_name: "Tajawal-Black",
+            version: "1.700",
+            filename: "Tajawal-Black.ttf",
+            copyright: "(c) 2017 by Boutros International. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

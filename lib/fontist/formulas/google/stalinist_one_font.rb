@@ -12,9 +12,20 @@ module Fontist
         sha256 "246e1e69d21dc562fc753ffa975454bd82109449e80a24271953b395d911eb15"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "StalinistOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Stalinist One",
+            style: "Regular",
+            full_name: "Stalinist One",
+            post_script_name: "StalinistOne-Regular",
+            version: "3.003",
+            filename: "StalinistOne-Regular.ttf",
+            copyright: "Copyright (c) 2009-2011, Alexey Maslov, Jovanny Lemonad (lemonad@jovanny.ru), with Reserved Font Name 'Stalinist'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

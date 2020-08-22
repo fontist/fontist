@@ -12,12 +12,47 @@ module Fontist
         sha256 "bffc7a68d909d9fbecbb5b906b49ba518e8b602013d837a4922f8a7089d2b373"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Share-Regular.ttf",
-        "Italic" => "Share-Italic.ttf",
-        "Bold" => "Share-Bold.ttf",
-        "BoldItalic" => "Share-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Share",
+            style: "Regular",
+            full_name: "Share Regular",
+            post_script_name: "Share-Regular",
+            version: "1.002",
+            filename: "Share-Regular.ttf",
+            copyright: "Copyright (c) 2005-2011, Carrois Type Design (carrois.com), with Reserved Font Name \"Share\"",
+          },
+          {
+            family_name: "Share",
+            style: "Italic",
+            full_name: "Share Italic",
+            post_script_name: "Share-Italic",
+            version: "1.002",
+            filename: "Share-Italic.ttf",
+            copyright: "Copyright (c) 2005-2011, Carrois Type Design (carrois.com), with Reserved Font Name \"Share\"",
+          },
+          {
+            family_name: "Share",
+            style: "Bold",
+            full_name: "Share Bold",
+            post_script_name: "Share-Bold",
+            version: "1.002",
+            filename: "Share-Bold.ttf",
+            copyright: "Copyright (c) 2005-2011, Carrois Type Design (carrois.com), with Reserved Font Name \"Share\"",
+          },
+          {
+            family_name: "Share",
+            style: "Bold Italic",
+            full_name: "Share Bold Italic",
+            post_script_name: "Share-BoldItalic",
+            version: "1.002",
+            filename: "Share-BoldItalic.ttf",
+            copyright: "Copyright (c) 2005-2011, Carrois Type Design (carrois.com), with Reserved Font Name \"Share\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

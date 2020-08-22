@@ -12,10 +12,29 @@ module Fontist
         sha256 "f8482b55488b3666b06ff62eaa0771ee10b18de59f192c87d8f6ec504dbd159a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Battambang-Regular.ttf",
-        "Bold" => "Battambang-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Battambang",
+            style: "Regular",
+            full_name: "Battambang Regular",
+            post_script_name: "Battambang-Regular",
+            version: "2.00 February 6, 2013",
+            filename: "Battambang-Regular.ttf",
+            copyright: "Copyright (c) 2013, Danh Hong (khmertype.org)",
+          },
+          {
+            family_name: "Battambang",
+            style: "Bold",
+            full_name: "Battambang Bold",
+            post_script_name: "Battambang-Bold",
+            version: "2.00 February 6, 2013",
+            filename: "Battambang-Bold.ttf",
+            copyright: "Copyright (c) 2013, Danh Hong (khmertype.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

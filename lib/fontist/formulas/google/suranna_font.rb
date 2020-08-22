@@ -12,9 +12,20 @@ module Fontist
         sha256 "b6815927f64ab029072d932898f2f065aaa0b416daf0922a1d368f84e89a45de"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Suranna-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Suranna",
+            style: "Regular",
+            full_name: "Suranna",
+            post_script_name: "Suranna",
+            version: "1.0.5; ttfautohint (v1.2.42-39fb)",
+            filename: "Suranna-Regular.ttf",
+            copyright: "Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011, Cyreal (www.cyreal.org) with Reserved Font Name 'Prata'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

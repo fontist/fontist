@@ -12,9 +12,20 @@ module Fontist
         sha256 "74353251f271d0b40fd070e9566cabcd710f79060b930e7b26a6e4360bfca350"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "JockeyOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Jockey One",
+            style: "Regular",
+            full_name: "Jockey One",
+            post_script_name: "JockeyOne-Regular",
+            version: "1.002",
+            filename: "JockeyOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names \"Jockey\" and \"Jockey One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,12 +12,47 @@ module Fontist
         sha256 "9164a0307fdb0e81b9f2658facaa20ee02ecde8880f0abf5a4d5426b85c5a91a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Tinos-Regular.ttf",
-        "Italic" => "Tinos-Italic.ttf",
-        "Bold" => "Tinos-Bold.ttf",
-        "BoldItalic" => "Tinos-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tinos",
+            style: "Regular",
+            full_name: "Tinos Regular",
+            post_script_name: "Tinos-Regular",
+            version: "1.23",
+            filename: "Tinos-Regular.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Tinos",
+            style: "Italic",
+            full_name: "Tinos Italic",
+            post_script_name: "Tinos-Italic",
+            version: "1.23",
+            filename: "Tinos-Italic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Tinos",
+            style: "Bold",
+            full_name: "Tinos Bold",
+            post_script_name: "Tinos-Bold",
+            version: "1.23",
+            filename: "Tinos-Bold.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+          {
+            family_name: "Tinos",
+            style: "Bold Italic",
+            full_name: "Tinos Bold Italic",
+            post_script_name: "Tinos-BoldItalic",
+            version: "1.23",
+            filename: "Tinos-BoldItalic.ttf",
+            copyright: "Digitized data copyright (c) 2010-2012 Google Corporation.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

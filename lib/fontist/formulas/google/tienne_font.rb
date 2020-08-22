@@ -12,11 +12,42 @@ module Fontist
         sha256 "fb47e6708e0515783bae3aade6fd1b79ee545a13543b8f17edab9307c2ed1d71"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Tienne-Regular.ttf",
-        "Bold" => "Tienne-Bold.ttf",
-        "Black" => "Tienne-Black.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Tienne",
+            style: "Regular",
+            full_name: "Tienne Regular",
+            post_script_name: "Tienne-Regular",
+            version: "1.001",
+            filename: "Tienne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved. with",
+          },
+          {
+            family_name: "Tienne",
+            style: "Bold",
+            full_name: "Tienne Bold",
+            post_script_name: "Tienne-Bold",
+            version: "1.001",
+            filename: "Tienne-Bold.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved. with
+Reserved Font Names \"Tienne\" and \"Tienne Regular\". This
+Font Software is licensed under the SIL Open Font License, Version
+1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+          {
+            family_name: "Tienne",
+            style: "Black",
+            full_name: "Tienne Black",
+            post_script_name: "Tienne-Black",
+            version: "001.001",
+            filename: "Tienne-Black.ttf",
+            copyright: "Copyright (c) 2011 by vernon adams. All rights reserved. with",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

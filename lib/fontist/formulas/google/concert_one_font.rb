@@ -12,9 +12,20 @@ module Fontist
         sha256 "35dea8f91462792e5221c8ac4a5b8d450841b21232a3936241b832652b502667"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "ConcertOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Concert One",
+            style: "Regular",
+            full_name: "Concert One",
+            post_script_name: "ConcertOne-Regular",
+            version: "1.003",
+            filename: "ConcertOne-Regular.ttf",
+            copyright: "Copyright (c) 2011, 2011 Johan Kallas (johankallas@gmail.com), Copyright (c) 2011, 2011 Mihkel Virkus (mihkelvirkus@gmail.com), with Reserved Font Name Concert.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

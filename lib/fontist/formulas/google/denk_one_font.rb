@@ -12,9 +12,21 @@ module Fontist
         sha256 "f3b42bcb1e7a5724f5bf2985ee94496a830dcea7fe8336553bb00a674ea5bd7a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "DenkOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Denk One",
+            style: "Regular",
+            full_name: "Denk One",
+            post_script_name: "DenkOne-Regular",
+            version: "1.002",
+            description: "Denk is a medium contrast display sans serif. It was inspired by a hand painted German sign. Inder has been carefully adjusted to the restrictions of the screen. Despite having display characteristics Denk can be used in a wide range of sizes.",
+            filename: "DenkOne-Regular.ttf",
+            copyright: "Copyright (c) 2012, Sorkin Type Co (www.sorkintype.com) with Reserved Font Name 'Denk'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

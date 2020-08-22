@@ -12,9 +12,21 @@ module Fontist
         sha256 "2ff2721be97dfdbb1f83314536718f9a347d0351cbe27b2f543655364c4a09a7"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Quintessential-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Quintessential",
+            style: "Regular",
+            full_name: "Quintessential",
+            post_script_name: "Quintessential-Regular",
+            version: "1.000",
+            filename: "Quintessential-Regular.ttf",
+            copyright: "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved
+Font Name \"Quintessential\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "029c30ace23145fff385fc9106fc2d091359d2c38df408237e9b98d49131eeb1"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LeckerliOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Leckerli One",
+            style: "Regular",
+            full_name: "Leckerli One",
+            post_script_name: "LeckerliOne-Regular",
+            version: "1.001",
+            filename: "LeckerliOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 Gesine Todt (www.gesine-todt.de), with Reserved Font Names \"Leckerli\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

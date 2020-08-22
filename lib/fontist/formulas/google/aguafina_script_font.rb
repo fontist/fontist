@@ -12,9 +12,22 @@ module Fontist
         sha256 "b595842b5467561352214447823117afcd706f4f088f120190a5911f7eb2705d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "AguafinaScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Aguafina Script",
+            style: "Regular",
+            full_name: "Aguafina Script Regular",
+            post_script_name: "AguafinaScript-Regular",
+            version: "1.000",
+            filename: "AguafinaScript-Regular.ttf",
+            copyright: "Copyright (c) 2007 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2007 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Aguafina Script\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

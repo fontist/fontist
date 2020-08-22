@@ -12,9 +12,20 @@ module Fontist
         sha256 "ea79a359ee801042c0dcd52581927cb94889df820d0619d7b333e5e90aec9089"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Smokum-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Smokum",
+            style: "Regular",
+            full_name: "Smokum Regular",
+            post_script_name: "Smokum-Regular",
+            version: "1.001",
+            filename: "Smokum-Regular.ttf",
+            copyright: "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

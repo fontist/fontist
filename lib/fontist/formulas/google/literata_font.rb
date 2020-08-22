@@ -12,10 +12,29 @@ module Fontist
         # sha256 "" # file changes between downloads
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Literata[opsz,wght].ttf",
-        "Italic" => "Literata-Italic[opsz,wght].ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Literata",
+            style: "Regular",
+            full_name: "Literata Regular",
+            post_script_name: "Literata-Regular",
+            version: "3.002",
+            filename: "Literata[opsz,wght].ttf",
+            copyright: "Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)",
+          },
+          {
+            family_name: "Literata",
+            style: "Italic",
+            full_name: "Literata Italic",
+            post_script_name: "Literata-Italic",
+            version: "3.002",
+            filename: "Literata-Italic[opsz,wght].ttf",
+            copyright: "Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,11 +12,38 @@ module Fontist
         sha256 "b38568f9b6eede8102ca818e095b29c120a446e20af16c613bfe2a4930423e72"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Light" => "RedRose-Light.ttf",
-        "Regular" => "RedRose-Regular.ttf",
-        "Bold" => "RedRose-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Red Rose",
+            style: "Light",
+            full_name: "Red Rose Light",
+            post_script_name: "RedRose-Light",
+            version: "1.001; ttfautohint (v1.8.3)",
+            filename: "RedRose-Light.ttf",
+            copyright: "Copyright 2018 The Red Rose Project Authors (https://github.com/magictype/redrose)",
+          },
+          {
+            family_name: "Red Rose",
+            style: "Regular",
+            full_name: "Red Rose Regular",
+            post_script_name: "RedRose-Regular",
+            version: "1.001; ttfautohint (v1.8.3)",
+            filename: "RedRose-Regular.ttf",
+            copyright: "Copyright 2018 The Red Rose Project Authors (https://github.com/magictype/redrose)",
+          },
+          {
+            family_name: "Red Rose",
+            style: "Bold",
+            full_name: "Red Rose Bold",
+            post_script_name: "RedRose-Bold",
+            version: "1.001; ttfautohint (v1.8.3)",
+            filename: "RedRose-Bold.ttf",
+            copyright: "Copyright 2018 The Red Rose Project Authors (https://github.com/magictype/redrose)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

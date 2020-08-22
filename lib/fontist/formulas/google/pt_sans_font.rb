@@ -12,12 +12,51 @@ module Fontist
         sha256 "aba40f7fd042ae465bbff1074b6b403c32734befa57978cbd9efb173c328e3fd"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "PT_Sans-Web-Regular.ttf",
-        "Italic" => "PT_Sans-Web-Italic.ttf",
-        "Bold" => "PT_Sans-Web-Bold.ttf",
-        "BoldItalic" => "PT_Sans-Web-BoldItalic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "PT Sans",
+            style: "Regular",
+            full_name: "PT Sans",
+            post_script_name: "PTSans-Regular",
+            version: "2.003W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Web-Regular.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Sans",
+            style: "Italic",
+            full_name: "PT Sans Italic",
+            post_script_name: "PTSans-Italic",
+            version: "2.003W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Web-Italic.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Sans",
+            style: "Bold",
+            full_name: "PT Sans Bold",
+            post_script_name: "PTSans-Bold",
+            version: "2.003W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Web-Bold.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+          {
+            family_name: "PT Sans",
+            style: "Bold Italic",
+            full_name: "PT Sans Bold Italic",
+            post_script_name: "PTSans-BoldItalic",
+            version: "2.003W OFL",
+            description: "PT Sans is a type family of universal use. It consists of 8 styles: regular and bold weights with corresponding italics form a standard computer font family; two narrow styles (regular and bold) are intended for documents that require tight set; two caption styles (regular and bold) are for texts of small point sizes. The design combines traditional conservative appearance with modern trends of humanistic sans serif and characterized by enhanced legibility. These features beside conventional use in business applications and printed stuff made the fonts quite useable for direction and guide signs, schemes, screens of information kiosks and other objects of urban visual communications.",
+            filename: "PT_Sans-Web-BoldItalic.ttf",
+            copyright: "Copyright © 2009 ParaType Ltd. All rights reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

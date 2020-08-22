@@ -12,9 +12,20 @@ module Fontist
         sha256 "70b5e1d3b745a5b3017a10587eb1c75991642134a192215a753e2d228248527a"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BlackAndWhitePicture-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Black And White Picture",
+            style: "Regular",
+            full_name: "Black And White Picture Regular",
+            post_script_name: "BlackAndWhitePicture-Regular",
+            version: "1.64",
+            filename: "BlackAndWhitePicture-Regular.ttf",
+            copyright: "Copyright (c) 1992-2018 AsiaSoft Inc. Seoul Korea All Rights Reserved.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

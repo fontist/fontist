@@ -12,10 +12,29 @@ module Fontist
         sha256 "a4764cd67550fab97248391cd40ccb677c312d1de86159d8f6d87112c44aa9f4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LindenHill-Regular.ttf",
-        "Italic" => "LindenHill-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Linden Hill",
+            style: "Regular",
+            full_name: "Linden Hill Regular",
+            post_script_name: "LindenHill-Regular",
+            version: "1.202",
+            filename: "LindenHill-Regular.ttf",
+            copyright: "Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+          {
+            family_name: "Linden Hill",
+            style: "Italic",
+            full_name: "Linden Hill Italic",
+            post_script_name: "LindenHill-Italic",
+            version: "1.201",
+            filename: "LindenHill-Italic.ttf",
+            copyright: "Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

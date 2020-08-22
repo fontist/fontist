@@ -12,9 +12,20 @@ module Fontist
         sha256 "c597cc1793d8bbc1727f96bdb2153815832214a0dbf853e9b8df96bf12dd32cb"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "NanumBrushScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Nanum Brush Script",
+            style: "Regular",
+            full_name: "Nanum Brush Script",
+            post_script_name: "NanumBrush",
+            version: "1.100;PS 1;hotconv 1.0.57;makeotf.lib2.0.21895",
+            filename: "NanumBrushScript-Regular.ttf",
+            copyright: "Copyright © 2010 NHN Corporation. All rights reserved. Font designed by Sandoll Communications Inc.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

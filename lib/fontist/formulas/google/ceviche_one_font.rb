@@ -12,9 +12,20 @@ module Fontist
         sha256 "eebb363e9c5ab48eef4788c332ff81743017595471498aea529a739e88a3c305"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "CevicheOne-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Ceviche One",
+            style: "Regular",
+            full_name: "Ceviche One",
+            post_script_name: "CevicheOne-Regular",
+            version: "1.002",
+            filename: "CevicheOne-Regular.ttf",
+            copyright: "Copyright (c) 2011 by LatinoType Limitada (luciano@latinotype.com), with Reserved Font Names \"Cecivhe\" and \"Ceviche One\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

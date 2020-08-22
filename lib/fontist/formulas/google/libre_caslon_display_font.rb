@@ -12,9 +12,21 @@ module Fontist
         sha256 "2c0f78991d8c8d0e62de72981478aa536dad30c028f781d6c56a261866b487d4"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "LibreCaslonDisplay-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Libre Caslon Display",
+            style: "Regular",
+            full_name: "Libre Caslon Display Regular",
+            post_script_name: "LibreCaslonDisplay-Regular",
+            version: "1.100; ttfautohint (v1.6) -l 8 -r 50 -G 200 -x 14 -D latn -f none -w G -X \"\"",
+            description: "Libre Caslon in Display and Text weights",
+            filename: "LibreCaslonDisplay-Regular.ttf",
+            copyright: "Copyright 2012 The Libre Caslon Display Authors (https://github.com/impallari/Libre-Caslon-Display)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,10 +12,29 @@ module Fontist
         sha256 "9669bbec2a0605cfa5100e9b60afb2b0009ba6b007c06edbe69dd95212677dde"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Monda-Regular.ttf",
-        "Bold" => "Monda-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Monda",
+            style: "Regular",
+            full_name: "Monda Regular",
+            post_script_name: "Monda-Regular",
+            version: "1 ; ttfautohint (v0.93.8-669f) -l 8 -r 50 -G 200 -x 0 -w \"gG\" -W -c",
+            filename: "Monda-Regular.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Names 'Monda'",
+          },
+          {
+            family_name: "Monda",
+            style: "Bold",
+            full_name: "Monda Bold",
+            post_script_name: "Monda-Bold",
+            version: "1.000; ttfautohint (v0.93.50-fefd) -l 8 -r 50 -G 200 -x 0 -w \"gG\" -W -c",
+            filename: "Monda-Bold.ttf",
+            copyright: "Copyright (c) 2012, vernon adams (vern@newtypography.co.uk), with Reserved Font Names 'Monda'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

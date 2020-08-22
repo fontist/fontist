@@ -12,10 +12,29 @@ module Fontist
         sha256 "dfd231b522bb96cfb6af3512911eb5c5ca4155adffcd4c987449e6b352b38c9d"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Mate-Regular.ttf",
-        "Italic" => "Mate-Italic.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Mate",
+            style: "Regular",
+            full_name: "Mate-Regular",
+            post_script_name: "Mate-Regular",
+            version: "1.002",
+            filename: "Mate-Regular.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Mate\"",
+          },
+          {
+            family_name: "Mate",
+            style: "Italic",
+            full_name: "Mate Italic",
+            post_script_name: "Mate-Italic",
+            version: "1.002",
+            filename: "Mate-Italic.ttf",
+            copyright: "Copyright (c) 2011, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name \"Mate\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

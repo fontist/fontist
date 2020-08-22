@@ -12,9 +12,20 @@ module Fontist
         sha256 "bacbea90b0224157b9fba608486aed6af7015f9d149b54d1afb30ea824b9c4c8"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "EuphoriaScript-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Euphoria Script",
+            style: "Regular",
+            full_name: "Euphoria Script",
+            post_script_name: "EuphoriaScript-Regular",
+            version: "1.002",
+            filename: "EuphoriaScript-Regular.ttf",
+            copyright: "Copyright (c) 2012 Sabrina Mariela Lopez (typesenses@live.com.ar), with Reserved Font Name \"Euphoria Script\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

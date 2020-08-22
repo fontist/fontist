@@ -12,9 +12,21 @@ module Fontist
         sha256 "a356726f97af5202f2c65e245f867786f204b801ef2f7fba1dca9c5e6218d75e"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Arizonia-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Arizonia",
+            style: "Regular",
+            full_name: "Arizonia Regular",
+            post_script_name: "Arizonia-Regular",
+            version: "1.004",
+            filename: "Arizonia-Regular.ttf",
+            copyright: "Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+with Reserved Font Name \"Arizonia\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

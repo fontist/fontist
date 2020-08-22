@@ -12,9 +12,28 @@ module Fontist
         sha256 "26b08ec4e582218fef46040b3df7f627ee9055b0612e31c8325cb854d5587a81"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Electrolize-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Electrolize",
+            style: "Regular",
+            full_name: "Electrolize",
+            post_script_name: "Electrolize-Regular",
+            version: "1.002",
+            description: "Electrolize is designed by Valery Zaveryaev.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            filename: "Electrolize-Regular.ttf",
+            copyright: "Copyright (c) 2011, Cyreal (www.cyreal.org)
+with Reserved Font Name \"Electrolize\"
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1. This license is available with a FAQ at:
+http://scripts.sil.org/OFL",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

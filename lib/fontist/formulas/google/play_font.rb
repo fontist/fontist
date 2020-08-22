@@ -12,10 +12,29 @@ module Fontist
         sha256 "77cb1d3d1a8fbdae183f3502b999628cee2478f528159e8481373ece495b00cc"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Play-Regular.ttf",
-        "Bold" => "Play-Bold.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Play",
+            style: "Regular",
+            full_name: "Play Regular",
+            post_script_name: "Play-Regular",
+            version: "2.101; ttfautohint (v1.6)",
+            filename: "Play-Regular.ttf",
+            copyright: "Copyright (c) 2011, Jonas Hecksher, Playtypes, e-types AS (lasse@e-types.com), with Reserved Font Name 'Play', 'Playtype', 'Playtype Sans'.",
+          },
+          {
+            family_name: "Play",
+            style: "Bold",
+            full_name: "Play Bold",
+            post_script_name: "Play-Bold",
+            version: "2.101; ttfautohint (v1.6)",
+            filename: "Play-Bold.ttf",
+            copyright: "Copyright (c) 2011, Jonas Hecksher, Playtypes, e-types AS (lasse@e-types.com), with Reserved Font Name 'Play', 'Playtype', 'Playtype Sans'.",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

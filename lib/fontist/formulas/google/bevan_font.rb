@@ -12,9 +12,20 @@ module Fontist
         sha256 "a16bfbf3a902e0e3ee2f18f4c6fa67915d33f49e0cc9c29b1c9a24a6ec824cdf"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "Bevan-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bevan",
+            style: "Regular",
+            full_name: "Bevan Regular",
+            post_script_name: "Bevan-Regular",
+            version: "2.000",
+            filename: "Bevan-Regular.ttf",
+            copyright: "Copyright 2016 The Bevan Project Authors (www.sansoxygen.com)",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

@@ -12,9 +12,20 @@ module Fontist
         sha256 "28a9b8de27f65bc26da5155a1dadb79491705f2f3e489ceaea5ab3b1584bc1fe"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "OxygenMono-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Oxygen Mono",
+            style: "Regular",
+            full_name: "Oxygen Mono",
+            post_script_name: "OxygenMono-Regular",
+            version: "0.201; ttfautohint (v0.8) -r 50 -G 200 -x",
+            filename: "OxygenMono-Regular.ttf",
+            copyright: "Copyright (c) 2012, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Names 'Oxygen'",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|

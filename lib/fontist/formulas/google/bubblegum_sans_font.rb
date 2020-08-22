@@ -12,9 +12,22 @@ module Fontist
         sha256 "a535fca95f1588bf02799558bf076a3654fdb5c78e0c0a0c9bf2c5accedd04a6"
       end
 
-      provides_font(FULLNAME, match_styles_from_file: {
-        "Regular" => "BubblegumSans-Regular.ttf",
-      })
+      provides_font(
+        FULLNAME,
+        match_styles_from_file: [
+          {
+            family_name: "Bubblegum Sans",
+            style: "Regular",
+            full_name: "Bubblegum Sans Regular",
+            post_script_name: "BubblegumSans-Regular",
+            version: "1.001",
+            filename: "BubblegumSans-Regular.ttf",
+            copyright: "Copyright (c) 2011 Angel Koziupa (sudtipos@sudtipos.com),
+Copyright (c) 2011 Alejandro Paul (sudtipos@sudtipos.com),
+with Reserved Font Name \"Bubblegum Sans\"",
+          },
+        ]
+      )
 
       def extract
         resource("#{CLEANNAME}.zip") do |resource|
