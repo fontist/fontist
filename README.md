@@ -151,6 +151,24 @@ Run the test suite
 bin/rspec
 ```
 
+### Google Import
+
+The library contains formulas for [Google Foonts][google-fonts]. A GHA workflow
+checks for fonts update every day. In case an update is found, it could be
+fetched to the library by:
+
+```
+bin/import_google
+```
+
+The script would update the formula classes which should be committed to the
+repository:
+
+```
+git add lib/fontist/formulas/google
+git commit -m "Google Fonts update"
+```
+
 ## Contributing
 
 First, thank you for contributing! We love pull requests from everyone. By
@@ -177,3 +195,4 @@ This gem is developed, maintained and funded by [Ribose Inc.][riboseinc]
 [issues]: https://github.com/fontist/fontist/issues
 [squash]: https://github.com/thoughtbot/guides/tree/master/protocol/git#write-a-feature
 [sandi-metz]: http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers
+[google-fonts]: https://fonts.google.com

@@ -5,6 +5,6 @@ https://raw.githubusercontent.com/googlefonts/gftools/master/Lib/gftools/fonts_p
 
 To compile Protobuf to Ruby use
 
-```
-$ ruby-protoc lib/fontist/import/google/fonts_public.proto
+```sh
+ruby-protoc lib/fontist/import/google/fonts_public.proto
 ```
