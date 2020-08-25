@@ -1,4 +1,6 @@
 require "erb"
+require_relative "google"
+require_relative "google/new_fonts_fetcher"
 require_relative "google/fonts_public.pb"
 require_relative "template_helper"
 require_relative "text_helper"
@@ -8,88 +10,44 @@ require_relative "otf_style"
 module Fontist
   module Import
     class GoogleImport
-      REPO_PATH = Fontist.root_path.join("tmp", "fonts")
       TEMPLATE_PATH = File.expand_path("google/template.erb", __dir__)
-      SKIPLIST_PATH = File.expand_path("google/skiplist.yml", __dir__)
       SHA256_REGEXP = /sha256 "(.*)"/.freeze
       SHA256_COMMENT = %(# sha256 "" # file changes between downloads).freeze
 
       def call
-        fonts_paths = fetch_fonts_paths.sort
-        fonts_paths.each do |path|
-          create_formula(path)
-        end
-
-        puts "Updating SHA256..."
-        fonts_paths.each do |path|
-          update_sha256(path)
-        end
+        fonts = new_fonts
+        create_formulas(fonts)
+        update_formulas(fonts)
       end
 
       private
 
-      def fetch_fonts_paths
-        Dir[File.join(REPO_PATH, "apache", "*"),
-            File.join(REPO_PATH, "ofl", "*"),
-            File.join(REPO_PATH, "ufl", "*")]
+      def new_fonts
+        Fontist::Import::Google::NewFontsFetcher.new.call
+      end
+
+      def create_formulas(fonts)
+        fonts.each do |path|
+          create_formula(path)
+        end
       end
 
       def create_formula(path)
-        print "#{path}, "
+        puts path
         metadata = fetch_metadata(path)
-        return puts("skipped, no metadata") unless metadata
-
-        available = check_font(metadata)
-        return unless available
-
-        font = fetch_font(metadata, path)
+        font = build_font(metadata, path)
         code = render_code(font)
-        save_formula(code, font)
-        check_formula(font)
-        puts "saved"
+        path = formula_path(font.fullname)
+        save_formula(code, path)
+        check_formula(path)
       end
 
       def fetch_metadata(path)
-        metadata_path = File.join(path, "METADATA.pb")
-        return unless File.exists?(metadata_path)
-
-        # Protobuf file could be downloaded from
-        # https://raw.githubusercontent.com/googlefonts/gftools/master/Lib/gftools/fonts_public.proto
-        #
-        # To compile Protobuf to Ruby use
-        # $ ruby-protoc lib/fontist/import/google/fonts_public.proto
-        Google::Fonts::FamilyProto.parse_from_text(File.read(metadata_path))
+        protobuf = File.read(File.join(path, "METADATA.pb"))
+        ::Google::Fonts::FamilyProto.parse_from_text(protobuf)
       end
 
-      def check_font(metadata)
-        return puts("skipped, overriden") if in_skiplist?(metadata.name)
-        return puts("exists") if formula_exists?(metadata.name)
-        return puts("skipped, no download") unless downloadable?(metadata.name)
-
-        true
-      end
-
-      def in_skiplist?(name)
-        @skiplist ||= YAML.safe_load(File.open(SKIPLIST_PATH))
-        @skiplist.include?(name)
-      end
-
-      def formula_exists?(name)
-        File.exist?(Fontist.formulas_path.join("google", formula_file(name)))
-      end
-
-      def formula_file(name)
-        name.downcase.gsub(" ", "_") + "_font.rb"
-      end
-
-      def downloadable?(name)
-        Down.open("https://fonts.google.com/download?family=#{name}")
-        true
-      rescue Down::NotFound
-        false
-      end
-
-      def fetch_font(metadata, path)
+      def build_font(metadata, path)
         h = from_metadata(metadata)
           .merge(from_otfinfo(path))
           .merge(styles: styles_from_otfinfo(path, metadata.fonts))
@@ -100,6 +58,7 @@ module Fontist
 
       def from_metadata(metadata)
         copyright = metadata.fonts.first.copyright
+
         { fullname: metadata.name,
           cleanname: metadata.name.gsub(/ /, ""),
           sha256: sha256(metadata.name),
@@ -110,6 +69,7 @@ module Fontist
         file = Down.download("https://fonts.google.com/download?family=#{name}",
                              open_timeout: 10,
                              read_timeout: 10)
+
         Digest::SHA256.file(file).to_s
       end
 
@@ -150,19 +110,23 @@ module Fontist
         renderer.result(Fontist::Import::TemplateHelper.bind(font, "font"))
       end
 
-      def save_formula(code, font)
-        path = formula_path(font.fullname)
-        File.write(path, code)
-        path
-      end
-
       def formula_path(name)
-        file_name = name.downcase.gsub(" ", "_") + "_font.rb"
-        Fontist.formulas_path.join("google", file_name)
+        Fontist::Import::Google.formula_path(name)
       end
 
-      def check_formula(font)
-        require formula_path(font.fullname)
+      def save_formula(code, path)
+        File.write(path, code)
+      end
+
+      def check_formula(path)
+        require path
+      end
+
+      def update_formulas(fonts)
+        puts "Updating SHA256..."
+        fonts.each do |path|
+          update_sha256(path)
+        end
       end
 
       def update_sha256(path)
@@ -173,11 +137,7 @@ module Fontist
 
       def fix_sha256(path)
         metadata = fetch_metadata(path)
-        return unless metadata
-
         code = read_code(metadata.name)
-        return unless code
-
         previous = fetch_sha256(code)
         return if previous.empty?
 
@@ -189,10 +149,7 @@ module Fontist
       end
 
       def read_code(name)
-        formula_path = formula_path(name)
-        return unless File.exists?(formula_path)
-
-        File.read(formula_path)
+        File.read(formula_path(name))
       end
 
       def fetch_sha256(code)
