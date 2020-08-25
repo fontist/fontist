@@ -23,10 +23,11 @@ module Fontist
       private
 
       def new_fonts
-        Fontist::Import::Google::NewFontsFetcher.new.call
+        Fontist::Import::Google::NewFontsFetcher.new(logging: true).call
       end
 
       def create_formulas(fonts)
+        puts "Creating formulas..."
         fonts.each do |path|
           create_formula(path)
         end
