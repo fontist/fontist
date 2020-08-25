@@ -1,5 +1,6 @@
 require_relative "fonts_public.pb"
 require_relative "../google"
+require_relative "../otf_parser"
 
 module Fontist
   module Import
@@ -8,6 +9,10 @@ module Fontist
         REPO_PATH = Fontist.root_path.join("tmp", "fonts")
         REPO_URL = "https://github.com/google/fonts.git".freeze
         SKIPLIST_PATH = File.expand_path("skiplist.yml", __dir__)
+
+        def initialize(logging: false)
+          @logging = logging
+        end
 
         def call
           update_repo
@@ -26,7 +31,9 @@ module Fontist
 
         def fetch_new_paths
           fetch_fonts_paths.select do |path|
-            new?(path)
+            log_font(path) do
+              new?(path)
+            end
           end
         end
 
@@ -36,11 +43,20 @@ module Fontist
               File.join(REPO_PATH, "ufl", "*")]
         end
 
+        def log_font(path)
+          return yield unless @logging
+
+          print "#{path}, "
+          new = yield
+          puts(new ? "new" : "skipped")
+          new
+        end
+
         def new?(path)
           metadata = fetch_metadata(path)
           return unless metadata
 
-          font_new?(metadata)
+          font_new?(metadata, path)
         end
 
         def fetch_metadata(path)
@@ -50,9 +66,9 @@ module Fontist
           ::Google::Fonts::FamilyProto.parse_from_text(File.read(metadata_path))
         end
 
-        def font_new?(metadata)
+        def font_new?(metadata, path)
           return if in_skiplist?(metadata.name)
-          return if formula_exists?(metadata.name)
+          return if up_to_date?(metadata, path)
           return unless downloadable?(metadata.name)
 
           true
@@ -63,8 +79,29 @@ module Fontist
           @skiplist.include?(name)
         end
 
-        def formula_exists?(name)
-          File.exist?(Fontist::Import::Google.formula_path(name))
+        def up_to_date?(metadata, path)
+          formula = formula(metadata.name)
+          return false unless formula
+
+          styles = formula.fonts.map(&:styles).flatten
+
+          styles.all? do |style|
+            style.version == otfinfo_version(font_path(style.font, path))
+          end
+        end
+
+        def formula(font_name)
+          klass = font_name.gsub(/ /, "").sub(/\S/, &:upcase)
+          Fontist::Formula.all["Fontist::Formulas::#{klass}Font"]
+        end
+
+        def font_path(filename, directory)
+          File.join(directory, filename)
+        end
+
+        def otfinfo_version(path)
+          info = OtfParser.new(path).call
+          Fontist::Import::Google.style_version(info["Version"])
         end
 
         def downloadable?(name)

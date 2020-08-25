@@ -1,4 +1,5 @@
 require_relative "otfinfo/otfinfo_requirement"
+require_relative "text_helper"
 
 module Fontist
   module Import

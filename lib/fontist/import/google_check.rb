@@ -11,7 +11,7 @@ module Fontist
       private
 
       def new_fonts
-        Fontist::Import::Google::NewFontsFetcher.new.call
+        Fontist::Import::Google::NewFontsFetcher.new(logging: true).call
       end
 
       def indicate(new_paths)
