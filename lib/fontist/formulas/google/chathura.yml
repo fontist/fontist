@@ -1,0 +1,52 @@
+---
+name: Chathura
+description: Chathura
+homepage: www.adityafonts.com
+resources:
+  Chathura.zip:
+    urls:
+    - https://fonts.google.com/download?family=Chathura
+    sha256: 29e382038e3f9000ba9565fc88771a43646d0f0d05369668a2db28be7cefc17e
+fonts:
+- name: Chathura
+  styles:
+  - family_name: Chathura
+    type: Thin
+    full_name: Chathura Thin
+    post_script_name: Chathura-Thin
+    version: 1.002 2016
+    copyright: Copyright 2009 The Chathura Project Authors.
+    font: Chathura-Thin.ttf
+  - family_name: Chathura
+    type: Light
+    full_name: Chathura Light
+    post_script_name: Chathura-Light
+    version: 1.002 2016
+    copyright: Copyright 2009 The Chathura Project Authors.
+    font: Chathura-Light.ttf
+  - family_name: Chathura
+    type: Regular
+    full_name: Chathura Regular
+    post_script_name: Chathura-Regular
+    version: 1.002 2016
+    copyright: Copyright 2009 The Chathura Project Authors.
+    font: Chathura-Regular.ttf
+  - family_name: Chathura
+    type: Bold
+    full_name: Chathura Bold
+    post_script_name: Chathura-Bold
+    version: 1.002 2016
+    copyright: Copyright 2009 The Chathura Project Authors.
+    font: Chathura-Bold.ttf
+  - family_name: Chathura
+    type: ExtraBold
+    full_name: Chathura ExtraBold
+    post_script_name: Chathura-ExtraBold
+    version: 1.002 2016
+    copyright: Copyright 2009 The Chathura Project Authors.
+    font: Chathura-ExtraBold.ttf
+extract:
+  format: zip
+copyright: Copyright 2009 The Chathura Project Authors.
+license_url: http://scripts.sil.org/OFL
+open_license: ''

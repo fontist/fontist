@@ -1,0 +1,24 @@
+---
+name: JsMathcmti10
+description: jsMath cmti10
+homepage:
+resources:
+  jsMathcmti10.zip:
+    urls:
+    - https://fonts.google.com/download?family=jsMath%20cmti10
+    sha256: 4fc312b619e6a2f7319905711fc80c908c72def16f47b3441bc60cac3d29c2e6
+fonts:
+- name: jsMath cmti10
+  styles:
+  - family_name: jsMath-cmti10
+    type: cmti10
+    full_name: jsMath-cmti10
+    post_script_name: jsMath-cmti10
+    version: '001.001'
+    copyright: Generated from MetaFont bitmap by mftrace 1.0.33, http://www.cs.uu.nl/~hanwen/mftrace/
+    font: jsMath-cmti10.ttf
+extract:
+  format: zip
+copyright: Generated from MetaFont bitmap by mftrace 1.0.33, http://www.cs.uu.nl/~hanwen/mftrace/
+license_url:
+open_license: ''
