@@ -1,0 +1,73 @@
+---
+name: Blinker
+description: Blinker
+homepage: http://supertype.de
+resources:
+  Blinker.zip:
+    urls:
+    - https://fonts.google.com/download?family=Blinker
+    sha256: 464cf9c409438069e5093cef6c268a2e614ef205f7578ed0a8a504bf1b61e2f9
+fonts:
+- name: Blinker
+  styles:
+  - family_name: Blinker
+    type: Thin
+    full_name: Blinker Thin
+    post_script_name: Blinker-Thin
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-Thin.ttf
+  - family_name: Blinker
+    type: ExtraLight
+    full_name: Blinker ExtraLight
+    post_script_name: Blinker-ExtraLight
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-ExtraLight.ttf
+  - family_name: Blinker
+    type: Light
+    full_name: Blinker Light
+    post_script_name: Blinker-Light
+    version: 1.016;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-Light.ttf
+  - family_name: Blinker
+    type: Regular
+    full_name: Blinker
+    post_script_name: Blinker-Regular
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-Regular.ttf
+  - family_name: Blinker
+    type: SemiBold
+    full_name: Blinker SemiBold
+    post_script_name: Blinker-SemiBold
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-SemiBold.ttf
+  - family_name: Blinker
+    type: Bold
+    full_name: Blinker Bold
+    post_script_name: Blinker-Bold
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-Bold.ttf
+  - family_name: Blinker
+    type: ExtraBold
+    full_name: Blinker ExtraBold
+    post_script_name: Blinker-ExtraBold
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-ExtraBold.ttf
+  - family_name: Blinker
+    type: Black
+    full_name: Blinker Black
+    post_script_name: Blinker-Black
+    version: 1.015;PS 1.15;hotconv 1.0.88;makeotf.lib2.5.647800
+    copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+    font: Blinker-Black.ttf
+extract:
+  format: zip
+copyright: Copyright 2019 the Blinker project authors (https://github.com/supertype-de/Blinker)
+license_url: http://scripts.sil.org/OFL
+open_license: ''

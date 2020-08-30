@@ -1,0 +1,24 @@
+---
+name: JsMathcmsy10
+description: jsMath cmsy10
+homepage:
+resources:
+  jsMathcmsy10.zip:
+    urls:
+    - https://fonts.google.com/download?family=jsMath%20cmsy10
+    sha256: 935790df0bd975e1b66a528e7cb032f6f625947c2980870f57ace715d0354651
+fonts:
+- name: jsMath cmsy10
+  styles:
+  - family_name: jsMath-cmsy10
+    type: cmsy10
+    full_name: jsMath-cmsy10
+    post_script_name: jsMath-cmsy10
+    version: '001.001'
+    copyright: Generated from MetaFont bitmap by mftrace 1.0.33, http://www.cs.uu.nl/~hanwen/mftrace/
+    font: jsMath-cmsy10.ttf
+extract:
+  format: zip
+copyright: Generated from MetaFont bitmap by mftrace 1.0.33, http://www.cs.uu.nl/~hanwen/mftrace/
+license_url:
+open_license: ''
