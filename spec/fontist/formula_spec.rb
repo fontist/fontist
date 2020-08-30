@@ -9,7 +9,7 @@ RSpec.describe Fontist::Formula do
         clear_type = Fontist::Formula.find(name)
 
         expect(clear_type.fonts.map(&:name)).to include(name)
-        expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFonts")
+        expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFont")
         expect(clear_type.description).to include("Microsoft ClearType Fonts")
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe Fontist::Formula do
         font_files = clear_type.fonts.map { |font| font.styles.map(&:font) }
 
         expect(font_files.flatten).to include(name)
-        expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFonts")
+        expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFont")
         expect(clear_type.description).to include("Microsoft ClearType Fonts")
       end
     end

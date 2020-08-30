@@ -9,12 +9,13 @@ module Fontist
         cabbed_fonts = grep_fonts(cab_file.files, font_ext) || []
         fonts_paths = extract_cabbed_fonts_to_assets(cabbed_fonts)
 
-        yield(fonts_paths) if block_given?
+        block_given? ? yield(fonts_paths) : fonts_paths
       end
 
       def exe_extract(source)
         cab_file = decompressor.search(download_file(source).path)
-        yield(build_cab_file_hash(cab_file.files)) if block_given?
+        fonts_paths = build_cab_file_hash(cab_file.files)
+        block_given? ? yield(fonts_paths) : fonts_paths
       end
 
       private

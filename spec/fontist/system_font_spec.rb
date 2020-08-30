@@ -16,7 +16,7 @@ RSpec.describe Fontist::SystemFont do
       it "returns the complete font path", slow: true do
         name = "Calibri"
         stub_fontist_path_to_temp_path
-        Fontist::Formulas::ClearTypeFonts.fetch_font(name, confirmation: "yes")
+        Fontist::Formulas::ClearTypeFont.fetch_font(name, confirmation: "yes")
 
         calbiri = Fontist::SystemFont.find(name, sources: [font_sources])
         expect(calbiri.join("|").downcase).to include("#{name.downcase}.ttf")

@@ -16,7 +16,7 @@ module Fontist
 
         def call
           update_repo
-          fetch_new_paths.sort
+          fetch_new_paths
         end
 
         private
@@ -40,7 +40,7 @@ module Fontist
         def fetch_fonts_paths
           Dir[File.join(REPO_PATH, "apache", "*"),
               File.join(REPO_PATH, "ofl", "*"),
-              File.join(REPO_PATH, "ufl", "*")]
+              File.join(REPO_PATH, "ufl", "*")].sort
         end
 
         def log_font(path)
@@ -96,7 +96,11 @@ module Fontist
         end
 
         def font_path(filename, directory)
-          File.join(directory, filename)
+          File.join(directory, fix_variable_filename(filename))
+        end
+
+        def fix_variable_filename(filename)
+          filename.sub("-VariableFont_wght", "[wght]")
         end
 
         def otfinfo_version(path)

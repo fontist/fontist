@@ -12,6 +12,7 @@ require "fontist/registry"
 require "fontist/formulas"
 require "fontist/formula"
 require "fontist/system_font"
+require "fontist/formula_template"
 
 module Fontist
   def self.ui
@@ -37,18 +38,24 @@ module Fontist
   def self.formulas_path
     Fontist.lib_path.join("fontist", "formulas")
   end
+
+  def self.load_formulas
+    Dir[Fontist.formulas_path.join("**/*.yml").to_s].sort.each do |file|
+      create_formula_class(file)
+    end
+  end
+
+  def self.create_formula_class(file)
+    formula = parse_to_object(YAML.load_file(file))
+    return if Formulas.const_defined?("#{formula.name}Font")
+
+    klass = FormulaTemplate.create_formula_class(formula)
+    Formulas.const_set("#{formula.name}Font", klass)
+  end
+
+  def self.parse_to_object(hash)
+    JSON.parse(hash.to_json, object_class: OpenStruct)
+  end
 end
 
-# Loading formulas
-#
-# The formula loading behavior is dynamic, so what we are actualy
-# doing here is looking for formulas in the `./fontist/formulas` directory
-# then require thos as we go.
-#
-# There is a caviat, since the `Dir` method depends on absoulate path
-# so moving this loading up or somewhere else might not always ensure
-# the fontist related path helpers.
-#
-Dir[Fontist.formulas_path.join("**/*.rb").to_s].sort.each do |file|
-  require file
-end
+Fontist.load_formulas
