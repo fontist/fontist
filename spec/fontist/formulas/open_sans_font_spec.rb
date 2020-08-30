@@ -1,30 +1,28 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Formulas::SourceFonts do
+RSpec.describe Fontist::Formulas::OpenSansFont do
   describe "initializing" do
     it "builds the data dictionary" do
-      formula = Fontist::Formulas::SourceFonts.instance
+      formula = Fontist::Formulas::OpenSansFont.instance
 
-      expect(formula.fonts.count).to eq(33)
-      expect(formula.fonts.first[:name]).to eq("Source Code Pro")
+      expect(formula.fonts.count).to eq(1)
+      expect(formula.fonts.first[:name]).to eq("OpenSans")
     end
   end
 
   describe "installation" do
     context "with valid licence agreement", slow: true do
       it "installs the valid fonts" do
-        name = "Source Code Pro"
+        name = "OpenSans"
         confirmation = "yes"
 
         stub_fontist_path_to_temp_path
-        paths = Fontist::Formulas::SourceFonts.fetch_font(
+        paths = Fontist::Formulas::OpenSansFont.fetch_font(
           name, confirmation: confirmation
         )
 
         expect(Fontist::Font.find(name)).not_to be_empty
-        expect(paths).to include(
-          Fontist.fonts_path.join("SourceCodePro-Black.ttf").to_s
-        )
+        expect(paths.first).to include("fonts/#{name}-Light.ttf")
       end
     end
   end

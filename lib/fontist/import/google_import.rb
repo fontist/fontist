@@ -10,14 +10,9 @@ require_relative "otf_style"
 module Fontist
   module Import
     class GoogleImport
-      TEMPLATE_PATH = File.expand_path("google/template.erb", __dir__)
-      SHA256_REGEXP = /sha256 "(.*)"/.freeze
-      SHA256_COMMENT = %(# sha256 "" # file changes between downloads).freeze
-
       def call
         fonts = new_fonts
         create_formulas(fonts)
-        update_formulas(fonts)
       end
 
       private
@@ -37,10 +32,7 @@ module Fontist
         puts path
         metadata = fetch_metadata(path)
         font = build_font(metadata, path)
-        code = render_code(font)
-        path = formula_path(font.fullname)
-        save_formula(code, path)
-        check_formula(path)
+        save_formula(font)
       end
 
       def fetch_metadata(path)
@@ -60,10 +52,18 @@ module Fontist
       def from_metadata(metadata)
         copyright = metadata.fonts.first.copyright
 
-        { fullname: metadata.name,
-          cleanname: metadata.name.gsub(/ /, ""),
-          sha256: sha256(metadata.name),
-          copyright: Fontist::Import::TextHelper.cleanup(copyright) }
+        Hash.new.tap do |h|
+          h[:fullname] = metadata.name
+          h[:cleanname] = metadata.name.gsub(/ /, "")
+          h[:sha256] = sha256(metadata.name) unless variable_style?(metadata)
+          h[:copyright] = Fontist::Import::TextHelper.cleanup(copyright)
+        end
+      end
+
+      def variable_style?(metadata)
+        metadata.fonts.any? do |s|
+          s.filename.match?(/\[(.+,)?wght\]/)
+        end
       end
 
       def sha256(name)
@@ -79,14 +79,16 @@ module Fontist
         print "warn, no license, " unless file
         return { license: "" } unless file
 
-        license = File.read(file)
-          .rstrip
+        { license: cleanup_text(File.read(file)) }
+      end
+
+      def cleanup_text(text)
+        text.rstrip
           .gsub("\r\n", "\n")
           .lines
-          .drop_while { |line| line.strip.empty? }
-          .join
-
-        { license: license }
+          .map(&:rstrip)
+          .drop_while(&:empty?)
+          .join("\n")
       end
 
       def from_otfinfo(path)
@@ -105,61 +107,73 @@ module Fontist
         end
       end
 
-      def render_code(font)
-        template = File.read(TEMPLATE_PATH)
-        renderer = ERB.new(template, trim_mode: "-")
-        renderer.result(Fontist::Import::TemplateHelper.bind(font, "font"))
+      def save_formula(font)
+        hash = formula_hash(font)
+        path = formula_path(font.fullname)
+        save_to_path(hash, path)
+      end
+
+      def formula_hash(font)
+        stringify_keys(name: font.cleanname.sub(/\S/, &:upcase),
+                       description: font.fullname,
+                       homepage: font.homepage,
+                       resources: formula_resource(font),
+                       fonts: [yaml_font(font)],
+                       extract: { format: :zip },
+                       copyright: font.copyright,
+                       license_url: font.license_url,
+                       open_license: font.license)
+      end
+
+      def stringify_keys(hash)
+        JSON.parse(hash.to_json)
+      end
+
+      def formula_resource(font)
+        encoded_name = ERB::Util.url_encode(font.fullname)
+        url = "https://fonts.google.com/download?family=#{encoded_name}"
+
+        options = {}
+        options[:urls] = [url]
+        options[:sha256] = font.sha256 if font.sha256
+
+        { "#{font.cleanname}.zip" => options }
+      end
+
+      def yaml_font(font)
+        { name: font.fullname,
+          styles: yaml_styles(font.styles) }
+      end
+
+      def yaml_styles(styles)
+        styles.map do |s|
+          yaml_style(s)
+        end
+      end
+
+      def yaml_style(style)
+        Hash.new.tap do |h|
+          h.merge!(family_name: style.family_name,
+                   type: style.style,
+                   full_name: style.full_name)
+          h.merge!(style.to_h.slice(:post_script_name,
+                                    :version,
+                                    :description,
+                                    :copyright).compact)
+          h.merge!(font: fix_variable_filename(style.filename))
+        end
+      end
+
+      def fix_variable_filename(filename)
+        filename.sub("[wght]", "-VariableFont_wght")
       end
 
       def formula_path(name)
         Fontist::Import::Google.formula_path(name)
       end
 
-      def save_formula(code, path)
-        File.write(path, code)
-      end
-
-      def check_formula(path)
-        require path
-      end
-
-      def update_formulas(fonts)
-        puts "Updating SHA256..."
-        fonts.each do |path|
-          update_sha256(path)
-        end
-      end
-
-      def update_sha256(path)
-        print "#{path}, "
-        fixed = fix_sha256(path)
-        puts(fixed ? "overwritten" : "skipped")
-      end
-
-      def fix_sha256(path)
-        metadata = fetch_metadata(path)
-        code = read_code(metadata.name)
-        previous = fetch_sha256(code)
-        return if previous.empty?
-
-        new = sha256(metadata.name)
-        return if previous == new
-
-        comment_out_sha256(metadata.name, code)
-        true
-      end
-
-      def read_code(name)
-        File.read(formula_path(name))
-      end
-
-      def fetch_sha256(code)
-        code.match(SHA256_REGEXP)[1]
-      end
-
-      def comment_out_sha256(name, code)
-        code.sub!(SHA256_REGEXP, SHA256_COMMENT)
-        File.write(formula_path(name), code)
+      def save_to_path(hash, path)
+        File.write(path, YAML.dump(hash))
       end
     end
   end

@@ -1,9 +1,9 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Formulas::MsTruetypeFonts do
+RSpec.describe Fontist::Formulas::MsTruetypeFont do
   describe "initializing" do
     it "builds the data dictionary" do
-      formula = Fontist::Formulas::MsTruetypeFonts.instance
+      formula = Fontist::Formulas::MsTruetypeFont.instance
 
       expect(formula.fonts.count).to eq(4)
       expect(formula.fonts.first[:name]).to eq("Arial")
@@ -17,7 +17,7 @@ RSpec.describe Fontist::Formulas::MsTruetypeFonts do
         confirmation = "yes"
 
         stub_fontist_path_to_temp_path
-        paths = Fontist::Formulas::MsTruetypeFonts.fetch_font(
+        paths = Fontist::Formulas::MsTruetypeFont.fetch_font(
           name, confirmation: confirmation
         )
 

@@ -1,9 +1,9 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Formulas::ClearTypeFonts do
+RSpec.describe Fontist::Formulas::ClearTypeFont do
   describe "initializing" do
     it "builds the data dictionary" do
-      formula = Fontist::Formulas::ClearTypeFonts.instance
+      formula = described_class.instance
 
       expect(formula.fonts.count).to eq(12)
       expect(formula.fonts[1][:name]).to eq("Cambria Math")
@@ -14,14 +14,14 @@ RSpec.describe Fontist::Formulas::ClearTypeFonts do
   describe "installation" do
     context "with valid licence agreement", slow: true do
       it "installs the valid fonts", skip_in_windows: true do
-        name = "Calibri"
+        name = "Cambria"
         confirmation = "yes"
 
-        paths = Fontist::Formulas::ClearTypeFonts.fetch_font(
+        paths = described_class.fetch_font(
           name, confirmation: confirmation
         )
 
-        expect(paths.first).to include("fonts/#{name.upcase}.TTF")
+        expect(paths.first).to include("fonts/#{name.upcase}.TTC")
       end
     end
 
@@ -29,9 +29,8 @@ RSpec.describe Fontist::Formulas::ClearTypeFonts do
       it "raises an Fontist::Errors::LicensingError" do
         name = "Calibri"
 
-        expect {
-          Fontist::Formulas::ClearTypeFonts.fetch_font(name, confirmation: "no")
-        }.to raise_error(Fontist::Errors::LicensingError)
+        expect { described_class.fetch_font(name, confirmation: "no") }
+          .to raise_error(Fontist::Errors::LicensingError)
       end
     end
   end

@@ -2,7 +2,7 @@ module Fontist
   module Import
     module Google
       def self.formula_path(name)
-        filename = name.downcase.gsub(" ", "_") + "_font.rb"
+        filename = name.downcase.gsub(" ", "_") + ".yml"
         Fontist.formulas_path.join("google", filename)
       end
 

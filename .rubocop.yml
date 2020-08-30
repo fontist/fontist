@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'lib/fontist/import/google/fonts_public.pb.rb'
+    - 'lib/fontist/formula_template.rb'
 
 Metrics/LineLength:
   Exclude:
