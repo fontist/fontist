@@ -11,6 +11,7 @@ Gemfile.lock
 # fonts
 /spec/fixtures/fonts/*
 /spec/fixtures/fonts/DejaVuSerif.ttf
+/spec/fixtures/formulas/
 
 # rspec failure tracking
 .rspec_status

@@ -151,6 +151,11 @@ Run the test suite
 bin/rspec
 ```
 
+### Formulas storage
+
+All formulas are kept in the [formulas][fontist-formulas] repository. If you'd
+like to add a new one or change any existing, please refer to its documentation.
+
 ### Google Import
 
 The library contains formulas for [Google Foonts][google-fonts]. A GHA workflow
@@ -161,12 +166,14 @@ fetched to the library by:
 bin/import_google
 ```
 
-The script would update the formula classes which should be committed to the
-repository:
+The script would update formulas which should be committed to a separate
+repository [formulas][fontist-formulas]:
 
 ```
-git add lib/fontist/formulas/google
+cd ~/.fontist/formulas
+git add Formulas/google
 git commit -m "Google Fonts update"
+git push
 ```
 
 ## Contributing
@@ -195,4 +202,5 @@ This gem is developed, maintained and funded by [Ribose Inc.][riboseinc]
 [issues]: https://github.com/fontist/fontist/issues
 [squash]: https://github.com/thoughtbot/guides/tree/master/protocol/git#write-a-feature
 [sandi-metz]: http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers
+[fontist-formulas]: https://github.com/fontist/formulas
 [google-fonts]: https://fonts.google.com
