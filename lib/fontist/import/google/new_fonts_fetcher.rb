@@ -92,7 +92,8 @@ module Fontist
 
         def formula(font_name)
           klass = font_name.gsub(/ /, "").sub(/\S/, &:upcase)
-          Fontist::Formula.all["Fontist::Formulas::#{klass}Font"]
+          @formulas ||= Fontist::Formula.all
+          @formulas["Fontist::Formulas::#{klass}Font"]
         end
 
         def font_path(filename, directory)
