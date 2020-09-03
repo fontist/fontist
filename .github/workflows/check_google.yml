@@ -15,6 +15,9 @@ jobs:
         with:
           ruby-version: 2.6
 
+      - name: Install otfinfo
+        run: sudo apt-get install lcdf-typetools
+
       - name: Install bundler
         run: gem install bundler
 
