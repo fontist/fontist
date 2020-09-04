@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "fontist"
+require "fontist/cli"
+
+Fontist::CLI.start(ARGV)

@@ -13,12 +13,16 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/fontist/fontist"
   spec.license       = "BSD-2-Clause"
 
+  spec.post_install_message = "Please run `fontist update` to fetch formulas"
+
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/fontist/fontist"
   spec.metadata["changelog_uri"] = "https://github.com/fontist/fontist"
 
   spec.require_paths = ["lib"]
   spec.files         = `git ls-files`.split("\n")
+  spec.bindir        = "bin"
+  spec.executables   = ["fontist"]
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
   spec.add_runtime_dependency "down", "~> 5.0"

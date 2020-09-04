@@ -7,7 +7,6 @@ module Fontist
     REQUIREMENTS = { git: Fontist::Utils::GitRequirement.new }.freeze
 
     def self.register_formulas
-      fetch_formulas
       load_formulas
       update_registry
     end
