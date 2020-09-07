@@ -1,3 +1,5 @@
+require "fontist/import/helpers/system_helper"
+
 module Fontist
   module Import
     module Otfinfo
@@ -12,7 +14,7 @@ module Fontist
         end
 
         def call(path)
-          `otfinfo --info '#{path}'`
+          Helpers::SystemHelper.run("otfinfo --info '#{path}'")
         end
       end
     end

@@ -49,15 +49,21 @@ module Fontist
       def download_file
         bar = ProgressBar.new(file_size / byte_to_megabyte)
 
-        Down.download(
+        file = Down.download(
           @file,
           open_timeout: 10,
           read_timeout: 10,
+          content_length_proc: ->(content_length) {
+            bar.total = content_length / byte_to_megabyte
+          },
           progress_proc: -> (progress) {
             bar.increment(progress / byte_to_megabyte) if @progress_bar === true
           }
         )
 
+        puts if @progress_bar === true
+
+        file
       rescue Down::NotFound
         raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
       end
@@ -67,6 +73,10 @@ module Fontist
       def initialize(total)
         @counter = 1
         @total  = total
+      end
+
+      def total=(total)
+        @total = total
       end
 
       def increment(progress)

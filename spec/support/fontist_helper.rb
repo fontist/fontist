@@ -5,6 +5,12 @@ module Fontist
         Fontist.root_path.join("spec", "fixtures")
       )
     end
+
+    def fixtures_dir
+      Dir.chdir(Fontist.root_path.join("spec", "fixtures")) do
+        yield
+      end
+    end
   end
 end
 

@@ -10,7 +10,14 @@ module Fontist
             .strip
             .lines
             .map(&:rstrip)
+            .drop_while(&:empty?)
             .join("\n")
+        end
+
+        def longest_common_prefix(strs)
+          min, max = strs.minmax
+          idx = min.size.times { |i| break i if min[i] != max[i] }
+          min[0...idx]
         end
       end
     end

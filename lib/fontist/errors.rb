@@ -7,5 +7,7 @@ module Fontist
     class InvalidResourceError < StandardError; end
     class TimeoutError < StandardError; end
     class MissingAttributeError < StandardError; end
+    class FontNotFoundError < StandardError; end
+    class BinaryCallError < StandardError; end
   end
 end
