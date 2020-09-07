@@ -31,7 +31,9 @@ module Fontist
       return if Formulas.const_defined?("#{formula.name}Font")
 
       klass = FormulaTemplate.create_formula_class(formula)
-      Formulas.const_set("#{formula.name}Font", klass)
+      cleanname = formula.name.gsub(/ /, "").sub(/\S/, &:upcase)
+      class_name = "#{cleanname}Font"
+      Formulas.const_set(class_name, klass)
     end
 
     def self.parse_to_object(hash)

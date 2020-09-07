@@ -20,7 +20,9 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "https://github.com/fontist/fontist"
 
   spec.require_paths = ["lib"]
-  spec.files         = `git ls-files`.split("\n")
+  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
   spec.bindir        = "bin"
   spec.executables   = ["fontist"]
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")

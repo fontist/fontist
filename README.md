@@ -26,6 +26,14 @@ Or install it yourself as:
 gem install fontist
 ```
 
+### Fetch formulas
+
+After installation please fetch formulas to your system:
+
+```sh
+fontist update
+```
+
 ## Usage
 
 ### Font
@@ -156,6 +164,19 @@ bin/rspec
 All formulas are kept in the [formulas][fontist-formulas] repository. If you'd
 like to add a new one or change any existing, please refer to its documentation.
 
+### Auto-generate a formula
+
+A formula could be generated from a fonts archive. Just specify a URL to the
+archive:
+
+```sh
+fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+cp lato.yml ~/.fontist/formulas/Formulas/
+cd ~/.fontist/formulas
+git add Formulas/lato.yml
+git commit -m "Add Lato formula"
+```
+
 ### Google Import
 
 The library contains formulas for [Google Foonts][google-fonts]. A GHA workflow
@@ -175,6 +196,12 @@ git add Formulas/google
 git commit -m "Google Fonts update"
 git push
 ```
+
+### TTC extraction
+
+The stripttc script is used for extraction of TTC files. It's taken from the
+https://github.com/DavidBarts/getfonts repository, and placed in the bin/
+directory.
 
 ## Contributing
 
