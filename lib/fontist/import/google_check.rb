@@ -4,11 +4,16 @@ module Fontist
   module Import
     class GoogleCheck
       def call
+        fetch_formulas
         fonts = new_fonts
         indicate(fonts)
       end
 
       private
+
+      def fetch_formulas
+        Formulas.fetch_formulas
+      end
 
       def new_fonts
         Fontist::Import::Google::NewFontsFetcher.new(logging: true).call
