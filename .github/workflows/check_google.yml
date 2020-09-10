@@ -25,4 +25,4 @@ jobs:
         run: bin/setup
 
       - name: Check new fonts
-        run: bin/check_google
+        run: TEST_ENV=CI bin/check_google
