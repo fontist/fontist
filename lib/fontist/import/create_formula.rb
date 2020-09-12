@@ -1,5 +1,5 @@
-require "zip"
 require "fontist/import"
+require_relative "extractors"
 require_relative "otf/font_file"
 require_relative "files/collection_file"
 require_relative "helpers/hash_helper"
@@ -8,26 +8,32 @@ require_relative "formula_builder"
 module Fontist
   module Import
     class CreateFormula
-      FONT_PATTERN = "**/*.{ttf,otf}".freeze
-      FONT_COLLECTION_PATTERN = "**/*.ttc".freeze
-      LICENSE_PATTERN = "**/{OFL.txt,UFL.txt,LICENSE.txt}".freeze
+      FONT_PATTERN = /(\.ttf|\.otf)$/i.freeze
+      FONT_COLLECTION_PATTERN = /\.ttc$/i.freeze
+      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt)$/i.freeze
 
-      def initialize(url)
+      def initialize(url, options = {})
         @url = url
+        @options = options
       end
 
       def call
-        builder = FormulaBuilder.new
-        builder.url = @url
-        builder.archive = download(@url)
-        builder.font_files = font_files(builder.archive)
-        builder.font_collection_files = font_collection_files(builder.archive)
-        builder.license_text = license_texts(builder.archive).first
-
-        save(builder.formula)
+        save(formula)
       end
 
       private
+
+      def formula
+        builder = FormulaBuilder.new
+        builder.url = @url
+        builder.archive = download(@url)
+        builder.extractor = extractor(builder.archive)
+        builder.options = @options
+        builder.font_files = font_files(builder.extractor)
+        builder.font_collection_files = font_collection_files(builder.extractor)
+        builder.license_text = license_texts(builder.extractor).first
+        builder.formula
+      end
 
       def download(url)
         return url if File.exist?(url)
@@ -35,34 +41,38 @@ module Fontist
         Fontist::Utils::Downloader.download(url, progress_bar: true)
       end
 
-      def font_files(archive)
-        extract_files(archive, FONT_PATTERN) do |path|
+      def extractor(archive)
+        case filename(archive)
+        when /\.msi$/i
+          Extractors::MsiExtractor.new(archive)
+        else
+          Extractors::ZipExtractor.new(archive)
+        end
+      end
+
+      def filename(file)
+        if file.respond_to?(:original_filename)
+          file.original_filename
+        else
+          File.basename(file)
+        end
+      end
+
+      def font_files(extractor)
+        extractor.extract(FONT_PATTERN) do |path|
           Otf::FontFile.new(path)
         end
       end
 
-      def font_collection_files(archive)
-        extract_files(archive, FONT_COLLECTION_PATTERN) do |path|
+      def font_collection_files(extractor)
+        extractor.extract(FONT_COLLECTION_PATTERN) do |path|
           Files::CollectionFile.new(path)
         end
       end
 
-      def license_texts(archive)
-        extract_files(archive, LICENSE_PATTERN) do |path|
+      def license_texts(extractor)
+        extractor.extract(LICENSE_PATTERN) do |path|
           File.read(path)
-        end
-      end
-
-      def extract_files(archive, pattern)
-        Dir.mktmpdir do |tmp_dir|
-          Zip::File.open(archive) do |zip_file|
-            zip_file.glob(pattern).map do |entry|
-              filename = Pathname.new(entry.name).basename
-              path = File.join(tmp_dir, filename)
-              entry.extract(path)
-              yield path
-            end
-          end
         end
       end
 

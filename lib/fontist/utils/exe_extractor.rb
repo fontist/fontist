@@ -1,7 +1,7 @@
 module Fontist
   module Utils
     module ExeExtractor
-      def cab_extract(exe_file, download: true,  font_ext: /.tt|.ttc/i)
+      def cab_extract(exe_file, download: true, font_ext: /.ttf|.otf|.ttc/i)
         download = @downloaded === true ? false : download
 
         exe_file = download_file(exe_file).path if download

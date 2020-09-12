@@ -10,8 +10,10 @@ module Fontist
     end
 
     desc "create-formula URL", "Create a new formula with fonts from URL"
+    option :name, desc: "Example: Times New Roman"
+    option :mirror, repeatable: true
     def create_formula(url)
-      name = Fontist::Import::CreateFormula.new(url).call
+      name = Fontist::Import::CreateFormula.new(url, options).call
       puts "#{name} formula has been successfully created"
     end
   end
