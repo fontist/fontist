@@ -7,13 +7,17 @@ module Fontist
                               font_collections fonts extract copyright
                               license_url open_license].freeze
 
-      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
-
       attr_accessor :archive,
                     :url,
+                    :extractor,
+                    :options,
                     :font_files,
                     :font_collection_files,
                     :license_text
+
+      def initialize
+        @options = {}
+      end
 
       def formula
         FORMULA_ATTRIBUTES.map { |name| [name, send(name)] }.to_h.compact
@@ -22,13 +26,22 @@ module Fontist
       private
 
       def name
+        return options[:name] if options[:name]
+
         unique_names = both_fonts.map(&:family_name).uniq
-        TextHelper.longest_common_prefix(unique_names).strip
+        TextHelper.longest_common_prefix(unique_names) ||
+          both_fonts.first.family_name
       end
 
       def both_fonts
-        @both_fonts ||= (@font_files +
-                         @font_collection_files.map(&:fonts)).flatten
+        @both_fonts ||= group_fonts
+      end
+
+      def group_fonts
+        files = (@font_files + @font_collection_files.map(&:fonts)).flatten
+        raise FontNotFoundError, "No font found" if files.empty?
+
+        files
       end
 
       def description
@@ -40,22 +53,12 @@ module Fontist
       end
 
       def resources
-        cleanname = name.gsub(" ", "_")
-        extension = File.extname(archive_filename)
-        filename = cleanname + extension
+        filename = name.gsub(" ", "_") + "." + @extractor.extension
 
-        options = { urls: [@url],
+        options = { urls: [@url] + (@options[:mirror] || []),
                     sha256: Digest::SHA256.file(@archive).to_s }
 
         { filename => options }
-      end
-
-      def archive_filename
-        if @archive.respond_to?(:original_filename)
-          @archive.original_filename
-        else
-          File.basename(@archive)
-        end
       end
 
       def font_collections
@@ -91,16 +94,7 @@ module Fontist
       end
 
       def extract
-        format = File.extname(archive_filename).sub(/^\./, "")
-
-        zip_file = Zip::File.open(@archive)
-        sub_dirs = zip_file.glob(BOTH_FONTS_PATTERN).map do |entry|
-          File.split(entry.name).first
-        end
-
-        options = { fonts_sub_dir: "**/*/" } unless sub_dirs.uniq == ["."]
-
-        { format: format, options: options }.compact
+        @extractor.operations
       end
 
       def copyright

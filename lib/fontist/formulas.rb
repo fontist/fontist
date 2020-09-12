@@ -28,11 +28,10 @@ module Fontist
 
     def self.create_formula_class(file)
       formula = parse_to_object(YAML.load_file(file))
-      return if Formulas.const_defined?("#{formula.name}Font")
+      class_name = name_to_classname(formula.name)
+      return if Formulas.const_defined?(class_name)
 
       klass = FormulaTemplate.create_formula_class(formula)
-      cleanname = formula.name.gsub(/ /, "").sub(/\S/, &:upcase)
-      class_name = "#{cleanname}Font"
       Formulas.const_set(class_name, klass)
     end
 
@@ -47,6 +46,11 @@ module Fontist
           Fontist::Registry.register(Object.const_get(klass))
         end
       end
+    end
+
+    def self.name_to_classname(name)
+      cleanname = name.gsub(/ /, "").sub(/\S/, &:upcase)
+      "#{cleanname}Font"
     end
   end
 end

@@ -4,6 +4,7 @@ module Fontist
     extend Fontist::Utils::Dsl
     include Fontist::Utils::ZipExtractor
     include Fontist::Utils::ExeExtractor
+    include Fontist::Utils::MsiExtractor
 
     attr_accessor :license, :license_url, :license_required, :copyright
     attr_accessor :key, :homepage, :description, :options, :temp_resource

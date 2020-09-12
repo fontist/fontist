@@ -54,7 +54,7 @@ module Fontist
           open_timeout: 10,
           read_timeout: 10,
           content_length_proc: ->(content_length) {
-            bar.total = content_length / byte_to_megabyte
+            bar.total = content_length / byte_to_megabyte if content_length
           },
           progress_proc: -> (progress) {
             bar.increment(progress / byte_to_megabyte) if @progress_bar === true
