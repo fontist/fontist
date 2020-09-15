@@ -45,6 +45,8 @@ module Fontist
         case filename(archive)
         when /\.msi$/i
           Extractors::MsiExtractor.new(archive)
+        when /\.exe$/i
+          Extractors::SevenZipExtractor.new(archive)
         else
           Extractors::ZipExtractor.new(archive)
         end
