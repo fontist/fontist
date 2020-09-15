@@ -1,0 +1,167 @@
+---
+name: Adobe Reader 20
+description: Adobe Reader 20
+homepage: http://www.adobe.com/type
+resources:
+  Adobe_Reader_20.exe:
+    urls:
+    - http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/2001220041/AcroRdrDC2001220041_en_US.exe
+    sha256: 9dd98fe4d1abd7574ca99fa697983a1865bf1f343172e228c2bfbf638c2ddf73
+fonts:
+- name: Adobe Pi Std
+  styles:
+  - family_name: Adobe Pi Std
+    type: Regular
+    full_name: AdobePiStd
+    post_script_name: AdobePiStd
+    version: 1.059;PS 1.010;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 2002 Adobe Systems Incorporated. All rights reserved."
+    font: AdobePiStd.otf
+- name: Courier Std
+  styles:
+  - family_name: Courier Std
+    type: Medium
+    full_name: CourierStd
+    post_script_name: CourierStd
+    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
+      Incorporated. All rights reserved."
+    font: CourierStd.otf
+  - family_name: Courier Std
+    type: Bold
+    full_name: CourierStd-Bold
+    post_script_name: CourierStd-Bold
+    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
+      Incorporated. All rights reserved."
+    font: CourierStd_Bold.otf
+  - family_name: Courier Std
+    type: Bold Oblique
+    full_name: CourierStd-BoldOblique
+    post_script_name: CourierStd-BoldOblique
+    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
+      Incorporated. All rights reserved."
+    font: CourierStd_BoldOblique.otf
+  - family_name: Courier Std
+    type: Medium Oblique
+    full_name: CourierStd-Oblique
+    post_script_name: CourierStd-Oblique
+    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
+      Incorporated. All rights reserved."
+    font: CourierStd_Oblique.otf
+- name: Minion Pro
+  styles:
+  - family_name: Minion Pro
+    type: Bold
+    full_name: MinionPro-Bold
+    post_script_name: MinionPro-Bold
+    version: 2.112;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: "© 1990, 1991, 1992, 1994, 1997, 1998, 2000, 2002, 2004 Adobe Systems
+      Incorporated. All rights reserved."
+    font: MinionPro_Bold.otf
+  - family_name: Minion Pro
+    type: Bold Italic
+    full_name: MinionPro-BoldIt
+    post_script_name: MinionPro-BoldIt
+    version: 2.112;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: "© 1990, 1991, 1992, 1994, 1997, 1998, 2000, 2002, 2004 Adobe Systems
+      Incorporated. All rights reserved."
+    font: MinionPro_BoldIt.otf
+  - family_name: Minion Pro
+    type: Italic
+    full_name: MinionPro-It
+    post_script_name: MinionPro-It
+    version: 2.112;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: "© 1990, 1991, 1992, 1994, 1997, 1998, 2000, 2002, 2004 Adobe Systems
+      Incorporated. All rights reserved."
+    font: MinionPro_It.otf
+  - family_name: Minion Pro
+    type: Regular
+    full_name: MinionPro-Regular
+    post_script_name: MinionPro-Regular
+    version: 2.112;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: "© 1990, 1991, 1992, 1994, 1997, 1998, 2000, 2002, 2004 Adobe Systems
+      Incorporated. All rights reserved."
+    font: MinionPro_Regular.otf
+- name: Myriad CAD
+  styles:
+  - family_name: Myriad CAD
+    type: Regular
+    full_name: MyriadCAD
+    post_script_name: MyriadCAD
+    version: 1.023;PS 1.000;hotconv 1.0.57;makeotf.lib2.0.21895
+    copyright: "© 2000, 2004, 2006 Adobe Systems Incorporated. All Rights Reserved."
+    font: MyriadCAD.otf
+- name: Myriad Pro
+  styles:
+  - family_name: Myriad Pro
+    type: Bold
+    full_name: MyriadPro-Bold
+    post_script_name: MyriadPro-Bold
+    version: 2.106;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.58329
+    copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
+      reserved."
+    font: MyriadPro_Bold.otf
+  - family_name: Myriad Pro
+    type: Bold Italic
+    full_name: MyriadPro-BoldIt
+    post_script_name: MyriadPro-BoldIt
+    version: 2.106;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.58329
+    copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
+      reserved."
+    font: MyriadPro_BoldIt.otf
+  - family_name: Myriad Pro
+    type: Italic
+    full_name: MyriadPro-It
+    post_script_name: MyriadPro-It
+    version: 2.106;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.58329
+    copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
+      reserved."
+    font: MyriadPro_It.otf
+  - family_name: Myriad Pro
+    type: Regular
+    full_name: MyriadPro-Regular
+    post_script_name: MyriadPro-Regular
+    version: 2.106;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.58329
+    copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
+      reserved."
+    font: MyriadPro_Regular.otf
+extract:
+- format: seven_zip
+- format: cab
+copyright: "© 2000, 2004, 2006 Adobe Systems Incorporated. All Rights Reserved."
+license_url: http://www.adobe.com/type/legal.html
+open_license: |-
+  WordNet Release 2.1
+
+  This software and database is being provided to you, the LICENSEE, by
+  Princeton University under the following license.  By obtaining, using
+  and/or copying this software and database, you agree that you have
+  read, understood, and will comply with these terms and conditions.:
+
+  Permission to use, copy, modify and distribute this software and
+  database and its documentation for any purpose and without fee or
+  royalty is hereby granted, provided that you agree to comply with
+  the following copyright notice and statements, including the disclaimer,
+  and that the same appear on ALL copies of the software, database and
+  documentation, including modifications that you make for internal
+  use or for distribution.
+
+  WordNet 2.1 Copyright 2005 by Princeton University.  All rights reserved.
+
+  THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND PRINCETON
+  UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR
+  IMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON
+  UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-
+  ABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE
+  OF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT
+  INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR
+  OTHER RIGHTS.
+
+  The name of Princeton University or Princeton may not be used in
+  advertising or publicity pertaining to distribution of the software
+  and/or database.  Title to copyright in this software, database and
+  any associated documentation shall at all times remain with
+  Princeton University and LICENSEE agrees to preserve same.
