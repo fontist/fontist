@@ -100,6 +100,28 @@ RSpec.describe Fontist::Font do
         }.to raise_error(Fontist::Errors::NonSupportedFontError)
       end
     end
+
+    context "with msi archive" do
+      it "installs and returns paths for fonts", skip_in_windows: true do
+        stub_fontist_path_to_temp_path
+
+        font = { name: "Adobe Arabic", filename: "adobearabic_bold.otf" }
+        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
+
+        expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+    end
+
+    context "with 7z archive" do
+      it "installs and returns paths for fonts", skip_in_windows: true do
+        stub_fontist_path_to_temp_path
+
+        font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
+        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
+
+        expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+    end
   end
 
   def stub_system_font_finder_to_fixture(name)
