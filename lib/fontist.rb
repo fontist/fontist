@@ -45,4 +45,8 @@ module Fontist
   def self.formulas_path
     Fontist.formulas_repo_path.join("Formulas")
   end
+
+  def self.downloads_path
+    Fontist.fontist_path.join("downloads")
+  end
 end
