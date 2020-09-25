@@ -57,7 +57,7 @@ module Fontist
     end
 
     def fonts_path
-      @fonts_path ||= Fontist.fonts_path
+      @fonts_path = Fontist.fonts_path
     end
 
     def default_font

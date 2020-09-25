@@ -10,7 +10,7 @@ module Fontist
       end
 
       def download
-        file = download_file
+        file = cache(@file) { download_file }
 
         if !sha.empty? && !sha.include?(Digest::SHA256.file(file).to_s)
           raise(Fontist::Errors::TamperedFileError.new(
@@ -44,6 +44,39 @@ module Fontist
 
       def set_progress_bar(progress_bar)
         ENV.fetch("TEST_ENV", "") === "CI" ? false : progress_bar
+      end
+
+      def cache(key)
+        map = cache_file.exist? ? YAML.load_file(cache_file) : {}
+        return File.new(map[key]) if map[key]
+
+        temp_file = yield
+        path = move_to_downloads(temp_file)
+
+        map[key] = path
+        File.write(cache_file, YAML.dump(map))
+
+        File.new(path)
+      end
+
+      def cache_file
+        Fontist.downloads_path.join("map.yml")
+      end
+
+      def move_to_downloads(source)
+        unless Fontist.downloads_path.exist?
+          FileUtils.mkdir_p(Fontist.downloads_path)
+        end
+
+        dir = Dir.mktmpdir(nil, Fontist.downloads_path)
+        filename = source.original_filename
+        path = File.join(dir, filename)
+
+        # Windows requires file descriptors to be closed before files are moved
+        source.close
+        FileUtils.mv(source.path, path)
+
+        path
       end
 
       def download_file

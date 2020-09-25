@@ -78,6 +78,20 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "with valid formula name" do
+      it "installs all fonts and returns theirs paths" do
+        stub_system_fonts
+        stub_license_agreement_prompt_with("yes")
+        stub_fonts_path_to_new_path do
+          font = { name: "cleartype", filename: "CALIBRI.TTF" }
+          font_paths = Fontist::Font.install(font[:name])
+
+          expect(font_file(font[:filename])).to exist
+          expect(font_paths.join("|")).to include(font[:filename])
+        end
+      end
+    end
+
     context "with existing font name" do
       it "returns the existing font paths" do
         name = "Courier"
@@ -122,14 +136,5 @@ RSpec.describe Fontist::Font do
         expect(font_paths.join("|").downcase).to include(font[:filename])
       end
     end
-  end
-
-  def stub_system_font_finder_to_fixture(name)
-    allow(Fontist::SystemFont).to receive(:find).
-      and_return(["spec/fixtures/fonts/#{name}"])
-  end
-
-  def stub_license_agreement_prompt_with(confirmation = "yes")
-    allow(Fontist.ui).to receive(:ask).and_return(confirmation)
   end
 end

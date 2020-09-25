@@ -52,7 +52,7 @@ module Fontist
           while file
             filename = file.filename
             if filename.include?("cab")
-              file_path = temp_dir.join(filename).to_s
+              file_path = File.join(Dir.mktmpdir, filename)
 
               decompressor.extract(file, file_path)
               cab_files[filename.to_s] = file_path
@@ -61,12 +61,6 @@ module Fontist
             file = file.next
           end
         end
-      end
-
-      def temp_dir
-        @temp_dir ||= raise(
-          NotImplementedError.new("You must implement this method"),
-        )
       end
     end
   end
