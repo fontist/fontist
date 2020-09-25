@@ -31,15 +31,10 @@ module Fontist
           entry.file? && entry.path.match(extension)
         end
 
-        szr.extract(cab_entry, temp_dir)
+        tmp_dir = Dir.mktmpdir
+        szr.extract(cab_entry, tmp_dir)
         filename = Pathname.new(cab_entry.path).basename
-        File.join(temp_dir, filename)
-      end
-
-      def temp_dir
-        @temp_dir ||= raise(
-          NotImplementedError.new("You must implement this method")
-        )
+        File.join(tmp_dir, filename)
       end
     end
   end

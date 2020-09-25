@@ -102,7 +102,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with msi archive" do
-      it "installs and returns paths for fonts", skip_in_windows: true do
+      it "installs and returns paths for fonts" do
         stub_fontist_path_to_temp_path
 
         font = { name: "Adobe Arabic", filename: "adobearabic_bold.otf" }
@@ -113,7 +113,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with 7z archive" do
-      it "installs and returns paths for fonts", skip_in_windows: true do
+      it "installs and returns paths for fonts" do
         stub_fontist_path_to_temp_path
 
         font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
