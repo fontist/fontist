@@ -4,11 +4,12 @@ module Fontist
       def msi_extract(resource)
         file = download_file(resource)
 
-        cab_path = temp_dir.join("data.cab").to_s
         cab_content = read_the_largest_file(file)
-        File.write(cab_path, cab_content)
 
-        block_given? ? yield(cab_path) : cab_path
+        cab_file = Tempfile.new(["data", ".cab"], mode: File::BINARY)
+        cab_file.write(cab_content)
+
+        block_given? ? yield(cab_file.path) : cab_file.path
       end
 
       private
@@ -24,12 +25,6 @@ module Fontist
                        require "ole/storage"
                        Ole::Storage
                      end
-      end
-
-      def temp_dir
-        @temp_dir ||= raise(
-          NotImplementedError.new("You must implement this method")
-        )
       end
     end
   end

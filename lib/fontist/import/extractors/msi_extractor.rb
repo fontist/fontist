@@ -30,7 +30,7 @@ module Fontist
 
           cab_content = ole.file.read(the_largest_file)
           cab_path = File.join(tmp_dir, "data.cab")
-          File.write(cab_path, cab_content)
+          File.open(cab_path, "wb") { |f| f.write(cab_content) }
 
           cab_path
         end

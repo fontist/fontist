@@ -6,7 +6,6 @@ require "fontist/utils/zip_extractor"
 require "fontist/utils/exe_extractor"
 require "fontist/utils/msi_extractor"
 require "fontist/utils/seven_zip_extractor"
-require "fontist/utils/git_requirement"
 
 module Fontist
   module Utils

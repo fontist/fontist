@@ -1,11 +1,10 @@
+require "git"
 require "fontist/utils"
 require "fontist/font_formula"
 require "fontist/formula_template"
 
 module Fontist
   module Formulas
-    REQUIREMENTS = { git: Fontist::Utils::GitRequirement.new }.freeze
-
     def self.register_formulas
       load_formulas
       update_registry
@@ -13,10 +12,11 @@ module Fontist
 
     def self.fetch_formulas
       if Dir.exist?(Fontist.formulas_repo_path)
-        REQUIREMENTS[:git].pull(Fontist.formulas_repo_path)
+        Git.open(Fontist.formulas_repo_path).pull
       else
-        REQUIREMENTS[:git].clone(Fontist.formulas_repo_url,
-                                 Fontist.formulas_repo_path)
+        Git.clone(Fontist.formulas_repo_url,
+                  Fontist.formulas_repo_path,
+                  depth: 1)
       end
     end
 
