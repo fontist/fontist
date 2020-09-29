@@ -1,16 +1,18 @@
 module Fontist
   class SystemFont
-    def initialize(font:, sources: nil)
+    def initialize(font:, style: nil, sources: nil)
       @font = font
+      @style = style
       @user_sources = sources || []
     end
 
-    def self.find(font, sources: [])
-      new(font: font, sources: sources).find
+    def self.find(font, style, sources: [])
+      new(font: font, style: style, sources: sources).find
     end
 
     def find
-      paths = font_paths.grep(/#{font}/i)
+      paths = []
+      paths = font_paths.grep(/#{font}/i) unless @style
       paths = lookup_using_font_name || []  if paths.empty?
 
       paths.empty? ? nil : paths
@@ -67,7 +69,15 @@ module Fontist
 
     def map_name_to_valid_font_names
       fonts =  Formula.find_fonts(font)
-      fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
+      return unless fonts
+
+      Array.new.tap do |files|
+        fonts.each do |font|
+          font.styles.each do |style|
+            files << style.font if @style.nil? || style.type.casecmp?(@style)
+          end
+        end
+      end
     end
 
     def system_path_file

@@ -48,17 +48,15 @@ module Fontist
           )
         end
 
-        klass.define_method :extract do
+        klass.define_method :extract do |style_file|
           resource = resource(resource_name)
 
           [formula.extract].flatten.each do |operation|
             method = "#{operation.format}_extract"
             argument = operation.file ? resource[operation.file] : resource
-            resource = if operation.options
-                         send(method, argument, **operation.options.to_h)
-                       else
-                         send(method, argument)
-                       end
+            options = operation.options&.to_h || {}
+            options.merge!(file: style_file)
+            resource = send(method, argument, **options)
           end
 
           formula.fonts.each do |font|

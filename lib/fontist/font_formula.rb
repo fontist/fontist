@@ -32,17 +32,18 @@ module Fontist
       @matched_fonts = []
     end
 
-    def self.fetch_font(name, confirmation:)
+    def self.fetch_font(name, confirmation:, style: nil)
       if instance.license_required && confirmation.downcase != "yes"
         raise(Fontist::Errors::LicensingError)
       end
 
       instance.reinitialize
-      instance.install_font(name, confirmation)
+      instance.install_font(name, style, confirmation)
     end
 
-    def install_font(name, confirmation)
-      run_in_temp_dir { extract }
+    def install_font(name, style, confirmation)
+      style_file = file_by_style(name, style)
+      run_in_temp_dir { extract(style_file) }
       matched_fonts_uniq = matched_fonts.flatten.uniq
       matched_fonts_uniq.empty? ? nil : matched_fonts_uniq
     end
@@ -51,13 +52,27 @@ module Fontist
 
     attr_reader :downloaded, :matched_fonts
 
+    def file_by_style(font_name, style_name)
+      return unless style_name
+
+      @font_list.each do |font|
+        if font[:name].casecmp?(font_name)
+          font[:styles].each do |style|
+            return style[:font] if style[:type].casecmp?(style_name)
+          end
+        end
+      end
+
+      "style.not.found"
+    end
+
     def resource(name, &block)
       source = resources[name]
       block_given? ? yield(source) : source
     end
 
     def fonts_path
-      @fonts_path ||= Fontist.fonts_path
+      @fonts_path = Fontist.fonts_path
     end
 
     def default_font

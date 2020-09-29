@@ -1,7 +1,7 @@
 module Fontist
   module Utils
     module SevenZipExtractor
-      def seven_zip_extract(resource, extension: /\.cab$/)
+      def seven_zip_extract(resource, extension: /\.cab$/, file: nil)
         file = download_file(resource)
 
         extract_seven_zip_file(file, extension)

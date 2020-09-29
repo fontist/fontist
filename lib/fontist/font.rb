@@ -2,6 +2,7 @@ module Fontist
   class Font
     def initialize(options = {})
       @name = options.fetch(:name, nil)
+      @style = options.fetch(:style, nil)
       @confirmation = options.fetch(:confirmation, "no")
 
       check_or_create_fontist_path!
@@ -15,8 +16,8 @@ module Fontist
       new(name: name).find
     end
 
-    def self.install(name, confirmation: "no")
-      new(name: name, confirmation: confirmation).install
+    def self.install(name, style: nil, confirmation: "no")
+      new(name: name, style: style, confirmation: confirmation).install
     end
 
     def find
@@ -37,10 +38,10 @@ module Fontist
 
     private
 
-    attr_reader :name, :confirmation
+    attr_reader :name, :style, :confirmation
 
     def find_system_font
-      Fontist::SystemFont.find(name)
+      Fontist::SystemFont.find(name, style)
     end
 
     def check_or_create_fontist_path!
@@ -72,7 +73,9 @@ module Fontist
     def download_font
       if formula
         check_and_confirm_required_license(formula)
-        font_installer(formula).fetch_font(name, confirmation: confirmation)
+        font_installer(formula).fetch_font(name,
+                                           style: style,
+                                           confirmation: confirmation)
       end
     end
 

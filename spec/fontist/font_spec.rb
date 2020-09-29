@@ -123,13 +123,4 @@ RSpec.describe Fontist::Font do
       end
     end
   end
-
-  def stub_system_font_finder_to_fixture(name)
-    allow(Fontist::SystemFont).to receive(:find).
-      and_return(["spec/fixtures/fonts/#{name}"])
-  end
-
-  def stub_license_agreement_prompt_with(confirmation = "yes")
-    allow(Fontist.ui).to receive(:ask).and_return(confirmation)
-  end
 end
