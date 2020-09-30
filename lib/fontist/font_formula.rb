@@ -42,8 +42,8 @@ module Fontist
     end
 
     def install_font(name, style, confirmation)
-      style_file = file_by_style(name, style)
-      run_in_temp_dir { extract(style_file) }
+      files = files(name, style)
+      run_in_temp_dir { extract(files) }
       matched_fonts_uniq = matched_fonts.flatten.uniq
       matched_fonts_uniq.empty? ? nil : matched_fonts_uniq
     end
@@ -51,6 +51,11 @@ module Fontist
     private
 
     attr_reader :downloaded, :matched_fonts
+
+    def files(font_name, style_name)
+      file_by_style(font_name, style_name) ||
+        files_by_font(font_name)
+    end
 
     def file_by_style(font_name, style_name)
       return unless style_name
@@ -64,6 +69,18 @@ module Fontist
       end
 
       "style.not.found"
+    end
+
+    def files_by_font(font_name)
+      return if key.to_s.casecmp?(font_name) # install all if requested by key
+
+      @font_list.map do |font|
+        if font[:name].casecmp?(font_name)
+          font[:styles].map do |style|
+            style[:font]
+          end
+        end
+      end.compact.flatten
     end
 
     def resource(name, &block)

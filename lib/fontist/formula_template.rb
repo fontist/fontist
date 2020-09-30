@@ -6,7 +6,7 @@ module Fontist
         resource_name = formula.resources.to_h.keys.first
         font_filename = formula.fonts.first.styles.first.font
 
-        key formula.key.to_sym if formula.key
+        key formula.key&.to_sym || formula.name.gsub(/ /, "_").downcase.to_sym
         desc formula.description
         homepage formula.homepage
 

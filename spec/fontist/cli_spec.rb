@@ -56,5 +56,18 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+
+    context "several fonts in formula" do
+      it "installs all fonts" do
+        stub_system_fonts
+        stub_license_agreement_prompt_with("yes")
+        stub_fonts_path_to_new_path do
+          result = described_class.start(["install", "cleartype"])
+          expect(result).to be 0
+          expect(font_file("CALIBRI.TTF")).to exist
+          expect(font_file("CANDARA.TTF")).to exist
+        end
+      end
+    end
   end
 end
