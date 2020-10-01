@@ -53,22 +53,22 @@ module Fontist
     attr_reader :downloaded, :matched_fonts
 
     def files(font_name, style_name)
-      file_by_style(font_name, style_name) ||
+      files_by_style(font_name, style_name) ||
         files_by_font(font_name)
     end
 
-    def file_by_style(font_name, style_name)
+    def files_by_style(font_name, style_name)
       return unless style_name
 
       @font_list.each do |font|
         if font[:name].casecmp?(font_name)
           font[:styles].each do |style|
-            return style[:font] if style[:type].casecmp?(style_name)
+            return [style[:font]] if style[:type].casecmp?(style_name)
           end
         end
       end
 
-      "style.not.found"
+      ["style.not.found"]
     end
 
     def files_by_font(font_name)
