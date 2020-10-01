@@ -7,6 +7,7 @@ RSpec.describe Fontist::CLI do
       stub_fonts_path_to_new_path do
         described_class.start(["install", "overpass"])
         expect(font_file("overpass-regular.otf")).to exist
+        expect(font_file("overpass-mono-regular.otf")).not_to exist
       end
     end
 

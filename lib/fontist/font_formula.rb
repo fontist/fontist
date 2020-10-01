@@ -72,15 +72,15 @@ module Fontist
     end
 
     def files_by_font(font_name)
-      return if key.to_s.casecmp?(font_name) # install all if requested by key
-
-      @font_list.map do |font|
+      matched = @font_list.map do |font|
         if font[:name].casecmp?(font_name)
           font[:styles].map do |style|
             style[:font]
           end
         end
       end.compact.flatten
+
+      matched.empty? ? nil : matched
     end
 
     def resource(name, &block)
