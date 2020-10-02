@@ -27,9 +27,14 @@ module Fontist
     end
 
     def install
-      find_system_font || download_font || raise(
-        Fontist::Errors::NonSupportedFontError
-      )
+      existing = find_system_font || []
+      missing = missing_fonts(existing)
+
+      raise(Fontist::Errors::NonSupportedFontError) if missing.empty? && existing.empty?
+      return existing if missing.empty?
+
+      installed = download_font
+      existing.concat(installed).uniq
     end
 
     def all
@@ -48,6 +53,60 @@ module Fontist
       unless Fontist.fonts_path.exist?
         require "fileutils"
         FileUtils.mkdir_p(Fontist.fonts_path)
+      end
+    end
+
+    def missing_fonts(existing_paths)
+      available = available_fonts || []
+      existing = filenames(existing_paths)
+      available - existing
+    end
+
+    def available_fonts
+      available_by_style || available_by_font || available_by_formula
+    end
+
+    def available_by_style
+      return unless @style
+
+      if formula
+        formula.fonts.select do |f|
+          if f.name.casecmp?(@name)
+            f.styles.select do |s|
+              s.font if s.type.casecmp?(@style)
+            end
+          end
+        end.flatten
+      end
+    end
+
+    def available_by_font
+      if formula
+        matched = formula.fonts.select do |f|
+          if f.name.casecmp?(@name)
+            f.styles.map do |s|
+              s.font
+            end
+          end
+        end.flatten
+
+        matched.empty? ? nil : matched
+      end
+    end
+
+    def available_by_formula
+      if formula
+        formula.fonts.map do |f|
+          f.styles.map do |s|
+            s.font
+          end
+        end.flatten
+      end
+    end
+
+    def filenames(paths)
+      paths.map do |path|
+        File.basename(path)
       end
     end
 
