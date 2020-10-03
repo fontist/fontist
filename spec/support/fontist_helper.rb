@@ -22,6 +22,10 @@ module Fontist
         .and_return(["spec/fixtures/fonts/#{name}"])
     end
 
+    def stub_system_font_to(name)
+      allow(Fontist::SystemFont).to receive(:find).and_return([name])
+    end
+
     def stub_license_agreement_prompt_with(confirmation = "yes")
       allow(Fontist.ui).to receive(:ask).and_return(confirmation)
     end

@@ -16,6 +16,21 @@ module Fontist
       STATUS_ERROR
     end
 
+    desc "uninstall/remove FONT", "Uninstall font by font or formula"
+    def uninstall(font)
+      fonts_paths = Fontist::Font.uninstall(font)
+      Fontist.ui.success("These fonts are removed:")
+      Fontist.ui.success(fonts_paths.join("\n"))
+      STATUS_SUCCESS
+    rescue Fontist::Errors::MissingFontError => e
+      Fontist.ui.error(e.message)
+      STATUS_ERROR
+    rescue Fontist::Errors::NonSupportedFontError
+      Fontist.ui.error("Could not find font '#{font}'.")
+      STATUS_ERROR
+    end
+    map remove: :uninstall
+
     desc "update", "Update formulas"
     def update
       Formulas.fetch_formulas

@@ -19,6 +19,10 @@ module Fontist
       new(name: name, confirmation: confirmation).install
     end
 
+    def self.uninstall(name)
+      new(name: name).uninstall
+    end
+
     def find
       find_system_font || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
@@ -27,6 +31,12 @@ module Fontist
 
     def install
       find_system_font || download_font || raise(
+        Fontist::Errors::NonSupportedFontError
+      )
+    end
+
+    def uninstall
+      uninstall_font || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
     end
@@ -62,7 +72,7 @@ module Fontist
       if formula
         raise(
           Fontist::Errors::MissingFontError,
-"#{name}"          "Fonts are missing, please run " \
+          "#{name} fonts are missing, please run " \
           "Fontist::Font.install('#{name}', confirmation: 'yes') to " \
           "download the font."
         )
@@ -108,6 +118,21 @@ module Fontist
         -----------------------------------------------------------------------
         FONT LICENSE END ("#{name}")
       MSG
+    end
+
+    def uninstall_font
+      paths = find_fontist_font
+      return unless paths
+
+      paths.each do |path|
+        File.delete(path)
+      end
+
+      paths
+    end
+
+    def find_fontist_font
+      Fontist::FontistFont.find(name)
     end
   end
 end
