@@ -137,4 +137,49 @@ RSpec.describe Fontist::Font do
       end
     end
   end
+
+  describe ".uninstall" do
+    let(:command) { Fontist::Font.uninstall(font) }
+
+    context "with unsupported font" do
+      let(:font) { "unexisting" }
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
+      end
+    end
+
+    context "with unsupported font but available in system" do
+      let(:font) { "menlo" }
+      before { stub_system_font_to("/System/Library/Fonts/Menlo.ttc") }
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
+      end
+    end
+
+    context "with supported font but not installed" do
+      let(:font) { "overpass" }
+
+      it "raises font missing error" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect { command }.to raise_error Fontist::Errors::MissingFontError
+        end
+      end
+    end
+
+    context "with supported and installed font" do
+      let(:font) { "overpass" }
+
+      it "removes font" do
+        stub_fonts_path_to_new_path do
+          Fontist::Font.install("overpass")
+          expect(font_file("overpass-regular.otf")).to exist
+          Fontist::Font.uninstall("overpass")
+          expect(font_file("overpass-regular.otf")).not_to exist
+        end
+      end
+    end
+  end
 end

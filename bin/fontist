@@ -5,4 +5,4 @@ require "fontist"
 require "fontist/cli"
 
 status_code = Fontist::CLI.start(ARGV)
-exit status_code
+exit status_code.is_a?(Integer) ? status_code : 0
