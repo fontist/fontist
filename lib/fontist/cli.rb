@@ -31,6 +31,19 @@ module Fontist
     end
     map remove: :uninstall
 
+    desc "status [FONT]", "Show status of FONT or all fonts in fontist"
+    def status(font = nil)
+      formulas = Fontist::Font.status(font)
+      return error("No font is installed.") if formulas.empty?
+
+      print_formulas(formulas)
+      success
+    rescue Fontist::Errors::MissingFontError => e
+      error(e.message)
+    rescue Fontist::Errors::NonSupportedFontError
+      error("Could not find font '#{font}'.")
+    end
+
     desc "update", "Update formulas"
     def update
       Formulas.fetch_formulas
@@ -48,8 +61,29 @@ module Fontist
       STATUS_SUCCESS
     end
 
-    def self.exit_on_failure?
-      true
+    private
+
+    def success
+      STATUS_SUCCESS
+    end
+
+    def error(message)
+      Fontist.ui.error(message)
+      STATUS_ERROR
+    end
+
+    def print_formulas(formulas)
+      formulas.each do |formula, fonts|
+        Fontist.ui.success(formula.installer)
+
+        fonts.each do |font, styles|
+          Fontist.ui.success(" #{font.name}")
+
+          styles.each do |style, path|
+            Fontist.ui.success("  #{style.type} (#{path})")
+          end
+        end
+      end
     end
   end
 end

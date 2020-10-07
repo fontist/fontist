@@ -36,6 +36,10 @@ module Fontist
       end
     end
 
+    def stub_font_file(filename)
+      FileUtils.touch(Fontist.fonts_path.join(filename))
+    end
+
     def font_file(filename)
       Pathname.new(Fontist.fonts_path.join(filename))
     end
