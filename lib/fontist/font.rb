@@ -23,6 +23,10 @@ module Fontist
       new(name: name).uninstall
     end
 
+    def self.status(name)
+      new(name: name).status
+    end
+
     def find
       find_system_font || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
@@ -37,6 +41,14 @@ module Fontist
 
     def uninstall
       uninstall_font || downloadable_font || raise(
+        Fontist::Errors::NonSupportedFontError
+      )
+    end
+
+    def status
+      return installed_statuses unless @name
+
+      font_status || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
     end
@@ -73,7 +85,7 @@ module Fontist
         raise(
           Fontist::Errors::MissingFontError,
           "#{name} fonts are missing, please run " \
-          "Fontist::Font.install('#{name}', confirmation: 'yes') to " \
+          "`fontist install '#{name}'` to " \
           "download the font."
         )
       end
@@ -133,6 +145,45 @@ module Fontist
 
     def find_fontist_font
       Fontist::FontistFont.find(name)
+    end
+
+    def installed_statuses
+      installed_styles(all_formulas)
+    end
+
+    def all_formulas
+      Fontist::Formula.all.to_h.values
+    end
+
+    def font_status
+      return unless formula
+
+      statuses = installed_styles([formula])
+      statuses.empty? ? nil : statuses
+    end
+
+    def installed_styles(formulas)
+      filter_blank(formulas) do |formula|
+        filter_blank(formula.fonts) do |font|
+          filter_blank(font.styles) do |style|
+            path(style)
+          end
+        end
+      end
+    end
+
+    def filter_blank(elements)
+      elements.map { |e| [e, yield(e)] }
+        .to_h
+        .reject { |_k, v| v.nil? || v.empty? }
+    end
+
+    def path(style)
+      font_paths.grep(/#{style.font}/i).first
+    end
+
+    def font_paths
+      @font_paths ||= Dir.glob(Fontist.fonts_path.join("**"))
     end
   end
 end

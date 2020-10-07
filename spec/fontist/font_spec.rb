@@ -172,8 +172,7 @@ RSpec.describe Fontist::Font do
     context "with supported and installed font" do
       it "removes font" do
         stub_fonts_path_to_new_path do
-          Fontist::Font.install("overpass")
-          expect(font_file("overpass-regular.otf")).to exist
+          stub_font_file("overpass-regular.otf")
 
           Fontist::Font.uninstall("overpass")
           expect(font_file("overpass-regular.otf")).not_to exist
@@ -186,11 +185,87 @@ RSpec.describe Fontist::Font do
 
       it "keeps other fonts" do
         stub_fonts_path_to_new_path do
-          Fontist::Font.install("overpass")
-          expect(font_file("overpass-regular.otf")).to exist
+          stub_font_file("overpass-regular.otf")
 
           expect { command }.to raise_error Fontist::Errors::MissingFontError
           expect(font_file("overpass-regular.otf")).to exist
+        end
+      end
+    end
+  end
+
+  describe ".status" do
+    let(:command) { Fontist::Font.status(font) }
+
+    context "with unsupported font" do
+      let(:font) { "unexisting" }
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
+      end
+    end
+
+    context "with supported font but not installed" do
+      let(:font) { "andale" }
+
+      it "raises font missing error" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect { command }.to raise_error Fontist::Errors::MissingFontError
+        end
+      end
+    end
+
+    context "with supported and installed font" do
+      let(:font) { "andale" }
+
+      it "returns its path" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("AndaleMo.TTF")
+
+          expect(command.size).to be 1
+
+          formula, fonts = command.first
+          expect(formula.installer).to eq "Fontist::Formulas::AndaleFont"
+
+          font, styles = fonts.first
+          expect(font.name).to eq "Andale Mono"
+
+          _style, path = styles.first
+          expect(path).to include("AndaleMo.TTF")
+        end
+      end
+    end
+
+    context "with no font and nothing installed" do
+      let(:font) { nil }
+
+      it "returns no font" do
+        stub_fonts_path_to_new_path do
+          expect(command.size).to be 0
+        end
+      end
+    end
+
+    context "with no font and a font installed" do
+      let(:font) { nil }
+
+      it "returns installed font with its path" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("AndaleMo.TTF")
+
+          expect(command.size).to be 1
+
+          formula, fonts = command.first
+          expect(formula.installer).to eq "Fontist::Formulas::AndaleFont"
+
+          font, styles = fonts.first
+          expect(font.name).to eq "Andale Mono"
+
+          _style, path = styles.first
+          expect(path).to include("AndaleMo.TTF")
         end
       end
     end
