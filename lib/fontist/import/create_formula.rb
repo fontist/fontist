@@ -1,5 +1,5 @@
 require "fontist/import"
-require_relative "extractors"
+require_relative "recursive_extraction"
 require_relative "otf/font_file"
 require_relative "files/collection_file"
 require_relative "helpers/hash_helper"
@@ -38,26 +38,11 @@ module Fontist
       def download(url)
         return url if File.exist?(url)
 
-        Fontist::Utils::Downloader.download(url, progress_bar: true)
+        Fontist::Utils::Downloader.download(url, progress_bar: true).path
       end
 
       def extractor(archive)
-        case filename(archive)
-        when /\.msi$/i
-          Extractors::MsiExtractor.new(archive)
-        when /\.exe$/i
-          Extractors::SevenZipExtractor.new(archive)
-        else
-          Extractors::ZipExtractor.new(archive)
-        end
-      end
-
-      def filename(file)
-        if file.respond_to?(:original_filename)
-          file.original_filename
-        else
-          File.basename(file)
-        end
+        RecursiveExtraction.new(archive)
       end
 
       def font_files(extractor)

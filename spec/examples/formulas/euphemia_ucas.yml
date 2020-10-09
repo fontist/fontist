@@ -11,6 +11,14 @@ fonts:
 - name: Euphemia UCAS
   styles:
   - family_name: Euphemia UCAS
+    type: Bold
+    full_name: Euphemia UCAS Bold
+    post_script_name: EuphemiaUCAS-Bold
+    version: 2.660 2005
+    description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
+    copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
+    font: Euphemia UCAS Bold 2.6.6.ttf
+  - family_name: Euphemia UCAS
     type: Italic
     full_name: Euphemia UCAS Italic
     post_script_name: EuphemiaUCAS-Italic
@@ -26,14 +34,6 @@ fonts:
     description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     font: Euphemia UCAS Regular 2.6.6.ttf
-  - family_name: Euphemia UCAS
-    type: Bold
-    full_name: Euphemia UCAS Bold
-    post_script_name: EuphemiaUCAS-Bold
-    version: 2.660 2005
-    description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
-    copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
-    font: Euphemia UCAS Bold 2.6.6.ttf
 extract:
   format: zip
 copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.

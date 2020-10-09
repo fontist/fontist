@@ -1,7 +1,7 @@
 ---
 name: Adobe Reader 20
 description: Adobe Reader 20
-homepage: http://www.adobe.com/type
+homepage: http://www.adobe.com/type/
 resources:
   Adobe_Reader_20.exe:
     urls:
@@ -131,7 +131,7 @@ fonts:
 extract:
 - format: seven_zip
 - format: cab
-copyright: "© 2000, 2004, 2006 Adobe Systems Incorporated. All Rights Reserved."
+copyright: "© 2002 Adobe Systems Incorporated. All rights reserved."
 license_url: http://www.adobe.com/type/legal.html
 open_license: |-
   WordNet Release 2.1
