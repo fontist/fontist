@@ -1,7 +1,7 @@
 ---
 name: Adobe Reader 19
 description: Adobe Reader 19
-homepage: http://www.adobe.com/type/
+homepage: http://www.adobe.com/type
 resources:
   Adobe_Reader_19.msi:
     urls:
@@ -46,14 +46,6 @@ fonts:
 - name: Adobe Devanagari
   styles:
   - family_name: Adobe Devanagari
-    type: Regular
-    full_name: AdobeDevanagari-Regular
-    post_script_name: AdobeDevanagari-Regular
-    version: 2.002;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
-    copyright: Copyright 2000, 2002, 2006, 2011, 2012 Adobe Systems Incorporated.
-      All Rights Reserved.
-    font: adobedevanagari_regular.otf
-  - family_name: Adobe Devanagari
     type: Bold
     full_name: AdobeDevanagari-Bold
     post_script_name: AdobeDevanagari-Bold
@@ -69,6 +61,14 @@ fonts:
     copyright: Copyright 2000, 2002, 2006, 2011, 2012 Adobe Systems Incorporated.
       All Rights Reserved.
     font: adobedevanagari_italic.otf
+  - family_name: Adobe Devanagari
+    type: Regular
+    full_name: AdobeDevanagari-Regular
+    post_script_name: AdobeDevanagari-Regular
+    version: 2.002;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: Copyright 2000, 2002, 2006, 2011, 2012 Adobe Systems Incorporated.
+      All Rights Reserved.
+    font: adobedevanagari_regular.otf
 - name: Adobe Fan Heiti Std
   styles:
   - family_name: Adobe Fan Heiti Std
@@ -288,6 +288,6 @@ fonts:
 extract:
 - format: msi
 - format: cab
-copyright: Copyright © 1996-2006, 2008-2011 Adobe Systems Incorporated. All Rights
-  Reserved.
+copyright: Copyright 2000, 2002, 2004, 2011, 2013 Adobe Systems Incorporated. All
+  Rights Reserved.
 license_url: http://www.adobe.com/type/legal.html

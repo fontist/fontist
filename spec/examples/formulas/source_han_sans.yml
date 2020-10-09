@@ -67,7 +67,5 @@ font_collections:
         Font Name 'Source'."
 extract:
   format: zip
-  options:
-    fonts_sub_dir: "**/*/"
 copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'."
 license_url: http://scripts.sil.org/OFL

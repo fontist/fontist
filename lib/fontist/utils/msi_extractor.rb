@@ -2,7 +2,7 @@ module Fontist
   module Utils
     module MsiExtractor
       def msi_extract(resource)
-        file = download_file(resource)
+        file = @downloaded ? resource : download_file(resource)
 
         cab_content = read_the_largest_file(file)
 

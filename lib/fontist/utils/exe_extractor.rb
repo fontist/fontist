@@ -48,18 +48,16 @@ module Fontist
       end
 
       def build_cab_file_hash(file)
-        Hash.new.tap do |cab_files|
-          while file
-            filename = file.filename
-            if filename.include?("cab")
-              file_path = File.join(Dir.mktmpdir, filename)
+        while file
+          filename = file.filename
+          if filename.include?("cab") || filename.include?("msi")
+            file_path = File.join(Dir.mktmpdir, filename)
+            decompressor.extract(file, file_path)
 
-              decompressor.extract(file, file_path)
-              cab_files[filename.to_s] = file_path
-            end
-
-            file = file.next
+            return file_path
           end
+
+          file = file.next
         end
       end
     end

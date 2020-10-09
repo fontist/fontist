@@ -6,11 +6,11 @@ module Fontist
           @archive = archive
         end
 
-        def extract(_pattern)
+        def extract
           raise NotImplementedError.new("You must implement this method")
         end
 
-        def operations
+        def format
           raise NotImplementedError.new("You must implement this method")
         end
       end

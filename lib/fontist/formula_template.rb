@@ -7,6 +7,7 @@ module Fontist
         font_filename = formula.fonts.first.styles.first.font
 
         key formula.key&.to_sym || formula.name.gsub(/ /, "_").downcase.to_sym
+        display_progress_bar formula.display_progress_bar if formula.display_progress_bar
         desc formula.description
         homepage formula.homepage
 
@@ -53,11 +54,10 @@ module Fontist
 
           [formula.extract].flatten.each do |operation|
             method = "#{operation.format}_extract"
-            argument = operation.file ? resource[operation.file] : resource
             resource = if operation.options
-                         send(method, argument, **operation.options.to_h)
+                         send(method, resource, **operation.options.to_h)
                        else
-                         send(method, argument)
+                         send(method, resource)
                        end
           end
 
