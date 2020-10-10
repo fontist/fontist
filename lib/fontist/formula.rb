@@ -35,11 +35,9 @@ module Fontist
 
     attr_reader :font_name
 
-    # rubocop:disable Rails/DynamicFindBy
     def find_formula
       find_by_font_name || find_by_key || find_by_font || []
     end
-    # rubocop:enable Rails/DynamicFindBy
 
     def formulas
       @formulas ||= all.to_h
@@ -50,9 +48,9 @@ module Fontist
         formula.fonts.select do |font|
           font.name.downcase == font_name.downcase
         end
-      end
+      end.flatten
 
-      matched_fonts.empty? ? nil : matched_fonts.flatten
+      matched_fonts.empty? ? nil : matched_fonts
     end
 
     def find_by_key

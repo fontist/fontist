@@ -170,14 +170,27 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "overpass" }
-
       it "removes font" do
         stub_fonts_path_to_new_path do
           Fontist::Font.install("overpass")
           expect(font_file("overpass-regular.otf")).to exist
+
           Fontist::Font.uninstall("overpass")
           expect(font_file("overpass-regular.otf")).not_to exist
+        end
+      end
+    end
+
+    context "with supported but half of name specified" do
+      let(:font) { "segoe" }
+
+      it "keeps other fonts" do
+        stub_fonts_path_to_new_path do
+          Fontist::Font.install("overpass")
+          expect(font_file("overpass-regular.otf")).to exist
+
+          expect { command }.to raise_error Fontist::Errors::MissingFontError
+          expect(font_file("overpass-regular.otf")).to exist
         end
       end
     end

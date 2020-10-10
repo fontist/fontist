@@ -10,7 +10,7 @@ module Fontist
 
     def find
       font_names = map_name_to_valid_font_names
-      return unless font_names
+      return if font_names.nil? || font_names.empty?
 
       paths = font_paths.grep(/#{font_names.join("|")}/i)
       paths.empty? ? nil : paths
