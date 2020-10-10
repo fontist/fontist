@@ -3,6 +3,9 @@ AllCops:
     - 'lib/fontist/import/google/fonts_public.pb.rb'
     - 'lib/fontist/formula_template.rb'
 
+Rails:
+  Enabled: false
+
 Metrics/LineLength:
   Exclude:
     - 'lib/fontist/formulas/**/*.rb'
