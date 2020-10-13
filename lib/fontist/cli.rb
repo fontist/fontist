@@ -44,6 +44,15 @@ module Fontist
       error("Could not find font '#{font}'.")
     end
 
+    desc "list [FONT]", "List installation status of FONT or fonts in fontist"
+    def list(font = nil)
+      formulas = Fontist::Font.list(font)
+      print_list(formulas)
+      success
+    rescue Fontist::Errors::NonSupportedFontError
+      error("Could not find font '#{font}'.")
+    end
+
     desc "update", "Update formulas"
     def update
       Formulas.fetch_formulas
@@ -85,5 +94,25 @@ module Fontist
         end
       end
     end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def print_list(formulas)
+      formulas.each do |formula, fonts|
+        Fontist.ui.say(formula.installer)
+
+        fonts.each do |font, styles|
+          Fontist.ui.say(" #{font.name}")
+
+          styles.each do |style, installed|
+            if installed
+              Fontist.ui.success("  #{style.type} (installed)")
+            else
+              Fontist.ui.error("  #{style.type} (uninstalled)")
+            end
+          end
+        end
+      end
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
   end
 end
