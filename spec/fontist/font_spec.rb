@@ -351,4 +351,5 @@ RSpec.describe Fontist::Font do
     style, status = styles.first
     [formula, font, style, status]
   end
+
 end

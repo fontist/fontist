@@ -223,5 +223,6 @@ module Fontist
     def installed(style)
       path(style) ? true : false
     end
+
   end
 end
