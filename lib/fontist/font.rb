@@ -27,6 +27,10 @@ module Fontist
       new(name: name).status
     end
 
+    def self.list(name)
+      new(name: name).list
+    end
+
     def find
       find_system_font || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
@@ -51,6 +55,12 @@ module Fontist
       font_status || downloadable_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
+    end
+
+    def list
+      return all_list unless @name
+
+      font_list || raise(Fontist::Errors::NonSupportedFontError)
     end
 
     def all
@@ -185,5 +195,34 @@ module Fontist
     def font_paths
       @font_paths ||= Dir.glob(Fontist.fonts_path.join("**"))
     end
+
+    def all_list
+      list_styles(all_formulas)
+    end
+
+    def font_list
+      return unless formula
+
+      list_styles([formula])
+    end
+
+    def list_styles(formulas)
+      map_to_hash(formulas) do |formula|
+        map_to_hash(formula.fonts) do |font|
+          map_to_hash(font.styles) do |style|
+            installed(style)
+          end
+        end
+      end
+    end
+
+    def map_to_hash(elements)
+      elements.map { |e| [e, yield(e)] }.to_h
+    end
+
+    def installed(style)
+      path(style) ? true : false
+    end
+
   end
 end

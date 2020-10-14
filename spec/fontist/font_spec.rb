@@ -270,4 +270,86 @@ RSpec.describe Fontist::Font do
       end
     end
   end
+
+  describe ".list" do
+    let(:command) { Fontist::Font.list(font) }
+
+    context "with unsupported font" do
+      let(:font) { "unexisting" }
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
+      end
+    end
+
+    context "with supported font but not installed" do
+      let(:font) { "andale" }
+
+      it "returns its status as uninstalled" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect(command.size).to be 1
+
+          _, _, _, installed = unpack_status(command)
+          expect(installed).to be false
+        end
+      end
+    end
+
+    context "with supported and installed font" do
+      let(:font) { "andale" }
+
+      it "returns its status as installed" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("AndaleMo.TTF")
+
+          expect(command.size).to be 1
+          _, _, _, installed = unpack_status(command)
+          expect(installed).to be true
+        end
+      end
+    end
+
+    context "with no font and nothing installed" do
+      let(:font) { nil }
+
+      it "returns all fonts" do
+        stub_fonts_path_to_new_path do
+          expect(command.size).to be > 1000
+          _, _, _, installed = unpack_status(command)
+          expect(installed).to be false
+        end
+      end
+    end
+
+    context "with no font and a font installed" do
+      let(:font) { nil }
+
+      it "returns installed font with its path" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("andalemo.ttf")
+
+          expect(command.size).to be > 1000
+
+          statuses = command.map do |_, fonts|
+            fonts.map do |_, styles|
+              styles.values
+            end
+          end.flatten
+
+          expect(statuses).to include(true)
+        end
+      end
+    end
+  end
+
+  def unpack_status(formulas)
+    formula, fonts = formulas.first
+    font, styles = fonts.first
+    style, status = styles.first
+    [formula, font, style, status]
+  end
+
 end
