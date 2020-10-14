@@ -10,7 +10,7 @@ module Fontist
     end
 
     def find
-      paths = font_paths.grep(/#{font}/i)
+      paths = grep_font_paths(font)
       paths = lookup_using_font_name || []  if paths.empty?
 
       paths.empty? ? nil : paths
@@ -27,6 +27,13 @@ module Fontist
 
         passwd ? path.gsub("{username}", passwd.name) : path
       end
+    end
+
+    def grep_font_paths(font)
+      paths = font_paths.map { |path| [File.basename(path), path] }.to_h
+      files = paths.keys
+      matched = files.grep(/#{font}/i)
+      paths.values_at(*matched).compact
     end
 
     def font_paths
@@ -71,7 +78,7 @@ module Fontist
     end
 
     def system_path_file
-      File.open(Fontist.lib_path.join("fontist", "system.yml"))
+      File.open(Fontist.system_file_path)
     end
 
     def default_sources

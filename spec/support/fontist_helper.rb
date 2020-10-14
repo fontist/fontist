@@ -14,7 +14,9 @@ module Fontist
     end
 
     def stub_system_fonts
-      allow(Fontist::SystemFont).to receive(:find).and_return(nil)
+      allow(Fontist).to receive(:system_file_path).and_return(
+        Fontist.root_path.join("spec", "fixtures", "system.yml")
+      )
     end
 
     def stub_system_font_finder_to_fixture(name)

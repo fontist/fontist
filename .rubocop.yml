@@ -1,3 +1,6 @@
+inherit_from:
+  - 'https://raw.githubusercontent.com/fontist/oss-guides/master/ci/rubocop.yml'
+
 AllCops:
   Exclude:
     - 'lib/fontist/import/google/fonts_public.pb.rb'

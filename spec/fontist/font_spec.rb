@@ -45,6 +45,8 @@ RSpec.describe Fontist::Font do
   end
 
   describe ".install" do
+    let(:command) { Fontist::Font.install(font, confirmation: "yes") }
+
     context "with valid font name" do
       it "installs and returns paths for fonts with open license" do
         stub_fontist_path_to_temp_path
@@ -102,6 +104,65 @@ RSpec.describe Fontist::Font do
 
         expect(font_paths.count).to be > 3
         expect(Fontist::Formulas::CourierFont).not_to receive(:fetch_font)
+      end
+    end
+
+    context "with collection font name" do
+      let(:font) { "Source Han Sans" }
+      let(:file) { "SourceHanSans-Normal.ttc" }
+
+      it "returns path of collection file" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect(command).to include(include(file))
+        end
+      end
+    end
+
+    context "with formula name when the same font name exists" do
+      let(:font) { "source" }
+      let(:files) do
+        %w[SourceHanSans-Normal.ttc
+           SourceCodePro-Regular.ttf
+           SourceSansPro-Regular.ttf
+           SourceSerifPro-Regular.ttf]
+      end
+
+      it "installs font by formula name" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          files.each do |file|
+            expect(command).to include(include(file))
+          end
+        end
+      end
+    end
+
+    context "with formula name when installed" do
+      let(:font) { "cleartype" }
+      let(:file) { "CAMBRIA.TTC" }
+
+      it "skips download" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file(file)
+          expect(Fontist::Formulas::ClearTypeFont).not_to receive(:fetch_font)
+          command
+        end
+      end
+    end
+
+    context "with font name when installed" do
+      let(:font) { "overpass mono" }
+      let(:file) { "overpass-mono-regular.otf" }
+
+      it "skips download" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file(file)
+          expect(Fontist::Formulas::OverpassFont).not_to receive(:fetch_font)
+          command
+        end
       end
     end
 
@@ -189,6 +250,42 @@ RSpec.describe Fontist::Font do
 
           expect { command }.to raise_error Fontist::Errors::MissingFontError
           expect(font_file("overpass-regular.otf")).to exist
+        end
+      end
+    end
+
+    context "with the second font in formula" do
+      let(:font) { "overpass mono" }
+      let(:this) { "overpass-mono-regular.otf" }
+      let(:other) { "overpass-regular.otf" }
+
+      it "removes only this font and keeps others" do
+        stub_fonts_path_to_new_path do
+          [this, other].each { |f| stub_font_file(f) }
+
+          command
+
+          expect(font_file(this)).not_to exist
+          expect(font_file(other)).to exist
+        end
+      end
+    end
+
+    context "with formula key" do
+      let(:font) { "source" }
+      let(:files) do
+        %w[SourceHanSans-Normal.ttc
+           SourceCodePro-Regular.ttf
+           SourceSansPro-Regular.ttf
+           SourceSerifPro-Regular.ttf]
+      end
+
+      it "removes formula files" do
+        stub_fonts_path_to_new_path do
+          files.each { |f| stub_font_file(f) }
+
+          command
+          files.each { |f| expect(font_file(f)).not_to exist }
         end
       end
     end
@@ -351,5 +448,4 @@ RSpec.describe Fontist::Font do
     style, status = styles.first
     [formula, font, style, status]
   end
-
 end

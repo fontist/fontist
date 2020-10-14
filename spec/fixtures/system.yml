@@ -1,0 +1,12 @@
+system:
+  linux:
+    paths: []
+
+  windows:
+    paths: []
+
+  macos:
+    paths: []
+
+  unix:
+    paths: []

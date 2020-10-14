@@ -88,7 +88,7 @@ RSpec.describe Fontist::CLI do
 
           expect(Fontist.ui).to receive(:success)
             .with(include("ExtraLight"))
-          status = described_class.start(["status", "source hans sans"])
+          status = described_class.start(["status", "source han sans"])
           expect(status).to be 0
         end
       end

@@ -5,8 +5,8 @@ RSpec.describe Fontist::Formulas::SourceFont do
     it "builds the data dictionary" do
       formula = Fontist::Formulas::SourceFont.instance
 
-      expect(formula.fonts.count).to eq(33)
-      expect(formula.fonts.first[:name]).to eq("Source Hans Sans")
+      expect(formula.fonts.count).to eq(38)
+      expect(formula.fonts.first[:name]).to eq("Source Han Sans")
     end
   end
 
