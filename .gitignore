@@ -13,6 +13,10 @@ Gemfile.lock
 /spec/fixtures/fonts/DejaVuSerif.ttf
 /spec/fixtures/formulas/
 /spec/fixtures/*
+!/spec/fixtures/system.yml
 
 # rspec failure tracking
 .rspec_status
+
+# remote file cache
+.rubocop-*

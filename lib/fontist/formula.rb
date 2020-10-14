@@ -28,7 +28,8 @@ module Fontist
 
     def find_fonts
       formulas = [find_formula].flatten
-      match_fonts_by_name(formulas) unless formulas.empty?
+      fonts = take_fonts(formulas)
+      fonts.empty? ? nil : fonts
     end
 
     private
@@ -36,21 +37,15 @@ module Fontist
     attr_reader :font_name
 
     def find_formula
-      find_by_font_name || find_by_key || find_by_font || []
+      find_by_key || find_by_font_name || find_by_font || []
     end
 
     def formulas
       @formulas ||= all.to_h
     end
 
-    def match_fonts_by_name(formulas)
-      matched_fonts = formulas.map do |formula|
-        formula.fonts.select do |font|
-          font.name.downcase == font_name.downcase
-        end
-      end.flatten
-
-      matched_fonts.empty? ? nil : matched_fonts
+    def take_fonts(formulas)
+      formulas.map(&:fonts).flatten
     end
 
     def find_by_key

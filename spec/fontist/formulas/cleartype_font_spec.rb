@@ -21,7 +21,7 @@ RSpec.describe Fontist::Formulas::ClearTypeFont do
           name, confirmation: confirmation
         )
 
-        expect(paths.first).to include("fonts/#{name.upcase}.TTC")
+        expect(paths).to include(include("fonts/#{name.upcase}.TTC"))
       end
     end
 

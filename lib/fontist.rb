@@ -50,4 +50,8 @@ module Fontist
   def self.downloads_path
     Fontist.fontist_path.join("downloads")
   end
+
+  def self.system_file_path
+    Fontist.lib_path.join("fontist", "system.yml")
+  end
 end

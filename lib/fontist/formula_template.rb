@@ -64,6 +64,14 @@ module Fontist
           formula.fonts.each do |font|
             match_fonts(resource, font.name)
           end
+
+          if formula.font_collections
+            formula.font_collections.each do |collection|
+              collection.fonts.each do |font|
+                match_fonts(resource, font.name)
+              end
+            end
+          end
         end
 
         klass.define_method :install do
