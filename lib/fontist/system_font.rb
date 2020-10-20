@@ -24,8 +24,9 @@ module Fontist
       @normalize_default_paths ||= default_sources["paths"].map do |path|
         require "etc"
         passwd = Etc.getpwuid
+        username = passwd ? passwd.name : Etc.getlogin
 
-        passwd ? path.gsub("{username}", passwd.name) : path
+        username ? path.gsub("{username}", username) : path
       end
     end
 
@@ -55,21 +56,7 @@ module Fontist
 
 
     def user_os
-      @user_os ||= (
-        host_os = RbConfig::CONFIG["host_os"]
-        case host_os
-        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-          :windows
-        when /darwin|mac os/
-          :macos
-        when /linux/
-          :linux
-        when /solaris|bsd/
-          :unix
-        else
-          raise Fontist::Error, "unknown os: #{host_os.inspect}"
-        end
-      )
+      Fontist::Utils::System.user_os
     end
 
     def map_name_to_valid_font_names
