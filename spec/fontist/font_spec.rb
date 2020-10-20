@@ -12,6 +12,8 @@ RSpec.describe Fontist::Font do
   end
 
   describe ".find" do
+    let(:command) { Fontist::Font.find(font) }
+
     context "with valid font name" do
       it "returns the fonts path" do
         name = "DejaVuSerif.ttf"
@@ -40,6 +42,63 @@ RSpec.describe Fontist::Font do
         expect {
           Fontist::Font.find(font_name)
         }.to raise_error(Fontist::Errors::NonSupportedFontError)
+      end
+    end
+
+    context "with macos system fonts", macos: true do
+      # rubocop:disable Metrics/LineLength
+      fonts = [
+        ["Arial Unicode", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
+        ["AppleGothic", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"],
+        ["Apple Braille Outline 6 Dot", "/System/Library/Fonts/Apple Braille Outline 6 Dot.ttf"],
+        ["Apple Symbols", "/System/Library/Fonts/Apple Symbols.ttf"],
+        ["Helvetica", "/System/Library/Fonts/Helvetica.ttc"],
+      ]
+      # rubocop:enable Metrics/LineLength
+
+      fonts.each do |font_name, path|
+        context font_name do
+          let(:font) { font_name }
+
+          it "returns #{path}" do
+            expect(command).to include(path)
+          end
+        end
+      end
+    end
+
+    context "with windows system fonts", windows: true do
+      fonts = [
+        ["Arial", "C:/Windows/Fonts/arial.ttf"],
+        ["Cambria", "C:/Windows/Fonts/cambria.ttc"],
+        ["Calibri", "C:/Windows/Fonts/calibri.ttf"],
+        ["SegoeUI", "C:/Windows/Fonts/segoeui.ttf"],
+      ]
+
+      fonts.each do |font_name, path|
+        context font_name do
+          let(:font) { font_name }
+
+          it "returns #{path}" do
+            expect(command).to include(path)
+          end
+        end
+      end
+    end
+
+    context "with windows user fonts", windows: true do
+      let(:font) { "dejavu" }
+      let(:fixture_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
+      let(:user_path) { File.join("AppData", "Local", "Microsoft", "Windows", "Fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
+      let(:absolute_user_path) { File.join(Dir.home, user_path) }
+
+      before do
+        FileUtils.mkdir_p(File.dirname(absolute_user_path))
+        FileUtils.cp(fixture_path, absolute_user_path)
+      end
+
+      it "returns user's path" do
+        expect(command).to include(include(user_path))
       end
     end
   end

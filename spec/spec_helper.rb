@@ -16,6 +16,12 @@ RSpec.configure do |config|
     config.filter_run_excluding slow: true
   end
 
+  %i[windows macos linux].each do |system|
+    unless Fontist::Utils::System.user_os == system
+      config.filter_run_excluding system => true
+    end
+  end
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
