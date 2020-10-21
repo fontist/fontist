@@ -5,6 +5,10 @@ module Fontist
     STATUS_SUCCESS = 0
     STATUS_ERROR = 1
 
+    def self.exit_on_failure?
+      true
+    end
+
     desc "install FONT", "Install font by font or formula"
     def install(font)
       fonts_paths = Fontist::Font.install(font)
@@ -60,6 +64,17 @@ module Fontist
       STATUS_SUCCESS
     end
 
+    desc "locations MANIFEST", "Get locations of fonts from MANIFEST (yaml)"
+    def locations(manifest)
+      paths = Fontist::Locations.call(manifest)
+      print_yaml(paths)
+      success
+    rescue Fontist::Errors::ManifestCouldNotBeFoundError
+      error("Manifest could not be found.")
+    rescue Fontist::Errors::ManifestCouldNotBeReadError
+      error("Manifest could not be read.")
+    end
+
     desc "create-formula URL", "Create a new formula with fonts from URL"
     option :name, desc: "Example: Times New Roman"
     option :mirror, repeatable: true
@@ -79,6 +94,10 @@ module Fontist
     def error(message)
       Fontist.ui.error(message)
       STATUS_ERROR
+    end
+
+    def print_yaml(object)
+      Fontist.ui.say(YAML.dump(object))
     end
 
     def print_formulas(formulas)

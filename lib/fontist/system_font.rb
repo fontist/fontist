@@ -1,12 +1,17 @@
 module Fontist
   class SystemFont
-    def initialize(font:, sources: nil)
+    def initialize(font:, style: nil, sources: nil)
       @font = font
+      @style = style
       @user_sources = sources || []
     end
 
     def self.find(font, sources: [])
       new(font: font, sources: sources).find
+    end
+
+    def self.find_with_style(font, style)
+      new(font: font, style: style).find_with_style
     end
 
     def find
@@ -16,9 +21,16 @@ module Fontist
       paths.empty? ? nil : paths
     end
 
+    def find_with_style
+      paths = lookup_using_font_and_style
+      return paths unless paths.empty?
+
+      grep_font_paths(font, style)
+    end
+
     private
 
-    attr_reader :font, :user_sources
+    attr_reader :font, :style, :user_sources
 
     def normalize_default_paths
       @normalize_default_paths ||= default_sources["paths"].map do |path|
@@ -30,15 +42,27 @@ module Fontist
       end
     end
 
-    def grep_font_paths(font)
+    def grep_font_paths(font, style = nil)
+      pattern = prepare_pattern(font, style)
+
       paths = font_paths.map { |path| [File.basename(path), path] }.to_h
       files = paths.keys
-      matched = files.grep(/#{font}/i)
+      matched = files.grep(pattern)
       paths.values_at(*matched).compact
     end
 
+    def prepare_pattern(font, style = nil)
+      style = nil if style&.casecmp?("regular")
+
+      s = [font, style].compact.map { |x| Regexp.quote(x) }
+        .join(".*")
+        .gsub("\\ ", "\s?") # space independent
+
+      Regexp.new(s, Regexp::IGNORECASE)
+    end
+
     def font_paths
-      Dir.glob((
+      @font_paths ||= Dir.glob((
         user_sources +
         normalize_default_paths +
         [fontist_fonts_path.join("**")]
@@ -53,7 +77,6 @@ module Fontist
     def fontist_fonts_path
       @fontist_fonts_path ||= Fontist.fonts_path
     end
-
 
     def user_os
       Fontist::Utils::System.user_os
@@ -70,6 +93,20 @@ module Fontist
 
     def default_sources
       @default_sources ||= YAML.load(system_path_file)["system"][user_os.to_s]
+    end
+
+    def lookup_using_font_and_style
+      styles = Formula.find_styles(font, style)
+      filenames = styles.map(&:font)
+      filenames.flat_map do |filename|
+        search_font_paths(filename)
+      end
+    end
+
+    def search_font_paths(filename)
+      font_paths.select do |path|
+        File.basename(path) == filename
+      end
     end
   end
 end

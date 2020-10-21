@@ -9,5 +9,7 @@ module Fontist
     class MissingAttributeError < StandardError; end
     class FontNotFoundError < StandardError; end
     class BinaryCallError < StandardError; end
+    class ManifestCouldNotBeReadError < StandardError; end
+    class ManifestCouldNotBeFoundError < StandardError; end
   end
 end

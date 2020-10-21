@@ -2,6 +2,7 @@ module Fontist
   class Formula
     def initialize(options = {})
       @font_name = options.fetch(:font_name, nil)
+      @style_name = options.fetch(:style_name, nil)
 
       check_and_register_font_formulas
     end
@@ -18,6 +19,10 @@ module Fontist
       new(font_name: name).find_fonts
     end
 
+    def self.find_styles(font, style)
+      new(font_name: font, style_name: style).find_styles
+    end
+
     def all
       @all ||= Fontist::Registry.instance.formulas
     end
@@ -32,9 +37,19 @@ module Fontist
       fonts.empty? ? nil : fonts
     end
 
+    def find_styles
+      formulas.values.flat_map do |formula|
+        formula.fonts.flat_map do |f|
+          f.styles.select do |s|
+            f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
+          end
+        end
+      end
+    end
+
     private
 
-    attr_reader :font_name
+    attr_reader :font_name, :style_name
 
     def find_formula
       find_by_key || find_by_font_name || find_by_font || []

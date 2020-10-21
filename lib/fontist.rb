@@ -13,6 +13,7 @@ require "fontist/formulas"
 require "fontist/formula"
 require "fontist/system_font"
 require "fontist/fontist_font"
+require "fontist/locations"
 
 module Fontist
   def self.ui
