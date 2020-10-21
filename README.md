@@ -132,6 +132,147 @@ The return values are ` OpenStruct` object, so you can easily do any other
 operation you would do in any ruby object.
 
 
+### Manifest
+
+Fontist lets find font locations from a YAML manifest of the following format:
+
+```yml
+Segoe UI:
+- Regular
+- Bold
+Roboto Mono:
+- Regular
+- Bold
+```
+
+Calling the following code returns a nested hash with font paths.
+
+```ruby
+Fontist::Locations.call(manifest_path)
+```
+
+```ruby
+{"Segoe UI"=>
+  {"Regular"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"],
+   "Bold"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]},
+ "Roboto Mono"=>
+  {"Regular"=>[]}}
+```
+
+### CLI
+
+These commands makes possible to operate with fonts via command line. The CLI
+properly supports exit status, so in a case of error it returns a status code
+higher or equal than 1.
+
+All searches are case-insensitive for ease of use.
+
+#### Install
+
+The `install` command is similar to the `Font.install` call. It first checks
+whether this font is already installed, and if not, then installs the font and
+returns its paths. Font or formula could be specified as a name.
+
+```
+$ fontist install "segoe ui"
+These fonts are found or installed:
+/Users/user/.fontist/fonts/SEGOEUI.TTF
+/Users/user/.fontist/fonts/SEGOEUIB.TTF
+/Users/user/.fontist/fonts/SEGOEUII.TTF
+/Users/user/.fontist/fonts/SEGOEUIZ.TTF
+```
+
+#### Uninstall
+
+Uninstalls any font supported by Fontist. Returns paths of an uninstalled font,
+or prints an error telling that the font isn't installed or could not be found
+in Fontist formulas. Aliased as `remove`.
+
+```
+$ fontist uninstall "segoe ui"
+These fonts are removed:
+/Users/user/.fontist/fonts/SEGOEUII.TTF
+/Users/user/.fontist/fonts/SEGOEUIZ.TTF
+/Users/user/.fontist/fonts/SEGOEUIB.TTF
+/Users/user/.fontist/fonts/SEGOEUI.TTF
+```
+
+#### Status
+
+Prints installed font paths grouped by formula and font.
+
+```
+$ fontist status "segoe ui"
+Fontist::Formulas::SegoeUIFont
+ Segoe UI
+  Regular (/Users/user/.fontist/fonts/SEGOEUI.TTF)
+  Bold (/Users/user/.fontist/fonts/SEGOEUIB.TTF)
+  Italic (/Users/user/.fontist/fonts/SEGOEUII.TTF)
+  Bold Italic (/Users/user/.fontist/fonts/SEGOEUIZ.TTF)
+```
+
+#### List
+
+Lists installation status of fonts supported by Fontist.
+
+```
+$ fontist list "segoe ui"
+Fontist::Formulas::SegoeUIFont
+ Segoe UI
+  Regular (installed)
+  Bold (installed)
+  Italic (installed)
+  Bold Italic (installed)
+```
+
+```
+$ fontist list "roboto mono"
+Fontist::Formulas::RobotoMonoFont
+ Roboto Mono
+  Regular (uninstalled)
+  Italic (uninstalled)
+```
+
+#### Locations from manifest
+
+Returns locations of fonts specified in a YAML file as an input.
+
+For example, if there is a file `manifest.yml`:
+
+```yml
+Segoe UI:
+- Regular
+- Bold
+Roboto Mono:
+- Regular
+- Bold
+```
+
+Then the command will return the following YAML output:
+
+```yml
+$ fontist locations manifest.yml
+---
+Segoe UI:
+  Regular:
+  - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+  Bold:
+  - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+Roboto Mono:
+  Regular: []
+  Bold: []
+```
+
+Since Segoe UI is installed, but Roboto Mono is not.
+
+#### Help
+
+List of all commands could be seen by:
+
+```
+fontist help
+```
+
 ## Development
 
 We are following Sandi Metz's Rules for this gem, you can read the

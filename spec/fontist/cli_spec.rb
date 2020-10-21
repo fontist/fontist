@@ -154,4 +154,155 @@ RSpec.describe Fontist::CLI do
       end
     end
   end
+
+  describe "#locations" do
+    let(:command) { described_class.start(["locations", path]) }
+    let(:path) { Tempfile.new.tap { |f| f.write(content) && f.close }.path }
+    let(:content) { YAML.dump(manifest) }
+    let(:output) { include_yaml(result) }
+
+    context "manifest not found" do
+      let(:path) { Fontist.root_path.join("unexisting") }
+
+      it "tells manifest could not be found" do
+        expect(Fontist.ui).to receive(:error)
+          .with("Manifest could not be found.")
+        expect(command).to be 1
+      end
+    end
+
+    context "empty manifest" do
+      let(:content) { "" }
+
+      it "tells manifest could not be read" do
+        expect(Fontist.ui).to receive(:error)
+          .with("Manifest could not be read.")
+        expect(command).to be 1
+      end
+    end
+
+    context "contains no font" do
+      let(:manifest) { {} }
+      let(:result) { {} }
+
+      it "returns empty result" do
+        expect(Fontist.ui).to receive(:say).with(output)
+        expect(command).to be 0
+      end
+    end
+
+    context "contains one font with regular style" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+      let(:result) { { "Andale Mono" => { "Regular" => [andale_path] } } }
+      let(:andale_path) { font_path("AndaleMo.TTF") }
+
+      it "returns font location" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("AndaleMo.TTF")
+
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
+        end
+      end
+    end
+
+    context "contains one font with bold style" do
+      let(:manifest) { { "Courier" => "Bold" } }
+      let(:result) { { "Courier" => { "Bold" => [courier_path] } } }
+      let(:courier_path) { font_path("courbd.ttf") }
+
+      it "returns font location" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("courbd.ttf")
+
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
+        end
+      end
+    end
+
+    context "contains two fonts" do
+      let(:manifest) do
+        { "Andale Mono" => "Regular",
+          "Courier" => "Bold" }
+      end
+
+      let(:result) do
+        { "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] },
+          "Courier" => { "Bold" => [font_path("courbd.ttf")] } }
+      end
+
+      it "returns font location" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          stub_font_file("AndaleMo.TTF")
+          stub_font_file("courbd.ttf")
+
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
+        end
+      end
+    end
+
+    context "contains one font from system paths" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "returns font location" do
+        stub_system_fonts_path_to_new_path do |system_dir|
+          stub_font_file("Andale Mono.ttf", system_dir)
+
+          stub_fonts_path_to_new_path do
+            expect(Fontist.ui).to receive(:say).with(include(system_dir))
+            expect(command).to be 0
+          end
+        end
+      end
+    end
+
+    context "contains font with space from system paths" do
+      let(:manifest) { { "Noto Sans" => "Regular" } }
+      let(:result) do
+        { "Noto Sans" => { "Regular" => [include("NotoSansOriya.ttc")] } }
+      end
+
+      it "returns no-space location" do
+        stub_system_fonts_path_to_new_path do |system_dir|
+          stub_font_file("NotoSansOriya.ttc", system_dir)
+
+          stub_fonts_path_to_new_path do
+            expect(Fontist.ui).to receive(:say).with(include_yaml(result))
+            expect(command).to be 0
+          end
+        end
+      end
+    end
+
+    context "contains uninstalled font" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+      let(:result) { { "Andale Mono" => { "Regular" => [] } } }
+
+      it "returns no location" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
+        end
+      end
+    end
+
+    context "contains unsupported font" do
+      let(:manifest) { { "Unsupported Font" => "Regular" } }
+      let(:result) { { "Unsupported Font" => { "Regular" => [] } } }
+
+      it "returns no location" do
+        stub_system_fonts
+        stub_fonts_path_to_new_path do
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
+        end
+      end
+    end
+  end
 end
