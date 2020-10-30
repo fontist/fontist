@@ -155,8 +155,8 @@ RSpec.describe Fontist::CLI do
     end
   end
 
-  describe "#locations" do
-    let(:command) { described_class.start(["locations", path]) }
+  describe "#manifest_locations" do
+    let(:command) { described_class.start(["manifest-locations", path]) }
     let(:path) { Tempfile.new.tap { |f| f.write(content) && f.close }.path }
     let(:content) { YAML.dump(manifest) }
     let(:output) { include_yaml(result) }
@@ -304,5 +304,182 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+  end
+
+  describe "#manifest_install" do
+    let(:command) do
+      described_class.start(["manifest-install", *options, path])
+    end
+
+    let(:path) { Tempfile.new.tap { |f| f.write(content) && f.close }.path }
+    let(:content) { YAML.dump(manifest) }
+    let(:options) { [] }
+
+    before do
+      stub_license_agreement_prompt_with("yes")
+      no_fonts
+    end
+
+    after do
+      cleanup_fonts
+    end
+
+    context "no file at path" do
+      let(:path) { Fontist.root_path.join("unexisting.yml") }
+
+      it "tells manifest not found" do
+        expect_error("Manifest could not be found.")
+      end
+    end
+
+    context "non-yaml file" do
+      let(:content) { "not yaml file" }
+
+      it "tells manifest could not be read" do
+        expect_error("Manifest could not be read.")
+      end
+    end
+
+    context "empty file" do
+      let(:content) { "" }
+
+      it "tells manifest could not be read" do
+        expect_error("Manifest could not be read.")
+      end
+    end
+
+    context "no fonts" do
+      let(:manifest) { {} }
+
+      it "returns empty result" do
+        expect_say_yaml({})
+      end
+    end
+
+    context "unsupported and uninstalled font" do
+      let(:manifest) { { "Unexisting Font" => "Regular" } }
+
+      it "returns no location" do
+        expect_say_yaml("Unexisting Font" => { "Regular" => [] })
+      end
+    end
+
+    context "unsupported but installed in system font" do
+      let(:manifest) { { "Arial Unicode" => "Regular" } }
+      before { stub_system_font("Arial Unicode.ttf") }
+
+      it "returns its location" do
+        expect_say_yaml(
+          "Arial Unicode" => { "Regular" => [include("Arial Unicode.ttf")] }
+        )
+      end
+    end
+
+    context "installed font" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { stub_fontist_font("AndaleMo.TTF") }
+
+      it "returns its location" do
+        expect_say_yaml(
+          "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] }
+        )
+      end
+    end
+
+    context "supported and installed by system font" do
+      let(:manifest) { { "Times New Roman" => "Regular" } }
+      before { stub_system_font("Times New Roman.ttf") }
+
+      it "returns its location" do
+        expect_say_yaml(
+          "Times New Roman" => { "Regular" => [include("Times New Roman.ttf")] }
+        )
+      end
+    end
+
+    context "uninstalled but supported font" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "installs font file" do
+        expect { command }
+          .to change { font_file("AndaleMo.TTF").exist? }.from(false).to(true)
+      end
+
+      it "returns its location" do
+        expect_say_yaml(
+          "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] }
+        )
+      end
+    end
+
+    context "two supported fonts" do
+      let(:manifest) do
+        { "Andale Mono" => "Regular",
+          "Courier" => "Bold" }
+      end
+
+      it "installs both and returns their locations" do
+        expect_say_yaml(
+          "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] },
+          "Courier" => { "Bold" => [font_path("courbd.ttf")] }
+        )
+      end
+    end
+
+    context "uninstalled, one supported, one unsupported" do
+      let(:manifest) do
+        { "Andale Mono" => "Regular",
+          "Unexisting Font" => "Regular" }
+      end
+
+      it "installs supported and returns its location and no location" do
+        expect_say_yaml(
+          "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] },
+          "Unexisting Font" => { "Regular" => [] }
+        )
+      end
+    end
+
+    context "declined license agreement" do
+      before { stub_license_agreement_prompt_with("no") }
+
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "does not install font file" do
+        command
+        expect(font_file("AndaleMo.TTF")).not_to exist
+      end
+
+      it "returns no location" do
+        expect_say_yaml("Andale Mono" => { "Regular" => [] })
+      end
+    end
+
+    context "confirmed license in cli option" do
+      let(:options) { ["--confirm-license"] }
+
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "installs font file" do
+        expect { command }
+          .to change { font_file("AndaleMo.TTF").exist? }.from(false).to(true)
+      end
+
+      it "returns its location" do
+        expect_say_yaml(
+          "Andale Mono" => { "Regular" => [font_path("AndaleMo.TTF")] }
+        )
+      end
+    end
+  end
+
+  def expect_say_yaml(result)
+    expect(Fontist.ui).to receive(:say).with(include_yaml(result))
+    expect(command).to be 0
+  end
+
+  def expect_error(output)
+    expect(Fontist.ui).to receive(:error).with(output)
+    expect(command).to be 1
   end
 end
