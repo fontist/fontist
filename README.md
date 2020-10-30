@@ -134,6 +134,8 @@ operation you would do in any ruby object.
 
 ### Manifest
 
+#### Locations
+
 Fontist lets find font locations from a YAML manifest of the following format:
 
 ```yml
@@ -142,13 +144,12 @@ Segoe UI:
 - Bold
 Roboto Mono:
 - Regular
-- Bold
 ```
 
 Calling the following code returns a nested hash with font paths.
 
 ```ruby
-Fontist::Locations.call(manifest_path)
+Fontist::Manifest::Locations.call(manifest_path)
 ```
 
 ```ruby
@@ -157,6 +158,25 @@ Fontist::Locations.call(manifest_path)
    "Bold"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]},
  "Roboto Mono"=>
   {"Regular"=>[]}}
+```
+
+#### Install
+
+Fontist lets not only to get font locations but also to install fonts from the
+manifest:
+
+```ruby
+Fontist::Manifest::Install.call(manifest, confirmation: "yes")
+```
+
+It will install fonts and return their locations:
+
+```ruby
+{"Segoe UI"=>
+  {"Regular"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"],
+   "Bold"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]},
+ "Roboto Mono"=>
+  {"Regular"=>["/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"]}}
 ```
 
 ### CLI
@@ -245,13 +265,12 @@ Segoe UI:
 - Bold
 Roboto Mono:
 - Regular
-- Bold
 ```
 
 Then the command will return the following YAML output:
 
 ```yml
-$ fontist locations manifest.yml
+$ fontist manifest-locations manifest.yml
 ---
 Segoe UI:
   Regular:
@@ -260,10 +279,26 @@ Segoe UI:
   - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
 Roboto Mono:
   Regular: []
-  Bold: []
 ```
 
 Since Segoe UI is installed, but Roboto Mono is not.
+
+#### Install from manifest
+
+Install fonts from a YAML manifest:
+
+```yml
+$ fontist manifest-install --confirm-license manifest.yml
+---
+Segoe UI:
+  Regular:
+  - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+  Bold:
+  - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+Roboto Mono:
+  Regular:
+  - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
+```
 
 #### Help
 

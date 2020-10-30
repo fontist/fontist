@@ -6,7 +6,7 @@ module Fontist
     STATUS_ERROR = 1
 
     def self.exit_on_failure?
-      true
+      false
     end
 
     desc "install FONT", "Install font by font or formula"
@@ -64,9 +64,26 @@ module Fontist
       STATUS_SUCCESS
     end
 
-    desc "locations MANIFEST", "Get locations of fonts from MANIFEST (yaml)"
-    def locations(manifest)
-      paths = Fontist::Locations.call(manifest)
+    desc "manifest-locations MANIFEST",
+         "Get locations of fonts from MANIFEST (yaml)"
+    def manifest_locations(manifest)
+      paths = Fontist::Manifest::Locations.call(manifest)
+      print_yaml(paths)
+      success
+    rescue Fontist::Errors::ManifestCouldNotBeFoundError
+      error("Manifest could not be found.")
+    rescue Fontist::Errors::ManifestCouldNotBeReadError
+      error("Manifest could not be read.")
+    end
+
+    desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
+    option :confirm_license, type: :boolean, desc: "Confirm license agreement"
+    def manifest_install(manifest)
+      paths = Fontist::Manifest::Install.call(
+        manifest,
+        confirmation: options[:confirm_license] ? "yes" : "no"
+      )
+
       print_yaml(paths)
       success
     rescue Fontist::Errors::ManifestCouldNotBeFoundError

@@ -19,6 +19,10 @@ module Fontist
       new(name: name, confirmation: confirmation).install
     end
 
+    def self.try_install(name, confirmation: "no")
+      new(name: name, confirmation: confirmation).try_install
+    end
+
     def self.uninstall(name)
       new(name: name).uninstall
     end
@@ -41,6 +45,10 @@ module Fontist
       find_system_font || download_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
+    end
+
+    def try_install
+      download_font
     end
 
     def uninstall
