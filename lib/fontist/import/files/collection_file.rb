@@ -1,3 +1,4 @@
+require "extract_ttc"
 require "fontist/import/helpers/system_helper"
 require_relative "../otf/font_file"
 
@@ -5,8 +6,6 @@ module Fontist
   module Import
     module Files
       class CollectionFile
-        STRIP_TTC_BINARY = Fontist.root_path.join("bin", "stripttc")
-
         attr_reader :fonts
 
         def initialize(path)
@@ -37,10 +36,10 @@ module Fontist
         end
 
         def extract_ttfs(tmp_dir)
-          Helpers::SystemHelper.run("#{STRIP_TTC_BINARY} #{@path}")
-
-          basename = File.basename(@path, ".ttc")
-          Dir.glob(File.join(tmp_dir, "#{basename}_[0-9][0-9].ttf"))
+          filenames = ExtractTtc.extract(@path)
+          filenames.map do |filename|
+            File.join(tmp_dir, filename)
+          end
         end
       end
     end

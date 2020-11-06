@@ -373,12 +373,6 @@ git commit -m "Google Fonts update"
 git push
 ```
 
-### TTC extraction
-
-The stripttc script is used for extraction of TTC files. It's taken from the
-https://github.com/DavidBarts/getfonts repository, and placed in the bin/
-directory.
-
 ## Contributing
 
 First, thank you for contributing! We love pull requests from everyone. By
