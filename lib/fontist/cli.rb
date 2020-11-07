@@ -10,8 +10,10 @@ module Fontist
     end
 
     desc "install FONT", "Install font by font or formula"
+    option :force, type: :boolean, aliases: :f,
+                   desc: "Install even if it's already installed in system"
     def install(font)
-      fonts_paths = Fontist::Font.install(font)
+      fonts_paths = Fontist::Font.install(font, force: options[:force])
       Fontist.ui.success("These fonts are found or installed:")
       Fontist.ui.success(fonts_paths.join("\n"))
       STATUS_SUCCESS
