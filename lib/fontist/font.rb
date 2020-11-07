@@ -3,6 +3,7 @@ module Fontist
     def initialize(options = {})
       @name = options.fetch(:name, nil)
       @confirmation = options.fetch(:confirmation, "no")
+      @force = options.fetch(:force, false)
 
       check_or_create_fontist_path!
     end
@@ -15,8 +16,8 @@ module Fontist
       new(name: name).find
     end
 
-    def self.install(name, confirmation: "no")
-      new(name: name, confirmation: confirmation).install
+    def self.install(name, confirmation: "no", force: false)
+      new(name: name, confirmation: confirmation, force: force).install
     end
 
     def self.try_install(name, confirmation: "no")
@@ -42,7 +43,7 @@ module Fontist
     end
 
     def install
-      find_system_font || download_font || raise(
+      (find_system_font unless @force) || download_font || raise(
         Fontist::Errors::NonSupportedFontError
       )
     end

@@ -104,7 +104,11 @@ RSpec.describe Fontist::Font do
   end
 
   describe ".install" do
-    let(:command) { Fontist::Font.install(font, confirmation: "yes") }
+    let(:command) do
+      Fontist::Font.install(font, confirmation: "yes", **options)
+    end
+
+    let(:options) { {} }
 
     context "with valid font name" do
       it "installs and returns paths for fonts with open license" do
@@ -254,6 +258,21 @@ RSpec.describe Fontist::Font do
         font_paths = Fontist::Font.install(font[:name], confirmation: "no")
 
         expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+    end
+
+    context "with force flag when installed" do
+      let(:font) { "andale mono" }
+      let(:file) { "AndaleMo.TTF" }
+      let(:options) { { force: true } }
+
+      it "installs font anyway" do
+        no_fonts do
+          stub_system_font(file)
+          expect(font_file(file)).not_to exist
+          command
+          expect(font_file(file)).to exist
+        end
       end
     end
   end
