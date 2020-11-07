@@ -55,4 +55,28 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       expect(formula).to include example
     end
   end
+
+  context "with 404 mirror" do
+    let(:archive_name) { "Lato2OFL.zip" }
+    let(:options) { { mirror: ["http://example.com/not_found_url"] } }
+
+    it "outputs a warning message", dev: true do
+      require "fontist/import/create_formula"
+      expect(Fontist.ui).to receive(:say)
+        .with("WARN: a mirror is not found 'http://example.com/not_found_url'")
+      formula
+    end
+  end
+
+  context "with different SHA256 mirrors" do
+    let(:url) { "https://gitlab.com/fontmirror/archive/-/raw/master/VistaFont_KOR.EXE" } # rubocop:disable Metrics/LineLength
+    let(:options) { { mirror: ["https://download.microsoft.com/download/0/3/e/03e8f61e-be04-4cbd-8007-85a544fec76b/VistaFont_KOR.EXE"] } } # rubocop:disable Metrics/LineLength
+
+    it "outputs a warning message", dev: true do
+      require "fontist/import/create_formula"
+      expect(Fontist.ui).to receive(:say)
+        .with("WARN: SHA256 differs (db5da6c17b02f1e6359aa8c019d9666abdf2e3438d08e77fb4b1576b6023b9f9, c5fe8a36856c7aac913b5a64cf23c9ba1afc07ac538529d61b0e08dbefd2975a)") # rubocop:disable Metrics/LineLength
+      formula
+    end
+  end
 end

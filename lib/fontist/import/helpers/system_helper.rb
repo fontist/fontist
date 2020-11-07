@@ -4,7 +4,10 @@ module Fontist
       module SystemHelper
         class << self
           def run(command)
-            puts "Run `#{command}`" unless ENV.fetch("TEST_ENV", "") === "CI"
+            unless ENV.fetch("TEST_ENV", "") === "CI"
+              Fontist.ui.say("Run `#{command}`")
+            end
+
             result = `#{command}`
             unless $CHILD_STATUS.to_i.zero?
               raise Errors::BinaryCallError,
