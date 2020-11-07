@@ -2,9 +2,10 @@ module Fontist
   class FormulaTemplate
     def self.create_formula_class(formula)
       Class.new(FontFormula) do |klass|
-        cleanname = formula.fonts.first.name.gsub(/ /, "")
+        first_font = (formula.fonts || formula.font_collections.first.fonts).first
+        cleanname = first_font.name.gsub(/ /, "")
         resource_name = formula.resources.to_h.keys.first
-        font_filename = formula.fonts.first.styles.first.font
+        font_filename = first_font.styles.first.font
 
         key formula.key&.to_sym || formula.name.gsub(/ /, "_").downcase.to_sym
         display_progress_bar formula.display_progress_bar if formula.display_progress_bar
@@ -31,22 +32,24 @@ module Fontist
           end
         end
 
-        formula.fonts.each do |font|
-          provides_font(
-            font.name,
-            match_styles_from_file: font.styles.map do |style|
-              {
-                family_name: style.family_name,
-                style: style.type,
-                full_name: style.full_name,
-                post_script_name: style.post_script_name,
-                version: style.version,
-                description: style.description,
-                filename: style.font,
-                copyright: style.copyright,
-              }
-            end
-          )
+        if formula.fonts
+          formula.fonts.each do |font|
+            provides_font(
+              font.name,
+              match_styles_from_file: font.styles.map do |style|
+                {
+                  family_name: style.family_name,
+                  style: style.type,
+                  full_name: style.full_name,
+                  post_script_name: style.post_script_name,
+                  version: style.version,
+                  description: style.description,
+                  filename: style.font,
+                  copyright: style.copyright,
+                }
+              end
+            )
+          end
         end
 
         klass.define_method :extract do
@@ -61,8 +64,10 @@ module Fontist
                        end
           end
 
-          formula.fonts.each do |font|
-            match_fonts(resource, font.name)
+          if formula.fonts
+            formula.fonts.each do |font|
+              match_fonts(resource, font.name)
+            end
           end
 
           if formula.font_collections
