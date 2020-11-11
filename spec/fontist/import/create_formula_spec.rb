@@ -58,12 +58,12 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
   context "with 404 mirror" do
     let(:archive_name) { "Lato2OFL.zip" }
-    let(:options) { { mirror: ["http://example.com/not_found_url"] } }
+    let(:options) { { mirror: ["https://example.com/not_found_url"] } }
 
     it "outputs a warning message", dev: true do
       require "fontist/import/create_formula"
-      expect(Fontist.ui).to receive(:say)
-        .with("WARN: a mirror is not found 'http://example.com/not_found_url'")
+      expect(Fontist.ui).to receive(:error)
+        .with("WARN: a mirror is not found 'https://example.com/not_found_url'")
       formula
     end
   end
@@ -74,7 +74,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "outputs a warning message", dev: true do
       require "fontist/import/create_formula"
-      expect(Fontist.ui).to receive(:say)
+      expect(Fontist.ui).to receive(:error)
         .with("WARN: SHA256 differs (db5da6c17b02f1e6359aa8c019d9666abdf2e3438d08e77fb4b1576b6023b9f9, c5fe8a36856c7aac913b5a64cf23c9ba1afc07ac538529d61b0e08dbefd2975a)") # rubocop:disable Metrics/LineLength
       formula
     end
