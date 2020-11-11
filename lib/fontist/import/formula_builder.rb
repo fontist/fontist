@@ -89,7 +89,7 @@ module Fontist
       def download(url)
         Fontist::Utils::Downloader.download(url, progress_bar: true).path
       rescue Errors::InvalidResourceError
-        Fontist.ui.say("WARN: a mirror is not found '#{url}'")
+        Fontist.ui.error("WARN: a mirror is not found '#{url}'")
         nil
       end
 
@@ -98,7 +98,7 @@ module Fontist
         return output.first if output.size == 1
 
         checksums = output.join(", ")
-        Fontist.ui.say("WARN: SHA256 differs (#{checksums})")
+        Fontist.ui.error("WARN: SHA256 differs (#{checksums})")
         output
       end
 
@@ -147,7 +147,13 @@ module Fontist
       end
 
       def open_license
-        return unless @license_text
+        unless @license_text
+          Fontist.ui.error("WARN: please add license manually")
+          return
+        end
+
+        Fontist.ui.error("WARN: ensure it's an open license, otherwise change \
+                          to 'requires_license_agreement'")
 
         TextHelper.cleanup(@license_text)
       end

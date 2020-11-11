@@ -10,7 +10,7 @@ module Fontist
     class CreateFormula
       FONT_PATTERN = /(\.ttf|\.otf)$/i.freeze
       FONT_COLLECTION_PATTERN = /\.ttc$/i.freeze
-      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt)$/i.freeze
+      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
 
       def initialize(url, options = {})
         @url = url
