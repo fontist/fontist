@@ -4,11 +4,12 @@ require_relative "extractors"
 module Fontist
   module Import
     class RecursiveExtraction
-      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
+      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}*".freeze
       ARCHIVE_EXTENSIONS = %w[zip msi exe cab].freeze
 
-      def initialize(archive)
+      def initialize(archive, subarchive: nil)
         @archive = archive
+        @subarchive = subarchive
         @operations = []
       end
 
@@ -57,6 +58,8 @@ module Fontist
 
       def operate_on_archive(archive)
         extractor = choose_extractor(archive)
+        Fontist.ui.say("Extracting #{archive} with #{extractor.class.name}")
+
         save_operation(extractor)
         extractor.extract
       end
@@ -87,9 +90,33 @@ module Fontist
       end
 
       def find_archive(path)
-        Dir.children(path)
-          .map    { |file_name| File.join(path, file_name) }
-          .max_by { |file_path| [file_type(file_path), File.size(file_path)] }
+        paths = Dir.children(path).map { |file| File.join(path, file) }
+        by_subarchive(paths) || by_size(paths)
+      end
+
+      def by_subarchive(paths)
+        return unless @subarchive
+
+        path_found = paths.detect do |path|
+          @subarchive == File.basename(path)
+        end
+
+        return unless path_found
+
+        save_operation_subarchive(path_found)
+
+        path_found
+      end
+
+      def save_operation_subarchive(path)
+        @operations.last[:options] ||= {}
+        @operations.last[:options][:subarchive] = File.basename(path)
+      end
+
+      def by_size(paths)
+        paths.max_by do |path|
+          [file_type(path), File.size(path)]
+        end
       end
 
       def file_type(file_path)

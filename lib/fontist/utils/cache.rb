@@ -6,7 +6,7 @@ module Fontist
         return downloaded_path(map[key]) if cache_exist?(map[key])
 
         generated_file = yield
-        path = save_cache(generated_file, key, map)
+        path = save_cache(generated_file, key)
 
         downloaded_path(path)
       end
@@ -29,10 +29,13 @@ module Fontist
         path && File.exist?(Fontist.downloads_path.join(path))
       end
 
-      def save_cache(generated_file, key, map)
+      def save_cache(generated_file, key)
         path = move_to_downloads(generated_file)
+
+        map = load_cache
         map[key] = path
         File.write(cache_map_path, YAML.dump(map))
+
         path
       end
 

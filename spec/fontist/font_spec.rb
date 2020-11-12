@@ -244,7 +244,7 @@ RSpec.describe Fontist::Font do
         stub_fontist_path_to_temp_path
 
         font = { name: "Adobe Arabic", filename: "adobearabic_bold.otf" }
-        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
+        font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
         expect(font_paths.join("|").downcase).to include(font[:filename])
       end
@@ -255,9 +255,20 @@ RSpec.describe Fontist::Font do
         stub_fontist_path_to_temp_path
 
         font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
-        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
+        font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
         expect(font_paths.join("|").downcase).to include(font[:filename])
+      end
+    end
+
+    context "with subarchive option" do
+      let(:font) { "Guttman" }
+      let(:file) { "GAHROM.TTF_1037" }
+
+      it "installs and returns paths for fonts" do
+        no_fonts do
+          expect(command).to include(include(file))
+        end
       end
     end
 
