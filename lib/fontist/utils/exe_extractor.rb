@@ -12,10 +12,10 @@ module Fontist
         block_given? ? yield(fonts_paths) : fonts_paths
       end
 
-      def exe_extract(source)
+      def exe_extract(source, subarchive: nil)
         cab_file = decompressor.search(download_file(source).path)
-        fonts_paths = build_cab_file_hash(cab_file.files)
-        block_given? ? yield(fonts_paths) : fonts_paths
+        subarchive_path = extract_subarchive(cab_file.files, subarchive)
+        block_given? ? yield(subarchive_path) : subarchive_path
       end
 
       private
@@ -47,10 +47,11 @@ module Fontist
         end
       end
 
-      def build_cab_file_hash(file)
+      def extract_subarchive(file, subarchive = nil)
         while file
           filename = file.filename
-          if filename.include?("cab") || filename.include?("msi")
+
+          if subarchive_found?(filename, subarchive)
             file_path = File.join(Dir.mktmpdir, filename)
             decompressor.extract(file, file_path)
 
@@ -59,6 +60,12 @@ module Fontist
 
           file = file.next
         end
+      end
+
+      def subarchive_found?(filename, subarchive)
+        return subarchive == filename if subarchive
+
+        filename.include?("cab") || filename.include?("msi")
       end
     end
   end

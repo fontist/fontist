@@ -79,4 +79,14 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       formula
     end
   end
+
+  context "with specified subarchive archive" do
+    let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_HE_x86.exe" } # rubocop:disable Metrics/LineLength
+    let(:options) { { subarchive: "officelr.cab", name: "Guttman" } }
+
+    it "generates proper yaml", dev: true do
+      require "fontist/import/create_formula"
+      expect(formula).to include example
+    end
+  end
 end

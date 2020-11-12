@@ -77,7 +77,9 @@ module Fontist
         def read
           text = REQUIREMENTS[:otfinfo].call(@path)
 
-          text.split("\n")
+          text
+            .encode("UTF-8", invalid: :replace, replace: "")
+            .split("\n")
             .select { |x| x.include?(":") }
             .map { |x| x.split(":", 2) }
             .map { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }

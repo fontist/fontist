@@ -8,8 +8,8 @@ require_relative "formula_builder"
 module Fontist
   module Import
     class CreateFormula
-      FONT_PATTERN = /(\.ttf|\.otf)$/i.freeze
-      FONT_COLLECTION_PATTERN = /\.ttc$/i.freeze
+      FONT_PATTERN = /(\.ttf|\.otf)/i.freeze
+      FONT_COLLECTION_PATTERN = /\.ttc/i.freeze
       LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
 
       def initialize(url, options = {})
@@ -42,7 +42,7 @@ module Fontist
       end
 
       def extractor(archive)
-        RecursiveExtraction.new(archive)
+        RecursiveExtraction.new(archive, subarchive: @options[:subarchive])
       end
 
       def font_files(extractor)

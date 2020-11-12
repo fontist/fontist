@@ -1,0 +1,322 @@
+---
+name: Guttman
+description: Guttman
+resources:
+  Guttman.exe:
+    urls:
+    - https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_HE_x86.exe
+    sha256: 10cdf6bf1bc4c61c41176f9cffac88fce09126babe1917c43c73630a5b0ae317
+fonts:
+- name: Guttman Aharoni
+  styles:
+  - family_name: Guttman Aharoni
+    type: Regular
+    full_name: Guttman Aharoni
+    post_script_name: GuttmanAharoni
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GAHROM.TTF_1037
+- name: Guttman Drogolin
+  styles:
+  - family_name: Guttman Drogolin
+    type: Bold
+    full_name: Guttman Drogolin Bold
+    post_script_name: GuttmanDrogolin-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: DROGB.TTF_1037
+  - family_name: Guttman Drogolin
+    type: Normal
+    full_name: Guttman Drogolin
+    post_script_name: GuttmanDrogolin-Normal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: DROGM.TTF_1037
+- name: Guttman Frank
+  styles:
+  - family_name: Guttman Frank
+    type: Bold
+    full_name: Guttman Frank Bold
+    post_script_name: GuttmanFrank-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: FRANKB.TTF_1037
+  - family_name: Guttman Frank
+    type: Regular
+    full_name: Guttman Frank
+    post_script_name: GuttmanFrank
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GFRANK.TTF_1037
+- name: Guttman Frnew
+  styles:
+  - family_name: Guttman Frnew
+    type: Normal
+    full_name: Guttman Frnew
+    post_script_name: GuttmanFrnew-Normal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: FRNEW.TTF_1037
+- name: Guttman Haim
+  styles:
+  - family_name: Guttman Haim
+    type: Regular
+    full_name: Guttman Haim
+    post_script_name: GuttmanHaim
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GHAIM.TTF_1037
+- name: Guttman Haim-Condensed
+  styles:
+  - family_name: Guttman Haim-Condensed
+    type: Regular
+    full_name: Guttman Haim-Condensed
+    post_script_name: GuttmanHaim-Condensed
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GHAIMC.TTF_1037
+- name: Guttman Hatzvi
+  styles:
+  - family_name: Guttman Hatzvi
+    type: Bold
+    full_name: Guttman Hatzvi Bold
+    post_script_name: GuttmanHatzvi-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: TZVIB.TTF_1037
+  - family_name: Guttman Hatzvi
+    type: Regular
+    full_name: Guttman Hatzvi
+    post_script_name: GuttmanHatzvi
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: TZVIM.TTF_1037
+- name: Guttman Kav
+  styles:
+  - family_name: Guttman Kav
+    type: Bold
+    full_name: Guttman Kav Bold
+    post_script_name: GuttmanKav-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GKAVBLD.TTF_1037
+  - family_name: Guttman Kav
+    type: Regular
+    full_name: Guttman Kav
+    post_script_name: GuttmanKav
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GKAVMED.TTF_1037
+- name: Guttman Kav-Light
+  styles:
+  - family_name: Guttman Kav-Light
+    type: Regular
+    full_name: Guttman Kav-Light
+    post_script_name: GuttmanKav-Light
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GKAVLIT.TTF_1037
+- name: Guttman Logo1
+  styles:
+  - family_name: Guttman Logo1
+    type: Regular
+    full_name: Guttman Logo1
+    post_script_name: GuttmanLogo1
+    version: '2.20'
+    copyright: Copyright 1992 - 1998 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: LOGO1.TTF_1037
+- name: Guttman Mantova
+  styles:
+  - family_name: Guttman Mantova
+    type: Bold
+    full_name: Guttman Mantova Bold
+    post_script_name: GuttmanMantovaBold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MANTB.TTF_1037
+  - family_name: Guttman Mantova
+    type: Regular
+    full_name: Guttman Mantova
+    post_script_name: GuttmanMantova
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MANTM.TTF_1037
+- name: Guttman Mantova-Decor
+  styles:
+  - family_name: Guttman Mantova-Decor
+    type: Regular
+    full_name: Guttman Mantova-Decor
+    post_script_name: GuttmanMantovaDecor
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MANTDEC.TTF_1037
+- name: Guttman Miryam
+  styles:
+  - family_name: Guttman Miryam
+    type: Bold
+    full_name: Guttman Miryam Bold
+    post_script_name: GuttmanMiryam-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MIRB.TTF_1037
+  - family_name: Guttman Miryam
+    type: Light
+    full_name: Guttman Miryam Light
+    post_script_name: GuttmanMiryamLight
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MIRL.TTF_1037
+- name: Guttman Myamfix
+  styles:
+  - family_name: Guttman Myamfix
+    type: Regular
+    full_name: Guttman Myamfix
+    post_script_name: GuttmanMyamfix
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GMYAMFIX.TTF_1037
+- name: Guttman Rashi
+  styles:
+  - family_name: Guttman Rashi
+    type: Normal
+    full_name: Guttman Rashi
+    post_script_name: GuttmanRashiNormal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: RASHI.TTF_1037
+  - family_name: Guttman Rashi
+    type: Bold
+    full_name: Guttman Rashi Bold
+    post_script_name: GuttmanRashi-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: RASHIB.TTF_1037
+  - family_name: Guttman Rashi
+    type: XBold
+    full_name: Guttman Rashi XBold
+    post_script_name: GuttmanRashiXBold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: RASHIXB.TTF_1037
+- name: Guttman Stam
+  styles:
+  - family_name: Guttman Stam
+    type: Normal
+    full_name: Guttman Stam
+    post_script_name: GuttmanStamNormal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: STAM.TTF_1037
+- name: Guttman Stam1
+  styles:
+  - family_name: Guttman Stam1
+    type: Normal
+    full_name: Guttman Stam1
+    post_script_name: GuttmanStam1Normal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: STAM1.TTF_1037
+- name: Guttman Vilna
+  styles:
+  - family_name: Guttman Vilna
+    type: Regular
+    full_name: Guttman Vilna
+    post_script_name: GuttmanVilna
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: VILNA.TTF_1037
+  - family_name: Guttman Vilna
+    type: Bold
+    full_name: Guttman Vilna Bold
+    post_script_name: GuttmanVilna-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: VILNAB.TTF_1037
+- name: Guttman Yad
+  styles:
+  - family_name: Guttman Yad
+    type: Regular
+    full_name: Guttman Yad
+    post_script_name: GuttmanYad
+    version: '2.21'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GYADL.TTF_1037
+- name: Guttman Yad-Brush
+  styles:
+  - family_name: Guttman Yad-Brush
+    type: Regular
+    full_name: Guttman Yad-Brush
+    post_script_name: GuttmanYad-Brush
+    version: '2.21'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GYADBR.TTF_1037
+- name: Guttman Yad-Light
+  styles:
+  - family_name: Guttman Yad-Light
+    type: Light
+    full_name: Guttman Yad-Light
+    post_script_name: GuttmanYadLight
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: GYADXL.TTF_1037
+- name: Guttman-Aharoni
+  styles:
+  - family_name: Guttman-Aharoni
+    type: Bold
+    full_name: Guttman-Aharoni Bold
+    post_script_name: GuttmanAharoni-Bold
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: AHROB.TTF_1037
+- name: Guttman-Aram
+  styles:
+  - family_name: Guttman-Aram
+    type: Normal
+    full_name: Guttman-Aram
+    post_script_name: GuttmanAram-Normal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: ARAM.TTF_1037
+- name: Guttman-CourMir
+  styles:
+  - family_name: Guttman-CourMir
+    type: Normal
+    full_name: Guttman-CourMir
+    post_script_name: GuttmanCourMirNormal
+    version: '2.20'
+    copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
+    font: MIRFX.TTF_1037
+- name: MT Extra
+  styles:
+  - family_name: MT Extra
+    type: Regular
+    full_name: MT Extra
+    post_script_name: MT-Extra
+    version: '3.01'
+    copyright: Copyright 1990-92 by Design Science, Inc. (310) 433-0685; part of MathType
+      mathematical equation editor
+    font: MTEXTRA.TTF_1037
+- name: Monotype Hadassah
+  styles:
+  - family_name: Monotype Hadassah
+    type: Regular
+    full_name: Monotype Hadassah
+    post_script_name: MonotypeHadassah
+    version: 1.0 - March 1993
+    copyright: Typeface © Monotype Typography ltd. Data © Monotype Typography ltd,
+      Type Solutions Inc 1990-1993. All rights reserved.
+    font: HDAS.TTF_1037
+  - family_name: Monotype Hadassah
+    type: Bold
+    full_name: Monotype Hadassah Bold
+    post_script_name: MonotypeHadassah-Bold
+    version: 1.0 - April 1993
+    copyright: Typeface © Monotype Typography ltd. Data © Monotype Typography ltd,
+      Type Solutions Inc 1990-1993. All rights reserved.
+    font: HDASBD.TTF_1037
+extract:
+- format: exe
+  options:
+    subarchive: officelr.cab
+- format: cab
+copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
