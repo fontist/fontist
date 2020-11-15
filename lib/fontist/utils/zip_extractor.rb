@@ -26,13 +26,16 @@ module Fontist
 
         Array.new.tap do |fonts|
           Zip::File.open(file) do |zip_file|
-            zip_file.glob("**/*.{ttf,ttc,otf}").each do |entry|
+            zip_file.each do |entry|
               if entry.name
-                filename = Pathname.new(entry.name).basename
-                font_path = fonts_path.join(filename.to_s)
-                fonts.push(font_path.to_s)
+                filename = Pathname.new(entry.name).basename.to_s
+                if font_file?(filename)
+                  target_filename = target_filename(filename)
+                  font_path = fonts_path.join(target_filename)
+                  fonts.push(font_path.to_s)
 
-                entry.extract(font_path)
+                  entry.extract(font_path)
+                end
               end
             end
           end

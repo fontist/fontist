@@ -54,6 +54,15 @@ fonts:
       All Rights Reserved.
     font: adobedevanagari_bold.otf
   - family_name: Adobe Devanagari
+    type: Bold Italic
+    full_name: AdobeDevanagari-BoldItalic
+    post_script_name: AdobeDevanagari-BoldItalic
+    version: 2.002;PS 2.000;hotconv 1.0.70;makeotf.lib2.5.5900
+    copyright: Copyright 2000, 2002, 2006, 2011, 2012 Adobe Systems Incorporated.
+      All Rights Reserved.
+    font: adobedevanagari_bolditalic.otf
+    source_font: adobedevanagari_bolditalic.o
+  - family_name: Adobe Devanagari
     type: Italic
     full_name: AdobeDevanagari-Italic
     post_script_name: AdobeDevanagari-Italic

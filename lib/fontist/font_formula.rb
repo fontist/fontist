@@ -95,8 +95,11 @@ module Fontist
       styles = options.fetch(:extract_styles_from_collection, [])
 
       unless styles.empty?
-        styles.map do |type, file|
-          { type: type, collection: file, font: temp_resource[:filename] }
+        styles.map do |type, full_name|
+          { type: type,
+            collection: full_name,
+            font: temp_resource[:filename],
+            source_font: temp_resource[:source_filename] }
         end
       end
     end
@@ -125,6 +128,32 @@ module Fontist
 
     def is_progress_bar_enabled
       options.nil? ? true : options.fetch(:progress_bar, true)
+    end
+
+    def font_file?(filename)
+      source_files.include?(filename)
+    end
+
+    def source_files
+      @source_files ||= fonts.flat_map do |font|
+        font[:styles].map do |style|
+          style[:source_font] || style[:font]
+        end
+      end
+    end
+
+    def target_filename(source_filename)
+      target_filenames[source_filename]
+    end
+
+    def target_filenames
+      @target_filenames ||= fonts.flat_map do |font|
+        font[:styles].map do |style|
+          source = style[:source_font] || style[:font]
+          target = style[:font]
+          [source, target]
+        end
+      end.to_h
     end
   end
 end

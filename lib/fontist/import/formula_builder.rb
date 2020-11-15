@@ -107,7 +107,10 @@ module Fontist
 
         collections = @font_collection_files.map do |file|
           fonts = fonts_from_files(file.fonts, :to_collection_style)
-          { filename: file.filename, fonts: fonts }
+
+          { filename: file.filename,
+            source_filename: file.source_filename,
+            fonts: fonts }.compact
         end
 
         collections.sort_by do |x|

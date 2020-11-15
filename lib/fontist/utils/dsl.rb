@@ -47,6 +47,10 @@ module Fontist
         instance.temp_resource.merge!(filename: name)
       end
 
+      def source_filename(name)
+        instance.temp_resource.merge!(source_filename: name)
+      end
+
       def provides_font(font, options = {})
         font_styles = instance.extract_font_styles(options)
         instance.font_list.push(name: font, styles: font_styles)

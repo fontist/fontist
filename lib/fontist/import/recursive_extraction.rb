@@ -1,11 +1,13 @@
 require "find"
 require_relative "extractors"
+require_relative "files/font_detector"
 
 module Fontist
   module Import
     class RecursiveExtraction
-      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}*".freeze
+      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
       ARCHIVE_EXTENSIONS = %w[zip msi exe cab].freeze
+      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
 
       def initialize(archive, subarchive: nil)
         @archive = archive
@@ -17,12 +19,20 @@ module Fontist
         File.extname(filename(@archive)).sub(/^\./, "")
       end
 
-      def extract(pattern)
-        Array.new.tap do |results|
-          Find.find(extracted_path) do |path| # rubocop:disable Style/CollectionMethods, Metrics/LineLength
-            results << yield(path) if path.match(pattern)
-          end
-        end
+      def font_files
+        select { |path| font_file?(path) }
+          .map { |path| Otf::FontFile.new(path) }
+      end
+
+      def font_collection_files
+        select { |path| collection_file?(path) }
+          .map { |path| Files::CollectionFile.new(path) }
+      end
+
+      def license_text
+        select { |path| license?(path) }
+          .map { |path| File.read(path) }
+          .first
       end
 
       def operations
@@ -31,6 +41,26 @@ module Fontist
       end
 
       private
+
+      def select
+        Array.new.tap do |results|
+          Find.find(extracted_path) do |path| # rubocop:disable Style/CollectionMethods, Metrics/LineLength
+            results << path if yield(path)
+          end
+        end
+      end
+
+      def font_file?(file)
+        Files::FontDetector.font?(file)
+      end
+
+      def collection_file?(file)
+        Files::FontDetector.collection?(file)
+      end
+
+      def license?(file)
+        file.match?(LICENSE_PATTERN)
+      end
 
       def filename(file)
         if file.respond_to?(:original_filename)
@@ -85,8 +115,18 @@ module Fontist
       end
 
       def fonts_exist?(path)
+        matched_by_extension(path) || matched_by_detector(path)
+      end
+
+      def matched_by_extension(path)
         fonts = Dir.glob(File.join(path, BOTH_FONTS_PATTERN))
         !fonts.empty?
+      end
+
+      def matched_by_detector(path)
+        Find.find(path) do |entry_path| # rubocop:disable Style/CollectionMethods, Metrics/LineLength
+          return true if Files::FontDetector.font_or_collection?(entry_path)
+        end
       end
 
       def find_archive(path)

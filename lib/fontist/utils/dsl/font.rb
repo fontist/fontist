@@ -29,7 +29,8 @@ module Fontist
                           version: attrs[:version],
                           description: attrs[:description],
                           copyright: attrs[:copyright],
-                          font: attrs[:filename] }
+                          font: attrs[:filename],
+                          source_font: attrs[:source_filename] }
         end
       end
     end

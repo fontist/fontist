@@ -12,8 +12,13 @@ module Fontist
     desc "install FONT", "Install font by font or formula"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
+    option :confirm_license, type: :boolean, desc: "Confirm license agreement"
     def install(font)
-      Fontist::Font.install(font, force: options[:force])
+      Fontist::Font.install(
+        font,
+        force: options[:force],
+        confirmation: options[:confirm_license] ? "yes" : "no"
+      )
       STATUS_SUCCESS
     rescue Fontist::Errors::NonSupportedFontError
       could_not_find_font(font)

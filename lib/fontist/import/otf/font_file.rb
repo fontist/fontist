@@ -1,5 +1,6 @@
 require_relative "../otfinfo/otfinfo_requirement"
 require_relative "../text_helper"
+require_relative "../files/font_detector"
 
 module Fontist
   module Import
@@ -10,14 +11,19 @@ module Fontist
         }.freeze
 
         STYLE_ATTRIBUTES = %i[family_name type full_name post_script_name
-                              version description copyright font].freeze
-        COLLECTION_ATTRIBUTES = STYLE_ATTRIBUTES.reject { |a| a == :font }
+                              version description copyright font
+                              source_font].freeze
+
+        COLLECTION_ATTRIBUTES = STYLE_ATTRIBUTES.reject do |a|
+          %i[font source_font].include?(a)
+        end
 
         attr_reader :path
 
         def initialize(path)
           @path = path
           @info = read
+          @extension = detect_extension
         end
 
         def to_style
@@ -55,7 +61,11 @@ module Fontist
         end
 
         def font
-          File.basename(@path)
+          File.basename(@path, ".*") + "." + @extension
+        end
+
+        def source_font
+          File.basename(@path) unless font == File.basename(@path)
         end
 
         def copyright
@@ -84,6 +94,10 @@ module Fontist
             .map { |x| x.split(":", 2) }
             .map { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
             .to_h
+        end
+
+        def detect_extension
+          Files::FontDetector.standard_extension(@path)
         end
       end
     end
