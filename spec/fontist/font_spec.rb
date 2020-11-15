@@ -312,7 +312,7 @@ RSpec.describe Fontist::Font do
 
     context "with subarchive option" do
       let(:font) { "Guttman" }
-      let(:file) { "GAHROM.TTF_1037" }
+      let(:file) { "GAHROM.ttf" }
 
       it "installs and returns paths for fonts" do
         no_fonts do
@@ -330,6 +330,18 @@ RSpec.describe Fontist::Font do
         no_fonts do
           stub_system_font(file)
           expect(font_file(file)).not_to exist
+          command
+          expect(font_file(file)).to exist
+        end
+      end
+    end
+
+    context "with unusual font extension" do
+      let(:font) { "adobe_reader_19" }
+      let(:file) { "adobedevanagari_bolditalic.otf" }
+
+      it "detects, renames and installs the font" do
+        no_fonts do
           command
           expect(font_file(file)).to exist
         end

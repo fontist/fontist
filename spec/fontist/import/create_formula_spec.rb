@@ -89,4 +89,14 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       expect(formula).to include example
     end
   end
+
+  context "with collection which has unusual extension" do
+    let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_KO_x86.exe" } # rubocop:disable Metrics/LineLength
+    let(:options) { { subarchive: "officelr.cab", name: "Korean" } }
+
+    it "generates proper yaml", dev: true do
+      require "fontist/import/create_formula"
+      expect(formula).to include example
+    end
+  end
 end

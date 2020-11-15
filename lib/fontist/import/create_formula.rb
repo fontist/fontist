@@ -8,10 +8,6 @@ require_relative "formula_builder"
 module Fontist
   module Import
     class CreateFormula
-      FONT_PATTERN = /(\.ttf|\.otf)/i.freeze
-      FONT_COLLECTION_PATTERN = /\.ttc/i.freeze
-      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
-
       def initialize(url, options = {})
         @url = url
         @options = options
@@ -26,41 +22,28 @@ module Fontist
       def formula
         builder = FormulaBuilder.new
         builder.url = @url
-        builder.archive = download(@url)
-        builder.extractor = extractor(builder.archive)
+        builder.archive = archive
+        builder.extractor = extractor
         builder.options = @options
-        builder.font_files = font_files(builder.extractor)
-        builder.font_collection_files = font_collection_files(builder.extractor)
-        builder.license_text = license_texts(builder.extractor).first
+        builder.font_files = extractor.font_files
+        builder.font_collection_files = extractor.font_collection_files
+        builder.license_text = extractor.license_text
         builder.formula
+      end
+
+      def extractor
+        @extractor ||=
+          RecursiveExtraction.new(archive, subarchive: @options[:subarchive])
+      end
+
+      def archive
+        @archive ||= download(@url)
       end
 
       def download(url)
         return url if File.exist?(url)
 
         Fontist::Utils::Downloader.download(url, progress_bar: true).path
-      end
-
-      def extractor(archive)
-        RecursiveExtraction.new(archive, subarchive: @options[:subarchive])
-      end
-
-      def font_files(extractor)
-        extractor.extract(FONT_PATTERN) do |path|
-          Otf::FontFile.new(path)
-        end
-      end
-
-      def font_collection_files(extractor)
-        extractor.extract(FONT_COLLECTION_PATTERN) do |path|
-          Files::CollectionFile.new(path)
-        end
-      end
-
-      def license_texts(extractor)
-        extractor.extract(LICENSE_PATTERN) do |path|
-          File.read(path)
-        end
       end
 
       def save(hash)

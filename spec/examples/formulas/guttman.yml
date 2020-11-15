@@ -15,7 +15,8 @@ fonts:
     post_script_name: GuttmanAharoni
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GAHROM.TTF_1037
+    font: GAHROM.ttf
+    source_font: GAHROM.TTF_1037
 - name: Guttman Drogolin
   styles:
   - family_name: Guttman Drogolin
@@ -24,14 +25,16 @@ fonts:
     post_script_name: GuttmanDrogolin-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: DROGB.TTF_1037
+    font: DROGB.ttf
+    source_font: DROGB.TTF_1037
   - family_name: Guttman Drogolin
     type: Normal
     full_name: Guttman Drogolin
     post_script_name: GuttmanDrogolin-Normal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: DROGM.TTF_1037
+    font: DROGM.ttf
+    source_font: DROGM.TTF_1037
 - name: Guttman Frank
   styles:
   - family_name: Guttman Frank
@@ -40,14 +43,16 @@ fonts:
     post_script_name: GuttmanFrank-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: FRANKB.TTF_1037
+    font: FRANKB.ttf
+    source_font: FRANKB.TTF_1037
   - family_name: Guttman Frank
     type: Regular
     full_name: Guttman Frank
     post_script_name: GuttmanFrank
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GFRANK.TTF_1037
+    font: GFRANK.ttf
+    source_font: GFRANK.TTF_1037
 - name: Guttman Frnew
   styles:
   - family_name: Guttman Frnew
@@ -56,7 +61,8 @@ fonts:
     post_script_name: GuttmanFrnew-Normal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: FRNEW.TTF_1037
+    font: FRNEW.ttf
+    source_font: FRNEW.TTF_1037
 - name: Guttman Haim
   styles:
   - family_name: Guttman Haim
@@ -65,7 +71,8 @@ fonts:
     post_script_name: GuttmanHaim
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GHAIM.TTF_1037
+    font: GHAIM.ttf
+    source_font: GHAIM.TTF_1037
 - name: Guttman Haim-Condensed
   styles:
   - family_name: Guttman Haim-Condensed
@@ -74,7 +81,8 @@ fonts:
     post_script_name: GuttmanHaim-Condensed
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GHAIMC.TTF_1037
+    font: GHAIMC.ttf
+    source_font: GHAIMC.TTF_1037
 - name: Guttman Hatzvi
   styles:
   - family_name: Guttman Hatzvi
@@ -83,14 +91,16 @@ fonts:
     post_script_name: GuttmanHatzvi-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: TZVIB.TTF_1037
+    font: TZVIB.ttf
+    source_font: TZVIB.TTF_1037
   - family_name: Guttman Hatzvi
     type: Regular
     full_name: Guttman Hatzvi
     post_script_name: GuttmanHatzvi
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: TZVIM.TTF_1037
+    font: TZVIM.ttf
+    source_font: TZVIM.TTF_1037
 - name: Guttman Kav
   styles:
   - family_name: Guttman Kav
@@ -99,14 +109,16 @@ fonts:
     post_script_name: GuttmanKav-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GKAVBLD.TTF_1037
+    font: GKAVBLD.ttf
+    source_font: GKAVBLD.TTF_1037
   - family_name: Guttman Kav
     type: Regular
     full_name: Guttman Kav
     post_script_name: GuttmanKav
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GKAVMED.TTF_1037
+    font: GKAVMED.ttf
+    source_font: GKAVMED.TTF_1037
 - name: Guttman Kav-Light
   styles:
   - family_name: Guttman Kav-Light
@@ -115,7 +127,8 @@ fonts:
     post_script_name: GuttmanKav-Light
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GKAVLIT.TTF_1037
+    font: GKAVLIT.ttf
+    source_font: GKAVLIT.TTF_1037
 - name: Guttman Logo1
   styles:
   - family_name: Guttman Logo1
@@ -124,7 +137,8 @@ fonts:
     post_script_name: GuttmanLogo1
     version: '2.20'
     copyright: Copyright 1992 - 1998 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: LOGO1.TTF_1037
+    font: LOGO1.ttf
+    source_font: LOGO1.TTF_1037
 - name: Guttman Mantova
   styles:
   - family_name: Guttman Mantova
@@ -133,14 +147,16 @@ fonts:
     post_script_name: GuttmanMantovaBold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MANTB.TTF_1037
+    font: MANTB.ttf
+    source_font: MANTB.TTF_1037
   - family_name: Guttman Mantova
     type: Regular
     full_name: Guttman Mantova
     post_script_name: GuttmanMantova
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MANTM.TTF_1037
+    font: MANTM.ttf
+    source_font: MANTM.TTF_1037
 - name: Guttman Mantova-Decor
   styles:
   - family_name: Guttman Mantova-Decor
@@ -149,7 +165,8 @@ fonts:
     post_script_name: GuttmanMantovaDecor
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MANTDEC.TTF_1037
+    font: MANTDEC.ttf
+    source_font: MANTDEC.TTF_1037
 - name: Guttman Miryam
   styles:
   - family_name: Guttman Miryam
@@ -158,14 +175,16 @@ fonts:
     post_script_name: GuttmanMiryam-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MIRB.TTF_1037
+    font: MIRB.ttf
+    source_font: MIRB.TTF_1037
   - family_name: Guttman Miryam
     type: Light
     full_name: Guttman Miryam Light
     post_script_name: GuttmanMiryamLight
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MIRL.TTF_1037
+    font: MIRL.ttf
+    source_font: MIRL.TTF_1037
 - name: Guttman Myamfix
   styles:
   - family_name: Guttman Myamfix
@@ -174,7 +193,8 @@ fonts:
     post_script_name: GuttmanMyamfix
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GMYAMFIX.TTF_1037
+    font: GMYAMFIX.ttf
+    source_font: GMYAMFIX.TTF_1037
 - name: Guttman Rashi
   styles:
   - family_name: Guttman Rashi
@@ -183,21 +203,24 @@ fonts:
     post_script_name: GuttmanRashiNormal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: RASHI.TTF_1037
+    font: RASHI.ttf
+    source_font: RASHI.TTF_1037
   - family_name: Guttman Rashi
     type: Bold
     full_name: Guttman Rashi Bold
     post_script_name: GuttmanRashi-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: RASHIB.TTF_1037
+    font: RASHIB.ttf
+    source_font: RASHIB.TTF_1037
   - family_name: Guttman Rashi
     type: XBold
     full_name: Guttman Rashi XBold
     post_script_name: GuttmanRashiXBold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: RASHIXB.TTF_1037
+    font: RASHIXB.ttf
+    source_font: RASHIXB.TTF_1037
 - name: Guttman Stam
   styles:
   - family_name: Guttman Stam
@@ -206,7 +229,8 @@ fonts:
     post_script_name: GuttmanStamNormal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: STAM.TTF_1037
+    font: STAM.ttf
+    source_font: STAM.TTF_1037
 - name: Guttman Stam1
   styles:
   - family_name: Guttman Stam1
@@ -215,7 +239,8 @@ fonts:
     post_script_name: GuttmanStam1Normal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: STAM1.TTF_1037
+    font: STAM1.ttf
+    source_font: STAM1.TTF_1037
 - name: Guttman Vilna
   styles:
   - family_name: Guttman Vilna
@@ -224,14 +249,16 @@ fonts:
     post_script_name: GuttmanVilna
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: VILNA.TTF_1037
+    font: VILNA.ttf
+    source_font: VILNA.TTF_1037
   - family_name: Guttman Vilna
     type: Bold
     full_name: Guttman Vilna Bold
     post_script_name: GuttmanVilna-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: VILNAB.TTF_1037
+    font: VILNAB.ttf
+    source_font: VILNAB.TTF_1037
 - name: Guttman Yad
   styles:
   - family_name: Guttman Yad
@@ -240,7 +267,8 @@ fonts:
     post_script_name: GuttmanYad
     version: '2.21'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GYADL.TTF_1037
+    font: GYADL.ttf
+    source_font: GYADL.TTF_1037
 - name: Guttman Yad-Brush
   styles:
   - family_name: Guttman Yad-Brush
@@ -249,7 +277,8 @@ fonts:
     post_script_name: GuttmanYad-Brush
     version: '2.21'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GYADBR.TTF_1037
+    font: GYADBR.ttf
+    source_font: GYADBR.TTF_1037
 - name: Guttman Yad-Light
   styles:
   - family_name: Guttman Yad-Light
@@ -258,7 +287,8 @@ fonts:
     post_script_name: GuttmanYadLight
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: GYADXL.TTF_1037
+    font: GYADXL.ttf
+    source_font: GYADXL.TTF_1037
 - name: Guttman-Aharoni
   styles:
   - family_name: Guttman-Aharoni
@@ -267,7 +297,8 @@ fonts:
     post_script_name: GuttmanAharoni-Bold
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: AHROB.TTF_1037
+    font: AHROB.ttf
+    source_font: AHROB.TTF_1037
 - name: Guttman-Aram
   styles:
   - family_name: Guttman-Aram
@@ -276,7 +307,8 @@ fonts:
     post_script_name: GuttmanAram-Normal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: ARAM.TTF_1037
+    font: ARAM.ttf
+    source_font: ARAM.TTF_1037
 - name: Guttman-CourMir
   styles:
   - family_name: Guttman-CourMir
@@ -285,7 +317,8 @@ fonts:
     post_script_name: GuttmanCourMirNormal
     version: '2.20'
     copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
-    font: MIRFX.TTF_1037
+    font: MIRFX.ttf
+    source_font: MIRFX.TTF_1037
 - name: MT Extra
   styles:
   - family_name: MT Extra
@@ -295,7 +328,8 @@ fonts:
     version: '3.01'
     copyright: Copyright 1990-92 by Design Science, Inc. (310) 433-0685; part of MathType
       mathematical equation editor
-    font: MTEXTRA.TTF_1037
+    font: MTEXTRA.ttf
+    source_font: MTEXTRA.TTF_1037
 - name: Monotype Hadassah
   styles:
   - family_name: Monotype Hadassah
@@ -305,7 +339,8 @@ fonts:
     version: 1.0 - March 1993
     copyright: Typeface © Monotype Typography ltd. Data © Monotype Typography ltd,
       Type Solutions Inc 1990-1993. All rights reserved.
-    font: HDAS.TTF_1037
+    font: HDAS.ttf
+    source_font: HDAS.TTF_1037
   - family_name: Monotype Hadassah
     type: Bold
     full_name: Monotype Hadassah Bold
@@ -313,7 +348,8 @@ fonts:
     version: 1.0 - April 1993
     copyright: Typeface © Monotype Typography ltd. Data © Monotype Typography ltd,
       Type Solutions Inc 1990-1993. All rights reserved.
-    font: HDASBD.TTF_1037
+    font: HDASBD.ttf
+    source_font: HDASBD.TTF_1037
 extract:
 - format: exe
   options:

@@ -23,6 +23,7 @@ module Fontist
           formula.font_collections.each do |collection|
             provides_font_collection do
               filename collection.filename
+              source_filename collection.source_filename
 
               collection.fonts.each do |font|
                 styles = font.styles.map { |s| [s.type, s.full_name] }.to_h
@@ -45,6 +46,7 @@ module Fontist
                   version: style.version,
                   description: style.description,
                   filename: style.font,
+                  source_filename: style.source_font,
                   copyright: style.copyright,
                 }
               end

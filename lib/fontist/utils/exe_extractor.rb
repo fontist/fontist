@@ -8,7 +8,7 @@ module Fontist
 
         Fontist.ui.say(%(Installing font "#{key}".))
         cab_file = decompressor.search(exe_file)
-        cabbed_fonts = grep_fonts(cab_file.files, font_ext) || []
+        cabbed_fonts = grep_fonts(cab_file.files) || []
         fonts_paths = extract_cabbed_fonts_to_assets(cabbed_fonts)
 
         block_given? ? yield(fonts_paths) : fonts_paths
@@ -29,10 +29,10 @@ module Fontist
         )
       end
 
-      def grep_fonts(file, font_ext)
+      def grep_fonts(file)
         Array.new.tap do |fonts|
           while file
-            fonts.push(file) if file.filename.match(font_ext)
+            fonts.push(file) if font_file?(file.filename)
             file = file.next
           end
         end
@@ -41,7 +41,8 @@ module Fontist
       def extract_cabbed_fonts_to_assets(cabbed_fonts)
         Array.new.tap do |fonts|
           cabbed_fonts.each do |font|
-            font_path = fonts_path.join(font.filename).to_s
+            target_filename = target_filename(font.filename)
+            font_path = fonts_path.join(target_filename).to_s
             decompressor.extract(font, font_path)
 
             fonts.push(font_path)

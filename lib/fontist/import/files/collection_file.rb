@@ -11,10 +11,15 @@ module Fontist
         def initialize(path)
           @path = path
           @fonts = read
+          @extension = "ttc"
         end
 
         def filename
-          File.basename(@path)
+          File.basename(@path, ".*") + "." + @extension
+        end
+
+        def source_filename
+          File.basename(@path) unless filename == File.basename(@path)
         end
 
         private
