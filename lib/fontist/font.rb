@@ -81,7 +81,16 @@ module Fontist
     attr_reader :name, :confirmation
 
     def find_system_font
-      Fontist::SystemFont.find(name)
+      paths = Fontist::SystemFont.find(name)
+      unless paths
+        Fontist.ui.say(%(Font "#{name}" not found locally.))
+        return
+      end
+
+      Fontist.ui.say("Fonts found at:")
+      paths.each do |path|
+        Fontist.ui.say("- #{path}")
+      end
     end
 
     def check_or_create_fontist_path!
@@ -113,7 +122,13 @@ module Fontist
     def download_font
       if formula
         check_and_confirm_required_license(formula)
-        font_installer(formula).fetch_font(name, confirmation: confirmation)
+        paths = font_installer(formula).fetch_font(name,
+                                                   confirmation: confirmation)
+
+        Fontist.ui.say("Fonts installed at:")
+        paths.each do |path|
+          Fontist.ui.say("- #{path}")
+        end
       end
     end
 
@@ -232,6 +247,5 @@ module Fontist
     def installed(style)
       path(style) ? true : false
     end
-
   end
 end

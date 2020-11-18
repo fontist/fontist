@@ -10,6 +10,7 @@ module Fontist
         zip_file = download_file(resource) if download
         zip_file ||= resource.urls.first
 
+        Fontist.ui.say(%(Installing font "#{key}".))
         fonts_paths = unzip_fonts(zip_file)
         block_given? ? yield(fonts_paths) : fonts_paths
       end
