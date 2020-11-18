@@ -143,6 +143,55 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "uninstalled but supported" do
+      let(:font) { "work sans" }
+
+      it "prints descriptive messages of what's going on" do
+        no_fonts do
+          # rubocop:disable Metrics/LineLength
+          expect(Fontist.ui).to receive(:say).with(%(Font "work sans" not found locally.))
+          expect(Fontist.ui).to receive(:say).with(%(Downloading font "work_sans" from https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip))
+          expect(Fontist.ui).to receive(:print).with(/Downloads:/)
+          expect(Fontist.ui).to receive(:say).with(%(Installing font "work_sans".))
+          expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
+          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('WorkSans-Black.ttf')}))
+          # rubocop:enable Metrics/LineLength
+
+          command
+        end
+      end
+    end
+
+    context "uninstalled but supported and in cache" do
+      let(:font) { "work sans" }
+      let(:options) { { force: true } }
+
+      it "tells about fetching from cache" do
+        no_fonts do
+          Fontist::Font.install(font, confirmation: "yes")
+
+          expect(Fontist.ui).to receive(:print).with(/(cache)/)
+          command
+        end
+      end
+    end
+
+    context "already installed font" do
+      let(:font) { "work sans" }
+
+      it "tells that font found locally" do
+        no_fonts do
+          stub_font_file("WorkSans-Regular.ttf")
+
+          expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
+          expect(Fontist.ui).to receive(:say)
+            .with(%(- #{font_path('WorkSans-Regular.ttf')}))
+
+          command
+        end
+      end
+    end
+
     context "with valid formula name" do
       it "installs all fonts and returns theirs paths" do
         stub_system_fonts

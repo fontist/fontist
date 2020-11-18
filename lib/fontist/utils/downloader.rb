@@ -7,13 +7,15 @@ module Fontist
         # TODO: If the first mirror fails, try the second one
         @file = file
         @sha = [sha].flatten.compact
-        @progress_bar = set_progress_bar(progress_bar)
         @file_size = (file_size || default_file_size).to_i
+        @progress_bar = set_progress_bar(progress_bar)
         @cache = Cache.new
       end
 
       def download
-        file = @cache.fetch(@file) { download_file }
+        file = @cache.fetch(@file, bar: @progress_bar) do
+          download_file
+        end
 
         if !sha.empty? && !sha.include?(Digest::SHA256.file(file).to_s)
           raise(Fontist::Errors::TamperedFileError.new(
@@ -46,29 +48,45 @@ module Fontist
       end
 
       def set_progress_bar(progress_bar)
-        ENV.fetch("TEST_ENV", "") === "CI" ? false : progress_bar
+        if ENV.fetch("TEST_ENV", "") === "CI" || progress_bar
+          ProgressBar.new(@file_size)
+        else
+          NullProgressBar.new
+        end
       end
 
       def download_file
-        bar = ProgressBar.new(file_size / byte_to_megabyte)
-
         file = Down.download(
           @file,
           open_timeout: 10,
           read_timeout: 10,
           content_length_proc: ->(content_length) {
-            bar.total = content_length / byte_to_megabyte if content_length
+            @progress_bar.total = content_length if content_length
           },
           progress_proc: -> (progress) {
-            bar.increment(progress / byte_to_megabyte) if @progress_bar === true
+            @progress_bar.increment(progress)
           }
         )
 
-        puts if @progress_bar === true
+        @progress_bar.finish
 
         file
       rescue Down::NotFound
         raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
+      end
+    end
+
+    class NullProgressBar
+      def total=(_)
+        # do nothing
+      end
+
+      def increment(_)
+        # do nothing
+      end
+
+      def finish(_ = nil)
+        # do nothing
       end
     end
 
@@ -83,9 +101,35 @@ module Fontist
       end
 
       def increment(progress)
-        complete = sprintf("%#.2f%%", ((@counter.to_f / @total.to_f) * 100))
-        print "\r\e[0KDownloads: #{@counter}MB/#{@total}MB (#{complete})"
         @counter = progress
+        Fontist.ui.print "\r\e[0KDownloads: #{counter_mb}MB/#{total_mb}MB " \
+                         "(#{completeness})"
+      end
+
+      def finish(message = nil)
+        if message
+          Fontist.ui.print " (#{message})\n"
+        else
+          Fontist.ui.print "\n"
+        end
+      end
+
+      private
+
+      def completeness
+        sprintf("%#.2f%%", (@counter.fdiv(@total) * 100)) # rubocop:disable Style/FormatStringToken, Metrics/LineLength
+      end
+
+      def counter_mb
+        @counter / byte_to_megabyte
+      end
+
+      def total_mb
+        @total / byte_to_megabyte
+      end
+
+      def byte_to_megabyte
+        @byte_to_megabyte ||= 1024 * 1024
       end
     end
   end

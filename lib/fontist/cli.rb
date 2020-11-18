@@ -13,13 +13,10 @@ module Fontist
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
     def install(font)
-      fonts_paths = Fontist::Font.install(font, force: options[:force])
-      Fontist.ui.success("These fonts are found or installed:")
-      Fontist.ui.success(fonts_paths.join("\n"))
+      Fontist::Font.install(font, force: options[:force])
       STATUS_SUCCESS
     rescue Fontist::Errors::NonSupportedFontError
-      Fontist.ui.error("Could not find font '#{font}'.")
-      STATUS_ERROR
+      could_not_find_font(font)
     end
 
     desc "uninstall/remove FONT", "Uninstall font by font or formula"
@@ -32,8 +29,7 @@ module Fontist
       Fontist.ui.error(e.message)
       STATUS_ERROR
     rescue Fontist::Errors::NonSupportedFontError
-      Fontist.ui.error("Could not find font '#{font}'.")
-      STATUS_ERROR
+      could_not_find_font(font)
     end
     map remove: :uninstall
 
@@ -47,7 +43,7 @@ module Fontist
     rescue Fontist::Errors::MissingFontError => e
       error(e.message)
     rescue Fontist::Errors::NonSupportedFontError
-      error("Could not find font '#{font}'.")
+      could_not_find_font(font)
     end
 
     desc "list [FONT]", "List installation status of FONT or fonts in fontist"
@@ -56,7 +52,7 @@ module Fontist
       print_list(formulas)
       success
     rescue Fontist::Errors::NonSupportedFontError
-      error("Could not find font '#{font}'.")
+      could_not_find_font(font)
     end
 
     desc "update", "Update formulas"
@@ -109,6 +105,15 @@ module Fontist
 
     def success
       STATUS_SUCCESS
+    end
+
+    def could_not_find_font(font)
+      error("Font '#{font}' not found locally nor available in the Fontist " \
+            "formula repository.\n" \
+            "Perhaps it is available at the latest Fontist formula " \
+            "repository.\n" \
+            "You can update the formula repository using the command " \
+            "`fontist update` and try again.")
     end
 
     def error(message)

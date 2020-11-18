@@ -21,6 +21,20 @@ RSpec.describe Fontist::CLI do
           expect(status).to be 1
         end
       end
+
+      it "tells that could not find font" do
+        no_fonts do
+          expect(Fontist.ui).to receive(:error)
+            .with("Font 'unexisting' not found locally nor available in the " \
+                  "Fontist formula repository.\n" \
+                  "Perhaps it is available at the latest Fontist formula " \
+                  "repository.\n" \
+                  "You can update the formula repository using the command " \
+                  "`fontist update` and try again.")
+
+          described_class.start(["install", "unexisting"])
+        end
+      end
     end
   end
 

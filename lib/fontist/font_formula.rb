@@ -109,8 +109,11 @@ module Fontist
     end
 
     def download_file(source)
+      url = source[:urls].first
+      Fontist.ui.say(%(Downloading font "#{key}" from #{url}))
+
       downloaded_file = Fontist::Utils::Downloader.download(
-        source[:urls].first,
+        url,
         sha: source[:sha256],
         file_size: source[:file_size],
         progress_bar: is_progress_bar_enabled
@@ -121,7 +124,7 @@ module Fontist
     end
 
     def is_progress_bar_enabled
-      options.nil? ? false : options.fetch(:progress_bar, false)
+      options.nil? ? true : options.fetch(:progress_bar, true)
     end
   end
 end

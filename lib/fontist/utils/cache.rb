@@ -1,14 +1,18 @@
 module Fontist
   module Utils
     class Cache
-      def fetch(key)
+      def fetch(key, bar: nil)
         map = load_cache
-        return downloaded_path(map[key]) if cache_exist?(map[key])
+        if cache_exist?(map[key])
+          print_bar(bar, map[key]) if bar
+
+          return downloaded_file(map[key])
+        end
 
         generated_file = yield
         path = save_cache(generated_file, key)
 
-        downloaded_path(path)
+        downloaded_file(path)
       end
 
       private
@@ -21,12 +25,24 @@ module Fontist
         cache_map_path.exist? ? YAML.load_file(cache_map_path) : {}
       end
 
-      def downloaded_path(path)
-        File.new(Fontist.downloads_path.join(path))
+      def downloaded_file(path)
+        File.new(downloaded_path(path))
       end
 
       def cache_exist?(path)
-        path && File.exist?(Fontist.downloads_path.join(path))
+        path && File.exist?(downloaded_path(path))
+      end
+
+      def downloaded_path(path)
+        Fontist.downloads_path.join(path)
+      end
+
+      def print_bar(bar, path)
+        File.size(downloaded_path(path)).tap do |size|
+          bar.total = size
+          bar.increment(size)
+          bar.finish("cache")
+        end
       end
 
       def save_cache(generated_file, key)

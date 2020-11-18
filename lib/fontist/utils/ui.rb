@@ -18,6 +18,10 @@ module Fontist
       def self.ask(message, options = {})
         new.ask(message, options)
       end
+
+      def self.print(message)
+        super
+      end
     end
   end
 end
