@@ -5,14 +5,17 @@ require_relative "files/font_detector"
 module Fontist
   module Import
     class RecursiveExtraction
-      BOTH_FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
+      FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
       ARCHIVE_EXTENSIONS = %w[zip msi exe cab].freeze
       LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
 
-      def initialize(archive, subarchive: nil)
+      def initialize(archive, subarchive: nil, subdir: nil)
         @archive = archive
         @subarchive = subarchive
+        @subdir = subdir
         @operations = []
+        @font_files = []
+        @collection_files = []
       end
 
       def extension
@@ -20,19 +23,18 @@ module Fontist
       end
 
       def font_files
-        select { |path| font_file?(path) }
-          .map { |path| Otf::FontFile.new(path) }
+        ensure_extracted
+        @font_files
       end
 
       def font_collection_files
-        select { |path| collection_file?(path) }
-          .map { |path| Files::CollectionFile.new(path) }
+        ensure_extracted
+        @collection_files
       end
 
       def license_text
-        select { |path| license?(path) }
-          .map { |path| File.read(path) }
-          .first
+        ensure_extracted
+        @license_text
       end
 
       def operations
@@ -41,26 +43,6 @@ module Fontist
       end
 
       private
-
-      def select
-        Array.new.tap do |results|
-          Find.find(extracted_path) do |path| # rubocop:disable Style/CollectionMethods, Metrics/LineLength
-            results << path if yield(path)
-          end
-        end
-      end
-
-      def font_file?(file)
-        Files::FontDetector.font?(file)
-      end
-
-      def collection_file?(file)
-        Files::FontDetector.collection?(file)
-      end
-
-      def license?(file)
-        file.match?(LICENSE_PATTERN)
-      end
 
       def filename(file)
         if file.respond_to?(:original_filename)
@@ -80,7 +62,11 @@ module Fontist
 
       def extract_recursively(archive)
         path = operate_on_archive(archive)
-        return path if fonts_exist?(path)
+        match_files(path)
+        if matched?
+          save_operation_subdir
+          return path
+        end
 
         next_archive = find_archive(path)
         extract_recursively(next_archive)
@@ -114,19 +100,50 @@ module Fontist
         @operations << { format: extractor.format }
       end
 
-      def fonts_exist?(path)
-        matched_by_extension(path) || matched_by_detector(path)
-      end
-
-      def matched_by_extension(path)
-        fonts = Dir.glob(File.join(path, BOTH_FONTS_PATTERN))
-        !fonts.empty?
-      end
-
-      def matched_by_detector(path)
-        Find.find(path) do |entry_path| # rubocop:disable Style/CollectionMethods, Metrics/LineLength
-          return true if Files::FontDetector.font_or_collection?(entry_path)
+      def match_files(dir_path)
+        Find.find(dir_path) do |entry_path| # rubocop:disable Style/CollectionMethods
+          match_license(entry_path)
+          match_font(entry_path) if font_directory?(entry_path, dir_path)
         end
+      end
+
+      def match_license(path)
+        @license_text ||= File.read(path) if license?(path)
+      end
+
+      def license?(file)
+        file.match?(LICENSE_PATTERN)
+      end
+
+      def font_directory?(path, base_path)
+        return true unless @subdir
+
+        relative_path = Pathname.new(path).relative_path_from(base_path).to_s
+        dirname = File.dirname(relative_path)
+        normalized_pattern = @subdir.chomp("/")
+        File.fnmatch?(normalized_pattern, dirname)
+      end
+
+      def match_font(path)
+        case Files::FontDetector.detect(path)
+        when :font
+          @font_files << Otf::FontFile.new(path)
+        when :collection
+          @collection_files << Files::CollectionFile.new(path)
+        end
+      end
+
+      def matched?
+        [@font_files, @collection_files].any? do |files|
+          files.size.positive?
+        end
+      end
+
+      def save_operation_subdir
+        return unless @subdir
+
+        @operations.last[:options] ||= {}
+        @operations.last[:options][:fonts_sub_dir] = @subdir
       end
 
       def find_archive(path)

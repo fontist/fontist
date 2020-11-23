@@ -33,7 +33,9 @@ module Fontist
 
       def extractor
         @extractor ||=
-          RecursiveExtraction.new(archive, subarchive: @options[:subarchive])
+          RecursiveExtraction.new(archive,
+                                  subarchive: @options[:subarchive],
+                                  subdir: @options[:subdir])
       end
 
       def archive

@@ -99,4 +99,14 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       expect(formula).to include example
     end
   end
+
+  context "with specified subdir option" do
+    let(:url) { "https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip" } # rubocop:disable Metrics/LineLength
+    let(:options) { { subdir: "Work-Sans-2.010/fonts/static/*" } }
+
+    it "generates proper yaml", dev: true do
+      require "fontist/import/create_formula"
+      expect(formula).to include example
+    end
+  end
 end

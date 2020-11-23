@@ -17,24 +17,16 @@ module Fontist
           "TrueType font collection data" => "ttc",
         }.freeze
 
-        def self.font_or_collection?(path)
+        def self.detect(path)
           brief = file_brief(path)
 
-          (FONT_LABELS + [COLLECTION_LABEL]).any? do |label|
-            brief.start_with?(label)
+          if brief.start_with?(*FONT_LABELS)
+            :font
+          elsif brief.start_with?(COLLECTION_LABEL)
+            :collection
+          else
+            :other
           end
-        end
-
-        def self.font?(path)
-          brief = file_brief(path)
-
-          FONT_LABELS.any? do |label|
-            brief.start_with?(label)
-          end
-        end
-
-        def self.collection?(path)
-          file_brief(path).start_with?(COLLECTION_LABEL)
         end
 
         def self.standard_extension(path)
