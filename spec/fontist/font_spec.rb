@@ -321,6 +321,19 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "with subdir option" do
+      let(:font) { "Work Sans" }
+      let(:file) { "WorkSans-Black.ttf" }
+      let(:current_version_size) { 203512 }
+
+      it "installs from proper directory" do
+        no_fonts do
+          command
+          expect(font_file(file).size).to eq current_version_size
+        end
+      end
+    end
+
     context "with force flag when installed" do
       let(:font) { "andale mono" }
       let(:file) { "AndaleMo.TTF" }

@@ -99,6 +99,7 @@ module Fontist
     option :name, desc: "Example: Times New Roman"
     option :mirror, repeatable: true
     option :subarchive, desc: "Subarchive to choose when there are several ones"
+    option :subdir, desc: "Subdirectory to take fonts from"
     def create_formula(url)
       require "fontist/import/create_formula"
       name = Fontist::Import::CreateFormula.new(url, options).call

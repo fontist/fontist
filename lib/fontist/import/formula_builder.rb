@@ -155,8 +155,9 @@ module Fontist
           return
         end
 
-        Fontist.ui.error("WARN: ensure it's an open license, otherwise change \
-                          to 'requires_license_agreement'")
+        Fontist.ui.error("WARN: ensure it's an open license, otherwise " \
+                         "change the 'open_license' attribute to " \
+                         "'requires_license_agreement'")
 
         TextHelper.cleanup(@license_text)
       end
