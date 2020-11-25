@@ -62,10 +62,18 @@ RSpec.describe "Fontist::Formulas::DemoFormula" do
 
         provides_font_collection("Meiryo Bold") do |coll|
           filename "demo-font.ttc"
-          provides_font "Demo collection", extract_styles_from_collection: {
-            "Regular" => "demo-col-font.ttf",
-            "Italic" => "demo-col-fonti.ttf"
-          }
+          provides_font "Demo collection", extract_styles_from_collection: [
+            {
+              family_name: "Demo font",
+              style: "Regular",
+              full_name: "Demo font",
+            },
+            {
+              family_name: "Demo font",
+              style: "Italic",
+              full_name: "Demo font Italic",
+            },
+          ]
         end
 
         def extract

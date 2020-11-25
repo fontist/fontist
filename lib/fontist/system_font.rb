@@ -22,10 +22,10 @@ module Fontist
     end
 
     def find_with_style
-      paths = lookup_using_font_and_style
-      return paths unless paths.empty?
+      styles = Formula.find_styles_with_fonts(font, style)
 
-      grep_font_paths(font, style)
+      { full_name: style_full_name(styles),
+        paths: style_paths(styles) }
     end
 
     private
@@ -95,9 +95,22 @@ module Fontist
       @default_sources ||= YAML.load(system_path_file)["system"][user_os.to_s]
     end
 
-    def lookup_using_font_and_style
-      styles = Formula.find_styles(font, style)
-      filenames = styles.map(&:font)
+    def style_full_name(styles)
+      return if styles.empty?
+
+      s = styles.first
+      s[:style]["full_name"] || s[:font]["name"]
+    end
+
+    def style_paths(styles)
+      filenames = styles.map { |x| x[:style]["font"] }
+      paths = lookup_using_filenames(filenames)
+      return paths unless paths.empty?
+
+      grep_font_paths(font, style)
+    end
+
+    def lookup_using_filenames(filenames)
       filenames.flat_map do |filename|
         search_font_paths(filename)
       end
