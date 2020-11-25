@@ -26,8 +26,20 @@ module Fontist
               source_filename collection.source_filename
 
               collection.fonts.each do |font|
-                styles = font.styles.map { |s| [s.type, s.full_name] }.to_h
-                provides_font font.name, extract_styles_from_collection: styles
+                provides_font(
+                  font.name,
+                  extract_styles_from_collection: font.styles.map do |style|
+                    {
+                      family_name: style.family_name,
+                      style: style.type,
+                      full_name: style.full_name,
+                      post_script_name: style.post_script_name,
+                      version: style.version,
+                      description: style.description,
+                      copyright: style.copyright,
+                    }
+                  end
+                )
               end
             end
           end

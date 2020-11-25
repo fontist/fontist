@@ -95,11 +95,10 @@ module Fontist
       styles = options.fetch(:extract_styles_from_collection, [])
 
       unless styles.empty?
-        styles.map do |type, full_name|
-          { type: type,
-            collection: full_name,
-            font: temp_resource[:filename],
-            source_font: temp_resource[:source_filename] }
+        styles.map do |attributes|
+          filenames = temp_resource.slice(:filename, :source_filename)
+          Fontist::Utils::Dsl::CollectionFont.new(attributes.merge(filenames))
+            .attributes
         end
       end
     end

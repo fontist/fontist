@@ -19,8 +19,8 @@ module Fontist
       new(font_name: name).find_fonts
     end
 
-    def self.find_styles(font, style)
-      new(font_name: font, style_name: style).find_styles
+    def self.find_styles_with_fonts(font, style)
+      new(font_name: font, style_name: style).find_styles_with_fonts
     end
 
     def all
@@ -37,11 +37,15 @@ module Fontist
       fonts.empty? ? nil : fonts
     end
 
-    def find_styles
+    def find_styles_with_fonts
       formulas.values.flat_map do |formula|
         formula.fonts.flat_map do |f|
-          f.styles.select do |s|
+          selected = f.styles.select do |s|
             f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
+          end
+
+          selected.map do |s|
+            { font: f, style: s }
           end
         end
       end

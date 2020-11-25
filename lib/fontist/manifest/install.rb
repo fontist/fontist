@@ -1,8 +1,8 @@
-require_relative "common"
+require_relative "locations"
 
 module Fontist
   module Manifest
-    class Install < Common
+    class Install < Locations
       def initialize(manifest, confirmation: "no")
         @manifest = manifest
         @confirmation = confirmation
@@ -15,15 +15,11 @@ module Fontist
       private
 
       def file_paths(font, style)
-        paths = find_installed_font(font, style)
-        return paths unless paths.empty?
+        paths = super
+        return paths unless paths["paths"].empty?
 
         install_font(font)
-        find_installed_font(font, style)
-      end
-
-      def find_installed_font(font, style)
-        Fontist::SystemFont.find_with_style(font, style)
+        super
       end
 
       def install_font(font)
