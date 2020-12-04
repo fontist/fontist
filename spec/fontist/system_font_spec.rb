@@ -6,7 +6,7 @@ RSpec.describe Fontist::SystemFont do
       it "returns the complete font path" do
         stub_system_fonts
 
-        name = "DejaVuSerif.ttf"
+        name = "DejaVu Serif"
         dejavu_ttf = Fontist::SystemFont.find(name, sources: [font_sources])
 
         expect(dejavu_ttf).not_to be_nil

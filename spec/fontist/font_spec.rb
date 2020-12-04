@@ -48,9 +48,9 @@ RSpec.describe Fontist::Font do
     context "with macos system fonts", macos: true do
       # rubocop:disable Metrics/LineLength
       fonts = [
-        ["Arial Unicode", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
+        ["Arial Unicode MS", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
         ["AppleGothic", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"],
-        ["Apple Braille Outline 6 Dot", "/System/Library/Fonts/Apple Braille Outline 6 Dot.ttf"],
+        ["Apple Braille", "/System/Library/Fonts/Apple Braille Outline 6 Dot.ttf"],
         ["Apple Symbols", "/System/Library/Fonts/Apple Symbols.ttf"],
         ["Helvetica", "/System/Library/Fonts/Helvetica.ttc"],
       ]
@@ -72,7 +72,7 @@ RSpec.describe Fontist::Font do
         ["Arial", "C:/Windows/Fonts/arial.ttf"],
         ["Cambria", "C:/Windows/Fonts/cambria.ttc"],
         ["Calibri", "C:/Windows/Fonts/calibri.ttf"],
-        ["SegoeUI", "C:/Windows/Fonts/segoeui.ttf"],
+        ["Segoe UI", "C:/Windows/Fonts/segoeui.ttf"],
       ]
 
       fonts.each do |font_name, path|
@@ -87,7 +87,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with windows user fonts", windows: true do
-      let(:font) { "dejavu" }
+      let(:font) { "dejavu serif" }
       let(:fixture_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
       let(:user_path) { File.join("AppData", "Local", "Microsoft", "Windows", "Fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
       let(:absolute_user_path) { File.join(Dir.home, user_path) }
@@ -177,31 +177,17 @@ RSpec.describe Fontist::Font do
     end
 
     context "already installed font" do
-      let(:font) { "work sans" }
+      let(:font) { "andale mono" }
 
       it "tells that font found locally" do
         no_fonts do
-          stub_font_file("WorkSans-Regular.ttf")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
           expect(Fontist.ui).to receive(:say)
-            .with(%(- #{font_path('WorkSans-Regular.ttf')}))
+            .with(%(- #{font_path('AndaleMo.TTF')}))
 
           command
-        end
-      end
-    end
-
-    context "with valid formula name" do
-      it "installs all fonts and returns theirs paths" do
-        stub_system_fonts
-        stub_license_agreement_prompt_with("yes")
-        stub_fonts_path_to_new_path do
-          font = { name: "cleartype", filename: "CALIBRI.TTF" }
-          font_paths = Fontist::Font.install(font[:name])
-
-          expect(font_file(font[:filename])).to exist
-          expect(font_paths.join("|")).to include(font[:filename])
         end
       end
     end
@@ -231,47 +217,14 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with formula name when the same font name exists" do
-      let(:font) { "source" }
-      let(:files) do
-        %w[SourceHanSans-Normal.ttc
-           SourceCodePro-Regular.ttf
-           SourceSansPro-Regular.ttf
-           SourceSerifPro-Regular.ttf]
-      end
-
-      it "installs font by formula name" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          files.each do |file|
-            expect(command).to include(include(file))
-          end
-        end
-      end
-    end
-
-    context "with formula name when installed" do
-      let(:font) { "cleartype" }
+    context "with font name when installed" do
+      let(:font) { "cambria" }
       let(:file) { "CAMBRIA.TTC" }
 
       it "skips download" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file(file)
-          expect(Fontist::Formulas::ClearTypeFont).not_to receive(:fetch_font)
-          command
-        end
-      end
-    end
-
-    context "with font name when installed" do
-      let(:font) { "overpass mono" }
-      let(:file) { "overpass-mono-regular.otf" }
-
-      it "skips download" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          stub_font_file(file)
+          example_font_to_fontist(file)
           expect(Fontist::Formulas::OverpassFont).not_to receive(:fetch_font)
           command
         end
@@ -311,7 +264,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with subarchive option" do
-      let(:font) { "Guttman" }
+      let(:font) { "guttman aharoni" }
       let(:file) { "GAHROM.ttf" }
 
       it "installs and returns paths for fonts" do
@@ -350,7 +303,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with unusual font extension" do
-      let(:font) { "adobe_reader_19" }
+      let(:font) { "adobe devanagari" }
       let(:file) { "adobedevanagari_bolditalic.otf" }
 
       it "detects, renames and installs the font" do
@@ -411,7 +364,7 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           stub_font_file("overpass-regular.otf")
 
-          expect { command }.to raise_error Fontist::Errors::MissingFontError
+          expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
           expect(font_file("overpass-regular.otf")).to exist
         end
       end
@@ -466,7 +419,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported font but not installed" do
-      let(:font) { "andale" }
+      let(:font) { "andale mono" }
 
       it "raises font missing error" do
         stub_system_fonts
@@ -477,7 +430,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "andale" }
+      let(:font) { "andale mono" }
 
       it "returns its path" do
         stub_system_fonts
@@ -543,7 +496,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported font but not installed" do
-      let(:font) { "andale" }
+      let(:font) { "andale mono" }
 
       it "returns its status as uninstalled" do
         stub_system_fonts
@@ -557,7 +510,7 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "andale" }
+      let(:font) { "andale mono" }
 
       it "returns its status as installed" do
         stub_system_fonts

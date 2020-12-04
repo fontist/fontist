@@ -14,19 +14,6 @@ RSpec.describe Fontist::Formula do
       end
     end
 
-    context "by exact font" do
-      it "returns the font formulas" do
-        name = "CAMBRIAI.TTF"
-
-        clear_type = Fontist::Formula.find(name)
-        font_files = clear_type.fonts.map { |font| font.styles.map(&:font) }
-
-        expect(font_files.flatten).to include(name)
-        expect(clear_type.installer).to eq("Fontist::Formulas::ClearTypeFont")
-        expect(clear_type.description).to include("Microsoft ClearType Fonts")
-      end
-    end
-
     context "for invalid font" do
       it "returns nil to the caller" do
         name = "Calibri Made Up Name"
@@ -48,11 +35,11 @@ RSpec.describe Fontist::Formula do
       expect(filenames).to include("CALIBRII.TTF")
     end
 
-    it "returns nil if invalid name provided" do
+    it "returns empty array if invalid name provided" do
       name = "Calibri Invlaid"
       fonts = Fontist::Formula.find_fonts(name)
 
-      expect(fonts).to be_nil
+      expect(fonts).to be_empty
     end
   end
 

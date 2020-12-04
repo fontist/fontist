@@ -83,12 +83,30 @@ module Fontist
       end
     end
 
-    def match_fonts(fonts_dir, font_name)
-      fonts = map_names_to_fonts(font_name).join("|")
-      font = fonts_dir.grep(/#{fonts}/i)
-      @matched_fonts.push(font) if font
+    def match_fonts(fonts_paths, font_name)
+      filenames = filenames_by_font_name(font_name)
+      paths = search_for_filenames(fonts_paths, filenames)
+      @matched_fonts.push(*paths)
 
-      font
+      paths
+    end
+
+    def filenames_by_font_name(font_name)
+      fonts.map do |f|
+        if f[:name].casecmp?(font_name)
+          f[:styles].map do |s|
+            s[:font]
+          end
+        end
+      end.flatten.compact
+    end
+
+    def search_for_filenames(paths, filenames)
+      paths.select do |path|
+        filenames.any? do |filename|
+          File.basename(path) == filename
+        end
+      end
     end
 
     def extract_from_collection(options)
@@ -101,13 +119,6 @@ module Fontist
             .attributes
         end
       end
-    end
-
-    def map_names_to_fonts(font_name)
-      fonts = Fontist::Formula.find_fonts(font_name)
-      fonts = fonts.map { |font| font.styles.map(&:font) }.flatten if fonts
-
-      fonts || []
     end
 
     def download_file(source)
