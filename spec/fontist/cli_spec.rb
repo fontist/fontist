@@ -53,7 +53,7 @@ RSpec.describe Fontist::CLI do
     context "supported font name but uninstalled" do
       it "returns error status" do
         stub_fonts_path_to_new_path do
-          status = described_class.start(["status", "andale"])
+          status = described_class.start(["status", "andale mono"])
           expect(status).to be 1
         end
       end
@@ -62,17 +62,17 @@ RSpec.describe Fontist::CLI do
     context "supported and installed font" do
       it "returns success status and prints path" do
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:success).with(include("AndaleMo.TTF"))
-          status = described_class.start(["status", "andale"])
+          status = described_class.start(["status", "andale mono"])
           expect(status).to be 0
         end
       end
 
       it "shows formula and font names" do
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:success)
             .with("Fontist::Formulas::AndaleFont")
@@ -80,7 +80,7 @@ RSpec.describe Fontist::CLI do
             .with(" Andale Mono")
           expect(Fontist.ui).to receive(:success)
             .with(/^  Regular \(.*AndaleMo.TTF\)/)
-          described_class.start(["status", "andale"])
+          described_class.start(["status", "andale mono"])
         end
       end
     end
@@ -98,11 +98,11 @@ RSpec.describe Fontist::CLI do
     context "collection font" do
       it "returns collection name" do
         stub_fonts_path_to_new_path do
-          stub_font_file("SourceHanSans-ExtraLight.ttc")
+          example_font_to_fontist("CAMBRIA.TTC")
 
-          expect(Fontist.ui).to receive(:success)
-            .with(include("ExtraLight"))
-          status = described_class.start(["status", "source han sans"])
+          expect(Fontist.ui).to receive(:success).with(include("Cambria"))
+          expect(Fontist.ui).to receive(:success).with(include("Regular"))
+          status = described_class.start(["status", "cambria"])
           expect(status).to be 0
         end
       end
@@ -125,7 +125,7 @@ RSpec.describe Fontist::CLI do
       it "prints `uninstalled`" do
         stub_fonts_path_to_new_path do
           expect(Fontist.ui).to receive(:error).with(include("uninstalled"))
-          status = described_class.start(["list", "andale"])
+          status = described_class.start(["list", "andale mono"])
           expect(status).to be 0
         end
       end
@@ -134,17 +134,17 @@ RSpec.describe Fontist::CLI do
     context "supported and installed font" do
       it "prints `installed`" do
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:success).with(include("(installed)"))
-          status = described_class.start(["list", "andale"])
+          status = described_class.start(["list", "andale mono"])
           expect(status).to be 0
         end
       end
 
       it "shows formula and font names" do
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say)
             .with("Fontist::Formulas::AndaleFont")
@@ -152,7 +152,7 @@ RSpec.describe Fontist::CLI do
             .with(" Andale Mono")
           expect(Fontist.ui).to receive(:success)
             .with(/^  Regular \(installed\)/)
-          described_class.start(["list", "andale"])
+          described_class.start(["list", "andale mono"])
         end
       end
     end
