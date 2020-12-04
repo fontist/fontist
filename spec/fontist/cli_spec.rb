@@ -216,7 +216,7 @@ RSpec.describe Fontist::CLI do
       it "returns font location" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
@@ -234,7 +234,7 @@ RSpec.describe Fontist::CLI do
       it "returns font location" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("courbd.ttf")
+          example_font_to_fontist("courbd.ttf")
 
           expect(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
@@ -260,8 +260,8 @@ RSpec.describe Fontist::CLI do
       it "returns font location" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
-          stub_font_file("courbd.ttf")
+          example_font_to_fontist("AndaleMo.TTF")
+          example_font_to_fontist("courbd.ttf")
 
           expect(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
@@ -274,7 +274,7 @@ RSpec.describe Fontist::CLI do
 
       it "returns font location" do
         stub_system_fonts_path_to_new_path do |system_dir|
-          stub_font_file("Andale Mono.ttf", system_dir)
+          example_font_to_system("Andale Mono.ttf")
 
           stub_fonts_path_to_new_path do
             expect(Fontist.ui).to receive(:say).with(include(system_dir))
@@ -285,16 +285,16 @@ RSpec.describe Fontist::CLI do
     end
 
     context "contains font with space from system paths" do
-      let(:manifest) { { "Noto Sans" => "Regular" } }
+      let(:manifest) { { "Noto Sans Oriya" => "Regular" } }
       let(:result) do
-        { "Noto Sans" =>
-          { "Regular" => { "full_name" => "Noto Sans",
+        { "Noto Sans Oriya" =>
+          { "Regular" => { "full_name" => "Noto Sans Oriya",
                            "paths" => [include("NotoSansOriya.ttc")] } } }
       end
 
       it "returns no-space location" do
         stub_system_fonts_path_to_new_path do |system_dir|
-          stub_font_file("NotoSansOriya.ttc", system_dir)
+          example_font_to_system("NotoSansOriya.ttc")
 
           stub_fonts_path_to_new_path do
             expect(Fontist.ui).to receive(:say).with(include_yaml(result))
@@ -308,7 +308,7 @@ RSpec.describe Fontist::CLI do
       let(:manifest) { { "Andale Mono" => "Regular" } }
       let(:result) do
         { "Andale Mono" =>
-          { "Regular" => { "full_name" => "Andale Mono", "paths" => [] } } }
+          { "Regular" => { "full_name" => nil, "paths" => [] } } }
       end
 
       it "returns no location" do
@@ -399,21 +399,21 @@ RSpec.describe Fontist::CLI do
     end
 
     context "unsupported but installed in system font" do
-      let(:manifest) { { "Arial Unicode" => "Regular" } }
-      before { stub_system_font("Arial Unicode.ttf") }
+      let(:manifest) { { "Noto Sans Oriya" => "Regular" } }
+      before { example_font_to_system("NotoSansOriya.ttc") }
 
       it "returns its location" do
         expect_say_yaml(
-          "Arial Unicode" =>
-          { "Regular" => { "full_name" => nil,
-                           "paths" => [include("Arial Unicode.ttf")] } }
+          "Noto Sans Oriya" =>
+          { "Regular" => { "full_name" => "Noto Sans Oriya",
+                           "paths" => [include("NotoSansOriya.ttc")] } }
         )
       end
     end
 
     context "installed font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
-      before { stub_fontist_font("AndaleMo.TTF") }
+      before { example_font_to_fontist("AndaleMo.TTF") }
 
       it "returns its location" do
         expect_say_yaml(
@@ -425,14 +425,14 @@ RSpec.describe Fontist::CLI do
     end
 
     context "supported and installed by system font" do
-      let(:manifest) { { "Times New Roman" => "Regular" } }
-      before { stub_system_font("Times New Roman.ttf") }
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_font_to_system("AndaleMo.TTF") }
 
       it "returns its location" do
         expect_say_yaml(
-          "Times New Roman" =>
-          { "Regular" => { "full_name" => "Times New Roman",
-                           "paths" => [include("Times New Roman.ttf")] } }
+          "Andale Mono" =>
+          { "Regular" => { "full_name" => "Andale Mono",
+                           "paths" => [include("AndaleMo.TTF")] } }
         )
       end
     end
@@ -490,6 +490,23 @@ RSpec.describe Fontist::CLI do
       end
     end
 
+    context "with no style specified" do
+      let(:manifest) do
+        { "Georgia" => nil }
+      end
+
+      it "installs supported and returns its location and no location" do
+        expect_say_yaml(
+          "Georgia" =>
+          { nil => { "full_name" => include("Georgia"),
+                     "paths" => include(font_path("Georgia.TTF"),
+                                        font_path("Georgiab.TTF"),
+                                        font_path("Georgiai.TTF"),
+                                        font_path("Georgiaz.TTF")) } }
+        )
+      end
+    end
+
     context "declined license agreement" do
       before { stub_license_agreement_prompt_with("no") }
 
@@ -502,7 +519,7 @@ RSpec.describe Fontist::CLI do
 
       it "returns no location" do
         expect_say_yaml("Andale Mono" =>
-                        { "Regular" => { "full_name" => "Andale Mono",
+                        { "Regular" => { "full_name" => nil,
                                          "paths" => [] } })
       end
     end

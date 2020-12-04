@@ -46,8 +46,8 @@ module Fontist
     end
 
     def system_paths(path)
-      pattern = File.join(path, "**", "*.{ttf,ttc}")
-      paths = Array.new(4, "paths" => [pattern])
+      pattern = File.join(path, "**", "*.{ttf,otf,ttc}")
+      paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, avoid aliases in YAML
       { "system" => %w[linux windows macos unix].zip(paths).to_h }
     end
 
@@ -65,14 +65,14 @@ module Fontist
     def cleanup_system_fonts
       raise("System dir is not stubbed") unless @system_dir
 
-      FileUtils.remove_entry(@system_dir)
+      FileUtils.rm_rf(@system_dir)
       @system_dir = nil
     end
 
     def cleanup_fontist_fonts
       raise("Fontist dir is not stubbed") unless @fontist_dir
 
-      FileUtils.remove_entry(@fontist_dir)
+      FileUtils.rm_rf(@fontist_dir)
       @fontist_dir = nil
     end
 
@@ -121,9 +121,39 @@ module Fontist
       File.join(dir, filename)
     end
 
+    def system_font_path(filename)
+      raise("System dir is not stubbed") unless @system_dir
+
+      File.join(@system_dir, filename)
+    end
+
+    def fontist_font_path(filename)
+      raise("Fontist dir is not stubbed") unless @fontist_dir
+
+      File.join(@fontist_dir, filename)
+    end
+
     def create_tmp_dir
       dir = Dir.mktmpdir
       Dir.glob(dir).first # expand the ~1 suffix on Windows
+    end
+
+    def example_font_to_system(filename)
+      raise("System dir is not stubbed") unless @system_dir
+
+      example_font_to(filename, @system_dir)
+    end
+
+    def example_font_to_fontist(filename)
+      raise("Fontist dir is not stubbed") unless @fontist_dir
+
+      example_font_to(filename, @fontist_dir)
+    end
+
+    def example_font_to(filename, dir)
+      example_path = File.join("spec", "examples", "fonts", filename)
+      target_path = File.join(dir, filename)
+      FileUtils.cp(example_path, target_path)
     end
   end
 end

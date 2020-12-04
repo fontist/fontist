@@ -53,7 +53,7 @@ module Fontist
       end
 
       def file_paths(font, style)
-        Fontist::SystemFont.find_with_style(font, style).transform_keys(&:to_s)
+        Fontist::SystemFont.find_with_name(font, style).transform_keys(&:to_s)
       end
     end
   end

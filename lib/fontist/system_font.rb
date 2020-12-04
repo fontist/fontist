@@ -1,3 +1,5 @@
+require_relative "system_index"
+
 module Fontist
   class SystemFont
     def initialize(font:, style: nil, sources: nil)
@@ -10,8 +12,8 @@ module Fontist
       new(font: font, sources: sources).find
     end
 
-    def self.find_with_style(font, style)
-      new(font: font, style: style).find_with_style
+    def self.find_with_name(font, style)
+      new(font: font, style: style).find_with_name
     end
 
     def find
@@ -21,11 +23,12 @@ module Fontist
       paths.empty? ? nil : paths
     end
 
-    def find_with_style
-      styles = Formula.find_styles_with_fonts(font, style)
+    def find_with_name
+      styles = find_styles
+      return { full_name: nil, paths: [] } unless styles
 
-      { full_name: style_full_name(styles),
-        paths: style_paths(styles) }
+      { full_name: styles.first[:full_name],
+        paths: styles.map { |x| x[:path] } }
     end
 
     private
@@ -95,24 +98,37 @@ module Fontist
       @default_sources ||= YAML.load(system_path_file)["system"][user_os.to_s]
     end
 
-    def style_full_name(styles)
+    def find_styles
+      find_by_index || find_by_formulas
+    end
+
+    def find_by_index
+      SystemIndex.new(font_paths).find(font, style)
+    end
+
+    def find_by_formulas
+      styles = find_styles_by_formulas(font, style)
       return if styles.empty?
 
-      s = styles.first
-      s[:style]["full_name"] || s[:font]["name"]
+      fonts = styles.uniq { |s| s["font"] }.flat_map do |s|
+        paths = search_font_paths(s["font"])
+        paths.map do |path|
+          { full_name: s["full_name"],
+            path: path }
+        end
+      end
+
+      fonts.empty? ? nil : fonts
     end
 
-    def style_paths(styles)
-      filenames = styles.map { |x| x[:style]["font"] }
-      paths = lookup_using_filenames(filenames)
-      return paths unless paths.empty?
+    def find_styles_by_formulas(font, style)
+      if style
+        Formula.find_styles(font, style)
+      else
+        fonts = Formula.find_fonts(font)
+        return [] unless fonts
 
-      grep_font_paths(font, style)
-    end
-
-    def lookup_using_filenames(filenames)
-      filenames.flat_map do |filename|
-        search_font_paths(filename)
+        fonts.flat_map(&:styles)
       end
     end
 
