@@ -8,10 +8,6 @@ module Fontist
         @confirmation = confirmation
       end
 
-      def self.call(manifest, confirmation: "no")
-        new(manifest, confirmation: confirmation).call
-      end
-
       private
 
       def file_paths(font, style)

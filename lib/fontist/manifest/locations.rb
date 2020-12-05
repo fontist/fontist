@@ -5,8 +5,21 @@ module Fontist
         @manifest = manifest
       end
 
-      def self.call(manifest)
-        new(manifest).call
+      def self.from_file(file, **keywords)
+        raise Fontist::Errors::ManifestCouldNotBeFoundError unless File.exist?(file)
+
+        manifest = YAML.load_file(file)
+        raise Fontist::Errors::ManifestCouldNotBeReadError unless manifest.is_a?(Hash)
+
+        from_hash(manifest, **keywords)
+      end
+
+      def self.from_hash(manifest, **keywords)
+        if keywords.empty?
+          new(manifest).call
+        else
+          new(manifest, **keywords).call
+        end
       end
 
       def call
@@ -15,27 +28,14 @@ module Fontist
 
       private
 
+      attr_reader :manifest
+
       def font_names
-        fonts.keys
-      end
-
-      def fonts
-        @fonts ||= begin
-          unless File.exist?(@manifest)
-            raise Fontist::Errors::ManifestCouldNotBeFoundError
-          end
-
-          fonts = YAML.load_file(@manifest)
-          unless fonts.is_a?(Hash)
-            raise Fontist::Errors::ManifestCouldNotBeReadError
-          end
-
-          fonts
-        end
+        manifest.keys
       end
 
       def font_paths
-        fonts.map do |font, styles|
+        manifest.map do |font, styles|
           styles_to_ary = [styles].flatten
           style_paths_map(font, styles_to_ary)
         end
