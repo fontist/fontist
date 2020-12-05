@@ -70,7 +70,7 @@ module Fontist
     desc "manifest-locations MANIFEST",
          "Get locations of fonts from MANIFEST (yaml)"
     def manifest_locations(manifest)
-      paths = Fontist::Manifest::Locations.call(manifest)
+      paths = Fontist::Manifest::Locations.from_file(manifest)
       print_yaml(paths)
       success
     rescue Fontist::Errors::ManifestCouldNotBeFoundError
@@ -82,7 +82,7 @@ module Fontist
     desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
     option :confirm_license, type: :boolean, desc: "Confirm license agreement"
     def manifest_install(manifest)
-      paths = Fontist::Manifest::Install.call(
+      paths = Fontist::Manifest::Install.from_file(
         manifest,
         confirmation: options[:confirm_license] ? "yes" : "no"
       )

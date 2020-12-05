@@ -136,20 +136,18 @@ operation you would do in any ruby object.
 
 #### Locations
 
-Fontist lets find font locations from a YAML manifest of the following format:
-
-```yml
-Segoe UI:
-- Regular
-- Bold
-Roboto Mono:
-- Regular
-```
-
-Calling the following code returns a nested hash with font paths.
+Fontist lets find font locations from a manifest of the following format:
 
 ```ruby
-Fontist::Manifest::Locations.call(manifest_path)
+{"Segoe UI"=>["Regular", "Bold"],
+ "Roboto Mono"=>["Regular"]}
+```
+
+Calling the following code returns a nested hash with font paths and names.
+Font name is useful to choose a specific font in a font collection file (TTC).
+
+```ruby
+Fontist::Manifest::Locations.from_hash(manifest)
 ```
 
 ```ruby
@@ -169,7 +167,7 @@ Fontist lets not only to get font locations but also to install fonts from the
 manifest:
 
 ```ruby
-Fontist::Manifest::Install.call(manifest, confirmation: "yes")
+Fontist::Manifest::Install.from_hash(manifest, confirmation: "yes")
 ```
 
 It will install fonts and return their locations:
@@ -183,6 +181,27 @@ It will install fonts and return their locations:
  "Roboto Mono"=> {
    "Regular"=>{"full_name"=>"Roboto Mono Regular",
                "paths"=>["/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"]}}}
+```
+
+#### Support of YAML format
+
+Both commands support a YAML file as an input with a `from_file` method. For
+example, if there is a `manifest.yml` file containing:
+
+```yaml
+Segoe UI:
+- Regular
+- Bold
+Roboto Mono:
+- Regular
+```
+
+Then the following calls would return font names and paths, as from the
+`from_hash` method (see [Locations](#locations) and [Install](#install)).
+
+```ruby
+Fontist::Manifest::Locations.from_file("manifest.yml")
+Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
 ```
 
 ### CLI
