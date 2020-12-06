@@ -313,6 +313,21 @@ RSpec.describe Fontist::Font do
         end
       end
     end
+
+    context "with set FONTIST_PATH env" do
+      let(:font) { "andale mono" }
+      let(:file) { "AndaleMo.TTF" }
+      let(:fontist_path) { create_tmp_dir }
+
+      it "installs font at a FONTIST_PATH directory" do
+        stub_system_fonts_path_to_new_path do
+          stub_env("FONTIST_PATH", fontist_path) do
+            command
+            expect(Pathname.new(File.join(fontist_path, "fonts", file))).to exist
+          end
+        end
+      end
+    end
   end
 
   describe ".uninstall" do
