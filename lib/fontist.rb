@@ -29,7 +29,7 @@ module Fontist
   end
 
   def self.fontist_path
-    Pathname.new(Dir.home).join(".fontist")
+    Pathname.new(ENV["FONTIST_PATH"] || File.join(Dir.home, ".fontist"))
   end
 
   def self.fonts_path

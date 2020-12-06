@@ -155,5 +155,12 @@ module Fontist
       target_path = File.join(dir, filename)
       FileUtils.cp(example_path, target_path)
     end
+
+    def stub_env(name, value)
+      prev = ENV[name]
+      ENV[name] = value
+      yield
+      ENV[name] = prev
+    end
   end
 end

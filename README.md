@@ -327,6 +327,15 @@ List of all commands could be seen by:
 fontist help
 ```
 
+### Configuration
+
+By default Fontist uses the `~/.fontist` directory to store fonts and its
+files. It could be changed with the `FONTIST_PATH` environment variable.
+
+```sh
+FONTIST_PATH=~/.fontist_new fontist update
+```
+
 ## Development
 
 We are following Sandi Metz's Rules for this gem, you can read the
