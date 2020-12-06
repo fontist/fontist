@@ -9,7 +9,7 @@ module Fontist
       false
     end
 
-    desc "install FONT", "Install font by font or formula"
+    desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
     option :confirm_license, type: :boolean, desc: "Confirm license agreement"

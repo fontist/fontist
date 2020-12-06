@@ -109,7 +109,7 @@ fonts in your system.
 #### Find formula fonts
 
 Normally, each font name can be associated with multiple styles or collection, for
-example the `Calibri` font might contains a `regular`, `bola` or `italic` styles
+example the `Calibri` font might contains a `regular`, `bold` or `italic` styles
 fonts and if you want a interface that can return the complete list then this is
 your friend. You can use it as following:
 
@@ -153,11 +153,14 @@ Fontist::Manifest::Locations.call(manifest_path)
 ```
 
 ```ruby
-{"Segoe UI"=>
-  {"Regular"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"],
-   "Bold"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]},
- "Roboto Mono"=>
-  {"Regular"=>[]}}
+{"Segoe UI"=> {
+   "Regular"=>{"full_name"=>"Segoe UI",
+               "paths"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"]},
+   "Bold"=>{"full_name"=>"Segoe UI Bold",
+            "paths"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]}},
+ "Roboto Mono"=> {
+   "Regular"=>{"full_name"=>nil,
+               "paths"=>[]}}}
 ```
 
 #### Install
@@ -172,11 +175,14 @@ Fontist::Manifest::Install.call(manifest, confirmation: "yes")
 It will install fonts and return their locations:
 
 ```ruby
-{"Segoe UI"=>
-  {"Regular"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"],
-   "Bold"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]},
- "Roboto Mono"=>
-  {"Regular"=>["/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"]}}
+{"Segoe UI"=> {
+   "Regular"=>{"full_name"=>"Segoe UI",
+               "paths"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"]},
+   "Bold"=>{"full_name"=>"Segoe UI Bold",
+            "paths"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]}},
+ "Roboto Mono"=> {
+   "Regular"=>{"full_name"=>"Roboto Mono Regular",
+               "paths"=>["/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"]}}}
 ```
 
 ### CLI
@@ -191,7 +197,8 @@ All searches are case-insensitive for ease of use.
 
 The `install` command is similar to the `Font.install` call. It first checks
 whether this font is already installed, and if not, then installs the font and
-returns its paths. Font or formula could be specified as a name.
+returns its paths. Only font name (not formula name, nor font filename) could
+be used as a parameter.
 
 ```
 $ fontist install "segoe ui"
@@ -274,11 +281,17 @@ $ fontist manifest-locations manifest.yml
 ---
 Segoe UI:
   Regular:
-  - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+    full_name: Segoe UI
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
   Bold:
-  - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+    full_name: Segoe UI Bold
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
 Roboto Mono:
-  Regular: []
+  Regular:
+    full_name:
+    paths: []
 ```
 
 Since Segoe UI is installed, but Roboto Mono is not.
@@ -292,12 +305,18 @@ $ fontist manifest-install --confirm-license manifest.yml
 ---
 Segoe UI:
   Regular:
-  - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+    full_name: Segoe UI
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
   Bold:
-  - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+    full_name: Segoe UI Bold
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
 Roboto Mono:
   Regular:
-  - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
+    full_name: Roboto Mono Regular
+    paths:
+    - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ```
 
 #### Help
