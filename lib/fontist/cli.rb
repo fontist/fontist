@@ -62,7 +62,7 @@ module Fontist
 
     desc "update", "Update formulas"
     def update
-      Formulas.fetch_formulas
+      Formula.update_formulas_repo
       Fontist.ui.say("Formulas have been successfully updated")
       STATUS_SUCCESS
     end
@@ -107,6 +107,17 @@ module Fontist
       STATUS_SUCCESS
     end
 
+    desc "rebuild-index", "Rebuild formula index (used by formulas maintainers)"
+    long_desc <<-LONGDESC
+      This index is pre-built and served with formulas, so there is no need
+      update it unless something changes in the formulas repo.
+    LONGDESC
+    def rebuild_index
+      Fontist::Index.rebuild
+      Fontist.ui.say("Formula index has been rebuilt.")
+      STATUS_SUCCESS
+    end
+
     private
 
     def success
@@ -133,7 +144,7 @@ module Fontist
 
     def print_formulas(formulas)
       formulas.each do |formula, fonts|
-        Fontist.ui.success(formula.installer)
+        Fontist.ui.success(formula.key)
 
         fonts.each do |font, styles|
           Fontist.ui.success(" #{font.name}")
@@ -148,7 +159,7 @@ module Fontist
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def print_list(formulas)
       formulas.each do |formula, fonts|
-        Fontist.ui.say(formula.installer)
+        Fontist.ui.say(formula.key)
 
         fonts.each do |font, styles|
           Fontist.ui.say(" #{font.name}")

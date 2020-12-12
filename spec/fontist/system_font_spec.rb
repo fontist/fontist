@@ -16,12 +16,12 @@ RSpec.describe Fontist::SystemFont do
 
     context "with valid font name" do
       it "returns the complete font path", slow: true do
-        name = "Calibri"
-        stub_fontist_path_to_temp_path
-        Fontist::Formulas::ClearTypeFont.fetch_font(name, confirmation: "yes")
+        no_fonts do
+          example_font_to_fontist("CAMBRIA.TTC")
 
-        calbiri = Fontist::SystemFont.find(name, sources: [font_sources])
-        expect(calbiri.join("|").downcase).to include("#{name.downcase}.ttf")
+          paths = Fontist::SystemFont.find("Cambria")
+          expect(paths).to include(include("CAMBRIA.TTC"))
+        end
       end
     end
 

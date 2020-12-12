@@ -1,50 +1,43 @@
+require "fontist/index"
+require "fontist/helpers"
+require "git"
+
 module Fontist
   class Formula
-    def initialize(options = {})
-      @font_name = options.fetch(:font_name, nil)
-      @style_name = options.fetch(:style_name, nil)
-
-      check_and_register_font_formulas
-    end
-
-    def self.all
-      new.all
-    end
-
-    def self.find(font_name)
-      new(font_name: font_name).find
-    end
-
-    def self.find_fonts(name)
-      new(font_name: name).find_fonts
-    end
-
-    def self.find_styles(font, style)
-      new(font_name: font, style_name: style).find_styles
-    end
-
-    def all
-      @all ||= Fontist::Registry.instance.formulas
-    end
-
-    def find
-      formulas.values.detect do |formula|
-        formula.fonts.any? do |f|
-          f.name.casecmp?(font_name)
-        end
+    def self.update_formulas_repo
+      if Dir.exist?(Fontist.formulas_repo_path)
+        Git.open(Fontist.formulas_repo_path).pull
+      else
+        Git.clone(Fontist.formulas_repo_url,
+                  Fontist.formulas_repo_path,
+                  depth: 1)
       end
     end
 
-    def find_fonts
-      formulas.values.map do |formula|
+    def self.all
+      Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+        Formula.new_from_file(path)
+      end
+    end
+
+    def self.find(font_name)
+      Index.from_yaml.load_formulas(font_name).first
+    end
+
+    def self.find_fonts(font_name)
+      formulas = Index.from_yaml.load_formulas(font_name)
+
+      formulas.map do |formula|
         formula.fonts.select do |f|
           f.name.casecmp?(font_name)
         end
       end.flatten
     end
 
-    def find_styles
-      formulas.values.map do |formula|
+    def self.find_styles(font_name, style_name)
+      formulas = Index.from_yaml.load_formulas(font_name)
+
+      formulas.map do |formula|
         formula.fonts.map do |f|
           f.styles.select do |s|
             f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
@@ -53,16 +46,89 @@ module Fontist
       end.flatten
     end
 
-    private
-
-    attr_reader :font_name, :style_name
-
-    def formulas
-      @formulas ||= all.to_h
+    def self.new_from_file(path)
+      data = YAML.load_file(path)
+      new(data, path)
     end
 
-    def check_and_register_font_formulas
-      $check_and_register_font_formulas ||= Fontist::Formulas.register_formulas
+    def initialize(data, path)
+      @data = data
+      @path = path
+    end
+
+    def to_index_formula
+      IndexFormula.new(path)
+    end
+
+    def path
+      @path
+    end
+
+    def key
+      @data["key"] || default_key
+    end
+
+    def description
+      @data["description"]
+    end
+
+    def homepage
+      @data["homepage"]
+    end
+
+    def copyright
+      @data["copyright"]
+    end
+
+    def license_url
+      @data["license_url"]
+    end
+
+    def license
+      @data["open_license"] || @data["requires_license_agreement"]
+    end
+
+    def license_required
+      @data["requires_license_agreement"] ? true : false
+    end
+
+    def extract
+      Helpers.parse_to_object(@data["extract"])
+    end
+
+    def resources
+      Helpers.parse_to_object(@data["resources"].values)
+    end
+
+    def fonts
+      @fonts ||= Helpers.parse_to_object(hash_collection_fonts + hash_fonts)
+    end
+
+    private
+
+    def default_key
+      escaped = Regexp.escape(Fontist.formulas_path.to_s + "/")
+      @path.sub(Regexp.new("^" + escaped), "").sub(/\.yml$/, "")
+    end
+
+    def hash_collection_fonts
+      return [] unless @data["font_collections"]
+
+      @data["font_collections"].flat_map do |coll|
+        filenames = { "font" => coll["filename"],
+                      "source_font" => coll["source_filename"] }
+
+        coll["fonts"].map do |font|
+          { "name" => font["name"],
+            "styles" => font["styles"].map { |s| filenames.merge(s) } }
+        end
+      end
+    end
+
+    def hash_fonts
+      return [] unless @data["fonts"]
+
+      @data["fonts"]
     end
   end
 end

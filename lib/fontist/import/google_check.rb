@@ -12,7 +12,7 @@ module Fontist
       private
 
       def fetch_formulas
-        Formulas.fetch_formulas
+        Formula.update_formulas_repo
       end
 
       def new_fonts

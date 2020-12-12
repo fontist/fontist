@@ -1,3 +1,5 @@
+require "fontist/font_installer"
+
 module Fontist
   class Font
     def initialize(options = {})
@@ -73,7 +75,7 @@ module Fontist
     end
 
     def all
-      Fontist::Formula.all.to_h.map { |_name, formula| formula.fonts }.flatten
+      Fontist::Formula.all.map(&:fonts).flatten
     end
 
     private
@@ -101,7 +103,7 @@ module Fontist
     end
 
     def font_installer(formula)
-      Object.const_get(formula.installer)
+      FontInstaller.new(formula)
     end
 
     def formula
@@ -122,8 +124,7 @@ module Fontist
     def download_font
       if formula
         check_and_confirm_required_license(formula)
-        paths = font_installer(formula).fetch_font(name,
-                                                   confirmation: confirmation)
+        paths = font_installer(formula).install(confirmation: confirmation)
 
         Fontist.ui.say("Fonts installed at:")
         paths.each do |path|
@@ -186,7 +187,7 @@ module Fontist
     end
 
     def all_formulas
-      Fontist::Formula.all.to_h.values
+      Fontist::Formula.all
     end
 
     def font_status
@@ -213,7 +214,9 @@ module Fontist
     end
 
     def path(style)
-      font_paths.grep(/#{style.font}/i).first
+      font_paths.detect do |path|
+        File.basename(path) == style.font
+      end
     end
 
     def font_paths

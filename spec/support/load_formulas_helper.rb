@@ -4,5 +4,4 @@ module Fontist
   end
 end
 
-Fontist::Formulas.fetch_formulas
-Fontist::Formulas.load_formulas
+Fontist::Formula.update_formulas_repo

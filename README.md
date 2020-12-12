@@ -44,7 +44,7 @@ can we find a font in your system.
 
 #### Finding a font
 
-The `Fontist::Fontist.find` interface can be used a find a font in your system.
+The `Fontist::Font.find` interface can be used a find a font in your system.
 It will look into the operating system specific font directories, and also the
 fontist specific `~/.fontist` directory.
 
@@ -249,7 +249,7 @@ Prints installed font paths grouped by formula and font.
 
 ```
 $ fontist status "segoe ui"
-Fontist::Formulas::SegoeUIFont
+segoe_ui
  Segoe UI
   Regular (/Users/user/.fontist/fonts/SEGOEUI.TTF)
   Bold (/Users/user/.fontist/fonts/SEGOEUIB.TTF)
@@ -263,7 +263,7 @@ Lists installation status of fonts supported by Fontist.
 
 ```
 $ fontist list "segoe ui"
-Fontist::Formulas::SegoeUIFont
+segoe_ui
  Segoe UI
   Regular (installed)
   Bold (installed)
@@ -273,7 +273,7 @@ Fontist::Formulas::SegoeUIFont
 
 ```
 $ fontist list "roboto mono"
-Fontist::Formulas::RobotoMonoFont
+google/roboto_mono
  Roboto Mono
   Regular (uninstalled)
   Italic (uninstalled)
@@ -395,8 +395,22 @@ archive:
 ```sh
 fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
 cp lato.yml ~/.fontist/formulas/Formulas/
+```
+
+A formula index should be rebuild, when a new formula is generated or an
+existing one changed:
+
+```sh
+fontist rebuild-index
+```
+
+Then, both the formula and the updated index should be commited and pushed to
+the formula repository:
+
+```sh
 cd ~/.fontist/formulas
 git add Formulas/lato.yml
+git add index.yml
 git commit -m "Add Lato formula"
 ```
 
