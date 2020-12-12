@@ -19,8 +19,17 @@ module Fontist
       instance.register(formula, key)
     end
 
+    def self.fetch(formula)
+      key = formula.instance.key || formula.to_s
+      instance.fetch(key)
+    end
+
     def register(formula, key)
       @formulas[key] = build_formula_data(formula)
+    end
+
+    def fetch(key)
+      parse_to_object(@formulas[key])
     end
 
     private

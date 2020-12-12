@@ -1,10 +1,10 @@
+require "fontist/index"
+
 module Fontist
   class Formula
     def initialize(options = {})
       @font_name = options.fetch(:font_name, nil)
       @style_name = options.fetch(:style_name, nil)
-
-      check_and_register_font_formulas
     end
 
     def self.all
@@ -24,19 +24,17 @@ module Fontist
     end
 
     def all
-      @all ||= Fontist::Registry.instance.formulas
+      @all ||= Index.load_all
     end
 
     def find
-      formulas.values.detect do |formula|
-        formula.fonts.any? do |f|
-          f.name.casecmp?(font_name)
-        end
-      end
+      Index.load_formulas(font_name).first
     end
 
     def find_fonts
-      formulas.values.map do |formula|
+      formulas = Index.load_formulas(font_name)
+
+      formulas.map do |formula|
         formula.fonts.select do |f|
           f.name.casecmp?(font_name)
         end
@@ -44,7 +42,9 @@ module Fontist
     end
 
     def find_styles
-      formulas.values.map do |formula|
+      formulas = Index.load_formulas(font_name, style_name)
+
+      formulas.map do |formula|
         formula.fonts.map do |f|
           f.styles.select do |s|
             f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
@@ -56,13 +56,5 @@ module Fontist
     private
 
     attr_reader :font_name, :style_name
-
-    def formulas
-      @formulas ||= all.to_h
-    end
-
-    def check_and_register_font_formulas
-      $check_and_register_font_formulas ||= Fontist::Formulas.register_formulas
-    end
   end
 end

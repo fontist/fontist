@@ -401,25 +401,6 @@ RSpec.describe Fontist::Font do
         end
       end
     end
-
-    context "with formula key" do
-      let(:font) { "source" }
-      let(:files) do
-        %w[SourceHanSans-Normal.ttc
-           SourceCodePro-Regular.ttf
-           SourceSansPro-Regular.ttf
-           SourceSerifPro-Regular.ttf]
-      end
-
-      it "removes formula files" do
-        stub_fonts_path_to_new_path do
-          files.each { |f| stub_font_file(f) }
-
-          command
-          files.each { |f| expect(font_file(f)).not_to exist }
-        end
-      end
-    end
   end
 
   describe ".status" do
