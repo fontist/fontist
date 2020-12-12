@@ -118,6 +118,9 @@ module Fontist
       def font_directory?(path, base_path)
         return true unless @subdir
 
+        # https://bugs.ruby-lang.org/issues/10011
+        base_path = Pathname.new(base_path)
+
         relative_path = Pathname.new(path).relative_path_from(base_path).to_s
         dirname = File.dirname(relative_path)
         normalized_pattern = @subdir.chomp("/")
@@ -147,7 +150,8 @@ module Fontist
       end
 
       def find_archive(path)
-        paths = Dir.children(path).map { |file| File.join(path, file) }
+        children = Dir.entries(path) - [".", ".."] # ruby 2.4 compat
+        paths = children.map { |file| File.join(path, file) }
         by_subarchive(paths) || by_size(paths)
       end
 

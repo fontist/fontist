@@ -115,7 +115,7 @@ module Fontist
       unless styles.empty?
         styles.map do |attributes|
           filenames = temp_resource.select { |k, _|
-            %i( filename source_filename ).include?(k)
+            %i(filename source_filename).include?(k)
           }
           Fontist::Utils::Dsl::CollectionFont.new(attributes.merge(filenames))
             .attributes
