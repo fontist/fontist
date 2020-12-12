@@ -59,4 +59,8 @@ module Fontist
   def self.system_index_path
     Fontist.fontist_path.join("system_index.yml")
   end
+
+  def self.formula_index_path
+    Fontist.formulas_repo_path.join("index.yml")
+  end
 end

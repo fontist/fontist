@@ -1,3 +1,5 @@
+require "fontist/import/rebuild_index"
+
 module Fontist
   module Import
     class << self

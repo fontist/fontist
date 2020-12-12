@@ -21,9 +21,9 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
+    f.match(%r{^(bin|test|spec|features)/})
   end
-  spec.bindir        = "bin"
+  spec.bindir        = "exe"
   spec.executables   = ["fontist"]
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 

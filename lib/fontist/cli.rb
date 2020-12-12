@@ -1,4 +1,5 @@
 require "thor"
+require "fontist/import"
 
 module Fontist
   class CLI < Thor
@@ -104,6 +105,17 @@ module Fontist
       require "fontist/import/create_formula"
       name = Fontist::Import::CreateFormula.new(url, options).call
       Fontist.ui.say("#{name} formula has been successfully created")
+      STATUS_SUCCESS
+    end
+
+    desc "rebuild-index", "Rebuild formula index (used by formulas maintainers)"
+    long_desc <<-LONGDESC
+      This index is pre-built and served with formulas, so there is no need
+      update it unless something changes in the formulas repo.
+    LONGDESC
+    def rebuild_index
+      Fontist::Import::RebuildIndex.new.call
+      Fontist.ui.say("Formula index has been rebuilt.")
       STATUS_SUCCESS
     end
 
