@@ -66,7 +66,7 @@ module Fontist
           end
         end
 
-        klass.define_method :extract do
+        klass.send(:define_method, :extract) do
           resource = resource(resource_name)
 
           [formula.extract].flatten.each do |operation|
@@ -93,7 +93,7 @@ module Fontist
           end
         end
 
-        klass.define_method :install do
+        klass.send(:define_method, :install) do
           case platform
           when :macos
             install_matched_fonts "$HOME/Library/Fonts/#{cleanname}"
