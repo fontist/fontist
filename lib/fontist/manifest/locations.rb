@@ -53,7 +53,11 @@ module Fontist
       end
 
       def file_paths(font, style)
-        Fontist::SystemFont.find_with_name(font, style).transform_keys(&:to_s)
+        result = {}
+        Fontist::SystemFont.find_with_name(font, style).each_pair do |key, value|
+          result[key.to_s] = value
+        end
+        result
       end
     end
   end
