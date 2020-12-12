@@ -47,6 +47,12 @@ jobs:
 
       - run: bundle install --jobs 4 --retry 3
 
-      - run: bundle exec rspec --tag ~dev
+      - if: matrix.os == 'macos-latest'
+        run: bundle exec rspec
+        env:
+          TEST_ENV: CI
+
+      - if: matrix.os != 'macos-latest'
+        run: bundle exec rspec --tag ~dev
         env:
           TEST_ENV: CI
