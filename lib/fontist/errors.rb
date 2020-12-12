@@ -12,5 +12,6 @@ module Fontist
     class BinaryCallError < StandardError; end
     class ManifestCouldNotBeReadError < StandardError; end
     class ManifestCouldNotBeFoundError < StandardError; end
+    class FormulaIndexNotFoundError < StandardError; end
   end
 end

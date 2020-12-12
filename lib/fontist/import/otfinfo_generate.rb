@@ -25,7 +25,7 @@ module Fontist
       def font_paths(font)
         formula = Fontist::Formula.find(font)
         font_formula = Object.const_get(formula.installer)
-        font_formula.fetch_font(nil, confirmation: "yes")
+        font_formula.install(confirmation: "yes")
       end
 
       def generate_styles(paths)

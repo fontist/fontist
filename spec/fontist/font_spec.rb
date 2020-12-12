@@ -201,7 +201,7 @@ RSpec.describe Fontist::Font do
         font_paths = Fontist::Font.install(name, confirmation: "yes")
 
         expect(font_paths.count).to be > 3
-        expect(Fontist::Formulas::CourierFont).not_to receive(:fetch_font)
+        expect_any_instance_of(Fontist::FontInstaller).not_to receive(:install)
       end
     end
 
@@ -225,7 +225,7 @@ RSpec.describe Fontist::Font do
         stub_system_fonts
         stub_fonts_path_to_new_path do
           example_font_to_fontist(file)
-          expect(Fontist::Formulas::OverpassFont).not_to receive(:fetch_font)
+          expect_any_instance_of(Fontist::FontInstaller).not_to receive(:install)
           command
         end
       end
@@ -401,25 +401,6 @@ RSpec.describe Fontist::Font do
         end
       end
     end
-
-    context "with formula key" do
-      let(:font) { "source" }
-      let(:files) do
-        %w[SourceHanSans-Normal.ttc
-           SourceCodePro-Regular.ttf
-           SourceSansPro-Regular.ttf
-           SourceSerifPro-Regular.ttf]
-      end
-
-      it "removes formula files" do
-        stub_fonts_path_to_new_path do
-          files.each { |f| stub_font_file(f) }
-
-          command
-          files.each { |f| expect(font_file(f)).not_to exist }
-        end
-      end
-    end
   end
 
   describe ".status" do
@@ -455,7 +436,7 @@ RSpec.describe Fontist::Font do
           expect(command.size).to be 1
 
           formula, fonts = command.first
-          expect(formula.installer).to eq "Fontist::Formulas::AndaleFont"
+          expect(formula.key).to eq "andale"
 
           font, styles = fonts.first
           expect(font.name).to eq "Andale Mono"
@@ -487,7 +468,7 @@ RSpec.describe Fontist::Font do
           expect(command.size).to be 1
 
           formula, fonts = command.first
-          expect(formula.installer).to eq "Fontist::Formulas::AndaleFont"
+          expect(formula.key).to eq "andale"
 
           font, styles = fonts.first
           expect(font.name).to eq "Andale Mono"
@@ -557,7 +538,7 @@ RSpec.describe Fontist::Font do
       it "returns installed font with its path" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("andalemo.ttf")
+          stub_font_file("AndaleMo.TTF")
 
           expect(command.size).to be > 1000
 

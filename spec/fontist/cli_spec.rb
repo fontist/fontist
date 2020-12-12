@@ -75,7 +75,7 @@ RSpec.describe Fontist::CLI do
           example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:success)
-            .with("Fontist::Formulas::AndaleFont")
+            .with("andale")
           expect(Fontist.ui).to receive(:success)
             .with(" Andale Mono")
           expect(Fontist.ui).to receive(:success)
@@ -147,7 +147,7 @@ RSpec.describe Fontist::CLI do
           example_font_to_fontist("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say)
-            .with("Fontist::Formulas::AndaleFont")
+            .with("andale")
           expect(Fontist.ui).to receive(:say)
             .with(" Andale Mono")
           expect(Fontist.ui).to receive(:success)

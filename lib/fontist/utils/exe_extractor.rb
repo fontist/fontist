@@ -6,7 +6,7 @@ module Fontist
 
         exe_file = download_file(exe_file).path if download
 
-        Fontist.ui.say(%(Installing font "#{key}".))
+        Fontist.ui.say(%(Installing font "#{formula.key}".))
         cab_file = decompressor.search(exe_file)
         cabbed_fonts = grep_fonts(cab_file.files) || []
         fonts_paths = extract_cabbed_fonts_to_assets(cabbed_fonts)

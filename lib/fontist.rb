@@ -8,12 +8,11 @@ require "fontist/errors"
 require "fontist/version"
 
 require "fontist/font"
-require "fontist/registry"
-require "fontist/formulas"
 require "fontist/formula"
 require "fontist/system_font"
 require "fontist/fontist_font"
 require "fontist/manifest"
+require "fontist/helpers"
 
 module Fontist
   def self.ui
@@ -58,5 +57,9 @@ module Fontist
 
   def self.system_index_path
     Fontist.fontist_path.join("system_index.yml")
+  end
+
+  def self.formula_index_path
+    Fontist.formulas_repo_path.join("index.yml")
   end
 end
