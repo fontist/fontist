@@ -12,7 +12,7 @@ RSpec.describe Fontist::Formulas::ArialBlackFont do
 
   describe "installation" do
     context "with valid licence agreement", slow: true do
-      it "installs the valid fonts", skip_in_windows: true do
+      it "installs the valid fonts", unless: Gem.win_platform? do
         name = "Arial Black"
         confirmation = "yes"
 

@@ -12,7 +12,7 @@ RSpec.describe Fontist::Formulas::MsTruetypeFont do
 
   describe "installation" do
     context "with valid licence agreement" do
-      it "installs the valid fonts", skip_in_windows: true do
+      it "installs the valid fonts", if: Gem.win_platform? do
         name = "Arial"
         confirmation = "yes"
 
