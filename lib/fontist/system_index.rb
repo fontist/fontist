@@ -45,7 +45,7 @@ module Fontist
     end
 
     def detect_fonts(path)
-      case File.extname(path).gsub(/^\./, '').downcase
+      case File.extname(path).gsub(/^\./, "").downcase
       when "ttf", "otf"
         detect_file_font(path)
       when "ttc"
