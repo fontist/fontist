@@ -156,9 +156,9 @@ module Fontist
           h.merge!(family_name: style.family_name,
                    type: style.style,
                    full_name: style.full_name)
-          h.merge!(style.to_h.select { |k, _|
+          h.merge!(style.to_h.select do |k, _|
             %i(post_script_name version description copyright).include?(k)
-          }.compact)
+          end.compact)
           h.merge!(font: fix_variable_filename(style.filename))
         end
       end
