@@ -11,17 +11,16 @@ module Fontist
       private
 
       def file_paths(font, style)
-        paths = super
+        paths = find_font_with_name(font, style)
         return paths unless paths["paths"].empty?
 
         install_font(font)
-        super
+
+        find_font_with_name(font, style)
       end
 
       def install_font(font)
-        Fontist::Font.try_install(font, confirmation: @confirmation)
-      rescue Fontist::Errors::LicensingError
-        [] # try to install other fonts
+        Fontist::Font.install(font, force: true, confirmation: @confirmation)
       end
     end
   end

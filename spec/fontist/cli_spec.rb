@@ -18,7 +18,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["install", "unexisting"])
-          expect(status).to be 1
+          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
 
@@ -45,7 +45,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["status", "unexisting"])
-          expect(status).to be 1
+          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["status", "andale mono"])
-          expect(status).to be 1
+          expect(status).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe Fontist::CLI do
         stub_fonts_path_to_new_path do
           expect(Fontist.ui).to receive(:error).with("No font is installed.")
           status = described_class.start(["status"])
-          expect(status).to be 1
+          expect(status).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["list", "unexisting"])
-          expect(status).to be 1
+          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
     end
@@ -181,7 +181,7 @@ RSpec.describe Fontist::CLI do
       it "tells manifest could not be found" do
         expect(Fontist.ui).to receive(:error)
           .with("Manifest could not be found.")
-        expect(command).to be 1
+        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
       end
     end
 
@@ -191,7 +191,7 @@ RSpec.describe Fontist::CLI do
       it "tells manifest could not be read" do
         expect(Fontist.ui).to receive(:error)
           .with("Manifest could not be read.")
-        expect(command).to be 1
+        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -311,11 +311,11 @@ RSpec.describe Fontist::CLI do
           { "Regular" => { "full_name" => nil, "paths" => [] } } }
       end
 
-      it "returns no location" do
+      it "returns error code and tells it could not find it" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:say).with(output)
-          expect(command).to be 0
+          expect(Fontist.ui).to receive(:error).with("Could not find font Andale Mono Regular.")
+          expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -327,11 +327,11 @@ RSpec.describe Fontist::CLI do
           { "Regular" => { "full_name" => nil, "paths" => [] } } }
       end
 
-      it "returns no location" do
+      it "returns error code and tells it could not find it" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:say).with(output)
-          expect(command).to be 0
+          expect(Fontist.ui).to receive(:error).with("Could not find font Unsupported Font Regular.")
+          expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -359,7 +359,8 @@ RSpec.describe Fontist::CLI do
       let(:path) { Fontist.root_path.join("unexisting.yml") }
 
       it "tells manifest not found" do
-        expect_error("Manifest could not be found.")
+        expect(Fontist.ui).to receive(:error).with("Manifest could not be found.")
+        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
       end
     end
 
@@ -367,7 +368,8 @@ RSpec.describe Fontist::CLI do
       let(:content) { "not yaml file" }
 
       it "tells manifest could not be read" do
-        expect_error("Manifest could not be read.")
+        expect(Fontist.ui).to receive(:error).with("Manifest could not be read.")
+        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -375,7 +377,8 @@ RSpec.describe Fontist::CLI do
       let(:content) { "" }
 
       it "tells manifest could not be read" do
-        expect_error("Manifest could not be read.")
+        expect(Fontist.ui).to receive(:error).with("Manifest could not be read.")
+        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -390,11 +393,9 @@ RSpec.describe Fontist::CLI do
     context "unsupported and uninstalled font" do
       let(:manifest) { { "Unexisting Font" => "Regular" } }
 
-      it "returns no location" do
-        expect_say_yaml(
-          "Unexisting Font" =>
-          { "Regular" => { "full_name" => nil, "paths" => [] } }
-        )
+      it "tells that font is unsupported" do
+        expect(Fontist.ui).to receive(:error).with(/Font 'Unexisting Font' not found locally nor/)
+        expect(command).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
       end
     end
 
@@ -478,15 +479,9 @@ RSpec.describe Fontist::CLI do
           "Unexisting Font" => "Regular" }
       end
 
-      it "installs supported and returns its location and no location" do
-        expect_say_yaml(
-          "Andale Mono" =>
-          { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } },
-          "Unexisting Font" =>
-          { "Regular" => { "full_name" => nil,
-                           "paths" => [] } }
-        )
+      it "tells that font is unsupported" do
+        expect(Fontist.ui).to receive(:error).with(/Font 'Unexisting Font' not found locally nor/)
+        expect(command).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
       end
     end
 
@@ -517,10 +512,9 @@ RSpec.describe Fontist::CLI do
         expect(font_file("AndaleMo.TTF")).not_to exist
       end
 
-      it "returns no location" do
-        expect_say_yaml("Andale Mono" =>
-                        { "Regular" => { "full_name" => nil,
-                                         "paths" => [] } })
+      it "tells that license should be confirmed in order for font to be installed" do
+        expect(Fontist.ui).to receive(:error).with("Fontist will not download these fonts unless you accept the terms.")
+        expect(command).to be Fontist::CLI::STATUS_LICENSING_ERROR
       end
     end
 
@@ -547,10 +541,5 @@ RSpec.describe Fontist::CLI do
   def expect_say_yaml(result)
     expect(Fontist.ui).to receive(:say).with(include_yaml(result))
     expect(command).to be 0
-  end
-
-  def expect_error(output)
-    expect(Fontist.ui).to receive(:error).with(output)
-    expect(command).to be 1
   end
 end
