@@ -22,10 +22,6 @@ module Fontist
       new(name: name, confirmation: confirmation, force: force).install
     end
 
-    def self.try_install(name, confirmation: "no")
-      new(name: name, confirmation: confirmation).try_install
-    end
-
     def self.uninstall(name)
       new(name: name).uninstall
     end
@@ -39,39 +35,27 @@ module Fontist
     end
 
     def find
-      find_system_font || downloadable_font || raise(
-        Fontist::Errors::NonSupportedFontError
-      )
+      find_system_font || downloadable_font || raise_non_supported_font
     end
 
     def install
-      (find_system_font unless @force) || download_font || raise(
-        Fontist::Errors::NonSupportedFontError
-      )
-    end
-
-    def try_install
-      download_font
+      (find_system_font unless @force) || download_font || raise_non_supported_font
     end
 
     def uninstall
-      uninstall_font || downloadable_font || raise(
-        Fontist::Errors::NonSupportedFontError
-      )
+      uninstall_font || downloadable_font || raise_non_supported_font
     end
 
     def status
       return installed_statuses unless @name
 
-      font_status || downloadable_font || raise(
-        Fontist::Errors::NonSupportedFontError
-      )
+      font_status || downloadable_font || raise_non_supported_font
     end
 
     def list
       return all_list unless @name
 
-      font_list || raise(Fontist::Errors::NonSupportedFontError)
+      font_list || raise_non_supported_font
     end
 
     def all
@@ -249,6 +233,17 @@ module Fontist
 
     def installed(style)
       path(style) ? true : false
+    end
+
+    def raise_non_supported_font
+      raise Fontist::Errors::NonSupportedFontError.new(
+        "Font '#{@name}' not found locally nor available in the Fontist " \
+        "formula repository.\n" \
+        "Perhaps it is available at the latest Fontist formula " \
+        "repository.\n" \
+        "You can update the formula repository using the command " \
+        "`fontist update` and try again."
+      )
     end
   end
 end

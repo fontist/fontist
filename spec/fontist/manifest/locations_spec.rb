@@ -30,7 +30,7 @@ RSpec.describe Fontist::Manifest::Locations do
 
       it "returns no path" do
         no_fonts do
-          expect(command["Andale Mono"]["Regular"]["paths"]).to be_empty
+          expect { command }.to raise_error Fontist::Errors::MissingFontError
         end
       end
     end

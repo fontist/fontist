@@ -53,11 +53,15 @@ module Fontist
       end
 
       def file_paths(font, style)
-        result = {}
-        Fontist::SystemFont.find_with_name(font, style).each_pair do |key, value|
-          result[key.to_s] = value
+        find_font_with_name(font, style).tap do |x|
+          if x["paths"].empty?
+            raise Errors::MissingFontError.new("Could not find font #{font} #{style}.")
+          end
         end
-        result
+      end
+
+      def find_font_with_name(font, style)
+        Fontist::SystemFont.find_with_name(font, style).map { |k, v| [k.to_s, v] }.to_h
       end
     end
   end

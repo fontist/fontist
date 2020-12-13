@@ -1,17 +1,18 @@
 module Fontist
   module Errors
-    class LicensingError < StandardError; end
-    class MissingFontError < StandardError; end
-    class NonSupportedFontError < StandardError; end
-    class TamperedFileError < StandardError; end
-    class InvalidResourceError < StandardError; end
-    class TimeoutError < StandardError; end
-    class MissingAttributeError < StandardError; end
-    class UnknownFontTypeError < StandardError; end
-    class FontNotFoundError < StandardError; end
-    class BinaryCallError < StandardError; end
-    class ManifestCouldNotBeReadError < StandardError; end
-    class ManifestCouldNotBeFoundError < StandardError; end
-    class FormulaIndexNotFoundError < StandardError; end
+    class GeneralError < StandardError; end
+    class BinaryCallError < GeneralError; end
+    class FontNotFoundError < GeneralError; end
+    class FormulaIndexNotFoundError < GeneralError; end
+    class InvalidResourceError < GeneralError; end
+    class LicensingError < GeneralError; end
+    class ManifestCouldNotBeFoundError < GeneralError; end
+    class ManifestCouldNotBeReadError < GeneralError; end
+    class MissingAttributeError < GeneralError; end
+    class MissingFontError < GeneralError; end
+    class NonSupportedFontError < GeneralError; end
+    class TamperedFileError < GeneralError; end
+    class TimeoutError < GeneralError; end
+    class UnknownFontTypeError < GeneralError; end
   end
 end
