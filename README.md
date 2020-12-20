@@ -434,6 +434,22 @@ git commit -m "Google Fonts update"
 git push
 ```
 
+### Releasing
+
+Releasing is done automatically with GitHub Action. Just bump and tag with `gem-release`.
+
+For a patch release (0.0.x) use:
+
+```sh
+gem bump --version patch --tag --push
+```
+
+For a minor release (0.x.0) use:
+
+```sh
+gem bump --version minor --tag --push
+```
+
 ## Contributing
 
 First, thank you for contributing! We love pull requests from everyone. By
