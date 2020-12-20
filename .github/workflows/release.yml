@@ -11,10 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
-          architecture: 'x64'
 
       - run: bundle config set path 'vendor/bundle'
 
@@ -37,4 +36,3 @@ jobs:
           chmod 0600 ~/.gem/credentials
           git status
           gem release
-
