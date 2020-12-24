@@ -434,6 +434,20 @@ git commit -m "Google Fonts update"
 git push
 ```
 
+### Import of SIL fonts
+
+Fontist contains formulas of [SIL fonts](https://software.sil.org/fonts/). They
+can be updated with:
+
+```sh
+fontist import-sil
+cd ~/.fontist/formulas
+git add Formulas/sil
+git add index.yml
+git commit -m "SIL fonts update"
+git push
+```
+
 ### Releasing
 
 Releasing is done automatically with GitHub Action. Just bump and tag with `gem-release`.

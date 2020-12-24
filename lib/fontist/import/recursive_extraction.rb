@@ -7,7 +7,7 @@ module Fontist
     class RecursiveExtraction
       FONTS_PATTERN = "**/*.{ttf,otf,ttc}".freeze
       ARCHIVE_EXTENSIONS = %w[zip msi exe cab].freeze
-      LICENSE_PATTERN = /(OFL\.txt|UFL\.txt|LICENSE\.txt|COPYING)$/i.freeze
+      LICENSE_PATTERN = /(ofl\.txt|ufl\.txt|licenses?\.txt|copying)$/i.freeze
 
       def initialize(archive, subarchive: nil, subdir: nil)
         @archive = archive

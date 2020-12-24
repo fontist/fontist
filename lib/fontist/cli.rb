@@ -124,6 +124,12 @@ module Fontist
       STATUS_SUCCESS
     end
 
+    desc "import-sil", "Import formulas from SIL"
+    def import_sil
+      require "fontist/import/sil_import"
+      Fontist::Import::SilImport.new.call
+    end
+
     private
 
     def success
