@@ -50,9 +50,10 @@ module Fontist
 
       def save(hash)
         filename = Import.name_to_filename(hash[:name])
+        path = @options[:formula_dir] ? File.join(@options[:formula_dir], filename) : filename
         yaml = YAML.dump(Helpers::HashHelper.stringify_keys(hash))
-        File.write(filename, yaml)
-        filename
+        File.write(path, yaml)
+        path
       end
     end
   end
