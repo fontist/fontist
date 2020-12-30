@@ -1,6 +1,8 @@
 module Fontist
   module Utils
     class Cache
+      include Locking
+
       def fetch(key, bar: nil)
         map = load_cache
         if cache_exist?(map[key])
@@ -48,11 +50,17 @@ module Fontist
       def save_cache(generated_file, key)
         path = move_to_downloads(generated_file)
 
-        map = load_cache
-        map[key] = path
-        File.write(cache_map_path, YAML.dump(map))
+        lock(lock_path) do
+          map = load_cache
+          map[key] = path
+          File.write(cache_map_path, YAML.dump(map))
+        end
 
         path
+      end
+
+      def lock_path
+        cache_map_path.to_s + ".lock"
       end
 
       def move_to_downloads(source)

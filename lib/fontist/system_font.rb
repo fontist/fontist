@@ -9,6 +9,33 @@ module Fontist
       @user_sources = sources || []
     end
 
+    def self.font_paths
+      system_font_paths + fontist_font_paths
+    end
+
+    def self.system_font_paths
+      config_path = Fontist.system_file_path
+      os = Fontist::Utils::System.user_os.to_s
+      templates = YAML.load_file(config_path)["system"][os]["paths"]
+      patterns = expand_paths(templates)
+
+      Dir.glob(patterns)
+    end
+
+    def self.expand_paths(paths)
+      paths.map do |path|
+        require "etc"
+        passwd = Etc.getpwuid
+        username = passwd ? passwd.name : Etc.getlogin
+
+        username ? path.gsub("{username}", username) : path
+      end
+    end
+
+    def self.fontist_font_paths
+      Dir.glob(Fontist.fonts_path.join("**"))
+    end
+
     def self.find(font, sources: [])
       new(font: font, sources: sources).find
     end
@@ -36,50 +63,20 @@ module Fontist
 
     attr_reader :font, :style, :user_sources
 
-    def normalize_default_paths
-      @normalize_default_paths ||= default_sources["paths"].map do |path|
-        require "etc"
-        passwd = Etc.getpwuid
-        username = passwd ? passwd.name : Etc.getlogin
-
-        username ? path.gsub("{username}", username) : path
-      end
-    end
-
-    def font_paths
-      @font_paths ||= Dir.glob((
-        user_sources +
-        normalize_default_paths +
-        [fontist_fonts_path.join("**")]
-      ).flatten.uniq)
-    end
-
-    def fontist_fonts_path
-      @fontist_fonts_path ||= Fontist.fonts_path
-    end
-
-    def user_os
-      Fontist::Utils::System.user_os
-    end
-
-    def system_path_file
-      File.open(Fontist.system_file_path)
-    end
-
-    def default_sources
-      @default_sources ||= YAML.safe_load(system_path_file)["system"][user_os.to_s]
-    end
-
     def find_styles
       find_by_index || find_by_formulas
     end
 
     def find_by_index
-      SystemIndex.new(font_paths).find(font, style)
+      SystemIndex.new(all_paths).find(font, style)
     end
 
     def find_by_formulas
-      FormulaPaths.new(font_paths).find(font, style)
+      FormulaPaths.new(all_paths).find(font, style)
+    end
+
+    def all_paths
+      @all_paths ||= Dir.glob(user_sources) + self.class.font_paths
     end
   end
 end

@@ -9,6 +9,7 @@ module Fontist
     STATUS_LICENSING_ERROR = 4
     STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR = 5
     STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR = 6
+    STATUS_FONT_INDEX_CORRUPTED = 7
 
     ERROR_TO_STATUS = {
       Fontist::Errors::NonSupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -18,6 +19,7 @@ module Fontist
                                                         "Manifest could not be found."],
       Fontist::Errors::ManifestCouldNotBeReadError => [STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR,
                                                        "Manifest could not be read."],
+      Fontist::Errors::FontIndexCorrupted => [STATUS_FONT_INDEX_CORRUPTED],
     }.freeze
 
     def self.exit_on_failure?

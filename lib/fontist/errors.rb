@@ -2,6 +2,7 @@ module Fontist
   module Errors
     class GeneralError < StandardError; end
     class BinaryCallError < GeneralError; end
+    class FontIndexCorrupted < GeneralError; end
     class FontNotFoundError < GeneralError; end
     class FormulaIndexNotFoundError < GeneralError; end
     class InvalidResourceError < GeneralError; end
