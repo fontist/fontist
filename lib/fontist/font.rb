@@ -3,9 +3,9 @@ require "fontist/font_installer"
 module Fontist
   class Font
     def initialize(options = {})
-      @name = options.fetch(:name, nil)
-      @confirmation = options.fetch(:confirmation, "no")
-      @force = options.fetch(:force, false)
+      @name = options[:name]
+      @confirmation = options[:confirmation] || "no"
+      @force = options[:force] || false
 
       check_or_create_fontist_path!
     end
@@ -121,7 +121,7 @@ module Fontist
       if formula.license_required && !confirmation.casecmp("yes").zero?
         @confirmation = show_license_and_ask_for_input(formula.license)
 
-        if !confirmation.casecmp("yes").zero?
+        unless confirmation&.casecmp?("yes")
           raise Fontist::Errors::LicensingError.new(
             "Fontist will not download these fonts unless you accept the terms."
           )
