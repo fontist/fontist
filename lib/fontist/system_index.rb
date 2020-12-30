@@ -2,7 +2,17 @@ require "ttfunk"
 
 module Fontist
   class SystemIndex
+    include Utils::Locking
+
     attr_reader :font_paths
+
+    def self.find(font, style)
+      new(SystemFont.font_paths).find(font, style)
+    end
+
+    def self.rebuild
+      new(SystemFont.font_paths).rebuild
+    end
 
     def initialize(font_paths)
       @font_paths = font_paths
@@ -17,6 +27,10 @@ module Fontist
       fonts.empty? ? nil : fonts
     end
 
+    def rebuild
+      build_system_index
+    end
+
     private
 
     def system_index
@@ -24,21 +38,49 @@ module Fontist
     end
 
     def build_system_index
+      lock(lock_path) do
+        do_build_system_index
+      end
+    end
+
+    def lock_path
+      Fontist.system_index_path.to_s + ".lock"
+    end
+
+    def do_build_system_index
       previous_index = load_system_index
       updated_index = detect_paths(font_paths, previous_index)
       updated_index.tap do |index|
-        save_index(index)
+        save_index(index) if changed?(updated_index, previous_index)
       end
+    end
+
+    def changed?(this, other)
+      this.map { |x| x[:path] }.uniq.sort != other.map { |x| x[:path] }.uniq.sort
     end
 
     def load_system_index
       index = File.exist?(Fontist.system_index_path) ? YAML.load_file(Fontist.system_index_path) : []
-      index.group_by { |x| x[:path] }
+
+      index.each do |item|
+        missing_keys = %i[path full_name family_name type] - item.keys
+        unless missing_keys.empty?
+          raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
+            Font index is corrupted.
+            Item #{item.inspect} misses required attributes: #{missing_keys.join(', ')}.
+            You can remove the index file (#{Fontist.system_index_path}) and try again.
+          MSG
+        end
+      end
+
+      index
     end
 
-    def detect_paths(paths, indexed)
+    def detect_paths(paths, index)
+      by_path = index.group_by { |x| x[:path] }
+
       paths.flat_map do |path|
-        next indexed[path] if indexed[path]
+        next by_path[path] if by_path[path]
 
         detect_fonts(path)
       end

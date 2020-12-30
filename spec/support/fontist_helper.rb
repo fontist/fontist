@@ -168,5 +168,18 @@ module Fontist
       yield
       ENV[name] = prev
     end
+
+    def stub_system_index_path
+      previous_path = Fontist.system_index_path
+
+      path = File.join(create_tmp_dir, "system_index.yml")
+      allow(Fontist).to receive(:system_index_path).and_return(path)
+
+      yield path
+
+      allow(Fontist).to receive(:system_index_path).and_return(previous_path)
+
+      path
+    end
   end
 end
