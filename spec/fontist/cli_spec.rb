@@ -328,7 +328,9 @@ RSpec.describe Fontist::CLI do
       it "returns error code and tells it could not find it" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error).with("Could not find font Andale Mono Regular.")
+          expect(Fontist.ui).to receive(:error)
+            .with("'Andale Mono' 'Regular' font is missing, " \
+                  "please run `fontist install 'Andale Mono'` to download the font.")
           expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
@@ -344,7 +346,9 @@ RSpec.describe Fontist::CLI do
       it "returns error code and tells it could not find it" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error).with("Could not find font Unsupported Font Regular.")
+          expect(Fontist.ui).to receive(:error)
+            .with("'Unsupported Font' 'Regular' font is missing, " \
+                  "please run `fontist install 'Unsupported Font'` to download the font.")
           expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end

@@ -12,7 +12,7 @@ module Fontist
     STATUS_FONT_INDEX_CORRUPTED = 7
 
     ERROR_TO_STATUS = {
-      Fontist::Errors::NonSupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
+      Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
       Fontist::Errors::MissingFontError => [STATUS_MISSING_FONT_ERROR],
       Fontist::Errors::LicensingError => [STATUS_LICENSING_ERROR],
       Fontist::Errors::ManifestCouldNotBeFoundError => [STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR,

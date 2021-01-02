@@ -55,7 +55,7 @@ module Fontist
       def file_paths(font, style)
         find_font_with_name(font, style).tap do |x|
           if x["paths"].empty?
-            raise Errors::MissingFontError.new("Could not find font #{font} #{style}.")
+            raise Errors::MissingFontError.new(font, style)
           end
         end
       end
