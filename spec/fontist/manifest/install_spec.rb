@@ -16,11 +16,12 @@ RSpec.describe Fontist::Manifest::Install do
     end
 
     context "unsupported font" do
-      let(:manifest) { { "Unexisting Font" => ["Regular"] } }
+      let(:manifest) { { "Non-existing Font" => ["Regular"] } }
 
       it "raises non-supported font error" do
         no_fonts do
-          expect { command }.to raise_error Fontist::Errors::NonSupportedFontError
+          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+          expect { command }.to(raise_error { |e| expect(e.font).to eq "Non-existing Font" })
         end
       end
     end

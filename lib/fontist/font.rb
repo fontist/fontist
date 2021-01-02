@@ -96,12 +96,7 @@ module Fontist
 
     def downloadable_font
       if formula
-        raise(
-          Fontist::Errors::MissingFontError,
-          "#{name} fonts are missing, please run " \
-          "`fontist install '#{name}'` to " \
-          "download the font."
-        )
+        raise Fontist::Errors::MissingFontError.new(name)
       end
     end
 
@@ -236,14 +231,7 @@ module Fontist
     end
 
     def raise_non_supported_font
-      raise Fontist::Errors::NonSupportedFontError.new(
-        "Font '#{@name}' not found locally nor available in the Fontist " \
-        "formula repository.\n" \
-        "Perhaps it is available at the latest Fontist formula " \
-        "repository.\n" \
-        "You can update the formula repository using the command " \
-        "`fontist update` and try again."
-      )
+      raise Fontist::Errors::UnsupportedFontError.new(@name)
     end
   end
 end

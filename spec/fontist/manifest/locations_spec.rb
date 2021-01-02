@@ -31,6 +31,8 @@ RSpec.describe Fontist::Manifest::Locations do
       it "returns no path" do
         no_fonts do
           expect { command }.to raise_error Fontist::Errors::MissingFontError
+          expect { command }.to(raise_error { |e| expect(e.font).to eq "Andale Mono" })
+          expect { command }.to(raise_error { |e| expect(e.style).to eq "Regular" })
         end
       end
     end
