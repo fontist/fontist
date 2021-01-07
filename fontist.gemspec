@@ -5,15 +5,15 @@ require "fontist/version"
 Gem::Specification.new do |spec|
   spec.name          = "fontist"
   spec.version       = Fontist::VERSION
-  spec.authors       = ["Ribose Inc.", "Abu Nashir"]
-  spec.email         = ["operations@ribose.com", "abunashir@gmail.com"]
+  spec.authors       = ["Ribose Inc."]
+  spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = %q{A libarary find or download fonts}
-  spec.description   = %q{A libarary find or download fonts}
+  spec.summary       = %q{Install openly-licensed fonts on Windows, Linux and Mac!}
+  spec.description   = %q{Install openly-licensed fonts on Windows, Linux and Mac!}
   spec.homepage      = "https://github.com/fontist/fontist"
   spec.license       = "BSD-2-Clause"
 
-  spec.post_install_message = "Please run `fontist update` to fetch formulas"
+  spec.post_install_message = "Please run `fontist update` to fetch formulas."
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/fontist/fontist"
