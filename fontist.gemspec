@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.executables   = ["fontist"]
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
+  spec.add_runtime_dependency "arr-pm", "~> 0.0.1"
   spec.add_runtime_dependency "down", "~> 5.0"
   spec.add_runtime_dependency "libmspack", "~> 0.1.0"
   spec.add_runtime_dependency "rubyzip", "~> 2.3.0"

@@ -266,6 +266,20 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "with rpm archive" do
+      let(:font) { "Wingdings" }
+
+      it "installs and returns paths for fonts" do
+        no_fonts do
+          no_formulas do
+            example_formula("webcore.yml")
+
+            expect(command).to include(fontist_font_path("wingding.ttf"))
+          end
+        end
+      end
+    end
+
     context "with subarchive option" do
       let(:font) { "guttman aharoni" }
       let(:file) { "GAHROM.ttf" }

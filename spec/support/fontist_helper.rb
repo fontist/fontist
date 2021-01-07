@@ -156,6 +156,32 @@ module Fontist
       FileUtils.cp(example_path, target_path)
     end
 
+    def no_formulas
+      previous = Fontist.formulas_repo_path
+      @formulas_repo_path = create_formulas_repo
+      allow(Fontist).to receive(:formulas_repo_path).and_return(@formulas_repo_path)
+      Fontist::Index.rebuild
+
+      yield
+
+      allow(Fontist).to receive(:formulas_repo_path).and_return(previous)
+      @formulas_repo_path = nil
+    end
+
+    def create_formulas_repo
+      dir = Pathname.new(Dir.mktmpdir)
+      FileUtils.mkdir(dir.join("Formulas"))
+      dir
+    end
+
+    def example_formula(filename)
+      example_path = File.join("spec", "examples", "formulas", filename)
+      target_path = File.join(@formulas_repo_path, "Formulas", filename)
+      FileUtils.cp(example_path, target_path)
+
+      Fontist::Index.rebuild
+    end
+
     def example_formula_to(filename, dir)
       example_path = File.join("spec", "examples", "formulas", filename)
       target_path = File.join(dir, filename)

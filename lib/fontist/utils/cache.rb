@@ -28,7 +28,7 @@ module Fontist
       end
 
       def downloaded_file(path)
-        File.new(downloaded_path(path))
+        File.new(downloaded_path(path), "rb")
       end
 
       def cache_exist?(path)

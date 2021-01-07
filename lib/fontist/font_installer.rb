@@ -6,6 +6,10 @@ module Fontist
     include Utils::ExeExtractor
     include Utils::MsiExtractor
     include Utils::SevenZipExtractor
+    include Utils::RpmExtractor
+    include Utils::GzipExtractor
+    include Utils::CpioExtractor
+    include Utils::TarExtractor
 
     def initialize(formula)
       @formula = formula

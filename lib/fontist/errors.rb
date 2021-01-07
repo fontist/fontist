@@ -14,6 +14,7 @@ module Fontist
     class TamperedFileError < GeneralError; end
     class TimeoutError < GeneralError; end
     class UnknownFontTypeError < GeneralError; end
+    class UnknownArchiveError < GeneralError; end
 
     class FontError < GeneralError
       attr_reader :font, :style
