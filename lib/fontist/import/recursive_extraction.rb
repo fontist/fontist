@@ -19,7 +19,7 @@ module Fontist
       end
 
       def extension
-        File.extname(filename(@archive)).sub(/^\./, "")
+        fetch_extension(@archive)
       end
 
       def font_files
@@ -43,6 +43,10 @@ module Fontist
       end
 
       private
+
+      def fetch_extension(file)
+        File.extname(filename(file)).sub(/^\./, "")
+      end
 
       def filename(file)
         if file.respond_to?(:original_filename)
@@ -82,16 +86,26 @@ module Fontist
 
       # rubocop:disable Metrics/MethodLength
       def choose_extractor(archive)
-        case filename(archive)
-        when /\.msi$/i
+        case fetch_extension(archive).downcase
+        when "msi"
           Extractors::OleExtractor.new(archive)
-        when /\.cab$/i
+        when "cab"
           Extractors::CabExtractor.new(archive)
-        when /\.exe$/i
+        when "exe"
           extractor = Extractors::SevenZipExtractor.new(archive)
           extractor.try ? extractor : Extractors::CabExtractor.new(archive)
-        else
+        when "zip"
           Extractors::ZipExtractor.new(archive)
+        when "rpm"
+          Extractors::RpmExtractor.new(archive)
+        when "gz"
+          Extractors::GzipExtractor.new(archive)
+        when "cpio"
+          Extractors::CpioExtractor.new(archive)
+        when "tar"
+          Extractors::TarExtractor.new(archive)
+        else
+          raise Errors::UnknownArchiveError, "Could not unarchive `#{filename(archive)}`."
         end
       end
       # rubocop:enable Metrics/MethodLength
