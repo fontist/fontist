@@ -2,6 +2,7 @@ require "fontist/utils"
 
 module Fontist
   class FontInstaller
+    include Import::Extractors
     include Utils::ZipExtractor
     include Utils::ExeExtractor
     include Utils::MsiExtractor
@@ -51,15 +52,45 @@ module Fontist
 
     def extract
       resource = @formula.resources.first
+      file = download_file(resource)
+      operations = [@formula.extract].flatten
+      last_operation = operations.pop
 
-      [@formula.extract].flatten.each do |operation|
-        resource = extract_by_operation(operation, resource)
+      operations.each do |operation|
+        extractor = choose_extractor(operation.format)
+        dir = extractor.new(file).extract
+        file = search_archive(dir)
       end
 
-      fonts_paths = resource
-
-      fonts_paths
+      extractor = choose_extractor(last_operation.format)
+      dir = extractor.new(file).extract
+      search_fonts(dir)
     end
+
+      # rubocop:disable Metrics/MethodLength
+    def choose_extractor(format)
+      case format
+      when "msi"
+        Extractors::OleExtractor
+      when "cab"
+        Extractors::CabExtractor
+      when "seven_zip"
+        Extractors::SevenZipExtractor
+      when "zip"
+        Extractors::ZipExtractor
+      when "rpm"
+        Extractors::RpmExtractor
+      when "gzip"
+        Extractors::GzipExtractor
+      when "cpio"
+        Extractors::CpioExtractor
+      when "tar"
+        Extractors::TarExtractor
+      else
+        raise Errors::UnknownArchiveError, "Could not unarchive `#{format}`."
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
 
     def extract_by_operation(operation, resource)
       method = "#{operation.format}_extract"
