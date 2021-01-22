@@ -27,6 +27,8 @@ Gem::Specification.new do |spec|
   spec.executables   = ["fontist"]
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
+  spec.required_ruby_version = '>= 2.4.0'
+
   spec.add_runtime_dependency "arr-pm", "~> 0.0.1"
   spec.add_runtime_dependency "down", "~> 5.0"
   spec.add_runtime_dependency "libmspack", "~> 0.1.0"
@@ -35,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "ruby-ole", "~> 1.0"
   spec.add_runtime_dependency "thor", "~> 1.0.1"
   spec.add_runtime_dependency "git", "~> 1.0"
-  spec.add_runtime_dependency "ttfunk", "~> 1.0"
+  spec.add_runtime_dependency "ttfunk", "~> 1.6"
 
   spec.add_development_dependency "extract_ttc", "~> 0.1"
   spec.add_development_dependency "pry"
