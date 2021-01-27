@@ -52,12 +52,11 @@ module Fontist
     end
     map remove: :uninstall
 
-    desc "status [FONT]", "Show status of FONT or all fonts in fontist"
+    desc "status [FONT]", "Show paths of FONT or all fonts"
     def status(font = nil)
-      formulas = Fontist::Font.status(font)
-      return error("No font is installed.", STATUS_MISSING_FONT_ERROR) if formulas.empty?
+      paths = Fontist::Font.status(font)
+      return error("No font is installed.", STATUS_MISSING_FONT_ERROR) if paths.empty?
 
-      print_formulas(formulas)
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
@@ -153,20 +152,6 @@ module Fontist
 
     def print_yaml(object)
       Fontist.ui.say(YAML.dump(object))
-    end
-
-    def print_formulas(formulas)
-      formulas.each do |formula, fonts|
-        Fontist.ui.success(formula.key)
-
-        fonts.each do |font, styles|
-          Fontist.ui.success(" #{font.name}")
-
-          styles.each do |style, path|
-            Fontist.ui.success("  #{style.type} (#{path})")
-          end
-        end
-      end
     end
 
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

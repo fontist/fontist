@@ -21,11 +21,11 @@ module Fontist
     end
 
     def self.find(font_name)
-      Index.from_yaml.load_formulas(font_name).first
+      Indexes::FontIndex.from_yaml.load_formulas(font_name).first
     end
 
     def self.find_fonts(font_name)
-      formulas = Index.from_yaml.load_formulas(font_name)
+      formulas = Indexes::FontIndex.from_yaml.load_formulas(font_name)
 
       formulas.map do |formula|
         formula.fonts.select do |f|
@@ -35,7 +35,7 @@ module Fontist
     end
 
     def self.find_styles(font_name, style_name)
-      formulas = Index.from_yaml.load_formulas(font_name)
+      formulas = Indexes::FontIndex.from_yaml.load_formulas(font_name)
 
       formulas.map do |formula|
         formula.fonts.map do |f|
@@ -57,7 +57,7 @@ module Fontist
     end
 
     def to_index_formula
-      IndexFormula.new(path)
+      Indexes::IndexFormula.new(path)
     end
 
     def path

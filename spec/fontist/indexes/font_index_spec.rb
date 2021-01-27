@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Index do
+RSpec.describe Fontist::Indexes::FontIndex do
   describe "#load_formulas" do
     let(:index) { described_class.from_yaml }
 
