@@ -4,8 +4,8 @@ description: webcore
 resources:
   webcore.rpm:
     urls:
-    - https://download.opensuse.org/repositories/home:/Dead_Mozay/openSUSE_Tumbleweed/src/webcore-fonts-3.0-2.14.src.rpm
-    sha256: 5c8d91f51b91f8d676d858af86183f587a47778dd477968fd275471814ed4d02
+    - https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
+    sha256: 75aab1edd72bb2e65592346ad54b78089cddedaa9801c8c133cba79677482fb2
 font_collections:
 - filename: CAMBRIA.ttc
   source_filename: CAMBRIA.TTC

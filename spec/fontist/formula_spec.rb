@@ -47,7 +47,6 @@ RSpec.describe Fontist::Formula do
 
       expect(formulas.size).to be > 1000
       expect(formulas.first.fonts.size).to be > 0
-      expect(formulas.first.homepage).to be_kind_of(String)
       expect(formulas.first.description).to be_kind_of(String)
     end
   end
