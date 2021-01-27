@@ -185,7 +185,7 @@ RSpec.describe Fontist::Font do
 
           expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
           expect(Fontist.ui).to receive(:say)
-            .with(%(- #{font_path('AndaleMo.TTF')}))
+            .with(include(font_path("AndaleMo.TTF")))
 
           command
         end
@@ -452,18 +452,9 @@ RSpec.describe Fontist::Font do
       it "returns its path" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
-          expect(command.size).to be 1
-
-          formula, fonts = command.first
-          expect(formula.key).to eq "andale"
-
-          font, styles = fonts.first
-          expect(font.name).to eq "Andale Mono"
-
-          _style, path = styles.first
-          expect(path).to include("AndaleMo.TTF")
+          expect(command).to eq [font_path("AndaleMo.TTF")]
         end
       end
     end
@@ -471,9 +462,21 @@ RSpec.describe Fontist::Font do
     context "with no font and nothing installed" do
       let(:font) { nil }
 
-      it "returns no font" do
+      it "returns system fonts" do
         stub_fonts_path_to_new_path do
-          expect(command.size).to be 0
+          expect(command.size).to be > 1
+        end
+      end
+    end
+
+    context "with no font and no system font" do
+      let(:font) { nil }
+
+      it "returns no fonts" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            expect(command.size).to be 0
+          end
         end
       end
     end
@@ -484,18 +487,22 @@ RSpec.describe Fontist::Font do
       it "returns installed font with its path" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          stub_font_file("AndaleMo.TTF")
+          example_font_to_fontist("AndaleMo.TTF")
 
-          expect(command.size).to be 1
+          expect(command).to eq [font_path("AndaleMo.TTF")]
+        end
+      end
+    end
 
-          formula, fonts = command.first
-          expect(formula.key).to eq "andale"
+    context "when installed from another formula" do
+      let(:font) { "arial" }
 
-          font, styles = fonts.first
-          expect(font.name).to eq "Andale Mono"
+      it "shows original formula" do
+        no_fonts do
+          example_font_to_fontist("ariali.ttf")
 
-          _style, path = styles.first
-          expect(path).to include("AndaleMo.TTF")
+          expect(Fontist.ui).to receive(:say).with(include("from webcore formula"))
+          command
         end
       end
     end

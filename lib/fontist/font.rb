@@ -1,4 +1,5 @@
 require "fontist/font_installer"
+require "fontist/font_path"
 
 module Fontist
   class Font
@@ -47,9 +48,9 @@ module Fontist
     end
 
     def status
-      return installed_statuses unless @name
+      return installed_paths unless @name
 
-      font_status || downloadable_font || raise_non_supported_font
+      find_system_font || downloadable_font || raise_non_supported_font
     end
 
     def list
@@ -73,9 +74,14 @@ module Fontist
         return
       end
 
+      print_paths(paths)
+    end
+
+    def print_paths(paths)
       Fontist.ui.say("Fonts found at:")
       paths.each do |path|
-        Fontist.ui.say("- #{path}")
+        font_path = FontPath.new(path)
+        Fontist.ui.say(font_path.to_s)
       end
     end
 
@@ -161,35 +167,12 @@ module Fontist
       Fontist::FontistFont.find(name)
     end
 
-    def installed_statuses
-      installed_styles(all_formulas)
+    def installed_paths
+      print_paths(SystemFont.font_paths)
     end
 
     def all_formulas
       Fontist::Formula.all
-    end
-
-    def font_status
-      return unless formula
-
-      statuses = installed_styles([formula])
-      statuses.empty? ? nil : statuses
-    end
-
-    def installed_styles(formulas)
-      filter_blank(formulas) do |formula|
-        filter_blank(formula.fonts) do |font|
-          filter_blank(font.styles) do |style|
-            path(style)
-          end
-        end
-      end
-    end
-
-    def filter_blank(elements)
-      elements.map { |e| [e, yield(e)] }
-        .to_h
-        .reject { |_k, v| v.nil? || v.empty? }
     end
 
     def path(style)

@@ -78,7 +78,7 @@ RSpec.describe Fontist::CLI do
         stub_fonts_path_to_new_path do
           example_font_to_fontist("AndaleMo.TTF")
 
-          expect(Fontist.ui).to receive(:success).with(include("AndaleMo.TTF"))
+          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
           status = described_class.start(["status", "andale mono"])
           expect(status).to be 0
         end
@@ -88,12 +88,7 @@ RSpec.describe Fontist::CLI do
         stub_fonts_path_to_new_path do
           example_font_to_fontist("AndaleMo.TTF")
 
-          expect(Fontist.ui).to receive(:success)
-            .with("andale")
-          expect(Fontist.ui).to receive(:success)
-            .with(" Andale Mono")
-          expect(Fontist.ui).to receive(:success)
-            .with(/^  Regular \(.*AndaleMo.TTF\)/)
+          expect(Fontist.ui).to receive(:say).with(/^- .*AndaleMo.TTF \(from andale formula\)$/)
           described_class.start(["status", "andale mono"])
         end
       end
@@ -110,12 +105,11 @@ RSpec.describe Fontist::CLI do
     end
 
     context "collection font" do
-      it "returns collection name" do
+      it "prints its formula" do
         stub_fonts_path_to_new_path do
           example_font_to_fontist("CAMBRIA.TTC")
 
-          expect(Fontist.ui).to receive(:success).with(include("Cambria"))
-          expect(Fontist.ui).to receive(:success).with(include("Regular"))
+          expect(Fontist.ui).to receive(:say).with(include("from cleartype formula"))
           status = described_class.start(["status", "cambria"])
           expect(status).to be 0
         end
