@@ -29,12 +29,14 @@ module Fontist
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
-    option :confirm_license, type: :boolean, desc: "Confirm license agreement"
+    option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
+    option :hide_licenses, type: :boolean, desc: "Hide license texts"
     def install(font)
       Fontist::Font.install(
         font,
         force: options[:force],
-        confirmation: options[:confirm_license] ? "yes" : "no"
+        confirmation: options[:accept_all_licenses] ? "yes" : "no",
+        hide_licenses: options[:hide_licenses]
       )
       success
     rescue Fontist::Errors::GeneralError => e
@@ -89,11 +91,13 @@ module Fontist
     end
 
     desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
-    option :confirm_license, type: :boolean, desc: "Confirm license agreement"
+    option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
+    option :hide_licenses, type: :boolean, desc: "Hide license texts"
     def manifest_install(manifest)
       paths = Fontist::Manifest::Install.from_file(
         manifest,
-        confirmation: options[:confirm_license] ? "yes" : "no"
+        confirmation: options[:accept_all_licenses] ? "yes" : "no",
+        hide_licenses: options[:hide_licenses]
       )
 
       print_yaml(paths)

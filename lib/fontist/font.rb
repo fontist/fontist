@@ -6,6 +6,7 @@ module Fontist
     def initialize(options = {})
       @name = options[:name]
       @confirmation = options[:confirmation] || "no"
+      @hide_licenses = options[:hide_licenses]
       @force = options[:force] || false
 
       check_or_create_fontist_path!
@@ -19,8 +20,8 @@ module Fontist
       new(name: name).find
     end
 
-    def self.install(name, confirmation: "no", force: false)
-      new(name: name, confirmation: confirmation, force: force).install
+    def self.install(name, options = {})
+      new(options.merge(name: name)).install
     end
 
     def self.uninstall(name)
@@ -119,19 +120,26 @@ module Fontist
     end
 
     def check_and_confirm_required_license(formula)
-      if formula.license_required && !confirmation.casecmp("yes").zero?
-        @confirmation = show_license_and_ask_for_input(formula.license)
+      if formula.license_required
+        show_license(formula.license) unless @hide_licenses
 
-        unless confirmation&.casecmp?("yes")
-          raise Fontist::Errors::LicensingError.new(
-            "Fontist will not download these fonts unless you accept the terms."
-          )
+        unless confirmation.casecmp?("yes")
+          @confirmation = ask_for_agreement
+
+          unless confirmation&.casecmp?("yes")
+            raise Fontist::Errors::LicensingError.new(
+              "Fontist will not download these fonts unless you accept the terms."
+            )
+          end
         end
       end
     end
 
-    def show_license_and_ask_for_input(license)
+    def show_license(license)
       Fontist.ui.say(license_agrement_message(license))
+    end
+
+    def ask_for_agreement
       Fontist.ui.ask(
         "\nDo you accept all presented font licenses, and want Fontist " \
         "to download these fonts for you? => TYPE 'Yes' or 'No':"

@@ -50,6 +50,32 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+
+    ["--confirm-license", "--accept-all-licenses"].each do |accept_flag|
+      context "accept flag '#{accept_flag}' passed" do
+        it "calls installation with a yes option" do
+          no_fonts do
+            expect(Fontist::Font).to receive(:install)
+              .with(anything, hash_including(confirmation: "yes"))
+              .and_return([])
+
+            described_class.start(["install", accept_flag, "segoe ui"])
+          end
+        end
+      end
+    end
+
+    context "hide-licenses flag passed" do
+      it "passes hide-licenses option" do
+        no_fonts do
+          expect(Fontist::Font).to receive(:install)
+            .with(anything, hash_including(hide_licenses: true))
+            .and_return([])
+
+          described_class.start(["install", "--hide_licenses", "segoe ui"])
+        end
+      end
+    end
   end
 
   describe "#status" do
@@ -546,6 +572,41 @@ RSpec.describe Fontist::CLI do
           { "Regular" => { "full_name" => "Andale Mono",
                            "paths" => [font_path("AndaleMo.TTF")] } }
         )
+      end
+    end
+
+    context "confirmed license with aliased cli option" do
+      let(:options) { ["--accept-all-licenses"] }
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "calls installation with a yes option" do
+        expect(Fontist::Manifest::Install).to receive(:from_file)
+          .with(anything, hash_including(confirmation: "yes"))
+          .and_return([])
+
+        command
+      end
+    end
+
+    context "with accept flag, no hide-licenses flag" do
+      let(:options) { ["--accept-all-licenses"] }
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "still shows license text" do
+        expect(Fontist.ui).to receive(:say).with(/^FONT LICENSE ACCEPTANCE/)
+
+        command
+      end
+    end
+
+    context "with accept flag and hide-licenses flag" do
+      let(:options) { ["--accept-all-licenses", "--hide-licenses"] }
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+
+      it "hides license text" do
+        expect(Fontist.ui).not_to receive(:say).with(/FONT LICENSE ACCEPTANCE/)
+
+        command
       end
     end
   end
