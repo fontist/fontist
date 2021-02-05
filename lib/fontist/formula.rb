@@ -24,6 +24,10 @@ module Fontist
       Indexes::FontIndex.from_yaml.load_formulas(font_name).first
     end
 
+    def self.find_many(font_name)
+      Indexes::FontIndex.from_yaml.load_formulas(font_name)
+    end
+
     def self.find_fonts(font_name)
       formulas = Indexes::FontIndex.from_yaml.load_formulas(font_name)
 
