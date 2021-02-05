@@ -66,7 +66,7 @@ module Fontist
 
     private
 
-    attr_reader :name, :confirmation
+    attr_reader :name
 
     def find_system_font
       paths = Fontist::SystemFont.find(name)
@@ -101,6 +101,10 @@ module Fontist
       @formula ||= Fontist::Formula.find(name)
     end
 
+    def formulas
+      @formulas ||= Fontist::Formula.find_many(name)
+    end
+
     def downloadable_font
       if formula
         raise Fontist::Errors::MissingFontError.new(name)
@@ -108,8 +112,10 @@ module Fontist
     end
 
     def download_font
-      if formula
-        check_and_confirm_required_license(formula)
+      return if formulas.empty?
+
+      formulas.flat_map do |formula|
+        confirmation = check_and_confirm_required_license(formula)
         paths = font_installer(formula).install(confirmation: confirmation)
 
         Fontist.ui.say("Fonts installed at:")
@@ -120,19 +126,17 @@ module Fontist
     end
 
     def check_and_confirm_required_license(formula)
-      if formula.license_required
-        show_license(formula.license) unless @hide_licenses
+      return @confirmation unless formula.license_required
 
-        unless confirmation.casecmp?("yes")
-          @confirmation = ask_for_agreement
+      show_license(formula.license) unless @hide_licenses
+      return @confirmation if @confirmation.casecmp?("yes")
 
-          unless confirmation&.casecmp?("yes")
-            raise Fontist::Errors::LicensingError.new(
-              "Fontist will not download these fonts unless you accept the terms."
-            )
-          end
-        end
-      end
+      confirmation = ask_for_agreement
+      return confirmation if confirmation&.casecmp?("yes")
+
+      raise Fontist::Errors::LicensingError.new(
+        "Fontist will not download these fonts unless you accept the terms."
+      )
     end
 
     def show_license(license)

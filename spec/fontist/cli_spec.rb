@@ -471,7 +471,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [include("AndaleMo.TTF")] } }
+                           "paths" => include(include("AndaleMo.TTF")) } }
         )
       end
     end
@@ -488,7 +488,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } }
+                           "paths" => include(/AndaleMo\.TTF/i) } }
         )
       end
     end
@@ -503,7 +503,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } },
+                           "paths" => include(/AndaleMo\.TTF/i) } },
           "Courier" =>
           { "Bold" => { "full_name" => "Courier New Bold",
                         "paths" => [font_path("courbd.ttf")] } }
@@ -532,10 +532,10 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Georgia" =>
           { nil => { "full_name" => include("Georgia"),
-                     "paths" => include(font_path("Georgia.TTF"),
-                                        font_path("Georgiab.TTF"),
-                                        font_path("Georgiai.TTF"),
-                                        font_path("Georgiaz.TTF")) } }
+                     "paths" => include(/Georgia\.TTF/i,
+                                        /Georgiab\.TTF/i,
+                                        /Georgiai\.TTF/i,
+                                        /Georgiaz\.TTF/i) } }
         )
       end
     end
@@ -570,7 +570,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } }
+                           "paths" => include(/AndaleMo\.TTF/i) } }
         )
       end
     end

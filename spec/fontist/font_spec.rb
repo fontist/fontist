@@ -345,6 +345,31 @@ RSpec.describe Fontist::Font do
         end
       end
     end
+
+    context "when several formulas exist" do
+      let(:font) { "arial" }
+
+      it "installs all matching formulas" do
+        no_fonts do
+          expect(Fontist::FontInstaller).to receive(:new).twice.and_call_original
+          command
+          expect(font_file("Arial.ttf")).to exist
+          expect(font_file("arial.ttf")).to exist
+        end
+      end
+    end
+
+    context "when several formulas exist and require license agreement" do
+      let(:command) { Fontist::Font.install(font, confirmation: "no", **options) }
+      let(:font) { "arial" }
+
+      it "asks for acceptance for each formula" do
+        no_fonts do
+          expect(Fontist.ui).to receive(:ask).and_return("yes").exactly(2).times
+          command
+        end
+      end
+    end
   end
 
   describe ".uninstall" do
