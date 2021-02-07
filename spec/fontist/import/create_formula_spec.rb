@@ -171,4 +171,13 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       end
     end
   end
+
+  context "pkg archive" do
+    let(:archive_name) { "office.pkg" }
+
+    it "generates proper yaml", dev: true do
+      require "fontist/import/create_formula"
+      expect(formula).to include example
+    end
+  end
 end
