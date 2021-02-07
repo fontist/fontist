@@ -1,0 +1,21 @@
+---
+name: Marlett
+description: Marlett
+resources:
+  Marlett.pkg:
+    urls:
+    - "../examples/archives/office.pkg"
+    sha256: ae8e5fa09e2e5ef6dd7e76dab7d498ba54c25416ccc63220693e5523e75bee12
+fonts:
+- name: Marlett
+  styles:
+  - family_name: Marlett
+    type: Regular
+    full_name: Marlett
+    post_script_name: Marlett
+    version: '1.11'
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: Marlett.ttf
+extract: {}
+copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+license_url: http://www.microsoft.com/typography/fonts
