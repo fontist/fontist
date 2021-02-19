@@ -3,6 +3,13 @@ require_relative "cache"
 module Fontist
   module Utils
     class Downloader
+      class << self
+        def download(*args)
+          new(*args).download
+        end
+        ruby2_keywords :download if respond_to?(:ruby2_keywords, true)
+      end
+
       def initialize(file, file_size: nil, sha: nil, progress_bar: nil)
         # TODO: If the first mirror fails, try the second one
         @file = file
@@ -25,10 +32,6 @@ module Fontist
         end
 
         file
-      end
-
-      def self.download(file, options = {})
-        new(file, options).download
       end
 
       private
