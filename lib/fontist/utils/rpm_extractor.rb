@@ -21,6 +21,13 @@ module Fontist
       def rpm_class
         @rpm_class ||= begin
                          require "arr-pm"
+
+                         # fix for Ruby 3.0
+                         unless RPM::File::Header::HEADER_MAGIC == [0x8eade801, 0x00000000].pack("NN")
+                           RPM::File::Header.send(:remove_const, "HEADER_MAGIC")
+                           RPM::File::Header.const_set("HEADER_MAGIC", [0x8eade801, 0x00000000].pack("NN"))
+                         end
+
                          RPM::File
                        end
       end
