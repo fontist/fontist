@@ -34,6 +34,5 @@ fonts:
     description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     font: Euphemia UCAS Regular 2.6.6.ttf
-extract:
-  format: zip
+extract: {}
 copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.

@@ -14,7 +14,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -34,7 +34,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
@@ -116,7 +116,59 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
+    end
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def expect_formula_includes(formula, example)
+    varies_attributes = %w[copyright homepage license_url open_license requires_license_agreement]
+    exclude = %w[fonts font_collections] + varies_attributes
+    expect(except(formula, *exclude)).to eq(except(example, *exclude))
+
+    if example["fonts"]
+      expect(formula["fonts"]).to contain_exactly(
+        *example["fonts"].map do |font|
+          { "name" => font["name"],
+            "styles" => contain_exactly(*font["styles"]) }
+        end
+      )
+    end
+
+    if example["font_collections"]
+      expect(formula["font_collections"]).to contain_exactly(
+        *example["font_collections"].map do |collection|
+          include(
+            only(collection, "filename", "source_filename").merge(
+              "fonts" => contain_exactly(
+                *collection["fonts"].map do |font|
+                  { "name" => font["name"],
+                    "styles" => contain_exactly(*font["styles"]) }
+                end
+              )
+            )
+          )
+        end
+      )
+    end
+
+    varies_attributes.each do |attr|
+      expect(formula[attr]).to eq(example[attr]).or be
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def only(hash, *keys)
+    hash.select do |k, _v|
+      keys.include?(k)
+    end
+  end
+
+  def except(hash, *keys)
+    hash.dup.tap do |h|
+      keys.each do |k|
+        h.delete(k)
+      end
     end
   end
 end

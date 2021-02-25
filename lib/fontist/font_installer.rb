@@ -1,16 +1,8 @@
 require "fontist/utils"
+require "excavate"
 
 module Fontist
   class FontInstaller
-    include Utils::ZipExtractor
-    include Utils::ExeExtractor
-    include Utils::MsiExtractor
-    include Utils::SevenZipExtractor
-    include Utils::RpmExtractor
-    include Utils::GzipExtractor
-    include Utils::CpioExtractor
-    include Utils::TarExtractor
-
     def initialize(formula)
       @formula = formula
     end
@@ -20,17 +12,12 @@ module Fontist
         raise(Fontist::Errors::LicensingError)
       end
 
-      reinitialize
       install_font
     end
 
     private
 
     attr_reader :formula
-
-    def reinitialize
-      @downloaded = false
-    end
 
     def install_font
       fonts_paths = run_in_temp_dir { extract }
@@ -50,47 +37,39 @@ module Fontist
     end
 
     def extract
-      resource = @formula.resources.first
+      archive = download_file(@formula.resources.first)
 
-      [@formula.extract].flatten.each do |operation|
-        resource = extract_by_operation(operation, resource)
-      end
-
-      fonts_paths = resource
-
-      fonts_paths
+      install_fonts_from_archive(archive)
     end
 
-    def extract_by_operation(operation, resource)
-      method = "#{operation.format}_extract"
-      if operation.options
-        send(method, resource, **operation.options.to_h)
-      else
-        send(method, resource)
-      end
-    end
+    def install_fonts_from_archive(archive)
+      Fontist.ui.say(%(Installing font "#{@formula.key}".))
 
-    def fonts_path
-      Fontist.fonts_path
+      Array.new.tap do |fonts_paths|
+        Excavate::Archive.new(archive.path).files(recursive_packages: true) do |path|
+          fonts_paths << install_font_file(path) if font_file?(path)
+        end
+      end
     end
 
     def download_file(source)
       url = source.urls.first
       Fontist.ui.say(%(Downloading font "#{@formula.key}" from #{url}))
 
-      downloaded_file = Fontist::Utils::Downloader.download(
+      Fontist::Utils::Downloader.download(
         url,
         sha: source.sha256,
         file_size: source.file_size,
         progress_bar: true
       )
-
-      @downloaded = true
-      downloaded_file
     end
 
-    def font_file?(filename)
-      source_files.include?(filename)
+    def font_file?(path)
+      source_file?(path) && font_directory?(path)
+    end
+
+    def source_file?(path)
+      source_files.include?(File.basename(path))
     end
 
     def source_files
@@ -99,6 +78,27 @@ module Fontist
           style.source_font || style.font
         end
       end
+    end
+
+    def font_directory?(path)
+      return true unless subdirectory_pattern
+
+      File.fnmatch?(subdirectory_pattern, File.dirname(path))
+    end
+
+    def subdirectory_pattern
+      @subdirectory_pattern ||= "*" + subdirectories.first.chomp("/") unless subdirectories.empty?
+    end
+
+    def subdirectories
+      @subdirectories ||= [@formula.extract].flatten.map(&:options).compact.map(&:fonts_sub_dir).compact
+    end
+
+    def install_font_file(source)
+      target = Fontist.fonts_path.join(target_filename(File.basename(source))).to_s
+      FileUtils.mv(source, target)
+
+      target
     end
 
     def target_filename(source_filename)

@@ -232,9 +232,5 @@ fonts:
     copyright: Copyright(c) 1996 HUMAN COMPUTERS, INC.
     font: HMFMOLD.ttf
     source_font: HMFMOLD.TTF_1042
-extract:
-- format: exe
-  options:
-    subarchive: officelr.cab
-- format: cab
+extract: {}
 copyright: "(c) Copyright HanYang Systems Inc. 1995"
