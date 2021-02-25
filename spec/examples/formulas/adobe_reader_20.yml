@@ -128,9 +128,7 @@ fonts:
     copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
       reserved."
     font: MyriadPro_Regular.otf
-extract:
-- format: seven_zip
-- format: cab
+extract: {}
 copyright: "© 2002 Adobe Systems Incorporated. All rights reserved."
 license_url: http://www.adobe.com/type/legal.html
 open_license: |-

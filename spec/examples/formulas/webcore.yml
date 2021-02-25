@@ -904,12 +904,7 @@ fonts:
       Type Solutions, Inc. All Rights Reserved.
     font: WINGDNG3.ttf
     source_font: WINGDNG3.TTF
-extract:
-- format: rpm
-- format: gzip
-- format: cpio
-- format: gzip
-- format: tar
+extract: {}
 copyright: Wingdings 2 designed by Bigelow & Holmes Inc. for Microsoft Corporation.
   Copyright © 1992 Microsoft Corporation. Pat. Pend. All Rights Reserved. © 1990-1991
   Type Solutions, Inc. All Rights Reserved.

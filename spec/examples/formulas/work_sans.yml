@@ -137,7 +137,6 @@ fonts:
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-ThinItalic.ttf
 extract:
-  format: zip
   options:
     fonts_sub_dir: Work-Sans-2.010/fonts/static/*
 copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)

@@ -65,7 +65,6 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-extract:
-  format: zip
+extract: {}
 copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'."
 license_url: http://scripts.sil.org/OFL

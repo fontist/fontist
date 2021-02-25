@@ -350,9 +350,5 @@ fonts:
       Type Solutions Inc 1990-1993. All rights reserved.
     font: HDASBD.ttf
     source_font: HDASBD.TTF_1037
-extract:
-- format: exe
-  options:
-    subarchive: officelr.cab
-- format: cab
+extract: {}
 copyright: Copyright 1992-2000 by Shmuel Guttman P.O.Box 13038 Jerusalem 91130
