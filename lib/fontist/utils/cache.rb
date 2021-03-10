@@ -3,10 +3,10 @@ module Fontist
     class Cache
       include Locking
 
-      def fetch(key, bar: nil)
+      def fetch(key)
         map = load_cache
         if cache_exist?(map[key])
-          print_bar(bar, map[key]) if bar
+          print(map[key])
 
           return downloaded_file(map[key])
         end
@@ -15,6 +15,25 @@ module Fontist
         path = save_cache(generated_file, key)
 
         downloaded_file(path)
+      end
+
+      def delete(key)
+        lock(lock_path) do
+          map = load_cache
+          return unless map[key]
+
+          value = map.delete(key)
+          File.write(cache_map_path, YAML.dump(map))
+          value
+        end
+      end
+
+      def set(key, value)
+        lock(lock_path) do
+          map = load_cache
+          map[key] = value
+          File.write(cache_map_path, YAML.dump(map))
+        end
       end
 
       private
@@ -39,12 +58,12 @@ module Fontist
         Fontist.downloads_path.join(path)
       end
 
-      def print_bar(bar, path)
-        File.size(downloaded_path(path)).tap do |size|
-          bar.total = size
-          bar.increment(size)
-          bar.finish("cache")
-        end
+      def print(path)
+        Fontist.ui.say("Fetched from cache: #{size(path)} MiB.")
+      end
+
+      def size(path)
+        File.size(downloaded_path(path)) / (1024 * 1024)
       end
 
       def save_cache(generated_file, key)

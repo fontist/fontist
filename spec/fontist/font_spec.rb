@@ -144,17 +144,27 @@ RSpec.describe Fontist::Font do
     end
 
     context "uninstalled but supported" do
-      let(:font) { "work sans" }
+      let(:font) { "noto sans" }
+      let(:url) { "https://fonts.google.com/download?family=Noto%20Sans" }
+
+      around do |example|
+        Fontist::Utils::Cache.new.tap do |cache|
+          path = cache.delete(url)
+          example.run
+          cache.set(url, path) if path
+        end
+      end
 
       it "prints descriptive messages of what's going on" do
         no_fonts do
           # rubocop:disable Metrics/LineLength
-          expect(Fontist.ui).to receive(:say).with(%(Font "work sans" not found locally.))
-          expect(Fontist.ui).to receive(:say).with(%(Downloading font "work_sans" from https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip))
-          expect(Fontist.ui).to receive(:print).with(/Downloads:/)
-          expect(Fontist.ui).to receive(:say).with(%(Installing font "work_sans".))
+          expect(Fontist.ui).to receive(:say).with(%(Font "noto sans" not found locally.))
+          expect(Fontist.ui).to receive(:say).with(%(Downloading font "google/noto_sans" from https://fonts.google.com/download?family=Noto%20Sans))
+          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+ MiB/)
+          expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
+          expect(Fontist.ui).to receive(:say).with(%(Installing font "google/noto_sans".))
           expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
-          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('WorkSans-Black.ttf')}))
+          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('NotoSans-Regular.ttf')}))
           # rubocop:enable Metrics/LineLength
 
           command
@@ -163,14 +173,14 @@ RSpec.describe Fontist::Font do
     end
 
     context "uninstalled but supported and in cache" do
-      let(:font) { "work sans" }
+      let(:font) { "noto sans" }
       let(:options) { { force: true } }
 
       it "tells about fetching from cache" do
         no_fonts do
           Fontist::Font.install(font, confirmation: "yes")
 
-          expect(Fontist.ui).to receive(:print).with(/(cache)/)
+          expect(Fontist.ui).to receive(:say).with(/Fetched from cache: \d+ MiB\./)
           command
         end
       end
