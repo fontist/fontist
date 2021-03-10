@@ -14,13 +14,13 @@ module Fontist
         # TODO: If the first mirror fails, try the second one
         @file = file
         @sha = [sha].flatten.compact
-        @file_size = (file_size || default_file_size).to_i
+        @file_size = file_size.to_i if file_size
         @progress_bar = set_progress_bar(progress_bar)
         @cache = Cache.new
       end
 
       def download
-        file = @cache.fetch(@file, bar: @progress_bar) do
+        file = @cache.fetch(@file) do
           download_file
         end
 
@@ -37,10 +37,6 @@ module Fontist
       private
 
       attr_reader :file, :sha, :file_size
-
-      def default_file_size
-        5 * byte_to_megabyte
-      end
 
       def byte_to_megabyte
         @byte_to_megabyte ||= 1024 * 1024
@@ -95,8 +91,11 @@ module Fontist
 
     class ProgressBar
       def initialize(total)
-        @counter = 1
+        @counter = 0
         @total  = total
+        @printed_percent = -1
+        @printed_size = -1
+        @start = Time.now
       end
 
       def total=(total)
@@ -105,22 +104,57 @@ module Fontist
 
       def increment(progress)
         @counter = progress
-        Fontist.ui.print "\r\e[0KDownloads: #{counter_mb}MB/#{total_mb}MB " \
-                         "(#{completeness})"
+
+        print_incrementally
       end
 
-      def finish(message = nil)
-        if message
-          Fontist.ui.print " (#{message})\n"
-        else
-          Fontist.ui.print "\n"
-        end
+      def finish
+        print
+
+        Fontist.ui.print(format(", %<mb_per_second>.2f MiB/s, done.\n", mb_per_second: mb_per_second))
       end
 
       private
 
-      def completeness
-        sprintf("%#.2f%%", (@counter.fdiv(@total) * 100)) # rubocop:disable Style/FormatStringToken, Metrics/LineLength
+      def print_incrementally
+        if total?
+          print_percent_incrementally
+        else
+          print_size_incrementally
+        end
+      end
+
+      def print
+        if total?
+          print_percent
+        else
+          print_size
+        end
+      end
+
+      def total?
+        !!@total
+      end
+
+      def print_percent_incrementally
+        return unless percent > @printed_percent
+
+        print_percent
+
+        @printed_percent = percent
+      end
+
+      def print_percent
+        # rubocop:disable Style/FormatStringToken
+        Fontist.ui.print(format("\r\e[0KDownloading: %<completeness>3d%% (%<counter_mb>d/%<total_mb>d MiB)",
+                                completeness: percent,
+                                counter_mb: counter_mb,
+                                total_mb: total_mb))
+        # rubocop:enable Style/FormatStringToken
+      end
+
+      def percent
+        (@counter.fdiv(@total) * 100).to_i
       end
 
       def counter_mb
@@ -133,6 +167,22 @@ module Fontist
 
       def byte_to_megabyte
         @byte_to_megabyte ||= 1024 * 1024
+      end
+
+      def print_size_incrementally
+        return unless counter_mb > @printed_size
+
+        print_size
+
+        @printed_size = counter_mb
+      end
+
+      def print_size
+        Fontist.ui.print(format("\r\e[0KDownloading: %<downloaded>4d MiB", downloaded: counter_mb))
+      end
+
+      def mb_per_second
+        @counter / (Time.now - @start) / byte_to_megabyte
       end
     end
   end
