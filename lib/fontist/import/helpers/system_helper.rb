@@ -4,9 +4,7 @@ module Fontist
       module SystemHelper
         class << self
           def run(command)
-            unless ENV.fetch("TEST_ENV", "") === "CI"
-              Fontist.ui.say("Run `#{command}`")
-            end
+            Fontist.ui.say("Run `#{command}`")
 
             result = `#{command}`
             unless $CHILD_STATUS.to_i.zero?

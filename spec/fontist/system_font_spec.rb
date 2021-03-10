@@ -15,7 +15,7 @@ RSpec.describe Fontist::SystemFont do
     end
 
     context "with valid font name" do
-      it "returns the complete font path", slow: true do
+      it "returns the complete font path" do
         no_fonts do
           example_font_to_fontist("CAMBRIA.TTC")
 
@@ -26,12 +26,7 @@ RSpec.describe Fontist::SystemFont do
     end
 
     context "with invalid font" do
-      it "returns nil for partial-not match" do
-        name = "Deje"
-        expect(Fontist::SystemFont.find(name)).to be_nil
-      end
-
-      it "returns nill to the caller" do
+      it "returns nill to the caller", slow: true do
         name = "invalid-font.ttf"
         invalid_font = Fontist::SystemFont.find(name, sources: [font_sources])
 

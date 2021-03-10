@@ -40,12 +40,14 @@ RSpec.describe Fontist::Font do
       let(:font) { "InvalidFont.ttf" }
 
       it "raises font unsupported error" do
-        expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "InvalidFont.ttf" })
+        no_fonts do
+          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+          expect { command }.to(raise_error { |e| expect(e.font).to eq "InvalidFont.ttf" })
+        end
       end
     end
 
-    context "with macos system fonts", macos: true do
+    context "with macos system fonts", slow: true, macos: true do
       # rubocop:disable Metrics/LineLength
       fonts = [
         ["Arial Unicode MS", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
@@ -147,13 +149,7 @@ RSpec.describe Fontist::Font do
       let(:font) { "noto sans" }
       let(:url) { "https://fonts.google.com/download?family=Noto%20Sans" }
 
-      around do |example|
-        Fontist::Utils::Cache.new.tap do |cache|
-          path = cache.delete(url)
-          example.run
-          cache.set(url, path) if path
-        end
-      end
+      around { |example| avoid_cache(url) { example.run } }
 
       it "prints descriptive messages of what's going on" do
         no_fonts do
@@ -167,6 +163,22 @@ RSpec.describe Fontist::Font do
           expect(Fontist.ui).to receive(:say).with(%(- #{font_path('NotoSans-Regular.ttf')}))
           # rubocop:enable Metrics/LineLength
 
+          command
+        end
+      end
+    end
+
+    context "with --no-progress option" do
+      let(:font) { "fira code" }
+      let(:url) { "https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip" }
+      let(:options) { { no_progress: true } }
+
+      around { |example| avoid_cache(url) { example.run } }
+
+      it "skips printing of progress lines" do
+        no_fonts do
+          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:/).once
+          expect(Fontist.ui).to receive(:print).with(/done/).once
           command
         end
       end
@@ -249,8 +261,10 @@ RSpec.describe Fontist::Font do
       let(:font) { "Invalid font name" }
 
       it "raises an unsupported error" do
-        expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "Invalid font name" })
+        no_fonts do
+          expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
+          expect { command }.to(raise_error { |e| expect(e.font).to eq "Invalid font name" })
+        end
       end
     end
 
@@ -290,7 +304,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with subarchive option" do
+    context "with subarchive option", slow: true do
       let(:font) { "guttman aharoni" }
       let(:file) { "GAHROM.ttf" }
 
@@ -306,7 +320,7 @@ RSpec.describe Fontist::Font do
       let(:file) { "WorkSans-Black.ttf" }
       let(:current_version_size) { 203512 }
 
-      it "installs from proper directory" do
+      it "installs from proper directory", slow: true do
         no_fonts do
           command
           expect(font_file(file).size).to eq current_version_size
@@ -346,7 +360,7 @@ RSpec.describe Fontist::Font do
       let(:file) { "AndaleMo.TTF" }
       let(:fontist_path) { create_tmp_dir }
 
-      it "installs font at a FONTIST_PATH directory" do
+      it "installs font at a FONTIST_PATH directory", slow: true do
         stub_system_fonts_path_to_new_path do
           stub_env("FONTIST_PATH", fontist_path) do
             command
@@ -464,8 +478,10 @@ RSpec.describe Fontist::Font do
       let(:font) { "nonexistent" }
 
       it "raises font unsupported error" do
-        expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        no_fonts do
+          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+          expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        end
       end
     end
 
@@ -587,7 +603,7 @@ RSpec.describe Fontist::Font do
     context "with no font and nothing installed" do
       let(:font) { nil }
 
-      it "returns all fonts" do
+      it "returns all fonts", slow: true do
         stub_fonts_path_to_new_path do
           expect(command.size).to be > 1000
           _, _, _, installed = unpack_status(command)

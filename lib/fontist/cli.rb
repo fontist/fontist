@@ -31,12 +31,14 @@ module Fontist
                    desc: "Install even if it's already installed in system"
     option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
     option :hide_licenses, type: :boolean, desc: "Hide license texts"
+    option :no_progress, type: :boolean, desc: "Hide download progress"
     def install(font)
       Fontist::Font.install(
         font,
         force: options[:force],
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses]
+        hide_licenses: options[:hide_licenses],
+        no_progress: options[:no_progress]
       )
       success
     rescue Fontist::Errors::GeneralError => e

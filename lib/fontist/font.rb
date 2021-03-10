@@ -7,6 +7,7 @@ module Fontist
       @name = options[:name]
       @confirmation = options[:confirmation] || "no"
       @hide_licenses = options[:hide_licenses]
+      @no_progress = options[:no_progress] || false
       @force = options[:force] || false
 
       check_or_create_fontist_path!
@@ -94,7 +95,7 @@ module Fontist
     end
 
     def font_installer(formula)
-      FontInstaller.new(formula)
+      FontInstaller.new(formula, no_progress: @no_progress)
     end
 
     def formula
