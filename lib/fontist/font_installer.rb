@@ -3,8 +3,9 @@ require "excavate"
 
 module Fontist
   class FontInstaller
-    def initialize(formula)
+    def initialize(formula, no_progress: false)
       @formula = formula
+      @no_progress = no_progress
     end
 
     def install(confirmation:)
@@ -60,7 +61,7 @@ module Fontist
         url,
         sha: source.sha256,
         file_size: source.file_size,
-        progress_bar: true
+        progress_bar: !@no_progress
       )
     end
 

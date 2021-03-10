@@ -47,10 +47,10 @@ module Fontist
       end
 
       def set_progress_bar(progress_bar)
-        if ENV.fetch("TEST_ENV", "") === "CI" || progress_bar
+        if progress_bar
           ProgressBar.new(@file_size)
         else
-          NullProgressBar.new
+          NullProgressBar.new(@file_size)
         end
       end
 
@@ -72,20 +72,6 @@ module Fontist
         file
       rescue Down::NotFound
         raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
-      end
-    end
-
-    class NullProgressBar
-      def total=(_)
-        # do nothing
-      end
-
-      def increment(_)
-        # do nothing
-      end
-
-      def finish(_ = nil)
-        # do nothing
       end
     end
 
@@ -183,6 +169,12 @@ module Fontist
 
       def mb_per_second
         @counter / (Time.now - @start) / byte_to_megabyte
+      end
+    end
+
+    class NullProgressBar < ProgressBar
+      def print_incrementally
+        # do nothing
       end
     end
   end

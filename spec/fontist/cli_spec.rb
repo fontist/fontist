@@ -192,7 +192,7 @@ RSpec.describe Fontist::CLI do
     end
 
     context "no font specified" do
-      it "returns success status and prints list with no installed status" do
+      it "returns success status and prints list with no installed status", slow: true do
         stub_fonts_path_to_new_path do
           expect(Fontist.ui).to receive(:error).at_least(1000).times
           expect(Fontist.ui).to receive(:success).exactly(0).times

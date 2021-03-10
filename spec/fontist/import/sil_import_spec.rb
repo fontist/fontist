@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe "Fontist::Import::SilImport", dev: true do
+RSpec.describe "Fontist::Import::SilImport", slow: true, dev: true do
   let(:command) { Fontist::Import::SilImport.new.call }
   let(:formulas_repo_path) { Pathname.new(create_tmp_dir) }
 

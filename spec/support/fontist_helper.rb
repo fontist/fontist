@@ -207,5 +207,13 @@ module Fontist
 
       path
     end
+
+    def avoid_cache(url)
+      Utils::Cache.new.tap do |cache|
+        path = cache.delete(url)
+        yield
+        cache.set(url, path) if path
+      end
+    end
   end
 end

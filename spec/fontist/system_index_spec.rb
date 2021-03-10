@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Fontist::SystemIndex do
   context "two simultaneous runs" do
-    it "generates the same system index" do
+    it "generates the same system index", slow: true do
       reference_index_path = stub_system_index_path do
         Fontist::SystemIndex.rebuild
       end

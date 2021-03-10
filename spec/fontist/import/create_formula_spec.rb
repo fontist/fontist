@@ -22,7 +22,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi" } # rubocop:disable Metrics/LineLength
     let(:options) { { name: "Adobe Reader 19", mirror: ["https://web.archive.org/web/20200816153035/http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi"] } } # rubocop:disable Metrics/LineLength
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -32,7 +32,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/2001220041/AcroRdrDC2001220041_en_US.exe" } # rubocop:disable Metrics/LineLength
     let(:options) { { name: "Adobe Reader 20" } }
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -50,7 +50,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
   context "contains license" do
     let(:archive_name) { "Lato2OFL.zip" }
 
-    it "generates proper yaml", slow: true, dev: true do
+    it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -84,7 +84,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_HE_x86.exe" } # rubocop:disable Metrics/LineLength
     let(:options) { { subarchive: "officelr.cab", name: "Guttman" } }
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -94,7 +94,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_KO_x86.exe" } # rubocop:disable Metrics/LineLength
     let(:options) { { subarchive: "officelr.cab", name: "Korean" } }
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -104,7 +104,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip" } # rubocop:disable Metrics/LineLength
     let(:options) { { subdir: "Work-Sans-2.010/fonts/static/*" } }
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
@@ -114,7 +114,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:url) { "https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm" } # rubocop:disable Metrics/LineLength
     let(:options) { { name: "webcore" } }
 
-    it "generates proper yaml", dev: true do
+    it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"
       expect_formula_includes(formula, example)
     end
