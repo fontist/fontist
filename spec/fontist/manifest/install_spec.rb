@@ -46,5 +46,13 @@ RSpec.describe Fontist::Manifest::Install do
         end
       end
     end
+
+    context "no_progress option passed" do
+      it "accepts it with no error" do
+        no_fonts do
+          expect { described_class.from_hash(manifest, no_progress: true, confirmation: "yes") }.not_to raise_error
+        end
+      end
+    end
   end
 end
