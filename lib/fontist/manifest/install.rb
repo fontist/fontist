@@ -3,10 +3,11 @@ require_relative "locations"
 module Fontist
   module Manifest
     class Install < Locations
-      def initialize(manifest, confirmation: "no", hide_licenses: false)
-        @manifest = manifest
+      def initialize(manifest, confirmation: "no", hide_licenses: false, no_progress: false)
+        super(manifest)
         @confirmation = confirmation
         @hide_licenses = hide_licenses
+        @no_progress = no_progress
       end
 
       private
@@ -21,7 +22,13 @@ module Fontist
       end
 
       def install_font(font)
-        Fontist::Font.install(font, force: true, confirmation: @confirmation, hide_licenses: @hide_licenses)
+        Fontist::Font.install(
+          font,
+          force: true,
+          confirmation: @confirmation,
+          hide_licenses: @hide_licenses,
+          no_progress: @no_progress
+        )
       end
     end
   end
