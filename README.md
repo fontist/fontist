@@ -1,7 +1,7 @@
 # Fontist
 
 [![Build Status](https://github.com/fontist/fontist/actions/workflows/rspec.yml/badge.svg)](https://github.com/fontist/fontist/actions/workflows/rspec.yml)
-[![Gem Version](https://img.shields.io/gem/v/fontist.svg)](https://rubygems.org/gems/fontist")
+[![Gem Version](https://img.shields.io/gem/v/fontist.svg)](https://rubygems.org/gems/fontist)
 [![Pull Requests](https://img.shields.io/github/issues-pr-raw/fontist/fontist.svg)](https://github.com/fontist/fontist/pulls)
 
 A simple library to find and download fonts for Windows, Linux and Mac.
