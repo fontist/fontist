@@ -33,19 +33,10 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-
-      - uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: bundle-v2-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}
-          restore-keys: bundle-v2-${{ matrix.os }}-${{ matrix.ruby }}
+          bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
         run: brew install lcdf-typetools
-
-      - run: bundle config set path 'vendor/bundle'
-
-      - run: bundle install --jobs 4 --retry 3
 
       - if: matrix.os == 'macos-latest'
         run: bundle exec rspec
