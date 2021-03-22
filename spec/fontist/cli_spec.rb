@@ -340,10 +340,6 @@ RSpec.describe Fontist::CLI do
 
     context "contains uninstalled font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
-      let(:result) do
-        { "Andale Mono" =>
-          { "Regular" => { "full_name" => nil, "paths" => [] } } }
-      end
 
       it "returns error code and tells it could not find it" do
         stub_system_fonts
@@ -358,10 +354,6 @@ RSpec.describe Fontist::CLI do
 
     context "contains unsupported font" do
       let(:manifest) { { "Unsupported Font" => "Regular" } }
-      let(:result) do
-        { "Unsupported Font" =>
-          { "Regular" => { "full_name" => nil, "paths" => [] } } }
-      end
 
       it "returns error code and tells it could not find it" do
         stub_system_fonts
@@ -530,12 +522,37 @@ RSpec.describe Fontist::CLI do
 
       it "installs supported and returns its location and no location" do
         expect_say_yaml(
-          "Georgia" =>
-          { nil => { "full_name" => include("Georgia"),
-                     "paths" => include(/Georgia\.TTF/i,
-                                        /Georgiab\.TTF/i,
-                                        /Georgiai\.TTF/i,
-                                        /Georgiaz\.TTF/i) } }
+          "Georgia" => {
+            "Regular" => { "full_name" => "Georgia",
+                           "paths" => include(/Georgia\.TTF/i) },
+            "Bold" => { "full_name" => "Georgia Bold",
+                        "paths" => include(/Georgiab\.TTF/i) },
+            "Italic" => { "full_name" => "Georgia Italic",
+                          "paths" => include(/Georgiai\.TTF/i) },
+            "Bold Italic" => { "full_name" => "Georgia Bold Italic",
+                               "paths" => include(/Georgiaz\.TTF/i) },
+          }
+        )
+      end
+    end
+
+    context "with no style by font name from formulas" do
+      let(:manifest) do
+        { "Courier" => nil }
+      end
+
+      it "installs both and returns their locations" do
+        expect_say_yaml(
+          "Courier" => {
+            "Regular" => { "full_name" => "Courier New",
+                           "paths" => [font_path("cour.ttf")] },
+            "Bold" => { "full_name" => "Courier New Bold",
+                        "paths" => [font_path("courbd.ttf")] },
+            "Italic" => { "full_name" => "Courier New Italic",
+                          "paths" => [font_path("couri.ttf")] },
+            "Bold Italic" => { "full_name" => "Courier New Bold Italic",
+                               "paths" => [font_path("courbi.ttf")] },
+          }
         )
       end
     end

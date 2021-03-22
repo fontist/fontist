@@ -14,6 +14,7 @@ module Fontist
         paths = search_font_paths(s["font"])
         paths.map do |path|
           { full_name: s["full_name"],
+            type: s["type"],
             path: path }
         end
       end
