@@ -42,26 +42,40 @@ module Fontist
       end
 
       def style_paths_map(font, names)
-        paths = style_paths(font, names)
-        names.zip(paths).to_h
+        styles = style_paths(font, names)
+        group_paths(styles)
       end
 
       def style_paths(font, names)
-        names.map do |style|
-          file_paths(font, style)
+        names.flat_map do |style|
+          file_paths(font, style) || empty_paths(style)
         end
+      end
+
+      def group_paths(styles)
+        styles.group_by { |s| s[:type] }
+          .transform_values { |group| style(group) }
+      end
+
+      def style(styles)
+        { "full_name" => styles.first[:full_name],
+          "paths" => styles.map { |x| x[:path] } }.compact
       end
 
       def file_paths(font, style)
         find_font_with_name(font, style).tap do |x|
-          if x["paths"].empty?
+          if x.nil?
             raise Errors::MissingFontError.new(font, style)
           end
         end
       end
 
       def find_font_with_name(font, style)
-        Fontist::SystemFont.find_with_name(font, style).map { |k, v| [k.to_s, v] }.to_h
+        Fontist::SystemFont.find_styles(font, style)
+      end
+
+      def empty_paths(style)
+        [{ "full_name" => nil, "type" => style, "path" => nil }]
       end
     end
   end

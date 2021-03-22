@@ -9,14 +9,14 @@ AllCops:
 Rails:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - 'lib/fontist/formulas/**/*.rb'
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   Exclude:
     - 'lib/fontist/formulas/**/*.rb'
 
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Exclude:
     - 'lib/fontist/formulas/**/*.rb'

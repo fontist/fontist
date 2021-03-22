@@ -14,7 +14,7 @@ module Fontist
 
       def file_paths(font, style)
         paths = find_font_with_name(font, style)
-        return paths unless paths["paths"].empty?
+        return paths unless paths.nil?
 
         install_font(font)
 

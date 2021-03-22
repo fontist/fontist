@@ -40,8 +40,8 @@ module Fontist
       new(font: font, sources: sources).find
     end
 
-    def self.find_with_name(font, style)
-      new(font: font, style: style).find_with_name
+    def self.find_styles(font, style)
+      new(font: font, style: style).find_styles
     end
 
     def find
@@ -51,21 +51,13 @@ module Fontist
       styles.map { |x| x[:path] }
     end
 
-    def find_with_name
-      styles = find_styles
-      return { full_name: nil, paths: [] } unless styles
-
-      { full_name: styles.first[:full_name],
-        paths: styles.map { |x| x[:path] } }
+    def find_styles
+      find_by_index || find_by_formulas
     end
 
     private
 
     attr_reader :font, :style, :user_sources
-
-    def find_styles
-      find_by_index || find_by_formulas
-    end
 
     def find_by_index
       SystemIndex.new(all_paths).find(font, style)
