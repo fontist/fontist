@@ -120,6 +120,15 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     end
   end
 
+  xcontext "pkg archive" do
+    let(:archive_name) { "office.pkg" }
+
+    it "generates proper yaml", dev: true do
+      require "fontist/import/create_formula"
+      expect(formula).to include example
+    end
+  end
+
   # rubocop:disable Metrics/AbcSize
   def expect_formula_includes(formula, example)
     varies_attributes = %w[copyright homepage license_url open_license requires_license_agreement]
@@ -169,15 +178,6 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       keys.each do |k|
         h.delete(k)
       end
-    end
-  end
-
-  context "pkg archive" do
-    let(:archive_name) { "office.pkg" }
-
-    it "generates proper yaml", dev: true do
-      require "fontist/import/create_formula"
-      expect(formula).to include example
     end
   end
 end

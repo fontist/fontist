@@ -375,7 +375,8 @@ RSpec.describe Fontist::Font do
 
       it "installs all matching formulas" do
         no_fonts do
-          expect(Fontist::FontInstaller).to receive(:new).twice.and_call_original
+          expect(Fontist::FontInstaller).to receive(:new).at_least(2).times
+            .and_call_original
           command
           expect(font_file("Arial.ttf")).to exist
           expect(font_file("arial.ttf")).to exist
@@ -389,7 +390,8 @@ RSpec.describe Fontist::Font do
 
       it "asks for acceptance for each formula" do
         no_fonts do
-          expect(Fontist.ui).to receive(:ask).and_return("yes").exactly(2).times
+          expect(Fontist.ui).to receive(:ask).and_return("yes")
+            .at_least(2).times
           command
         end
       end
@@ -552,7 +554,7 @@ RSpec.describe Fontist::Font do
         no_fonts do
           example_font_to_fontist("ariali.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(include("from webcore formula"))
+          expect(Fontist.ui).to receive(:say).with(/from .*webcore formula/)
           command
         end
       end
