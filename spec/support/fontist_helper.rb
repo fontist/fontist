@@ -161,10 +161,12 @@ module Fontist
       @formulas_repo_path = create_formulas_repo
       allow(Fontist).to receive(:formulas_repo_path).and_return(@formulas_repo_path)
       Fontist::Index.rebuild
+      Fontist::Index.reset_cache
 
       yield
 
       allow(Fontist).to receive(:formulas_repo_path).and_return(previous)
+      Fontist::Index.reset_cache
       @formulas_repo_path = nil
     end
 
@@ -180,6 +182,7 @@ module Fontist
       FileUtils.cp(example_path, target_path)
 
       Fontist::Index.rebuild
+      Fontist::Index.reset_cache
     end
 
     def example_formula_to(filename, dir)

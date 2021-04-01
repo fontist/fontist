@@ -120,7 +120,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     end
   end
 
-  xcontext "pkg archive" do
+  context "pkg archive" do
     let(:archive_name) { "office.pkg" }
 
     it "generates proper yaml", dev: true do
