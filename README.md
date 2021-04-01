@@ -34,6 +34,18 @@ After installation please fetch formulas to your system:
 fontist update
 ```
 
+### Dependencies
+
+Depends on
+[ffi-libarchive-binary](https://github.com/fontist/ffi-libarchive-binary) which
+has the following requirements:
+
+* zlib
+* Expat
+* OpenSSL (for Linux only)
+
+These dependencies are generally present on all systems.
+
 ## Usage
 
 ### Font

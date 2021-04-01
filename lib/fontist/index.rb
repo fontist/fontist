@@ -7,5 +7,10 @@ module Fontist
       Fontist::Indexes::FontIndex.rebuild
       Fontist::Indexes::FilenameIndex.rebuild
     end
+
+    def self.reset_cache
+      Fontist::Indexes::FontIndex.reset_cache
+      Fontist::Indexes::FilenameIndex.reset_cache
+    end
   end
 end

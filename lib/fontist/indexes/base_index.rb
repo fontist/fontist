@@ -18,6 +18,10 @@ module Fontist
         raise NotImplementedError, "Please define path of an index"
       end
 
+      def self.reset_cache
+        @from_yaml = nil
+      end
+
       def self.rebuild
         index = new
         index.build
