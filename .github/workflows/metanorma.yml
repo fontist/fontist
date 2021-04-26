@@ -1,4 +1,4 @@
-name: rspec
+name: metanorma
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  test:
     name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
@@ -15,25 +15,21 @@ jobs:
       matrix:
         ruby: [ '2.4', '2.5', '2.6', '2.7', '3.0' ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        experimental: [ false ]
-
+        experimental: [ true ]
     steps:
       - uses: actions/checkout@master
+        with:
+          repository: metanorma/metanorma
+
+      - uses: actions/checkout@master
+        with:
+          path: "fontist"
+
+      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - if: matrix.os == 'macos-latest'
-        run: brew install lcdf-typetools
-
-      - if: matrix.os == 'macos-latest'
-        run: bundle exec rspec
-        env:
-          TEST_ENV: CI
-
-      - if: matrix.os != 'macos-latest'
-        run: bundle exec rspec --tag ~dev
-        env:
-          TEST_ENV: CI
+      - run: bundle exec rake
