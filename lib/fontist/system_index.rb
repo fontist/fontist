@@ -83,7 +83,7 @@ module Fontist
         next by_path[path] if by_path[path]
 
         detect_fonts(path)
-      end
+      end.compact
     end
 
     def detect_fonts(path)
@@ -100,6 +100,9 @@ module Fontist
     def detect_file_font(path)
       file = TTFunk::File.open(path)
       parse_font(file, path)
+    rescue StandardError
+      warn $!.message
+      warn "Warning: File at #{path} not recognized as a font file."
     end
 
     def detect_collection_fonts(path)
