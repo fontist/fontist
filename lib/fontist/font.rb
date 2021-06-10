@@ -203,9 +203,9 @@ module Fontist
     end
 
     def font_list
-      return unless formula
+      return if formulas.empty?
 
-      list_styles([formula])
+      list_styles(formulas)
     end
 
     def list_styles(formulas)

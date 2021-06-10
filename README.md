@@ -399,6 +399,57 @@ bin/rspec
 All formulas are kept in the [formulas][fontist-formulas] repository. If you'd
 like to add a new one or change any existing, please refer to its documentation.
 
+### Privare repos
+
+There is an ability to use private fonts via private fontist repo. Fontist repo
+is a git repo which contains YAML formula files. Formulas can be created
+manually (see [examples](https://github.com/fontist/formulas/tree/master/Formulas)),
+or [auto-generated from an archive](#auto-generate-a-formula).
+
+A corresponding SSH key should be setup with ssh-agent in order to access this private repo.
+
+Private fontist repo can be set up with:
+
+```sh
+fontist repo setup NAME URL
+```
+
+E.g.
+
+```sh
+fontist repo setup acme https://example.com/acme/formulas.git
+```
+
+Later, to fetch changes the following command can be used:
+
+```sh
+fontist repo update acme
+```
+
+If there is a need to avoid using these formulas, the repo can be removed with:
+
+```sh
+fontist repo remove acme
+```
+
+### Private formulas
+
+Authorization of private archives in private formulas can be implemented with
+headers. Here is an example which works with Github releases:
+
+```yaml
+resources:
+  fonts.zip:
+    urls:
+    - url: https://example.com/repos/acme/formulas/releases/assets/38777461
+      headers:
+        Accept: application/octet-stream
+        Authorization: token ghp_1234567890abcdefghi
+```
+
+A token can be obtained on [this page](https://github.com/settings/tokens).
+It should have at least the `repo` scope.
+
 ### Auto-generate a formula
 
 A formula could be generated from a fonts archive. Just specify a URL to the
@@ -409,20 +460,21 @@ fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
 cp lato.yml ~/.fontist/formulas/Formulas/
 ```
 
+Though indexes are auto-generated now, maintainers should rebuild indexes
+in the main repo for backward compatibility with fontist prior to 1.9.x versions.
 A formula index should be rebuild, when a new formula is generated or an
 existing one changed:
 
 ```sh
-fontist rebuild-index
+fontist rebuild-index --main-repo
 ```
 
-Then, both the formula and the updated index should be commited and pushed to
+Then, both the formula and the updated indexes should be commited and pushed to
 the formula repository:
 
 ```sh
 cd ~/.fontist/formulas
-git add Formulas/lato.yml
-git add index.yml
+git add Formulas/lato.yml index.yml filename_index.yml
 git commit -m "Add Lato formula"
 ```
 
@@ -441,7 +493,7 @@ repository [formulas][fontist-formulas]:
 
 ```
 cd ~/.fontist/formulas
-git add Formulas/google
+git add Formulas/google index.yml filename_index.yml
 git commit -m "Google Fonts update"
 git push
 ```
@@ -454,8 +506,7 @@ can be updated with:
 ```sh
 fontist import-sil
 cd ~/.fontist/formulas
-git add Formulas/sil
-git add index.yml
+git add Formulas/sil index.yml filename_index.yml
 git commit -m "SIL fonts update"
 git push
 ```

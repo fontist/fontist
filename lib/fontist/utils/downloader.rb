@@ -20,7 +20,7 @@ module Fontist
       end
 
       def download
-        file = @cache.fetch(@file) do
+        file = @cache.fetch(url) do
           download_file
         end
 
@@ -56,9 +56,10 @@ module Fontist
 
       def download_file
         file = Down.download(
-          @file,
+          url,
           open_timeout: 10,
           read_timeout: 10,
+          headers: headers,
           content_length_proc: ->(content_length) {
             @progress_bar.total = content_length if content_length
           },
@@ -72,6 +73,17 @@ module Fontist
         file
       rescue Down::NotFound
         raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
+      end
+
+      def url
+        @file.respond_to?(:url) ? @file.url : @file
+      end
+
+      def headers
+        @file.respond_to?(:headers) &&
+          @file.headers &&
+          @file.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
+          {}
       end
     end
 

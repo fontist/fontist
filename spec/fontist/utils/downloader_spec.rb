@@ -22,6 +22,21 @@ RSpec.describe Fontist::Utils::Downloader do
         )
       }.to raise_error(Fontist::Errors::TamperedFileError)
     end
+
+    context "with headers" do
+      let(:request) do
+        OpenStruct.new(url: sample_file[:file],
+                       headers: { "Accept" => "application/octet-stream" })
+      end
+
+      it "uses them" do
+        avoid_cache(request.url) do
+          expect(Down).to receive(:download).and_call_original
+          tempfile = Fontist::Utils::Downloader.download(request)
+          expect(tempfile).not_to be_nil
+        end
+      end
+    end
   end
 
   def sample_file

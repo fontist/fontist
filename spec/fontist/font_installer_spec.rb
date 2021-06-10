@@ -7,8 +7,10 @@ RSpec.describe Fontist::FontInstaller do
         no_fonts do
           formula = Fontist::Formula.find("andale mono")
           paths = described_class.new(formula).install(confirmation: "yes")
-          expect(paths).to include(include("AndaleMo.TTF"))
-          expect(font_file("AndaleMo.TTF")).to exist
+          expect(paths).to include(
+            include("AndaleMo.TTF").or(include("andalemo.ttf")),
+          )
+          expect(font_files).to include(/AndaleMo.TTF/i)
         end
       end
     end

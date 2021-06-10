@@ -54,11 +54,12 @@ module Fontist
     end
 
     def download_file(source)
-      url = source.urls.first
+      request = source.urls.first
+      url = request.respond_to?(:url) ? request.url : request
       Fontist.ui.say(%(Downloading font "#{@formula.key}" from #{url}))
 
       Fontist::Utils::Downloader.download(
-        url,
+        request,
         sha: source.sha256,
         file_size: source.file_size,
         progress_bar: !@no_progress

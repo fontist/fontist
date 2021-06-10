@@ -5,9 +5,13 @@ module Fontist
     class BaseIndex
       def self.from_yaml
         @from_yaml ||= begin
-          unless File.exist?(path)
-            raise Errors::FormulaIndexNotFoundError.new("Please fetch `#{path}` index with `fontist update`.")
+          unless Dir.exist?(Fontist.formulas_repo_path)
+            raise Errors::MainRepoNotFoundError.new(
+              "Please fetch formulas with `fontist update`.",
+            )
           end
+
+          rebuild unless File.exist?(path)
 
           data = YAML.load_file(path)
           new(data)
@@ -63,6 +67,8 @@ module Fontist
       end
 
       def to_yaml
+        dir = File.dirname(self.class.path)
+        FileUtils.mkdir_p(dir) unless File.exist?(dir)
         File.write(self.class.path, YAML.dump(to_h))
       end
 

@@ -22,23 +22,29 @@ RSpec.describe Fontist::Indexes::FontIndex do
     end
   end
 
+  describe ".from_yaml" do
+    context "index not found" do
+      it "rebuilds index and raises no error" do
+        no_formulas do
+          FileUtils.rm(Fontist.formula_index_path)
+
+          expect { described_class.from_yaml }.not_to raise_error
+        end
+      end
+    end
+  end
+
   describe ".rebuild" do
     let(:command) { described_class.rebuild }
     let(:index) { YAML.load_file(Fontist.formula_index_path) }
 
-    before do
-      dir = create_tmp_dir
-      allow(Fontist).to receive(:formulas_repo_path).and_return(Pathname.new(dir))
-
-      formulas_path = File.join(dir, "Formulas")
-      FileUtils.mkdir_p(formulas_path)
-
-      example_formula_to("lato.yml", formulas_path)
-    end
-
     it "builds an index with fonts, styles and a path to a formula" do
-      command
-      expect(index).to eq("lato" => ["lato.yml"])
+      no_formulas do
+        example_formula_to("lato.yml", Fontist.formulas_path)
+
+        command
+        expect(index).to eq("lato" => ["lato.yml"])
+      end
     end
   end
 end

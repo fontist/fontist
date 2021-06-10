@@ -1,4 +1,5 @@
 require "thor"
+require "fontist/repo_cli"
 
 module Fontist
   class CLI < Thor
@@ -10,6 +11,8 @@ module Fontist
     STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR = 5
     STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR = 6
     STATUS_FONT_INDEX_CORRUPTED = 7
+    STATUS_REPO_NOT_FOUND = 8
+    STATUS_MAIN_REPO_NOT_FOUND = 9
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -20,6 +23,8 @@ module Fontist
       Fontist::Errors::ManifestCouldNotBeReadError => [STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR,
                                                        "Manifest could not be read."],
       Fontist::Errors::FontIndexCorrupted => [STATUS_FONT_INDEX_CORRUPTED],
+      Fontist::Errors::RepoNotFoundError => [STATUS_REPO_NOT_FOUND],
+      Fontist::Errors::MainRepoNotFoundError => [STATUS_MAIN_REPO_NOT_FOUND],
     }.freeze
 
     def self.exit_on_failure?
@@ -123,11 +128,21 @@ module Fontist
 
     desc "rebuild-index", "Rebuild formula index (used by formulas maintainers)"
     long_desc <<-LONGDESC
-      This index is pre-built and served with formulas, so there is no need
-      update it unless something changes in the formulas repo.
+      Index should be rebuilt when any formula changes.
+
+      It is done automatically when formulas are updated, or private formulas
+      are set up.
     LONGDESC
+    option :main_repo, type: :boolean,
+                       desc: "Updates indexes in the main repo (for backward " \
+                             "compatibility with versions prior to 1.9)"
     def rebuild_index
-      Fontist::Index.rebuild
+      if options[:main_repo]
+        Fontist::Index.rebuild_for_main_repo
+      else
+        Fontist::Index.rebuild
+      end
+
       Fontist.ui.say("Formula index has been rebuilt.")
       STATUS_SUCCESS
     end
@@ -137,6 +152,9 @@ module Fontist
       require "fontist/import/sil_import"
       Fontist::Import::SilImport.new.call
     end
+
+    desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
+    subcommand "repo", Fontist::RepoCLI
 
     private
 

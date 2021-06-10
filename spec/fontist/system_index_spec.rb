@@ -18,6 +18,10 @@ RSpec.describe Fontist::SystemIndex do
             "#{test_index_path}"
           end
 
+          def Fontist.default_fontist_path
+            Fontist.root_path.join("spec", "fixtures")
+          end
+
           Fontist::SystemIndex.rebuild
         COMMAND
       end

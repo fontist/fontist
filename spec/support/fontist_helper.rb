@@ -2,16 +2,32 @@ module Fontist
   module Helper
     def stub_fontist_path_to_temp_path
       allow(Fontist).to receive(:fontist_path).and_return(
-        Fontist.root_path.join("spec", "fixtures")
+        Fontist.root_path.join("spec", "fixtures"),
       )
     end
 
-    def no_fonts
+    def fresh_fontist_home
+      Dir.mktmpdir do |dir|
+        orig_home = Fontist.default_fontist_path
+        allow(Fontist).to receive(:default_fontist_path)
+          .and_return(Pathname.new(dir))
+
+        yield dir
+
+        allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+      end
+    end
+
+    def no_fonts_and_formulas(&block)
+      no_fonts do
+        no_formulas(&block)
+      end
+    end
+
+    def no_fonts(&block)
       if block_given?
         stub_fonts_path_to_new_path do
-          stub_system_fonts_path_to_new_path do
-            yield
-          end
+          stub_system_fonts_path_to_new_path(&block)
         end
       else
         stub_fonts_path_to_new_path
@@ -47,13 +63,13 @@ module Fontist
 
     def system_paths(path)
       pattern = File.join(path, "**", "*.{ttf,otf,ttc}")
-      paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, avoid aliases in YAML
+      paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, Metrics/LineLength, avoid aliases in YAML
       { "system" => %w[linux windows macos unix].zip(paths).to_h }
     end
 
     def stub_system_fonts(system_file = nil)
       allow(Fontist).to receive(:system_file_path).and_return(
-        system_file || Fontist.root_path.join("spec", "fixtures", "system.yml")
+        system_file || Fontist.root_path.join("spec", "fixtures", "system.yml"),
       )
     end
 
@@ -101,15 +117,17 @@ module Fontist
       allow(Fontist.ui).to receive(:ask).and_return(confirmation)
     end
 
-    def fixtures_dir
-      Dir.chdir(Fontist.root_path.join("spec", "fixtures")) do
-        yield
-      end
+    def fixtures_dir(&block)
+      Dir.chdir(Fontist.root_path.join("spec", "fixtures"), &block)
     end
 
     def stub_font_file(filename, dir = nil)
       dir ||= Fontist.fonts_path.to_s
       FileUtils.touch(File.join(dir, filename))
+    end
+
+    def font_files
+      Dir.entries(Fontist.fonts_path) - %w[. ..]
     end
 
     def font_file(filename)
@@ -156,17 +174,15 @@ module Fontist
       FileUtils.cp(example_path, target_path)
     end
 
-    def no_formulas
+    def no_formulas(&block)
       previous = Fontist.formulas_repo_path
       @formulas_repo_path = create_formulas_repo
-      allow(Fontist).to receive(:formulas_repo_path).and_return(@formulas_repo_path)
-      Fontist::Index.rebuild
-      Fontist::Index.reset_cache
+      allow(Fontist).to receive(:formulas_repo_path)
+        .and_return(@formulas_repo_path)
 
-      yield
+      rebuilt_index(&block)
 
       allow(Fontist).to receive(:formulas_repo_path).and_return(previous)
-      Fontist::Index.reset_cache
       @formulas_repo_path = nil
     end
 
@@ -176,13 +192,47 @@ module Fontist
       dir
     end
 
+    def rebuilt_index
+      Dir.mktmpdir do |dir|
+        original = Fontist.formula_index_dir
+        allow(Fontist).to receive(:formula_index_dir)
+          .and_return(Pathname.new(dir))
+        Fontist::Index.rebuild
+
+        yield
+
+        Fontist::Index.reset_cache
+        allow(Fontist).to receive(:formula_index_dir).and_return(original)
+      end
+    end
+
+    def formula_repo_with(example_formula)
+      Dir.mktmpdir do |dir|
+        example_formula_to(example_formula, dir)
+
+        git = Git.init(dir)
+        git.config("user.name", "Test")
+        git.config("user.email", "test@example.com")
+        git.add("lato.yml")
+        git.commit("msg")
+
+        yield dir
+      end
+    end
+
+    def add_to_formula_repo(dir, example_formula)
+      example_formula_to(example_formula, dir)
+      git = Git.open(dir)
+      git.add(example_formula)
+      git.commit("msg")
+    end
+
     def example_formula(filename)
       example_path = File.join("spec", "examples", "formulas", filename)
       target_path = File.join(@formulas_repo_path, "Formulas", filename)
       FileUtils.cp(example_path, target_path)
 
       Fontist::Index.rebuild
-      Fontist::Index.reset_cache
     end
 
     def example_formula_to(filename, dir)
