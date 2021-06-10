@@ -1,6 +1,14 @@
 module Fontist
-  def self.formulas_repo_path
-    Fontist.root_path.join("spec", "fixtures", "formulas")
+  class << self
+    alias_method :orig_default_fontist_path, :default_fontist_path
+    def default_fontist_path
+      Fontist.root_path.join("spec", "fixtures")
+    end
+
+    # Reuse cached downloads
+    def downloads_path
+      orig_default_fontist_path.join("downloads")
+    end
   end
 end
 

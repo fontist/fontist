@@ -5,6 +5,9 @@ require "git"
 module Fontist
   class Formula
     def self.update_formulas_repo
+      dir = File.dirname(Fontist.formulas_repo_path)
+      FileUtils.mkdir_p(dir) unless File.exist?(dir)
+
       if Dir.exist?(Fontist.formulas_repo_path)
         Git.open(Fontist.formulas_repo_path).pull
       else
@@ -12,6 +15,8 @@ module Fontist
                   Fontist.formulas_repo_path,
                   depth: 1)
       end
+
+      Index.rebuild
     end
 
     def self.all

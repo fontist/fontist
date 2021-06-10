@@ -362,9 +362,17 @@ RSpec.describe Fontist::Font do
 
       it "installs font at a FONTIST_PATH directory", slow: true do
         stub_system_fonts_path_to_new_path do
-          stub_env("FONTIST_PATH", fontist_path) do
-            command
-            expect(Pathname.new(File.join(fontist_path, "fonts", file))).to exist
+          Dir.mktmpdir do |fontist_path|
+            stub_env("FONTIST_PATH", fontist_path) do
+              FileUtils.mkdir_p(Fontist.formulas_path)
+              example_formula_to("andale.yml", Fontist.formulas_path)
+
+              rebuilt_index do
+                command
+                expect(Pathname.new(File.join(fontist_path, "fonts", file)))
+                  .to exist
+              end
+            end
           end
         end
       end
@@ -579,10 +587,10 @@ RSpec.describe Fontist::Font do
       it "returns its status as uninstalled" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
-          expect(command.size).to be 1
+          expect(command.size).to be >= 1
 
-          _, _, _, installed = unpack_status(command)
-          expect(installed).to be false
+          installs = unpack_statuses(command)
+          expect(installs).to all(be false)
         end
       end
     end
@@ -595,9 +603,9 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           stub_font_file("AndaleMo.TTF")
 
-          expect(command.size).to be 1
-          _, _, _, installed = unpack_status(command)
-          expect(installed).to be true
+          expect(command.size).to be >= 1
+          installs = unpack_statuses(command)
+          expect(installs).to include true
         end
       end
     end
@@ -641,5 +649,15 @@ RSpec.describe Fontist::Font do
     font, styles = fonts.first
     style, status = styles.first
     [formula, font, style, status]
+  end
+
+  def unpack_statuses(formulas)
+    formulas.flat_map do |_formula, fonts|
+      fonts.flat_map do |_font, styles|
+        styles.map do |_style, status|
+          status
+        end
+      end
+    end
   end
 end

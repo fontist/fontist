@@ -3,17 +3,35 @@ module Fontist
     class GeneralError < StandardError; end
 
     class BinaryCallError < GeneralError; end
+
     class FontIndexCorrupted < GeneralError; end
+
     class FontNotFoundError < GeneralError; end
+
+    # for backward compatibility with metanorma,
+    # it depends on this exception to automatically download formulas
     class FormulaIndexNotFoundError < GeneralError; end
+
+    class MainRepoNotFoundError < FormulaIndexNotFoundError; end
+
     class InvalidResourceError < GeneralError; end
+
     class LicensingError < GeneralError; end
+
     class ManifestCouldNotBeFoundError < GeneralError; end
+
     class ManifestCouldNotBeReadError < GeneralError; end
+
     class MissingAttributeError < GeneralError; end
+
+    class RepoNotFoundError < GeneralError; end
+
     class TamperedFileError < GeneralError; end
+
     class TimeoutError < GeneralError; end
+
     class UnknownFontTypeError < GeneralError; end
+
     class UnknownArchiveError < GeneralError; end
 
     class FontError < GeneralError

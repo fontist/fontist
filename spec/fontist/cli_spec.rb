@@ -5,6 +5,17 @@ RSpec.describe Fontist::CLI do
   describe "#install" do
     before { stub_system_fonts }
 
+    context "no formulas repo found" do
+      it "proposes to download formulas repo" do
+        fresh_fontist_home do
+          expect(Fontist.ui).to receive(:error)
+            .with("Please fetch formulas with `fontist update`.")
+          status = described_class.start(["install", "lato"])
+          expect(status).to be Fontist::CLI::STATUS_MAIN_REPO_NOT_FOUND
+        end
+      end
+    end
+
     context "supported font name" do
       it "returns success status" do
         stub_fonts_path_to_new_path do
@@ -624,6 +635,16 @@ RSpec.describe Fontist::CLI do
         expect(Fontist.ui).not_to receive(:say).with(/FONT LICENSE ACCEPTANCE/)
 
         command
+      end
+    end
+  end
+
+  describe "#rebuild_index" do
+    context "with --main-repo option" do
+      it "calls corresponding method" do
+        expect(Fontist::Index).to receive(:rebuild_for_main_repo)
+          .and_call_original
+        described_class.start(["rebuild-index", "--main-repo"])
       end
     end
   end

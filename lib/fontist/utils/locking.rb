@@ -11,6 +11,7 @@ module Fontist
         yield
       ensure
         f.flock(File::LOCK_UN)
+        f.close
       end
     end
   end

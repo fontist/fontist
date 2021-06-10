@@ -7,6 +7,7 @@ require "singleton"
 require "fontist/errors"
 require "fontist/version"
 
+require "fontist/repo"
 require "fontist/font"
 require "fontist/formula"
 require "fontist/system_font"
@@ -28,7 +29,11 @@ module Fontist
   end
 
   def self.fontist_path
-    Pathname.new(ENV["FONTIST_PATH"] || File.join(Dir.home, ".fontist"))
+    Pathname.new(ENV["FONTIST_PATH"] || default_fontist_path)
+  end
+
+  def self.default_fontist_path
+    Pathname.new(File.join(Dir.home, ".fontist"))
   end
 
   def self.fonts_path
@@ -47,6 +52,10 @@ module Fontist
     Fontist.formulas_repo_path.join("Formulas")
   end
 
+  def self.private_formulas_path
+    Fontist.formulas_path.join("private")
+  end
+
   def self.downloads_path
     Fontist.fontist_path.join("downloads")
   end
@@ -60,10 +69,23 @@ module Fontist
   end
 
   def self.formula_index_path
-    Fontist.formulas_repo_path.join("index.yml")
+    @formula_index_path || Fontist.formula_index_dir.join("formula_index.yml")
+  end
+
+  def self.formula_index_path=(path)
+    @formula_index_path = path
   end
 
   def self.formula_filename_index_path
-    Fontist.formulas_repo_path.join("filename_index.yml")
+    @formula_filename_index_path ||
+      Fontist.formula_index_dir.join("filename_index.yml")
+  end
+
+  def self.formula_filename_index_path=(path)
+    @formula_filename_index_path = path
+  end
+
+  def self.formula_index_dir
+    Fontist.fontist_path
   end
 end
