@@ -29,6 +29,12 @@ module Fontist
         Index.rebuild
       end
 
+      def list
+        Dir.glob(Fontist.private_formulas_path.join("*"))
+          .select { |path| File.directory?(path) }
+          .map { |path| File.basename(path) }
+      end
+
       private
 
       def ensure_private_formulas_path_exists

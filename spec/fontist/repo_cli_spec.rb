@@ -71,4 +71,21 @@ RSpec.describe Fontist::RepoCLI do
       end
     end
   end
+
+  describe "#list" do
+    context "private repo exists" do
+      it "prints its name in a list and returns success status" do
+        fresh_fontist_home do
+          formula_repo_with("lato.yml") do |repo_dir|
+            Fontist::Repo.setup("acme", repo_dir)
+
+            expect(Fontist.ui).to receive(:say).with("acme")
+
+            status = described_class.start(["list"])
+            expect(status).to be 0
+          end
+        end
+      end
+    end
+  end
 end

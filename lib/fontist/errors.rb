@@ -26,6 +26,8 @@ module Fontist
 
     class RepoNotFoundError < GeneralError; end
 
+    class RepoCouldNotBeUpdatedError < GeneralError; end
+
     class TamperedFileError < GeneralError; end
 
     class TimeoutError < GeneralError; end
