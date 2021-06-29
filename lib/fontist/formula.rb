@@ -1,22 +1,12 @@
 require "fontist/index"
 require "fontist/helpers"
+require "fontist/update"
 require "git"
 
 module Fontist
   class Formula
     def self.update_formulas_repo
-      dir = File.dirname(Fontist.formulas_repo_path)
-      FileUtils.mkdir_p(dir) unless File.exist?(dir)
-
-      if Dir.exist?(Fontist.formulas_repo_path)
-        Git.open(Fontist.formulas_repo_path).pull
-      else
-        Git.clone(Fontist.formulas_repo_url,
-                  Fontist.formulas_repo_path,
-                  depth: 1)
-      end
-
-      Index.rebuild
+      Update.call
     end
 
     def self.all

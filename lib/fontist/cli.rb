@@ -13,6 +13,7 @@ module Fontist
     STATUS_FONT_INDEX_CORRUPTED = 7
     STATUS_REPO_NOT_FOUND = 8
     STATUS_MAIN_REPO_NOT_FOUND = 9
+    STATUS_REPO_COULD_NOT_BE_UPDATED = 10
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -83,8 +84,11 @@ module Fontist
     desc "update", "Update formulas"
     def update
       Formula.update_formulas_repo
-      Fontist.ui.say("Formulas have been successfully updated")
+      Fontist.ui.success("Formulas have been successfully updated.")
       success
+    rescue Fontist::Errors::RepoCouldNotBeUpdatedError => e
+      Fontist.ui.error(e.message)
+      STATUS_REPO_COULD_NOT_BE_UPDATED
     end
 
     desc "manifest-locations MANIFEST",

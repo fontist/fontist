@@ -18,6 +18,23 @@ module Fontist
       end
     end
 
+    def fresh_main_repo
+      Dir.mktmpdir do |dir|
+        FileUtils.mkdir(File.join(dir, "Formulas"))
+
+        FileUtils.touch(File.join(dir, "Formulas", ".keep"))
+        git = Git.init(dir)
+        git.config("user.name", "Test")
+        git.config("user.email", "test@example.com")
+        git.add(File.join("Formulas", ".keep"))
+        git.commit("msg")
+
+        Git.clone(dir, Fontist.formulas_repo_path)
+
+        yield dir
+      end
+    end
+
     def no_fonts_and_formulas(&block)
       no_fonts do
         no_formulas(&block)
@@ -213,7 +230,7 @@ module Fontist
         git = Git.init(dir)
         git.config("user.name", "Test")
         git.config("user.email", "test@example.com")
-        git.add("lato.yml")
+        git.add(example_formula)
         git.commit("msg")
 
         yield dir

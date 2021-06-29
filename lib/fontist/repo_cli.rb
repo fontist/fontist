@@ -1,7 +1,8 @@
 module Fontist
   class RepoCLI < Thor
     desc "setup NAME URL",
-         "Setup a custom fontist repo named NAME for the repository at URL"
+         "Setup a custom fontist repo named NAME for the repository at URL " \
+         "and fetches its formulas"
     def setup(name, url)
       Repo.setup(name, url)
       Fontist.ui.success(
@@ -30,6 +31,14 @@ module Fontist
       CLI::STATUS_SUCCESS
     rescue Errors::RepoNotFoundError
       handle_repo_not_found(name)
+    end
+
+    desc "list", "List fontist repos"
+    def list
+      Repo.list.each do |name|
+        Fontist.ui.say(name)
+      end
+      CLI::STATUS_SUCCESS
     end
 
     private
