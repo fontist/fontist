@@ -399,16 +399,20 @@ bin/rspec
 All formulas are kept in the [formulas][fontist-formulas] repository. If you'd
 like to add a new one or change any existing, please refer to its documentation.
 
-### Privare repos
+### Private repos
 
 There is an ability to use private fonts via private fontist repo. Fontist repo
 is a git repo which contains YAML formula files. Formulas can be created
 manually (see [examples](https://github.com/fontist/formulas/tree/master/Formulas)),
 or [auto-generated from an archive](#auto-generate-a-formula).
 
-A corresponding SSH key should be setup with ssh-agent in order to access this private repo.
+A repo can be either HTTPS or SSH Git repo. In case of SSH, a corresponding SSH key
+should be setup with ssh-agent in order to access this private repo.
 
-Private fontist repo can be set up with:
+The `repo setup` command fetches a repo's formulas, and saves repo's name and url
+for later use.
+
+Internally all repos are stored at `~/.fontist/formulas/Formulas/private`.
 
 ```sh
 fontist repo setup NAME URL
@@ -418,15 +422,24 @@ E.g.
 
 ```sh
 fontist repo setup acme https://example.com/acme/formulas.git
+# or
+fontist repo setup acme git@example.com:acme/formulas.git
 ```
 
-Later, to fetch changes the following command can be used:
+Then you can just install fonts from this repo:
+
+```sh
+fontist install "private font"
+```
+
+There is no need in any additional command to be run, but if you add new
+formulas to your repo, you can fetch them with the `repo update` command:
 
 ```sh
 fontist repo update acme
 ```
 
-If there is a need to avoid using these formulas, the repo can be removed with:
+If there is a need to avoid using private formulas, the repo can be removed with:
 
 ```sh
 fontist repo remove acme
