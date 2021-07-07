@@ -65,7 +65,11 @@ module Fontist
   end
 
   def self.system_index_path
-    Fontist.fontist_path.join("system_index.yml")
+    if default_families?
+      Fontist.fontist_path.join("system_index.default_families.yml")
+    else
+      Fontist.fontist_path.join("system_index.yml")
+    end
   end
 
   def self.formula_index_path
@@ -87,5 +91,13 @@ module Fontist
 
   def self.formula_index_dir
     Fontist.fontist_path
+  end
+
+  def self.default_families?
+    !!@default_families
+  end
+
+  def self.default_families=(yes)
+    @default_families = yes
   end
 end

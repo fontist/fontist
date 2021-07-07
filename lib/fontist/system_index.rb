@@ -119,9 +119,29 @@ module Fontist
       {
         path: path,
         full_name: parse_text(x.font_name.first),
-        family_name: parse_text(x.preferred_family.first || x.font_family.first),
-        type: parse_text(x.preferred_subfamily.first || x.font_subfamily.first),
+        family_name: parse_text(family_name(x)),
+        type: parse_text(type(x)),
       }
+    end
+
+    def name_string(x)
+      "P: #{x.platform_id}, E: #{x.encoding_id}, L: #{x.language_id}, #{x.strip_extended}"
+    end
+
+    def family_name(x)
+      if Fontist.default_families?
+        x.font_family.first
+      else
+        x.preferred_family.first || x.font_family.first
+      end
+    end
+
+    def type(x)
+      if Fontist.default_families?
+        x.font_subfamily.first
+      else
+        x.preferred_subfamily.first || x.font_subfamily.first
+      end
     end
 
     def parse_text(text)

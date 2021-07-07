@@ -1,8 +1,9 @@
 module Fontist
   module Manifest
     class Locations
-      def initialize(manifest)
+      def initialize(manifest, default_families: false)
         @manifest = manifest
+        @default_families = default_families
       end
 
       def self.from_file(file, **keywords)
@@ -23,6 +24,8 @@ module Fontist
       end
 
       def call
+        Fontist.default_families = @default_families
+
         font_names.zip(font_paths).to_h
       end
 

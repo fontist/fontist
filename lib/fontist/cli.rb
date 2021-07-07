@@ -93,8 +93,12 @@ module Fontist
 
     desc "manifest-locations MANIFEST",
          "Get locations of fonts from MANIFEST (yaml)"
+    option :default_families, type: :boolean, desc: "Avoid using the Preferred families"
     def manifest_locations(manifest)
-      paths = Fontist::Manifest::Locations.from_file(manifest)
+      paths = Fontist::Manifest::Locations.from_file(
+        manifest,
+        default_families: options[:default_families]
+      )
       print_yaml(paths)
       success
     rescue Fontist::Errors::GeneralError => e
