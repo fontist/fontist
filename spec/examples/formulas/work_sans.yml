@@ -12,6 +12,8 @@ fonts:
   styles:
   - family_name: Work Sans
     type: Black
+    default_family_name: Work Sans Black
+    default_type: Regular
     full_name: Work Sans Black
     post_script_name: WorkSans-Black
     version: 2.010; ttfautohint (v1.8.3)
@@ -19,6 +21,8 @@ fonts:
     font: WorkSans-Black.ttf
   - family_name: Work Sans
     type: Black Italic
+    default_family_name: Work Sans Black
+    default_type: Italic
     full_name: Work Sans Black Italic
     post_script_name: WorkSans-BlackItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -40,6 +44,8 @@ fonts:
     font: WorkSans-BoldItalic.ttf
   - family_name: Work Sans
     type: ExtraBold
+    default_family_name: Work Sans ExtraBold
+    default_type: Regular
     full_name: Work Sans ExtraBold
     post_script_name: WorkSans-ExtraBold
     version: 2.010; ttfautohint (v1.8.3)
@@ -47,6 +53,8 @@ fonts:
     font: WorkSans-ExtraBold.ttf
   - family_name: Work Sans
     type: ExtraBold Italic
+    default_family_name: Work Sans ExtraBold
+    default_type: Italic
     full_name: Work Sans ExtraBold Italic
     post_script_name: WorkSans-ExtraBoldItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -54,6 +62,8 @@ fonts:
     font: WorkSans-ExtraBoldItalic.ttf
   - family_name: Work Sans
     type: ExtraLight
+    default_family_name: Work Sans ExtraLight
+    default_type: Regular
     full_name: Work Sans ExtraLight
     post_script_name: WorkSans-ExtraLight
     version: 2.010; ttfautohint (v1.8.3)
@@ -61,6 +71,8 @@ fonts:
     font: WorkSans-ExtraLight.ttf
   - family_name: Work Sans
     type: ExtraLight Italic
+    default_family_name: Work Sans ExtraLight
+    default_type: Italic
     full_name: Work Sans ExtraLight Italic
     post_script_name: WorkSans-ExtraLightItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -75,6 +87,8 @@ fonts:
     font: WorkSans-Italic.ttf
   - family_name: Work Sans
     type: Light
+    default_family_name: Work Sans Light
+    default_type: Regular
     full_name: Work Sans Light
     post_script_name: WorkSans-Light
     version: 2.010; ttfautohint (v1.8.3)
@@ -82,6 +96,8 @@ fonts:
     font: WorkSans-Light.ttf
   - family_name: Work Sans
     type: Light Italic
+    default_family_name: Work Sans Light
+    default_type: Italic
     full_name: Work Sans Light Italic
     post_script_name: WorkSans-LightItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -89,6 +105,8 @@ fonts:
     font: WorkSans-LightItalic.ttf
   - family_name: Work Sans
     type: Medium
+    default_family_name: Work Sans Medium
+    default_type: Regular
     full_name: Work Sans Medium
     post_script_name: WorkSans-Medium
     version: 2.010; ttfautohint (v1.8.3)
@@ -96,6 +114,8 @@ fonts:
     font: WorkSans-Medium.ttf
   - family_name: Work Sans
     type: Medium Italic
+    default_family_name: Work Sans Medium
+    default_type: Italic
     full_name: Work Sans Medium Italic
     post_script_name: WorkSans-MediumItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -110,6 +130,8 @@ fonts:
     font: WorkSans-Regular.ttf
   - family_name: Work Sans
     type: SemiBold
+    default_family_name: Work Sans SemiBold
+    default_type: Regular
     full_name: Work Sans SemiBold
     post_script_name: WorkSans-SemiBold
     version: 2.010; ttfautohint (v1.8.3)
@@ -117,6 +139,8 @@ fonts:
     font: WorkSans-SemiBold.ttf
   - family_name: Work Sans
     type: SemiBold Italic
+    default_family_name: Work Sans SemiBold
+    default_type: Italic
     full_name: Work Sans SemiBold Italic
     post_script_name: WorkSans-SemiBoldItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -124,6 +148,8 @@ fonts:
     font: WorkSans-SemiBoldItalic.ttf
   - family_name: Work Sans
     type: Thin
+    default_family_name: Work Sans Thin
+    default_type: Regular
     full_name: Work Sans Thin
     post_script_name: WorkSans-Thin
     version: 2.010; ttfautohint (v1.8.3)
@@ -131,6 +157,8 @@ fonts:
     font: WorkSans-Thin.ttf
   - family_name: Work Sans
     type: Thin Italic
+    default_family_name: Work Sans Thin
+    default_type: Italic
     full_name: Work Sans Thin Italic
     post_script_name: WorkSans-ThinItalic
     version: 2.010; ttfautohint (v1.8.3)
@@ -142,7 +170,7 @@ extract:
 copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
 license_url: http://scripts.sil.org/OFL
 open_license: |-
-  Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+  Copyright 2018 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
 
   This Font Software is licensed under the SIL Open Font License, Version 1.1.
   This license is copied below, and is also available with a FAQ at:

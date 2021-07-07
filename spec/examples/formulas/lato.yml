@@ -5,13 +5,15 @@ homepage: http://www.typoland.com/
 resources:
   Lato.zip:
     urls:
-    - ../examples/archives/Lato2OFL.zip
+    - "../examples/archives/Lato2OFL.zip"
     sha256: 42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8
 fonts:
 - name: Lato
   styles:
   - family_name: Lato
     type: Black
+    default_family_name: Lato Black
+    default_type: Regular
     full_name: Lato Black
     post_script_name: Lato-Black
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -36,6 +38,8 @@ fonts:
     font: Lato-Black.ttf
   - family_name: Lato
     type: Black Italic
+    default_family_name: Lato Black
+    default_type: Italic
     full_name: Lato Black Italic
     post_script_name: Lato-BlackItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -108,6 +112,8 @@ fonts:
     font: Lato-BoldItalic.ttf
   - family_name: Lato
     type: Hairline
+    default_family_name: Lato Hairline
+    default_type: Regular
     full_name: Lato Hairline
     post_script_name: Lato-Hairline
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -132,6 +138,8 @@ fonts:
     font: Lato-Hairline.ttf
   - family_name: Lato
     type: Hairline Italic
+    default_family_name: Lato Hairline
+    default_type: Italic
     full_name: Lato Hairline Italic
     post_script_name: Lato-HairlineItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -156,6 +164,8 @@ fonts:
     font: Lato-HairlineItalic.ttf
   - family_name: Lato
     type: Heavy
+    default_family_name: Lato Heavy
+    default_type: Regular
     full_name: Lato Heavy
     post_script_name: Lato-Heavy
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -180,6 +190,8 @@ fonts:
     font: Lato-Heavy.ttf
   - family_name: Lato
     type: Heavy Italic
+    default_family_name: Lato Heavy
+    default_type: Italic
     full_name: Lato Heavy Italic
     post_script_name: Lato-HeavyItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -228,6 +240,8 @@ fonts:
     font: Lato-Italic.ttf
   - family_name: Lato
     type: Light
+    default_family_name: Lato Light
+    default_type: Regular
     full_name: Lato Light
     post_script_name: Lato-Light
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -252,6 +266,8 @@ fonts:
     font: Lato-Light.ttf
   - family_name: Lato
     type: Light Italic
+    default_family_name: Lato Light
+    default_type: Italic
     full_name: Lato Light Italic
     post_script_name: Lato-LightItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -276,6 +292,8 @@ fonts:
     font: Lato-LightItalic.ttf
   - family_name: Lato
     type: Medium
+    default_family_name: Lato Medium
+    default_type: Regular
     full_name: Lato Medium
     post_script_name: Lato-Medium
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -300,6 +318,8 @@ fonts:
     font: Lato-Medium.ttf
   - family_name: Lato
     type: Medium Italic
+    default_family_name: Lato Medium
+    default_type: Italic
     full_name: Lato Medium Italic
     post_script_name: Lato-MediumItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -348,6 +368,8 @@ fonts:
     font: Lato-Regular.ttf
   - family_name: Lato
     type: Semibold
+    default_family_name: Lato Semibold
+    default_type: Regular
     full_name: Lato Semibold
     post_script_name: Lato-Semibold
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -372,6 +394,8 @@ fonts:
     font: Lato-Semibold.ttf
   - family_name: Lato
     type: Semibold Italic
+    default_family_name: Lato Semibold
+    default_type: Italic
     full_name: Lato Semibold Italic
     post_script_name: Lato-SemiboldItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -396,6 +420,8 @@ fonts:
     font: Lato-SemiboldItalic.ttf
   - family_name: Lato
     type: Thin
+    default_family_name: Lato Thin
+    default_type: Regular
     full_name: Lato Thin
     post_script_name: Lato-Thin
     version: 2.015; 2015-08-06; http://www.latofonts.com/
@@ -420,6 +446,8 @@ fonts:
     font: Lato-Thin.ttf
   - family_name: Lato
     type: Thin Italic
+    default_family_name: Lato Thin
+    default_type: Italic
     full_name: Lato Thin Italic
     post_script_name: Lato-ThinItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
