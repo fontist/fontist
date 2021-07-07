@@ -2,6 +2,12 @@
           {
             family_name: "<%= s.family_name %>",
             style: "<%= s.style %>",
+            <%- if s.preferred_family_name -%>
+            preferred_family_name: "<%= s.preferred_family_name %>",
+            <%- end -%>
+            <%- if s.preferred_style -%>
+            preferred_type: "<%= s.preferred_style %>",
+            <%- end -%>
             full_name: "<%= s.full_name %>",
             <%- if s.post_script_name -%>
             post_script_name: "<%= s.post_script_name %>",

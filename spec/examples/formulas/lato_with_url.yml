@@ -5,7 +5,7 @@ homepage: http://www.typoland.com/
 resources:
   Lato.zip:
     urls:
-    - "../examples/archives/Lato2OFL.zip"
+    - https://www.latofonts.com/download/lato2ofl-zip/
     sha256: 42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8
 fonts:
 - name: Lato

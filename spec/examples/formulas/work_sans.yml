@@ -11,20 +11,6 @@ fonts:
 - name: Work Sans
   styles:
   - family_name: Work Sans
-    type: Black
-    full_name: Work Sans Black
-    post_script_name: WorkSans-Black
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-Black.ttf
-  - family_name: Work Sans
-    type: Black Italic
-    full_name: Work Sans Black Italic
-    post_script_name: WorkSans-BlackItalic
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-BlackItalic.ttf
-  - family_name: Work Sans
     type: Bold
     full_name: Work Sans Bold
     post_script_name: WorkSans-Bold
@@ -39,34 +25,6 @@ fonts:
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-BoldItalic.ttf
   - family_name: Work Sans
-    type: ExtraBold
-    full_name: Work Sans ExtraBold
-    post_script_name: WorkSans-ExtraBold
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-ExtraBold.ttf
-  - family_name: Work Sans
-    type: ExtraBold Italic
-    full_name: Work Sans ExtraBold Italic
-    post_script_name: WorkSans-ExtraBoldItalic
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-ExtraBoldItalic.ttf
-  - family_name: Work Sans
-    type: ExtraLight
-    full_name: Work Sans ExtraLight
-    post_script_name: WorkSans-ExtraLight
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-ExtraLight.ttf
-  - family_name: Work Sans
-    type: ExtraLight Italic
-    full_name: Work Sans ExtraLight Italic
-    post_script_name: WorkSans-ExtraLightItalic
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-ExtraLightItalic.ttf
-  - family_name: Work Sans
     type: Italic
     full_name: Work Sans Italic
     post_script_name: WorkSans-Italic
@@ -74,75 +32,159 @@ fonts:
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-Italic.ttf
   - family_name: Work Sans
-    type: Light
-    full_name: Work Sans Light
-    post_script_name: WorkSans-Light
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-Light.ttf
-  - family_name: Work Sans
-    type: Light Italic
-    full_name: Work Sans Light Italic
-    post_script_name: WorkSans-LightItalic
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-LightItalic.ttf
-  - family_name: Work Sans
-    type: Medium
-    full_name: Work Sans Medium
-    post_script_name: WorkSans-Medium
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-Medium.ttf
-  - family_name: Work Sans
-    type: Medium Italic
-    full_name: Work Sans Medium Italic
-    post_script_name: WorkSans-MediumItalic
-    version: 2.010; ttfautohint (v1.8.3)
-    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-MediumItalic.ttf
-  - family_name: Work Sans
     type: Regular
     full_name: Work Sans Regular
     post_script_name: WorkSans-Regular
     version: 2.010; ttfautohint (v1.8.3)
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-Regular.ttf
-  - family_name: Work Sans
-    type: SemiBold
-    full_name: Work Sans SemiBold
-    post_script_name: WorkSans-SemiBold
+- name: Work Sans Black
+  styles:
+  - family_name: Work Sans Black
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Black Italic
+    full_name: Work Sans Black Italic
+    post_script_name: WorkSans-BlackItalic
     version: 2.010; ttfautohint (v1.8.3)
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-SemiBold.ttf
-  - family_name: Work Sans
-    type: SemiBold Italic
+    font: WorkSans-BlackItalic.ttf
+  - family_name: Work Sans Black
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Black
+    full_name: Work Sans Black
+    post_script_name: WorkSans-Black
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Black.ttf
+- name: Work Sans ExtraBold
+  styles:
+  - family_name: Work Sans ExtraBold
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: ExtraBold Italic
+    full_name: Work Sans ExtraBold Italic
+    post_script_name: WorkSans-ExtraBoldItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraBoldItalic.ttf
+  - family_name: Work Sans ExtraBold
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: ExtraBold
+    full_name: Work Sans ExtraBold
+    post_script_name: WorkSans-ExtraBold
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraBold.ttf
+- name: Work Sans ExtraLight
+  styles:
+  - family_name: Work Sans ExtraLight
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: ExtraLight Italic
+    full_name: Work Sans ExtraLight Italic
+    post_script_name: WorkSans-ExtraLightItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraLightItalic.ttf
+  - family_name: Work Sans ExtraLight
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: ExtraLight
+    full_name: Work Sans ExtraLight
+    post_script_name: WorkSans-ExtraLight
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraLight.ttf
+- name: Work Sans Light
+  styles:
+  - family_name: Work Sans Light
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Light Italic
+    full_name: Work Sans Light Italic
+    post_script_name: WorkSans-LightItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-LightItalic.ttf
+  - family_name: Work Sans Light
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Light
+    full_name: Work Sans Light
+    post_script_name: WorkSans-Light
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Light.ttf
+- name: Work Sans Medium
+  styles:
+  - family_name: Work Sans Medium
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Medium Italic
+    full_name: Work Sans Medium Italic
+    post_script_name: WorkSans-MediumItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-MediumItalic.ttf
+  - family_name: Work Sans Medium
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Medium
+    full_name: Work Sans Medium
+    post_script_name: WorkSans-Medium
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Medium.ttf
+- name: Work Sans SemiBold
+  styles:
+  - family_name: Work Sans SemiBold
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: SemiBold Italic
     full_name: Work Sans SemiBold Italic
     post_script_name: WorkSans-SemiBoldItalic
     version: 2.010; ttfautohint (v1.8.3)
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-SemiBoldItalic.ttf
-  - family_name: Work Sans
-    type: Thin
-    full_name: Work Sans Thin
-    post_script_name: WorkSans-Thin
+  - family_name: Work Sans SemiBold
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: SemiBold
+    full_name: Work Sans SemiBold
+    post_script_name: WorkSans-SemiBold
     version: 2.010; ttfautohint (v1.8.3)
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
-    font: WorkSans-Thin.ttf
-  - family_name: Work Sans
-    type: Thin Italic
+    font: WorkSans-SemiBold.ttf
+- name: Work Sans Thin
+  styles:
+  - family_name: Work Sans Thin
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Thin Italic
     full_name: Work Sans Thin Italic
     post_script_name: WorkSans-ThinItalic
     version: 2.010; ttfautohint (v1.8.3)
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-ThinItalic.ttf
+  - family_name: Work Sans Thin
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Thin
+    full_name: Work Sans Thin
+    post_script_name: WorkSans-Thin
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Thin.ttf
 extract:
   options:
     fonts_sub_dir: Work-Sans-2.010/fonts/static/*
 copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
 license_url: http://scripts.sil.org/OFL
 open_license: |-
-  Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+  Copyright 2018 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
 
   This Font Software is licensed under the SIL Open Font License, Version 1.1.
   This license is copied below, and is also available with a FAQ at:

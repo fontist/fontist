@@ -35,7 +35,7 @@ RSpec.describe Fontist::Indexes::FontIndex do
   end
 
   describe ".rebuild" do
-    let(:command) { described_class.rebuild }
+    let(:command) { Fontist::Indexes::DefaultFamilyFontIndex.rebuild }
     let(:index) { YAML.load_file(Fontist.formula_index_path) }
 
     it "builds an index with fonts, styles and a path to a formula" do
@@ -43,7 +43,7 @@ RSpec.describe Fontist::Indexes::FontIndex do
         example_formula_to("lato.yml", Fontist.formulas_path)
 
         command
-        expect(index).to eq("lato" => ["lato.yml"])
+        expect(index).to include("lato" => ["lato.yml"])
       end
     end
   end

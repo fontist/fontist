@@ -78,26 +78,34 @@ fonts:
     copyright: Copyright 2000, 2002, 2006, 2011, 2012 Adobe Systems Incorporated.
       All Rights Reserved.
     font: adobedevanagari_regular.otf
-- name: Adobe Fan Heiti Std
+- name: Adobe Fan Heiti Std B
   styles:
-  - family_name: Adobe Fan Heiti Std
-    type: B
+  - family_name: Adobe Fan Heiti Std B
+    type: Bold
+    preferred_family_name: Adobe Fan Heiti Std
+    preferred_type: B
     full_name: AdobeFanHeitiStd-Bold
     post_script_name: AdobeFanHeitiStd-Bold
     version: 6.009;PS 6.001;hotconv 1.0.67;makeotf.lib2.5.33168
     copyright: Copyright © 2009, 2011 Adobe Systems Incorporated. All Rights Reserved.
     font: adobefanheitistd_bold.otf
-- name: Adobe Gothic Std
+- name: Adobe Gothic Std B
   styles:
-  - family_name: Adobe Gothic Std
-    type: B
+  - family_name: Adobe Gothic Std B
+    type: Bold
+    preferred_family_name: Adobe Gothic Std
+    preferred_type: B
     full_name: AdobeGothicStd-Bold
     post_script_name: AdobeGothicStd-Bold
     version: 1.015;PS 1.004;hotconv 1.0.70;makeotf.lib2.5.58329
     copyright: Copyright © 2009-2012 Adobe Systems Incorporated. All Rights Reserved.
     font: adobegothicstd_bold.otf
-  - family_name: Adobe Gothic Std
-    type: L
+- name: Adobe Gothic Std L
+  styles:
+  - family_name: Adobe Gothic Std L
+    type: Regular
+    preferred_family_name: Adobe Gothic Std
+    preferred_type: L
     full_name: Adobe Gothic Std L
     post_script_name: AdobeGothicStd-Light
     version: 1.006;PS 1.001;hotconv 1.0.70;makeotf.lib2.5.58329
@@ -137,39 +145,47 @@ fonts:
     copyright: Copyright 2000, 2002, 2004, 2005, 2006, 2007, 2008, 2013 Adobe Systems
       Incorporated. All Rights Reserved.
     font: AdobeHebrew_Regular.otf
-- name: Adobe Heiti Std
+- name: Adobe Heiti Std R
   styles:
-  - family_name: Adobe Heiti Std
-    type: R
+  - family_name: Adobe Heiti Std R
+    type: Regular
+    preferred_family_name: Adobe Heiti Std
+    preferred_type: R
     full_name: AdobeHeitiStd-Regular
     post_script_name: AdobeHeitiStd-Regular
     version: 5.019;PS 5.007;hotconv 1.0.68;makeotf.lib2.5.35818
     copyright: Copyright © 2006, 2008-2011 Adobe Systems Incorporated. All Rights
       Reserved.
     font: AdobeHeitiStd_Regular.otf
-- name: Adobe Ming Std
+- name: Adobe Ming Std L
   styles:
-  - family_name: Adobe Ming Std
-    type: L
+  - family_name: Adobe Ming Std L
+    type: Regular
+    preferred_family_name: Adobe Ming Std
+    preferred_type: L
     full_name: AdobeMingStd-Light
     post_script_name: AdobeMingStd-Light
     version: 6.009;PS 6.001;hotconv 1.0.67;makeotf.lib2.5.33168
     copyright: Copyright © 1996-2011 Adobe Systems Incorporated. All Rights Reserved.
     font: AdobeMingStd_Light.otf
-- name: Adobe Myungjo Std
+- name: Adobe Myungjo Std M
   styles:
-  - family_name: Adobe Myungjo Std
-    type: M
+  - family_name: Adobe Myungjo Std M
+    type: Regular
+    preferred_family_name: Adobe Myungjo Std
+    preferred_type: M
     full_name: AdobeMyungjoStd-Medium
     post_script_name: AdobeMyungjoStd-Medium
     version: 1.015;PS 1.004;hotconv 1.0.70;makeotf.lib2.5.58329
     copyright: Copyright © 1996-2005, 2008-2012 Adobe Systems Incorporated. All Rights
       Reserved.
     font: AdobeMyungjoStd_Medium.otf
-- name: Adobe Song Std
+- name: Adobe Song Std L
   styles:
-  - family_name: Adobe Song Std
-    type: L
+  - family_name: Adobe Song Std L
+    type: Regular
+    preferred_family_name: Adobe Song Std
+    preferred_type: L
     full_name: AdobeSongStd-Light
     post_script_name: AdobeSongStd-Light
     version: 5.018;PS 5.002;hotconv 1.0.67;makeotf.lib2.5.33168
@@ -206,20 +222,24 @@ fonts:
     version: '1.043'
     copyright: Copyright 2000, 2002, 2004 Adobe Systems Incorporated. All Rights Reserved.
     font: AdobeThai_Regular.otf
-- name: Kozuka Gothic Pr6N
+- name: Kozuka Gothic Pr6N M
   styles:
-  - family_name: Kozuka Gothic Pr6N
-    type: M
+  - family_name: Kozuka Gothic Pr6N M
+    type: Regular
+    preferred_family_name: Kozuka Gothic Pr6N
+    preferred_type: M
     full_name: KozGoPr6N-Medium
     post_script_name: KozGoPr6N-Medium
     version: 7.001;hotconv 1.0.107;makeotfexe 2.5.65593
     description: Dr. Ken Lunde (overall production) & Masataka HATTORI 服部正貴 (production)
     copyright: "© 2001-2019 Adobe. All rights reserved."
     font: kozgopr6n_medium.otf
-- name: Kozuka Mincho Pr6N
+- name: Kozuka Mincho Pr6N R
   styles:
-  - family_name: Kozuka Mincho Pr6N
-    type: R
+  - family_name: Kozuka Mincho Pr6N R
+    type: Regular
+    preferred_family_name: Kozuka Mincho Pr6N
+    preferred_type: R
     full_name: KozMinPr6N-Regular
     post_script_name: KozMinPr6N-Regular
     version: 7.001;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -295,6 +315,6 @@ fonts:
       rights reserved."
     font: myriadhebrew_regular.otf
 extract: {}
-copyright: Copyright 2000, 2002, 2004, 2011, 2013 Adobe Systems Incorporated. All
-  Rights Reserved.
+copyright: Copyright 2000, 2002, 2004, 2005, 2006, 2007, 2008, 2013 Adobe Systems
+  Incorporated. All Rights Reserved.
 license_url: http://www.adobe.com/type/legal.html
