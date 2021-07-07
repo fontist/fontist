@@ -216,7 +216,7 @@ RSpec.describe Fontist::Font do
 
     context "with existing font name" do
       it "returns the existing font paths" do
-        name = "Courier"
+        name = "Courier New"
         stub_fontist_path_to_temp_path
         Fontist::Font.install(name, confirmation: "yes")
 
@@ -404,6 +404,33 @@ RSpec.describe Fontist::Font do
         end
       end
     end
+
+    context "preferred family and no option" do
+      let(:font) { "lato heavy" }
+
+      it "installs by default family" do
+        fresh_fonts_and_formulas do
+          example_formula("lato_with_url.yml")
+          expect(command).to include(include("Lato-Heavy.ttf"))
+          expect(font_file("Lato-Heavy.ttf")).to exist
+        end
+      end
+    end
+
+    context "preferred family with option" do
+      let(:font) { "lato heavy" }
+
+      it "does not find by default family" do
+        with_option(:preferred_family) do
+          fresh_fonts_and_formulas do
+            example_formula("lato_with_url.yml")
+            expect { command }
+              .to raise_error(Fontist::Errors::UnsupportedFontError)
+            expect(font_file("Lato-Heavy.ttf")).not_to exist
+          end
+        end
+      end
+    end
   end
 
   describe ".uninstall" do
@@ -442,7 +469,7 @@ RSpec.describe Fontist::Font do
     context "with supported and installed font" do
       it "removes font" do
         stub_fonts_path_to_new_path do
-          stub_font_file("overpass-regular.otf")
+          example_font_to_fontist("overpass-regular.otf")
 
           Fontist::Font.uninstall("overpass")
           expect(font_file("overpass-regular.otf")).not_to exist
@@ -470,12 +497,25 @@ RSpec.describe Fontist::Font do
 
       it "removes only this font and keeps others" do
         stub_fonts_path_to_new_path do
-          [this, other].each { |f| stub_font_file(f) }
+          [this, other].each { |f| example_font_to_fontist(f) }
 
           command
 
           expect(font_file(this)).not_to exist
           expect(font_file(other)).to exist
+        end
+      end
+    end
+
+    context "preferred family and no option" do
+      let(:font) { "lato heavy" }
+
+      it "uninstall by default family" do
+        fresh_fonts_and_formulas do
+          example_font("Lato-Heavy.ttf")
+
+          command
+          expect(font_file("Lato-Heavy.ttf")).not_to exist
         end
       end
     end
@@ -564,6 +604,17 @@ RSpec.describe Fontist::Font do
 
           expect(Fontist.ui).to receive(:say).with(/from .*webcore formula/)
           command
+        end
+      end
+    end
+
+    context "preferred family and no option" do
+      let(:font) { "lato heavy" }
+
+      it "finds by default family" do
+        fresh_fonts_and_formulas do
+          example_font("Lato-Heavy.ttf")
+          expect(command).to include(include("Lato-Heavy.ttf"))
         end
       end
     end

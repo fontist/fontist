@@ -6,6 +6,19 @@ module Fontist
       )
     end
 
+    def fresh_fonts_and_formulas
+      fresh_fontist_home do
+        stub_system_fonts
+
+        FileUtils.mkdir_p(Fontist.fonts_path)
+        FileUtils.mkdir_p(Fontist.formulas_path)
+
+        yield
+
+        Fontist::Index.reset_cache
+      end
+    end
+
     def fresh_fontist_home
       Dir.mktmpdir do |dir|
         orig_home = Fontist.default_fontist_path
@@ -173,6 +186,10 @@ module Fontist
       Dir.glob(dir).first # expand the ~1 suffix on Windows
     end
 
+    def example_font(filename)
+      example_font_to(filename, Fontist.fonts_path)
+    end
+
     def example_font_to_system(filename)
       raise("System dir is not stubbed") unless @system_dir
 
@@ -246,7 +263,7 @@ module Fontist
 
     def example_formula(filename)
       example_path = File.join("spec", "examples", "formulas", filename)
-      target_path = File.join(@formulas_repo_path, "Formulas", filename)
+      target_path = Fontist.formulas_path.join(filename)
       FileUtils.cp(example_path, target_path)
 
       Fontist::Index.rebuild
@@ -284,6 +301,15 @@ module Fontist
         yield
         cache.set(url, path) if path
       end
+    end
+
+    def with_option(option)
+      original = Fontist.send("#{option}?")
+      Fontist.send("#{option}=", true)
+
+      yield
+
+      Fontist.send("#{option}=", original)
     end
   end
 end

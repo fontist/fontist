@@ -4,7 +4,7 @@ RSpec.describe Fontist::SystemIndex do
   context "two simultaneous runs" do
     it "generates the same system index", slow: true do
       reference_index_path = stub_system_index_path do
-        Fontist::SystemIndex.rebuild
+        Fontist::SystemIndex.system_index.rebuild
       end
 
       test_index_path = File.join(create_tmp_dir, "system_index.yml")
@@ -22,7 +22,7 @@ RSpec.describe Fontist::SystemIndex do
             Fontist.root_path.join("spec", "fixtures")
           end
 
-          Fontist::SystemIndex.rebuild
+          Fontist::SystemIndex.system_index.rebuild
         COMMAND
       end
 
@@ -33,7 +33,7 @@ RSpec.describe Fontist::SystemIndex do
   end
 
   context "corrupted index" do
-    let(:command) { described_class.find("", "") }
+    let(:command) { described_class.system_index.find("", "") }
 
     it "throws FontIndexCorrupted error" do
       stub_system_index_path do
@@ -51,7 +51,12 @@ RSpec.describe Fontist::SystemIndex do
       path
     end
     let(:font_paths) { [corrupt_font_file] }
-    let(:instance) { described_class.new(font_paths) }
+    let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+    let(:instance) do
+      described_class.new(index_path,
+                          font_paths,
+                          Fontist::SystemIndex::DefaultFamily.new)
+    end
 
     it "does not raise errors" do
       expect { instance.find("some font", nil) }.not_to raise_error

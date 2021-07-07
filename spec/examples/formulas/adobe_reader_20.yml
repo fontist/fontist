@@ -1,7 +1,7 @@
 ---
 name: Adobe Reader 20
 description: Adobe Reader 20
-homepage: http://www.adobe.com/type/
+homepage: http://www.adobe.com/type
 resources:
   Adobe_Reader_20.exe:
     urls:
@@ -20,14 +20,6 @@ fonts:
 - name: Courier Std
   styles:
   - family_name: Courier Std
-    type: Medium
-    full_name: CourierStd
-    post_script_name: CourierStd
-    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
-    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
-      Incorporated. All rights reserved."
-    font: CourierStd.otf
-  - family_name: Courier Std
     type: Bold
     full_name: CourierStd-Bold
     post_script_name: CourierStd-Bold
@@ -36,7 +28,8 @@ fonts:
       Incorporated. All rights reserved."
     font: CourierStd_Bold.otf
   - family_name: Courier Std
-    type: Bold Oblique
+    type: Bold Italic
+    preferred_type: Bold Oblique
     full_name: CourierStd-BoldOblique
     post_script_name: CourierStd-BoldOblique
     version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
@@ -44,13 +37,23 @@ fonts:
       Incorporated. All rights reserved."
     font: CourierStd_BoldOblique.otf
   - family_name: Courier Std
-    type: Medium Oblique
+    type: Italic
+    preferred_type: Medium Oblique
     full_name: CourierStd-Oblique
     post_script_name: CourierStd-Oblique
     version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
     copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
       Incorporated. All rights reserved."
     font: CourierStd_Oblique.otf
+  - family_name: Courier Std
+    type: Regular
+    preferred_type: Medium
+    full_name: CourierStd
+    post_script_name: CourierStd
+    version: 2.067;PS 2.000;hotconv 1.0.67;makeotf.lib2.5.33168
+    copyright: "© 1989, 1990, 1991, 1992, 1993, 1996, 1997, 1998, 2001 Adobe Systems
+      Incorporated. All rights reserved."
+    font: CourierStd.otf
 - name: Minion Pro
   styles:
   - family_name: Minion Pro
@@ -129,7 +132,8 @@ fonts:
       reserved."
     font: MyriadPro_Regular.otf
 extract: {}
-copyright: "© 2002 Adobe Systems Incorporated. All rights reserved."
+copyright: "© 1992, 1994, 1997, 2000, 2004 Adobe Systems Incorporated. All rights
+  reserved."
 license_url: http://www.adobe.com/type/legal.html
 open_license: |-
   WordNet Release 2.1
