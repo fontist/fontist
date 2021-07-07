@@ -16,6 +16,9 @@ module Fontist
                   filename: File.basename(@path),
                   copyright: @info["Copyright"] }
 
+        style[:default_family_name] = @info["Family"] if @info["Family"] != style[:family_name]
+        style[:default_style] = @info["Subfamily"] if @info["Subfamily"] != style[:style]
+
         OpenStruct.new(style)
       end
 

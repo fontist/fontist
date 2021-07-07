@@ -10,7 +10,8 @@ module Fontist
           otfinfo: Otfinfo::OtfinfoRequirement.new,
         }.freeze
 
-        STYLE_ATTRIBUTES = %i[family_name type full_name post_script_name
+        STYLE_ATTRIBUTES = %i[family_name type default_family_name default_type
+                              full_name post_script_name
                               version description copyright font
                               source_font].freeze
 
@@ -40,6 +41,14 @@ module Fontist
 
         def type
           info["Preferred subfamily"] || info["Subfamily"]
+        end
+
+        def default_family_name
+          info["Family"] if info["Family"] != family_name
+        end
+
+        def default_type
+          info["Subfamily"] if info["Subfamily"] != type
         end
 
         def full_name

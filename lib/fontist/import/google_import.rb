@@ -156,6 +156,8 @@ module Fontist
           h.merge!(family_name: style.family_name,
                    type: style.style,
                    full_name: style.full_name)
+          h[:default_family_name] = style.default_family_name if style.default_family_name
+          h[:default_type] = style.default_style if style.default_style
           h.merge!(style.to_h.select do |k, _|
             %i(post_script_name version description copyright).include?(k)
           end.compact)
