@@ -2,6 +2,15 @@ require "ttfunk"
 
 module Fontist
   class SystemIndex
+    PLATFORM_MACINTOSH = 1
+    PLATFORM_MICROSOFT = 3
+
+    ENCODING_MAC_ROMAN = 0
+    ENCODING_MS_UNICODE_BMP = 1
+
+    LANGUAGE_MAC_ENGLISH = 0
+    LANGUAGE_MS_ENGLISH_AMERICAN = 0x409
+
     include Utils::Locking
 
     attr_reader :font_paths
@@ -118,9 +127,9 @@ module Fontist
 
       {
         path: path,
-        full_name: parse_text(x.font_name.first),
-        family_name: parse_text(family_name(x)),
-        type: parse_text(type(x)),
+        full_name: english_name(x.font_name),
+        family_name: english_name(family_name(x)),
+        type: english_name(type(x)),
       }
     end
 
@@ -144,7 +153,27 @@ module Fontist
       end
     end
 
-    def parse_text(text)
+    def english_name(name)
+      visible_characters(find_english(name))
+    end
+
+    def find_english(name)
+      name.each do |string|
+        return string if string.platform_id == PLATFORM_MICROSOFT &&
+                         string.encoding_id == ENCODING_MS_UNICODE_BMP &&
+                         string.language_id == LANGUAGE_MS_ENGLISH_AMERICAN
+      end
+
+      name.each do |string|
+        return string if string.platform_id == PLATFORM_MACINTOSH &&
+                         string.encoding_id == ENCODING_MAC_ROMAN &&
+                         string.language_id == LANGUAGE_MAC_ENGLISH
+      end
+
+      name.last
+    end
+
+    def visible_characters(text)
       text.gsub(/[^[:print:]]/, "").to_s
     end
 
