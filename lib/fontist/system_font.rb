@@ -52,7 +52,7 @@ module Fontist
     end
 
     def find_styles
-      find_by_index || find_by_formulas
+      find_by_index
     end
 
     private
@@ -61,10 +61,6 @@ module Fontist
 
     def find_by_index
       SystemIndex.new(all_paths).find(font, style)
-    end
-
-    def find_by_formulas
-      FormulaPaths.new(all_paths).find(font, style)
     end
 
     def all_paths

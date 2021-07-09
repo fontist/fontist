@@ -133,23 +133,19 @@ module Fontist
       }
     end
 
-    def name_string(x)
-      "P: #{x.platform_id}, E: #{x.encoding_id}, L: #{x.language_id}, #{x.strip_extended}"
-    end
-
     def family_name(x)
       if Fontist.default_families?
-        x.font_family.first
+        x.font_family
       else
-        x.preferred_family.first || x.font_family.first
+        x.preferred_family || x.font_family
       end
     end
 
     def type(x)
       if Fontist.default_families?
-        x.font_subfamily.first
+        x.font_subfamily
       else
-        x.preferred_subfamily.first || x.font_subfamily.first
+        x.preferred_subfamily || x.font_subfamily
       end
     end
 
