@@ -72,6 +72,10 @@ module Fontist
     end
   end
 
+  def self.default_family_formula_index_path
+    Fontist.formula_index_dir.join("formula_index.default_families.yml")
+  end
+
   def self.formula_index_path
     @formula_index_path || Fontist.formula_index_dir.join("formula_index.yml")
   end

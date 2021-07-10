@@ -32,6 +32,8 @@ module Fontist
       false
     end
 
+    class_option :default_families, type: :boolean, desc: "Avoid using the Preferred families"
+
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
@@ -39,6 +41,7 @@ module Fontist
     option :hide_licenses, type: :boolean, desc: "Hide license texts"
     option :no_progress, type: :boolean, desc: "Hide download progress"
     def install(font)
+      handle_class_options(options)
       Fontist::Font.install(
         font,
         force: options[:force],
@@ -53,6 +56,7 @@ module Fontist
 
     desc "uninstall/remove FONT", "Uninstall font by font or formula"
     def uninstall(font)
+      handle_class_options(options)
       fonts_paths = Fontist::Font.uninstall(font)
       Fontist.ui.success("These fonts are removed:")
       Fontist.ui.success(fonts_paths.join("\n"))
@@ -64,6 +68,7 @@ module Fontist
 
     desc "status [FONT]", "Show paths of FONT or all fonts"
     def status(font = nil)
+      handle_class_options(options)
       paths = Fontist::Font.status(font)
       return error("No font is installed.", STATUS_MISSING_FONT_ERROR) if paths.empty?
 
@@ -74,6 +79,7 @@ module Fontist
 
     desc "list [FONT]", "List installation status of FONT or fonts in fontist"
     def list(font = nil)
+      handle_class_options(options)
       formulas = Fontist::Font.list(font)
       print_list(formulas)
       success
@@ -83,6 +89,7 @@ module Fontist
 
     desc "update", "Update formulas"
     def update
+      handle_class_options(options)
       Formula.update_formulas_repo
       Fontist.ui.success("Formulas have been successfully updated.")
       success
@@ -93,11 +100,10 @@ module Fontist
 
     desc "manifest-locations MANIFEST",
          "Get locations of fonts from MANIFEST (yaml)"
-    option :default_families, type: :boolean, desc: "Avoid using the Preferred families"
     def manifest_locations(manifest)
+      handle_class_options(options)
       paths = Fontist::Manifest::Locations.from_file(
-        manifest,
-        default_families: options[:default_families]
+        manifest
       )
       print_yaml(paths)
       success
@@ -109,6 +115,7 @@ module Fontist
     option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
     option :hide_licenses, type: :boolean, desc: "Hide license texts"
     def manifest_install(manifest)
+      handle_class_options(options)
       paths = Fontist::Manifest::Install.from_file(
         manifest,
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
@@ -128,6 +135,7 @@ module Fontist
     option :subdir, desc: "Subdirectory to take fonts from, starting with the " \
       "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
     def create_formula(url)
+      handle_class_options(options)
       require "fontist/import/create_formula"
       name = Fontist::Import::CreateFormula.new(url, options).call
       Fontist.ui.say("#{name} formula has been successfully created")
@@ -145,6 +153,8 @@ module Fontist
                        desc: "Updates indexes in the main repo (for backward " \
                              "compatibility with versions prior to 1.9)"
     def rebuild_index
+      handle_class_options(options)
+
       if options[:main_repo]
         Fontist::Index.rebuild_for_main_repo
       else
@@ -157,6 +167,7 @@ module Fontist
 
     desc "import-sil", "Import formulas from SIL"
     def import_sil
+      handle_class_options(options)
       require "fontist/import/sil_import"
       Fontist::Import::SilImport.new.call
     end
@@ -165,6 +176,10 @@ module Fontist
     subcommand "repo", Fontist::RepoCLI
 
     private
+
+    def handle_class_options(options)
+      Fontist.default_families = options[:default_families]
+    end
 
     def success
       STATUS_SUCCESS

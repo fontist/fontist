@@ -1,20 +1,25 @@
-require_relative "base_index"
+require_relative "default_family_font_index"
+require_relative "preferred_family_font_index"
 
 module Fontist
   module Indexes
-    class FontIndex < BaseIndex
-      def self.path
-        Fontist.formula_index_path
-      end
-
-      def add_formula(formula)
-        formula.fonts.each do |font|
-          add_index_formula(font.name, formula.to_index_formula)
+    class FontIndex
+      def self.from_yaml
+        if Fontist.default_families?
+          DefaultFamilyFontIndex.from_yaml
+        else
+          PreferredFamilyFontIndex.from_yaml
         end
       end
 
-      def normalize_key(key)
-        key.downcase
+      def self.reset_cache
+        DefaultFamilyFontIndex.reset_cache
+        PreferredFamilyFontIndex.reset_cache
+      end
+
+      def self.rebuild
+        DefaultFamilyFontIndex.rebuild
+        PreferredFamilyFontIndex.rebuild
       end
     end
   end
