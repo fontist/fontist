@@ -216,7 +216,7 @@ RSpec.describe Fontist::Font do
 
     context "with existing font name" do
       it "returns the existing font paths" do
-        name = "Courier"
+        name = "Courier New"
         stub_fontist_path_to_temp_path
         Fontist::Font.install(name, confirmation: "yes")
 
