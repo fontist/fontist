@@ -270,10 +270,10 @@ RSpec.describe Fontist::CLI do
     end
 
     context "contains one font with bold style" do
-      let(:manifest) { { "Courier" => "Bold" } }
+      let(:manifest) { { "Courier New" => "Bold" } }
       let(:result) do
-        { "Courier" => { "Bold" => { "full_name" => "Courier New Bold",
-                                     "paths" => [font_path("courbd.ttf")] } } }
+        { "Courier New" => { "Bold" => { "full_name" => "Courier New Bold",
+                                         "paths" => [font_path("courbd.ttf")] } } }
       end
 
       it "returns font location" do
@@ -290,14 +290,14 @@ RSpec.describe Fontist::CLI do
     context "contains two fonts" do
       let(:manifest) do
         { "Andale Mono" => "Regular",
-          "Courier" => "Bold" }
+          "Courier New" => "Bold" }
       end
 
       let(:result) do
         { "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
                            "paths" => [font_path("AndaleMo.TTF")] } },
-          "Courier" =>
+          "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
                         "paths" => [font_path("courbd.ttf")] } } }
       end
@@ -499,7 +499,7 @@ RSpec.describe Fontist::CLI do
     context "two supported fonts" do
       let(:manifest) do
         { "Andale Mono" => "Regular",
-          "Courier" => "Bold" }
+          "Courier New" => "Bold" }
       end
 
       it "installs both and returns their locations" do
@@ -507,7 +507,7 @@ RSpec.describe Fontist::CLI do
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
                            "paths" => include(/AndaleMo\.TTF/i) } },
-          "Courier" =>
+          "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
                         "paths" => [font_path("courbd.ttf")] } }
         )
@@ -549,12 +549,12 @@ RSpec.describe Fontist::CLI do
 
     context "with no style by font name from formulas" do
       let(:manifest) do
-        { "Courier" => nil }
+        { "Courier New" => nil }
       end
 
       it "installs both and returns their locations" do
         expect_say_yaml(
-          "Courier" => {
+          "Courier New" => {
             "Regular" => { "full_name" => "Courier New",
                            "paths" => [font_path("cour.ttf")] },
             "Bold" => { "full_name" => "Courier New Bold",
