@@ -120,6 +120,9 @@ module Fontist
           parse_font(file, path)
         end
       end
+    rescue StandardError
+      warn $!.message
+      warn "Warning: File at #{path} not recognized as a font file."
     end
 
     def parse_font(file, path)
@@ -137,7 +140,7 @@ module Fontist
       if Fontist.default_families?
         x.font_family
       else
-        x.preferred_family || x.font_family
+        x.preferred_family.empty? ? x.font_family : x.preferred_family
       end
     end
 
@@ -145,7 +148,7 @@ module Fontist
       if Fontist.default_families?
         x.font_subfamily
       else
-        x.preferred_subfamily || x.font_subfamily
+        x.preferred_subfamily.empty? ? x.font_subfamily : x.preferred_subfamily
       end
     end
 
