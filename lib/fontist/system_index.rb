@@ -115,7 +115,15 @@ module Fontist
     end
 
     def detect_file_font(path)
-      file = TTFunk::File.open(path)
+      pathname = Pathname.new(path)
+      raise ArgumentError, "#{pathname} not found" unless pathname.file?
+
+      content = pathname.open('rb') do |file|
+        file.read
+      end
+
+      file = TTFunk::File.new(content)
+
       parse_font(file, path)
     rescue StandardError
       warn $!.message
