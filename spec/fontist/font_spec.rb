@@ -442,7 +442,7 @@ RSpec.describe Fontist::Font do
     context "with supported and installed font" do
       it "removes font" do
         stub_fonts_path_to_new_path do
-          stub_font_file("overpass-regular.otf")
+          example_font_to_fontist("overpass-regular.otf")
 
           Fontist::Font.uninstall("overpass")
           expect(font_file("overpass-regular.otf")).not_to exist
@@ -470,7 +470,7 @@ RSpec.describe Fontist::Font do
 
       it "removes only this font and keeps others" do
         stub_fonts_path_to_new_path do
-          [this, other].each { |f| stub_font_file(f) }
+          [this, other].each { |f| example_font_to_fontist(f) }
 
           command
 
