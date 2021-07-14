@@ -16,11 +16,15 @@ module Fontist
     attr_reader :font_paths
 
     def self.find(font, style)
-      new(SystemFont.font_paths).find(font, style)
+      new(font_paths).find(font, style)
     end
 
     def self.rebuild
-      new(SystemFont.font_paths).rebuild
+      new(font_paths).rebuild
+    end
+
+    def self.font_paths
+      SystemFont.font_paths
     end
 
     def initialize(font_paths)
@@ -53,7 +57,7 @@ module Fontist
     end
 
     def lock_path
-      Fontist.system_index_path.to_s + ".lock"
+      path.to_s + ".lock"
     end
 
     def do_build_system_index
@@ -69,7 +73,7 @@ module Fontist
     end
 
     def load_system_index
-      index = File.exist?(Fontist.system_index_path) ? YAML.load_file(Fontist.system_index_path) : []
+      index = File.exist?(path) ? YAML.load_file(path) : []
 
       index.each do |item|
         missing_keys = %i[path full_name family_name type] - item.keys
@@ -77,12 +81,16 @@ module Fontist
           raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
             Font index is corrupted.
             Item #{item.inspect} misses required attributes: #{missing_keys.join(', ')}.
-            You can remove the index file (#{Fontist.system_index_path}) and try again.
+            You can remove the index file (#{path}) and try again.
           MSG
         end
       end
 
       index
+    end
+
+    def path
+      Fontist.system_index_path
     end
 
     def detect_paths(paths, index)
@@ -177,9 +185,9 @@ module Fontist
     end
 
     def save_index(index)
-      dir = File.dirname(Fontist.system_index_path)
+      dir = File.dirname(path)
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
-      File.write(Fontist.system_index_path, YAML.dump(index))
+      File.write(path, YAML.dump(index))
     end
   end
 end

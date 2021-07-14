@@ -11,7 +11,7 @@ require "fontist/repo"
 require "fontist/font"
 require "fontist/formula"
 require "fontist/system_font"
-require "fontist/fontist_font"
+require "fontist/fontist_index"
 require "fontist/manifest"
 require "fontist/helpers"
 
@@ -69,6 +69,14 @@ module Fontist
       Fontist.fontist_path.join("system_index.default_families.yml")
     else
       Fontist.fontist_path.join("system_index.yml")
+    end
+  end
+
+  def self.fontist_index_path
+    if default_families?
+      Fontist.fontist_path.join("fontist_index.default_families.yml")
+    else
+      Fontist.fontist_path.join("fontist_index.yml")
     end
   end
 
