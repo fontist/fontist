@@ -1,4 +1,5 @@
 require "git"
+require "fontist/utils/git"
 
 module Fontist
   class Repo
@@ -48,7 +49,7 @@ module Fontist
         if Dir.exist?(path)
           Git.open(path).pull
         else
-          Git.clone(url, path, depth: 1)
+          Utils::Git.clone(url, path, depth: 1)
         end
       end
 

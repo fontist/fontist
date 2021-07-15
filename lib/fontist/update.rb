@@ -20,9 +20,9 @@ module Fontist
       if Dir.exist?(Fontist.formulas_repo_path)
         Git.open(Fontist.formulas_repo_path).pull
       else
-        Git.clone(Fontist.formulas_repo_url,
-                  Fontist.formulas_repo_path,
-                  depth: 1)
+        Utils::Git.clone(Fontist.formulas_repo_url,
+                         Fontist.formulas_repo_path,
+                         depth: 1)
       end
     end
 
