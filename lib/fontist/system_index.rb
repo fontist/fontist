@@ -2,6 +2,28 @@ require "ttfunk"
 
 module Fontist
   class SystemIndex
+    include Utils::Locking
+
+    class DefaultFamily
+      def family_name(x)
+        x.font_family
+      end
+
+      def type(x)
+        x.font_subfamily
+      end
+    end
+
+    class PreferredFamily
+      def family_name(x)
+        x.preferred_family.empty? ? x.font_family : x.preferred_family
+      end
+
+      def type(x)
+        x.preferred_subfamily.empty? ? x.font_subfamily : x.preferred_subfamily
+      end
+    end
+
     PLATFORM_MACINTOSH = 1
     PLATFORM_MICROSOFT = 3
 
@@ -11,24 +33,36 @@ module Fontist
     LANGUAGE_MAC_ENGLISH = 0
     LANGUAGE_MS_ENGLISH_AMERICAN = 0x409
 
-    include Utils::Locking
-
     attr_reader :font_paths
 
-    def self.find(font, style)
-      new(font_paths).find(font, style)
+    def self.system_index
+      if Fontist.default_families?
+        new(Fontist.default_families_system_index_path,
+            SystemFont.font_paths,
+            DefaultFamily.new)
+      else
+        new(Fontist.system_index_path,
+            SystemFont.font_paths,
+            PreferredFamily.new)
+      end
     end
 
-    def self.rebuild
-      new(font_paths).rebuild
+    def self.fontist_index
+      if Fontist.default_families?
+        new(Fontist.default_families_fontist_index_path,
+            SystemFont.fontist_font_paths,
+            DefaultFamily.new)
+      else
+        new(Fontist.preferred_families_fontist_index_path,
+            SystemFont.fontist_font_paths,
+            PreferredFamily.new)
+      end
     end
 
-    def self.font_paths
-      SystemFont.font_paths
-    end
-
-    def initialize(font_paths)
+    def initialize(index_path, font_paths, family)
+      @index_path = index_path
       @font_paths = font_paths
+      @family = family
     end
 
     def find(font, style)
@@ -57,7 +91,7 @@ module Fontist
     end
 
     def lock_path
-      path.to_s + ".lock"
+      @index_path.to_s + ".lock"
     end
 
     def do_build_system_index
@@ -73,7 +107,7 @@ module Fontist
     end
 
     def load_system_index
-      index = File.exist?(path) ? YAML.load_file(path) : []
+      index = File.exist?(@index_path) ? YAML.load_file(@index_path) : []
 
       index.each do |item|
         missing_keys = %i[path full_name family_name type] - item.keys
@@ -81,16 +115,12 @@ module Fontist
           raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
             Font index is corrupted.
             Item #{item.inspect} misses required attributes: #{missing_keys.join(', ')}.
-            You can remove the index file (#{path}) and try again.
+            You can remove the index file (#{@index_path}) and try again.
           MSG
         end
       end
 
       index
-    end
-
-    def path
-      Fontist.system_index_path
     end
 
     def detect_paths(paths, index)
@@ -147,25 +177,9 @@ module Fontist
       {
         path: path,
         full_name: english_name(x.font_name),
-        family_name: english_name(family_name(x)),
-        type: english_name(type(x)),
+        family_name: english_name(@family.family_name(x)),
+        type: english_name(@family.type(x)),
       }
-    end
-
-    def family_name(x)
-      if Fontist.default_families?
-        x.font_family
-      else
-        x.preferred_family.empty? ? x.font_family : x.preferred_family
-      end
-    end
-
-    def type(x)
-      if Fontist.default_families?
-        x.font_subfamily
-      else
-        x.preferred_subfamily.empty? ? x.font_subfamily : x.preferred_subfamily
-      end
     end
 
     def english_name(name)
@@ -174,18 +188,26 @@ module Fontist
 
     def find_english(name)
       name.each do |string|
-        return string if string.platform_id == PLATFORM_MICROSOFT &&
-                         string.encoding_id == ENCODING_MS_UNICODE_BMP &&
-                         string.language_id == LANGUAGE_MS_ENGLISH_AMERICAN
+        return string if microsoft_english?(string)
       end
 
       name.each do |string|
-        return string if string.platform_id == PLATFORM_MACINTOSH &&
-                         string.encoding_id == ENCODING_MAC_ROMAN &&
-                         string.language_id == LANGUAGE_MAC_ENGLISH
+        return string if mac_english?(string)
       end
 
       name.last
+    end
+
+    def microsoft_english?(string)
+      string.platform_id == PLATFORM_MICROSOFT &&
+        string.encoding_id == ENCODING_MS_UNICODE_BMP &&
+        string.language_id == LANGUAGE_MS_ENGLISH_AMERICAN
+    end
+
+    def mac_english?(string)
+      string.platform_id == PLATFORM_MACINTOSH &&
+        string.encoding_id == ENCODING_MAC_ROMAN &&
+        string.language_id == LANGUAGE_MAC_ENGLISH
     end
 
     def visible_characters(text)
@@ -193,9 +215,9 @@ module Fontist
     end
 
     def save_index(index)
-      dir = File.dirname(path)
+      dir = File.dirname(@index_path)
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
-      File.write(path, YAML.dump(index))
+      File.write(@index_path, YAML.dump(index))
     end
   end
 end

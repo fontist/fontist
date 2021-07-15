@@ -177,7 +177,7 @@ module Fontist
     end
 
     def find_fontist_paths
-      fonts = Fontist::FontistIndex.find(name, nil)
+      fonts = Fontist::SystemIndex.fontist_index.find(name, nil)
       return unless fonts
 
       fonts.map do |font|

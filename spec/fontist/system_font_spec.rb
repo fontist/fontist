@@ -4,13 +4,12 @@ RSpec.describe Fontist::SystemFont do
   describe ".find" do
     context "with a valid existing font" do
       it "returns the complete font path" do
-        stub_system_fonts
+        fresh_fonts_and_formulas do
+          example_font("DejaVuSerif.ttf")
 
-        name = "DejaVu Serif"
-        dejavu_ttf = Fontist::SystemFont.find(name, sources: [font_sources])
-
-        expect(dejavu_ttf).not_to be_nil
-        expect(dejavu_ttf.first).to include("spec/fixtures/fonts/")
+          paths = Fontist::SystemFont.find("DejaVu Serif")
+          expect(paths.first).to include("DejaVuSerif.ttf")
+        end
       end
     end
 
@@ -26,11 +25,10 @@ RSpec.describe Fontist::SystemFont do
     end
 
     context "with invalid font" do
-      it "returns nill to the caller", slow: true do
-        name = "invalid-font.ttf"
-        invalid_font = Fontist::SystemFont.find(name, sources: [font_sources])
-
-        expect(invalid_font).to be_nil
+      it "returns nil to the caller" do
+        fresh_fonts_and_formulas do
+          expect(Fontist::SystemFont.find("invalid-font.ttf")).to be_nil
+        end
       end
     end
 
@@ -61,9 +59,5 @@ RSpec.describe Fontist::SystemFont do
         end
       end
     end
-  end
-
-  def font_sources
-    @font_sources ||= Fontist.root_path.join("spec/fixtures/fonts/*")
   end
 end
