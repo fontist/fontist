@@ -102,9 +102,7 @@ module Fontist
          "Get locations of fonts from MANIFEST (yaml)"
     def manifest_locations(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest::Locations.from_file(
-        manifest
-      )
+      paths = Fontist::Manifest::Locations.from_file(manifest)
       print_yaml(paths)
       success
     rescue Fontist::Errors::GeneralError => e
