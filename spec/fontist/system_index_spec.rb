@@ -14,7 +14,7 @@ RSpec.describe Fontist::SystemIndex do
           require "bundler/setup"
           require "fontist"
 
-          def Fontist.preferred_families_system_index_path
+          def Fontist.system_index_path
             "#{test_index_path}"
           end
 
