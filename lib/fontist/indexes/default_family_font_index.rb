@@ -4,7 +4,7 @@ module Fontist
   module Indexes
     class DefaultFamilyFontIndex < BaseIndex
       def self.path
-        Fontist.default_family_formula_index_path
+        Fontist.formula_index_path
       end
 
       def add_formula(formula)

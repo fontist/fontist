@@ -37,11 +37,11 @@ module Fontist
 
     def self.system_index
       if Fontist.preferred_family?
-        new(Fontist.system_index_path,
+        new(Fontist.system_preferred_family_index_path,
             SystemFont.font_paths,
             PreferredFamily.new)
       else
-        new(Fontist.default_families_system_index_path,
+        new(Fontist.system_index_path,
             SystemFont.font_paths,
             DefaultFamily.new)
       end
@@ -49,11 +49,11 @@ module Fontist
 
     def self.fontist_index
       if Fontist.preferred_family?
-        new(Fontist.preferred_families_fontist_index_path,
+        new(Fontist.fontist_preferred_family_index_path,
             SystemFont.fontist_font_paths,
             PreferredFamily.new)
       else
-        new(Fontist.default_families_fontist_index_path,
+        new(Fontist.fontist_index_path,
             SystemFont.fontist_font_paths,
             DefaultFamily.new)
       end

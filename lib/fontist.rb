@@ -63,32 +63,33 @@ module Fontist
     Fontist.lib_path.join("fontist", "system.yml")
   end
 
-  def self.default_families_system_index_path
-    Fontist.fontist_path.join("system_index.default_families.yml")
-  end
-
   def self.system_index_path
-      Fontist.fontist_path.join("system_index.yml")
+    Fontist.fontist_path.join("system_index.default_family.yml")
   end
 
-  def self.default_families_fontist_index_path
-    Fontist.fontist_path.join("fontist_index.default_families.yml")
+  def self.system_preferred_family_index_path
+    Fontist.fontist_path.join("system_index.preferred_family.yml")
   end
 
-  def self.preferred_families_fontist_index_path
-    Fontist.fontist_path.join("fontist_index.yml")
+  def self.fontist_index_path
+    Fontist.fontist_path.join("fontist_index.default_family.yml")
   end
 
-  def self.default_family_formula_index_path
-    Fontist.formula_index_dir.join("formula_index.default_families.yml")
+  def self.fontist_preferred_family_index_path
+    Fontist.fontist_path.join("fontist_index.preferred_family.yml")
   end
 
   def self.formula_index_path
-    @formula_index_path || Fontist.formula_index_dir.join("formula_index.yml")
+    Fontist.formula_index_dir.join("formula_index.default_family.yml")
   end
 
-  def self.formula_index_path=(path)
-    @formula_index_path = path
+  def self.formula_preferred_family_index_path
+    @formula_preferred_family_index_path ||
+      Fontist.formula_index_dir.join("formula_index.preferred_family.yml")
+  end
+
+  def self.formula_preferred_family_index_path=(path)
+    @formula_preferred_family_index_path = path
   end
 
   def self.formula_filename_index_path
