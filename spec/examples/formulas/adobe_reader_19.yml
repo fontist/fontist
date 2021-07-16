@@ -82,6 +82,8 @@ fonts:
   styles:
   - family_name: Adobe Fan Heiti Std
     type: B
+    default_family_name: Adobe Fan Heiti Std B
+    default_type: Bold
     full_name: AdobeFanHeitiStd-Bold
     post_script_name: AdobeFanHeitiStd-Bold
     version: 6.009;PS 6.001;hotconv 1.0.67;makeotf.lib2.5.33168
@@ -91,6 +93,8 @@ fonts:
   styles:
   - family_name: Adobe Gothic Std
     type: B
+    default_family_name: Adobe Gothic Std B
+    default_type: Bold
     full_name: AdobeGothicStd-Bold
     post_script_name: AdobeGothicStd-Bold
     version: 1.015;PS 1.004;hotconv 1.0.70;makeotf.lib2.5.58329
@@ -98,6 +102,8 @@ fonts:
     font: adobegothicstd_bold.otf
   - family_name: Adobe Gothic Std
     type: L
+    default_family_name: Adobe Gothic Std L
+    default_type: Regular
     full_name: Adobe Gothic Std L
     post_script_name: AdobeGothicStd-Light
     version: 1.006;PS 1.001;hotconv 1.0.70;makeotf.lib2.5.58329
@@ -141,6 +147,8 @@ fonts:
   styles:
   - family_name: Adobe Heiti Std
     type: R
+    default_family_name: Adobe Heiti Std R
+    default_type: Regular
     full_name: AdobeHeitiStd-Regular
     post_script_name: AdobeHeitiStd-Regular
     version: 5.019;PS 5.007;hotconv 1.0.68;makeotf.lib2.5.35818
@@ -151,6 +159,8 @@ fonts:
   styles:
   - family_name: Adobe Ming Std
     type: L
+    default_family_name: Adobe Ming Std L
+    default_type: Regular
     full_name: AdobeMingStd-Light
     post_script_name: AdobeMingStd-Light
     version: 6.009;PS 6.001;hotconv 1.0.67;makeotf.lib2.5.33168
@@ -160,6 +170,8 @@ fonts:
   styles:
   - family_name: Adobe Myungjo Std
     type: M
+    default_family_name: Adobe Myungjo Std M
+    default_type: Regular
     full_name: AdobeMyungjoStd-Medium
     post_script_name: AdobeMyungjoStd-Medium
     version: 1.015;PS 1.004;hotconv 1.0.70;makeotf.lib2.5.58329
@@ -170,6 +182,8 @@ fonts:
   styles:
   - family_name: Adobe Song Std
     type: L
+    default_family_name: Adobe Song Std L
+    default_type: Regular
     full_name: AdobeSongStd-Light
     post_script_name: AdobeSongStd-Light
     version: 5.018;PS 5.002;hotconv 1.0.67;makeotf.lib2.5.33168
@@ -210,6 +224,8 @@ fonts:
   styles:
   - family_name: Kozuka Gothic Pr6N
     type: M
+    default_family_name: Kozuka Gothic Pr6N M
+    default_type: Regular
     full_name: KozGoPr6N-Medium
     post_script_name: KozGoPr6N-Medium
     version: 7.001;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -220,6 +236,8 @@ fonts:
   styles:
   - family_name: Kozuka Mincho Pr6N
     type: R
+    default_family_name: Kozuka Mincho Pr6N R
+    default_type: Regular
     full_name: KozMinPr6N-Regular
     post_script_name: KozMinPr6N-Regular
     version: 7.001;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -295,6 +313,6 @@ fonts:
       rights reserved."
     font: myriadhebrew_regular.otf
 extract: {}
-copyright: Copyright 2000, 2002, 2004, 2011, 2013 Adobe Systems Incorporated. All
-  Rights Reserved.
+copyright: Copyright 2000, 2002, 2004, 2005, 2006, 2007, 2008, 2013 Adobe Systems
+  Incorporated. All Rights Reserved.
 license_url: http://www.adobe.com/type/legal.html

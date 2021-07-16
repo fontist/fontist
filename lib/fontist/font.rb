@@ -166,7 +166,7 @@ module Fontist
     end
 
     def uninstall_font
-      paths = find_fontist_font
+      paths = find_fontist_paths
       return unless paths
 
       paths.each do |path|
@@ -176,8 +176,13 @@ module Fontist
       paths
     end
 
-    def find_fontist_font
-      Fontist::FontistFont.find(name)
+    def find_fontist_paths
+      fonts = Fontist::SystemIndex.fontist_index.find(name, nil)
+      return unless fonts
+
+      fonts.map do |font|
+        font[:path]
+      end
     end
 
     def installed_paths

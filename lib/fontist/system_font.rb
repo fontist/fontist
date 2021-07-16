@@ -3,10 +3,9 @@ require_relative "formula_paths"
 
 module Fontist
   class SystemFont
-    def initialize(font:, style: nil, sources: nil)
+    def initialize(font:, style: nil)
       @font = font
       @style = style
-      @user_sources = sources || []
     end
 
     def self.font_paths
@@ -36,8 +35,8 @@ module Fontist
       Dir.glob(Fontist.fonts_path.join("**"))
     end
 
-    def self.find(font, sources: [])
-      new(font: font, sources: sources).find
+    def self.find(font)
+      new(font: font).find
     end
 
     def self.find_styles(font, style)
@@ -57,18 +56,14 @@ module Fontist
 
     private
 
-    attr_reader :font, :style, :user_sources
+    attr_reader :font, :style
 
     def find_by_index
-      SystemIndex.new(all_paths).find(font, style)
+      SystemIndex.system_index.find(font, style)
     end
 
     def find_by_formulas
-      FormulaPaths.new(all_paths).find(font, style)
-    end
-
-    def all_paths
-      @all_paths ||= Dir.glob(user_sources) + self.class.font_paths
+      FormulaPaths.new(self.class.font_paths).find(font, style)
     end
   end
 end

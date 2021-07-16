@@ -19,25 +19,28 @@ module Fontist
     end
 
     def self.do_rebuild_for_main_repo_with
-      Fontist.formula_index_path = Fontist.formulas_repo_path.join("index.yml")
+      Fontist.formula_preferred_family_index_path =
+        Fontist.formulas_repo_path.join("index.yml")
       Fontist.formula_filename_index_path =
         Fontist.formulas_repo_path.join("filename_index.yml")
 
       rebuild
 
-      Fontist.formula_index_path = nil
+      Fontist.formula_preferred_family_index_path = nil
       Fontist.formula_filename_index_path = nil
     end
 
     def self.rebuild
-      Fontist::Indexes::FontIndex.rebuild
+      Fontist::Indexes::DefaultFamilyFontIndex.rebuild
+      Fontist::Indexes::PreferredFamilyFontIndex.rebuild
       Fontist::Indexes::FilenameIndex.rebuild
 
       reset_cache
     end
 
     def self.reset_cache
-      Fontist::Indexes::FontIndex.reset_cache
+      Fontist::Indexes::DefaultFamilyFontIndex.reset_cache
+      Fontist::Indexes::PreferredFamilyFontIndex.reset_cache
       Fontist::Indexes::FilenameIndex.reset_cache
     end
   end

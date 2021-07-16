@@ -47,5 +47,17 @@ RSpec.describe Fontist::Manifest::Locations do
         end
       end
     end
+
+    context "preferred family and no option" do
+      let(:manifest) { { "Lato Heavy" => nil } }
+
+      it "finds by default family" do
+        fresh_fonts_and_formulas do
+          example_font("Lato-Heavy.ttf")
+
+          expect(command["Lato Heavy"]["Regular"]["paths"]).not_to be_empty
+        end
+      end
+    end
   end
 end

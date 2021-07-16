@@ -11,7 +11,6 @@ require "fontist/repo"
 require "fontist/font"
 require "fontist/formula"
 require "fontist/system_font"
-require "fontist/fontist_font"
 require "fontist/manifest"
 require "fontist/helpers"
 
@@ -65,15 +64,32 @@ module Fontist
   end
 
   def self.system_index_path
-    Fontist.fontist_path.join("system_index.yml")
+    Fontist.fontist_path.join("system_index.default_family.yml")
+  end
+
+  def self.system_preferred_family_index_path
+    Fontist.fontist_path.join("system_index.preferred_family.yml")
+  end
+
+  def self.fontist_index_path
+    Fontist.fontist_path.join("fontist_index.default_family.yml")
+  end
+
+  def self.fontist_preferred_family_index_path
+    Fontist.fontist_path.join("fontist_index.preferred_family.yml")
   end
 
   def self.formula_index_path
-    @formula_index_path || Fontist.formula_index_dir.join("formula_index.yml")
+    Fontist.formula_index_dir.join("formula_index.default_family.yml")
   end
 
-  def self.formula_index_path=(path)
-    @formula_index_path = path
+  def self.formula_preferred_family_index_path
+    @formula_preferred_family_index_path ||
+      Fontist.formula_index_dir.join("formula_index.preferred_family.yml")
+  end
+
+  def self.formula_preferred_family_index_path=(path)
+    @formula_preferred_family_index_path = path
   end
 
   def self.formula_filename_index_path
@@ -87,5 +103,13 @@ module Fontist
 
   def self.formula_index_dir
     Fontist.fontist_path
+  end
+
+  def self.preferred_family?
+    !!@preferred_family
+  end
+
+  def self.preferred_family=(bool)
+    @preferred_family = bool
   end
 end

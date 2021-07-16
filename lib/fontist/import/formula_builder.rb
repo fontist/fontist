@@ -129,12 +129,16 @@ module Fontist
 
         fonts = groups.map do |name, group|
           { name: name,
-            styles: group.map(&style_type) }
+            styles: styles_from_files(group, style_type) }
         end
 
         fonts.sort_by do |x|
           x[:name]
         end
+      end
+
+      def styles_from_files(files, style_type)
+        files.map(&style_type).sort_by { |x| x[:type] }
       end
 
       def extract
