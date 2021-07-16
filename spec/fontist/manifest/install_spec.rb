@@ -55,16 +55,14 @@ RSpec.describe Fontist::Manifest::Install do
       end
     end
 
-    context "with default-families option" do
+    context "preferred family and no option" do
       let(:manifest) { { "Lato Heavy" => nil } }
 
       it "installs by default family" do
-        with_option(:default_families) do
-          fresh_fonts_and_formulas do
-            example_formula("lato_with_url.yml")
+        fresh_fonts_and_formulas do
+          example_formula("lato_with_url.yml")
 
-            expect { command }.not_to raise_error
-          end
+          expect { command }.not_to raise_error
         end
       end
     end

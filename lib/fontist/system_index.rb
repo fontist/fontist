@@ -36,26 +36,26 @@ module Fontist
     attr_reader :font_paths
 
     def self.system_index
-      if Fontist.default_families?
-        new(Fontist.default_families_system_index_path,
-            SystemFont.font_paths,
-            DefaultFamily.new)
-      else
+      if Fontist.preferred_family?
         new(Fontist.system_index_path,
             SystemFont.font_paths,
             PreferredFamily.new)
+      else
+        new(Fontist.default_families_system_index_path,
+            SystemFont.font_paths,
+            DefaultFamily.new)
       end
     end
 
     def self.fontist_index
-      if Fontist.default_families?
-        new(Fontist.default_families_fontist_index_path,
-            SystemFont.fontist_font_paths,
-            DefaultFamily.new)
-      else
+      if Fontist.preferred_family?
         new(Fontist.preferred_families_fontist_index_path,
             SystemFont.fontist_font_paths,
             PreferredFamily.new)
+      else
+        new(Fontist.default_families_fontist_index_path,
+            SystemFont.fontist_font_paths,
+            DefaultFamily.new)
       end
     end
 

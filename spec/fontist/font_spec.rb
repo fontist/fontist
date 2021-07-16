@@ -405,16 +405,14 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with default-families option" do
+    context "preferred family and no option" do
       let(:font) { "lato heavy" }
 
       it "installs by default family" do
-        with_option(:default_families) do
-          fresh_fonts_and_formulas do
-            example_formula("lato_with_url.yml")
-            expect(command).to include(include("Lato-Heavy.ttf"))
-            expect(font_file("Lato-Heavy.ttf")).to exist
-          end
+        fresh_fonts_and_formulas do
+          example_formula("lato_with_url.yml")
+          expect(command).to include(include("Lato-Heavy.ttf"))
+          expect(font_file("Lato-Heavy.ttf")).to exist
         end
       end
     end
@@ -494,17 +492,15 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with default-families option" do
+    context "preferred family and no option" do
       let(:font) { "lato heavy" }
 
       it "uninstall by default family" do
-        with_option(:default_families) do
-          fresh_fonts_and_formulas do
-            example_font("Lato-Heavy.ttf")
+        fresh_fonts_and_formulas do
+          example_font("Lato-Heavy.ttf")
 
-            command
-            expect(font_file("Lato-Heavy.ttf")).not_to exist
-          end
+          command
+          expect(font_file("Lato-Heavy.ttf")).not_to exist
         end
       end
     end
@@ -597,15 +593,13 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with default-families option" do
+    context "preferred family and no option" do
       let(:font) { "lato heavy" }
 
       it "finds by default family" do
-        with_option(:default_families) do
-          fresh_fonts_and_formulas do
-            example_font("Lato-Heavy.ttf")
-            expect(command).to include(include("Lato-Heavy.ttf"))
-          end
+        fresh_fonts_and_formulas do
+          example_font("Lato-Heavy.ttf")
+          expect(command).to include(include("Lato-Heavy.ttf"))
         end
       end
     end

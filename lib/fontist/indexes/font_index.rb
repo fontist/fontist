@@ -5,10 +5,10 @@ module Fontist
   module Indexes
     class FontIndex
       def self.from_yaml
-        if Fontist.default_families?
-          DefaultFamilyFontIndex.from_yaml
-        else
+        if Fontist.preferred_family?
           PreferredFamilyFontIndex.from_yaml
+        else
+          DefaultFamilyFontIndex.from_yaml
         end
       end
     end

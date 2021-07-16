@@ -104,11 +104,11 @@ module Fontist
     Fontist.fontist_path
   end
 
-  def self.default_families?
-    !!@default_families
+  def self.preferred_family?
+    !!@preferred_family
   end
 
-  def self.default_families=(yes)
-    @default_families = yes
+  def self.preferred_family=(bool)
+    @preferred_family = bool
   end
 end

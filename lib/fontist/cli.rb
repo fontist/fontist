@@ -32,7 +32,7 @@ module Fontist
       false
     end
 
-    class_option :default_families, type: :boolean, desc: "Avoid using the Preferred families"
+    class_option :preferred_family, type: :boolean, desc: "Use Preferred Family when available"
 
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
@@ -176,7 +176,7 @@ module Fontist
     private
 
     def handle_class_options(options)
-      Fontist.default_families = options[:default_families]
+      Fontist.preferred_family = options[:preferred_family]
     end
 
     def success
