@@ -35,7 +35,7 @@ RSpec.describe Fontist::Indexes::FontIndex do
   end
 
   describe ".rebuild" do
-    let(:command) { described_class.rebuild }
+    let(:command) { Fontist::Indexes::PreferredFamilyFontIndex.rebuild }
     let(:index) { YAML.load_file(Fontist.formula_index_path) }
 
     it "builds an index with fonts, styles and a path to a formula" do
