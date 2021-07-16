@@ -66,7 +66,7 @@ module Fontist
     end
 
     def find(font, style)
-      fonts = system_index.select do |file|
+      fonts = index.select do |file|
         file[:family_name].casecmp?(font) &&
           (style.nil? || file[:type].casecmp?(style))
       end
@@ -75,18 +75,18 @@ module Fontist
     end
 
     def rebuild
-      build_system_index
+      build_index
     end
 
     private
 
-    def system_index
-      @system_index ||= build_system_index
+    def index
+      @index ||= build_index
     end
 
-    def build_system_index
+    def build_index
       lock(lock_path) do
-        do_build_system_index
+        do_build_index
       end
     end
 
@@ -94,8 +94,8 @@ module Fontist
       @index_path.to_s + ".lock"
     end
 
-    def do_build_system_index
-      previous_index = load_system_index
+    def do_build_index
+      previous_index = load_index
       updated_index = detect_paths(font_paths, previous_index)
       updated_index.tap do |index|
         save_index(index) if changed?(updated_index, previous_index)
@@ -106,7 +106,7 @@ module Fontist
       this.map { |x| x[:path] }.uniq.sort != other.map { |x| x[:path] }.uniq.sort
     end
 
-    def load_system_index
+    def load_index
       index = File.exist?(@index_path) ? YAML.load_file(@index_path) : []
 
       index.each do |item|
