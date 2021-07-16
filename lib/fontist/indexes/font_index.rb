@@ -11,16 +11,6 @@ module Fontist
           PreferredFamilyFontIndex.from_yaml
         end
       end
-
-      def self.reset_cache
-        DefaultFamilyFontIndex.reset_cache
-        PreferredFamilyFontIndex.reset_cache
-      end
-
-      def self.rebuild
-        DefaultFamilyFontIndex.rebuild
-        PreferredFamilyFontIndex.rebuild
-      end
     end
   end
 end
