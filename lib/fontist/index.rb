@@ -30,16 +30,16 @@ module Fontist
     end
 
     def self.rebuild
-      DefaultFamilyFontIndex.rebuild
-      PreferredFamilyFontIndex.rebuild
+      Fontist::Indexes::DefaultFamilyFontIndex.rebuild
+      Fontist::Indexes::PreferredFamilyFontIndex.rebuild
       Fontist::Indexes::FilenameIndex.rebuild
 
       reset_cache
     end
 
     def self.reset_cache
-      DefaultFamilyFontIndex.reset_cache
-      PreferredFamilyFontIndex.reset_cache
+      Fontist::Indexes::DefaultFamilyFontIndex.reset_cache
+      Fontist::Indexes::PreferredFamilyFontIndex.reset_cache
       Fontist::Indexes::FilenameIndex.reset_cache
     end
   end
