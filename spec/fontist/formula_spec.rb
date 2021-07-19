@@ -68,7 +68,7 @@ RSpec.describe Fontist::Formula do
       expect(formula.fonts.first.styles).to be_kind_of(Array)
       expect(formula.fonts.first.styles.first.type).to be_kind_of(String)
       expect(formula.fonts.first.styles.first.font).to be_kind_of(String)
-      expect(formula.extract.format).to be_kind_of(String)
+      expect(formula.extract.options).to be_nil
       expect(formula.license).to be_kind_of(String)
       expect(formula.license_required).to be false
     end

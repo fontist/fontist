@@ -131,7 +131,8 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
   # rubocop:disable Metrics/AbcSize
   def expect_formula_includes(formula, example)
-    varies_attributes = %w[copyright homepage license_url open_license requires_license_agreement]
+    varies_attributes = %w[copyright homepage license_url open_license
+                           requires_license_agreement command]
     exclude = %w[fonts font_collections] + varies_attributes
     expect(except(formula, *exclude)).to eq(except(example, *exclude))
 

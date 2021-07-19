@@ -31,21 +31,30 @@ module Fontist
       end
     end
 
-    def fresh_main_repo
+    def fresh_main_repo(branch = "main")
       Dir.mktmpdir do |dir|
         FileUtils.mkdir(File.join(dir, "Formulas"))
-
         FileUtils.touch(File.join(dir, "Formulas", ".keep"))
-        git = Git.init(dir)
-        git.config("user.name", "Test")
-        git.config("user.email", "test@example.com")
-        git.add(File.join("Formulas", ".keep"))
-        git.commit("msg")
 
-        Git.clone(dir, Fontist.formulas_repo_path)
+        init_repo(dir, branch) do |git|
+          git.add(File.join("Formulas", ".keep"))
+        end
+
+        Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
 
         yield dir
       end
+    end
+
+    def init_repo(dir, branch)
+      git = Git.init(dir)
+      git.checkout(branch, new_branch: true)
+      git.config("user.name", "Test")
+      git.config("user.email", "test@example.com")
+
+      yield git
+
+      git.commit("msg")
     end
 
     def no_fonts_and_formulas(&block)
@@ -256,8 +265,17 @@ module Fontist
 
     def add_to_formula_repo(dir, example_formula)
       example_formula_to(example_formula, dir)
-      git = Git.open(dir)
-      git.add(example_formula)
+      add_to_repo(dir, example_formula)
+    end
+
+    def create_new_file_in_repo(repo_dir, file_to_touch)
+      FileUtils.touch(File.join(repo_dir, file_to_touch))
+      add_to_repo(repo_dir, file_to_touch)
+    end
+
+    def add_to_repo(repo_dir, file_to_add)
+      git = Git.open(repo_dir)
+      git.add(file_to_add)
       git.commit("msg")
     end
 

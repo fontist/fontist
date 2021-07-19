@@ -1,7 +1,13 @@
 module Fontist
   class Update
+    BRANCH = "v2".freeze
+
     def self.call
-      new.call
+      new(BRANCH).call
+    end
+
+    def initialize(branch = "main")
+      @branch = branch
     end
 
     def call
@@ -17,13 +23,21 @@ module Fontist
       dir = File.dirname(Fontist.formulas_repo_path)
       FileUtils.mkdir_p(dir) unless File.exist?(dir)
 
-      if Dir.exist?(Fontist.formulas_repo_path)
-        Git.open(Fontist.formulas_repo_path).pull
-      else
-        Git.clone(Fontist.formulas_repo_url,
-                  Fontist.formulas_repo_path,
-                  depth: 1)
+      unless Dir.exist?(Fontist.formulas_repo_path)
+        return Git.clone(Fontist.formulas_repo_url,
+                         Fontist.formulas_repo_path,
+                         branch: @branch,
+                         depth: 1)
       end
+
+      git = Git.open(Fontist.formulas_repo_path)
+      return git.pull("origin", @branch) if git.current_branch == @branch
+
+      git.config("remote.origin.fetch",
+                 "+refs/heads/#{@branch}:refs/remotes/origin/#{@branch}")
+      git.fetch
+      git.checkout(@branch)
+      git.pull("origin", @branch)
     end
 
     def update_private_repos

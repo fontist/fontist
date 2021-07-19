@@ -1,3 +1,4 @@
+require "shellwords"
 require_relative "text_helper"
 
 module Fontist
@@ -5,7 +6,7 @@ module Fontist
     class FormulaBuilder
       FORMULA_ATTRIBUTES = %i[name description homepage resources
                               font_collections fonts extract copyright
-                              license_url open_license].freeze
+                              license_url open_license command].freeze
 
       attr_accessor :archive,
                     :url,
@@ -49,7 +50,7 @@ module Fontist
       end
 
       def homepage
-        both_fonts.first.homepage
+        both_fonts.map(&:homepage).compact.first
       end
 
       def resources
@@ -146,11 +147,11 @@ module Fontist
       end
 
       def copyright
-        both_fonts.first.copyright
+        both_fonts.map(&:copyright).compact.first
       end
 
       def license_url
-        both_fonts.first.license_url
+        both_fonts.map(&:license_url).compact.first
       end
 
       def open_license
@@ -164,6 +165,10 @@ module Fontist
                          "'requires_license_agreement'")
 
         TextHelper.cleanup(@license_text)
+      end
+
+      def command
+        Shellwords.shelljoin(ARGV)
       end
     end
   end

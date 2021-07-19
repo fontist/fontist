@@ -63,9 +63,10 @@ RSpec.describe Fontist::SystemIndex do
     end
 
     it "warns about the corrupt font file" do
-      expect { instance.find("some font", nil) }
-        .to output(/#{corrupt_font_file} not recognized as a font file/)
-        .to_stderr
+      expect(Fontist.ui).to receive(:error)
+        .with(/#{corrupt_font_file} not recognized as a font file/)
+
+      instance.find("some font", nil)
     end
   end
 end

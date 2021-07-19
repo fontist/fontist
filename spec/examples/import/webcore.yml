@@ -7,8 +7,7 @@ resources:
     - https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
     sha256: 75aab1edd72bb2e65592346ad54b78089cddedaa9801c8c133cba79677482fb2
 font_collections:
-- filename: CAMBRIA.ttc
-  source_filename: CAMBRIA.TTC
+- filename: CAMBRIA.TTC
   fonts:
   - name: Cambria
     styles:
@@ -67,22 +66,6 @@ fonts:
 - name: Arial
   styles:
   - family_name: Arial
-    type: Regular
-    full_name: Arial
-    post_script_name: ArialMT
-    version: '3.00'
-    description: Contemporary sans serif design, Arial contains more humanist characteristics
-      than many of its predecessors and as such is more in tune with the mood of the
-      last decades of the twentieth century.  The overall treatment of curves is softer
-      and fuller than in most industrial style sans serif faces.  Terminal strokes
-      are cut on the diagonal which helps to give the face a less mechanical appearance.  Arial
-      is an extremely versatile family of typefaces which can be used with equal success
-      for text setting in reports, presentations, magazines etc, and for display use
-      in newspapers, advertising and promotions.
-    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
-      plc/Type Solutions Inc. 1990-1992. All Rights Reserved
-    font: arial.ttf
-  - family_name: Arial
     type: Bold
     full_name: Arial Bold
     post_script_name: Arial-BoldMT
@@ -130,6 +113,22 @@ fonts:
     copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
       plc/Type Solutions Inc. 1990-1992. All Rights Reserved
     font: ariali.ttf
+  - family_name: Arial
+    type: Regular
+    full_name: Arial
+    post_script_name: ArialMT
+    version: '3.00'
+    description: Contemporary sans serif design, Arial contains more humanist characteristics
+      than many of its predecessors and as such is more in tune with the mood of the
+      last decades of the twentieth century.  The overall treatment of curves is softer
+      and fuller than in most industrial style sans serif faces.  Terminal strokes
+      are cut on the diagonal which helps to give the face a less mechanical appearance.  Arial
+      is an extremely versatile family of typefaces which can be used with equal success
+      for text setting in reports, presentations, magazines etc, and for display use
+      in newspapers, advertising and promotions.
+    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
+      plc/Type Solutions Inc. 1990-1992. All Rights Reserved
+    font: arial.ttf
 - name: Arial Black
   styles:
   - family_name: Arial Black
@@ -153,19 +152,6 @@ fonts:
 - name: Calibri
   styles:
   - family_name: Calibri
-    type: Regular
-    full_name: Calibri
-    post_script_name: Calibri
-    version: '1.02'
-    description: Calibri is a modern sans serif family with subtle roundings on stems
-      and corners. It features real italics, small caps, and multiple numeral sets.
-      Its proportions allow high impact in tightly set lines of big and small text
-      alike. Calibri's many curves and the new rasteriser team up in bigger sizes
-      to reveal a warm and soft character.
-    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
-    font: CALIBRI.ttf
-    source_font: CALIBRI.TTF
-  - family_name: Calibri
     type: Bold
     full_name: Calibri Bold
     post_script_name: Calibri-Bold
@@ -176,21 +162,7 @@ fonts:
       alike. Calibri's many curves and the new rasteriser team up in bigger sizes
       to reveal a warm and soft character.
     copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
-    font: CALIBRIB.ttf
-    source_font: CALIBRIB.TTF
-  - family_name: Calibri
-    type: Italic
-    full_name: Calibri Italic
-    post_script_name: Calibri-Italic
-    version: '1.02'
-    description: Calibri is a modern sans serif family with subtle roundings on stems
-      and corners. It features real italics, small caps, and multiple numeral sets.
-      Its proportions allow high impact in tightly set lines of big and small text
-      alike. Calibri's many curves and the new rasteriser team up in bigger sizes
-      to reveal a warm and soft character.
-    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
-    font: CALIBRII.ttf
-    source_font: CALIBRII.TTF
+    font: CALIBRIB.TTF
   - family_name: Calibri
     type: Bold Italic
     full_name: Calibri Bold Italic
@@ -202,8 +174,31 @@ fonts:
       alike. Calibri's many curves and the new rasteriser team up in bigger sizes
       to reveal a warm and soft character.
     copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
-    font: CALIBRIZ.ttf
-    source_font: CALIBRIZ.TTF
+    font: CALIBRIZ.TTF
+  - family_name: Calibri
+    type: Italic
+    full_name: Calibri Italic
+    post_script_name: Calibri-Italic
+    version: '1.02'
+    description: Calibri is a modern sans serif family with subtle roundings on stems
+      and corners. It features real italics, small caps, and multiple numeral sets.
+      Its proportions allow high impact in tightly set lines of big and small text
+      alike. Calibri's many curves and the new rasteriser team up in bigger sizes
+      to reveal a warm and soft character.
+    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
+    font: CALIBRII.TTF
+  - family_name: Calibri
+    type: Regular
+    full_name: Calibri
+    post_script_name: Calibri
+    version: '1.02'
+    description: Calibri is a modern sans serif family with subtle roundings on stems
+      and corners. It features real italics, small caps, and multiple numeral sets.
+      Its proportions allow high impact in tightly set lines of big and small text
+      alike. Calibri's many curves and the new rasteriser team up in bigger sizes
+      to reveal a warm and soft character.
+    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
+    font: CALIBRI.TTF
 - name: Cambria
   styles:
   - family_name: Cambria
@@ -224,28 +219,7 @@ fonts:
       of an international team of experts, who aimed to set a historical new standard
       in multi-script type design.'
     copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
-    font: CAMBRIAB.ttf
-    source_font: CAMBRIAB.TTF
-  - family_name: Cambria
-    type: Italic
-    full_name: Cambria Italic
-    post_script_name: Cambria-Italic
-    version: '1.01'
-    description: 'Cambria has been designed for on-screen reading and to look good
-      when printed at small sizes. It has very even spacing and proportions. Diagonal
-      and vertical hairlines and serifs are relatively strong, while horizontal serifs
-      are small and intend to emphasize stroke endings rather than stand out themselves.
-      This principle is most noticeable in the italics where the lowercase characters
-      are subdued in style to be at their best as elements of word-images. When Cambria
-      is used for captions at sizes over 20 point, the  inter-character spacing should
-      be slightly reduced for best results. The design isn''t just intended for business
-      documents: The regular weight has been extended with a large set of math and
-      science symbols. The Greek and Cyrillic has been designed under close supervision
-      of an international team of experts, who aimed to set a historical new standard
-      in multi-script type design.'
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CAMBRIAI.ttf
-    source_font: CAMBRIAI.TTF
+    font: CAMBRIAB.TTF
   - family_name: Cambria
     type: Bold Italic
     full_name: Cambria Bold Italic
@@ -264,22 +238,28 @@ fonts:
       of an international team of experts, who aimed to set a historical new standard
       in multi-script type design.'
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CAMBRIAZ.ttf
-    source_font: CAMBRIAZ.TTF
+    font: CAMBRIAZ.TTF
+  - family_name: Cambria
+    type: Italic
+    full_name: Cambria Italic
+    post_script_name: Cambria-Italic
+    version: '1.01'
+    description: 'Cambria has been designed for on-screen reading and to look good
+      when printed at small sizes. It has very even spacing and proportions. Diagonal
+      and vertical hairlines and serifs are relatively strong, while horizontal serifs
+      are small and intend to emphasize stroke endings rather than stand out themselves.
+      This principle is most noticeable in the italics where the lowercase characters
+      are subdued in style to be at their best as elements of word-images. When Cambria
+      is used for captions at sizes over 20 point, the  inter-character spacing should
+      be slightly reduced for best results. The design isn''t just intended for business
+      documents: The regular weight has been extended with a large set of math and
+      science symbols. The Greek and Cyrillic has been designed under close supervision
+      of an international team of experts, who aimed to set a historical new standard
+      in multi-script type design.'
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CAMBRIAI.TTF
 - name: Candara
   styles:
-  - family_name: Candara
-    type: Regular
-    full_name: Candara
-    post_script_name: Candara
-    version: '1.01'
-    description: Candara is a casual humanist sans with verticals showing a graceful
-      entasis on stems, high-branching arcades in the lowercase, large apertures in
-      all open forms, and unique ogee curves on diagonals. The resultant texture is
-      lively but not intrusive, and makes for a  friendly and readable text.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CANDARA.ttf
-    source_font: CANDARA.TTF
   - family_name: Candara
     type: Bold
     full_name: Candara Bold
@@ -290,20 +270,7 @@ fonts:
       all open forms, and unique ogee curves on diagonals. The resultant texture is
       lively but not intrusive, and makes for a  friendly and readable text.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CANDARAB.ttf
-    source_font: CANDARAB.TTF
-  - family_name: Candara
-    type: Italic
-    full_name: Candara Italic
-    post_script_name: Candara-Italic
-    version: '1.01'
-    description: Candara is a casual humanist sans with verticals showing a graceful
-      entasis on stems, high-branching arcades in the lowercase, large apertures in
-      all open forms, and unique ogee curves on diagonals. The resultant texture is
-      lively but not intrusive, and makes for a  friendly and readable text.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CANDARAI.ttf
-    source_font: CANDARAI.TTF
+    font: CANDARAB.TTF
   - family_name: Candara
     type: Bold Italic
     full_name: Candara Bold Italic
@@ -314,20 +281,31 @@ fonts:
       all open forms, and unique ogee curves on diagonals. The resultant texture is
       lively but not intrusive, and makes for a  friendly and readable text.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CANDARAZ.ttf
-    source_font: CANDARAZ.TTF
+    font: CANDARAZ.TTF
+  - family_name: Candara
+    type: Italic
+    full_name: Candara Italic
+    post_script_name: Candara-Italic
+    version: '1.01'
+    description: Candara is a casual humanist sans with verticals showing a graceful
+      entasis on stems, high-branching arcades in the lowercase, large apertures in
+      all open forms, and unique ogee curves on diagonals. The resultant texture is
+      lively but not intrusive, and makes for a  friendly and readable text.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CANDARAI.TTF
+  - family_name: Candara
+    type: Regular
+    full_name: Candara
+    post_script_name: Candara
+    version: '1.01'
+    description: Candara is a casual humanist sans with verticals showing a graceful
+      entasis on stems, high-branching arcades in the lowercase, large apertures in
+      all open forms, and unique ogee curves on diagonals. The resultant texture is
+      lively but not intrusive, and makes for a  friendly and readable text.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CANDARA.TTF
 - name: Comic Sans MS
   styles:
-  - family_name: Comic Sans MS
-    type: Regular
-    full_name: Comic Sans MS
-    post_script_name: ComicSansMS
-    version: '2.20'
-    description: Designed by Microsoft's Vincent Connare, this is a face based on
-      the lettering from comic magazines. This casual but legible face has proved
-      very popular with a wide variety of people.
-    copyright: Copyright (c) 1995 Microsoft Corporation. All rights reserved.
-    font: comic.ttf
   - family_name: Comic Sans MS
     type: Bold
     full_name: Comic Sans MS Bold
@@ -338,25 +316,18 @@ fonts:
       very popular with a wide variety of people.
     copyright: Copyright (c) 1995 Microsoft Corporation. All rights reserved.
     font: comicbd.ttf
+  - family_name: Comic Sans MS
+    type: Regular
+    full_name: Comic Sans MS
+    post_script_name: ComicSansMS
+    version: '2.20'
+    description: Designed by Microsoft's Vincent Connare, this is a face based on
+      the lettering from comic magazines. This casual but legible face has proved
+      very popular with a wide variety of people.
+    copyright: Copyright (c) 1995 Microsoft Corporation. All rights reserved.
+    font: comic.ttf
 - name: Consolas
   styles:
-  - family_name: Consolas
-    type: Regular
-    full_name: Consolas
-    post_script_name: Consolas
-    version: '1.00'
-    description: Consolas is aimed for use in programming environments and other circumstances
-      where a monospaced font is specified. All characters have the same width, like
-      old typewriters, making it a good choice for personal and business correspondance.
-      The improved Windows font display allowed a design with proportions closer to
-      normal text than traditional monospaced fonts like Courier. This allows for
-      more comfortably reading of extended text on screen. OpenType features include
-      hanging or lining numerals; slashed, dotted and normal zeros; and alternative
-      shapes for a number of lowercase letters. The look of text can be tuned to personal
-      taste by varying the number of bars and waves.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSOLA.ttf
-    source_font: CONSOLA.TTF
   - family_name: Consolas
     type: Bold
     full_name: Consolas Bold
@@ -372,25 +343,7 @@ fonts:
       shapes for a number of lowercase letters. The look of text can be tuned to personal
       taste by varying the number of bars and waves.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSOLAB.ttf
-    source_font: CONSOLAB.TTF
-  - family_name: Consolas
-    type: Italic
-    full_name: Consolas Italic
-    post_script_name: Consolas-Italic
-    version: '1.00'
-    description: Consolas is aimed for use in programming environments and other circumstances
-      where a monospaced font is specified. All characters have the same width, like
-      old typewriters, making it a good choice for personal and business correspondance.
-      The improved Windows font display allowed a design with proportions closer to
-      normal text than traditional monospaced fonts like Courier. This allows for
-      more comfortably reading of extended text on screen. OpenType features include
-      hanging or lining numerals; slashed, dotted and normal zeros; and alternative
-      shapes for a number of lowercase letters. The look of text can be tuned to personal
-      taste by varying the number of bars and waves.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSOLAI.ttf
-    source_font: CONSOLAI.TTF
+    font: CONSOLAB.TTF
   - family_name: Consolas
     type: Bold Italic
     full_name: Consolas Bold Italic
@@ -406,26 +359,41 @@ fonts:
       shapes for a number of lowercase letters. The look of text can be tuned to personal
       taste by varying the number of bars and waves.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSOLAZ.ttf
-    source_font: CONSOLAZ.TTF
+    font: CONSOLAZ.TTF
+  - family_name: Consolas
+    type: Italic
+    full_name: Consolas Italic
+    post_script_name: Consolas-Italic
+    version: '1.00'
+    description: Consolas is aimed for use in programming environments and other circumstances
+      where a monospaced font is specified. All characters have the same width, like
+      old typewriters, making it a good choice for personal and business correspondance.
+      The improved Windows font display allowed a design with proportions closer to
+      normal text than traditional monospaced fonts like Courier. This allows for
+      more comfortably reading of extended text on screen. OpenType features include
+      hanging or lining numerals; slashed, dotted and normal zeros; and alternative
+      shapes for a number of lowercase letters. The look of text can be tuned to personal
+      taste by varying the number of bars and waves.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CONSOLAI.TTF
+  - family_name: Consolas
+    type: Regular
+    full_name: Consolas
+    post_script_name: Consolas
+    version: '1.00'
+    description: Consolas is aimed for use in programming environments and other circumstances
+      where a monospaced font is specified. All characters have the same width, like
+      old typewriters, making it a good choice for personal and business correspondance.
+      The improved Windows font display allowed a design with proportions closer to
+      normal text than traditional monospaced fonts like Courier. This allows for
+      more comfortably reading of extended text on screen. OpenType features include
+      hanging or lining numerals; slashed, dotted and normal zeros; and alternative
+      shapes for a number of lowercase letters. The look of text can be tuned to personal
+      taste by varying the number of bars and waves.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CONSOLA.TTF
 - name: Constantia
   styles:
-  - family_name: Constantia
-    type: Regular
-    full_name: Constantia
-    post_script_name: Constantia
-    version: '1.01'
-    description: Constantia is a modulated wedge-serif typeface designed primarily
-      for continuous text in both electronic and paper publishing. The design responds
-      to the recent narrowing of the gap between screen readability and traditional
-      print media, exploiting specific aspects of the most recent advances in ClearType
-      rendering, such as sub-pixel positioning. The classic proportions of relatively
-      small x-height and long extenders make Constantia ideal for book and journal
-      publishing, while the slight squareness and open counters ensure that it remains
-      legible even at small sizes.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSTAN.ttf
-    source_font: CONSTAN.TTF
   - family_name: Constantia
     type: Bold
     full_name: Constantia Bold
@@ -440,24 +408,7 @@ fonts:
       publishing, while the slight squareness and open counters ensure that it remains
       legible even at small sizes.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSTANB.ttf
-    source_font: CONSTANB.TTF
-  - family_name: Constantia
-    type: Italic
-    full_name: Constantia Italic
-    post_script_name: Constantia-Italic
-    version: '1.01'
-    description: Constantia is a modulated wedge-serif typeface designed primarily
-      for continuous text in both electronic and paper publishing. The design responds
-      to the recent narrowing of the gap between screen readability and traditional
-      print media, exploiting specific aspects of the most recent advances in ClearType
-      rendering, such as sub-pixel positioning. The classic proportions of relatively
-      small x-height and long extenders make Constantia ideal for book and journal
-      publishing, while the slight squareness and open counters ensure that it remains
-      legible even at small sizes.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSTANI.ttf
-    source_font: CONSTANI.TTF
+    font: CONSTANB.TTF
   - family_name: Constantia
     type: Bold Italic
     full_name: Constantia Bold Italic
@@ -472,23 +423,39 @@ fonts:
       publishing, while the slight squareness and open counters ensure that it remains
       legible even at small sizes.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CONSTANZ.ttf
-    source_font: CONSTANZ.TTF
+    font: CONSTANZ.TTF
+  - family_name: Constantia
+    type: Italic
+    full_name: Constantia Italic
+    post_script_name: Constantia-Italic
+    version: '1.01'
+    description: Constantia is a modulated wedge-serif typeface designed primarily
+      for continuous text in both electronic and paper publishing. The design responds
+      to the recent narrowing of the gap between screen readability and traditional
+      print media, exploiting specific aspects of the most recent advances in ClearType
+      rendering, such as sub-pixel positioning. The classic proportions of relatively
+      small x-height and long extenders make Constantia ideal for book and journal
+      publishing, while the slight squareness and open counters ensure that it remains
+      legible even at small sizes.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CONSTANI.TTF
+  - family_name: Constantia
+    type: Regular
+    full_name: Constantia
+    post_script_name: Constantia
+    version: '1.01'
+    description: Constantia is a modulated wedge-serif typeface designed primarily
+      for continuous text in both electronic and paper publishing. The design responds
+      to the recent narrowing of the gap between screen readability and traditional
+      print media, exploiting specific aspects of the most recent advances in ClearType
+      rendering, such as sub-pixel positioning. The classic proportions of relatively
+      small x-height and long extenders make Constantia ideal for book and journal
+      publishing, while the slight squareness and open counters ensure that it remains
+      legible even at small sizes.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CONSTAN.TTF
 - name: Corbel
   styles:
-  - family_name: Corbel
-    type: Regular
-    full_name: Corbel
-    post_script_name: Corbel
-    version: '1.01'
-    description: Corbel is designed to give an uncluttered and clean appearance on
-      screen. The letter forms are open with soft, flowing curves. It is legible,
-      clear and functional at small sizes. At larger sizes the detailing and style
-      of the shapes is more apparent resulting in a modern sans serif type with a
-      wide range of possible uses.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CORBEL.ttf
-    source_font: CORBEL.TTF
   - family_name: Corbel
     type: Bold
     full_name: Corbel Bold
@@ -500,21 +467,7 @@ fonts:
       of the shapes is more apparent resulting in a modern sans serif type with a
       wide range of possible uses.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CORBELB.ttf
-    source_font: CORBELB.TTF
-  - family_name: Corbel
-    type: Italic
-    full_name: Corbel Italic
-    post_script_name: Corbel-Italic
-    version: '1.01'
-    description: Corbel is designed to give an uncluttered and clean appearance on
-      screen. The letter forms are open with soft, flowing curves. It is legible,
-      clear and functional at small sizes. At larger sizes the detailing and style
-      of the shapes is more apparent resulting in a modern sans serif type with a
-      wide range of possible uses.
-    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CORBELI.ttf
-    source_font: CORBELI.TTF
+    font: CORBELB.TTF
   - family_name: Corbel
     type: Bold Italic
     full_name: Corbel Bold Italic
@@ -526,22 +479,33 @@ fonts:
       of the shapes is more apparent resulting in a modern sans serif type with a
       wide range of possible uses.
     copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
-    font: CORBELZ.ttf
-    source_font: CORBELZ.TTF
+    font: CORBELZ.TTF
+  - family_name: Corbel
+    type: Italic
+    full_name: Corbel Italic
+    post_script_name: Corbel-Italic
+    version: '1.01'
+    description: Corbel is designed to give an uncluttered and clean appearance on
+      screen. The letter forms are open with soft, flowing curves. It is legible,
+      clear and functional at small sizes. At larger sizes the detailing and style
+      of the shapes is more apparent resulting in a modern sans serif type with a
+      wide range of possible uses.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CORBELI.TTF
+  - family_name: Corbel
+    type: Regular
+    full_name: Corbel
+    post_script_name: Corbel
+    version: '1.01'
+    description: Corbel is designed to give an uncluttered and clean appearance on
+      screen. The letter forms are open with soft, flowing curves. It is legible,
+      clear and functional at small sizes. At larger sizes the detailing and style
+      of the shapes is more apparent resulting in a modern sans serif type with a
+      wide range of possible uses.
+    copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+    font: CORBEL.TTF
 - name: Courier New
   styles:
-  - family_name: Courier New
-    type: Regular
-    full_name: Courier New
-    post_script_name: CourierNewPSMT
-    version: '2.90'
-    description: Designed as a typewriter face for IBM, Courier was re drawn by Adrian
-      Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in
-      weight and slab serif in concept.  Used to emulate typewriter output for reports,
-      tabular work and technical documentation.
-    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
-      plc/Type Solutions Inc. 1990-1994. All Rights Reserved
-    font: cour.ttf
   - family_name: Courier New
     type: Bold
     full_name: Courier New Bold
@@ -578,16 +542,20 @@ fonts:
     copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
       plc/Type Solutions Inc. 1990-1992. All Rights Reserved
     font: couri.ttf
+  - family_name: Courier New
+    type: Regular
+    full_name: Courier New
+    post_script_name: CourierNewPSMT
+    version: '2.90'
+    description: Designed as a typewriter face for IBM, Courier was re drawn by Adrian
+      Frutiger for IBM Selectric series.  A typical fixed pitch design, monotone in
+      weight and slab serif in concept.  Used to emulate typewriter output for reports,
+      tabular work and technical documentation.
+    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
+      plc/Type Solutions Inc. 1990-1994. All Rights Reserved
+    font: cour.ttf
 - name: Georgia
   styles:
-  - family_name: Georgia
-    type: Regular
-    full_name: Georgia
-    post_script_name: Georgia
-    version: '2.12'
-    copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
-      Reserved.
-    font: georgia.ttf
   - family_name: Georgia
     type: Bold
     full_name: Georgia Bold
@@ -597,6 +565,14 @@ fonts:
       Reserved.
     font: georgiab.ttf
   - family_name: Georgia
+    type: Bold Italic
+    full_name: Georgia Bold Italic
+    post_script_name: Georgia-BoldItalic
+    version: '2.10'
+    copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
+      Reserved.
+    font: georgiaz.ttf
+  - family_name: Georgia
     type: Italic
     full_name: Georgia Italic
     post_script_name: Georgia-Italic
@@ -605,13 +581,13 @@ fonts:
       Reserved.
     font: georgiai.ttf
   - family_name: Georgia
-    type: Bold Italic
-    full_name: Georgia Bold Italic
-    post_script_name: Georgia-BoldItalic
-    version: '2.10'
+    type: Regular
+    full_name: Georgia
+    post_script_name: Georgia
+    version: '2.12'
     copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
       Reserved.
-    font: georgiaz.ttf
+    font: georgia.ttf
 - name: Impact
   styles:
   - family_name: Impact
@@ -672,17 +648,6 @@ fonts:
 - name: Tahoma
   styles:
   - family_name: Tahoma
-    type: Regular
-    full_name: Tahoma
-    post_script_name: Tahoma
-    version: '3.14'
-    description: Tahoma is one of Microsoft's new sans serif typeface families. It
-      consists of two Windows TrueType fonts (regular and bold), and was created to
-      address the challenges of on-screen display, particularly at small sizes in
-      dialog boxes and menus.
-    copyright: "© 2004 Microsoft Corporation. All rights reserved."
-    font: tahoma.ttf
-  - family_name: Tahoma
     type: Bold
     full_name: Tahoma Bold
     post_script_name: Tahoma-Bold
@@ -693,25 +658,19 @@ fonts:
       dialog boxes and menus.
     copyright: "© 2004 Microsoft Corporation. All rights reserved."
     font: tahomabd.ttf
+  - family_name: Tahoma
+    type: Regular
+    full_name: Tahoma
+    post_script_name: Tahoma
+    version: '3.14'
+    description: Tahoma is one of Microsoft's new sans serif typeface families. It
+      consists of two Windows TrueType fonts (regular and bold), and was created to
+      address the challenges of on-screen display, particularly at small sizes in
+      dialog boxes and menus.
+    copyright: "© 2004 Microsoft Corporation. All rights reserved."
+    font: tahoma.ttf
 - name: Times New Roman
   styles:
-  - family_name: Times New Roman
-    type: Regular
-    full_name: Times New Roman
-    post_script_name: TimesNewRomanPSMT
-    version: '3.00'
-    description: This remarkable typeface first appeared in 1932 in The Times of London
-      newspaper, for which it was designed.  It has subsequently become one of the
-      worlds most successful type creations.  The original drawings were made under
-      Stanley Morison's direction by Victor Lardent at The Times.  It then went through
-      an extensive iterative process involving further work in Monotype's Type Drawing
-      Office.  Based on experiments Morison had conducted using Perpetua and Plantin,
-      it has many old style characteristics but was adapted to give excellent legibility
-      coupled with good economy.  Widely used in books and magazines, for reports,
-      office documents and also for display and advertising.
-    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
-      plc/Type Solutions Inc. 1990-1992. All Rights Reserved
-    font: times.ttf
   - family_name: Times New Roman
     type: Bold
     full_name: Times New Roman Bold
@@ -763,24 +722,25 @@ fonts:
     copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
       plc/Type Solutions Inc. 1990-1992. All Rights Reserved
     font: timesi.ttf
+  - family_name: Times New Roman
+    type: Regular
+    full_name: Times New Roman
+    post_script_name: TimesNewRomanPSMT
+    version: '3.00'
+    description: This remarkable typeface first appeared in 1932 in The Times of London
+      newspaper, for which it was designed.  It has subsequently become one of the
+      worlds most successful type creations.  The original drawings were made under
+      Stanley Morison's direction by Victor Lardent at The Times.  It then went through
+      an extensive iterative process involving further work in Monotype's Type Drawing
+      Office.  Based on experiments Morison had conducted using Perpetua and Plantin,
+      it has many old style characteristics but was adapted to give excellent legibility
+      coupled with good economy.  Widely used in books and magazines, for reports,
+      office documents and also for display and advertising.
+    copyright: Typeface © The Monotype Corporation plc. Data © The Monotype Corporation
+      plc/Type Solutions Inc. 1990-1992. All Rights Reserved
+    font: times.ttf
 - name: Trebuchet MS
   styles:
-  - family_name: Trebuchet MS
-    type: Regular
-    full_name: Trebuchet MS
-    post_script_name: TrebuchetMS
-    version: '1.23'
-    description: Trebuchet, designed by Vincent Connare in 1996, is a humanist sans
-      serif designed for easy screen readability. Trebuchet takes its inspiration
-      from the sans serifs of the 1930s which had large x heights and round features
-      intended to promote readability on signs. The typeface name is credited to a
-      puzzle heard at Microsoft, where the question was asked, "could you build a
-      Trebuchet (a form of medieval catapult) to launch a person from the main campus
-      to the consumer campus, and how?" The Trebuchet fonts are intended to be the
-      vehicle that fires your messages across the Internet. "Launch your message with
-      a Trebuchet page".
-    copyright: Copyright (c) 1996 Microsoft Corporation. All rights reserved.
-    font: trebuc.ttf
   - family_name: Trebuchet MS
     type: Bold
     full_name: Trebuchet MS Bold
@@ -829,15 +789,24 @@ fonts:
       a Trebuchet page".
     copyright: Copyright (c) 1996 Microsoft Corporation. All rights reserved.
     font: trebucit.ttf
+  - family_name: Trebuchet MS
+    type: Regular
+    full_name: Trebuchet MS
+    post_script_name: TrebuchetMS
+    version: '1.23'
+    description: Trebuchet, designed by Vincent Connare in 1996, is a humanist sans
+      serif designed for easy screen readability. Trebuchet takes its inspiration
+      from the sans serifs of the 1930s which had large x heights and round features
+      intended to promote readability on signs. The typeface name is credited to a
+      puzzle heard at Microsoft, where the question was asked, "could you build a
+      Trebuchet (a form of medieval catapult) to launch a person from the main campus
+      to the consumer campus, and how?" The Trebuchet fonts are intended to be the
+      vehicle that fires your messages across the Internet. "Launch your message with
+      a Trebuchet page".
+    copyright: Copyright (c) 1996 Microsoft Corporation. All rights reserved.
+    font: trebuc.ttf
 - name: Verdana
   styles:
-  - family_name: Verdana
-    type: Regular
-    full_name: Verdana
-    post_script_name: Verdana
-    version: '2.43'
-    copyright: Typeface and data © 1996 Microsoft Corporation. All Rights Reserved
-    font: verdana.ttf
   - family_name: Verdana
     type: Bold
     full_name: Verdana Bold
@@ -846,6 +815,13 @@ fonts:
     copyright: Typeface and data © 1996 Microsoft Corporation. All Rights Reserved
     font: verdanab.ttf
   - family_name: Verdana
+    type: Bold Italic
+    full_name: Verdana Bold Italic
+    post_script_name: Verdana-BoldItalic
+    version: '2.40'
+    copyright: Typeface and data © 1996 Microsoft Corporation. All Rights Reserved
+    font: verdanaz.ttf
+  - family_name: Verdana
     type: Italic
     full_name: Verdana Italic
     post_script_name: Verdana-Italic
@@ -853,12 +829,12 @@ fonts:
     copyright: Typeface and data © 1996 Microsoft Corporation. All Rights Reserved
     font: verdanai.ttf
   - family_name: Verdana
-    type: Bold Italic
-    full_name: Verdana Bold Italic
-    post_script_name: Verdana-BoldItalic
-    version: '2.40'
+    type: Regular
+    full_name: Verdana
+    post_script_name: Verdana
+    version: '2.43'
     copyright: Typeface and data © 1996 Microsoft Corporation. All Rights Reserved
-    font: verdanaz.ttf
+    font: verdana.ttf
 - name: Webdings
   styles:
   - family_name: Webdings
@@ -890,8 +866,7 @@ fonts:
     copyright: Wingdings 2 designed by Bigelow & Holmes Inc. for Microsoft Corporation.
       Copyright © 1992 Microsoft Corporation. Pat. Pend. All Rights Reserved. © 1990-1991
       Type Solutions, Inc. All Rights Reserved.
-    font: WINGDNG2.ttf
-    source_font: WINGDNG2.TTF
+    font: WINGDNG2.TTF
 - name: Wingdings 3
   styles:
   - family_name: Wingdings 3
@@ -902,9 +877,7 @@ fonts:
     copyright: Wingdings 3 designed by Bigelow & Holmes Inc. for Microsoft Corporation.
       Copyright © 1992 Microsoft Corporation. Pat. pend. All Rights Reserved. © 1990-1991
       Type Solutions, Inc. All Rights Reserved.
-    font: WINGDNG3.ttf
-    source_font: WINGDNG3.TTF
+    font: WINGDNG3.TTF
 extract: {}
-copyright: Wingdings 2 designed by Bigelow & Holmes Inc. for Microsoft Corporation.
-  Copyright © 1992 Microsoft Corporation. Pat. Pend. All Rights Reserved. © 1990-1991
-  Type Solutions, Inc. All Rights Reserved.
+copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
+license_url: http://www.microsoft.com/typography/fonts/default.aspx

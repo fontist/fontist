@@ -106,7 +106,11 @@ module Fontist
         end
 
         def detect_extension
-          Files::FontDetector.standard_extension(@path)
+          detected = Files::FontDetector.standard_extension(@path)
+          file_extension = File.extname(File.basename(@path)).sub(/^\./, "")
+          return file_extension if file_extension.casecmp?(detected)
+
+          detected
         end
       end
     end

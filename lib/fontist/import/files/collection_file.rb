@@ -11,7 +11,7 @@ module Fontist
         def initialize(path)
           @path = path
           @fonts = read
-          @extension = "ttc"
+          @extension = detect_extension
         end
 
         def filename
@@ -45,6 +45,15 @@ module Fontist
           filenames.map do |filename|
             File.join(tmp_dir, filename)
           end
+        end
+
+        def detect_extension
+          base_extension = "ttc"
+
+          file_extension = File.extname(File.basename(@path)).sub(/^\./, "")
+          return file_extension if file_extension.casecmp?(base_extension)
+
+          base_extension
         end
       end
     end
