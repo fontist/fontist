@@ -148,6 +148,11 @@ module Fontist
       else
         raise Errors::UnknownFontTypeError.new(path)
       end
+    rescue StandardError
+      Fontist.ui.error($!.message)
+      Fontist.ui.error(
+        "Warning: File at #{path} not recognized as a font file.",
+      )
     end
 
     def detect_file_font(path)
@@ -155,9 +160,6 @@ module Fontist
       file = TTFunk::File.new(content)
 
       parse_font(file, path)
-    rescue StandardError
-      warn $!.message
-      warn "Warning: File at #{path} not recognized as a font file."
     end
 
     def detect_collection_fonts(path)
@@ -166,9 +168,6 @@ module Fontist
           parse_font(file, path)
         end
       end
-    rescue StandardError
-      warn $!.message
-      warn "Warning: File at #{path} not recognized as a font file."
     end
 
     def parse_font(file, path)

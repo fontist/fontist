@@ -653,9 +653,16 @@ RSpec.describe Fontist::CLI do
   describe "#rebuild_index" do
     context "with --main-repo option" do
       it "calls corresponding method" do
-        expect(Fontist::Index).to receive(:rebuild_for_main_repo)
-          .and_call_original
-        described_class.start(["rebuild-index", "--main-repo"])
+        fresh_fonts_and_formulas do
+          example_formula_to("lato.yml", Fontist.formulas_path)
+          expect(Fontist::Index).to receive(:rebuild_for_main_repo)
+            .and_call_original
+
+          described_class.start(["rebuild-index", "--main-repo"])
+
+          expect(Fontist.formulas_repo_path.join("index.yml")).to exist
+          expect(Fontist.formulas_repo_path.join("filename_index.yml")).to exist
+        end
       end
     end
   end

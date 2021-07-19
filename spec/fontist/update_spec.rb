@@ -1,6 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Update do
+  let(:command) { described_class.new }
+
   context "no main repo" do
     it "creates main repo" do
       fresh_fontist_home do
@@ -14,7 +16,48 @@ RSpec.describe Fontist::Update do
     it "doesn't fail" do
       fresh_fontist_home do
         fresh_main_repo do
-          described_class.call
+          command.call
+        end
+      end
+    end
+  end
+
+  context "main repo changed branch" do
+    let(:branch) { "v2" }
+    let(:new_file_name) { "new_file.yml" }
+
+    it "fetches changes" do
+      fresh_fontist_home do
+        fresh_main_repo do |remote_dir|
+          git = Git.open(remote_dir)
+          git.checkout(branch, new_branch: true)
+
+          create_new_file_in_repo(remote_dir, new_file_name)
+
+          described_class.new(branch).call
+
+          expect(
+            Pathname.new(File.join(Fontist.formulas_repo_path, new_file_name)),
+          ).to exist
+        end
+      end
+    end
+  end
+
+  context "main repo updated on changed branch" do
+    let(:branch) { "v2" }
+    let(:new_file_name) { "new_file.yml" }
+
+    it "fetches changes" do
+      fresh_fontist_home do
+        fresh_main_repo(branch) do |remote_dir|
+          create_new_file_in_repo(remote_dir, new_file_name)
+
+          described_class.new(branch).call
+
+          expect(
+            Pathname.new(File.join(Fontist.formulas_repo_path, new_file_name)),
+          ).to exist
         end
       end
     end
@@ -27,7 +70,7 @@ RSpec.describe Fontist::Update do
           formula_repo_with("andale.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
             add_to_formula_repo(dir, "lato.yml")
-            described_class.call
+            command.call
 
             expect(Fontist::Formula.find("lato")).not_to be nil
           end

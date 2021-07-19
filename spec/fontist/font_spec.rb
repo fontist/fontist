@@ -25,14 +25,18 @@ RSpec.describe Fontist::Font do
     end
 
     context "with downloadable font name" do
-      let(:font) { "Courier" }
+      let(:font) { "Courier New" }
 
       it "raises font missing error" do
         allow(Fontist::SystemFont).to receive(:find).and_return(nil)
 
         expect { command }.to raise_error Fontist::Errors::MissingFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "Courier" })
-        expect { command }.to(raise_error { |e| expect(e.name).to eq "Font name: 'Courier'" })
+        expect { command }.to(
+          raise_error { |e| expect(e.font).to eq "Courier New" },
+        )
+        expect { command }.to(
+          raise_error { |e| expect(e.name).to eq "Font name: 'Courier New'" },
+        )
       end
     end
 
@@ -459,7 +463,7 @@ RSpec.describe Fontist::Font do
 
       it "keeps other fonts" do
         stub_fonts_path_to_new_path do
-          stub_font_file("overpass-regular.otf")
+          example_font("overpass-regular.otf")
 
           expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
           expect(font_file("overpass-regular.otf")).to exist
