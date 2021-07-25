@@ -524,6 +524,18 @@ git commit -m "SIL fonts update"
 git push
 ```
 
+### Using with proxy
+
+`fontist` can read proxy settings from environemnt variables:
+
+* `HTTP_PROXY`
+* `SOCKS_PROXY`
+
+Also because `fontist` uses git under the hood, proxy must be configured in `~/.gitconfig` separately.
+Check [nice guide](https://gist.github.com/evantoli/f8c23a37eb3558ab8765) about how it can be configured for more details
+
+Also as for regular URL you can pass username and password, like `http://username:password@example.com/` for SOCKS it's similar
+
 ### Releasing
 
 Releasing is done automatically with GitHub Action. Just bump and tag with `gem-release`.
