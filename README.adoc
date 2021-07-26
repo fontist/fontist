@@ -1,0 +1,758 @@
+= Fontist
+
+image:https://github.com/fontist/fontist/actions/workflows/rspec.yml/badge.svg["Build Status", link="https://github.com/fontist/fontist/actions/workflows/rspec.yml"]
+image:https://img.shields.io/gem/v/fontist.svg["Gem Version", link="https://rubygems.org/gems/fontist"]
+image:https://img.shields.io/github/issues-pr-raw/fontist/fontist.svg["Pull Requests", link="https://github.com/fontist/fontist/pulls"]
+
+A simple library to find and download fonts for Windows, Linux and Mac.
+
+== Installation
+
+Install it directly as:
+
+[source,sh]
+----
+gem install fontist
+----
+
+Or use it as part of your bundle by adding this line to your application's
+`Gemfile`:
+
+[source,ruby]
+----
+gem "fontist"
+----
+
+And then execute:
+
+[source,sh]
+----
+bundle install
+----
+
+=== Fetch formulas
+
+After installation, please fetch formulas via the `fontist` command:
+
+[source,sh]
+----
+fontist update
+----
+
+=== Dependencies
+
+Depends on
+https://github.com/fontist/ffi-libarchive-binary[ffi-libarchive-binary] which
+has the following requirements:
+
+* zlib
+* Expat
+* OpenSSL (for Linux only)
+
+These dependencies are generally present on all systems.
+
+== Usage of the `fontist` command
+
+=== Fontist command-line interface
+
+These commands makes possible to operate with fonts via command line.
+
+The CLI properly supports exit status, so in a case of error it returns a status
+code higher or equal than 1.
+
+All searches are case-insensitive for ease of use.
+
+=== Install fonts
+
+Fontist checks whether this font is already installed, and if not, then installs
+the font and returns its installed paths.
+
+Only the font name (not formula name, nor font filename) could be used as its
+argument.
+
+[source,sh]
+----
+$ fontist install "segoe ui"
+These fonts are found or installed:
+/Users/user/.fontist/fonts/SEGOEUI.TTF
+/Users/user/.fontist/fonts/SEGOEUIB.TTF
+/Users/user/.fontist/fonts/SEGOEUII.TTF
+/Users/user/.fontist/fonts/SEGOEUIZ.TTF
+----
+
+NOTE: The `install` command is similar to the `Font.install` library call.
+
+=== Uninstall fonts
+
+Uninstalls any font supported by Fontist.
+
+Returns paths of an uninstalled font, or prints an error telling that the font
+isn't installed or could not be found in Fontist formulas. Aliased as `remove`.
+
+[source,sh]
+----
+$ fontist uninstall "segoe ui"
+These fonts are removed:
+/Users/user/.fontist/fonts/SEGOEUII.TTF
+/Users/user/.fontist/fonts/SEGOEUIZ.TTF
+/Users/user/.fontist/fonts/SEGOEUIB.TTF
+/Users/user/.fontist/fonts/SEGOEUI.TTF
+----
+
+=== Status
+
+Prints installed font paths grouped by formula and font.
+
+[source,sh]
+----
+$ fontist status "segoe ui"
+segoe_ui
+ Segoe UI
+  Regular (/Users/user/.fontist/fonts/SEGOEUI.TTF)
+  Bold (/Users/user/.fontist/fonts/SEGOEUIB.TTF)
+  Italic (/Users/user/.fontist/fonts/SEGOEUII.TTF)
+  Bold Italic (/Users/user/.fontist/fonts/SEGOEUIZ.TTF)
+----
+
+=== List
+
+Lists installation status of fonts supported by Fontist.
+
+[source,sh]
+----
+$ fontist list "segoe ui"
+segoe_ui
+ Segoe UI
+  Regular (installed)
+  Bold (installed)
+  Italic (installed)
+  Bold Italic (installed)
+----
+
+[source,sh]
+----
+$ fontist list "roboto mono"
+google/roboto_mono
+ Roboto Mono
+  Regular (uninstalled)
+  Italic (uninstalled)
+----
+
+=== List installed font paths
+
+Returns locations of fonts specified in a YAML file as an input.
+
+[source,sh]
+----
+$ fontist manifest-locations MANIFEST_FILE
+----
+
+`MANIFEST_FILE` is the location of a manifest file that contains specification
+of one or multiple font and font styles.
+
+A manifest file `manifest.yml` could look like:
+====
+[source,yml]
+----
+Segoe UI:
+- Regular
+- Bold
+Roboto Mono:
+- Regular
+----
+====
+
+The following command will return the following YAML output:
+
+[source,sh]
+----
+$ fontist manifest-locations manifest.yml
+----
+
+[source,yml]
+----
+---
+Segoe UI:
+  Regular:
+    full_name: Segoe UI
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+  Bold:
+    full_name: Segoe UI Bold
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+Roboto Mono:
+  Regular:
+    full_name:
+    paths: []
+----
+
+Since "`Segoe UI`" is installed, but "`Roboto Mono`" is not.
+
+=== Install fonts from manifest
+
+Install fonts from a YAML Fontist manifest:
+
+[source,sh]
+----
+$ fontist manifest-install --confirm-license manifest.yml
+----
+
+Where `manifest.yaml` is:
+
+[source,yml]
+----
+---
+Segoe UI:
+  Regular:
+    full_name: Segoe UI
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUI.TTF"
+  Bold:
+    full_name: Segoe UI Bold
+    paths:
+    - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
+Roboto Mono:
+  Regular:
+    full_name: Roboto Mono Regular
+    paths:
+    - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
+----
+
+=== Help
+
+List of all commands could be seen by:
+
+[source,sh]
+----
+fontist help
+----
+
+=== Configuration
+
+By default Fontist uses the `~/.fontist` directory to store fonts and its
+files. It could be changed with the `FONTIST_PATH` environment variable.
+
+[source,sh]
+----
+FONTIST_PATH=~/.fontist_new fontist update
+----
+
+
+== Usage of the Fontist Ruby library
+
+=== `Fontist::Font`
+
+The `Fontist::Font` is your go-to place to deal with any font using Fontist.
+
+This interface allows you to find a font or install a font.
+
+==== Finding a font
+
+The `Fontist::Font.find` interface can be used a find a font in your system.
+
+It will look into the operating system specific font directories, and also the
+fontist specific `~/.fontist` directory.
+
+[source,ruby]
+----
+Fontist::Font.find(name)
+----
+
+* If Fontist finds a font, then it will return the paths.
+
+* Otherwise, it will either raise an unsupported font error, or trigger display
+of installation instructions for that specific font.
+
+==== Install a font
+
+The `Fontist::Font.install` interface can be used to install any supported font.
+
+This interface first checks if you already have that font installed or not and
+if you do then it will return the paths.
+
+If you don't have a font but that font is supported by Fontist, then it will
+download the font and copy it to `~/.fontist` directory and also return the
+paths.
+
+[source,ruby]
+----
+Fontist::Font.install(name, confirmation: "no")
+----
+
+If there are issues detected with the provided font, such as the font is not
+supported, those errors would be raised.
+
+==== List all fonts
+
+The `Fontist::Font` interface exposes an interface to list all supported fonts.
+
+This might be useful if want to know the name of the font or the available
+styles. You can do that by using:
+
+[source,ruby]
+----
+Fontist::Font.all
+----
+
+The return values are `OpenStruct` objects, so you can easily do any other
+operation you would do in any ruby object.
+
+=== `Fontist::Formula`
+
+The `fontist` gem internally usages the `Fontist::Formula` interface to find a
+registered formula or fonts supported by any formula. Unless, you need to do
+anything with that you shouldn't need to work with this interface directly. But
+if you do then these are the public interface it offers.
+
+==== Find a formula
+
+The `Fontist::Formula.find` interface allows you to find any of the registered
+formula. This interface takes a font name as an argument and it looks through
+each of the registered formula that offers this font installation. Usages:
+
+[source,ruby]
+----
+Fontist::Formula.find("Calibri")
+----
+
+This method will search and return a Fontist formula for the provided keyword
+which allows for further processing, such as licence checks or proceeding with
+installation of the font in your system.
+
+==== List font styles supported by a formula
+
+Normally, each font name can be associated with multiple styles or collection,
+for example the `Calibri` font might contains a `regular`, `bold` or `italic`
+styles fonts and if you want a interface that can return the complete list then
+this is your friend.
+
+You can use it as following:
+
+[source,ruby]
+----
+Fontist::Formula.find_fonts("Calibri")
+----
+
+==== List all formulas
+
+The `Fontist::Formula` interface exposes an interface to list all registered
+font formula. This might be useful if want to know the name of the formula or
+what type fonts can be installed using that formula. Usages:
+
+[source,ruby]
+----
+Fontist::Formula.all
+----
+
+The return values are `OpenStruct` objects, so you can easily do any other
+operation you would do in any ruby object.
+
+=== `Fontist::Manifest`
+
+[[fontist-locations]]
+==== `Fontist::Manifest::Locations`
+
+Fontist lets you find font locations from a defined manifest Hash in the
+following format:
+
+[source,ruby]
+----
+{
+  "Segoe UI"=>["Regular", "Bold"],
+  "Roboto Mono"=>["Regular"]
+}
+----
+
+Calling the following code returns a nested Hash with font paths and names.
+Font name is useful to choose a specific font in a font collection file (TTC).
+
+[source,ruby]
+----
+Fontist::Manifest::Locations.from_hash(manifest)
+----
+
+[source,ruby]
+----
+{
+  "Segoe UI"=> {
+    "Regular"=>{
+      "full_name"=>"Segoe UI",
+      "paths"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"]
+    },
+    "Bold"=>{
+      "full_name"=>"Segoe UI Bold",
+      "paths"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]
+    }
+  },
+  "Roboto Mono"=> {
+    "Regular"=>{
+      "full_name"=>nil,
+      "paths"=>[]
+    }
+  }
+}
+----
+
+[[fontist-install]]
+==== `Fontist::Manifest::Install`
+
+Fontist lets you not only to obtain font locations but also to install fonts
+from the manifest:
+
+[source,ruby]
+----
+Fontist::Manifest::Install.from_hash(manifest, confirmation: "yes")
+----
+
+It will install fonts and return their locations:
+
+[source,ruby]
+----
+{
+  "Segoe UI"=> {
+    "Regular"=>{
+      "full_name"=>"Segoe UI",
+      "paths"=>["/Users/user/.fontist/fonts/SEGOEUI.TTF"]},
+    "Bold"=>{
+      "full_name"=>"Segoe UI Bold",
+      "paths"=>["/Users/user/.fontist/fonts/SEGOEUIB.TTF"]
+    }
+  },
+  "Roboto Mono"=> {
+    "Regular"=>{
+      "full_name"=>"Roboto Mono Regular",
+      "paths"=>["/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"]
+    }
+  }
+}
+----
+
+==== Support of YAML format
+
+Both commands support a YAML file as an input with a `from_file` method. For
+example, if there is a `manifest.yml` file containing:
+
+[source,yaml]
+----
+---
+Segoe UI:
+- Regular
+- Bold
+Roboto Mono:
+- Regular
+----
+
+Then the following calls would return font names and paths, as from the
+`from_hash` method (see <<fontist-install>> and <<fontist-locations>>).
+
+[source,ruby]
+----
+Fontist::Manifest::Locations.from_file("manifest.yml")
+Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
+----
+
+== Using Fontist with proxies
+
+Fontist uses Git internally for fetching formulas and fonts.
+
+In order to use Git functionality behind a proxy, you need to update your own
+Git config via the `git config` command or the `~/.gitconfig` preference file.
+
+There are many ways to configure your local Git install to use proxies.
+
+The simplest, global way of setting a proxy for Git is the following.
+
+* For HTTP
++
+[source,sh]
+----
+git config --global http.proxy http://{user}:{pass}@{proxyhost}:{port}
+----
+
+* For HTTPS, you may need to handle SSL/TLS verification errors after setting
+the proxy since the encryption end is located at your HTTPS proxy endpoint:
++
+[source,sh]
+----
+git config --global http.proxy https://{user}:{pass}@{proxyhost}:{port}
+git config --global https.proxy https://{user}:{pass}@{proxyhost}:{port}
+----
+
+* For SOCKS, you will need to decide on the SOCKS protocol
++
+[source,sh]
+----
+git config --global http.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
+git config --global https.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
+----
++
+For example,
++
+[source,sh]
+----
+git config --global http.proxy 'socks5h://user:pass@socks-proxy.example.org'
+git config --global https.proxy 'socks5h://user:pass@socks-proxy.example.org'
+----
+
+The list of supported SOCKS protocols for the `{protocol}` field:
+
+* `socks://`: for SOCKS below v5
+* `socks5://`: for SOCKS v5
+* `socks5h://`: for SOCKS below v5 + host resolution via SOCKS
+
+You could actually set different proxy behavior for individual Git repositories
+-- please see this
+https://gist.github.com/evantoli/f8c23a37eb3558ab8765[great guide]
+on how to use Git proxies (thanks to the GitHub user
+https://github.com/evantoli[evantoli]).
+
+
+
+== Authoring Fontist formulas
+
+=== Creating a Fontist formula from a font archive
+
+A formula could be generated from a fonts archive. Just specify a URL to the
+archive:
+
+[source,sh]
+----
+fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+cp lato.yml ~/.fontist/formulas/Formulas/
+----
+
+Though indexes are auto-generated now, maintainers should rebuild indexes in the
+main repo for backward compatibility with Fontist versinos prior to 1.9.x.
+
+A formula index should be rebuilt when a new formula is generated or an existing
+one changed:
+
+[source,sh]
+----
+fontist rebuild-index --main-repo
+----
+
+Then, both the formula and the updated indexes should be committed and pushed to
+the formula repository:
+
+[source,sh]
+----
+cd ~/.fontist/formulas
+git add Formulas/lato.yml index.yml filename_index.yml
+git commit -m "Add Lato formula"
+----
+
+
+
+
+== Maintenance (for Fontist maintainers only!)
+
+WARNING: This section is only for Fontist maintainers.
+
+=== Dynamically importing formulas from Google Fonts
+
+https://fonts.google.com[Google Fonts] provides probably the largest collection
+of widely-used, freely and openly licensed fonts.
+
+Fontist's https://github.com/fonitist/formula[formula library] includes support
+for all openly-licensed fonts provided through Google Fonts, and maintains
+Fontist formulas for all such fonts.
+
+A GHA workflow checks for updated fonts on Google Fonts daily.
+
+In case an update is found, it could be fetched to the library by:
+
+[source,sh]
+----
+bin/import_google
+----
+
+The script would update formulas which should be committed to a separate
+repository https://github.com/fontist/formulas[formulas]:
+
+[source,sh]
+----
+cd ~/.fontist/formulas
+git add Formulas/google index.yml filename_index.yml
+git commit -m "Google Fonts update"
+git push
+----
+
+=== Dynamically importing formulas from SIL
+
+https://www.sil.org[SIL International] is an internationally recognized
+faith-based nonprofit organization that serves language communities worldwide.
+
+SIL provides a number of unique fonts that support smaller language communities
+that with Unicode code often not (yet) supported by mainstream fonts.
+
+Fontist aims to support all https://software.sil.org/fonts/[SIL fonts] and
+provides their formulas in the default Fontist formula repository.
+
+They can be updated with:
+
+[source,sh]
+----
+fontist import-sil
+cd ~/.fontist/formulas
+git add Formulas/sil index.yml filename_index.yml
+git commit -m "SIL fonts update"
+git push
+----
+
+
+== Development
+
+=== Setup
+
+Clone the repository.
+
+[source,sh]
+----
+git clone https://github.com/fontist/fontist
+----
+
+Setup your environment.
+
+[source,sh]
+----
+bin/setup
+----
+
+Run the test suite
+
+[source,sh]
+----
+bin/rspec
+----
+
+=== Formula storage
+
+All official Fontist formulas are kept in the
+https://github.com/fontist/formulas[formulas] repository.
+
+If you'd like to add a new formula repository or change settings for an existing
+one, please refer to its documentation.
+
+=== Private Fontist formulas and font repositories
+
+There is an ability to use private fonts via private Fontist repositories.
+
+A Fontist repository is a Git repo which contains YAML formula files. Formulas can be created
+manually (see https://github.com/fontist/formulas/tree/master/Formulas)[examples],
+or #auto-generate-a-formula[auto-generated from an archive].
+
+A repository can be either a HTTPS or SSH Git repo. In case of SSH, a
+corresponding SSH key should be setup with `ssh-agent` in order to access this
+private repository.
+
+The `fontist repo setup` command fetches a repository's formulas, and saves the
+repository's name and URL for later use.
+
+Internally, all repositories are stored at
+`~/.fontist/formulas/Formulas/private`.
+
+[source,sh]
+----
+fontist repo setup NAME URL
+----
+
+E.g.
+
+[source,sh]
+----
+fontist repo setup acme https://example.com/acme/formulas.git
+# or
+fontist repo setup acme git@example.com:acme/formulas.git
+----
+
+Then you can just install fonts from this repo:
+
+[source,sh]
+----
+fontist install "private font"
+----
+
+If the private Fontist formula repository is updated, you can fetch the updates
+with the `repo update` command:
+
+[source,sh]
+----
+fontist repo update acme
+----
+
+If there is a need to avoid using private formulas, the repo can be removed
+with:
+
+[source,sh]
+----
+fontist repo remove acme
+----
+
+=== Private formulas
+
+Authorization of private archives in private formulas can be implemented with
+headers.
+
+Here is an example which works with Github releases:
+
+[source,yaml]
+----
+resources:
+  fonts.zip:
+    urls:
+    - url: https://example.com/repos/acme/formulas/releases/assets/38777461
+      headers:
+        Accept: application/octet-stream
+        Authorization: token ghp_1234567890abcdefghi
+----
+
+A token can be obtained on the
+https://github.com/settings/tokens[GitHub Settings > Tokens page].
+This token should have at least the `repo` scope for access to these assets.
+
+=== Releasing
+
+Releasing is done automatically with GitHub Actions. Just bump and tag with
+`gem-release`.
+
+For a patch release (0.0.x) use:
+
+[source,sh]
+----
+gem bump --version patch --tag --push
+----
+
+For a minor release (0.x.0) use:
+
+[source,sh]
+----
+gem bump --version minor --tag --push
+----
+
+== Contributing
+
+First, thank you for contributing! We love pull requests from everyone. By
+participating in this project, you hereby grant https://www.ribose.com[Ribose]
+the right to grant or transfer an unlimited number of non exclusive licenses or
+sub-licenses to third parties, under the copyright covering the contribution to
+use the contribution by all means.
+
+We are following Sandi Metz's Rules for this gem, you can read the
+http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers[description of the rules here] All new code should follow these
+rules. If you make changes in a pre-existing file that violates these rules you
+should fix the violations as part of your contribution.
+
+Here are a few technical guidelines to follow:
+
+. Open an https://github.com/fontist/fontist/issues[issue] to discuss a new feature.
+. Write tests to support your new feature.
+. Make sure the entire test suite passes locally and on CI.
+. Open a Pull Request.
+. https://github.com/thoughtbot/guides/tree/master/protocol/git#write-a-feature[Squash your commits] after receiving feedback.
+. Party!
+
+== Credit
+
+This gem is developed, maintained and funded by https://www.ribose.com[Ribose].
