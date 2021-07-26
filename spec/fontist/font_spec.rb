@@ -146,21 +146,25 @@ RSpec.describe Fontist::Font do
     end
 
     context "uninstalled but supported" do
-      let(:font) { "noto sans" }
-      let(:url) { "https://fonts.google.com/download?family=Noto%20Sans" }
+      let(:font) { "andale mono" }
+      let(:url) do
+        "https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe"
+      end
 
       around { |example| avoid_cache(url) { example.run } }
 
       it "prints descriptive messages of what's going on" do
-        no_fonts do
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+
           # rubocop:disable Metrics/LineLength
-          expect(Fontist.ui).to receive(:say).with(%(Font "noto sans" not found locally.))
-          expect(Fontist.ui).to receive(:say).with(%(Downloading font "google/noto_sans" from https://fonts.google.com/download?family=Noto%20Sans))
-          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+ MiB/)
+          expect(Fontist.ui).to receive(:say).with(%(Font "andale mono" not found locally.))
+          expect(Fontist.ui).to receive(:say).with(%(Downloading font "andale" from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
+          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+% \(\d+\/\d+ MiB\)/)
           expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
-          expect(Fontist.ui).to receive(:say).with(%(Installing font "google/noto_sans".))
+          expect(Fontist.ui).to receive(:say).with(%(Installing font "andale".))
           expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
-          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('NotoSans-Regular.ttf')}))
+          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
           # rubocop:enable Metrics/LineLength
 
           command
@@ -185,11 +189,12 @@ RSpec.describe Fontist::Font do
     end
 
     context "uninstalled but supported and in cache" do
-      let(:font) { "noto sans" }
+      let(:font) { "andale mono" }
       let(:options) { { force: true } }
 
       it "tells about fetching from cache" do
-        no_fonts do
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
           Fontist::Font.install(font, confirmation: "yes")
 
           expect(Fontist.ui).to receive(:say).with(/Fetched from cache: \d+ MiB\./)
