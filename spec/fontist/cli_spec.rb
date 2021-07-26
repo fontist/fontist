@@ -380,6 +380,8 @@ RSpec.describe Fontist::CLI do
   end
 
   describe "#manifest_install" do
+    include_context "fresh home"
+
     let(:command) do
       described_class.start(["manifest-install", *options, path])
     end
@@ -388,14 +390,7 @@ RSpec.describe Fontist::CLI do
     let(:content) { YAML.dump(manifest) }
     let(:options) { [] }
 
-    before do
-      stub_license_agreement_prompt_with("yes")
-      no_fonts
-    end
-
-    after do
-      cleanup_fonts
-    end
+    before { stub_license_agreement_prompt_with("yes") }
 
     context "no file at path" do
       let(:path) { Fontist.root_path.join("unexisting.yml") }
@@ -443,7 +438,7 @@ RSpec.describe Fontist::CLI do
 
     context "unsupported but installed in system font" do
       let(:manifest) { { "Noto Sans Oriya" => "Regular" } }
-      before { example_font_to_system("NotoSansOriya.ttc") }
+      before { example_font("NotoSansOriya.ttc") }
 
       it "returns its location" do
         expect_say_yaml(
@@ -456,7 +451,8 @@ RSpec.describe Fontist::CLI do
 
     context "installed font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
-      before { example_font_to_fontist("AndaleMo.TTF") }
+      before { example_formula("andale.yml") }
+      before { example_font("AndaleMo.TTF") }
 
       it "returns its location" do
         expect_say_yaml(
@@ -468,7 +464,10 @@ RSpec.describe Fontist::CLI do
     end
 
     context "supported and installed by system font" do
+      include_context "system fonts"
+
       let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
       before { example_font_to_system("AndaleMo.TTF") }
 
       it "returns its location" do
@@ -482,6 +481,7 @@ RSpec.describe Fontist::CLI do
 
     context "uninstalled but supported font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
 
       it "installs font file" do
         expect { command }
@@ -503,6 +503,9 @@ RSpec.describe Fontist::CLI do
           "Courier New" => "Bold" }
       end
 
+      before { example_formula("andale.yml") }
+      before { example_formula("courier.yml") }
+
       it "installs both and returns their locations" do
         expect_say_yaml(
           "Andale Mono" =>
@@ -521,6 +524,8 @@ RSpec.describe Fontist::CLI do
           "Unexisting Font" => "Regular" }
       end
 
+      before { example_formula("andale.yml") }
+
       it "tells that font is unsupported" do
         expect(Fontist.ui).to receive(:error).with(/Font 'Unexisting Font' not found locally nor/)
         expect(command).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
@@ -531,6 +536,8 @@ RSpec.describe Fontist::CLI do
       let(:manifest) do
         { "Georgia" => nil }
       end
+
+      before { example_formula("georgia.yml") }
 
       it "installs supported and returns its location and no location" do
         expect_say_yaml(
@@ -553,6 +560,8 @@ RSpec.describe Fontist::CLI do
         { "Courier New" => nil }
       end
 
+      before { example_formula("courier.yml") }
+
       it "installs both and returns their locations" do
         expect_say_yaml(
           "Courier New" => {
@@ -570,9 +579,9 @@ RSpec.describe Fontist::CLI do
     end
 
     context "declined license agreement" do
-      before { stub_license_agreement_prompt_with("no") }
-
       let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
+      before { stub_license_agreement_prompt_with("no") }
 
       it "does not install font file" do
         command
@@ -587,8 +596,8 @@ RSpec.describe Fontist::CLI do
 
     context "confirmed license in cli option" do
       let(:options) { ["--confirm-license"] }
-
       let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
 
       it "installs font file" do
         expect { command }
@@ -620,6 +629,7 @@ RSpec.describe Fontist::CLI do
     context "with accept flag, no hide-licenses flag" do
       let(:options) { ["--accept-all-licenses"] }
       let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
 
       it "still shows license text" do
         expect(Fontist.ui).to receive(:say).with(/^FONT LICENSE ACCEPTANCE/)

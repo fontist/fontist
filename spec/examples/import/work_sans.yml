@@ -1,0 +1,279 @@
+---
+name: Work Sans
+description: Work Sans
+homepage: http://wweeiihhuuaanngg@gmail.com
+resources:
+  Work_Sans.zip:
+    urls:
+    - https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip
+    sha256: 44e05ffb17d97205ec85feb82edcb2f6f99ef0874074096cec0d64f1b5af1973
+fonts:
+- name: Work Sans
+  styles:
+  - family_name: Work Sans
+    type: Bold
+    full_name: Work Sans Bold
+    post_script_name: WorkSans-Bold
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Bold.ttf
+  - family_name: Work Sans
+    type: Bold Italic
+    full_name: Work Sans Bold Italic
+    post_script_name: WorkSans-BoldItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-BoldItalic.ttf
+  - family_name: Work Sans
+    type: Italic
+    full_name: Work Sans Italic
+    post_script_name: WorkSans-Italic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Italic.ttf
+  - family_name: Work Sans
+    type: Regular
+    full_name: Work Sans Regular
+    post_script_name: WorkSans-Regular
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Regular.ttf
+- name: Work Sans Black
+  styles:
+  - family_name: Work Sans Black
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Black Italic
+    full_name: Work Sans Black Italic
+    post_script_name: WorkSans-BlackItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-BlackItalic.ttf
+  - family_name: Work Sans Black
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Black
+    full_name: Work Sans Black
+    post_script_name: WorkSans-Black
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Black.ttf
+- name: Work Sans ExtraBold
+  styles:
+  - family_name: Work Sans ExtraBold
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: ExtraBold Italic
+    full_name: Work Sans ExtraBold Italic
+    post_script_name: WorkSans-ExtraBoldItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraBoldItalic.ttf
+  - family_name: Work Sans ExtraBold
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: ExtraBold
+    full_name: Work Sans ExtraBold
+    post_script_name: WorkSans-ExtraBold
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraBold.ttf
+- name: Work Sans ExtraLight
+  styles:
+  - family_name: Work Sans ExtraLight
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: ExtraLight Italic
+    full_name: Work Sans ExtraLight Italic
+    post_script_name: WorkSans-ExtraLightItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraLightItalic.ttf
+  - family_name: Work Sans ExtraLight
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: ExtraLight
+    full_name: Work Sans ExtraLight
+    post_script_name: WorkSans-ExtraLight
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ExtraLight.ttf
+- name: Work Sans Light
+  styles:
+  - family_name: Work Sans Light
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Light Italic
+    full_name: Work Sans Light Italic
+    post_script_name: WorkSans-LightItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-LightItalic.ttf
+  - family_name: Work Sans Light
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Light
+    full_name: Work Sans Light
+    post_script_name: WorkSans-Light
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Light.ttf
+- name: Work Sans Medium
+  styles:
+  - family_name: Work Sans Medium
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Medium Italic
+    full_name: Work Sans Medium Italic
+    post_script_name: WorkSans-MediumItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-MediumItalic.ttf
+  - family_name: Work Sans Medium
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Medium
+    full_name: Work Sans Medium
+    post_script_name: WorkSans-Medium
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Medium.ttf
+- name: Work Sans SemiBold
+  styles:
+  - family_name: Work Sans SemiBold
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: SemiBold Italic
+    full_name: Work Sans SemiBold Italic
+    post_script_name: WorkSans-SemiBoldItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-SemiBoldItalic.ttf
+  - family_name: Work Sans SemiBold
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: SemiBold
+    full_name: Work Sans SemiBold
+    post_script_name: WorkSans-SemiBold
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-SemiBold.ttf
+- name: Work Sans Thin
+  styles:
+  - family_name: Work Sans Thin
+    type: Italic
+    preferred_family_name: Work Sans
+    preferred_type: Thin Italic
+    full_name: Work Sans Thin Italic
+    post_script_name: WorkSans-ThinItalic
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-ThinItalic.ttf
+  - family_name: Work Sans Thin
+    type: Regular
+    preferred_family_name: Work Sans
+    preferred_type: Thin
+    full_name: Work Sans Thin
+    post_script_name: WorkSans-Thin
+    version: 2.010; ttfautohint (v1.8.3)
+    copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+    font: WorkSans-Thin.ttf
+extract:
+  options:
+    fonts_sub_dir: Work-Sans-2.010/fonts/static/*
+copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+license_url: http://scripts.sil.org/OFL
+open_license: |-
+  Copyright 2018 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
+
+  This Font Software is licensed under the SIL Open Font License, Version 1.1.
+  This license is copied below, and is also available with a FAQ at:
+  http://scripts.sil.org/OFL
+
+
+  -----------------------------------------------------------
+  SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+  -----------------------------------------------------------
+
+  PREAMBLE
+  The goals of the Open Font License (OFL) are to stimulate worldwide
+  development of collaborative font projects, to support the font creation
+  efforts of academic and linguistic communities, and to provide a free and
+  open framework in which fonts may be shared and improved in partnership
+  with others.
+
+  The OFL allows the licensed fonts to be used, studied, modified and
+  redistributed freely as long as they are not sold by themselves. The
+  fonts, including any derivative works, can be bundled, embedded,
+  redistributed and/or sold with any software provided that any reserved
+  names are not used by derivative works. The fonts and derivatives,
+  however, cannot be released under any other type of license. The
+  requirement for fonts to remain under this license does not apply
+  to any document created using the fonts or their derivatives.
+
+  DEFINITIONS
+  "Font Software" refers to the set of files released by the Copyright
+  Holder(s) under this license and clearly marked as such. This may
+  include source files, build scripts and documentation.
+
+  "Reserved Font Name" refers to any names specified as such after the
+  copyright statement(s).
+
+  "Original Version" refers to the collection of Font Software components as
+  distributed by the Copyright Holder(s).
+
+  "Modified Version" refers to any derivative made by adding to, deleting,
+  or substituting -- in part or in whole -- any of the components of the
+  Original Version, by changing formats or by porting the Font Software to a
+  new environment.
+
+  "Author" refers to any designer, engineer, programmer, technical
+  writer or other person who contributed to the Font Software.
+
+  PERMISSION & CONDITIONS
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of the Font Software, to use, study, copy, merge, embed, modify,
+  redistribute, and sell modified and unmodified copies of the Font
+  Software, subject to the following conditions:
+
+  1) Neither the Font Software nor any of its individual components,
+  in Original or Modified Versions, may be sold by itself.
+
+  2) Original or Modified Versions of the Font Software may be bundled,
+  redistributed and/or sold with any software, provided that each copy
+  contains the above copyright notice and this license. These can be
+  included either as stand-alone text files, human-readable headers or
+  in the appropriate machine-readable metadata fields within text or
+  binary files as long as those fields can be easily viewed by the user.
+
+  3) No Modified Version of the Font Software may use the Reserved Font
+  Name(s) unless explicit written permission is granted by the corresponding
+  Copyright Holder. This restriction only applies to the primary font name as
+  presented to the users.
+
+  4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+  Software shall not be used to promote, endorse or advertise any
+  Modified Version, except to acknowledge the contribution(s) of the
+  Copyright Holder(s) and the Author(s) or with their explicit written
+  permission.
+
+  5) The Font Software, modified or unmodified, in part or in whole,
+  must be distributed entirely under this license, and must not be
+  distributed under any other license. The requirement for fonts to
+  remain under this license does not apply to any document created
+  using the Font Software.
+
+  TERMINATION
+  This license becomes null and void if any of the above conditions are
+  not met.
+
+  DISCLAIMER
+  THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+  OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+  COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+  DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+  OTHER DEALINGS IN THE FONT SOFTWARE.
