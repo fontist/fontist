@@ -7,7 +7,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
   let(:options) { {} }
 
   let(:example) { YAML.load_file(example_file) }
-  let(:example_file) { "spec/examples/formulas/#{formula_file}" }
+  let(:example_file) { "spec/examples/import/#{formula_file}" }
 
   context "zip archive" do
     let(:archive_name) { "_2.6.6 Euphemia UCAS.zip" }

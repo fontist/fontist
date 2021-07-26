@@ -106,6 +106,8 @@ RSpec.describe Fontist::Font do
   end
 
   describe ".install" do
+    include_context "fresh home"
+
     let(:command) do
       Fontist::Font.install(font, confirmation: "yes", **options)
     end
@@ -114,32 +116,25 @@ RSpec.describe Fontist::Font do
 
     context "with valid font name" do
       it "installs and returns paths for fonts with open license" do
-        stub_fontist_path_to_temp_path
+        example_formula("andale.yml")
+        font_paths = Fontist::Font.install("andale mono", confirmation: "yes")
 
-        font = { name: "Overpass Mono", filename: "overpass-mono-regular.otf" }
-        font_paths = Fontist::Font.install(font[:name], confirmation: "no")
-
-        expect(font_paths.join("|").downcase).to include(font[:filename])
+        expect(font_paths).to include(include("AndaleMo.TTF"))
       end
 
       it "install proprietary fonts with correct license agreement" do
-        stub_fontist_path_to_temp_path
+        example_formula("andale.yml")
         stub_license_agreement_prompt_with("yes")
+        font_paths = Fontist::Font.install("andale mono")
 
-        font = { name: "Calibri", filename: "calibri.ttf" }
-        font_paths = Fontist::Font.install(font[:name])
-
-        expect(font_paths.join("|").downcase).to include(font[:filename])
+        expect(font_paths).to include(include("AndaleMo.TTF"))
       end
 
       it "raises error for missing license agreement" do
-        stub_fontist_path_to_temp_path
+        example_formula("andale.yml")
         stub_license_agreement_prompt_with("no")
 
-        font = { name: "Calibri", filename: "calibri.ttf" }
-        allow(Fontist::SystemFont).to receive(:find).and_return(nil)
-
-        expect { Fontist::Font.install(font[:name]) }.to raise_error(
+        expect { Fontist::Font.install("andale mono") }.to raise_error(
           Fontist::Errors::LicensingError
         )
       end
@@ -151,24 +146,22 @@ RSpec.describe Fontist::Font do
         "https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe"
       end
 
+      before { example_formula("andale.yml") }
+
       around { |example| avoid_cache(url) { example.run } }
 
       it "prints descriptive messages of what's going on" do
-        fresh_fonts_and_formulas do
-          example_formula("andale.yml")
+        # rubocop:disable Metrics/LineLength
+        expect(Fontist.ui).to receive(:say).with(%(Font "andale mono" not found locally.))
+        expect(Fontist.ui).to receive(:say).with(%(Downloading font "andale" from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
+        expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+% \(\d+\/\d+ MiB\)/)
+        expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
+        expect(Fontist.ui).to receive(:say).with(%(Installing font "andale".))
+        expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
+        expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
+        # rubocop:enable Metrics/LineLength
 
-          # rubocop:disable Metrics/LineLength
-          expect(Fontist.ui).to receive(:say).with(%(Font "andale mono" not found locally.))
-          expect(Fontist.ui).to receive(:say).with(%(Downloading font "andale" from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
-          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+% \(\d+\/\d+ MiB\)/)
-          expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
-          expect(Fontist.ui).to receive(:say).with(%(Installing font "andale".))
-          expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
-          expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
-          # rubocop:enable Metrics/LineLength
-
-          command
-        end
+        command
       end
     end
 
@@ -177,55 +170,52 @@ RSpec.describe Fontist::Font do
       let(:url) { "https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip" }
       let(:options) { { no_progress: true } }
 
+      before { example_formula("fira_code.yml") }
+
       around { |example| avoid_cache(url) { example.run } }
 
       it "skips printing of progress lines" do
-        no_fonts do
-          expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:/).once
-          expect(Fontist.ui).to receive(:print).with(/done/).once
-          command
-        end
+        expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:/).once
+        expect(Fontist.ui).to receive(:print).with(/done/).once
+        command
       end
     end
 
     context "uninstalled but supported and in cache" do
       let(:font) { "andale mono" }
       let(:options) { { force: true } }
+      before { example_formula("andale.yml") }
 
       it "tells about fetching from cache" do
-        fresh_fonts_and_formulas do
-          example_formula("andale.yml")
-          Fontist::Font.install(font, confirmation: "yes")
+        Fontist::Font.install(font, confirmation: "yes")
 
-          expect(Fontist.ui).to receive(:say).with(/Fetched from cache: \d+ MiB\./)
-          command
-        end
+        expect(Fontist.ui)
+          .to receive(:say).with(/Fetched from cache: \d+ MiB\./)
+        command
       end
     end
 
     context "already installed font" do
       let(:font) { "andale mono" }
+      before { example_font("AndaleMo.TTF") }
 
       it "tells that font found locally" do
-        no_fonts do
-          example_font_to_fontist("AndaleMo.TTF")
+        expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
+        expect(Fontist.ui).to receive(:say)
+          .with(include(font_path("AndaleMo.TTF")))
 
-          expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
-          expect(Fontist.ui).to receive(:say)
-            .with(include(font_path("AndaleMo.TTF")))
-
-          command
-        end
+        command
       end
     end
 
     context "with existing font name" do
-      it "returns the existing font paths" do
-        name = "Courier New"
-        stub_fontist_path_to_temp_path
-        Fontist::Font.install(name, confirmation: "yes")
+      before { example_formula("courier.yml") }
 
-        font_paths = Fontist::Font.install(name, confirmation: "yes")
+      it "returns the existing font paths" do
+        font = "Courier New"
+        Fontist::Font.install(font, confirmation: "yes")
+
+        font_paths = Fontist::Font.install(font, confirmation: "yes")
 
         expect(font_paths.count).to be > 3
         expect_any_instance_of(Fontist::FontInstaller).not_to receive(:install)
@@ -235,12 +225,10 @@ RSpec.describe Fontist::Font do
     context "with collection font name" do
       let(:font) { "Source Han Sans" }
       let(:file) { "SourceHanSans-Normal.ttc" }
+      before { example_formula("source.yml") }
 
       it "returns path of collection file" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          expect(command).to include(include(file))
-        end
+        expect(command).to include(include(file))
       end
     end
 
@@ -249,12 +237,9 @@ RSpec.describe Fontist::Font do
       let(:file) { "CAMBRIA.TTC" }
 
       it "skips download" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist(file)
-          expect_any_instance_of(Fontist::FontInstaller).not_to receive(:install)
-          command
-        end
+        example_font(file)
+        expect_any_instance_of(Fontist::FontInstaller).not_to receive(:install)
+        command
       end
     end
 
@@ -266,17 +251,17 @@ RSpec.describe Fontist::Font do
       let(:font) { "Invalid font name" }
 
       it "raises an unsupported error" do
-        no_fonts do
-          expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "Invalid font name" })
-        end
+        expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
+        expect { command }.to(
+          raise_error { |e| expect(e.font).to eq "Invalid font name" },
+        )
       end
     end
 
     context "with msi archive" do
-      it "installs and returns paths for fonts" do
-        stub_fontist_path_to_temp_path
+      before { example_formula("adobe_reader_19.yml") }
 
+      it "installs and returns paths for fonts" do
         font = { name: "Adobe Arabic", filename: "adobearabic_bold.otf" }
         font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
@@ -285,9 +270,9 @@ RSpec.describe Fontist::Font do
     end
 
     context "with 7z archive" do
-      it "installs and returns paths for fonts" do
-        stub_fontist_path_to_temp_path
+      before { example_formula("adobe_reader_20.yml") }
 
+      it "installs and returns paths for fonts" do
         font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
         font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
@@ -297,26 +282,20 @@ RSpec.describe Fontist::Font do
 
     context "with rpm archive" do
       let(:font) { "Wingdings" }
+      before { example_formula("webcore.yml") }
 
       it "installs and returns paths for fonts" do
-        no_fonts do
-          no_formulas do
-            example_formula("webcore.yml")
-
-            expect(command).to include(fontist_font_path("wingding.ttf"))
-          end
-        end
+        expect(command).to include(include("wingding.ttf"))
       end
     end
 
     context "with subarchive option", slow: true do
       let(:font) { "guttman aharoni" }
       let(:file) { "GAHROM.ttf" }
+      before { example_formula("guttman.yml") }
 
       it "installs and returns paths for fonts" do
-        no_fonts do
-          expect(command).to include(include(file))
-        end
+        expect(command).to include(include(file))
       end
     end
 
@@ -324,39 +303,38 @@ RSpec.describe Fontist::Font do
       let(:font) { "Work Sans" }
       let(:file) { "WorkSans-Black.ttf" }
       let(:current_version_size) { 203512 }
+      before { example_formula("work_sans.yml") }
 
       it "installs from proper directory", slow: true do
-        no_fonts do
-          command
-          expect(font_file(file).size).to eq current_version_size
-        end
+        command
+        expect(font_file(file).size).to eq current_version_size
       end
     end
 
     context "with force flag when installed" do
+      include_context "system fonts"
+
       let(:font) { "andale mono" }
       let(:file) { "AndaleMo.TTF" }
       let(:options) { { force: true } }
+      before { example_formula("andale.yml") }
 
       it "installs font anyway" do
-        no_fonts do
-          stub_system_font(file)
-          expect(font_file(file)).not_to exist
-          command
-          expect(font_file(file)).to exist
-        end
+        example_font_to_system(file)
+        expect(font_file(file)).not_to exist
+        command
+        expect(font_file(file)).to exist
       end
     end
 
     context "with unusual font extension" do
       let(:font) { "adobe devanagari" }
       let(:file) { "adobedevanagari_bolditalic.otf" }
+      before { example_formula("adobe_reader_19.yml") }
 
       it "detects, renames and installs the font" do
-        no_fonts do
-          command
-          expect(font_file(file)).to exist
-        end
+        command
+        expect(font_file(file)).to exist
       end
     end
 
@@ -365,18 +343,16 @@ RSpec.describe Fontist::Font do
       let(:file) { "AndaleMo.TTF" }
       let(:fontist_path) { create_tmp_dir }
 
-      it "installs font at a FONTIST_PATH directory", slow: true do
-        stub_system_fonts_path_to_new_path do
-          Dir.mktmpdir do |fontist_path|
-            stub_env("FONTIST_PATH", fontist_path) do
-              FileUtils.mkdir_p(Fontist.formulas_path)
-              example_formula_to("andale.yml", Fontist.formulas_path)
+      it "installs font at a FONTIST_PATH directory" do
+        Dir.mktmpdir do |fontist_path|
+          stub_env("FONTIST_PATH", fontist_path) do
+            FileUtils.mkdir_p(Fontist.formulas_path)
+            example_formula_to("andale.yml", Fontist.formulas_path)
 
-              rebuilt_index do
-                command
-                expect(Pathname.new(File.join(fontist_path, "fonts", file)))
-                  .to exist
-              end
+            rebuilt_index do
+              command
+              expect(Pathname.new(File.join(fontist_path, "fonts", file)))
+                .to exist
             end
           end
         end
@@ -384,55 +360,51 @@ RSpec.describe Fontist::Font do
     end
 
     context "when several formulas exist" do
-      let(:font) { "arial" }
+      let(:font) { "andale mono" }
+      before { example_formula("andale.yml") }
+      before { example_formula("webcore.yml") }
 
       it "installs all matching formulas" do
-        no_fonts do
-          expect(Fontist::FontInstaller).to receive(:new).at_least(2).times
-            .and_call_original
-          command
-          expect(font_file("Arial.ttf")).to exist
-          expect(font_file("arial.ttf")).to exist
-        end
+        expect(Fontist::FontInstaller).to receive(:new).at_least(2).times
+          .and_call_original
+        command
+        expect(font_file("AndaleMo.TTF")).to exist
+        expect(font_file("andalemo.ttf")).to exist
       end
     end
 
     context "when several formulas exist and require license agreement" do
       let(:command) { Fontist::Font.install(font, confirmation: "no", **options) }
-      let(:font) { "arial" }
+      let(:font) { "andale mono" }
+      before { example_formula("andale.yml") }
+      before { example_formula("webcore.yml") }
 
       it "asks for acceptance for each formula" do
-        no_fonts do
-          expect(Fontist.ui).to receive(:ask).and_return("yes")
-            .at_least(2).times
-          command
-        end
+        expect(Fontist.ui).to receive(:ask).and_return("yes")
+          .at_least(2).times
+        command
       end
     end
 
     context "preferred family and no option" do
       let(:font) { "lato heavy" }
+      before { example_formula("lato.yml") }
 
       it "installs by default family" do
-        fresh_fonts_and_formulas do
-          example_formula("lato_with_url.yml")
-          expect(command).to include(include("Lato-Heavy.ttf"))
-          expect(font_file("Lato-Heavy.ttf")).to exist
-        end
+        expect(command).to include(include("Lato-Heavy.ttf"))
+        expect(font_file("Lato-Heavy.ttf")).to exist
       end
     end
 
     context "preferred family with option" do
       let(:font) { "lato heavy" }
+      before { example_formula("lato.yml") }
 
       it "does not find by default family" do
         with_option(:preferred_family) do
-          fresh_fonts_and_formulas do
-            example_formula("lato_with_url.yml")
-            expect { command }
-              .to raise_error(Fontist::Errors::UnsupportedFontError)
-            expect(font_file("Lato-Heavy.ttf")).not_to exist
-          end
+          expect { command }
+            .to raise_error(Fontist::Errors::UnsupportedFontError)
+          expect(font_file("Lato-Heavy.ttf")).not_to exist
         end
       end
     end
