@@ -67,6 +67,7 @@ module Fontist
           url,
           open_timeout: 10,
           read_timeout: 10,
+          max_redirects: 10,
           headers: headers,
           content_length_proc: ->(content_length) {
             @progress_bar.total = content_length if content_length
