@@ -2,11 +2,8 @@ name: metanorma
 
 on:
   push:
-    # restore the main branch after metanorma upgrade
-    # branches: [ main ]
-    branches: [ unknown ]
-  # restore after metanorma upgrade
-  # pull_request:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   test:
