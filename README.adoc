@@ -51,6 +51,23 @@ has the following requirements:
 
 These dependencies are generally present on all systems.
 
+=== Upgrade to v1.10+
+
+After installation please do `fontist update` to fetch new version of formulas.
+
+Starting from v1.10 fontist uses default family instead of the preferred family
+when grouping styles. E.g. formely request of the "Lato" font returned all
+styles: Black, Black Italic, Bold, and 15 other styles.
+
+Now it returns only 4 default styles: Regular, Italic, Bold, Bold Italic.
+
+To fetch other styles a subfamily should be requested, e.g. "Lato Black", or
+"Lato Heavy".
+
+Also there was a bug with the "Courier" font, which could be installed with the
+"Courier" name, but its location could be fetch with the "Courier New" name.
+Now in both cases the "Courier New" name should be used.
+
 == Usage of the `fontist` command
 
 === Fontist command-line interface
