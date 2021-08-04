@@ -2,7 +2,7 @@ name: metanorma
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, v1.9.x ]
   pull_request:
 
 jobs:
