@@ -68,7 +68,9 @@ From v1.10 onwards, Fontist will return _only_ the 4 default styles:
 "`Regular`", "`Italic`", "`Bold`" and "`Bold Italic`".
 
 In order to fetch other styles, you have to specify the exact font
-"`subfamily`", such as "`Lato Black`", or "`Lato Heavy`".
+"`subfamily`", such as "`Lato Black`", or "`Lato Heavy`", or use
+the `--preferred-family` option with CLI and `Fontist.preferred_family = true`
+with the Ruby library.
 
 NOTE: Prior to v1.10 there was a bug with the "`Courier`" font formula, which
 allowed the font to be installed when requesting the font name "`Courier`", but
@@ -87,6 +89,12 @@ The CLI properly supports exit status, so in a case of error it returns a status
 code higher or equal than 1.
 
 All searches are case-insensitive for ease of use.
+
+=== Global options
+
+All commands support the following options:
+
+* `--preferred-family` Use the preferred family names when searching for fonts. This format was used prior to v1.10.
 
 === Install fonts
 
@@ -376,6 +384,16 @@ The return values are `OpenStruct` objects, so you can easily do any other
 operation you would do in any ruby object.
 
 === `Fontist::Manifest`
+
+==== Global options
+
+Fontist can be switched to use the preferred family names. This format was
+used prior to v1.10.
+
+[source,ruby]
+----
+Fontist.preferred_family = true
+----
 
 [[fontist-locations]]
 ==== `Fontist::Manifest::Locations`
