@@ -51,22 +51,31 @@ has the following requirements:
 
 These dependencies are generally present on all systems.
 
-=== Upgrade to v1.10+
+=== Upgrading Fontist
 
-After installation please do `fontist update` to fetch new version of formulas.
+==== To v1.10+
 
-Starting from v1.10 fontist uses default family instead of the preferred family
-when grouping styles. E.g. formely request of the "Lato" font returned all
-styles: Black, Black Italic, Bold, and 15 other styles.
+Fontist versions beyond v1.10 utilize a new formula format.
+After the upgrade, please run `fontist update` to fetch the latest formulas.
 
-Now it returns only 4 default styles: Regular, Italic, Bold, Bold Italic.
+Starting from v1.10, Fontist uses the "`default family`" instead of the "`preferred family`"
+when grouping styles.
 
-To fetch other styles a subfamily should be requested, e.g. "Lato Black", or
-"Lato Heavy".
+For example, a request for the "`Lato`" font prior to v1.10 will return all
+styles: "`Black`", "`Black Italic`", "`Bold`", and 15 other styles.
 
-Also there was a bug with the "Courier" font, which could be installed with the
-"Courier" name, but its location could be fetch with the "Courier New" name.
-Now in both cases the "Courier New" name should be used.
+From v1.10 onwards, Fontist will return _only_ the 4 default styles:
+"`Regular`", "`Italic`", "`Bold`" and "`Bold Italic`".
+
+In order to fetch other styles, you have to specify the exact font
+"`subfamily`", such as "`Lato Black`", or "`Lato Heavy`".
+
+NOTE: Prior to v1.10 there was a bug with the "`Courier`" font formula, which
+allowed the font to be installed when requesting the font name "`Courier`", but
+its font location was only obtainable using the full "`Courier New`" font name.
+From v1.10 onwards the behavior has been made consistent -- only the proper
+"`Courier New`" name should be used.
+
 
 == Usage of the `fontist` command
 
@@ -84,8 +93,7 @@ All searches are case-insensitive for ease of use.
 Fontist checks whether this font is already installed, and if not, then installs
 the font and returns its installed paths.
 
-Only the font name (not formula name, nor font filename) could be used as its
-argument.
+The font name is the only argument to be supplied (the font family name).
 
 [source,sh]
 ----
@@ -96,6 +104,8 @@ These fonts are found or installed:
 /Users/user/.fontist/fonts/SEGOEUII.TTF
 /Users/user/.fontist/fonts/SEGOEUIZ.TTF
 ----
+
+NOTE: Specifying the formula's name or the font's filename is not supported.
 
 NOTE: The `install` command is similar to the `Font.install` library call.
 
@@ -757,9 +767,10 @@ sub-licenses to third parties, under the copyright covering the contribution to
 use the contribution by all means.
 
 We are following Sandi Metz's Rules for this gem, you can read the
-http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers[description of the rules here] All new code should follow these
-rules. If you make changes in a pre-existing file that violates these rules you
-should fix the violations as part of your contribution.
+http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers[description of the rules here].
+All new code should follow these rules. If you make changes in a pre-existing
+file that violates these rules you should fix the violations as part of your
+contribution.
 
 Here are a few technical guidelines to follow:
 
