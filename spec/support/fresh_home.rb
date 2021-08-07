@@ -19,6 +19,8 @@ RSpec.shared_context "fresh home" do
 
     FileUtils.mkdir_p(Fontist.fonts_path)
     FileUtils.mkdir_p(Fontist.formulas_path)
+
+    Fontist::Index.reset_cache
   end
 
   after do

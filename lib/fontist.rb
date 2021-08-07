@@ -40,7 +40,11 @@ module Fontist
   end
 
   def self.formulas_repo_path
-    Fontist.fontist_path.join("formulas")
+    Fontist.fontist_version_path.join("formulas")
+  end
+
+  def self.fontist_version_path
+    Fontist.fontist_path.join("versions", Update::VERSION)
   end
 
   def self.formulas_repo_url
@@ -102,7 +106,7 @@ module Fontist
   end
 
   def self.formula_index_dir
-    Fontist.fontist_path
+    Fontist.fontist_version_path
   end
 
   def self.preferred_family?

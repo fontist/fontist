@@ -1,9 +1,9 @@
 module Fontist
   class Update
-    BRANCH = "v2".freeze
+    VERSION = "v2".freeze
 
     def self.call
-      new(BRANCH).call
+      new(VERSION).call
     end
 
     def initialize(branch = "main")
