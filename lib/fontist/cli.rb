@@ -149,18 +149,9 @@ module Fontist
       It is done automatically when formulas are updated, or private formulas
       are set up.
     LONGDESC
-    option :main_repo, type: :boolean,
-                       desc: "Updates indexes in the main repo (for backward " \
-                             "compatibility with versions prior to 1.9)"
     def rebuild_index
       handle_class_options(options)
-
-      if options[:main_repo]
-        Fontist::Index.rebuild_for_main_repo
-      else
-        Fontist::Index.rebuild
-      end
-
+      Fontist::Index.rebuild
       Fontist.ui.say("Formula index has been rebuilt.")
       STATUS_SUCCESS
     end

@@ -1,5 +1,4 @@
 require_relative "system_index"
-require_relative "formula_paths"
 
 module Fontist
   class SystemFont
@@ -51,7 +50,7 @@ module Fontist
     end
 
     def find_styles
-      find_by_index || find_by_formulas
+      find_by_index
     end
 
     private
@@ -60,10 +59,6 @@ module Fontist
 
     def find_by_index
       SystemIndex.system_index.find(font, style)
-    end
-
-    def find_by_formulas
-      FormulaPaths.new(self.class.font_paths).find(font, style)
     end
   end
 end
