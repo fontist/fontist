@@ -88,21 +88,11 @@ module Fontist
   end
 
   def self.formula_preferred_family_index_path
-    @formula_preferred_family_index_path ||
-      Fontist.formula_index_dir.join("formula_index.preferred_family.yml")
-  end
-
-  def self.formula_preferred_family_index_path=(path)
-    @formula_preferred_family_index_path = path
+    Fontist.formula_index_dir.join("formula_index.preferred_family.yml")
   end
 
   def self.formula_filename_index_path
-    @formula_filename_index_path ||
-      Fontist.formula_index_dir.join("filename_index.yml")
-  end
-
-  def self.formula_filename_index_path=(path)
-    @formula_filename_index_path = path
+    Fontist.formula_index_dir.join("filename_index.yml")
   end
 
   def self.formula_index_dir
