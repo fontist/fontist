@@ -1,4 +1,3 @@
-require_relative "fonts_public.pb"
 require_relative "../google"
 require_relative "../otf_parser"
 
@@ -6,7 +5,7 @@ module Fontist
   module Import
     module Google
       class NewFontsFetcher
-        REPO_PATH = Fontist.root_path.join("tmp", "fonts")
+        REPO_PATH = Fontist.fontist_path.join("google", "fonts")
         REPO_URL = "https://github.com/google/fonts.git".freeze
         SKIPLIST_PATH = File.expand_path("skiplist.yml", __dir__)
 
@@ -25,7 +24,8 @@ module Fontist
           if Dir.exist?(REPO_PATH)
             `cd #{REPO_PATH} && git pull`
           else
-            `git clone #{REPO_URL} #{REPO_PATH}`
+            FileUtils.mkdir_p(File.dirname(REPO_PATH))
+            `git clone --depth 1 #{REPO_URL} #{REPO_PATH}`
           end
         end
 
@@ -53,23 +53,11 @@ module Fontist
         end
 
         def new?(path)
-          metadata = fetch_metadata(path)
-          return unless metadata
-
-          font_new?(metadata, path)
-        end
-
-        def fetch_metadata(path)
-          metadata_path = File.join(path, "METADATA.pb")
-          return unless File.exists?(metadata_path)
-
-          ::Google::Fonts::FamilyProto.parse_from_text(File.read(metadata_path))
-        end
-
-        def font_new?(metadata, path)
-          return if in_skiplist?(metadata.name)
-          return if up_to_date?(metadata, path)
-          return unless downloadable?(metadata.name)
+          metadata_name = Google.metadata_name(path)
+          return unless metadata_name
+          return if in_skiplist?(metadata_name)
+          return if up_to_date?(metadata_name, path)
+          return unless downloadable?(metadata_name)
 
           true
         end
@@ -79,29 +67,47 @@ module Fontist
           @skiplist.include?(name)
         end
 
-        def up_to_date?(metadata, path)
-          formula = formula(metadata.name)
+        def up_to_date?(metadata_name, path)
+          formula = formula(metadata_name)
           return false unless formula
 
-          styles = formula.fonts.map(&:styles).flatten
+          repo_digest_up_to_date?(formula, path) ||
+            fonts_up_to_date?(formula, path)
+        end
 
-          styles.all? do |style|
-            style.version == otfinfo_version(font_path(style.font, path))
+        def repo_digest_up_to_date?(formula, path)
+          return unless formula.digest
+
+          formula.digest == Google.digest(path)
+        end
+
+        def fonts_up_to_date?(formula, path)
+          styles = formula_styles(formula)
+          repo_fonts(path).all? do |font|
+            style = styles.find { |s| s.font == repo_to_archive_name(font) }
+            return false unless style
+
+            otfinfo_version(font) == style.version
           end
         end
 
+        def formula_styles(formula)
+          formula.fonts.map(&:styles).flatten
+        end
+
+        def repo_fonts(path)
+          Dir.glob(File.join(path, "*.{ttf,otf}"))
+        end
+
+        def repo_to_archive_name(font_path)
+          File.basename(font_path)
+            .sub("[wght]", "-VariableFont_wght")
+            .sub("[opsz]", "-Regular-VariableFont_opsz")
+        end
+
         def formula(font_name)
-          klass = font_name.gsub(/ /, "").sub(/\S/, &:upcase)
-          @formulas ||= Fontist::Formula.all
-          @formulas["Fontist::Formulas::#{klass}Font"]
-        end
-
-        def font_path(filename, directory)
-          File.join(directory, fix_variable_filename(filename))
-        end
-
-        def fix_variable_filename(filename)
-          filename.sub("-VariableFont_wght", "[wght]")
+          path = Fontist::Import::Google.formula_path(font_name)
+          Formula.new_from_file(path) if File.exist?(path)
         end
 
         def otfinfo_version(path)
@@ -110,9 +116,14 @@ module Fontist
         end
 
         def downloadable?(name)
+          retries ||= 0
+          retries += 1
           Down.open("https://fonts.google.com/download?family=#{name}")
           true
         rescue Down::NotFound
+          false
+        rescue Down::TimeoutError
+          retry unless retries >= 3
           false
         end
       end

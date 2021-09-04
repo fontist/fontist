@@ -4,16 +4,11 @@ module Fontist
   module Import
     class GoogleCheck
       def call
-        fetch_formulas
         fonts = new_fonts
         indicate(fonts)
       end
 
       private
-
-      def fetch_formulas
-        Formula.update_formulas_repo
-      end
 
       def new_fonts
         Fontist::Import::Google::NewFontsFetcher.new(logging: true).call
@@ -26,8 +21,6 @@ module Fontist
         new_paths.each do |path|
           puts path
         end
-
-        abort
       end
     end
   end

@@ -28,12 +28,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
   spec.add_runtime_dependency "down", "~> 5.0"
+  spec.add_runtime_dependency "extract_ttc", "~> 0.1"
   spec.add_runtime_dependency "thor", "~> 1.0.1"
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
   spec.add_runtime_dependency "excavate", "~> 0.1"
 
-  spec.add_development_dependency "extract_ttc", "~> 0.1"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "gem-release"
@@ -43,7 +43,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop", "1.5.2"
   spec.add_development_dependency "rubocop-rails"
   spec.add_development_dependency "rubocop-performance"
-  spec.add_development_dependency "ruby-protocol-buffers", "~> 1.0"
 
   spec.add_runtime_dependency "socksify"
 end

@@ -1,5 +1,6 @@
 require "thor"
 require "fontist/repo_cli"
+require "fontist/google_cli"
 
 module Fontist
   class CLI < Thor
@@ -165,6 +166,9 @@ module Fontist
 
     desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
     subcommand "repo", Fontist::RepoCLI
+
+    desc "google SUBCOMMAND ...ARGS", "Manage Google formulas"
+    subcommand "google", Fontist::GoogleCLI
 
     private
 
