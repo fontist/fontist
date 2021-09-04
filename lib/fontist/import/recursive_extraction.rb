@@ -3,7 +3,8 @@ require_relative "files/font_detector"
 module Fontist
   module Import
     class RecursiveExtraction
-      LICENSE_PATTERN = /(ofl\.txt|ufl\.txt|licenses?\.txt|copying)$/i.freeze
+      LICENSE_PATTERN =
+        /(ofl\.txt|ufl\.txt|licenses?\.txt|license|copying)$/i.freeze
 
       def initialize(archive, subarchive: nil, subdir: nil)
         @archive = archive
