@@ -6,7 +6,7 @@ module Fontist
     class FormulaBuilder
       FORMULA_ATTRIBUTES = %i[name description homepage resources
                               font_collections fonts extract copyright
-                              license_url open_license command].freeze
+                              license_url open_license digest command].freeze
 
       attr_accessor :archive,
                     :url,
@@ -60,6 +60,18 @@ module Fontist
       end
 
       def resource_options
+        if @options[:skip_sha]
+          resource_options_without_sha
+        else
+          resource_options_with_sha
+        end
+      end
+
+      def resource_options_without_sha
+        { urls: [@url] + mirrors }
+      end
+
+      def resource_options_with_sha
         urls = []
         sha = []
         downloads do |url, path|
@@ -165,6 +177,10 @@ module Fontist
                          "'requires_license_agreement'")
 
         TextHelper.cleanup(@license_text)
+      end
+
+      def digest
+        @options[:digest]
       end
 
       def command

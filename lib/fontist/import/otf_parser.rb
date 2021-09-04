@@ -13,6 +13,8 @@ module Fontist
       end
 
       def call
+        raise ArgumentError, "Empty path" unless @path
+
         text = REQUIREMENTS[:otfinfo].call(@path)
         text.split("\n")
           .select { |x| x.include?(":") }

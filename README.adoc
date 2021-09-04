@@ -610,7 +610,7 @@ In case an update is found, it could be fetched to the library by:
 
 [source,sh]
 ----
-bin/import_google
+bin/fontist google import
 ----
 
 The script would update formulas which should be committed to a separate
@@ -618,8 +618,8 @@ repository https://github.com/fontist/formulas[formulas]:
 
 [source,sh]
 ----
-cd ~/.fontist/formulas
-git add Formulas/google index.yml filename_index.yml
+cd ~/.fontist/versions/v2/formulas
+git add Formulas/google
 git commit -m "Google Fonts update"
 git push
 ----

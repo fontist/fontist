@@ -103,6 +103,10 @@ module Fontist
       @fonts ||= Helpers.parse_to_object(hash_collection_fonts + hash_fonts)
     end
 
+    def digest
+      @data["digest"]
+    end
+
     private
 
     def default_key

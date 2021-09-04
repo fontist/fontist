@@ -52,7 +52,11 @@ module Fontist
   end
 
   def self.formulas_path
-    Fontist.formulas_repo_path.join("Formulas")
+    @formulas_path || Fontist.formulas_repo_path.join("Formulas")
+  end
+
+  def self.formulas_path=(path)
+    @formulas_path = path
   end
 
   def self.private_formulas_path
@@ -105,5 +109,13 @@ module Fontist
 
   def self.preferred_family=(bool)
     @preferred_family = bool
+  end
+
+  def self.debug?
+    @debug || false
+  end
+
+  def self.debug=(bool)
+    @debug = bool
   end
 end
