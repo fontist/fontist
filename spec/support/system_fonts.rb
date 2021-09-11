@@ -15,6 +15,8 @@ RSpec.shared_context "system fonts" do
     allow(YAML).to receive(:load_file).with(Fontist.system_file_path)
       .and_return(system_paths(system_dir))
 
+    disable_system_font_paths_caching
+
     allow(YAML).to receive(:load_file).and_call_original
   end
 end
