@@ -4,7 +4,7 @@ module Fontist
   module Import
     class RecursiveExtraction
       LICENSE_PATTERN =
-        /(ofl\.txt|ufl\.txt|licenses?\.txt|license|copying)$/i.freeze
+        /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
       def initialize(archive, subarchive: nil, subdir: nil)
         @archive = archive
@@ -70,6 +70,8 @@ module Fontist
 
       def extract_data(archive)
         Excavate::Archive.new(path(archive)).files(recursive_packages: true) do |path|
+          next unless File.file?(path)
+
           match_license(path)
           match_font(path) if font_directory?(path)
         end
