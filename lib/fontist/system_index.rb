@@ -37,35 +37,39 @@ module Fontist
     LANGUAGE_MAC_ENGLISH = 0
     LANGUAGE_MS_ENGLISH_AMERICAN = 0x409
 
-    attr_reader :font_paths
-
     def self.system_index
-      if Fontist.preferred_family?
-        new(Fontist.system_preferred_family_index_path,
-            SystemFont.font_paths,
-            PreferredFamily.new)
-      else
-        new(Fontist.system_index_path,
-            SystemFont.font_paths,
-            DefaultFamily.new)
-      end
+      path = if Fontist.preferred_family?
+               Fontist.system_preferred_family_index_path
+             else
+               Fontist.system_index_path
+             end
+
+      @system_index ||= {}
+      @system_index[Fontist.preferred_family?] ||= {}
+      @system_index[Fontist.preferred_family?][path] ||=
+        new(path, -> { SystemFont.font_paths }, family)
     end
 
     def self.fontist_index
-      if Fontist.preferred_family?
-        new(Fontist.fontist_preferred_family_index_path,
-            SystemFont.fontist_font_paths,
-            PreferredFamily.new)
-      else
-        new(Fontist.fontist_index_path,
-            SystemFont.fontist_font_paths,
-            DefaultFamily.new)
-      end
+      path = if Fontist.preferred_family?
+               Fontist.fontist_preferred_family_index_path
+             else
+               Fontist.fontist_index_path
+             end
+
+      @fontist_index ||= {}
+      @fontist_index[Fontist.preferred_family?] ||= {}
+      @fontist_index[Fontist.preferred_family?][path] ||=
+        new(path, -> { SystemFont.fontist_font_paths }, family)
     end
 
-    def initialize(index_path, font_paths, family)
+    def self.family
+      Fontist.preferred_family? ? PreferredFamily.new : DefaultFamily.new
+    end
+
+    def initialize(index_path, font_paths_fetcher, family)
       @index_path = index_path
-      @font_paths = font_paths
+      @font_paths_fetcher = font_paths_fetcher
       @family = family
     end
 
@@ -85,7 +89,18 @@ module Fontist
     private
 
     def index
-      @index ||= build_index
+      return @index unless index_changed?
+
+      @index = build_index
+    end
+
+    def index_changed?
+      @index.nil? ||
+        @index.map { |x| x[:path] }.uniq.sort != font_paths.sort
+    end
+
+    def font_paths
+      @font_paths_fetcher.call
     end
 
     def build_index

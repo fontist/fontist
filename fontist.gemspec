@@ -40,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "nokogiri", "~> 1.0"
   spec.add_development_dependency "rake", "~> 13"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rspec-benchmark", "~> 0.6"
   spec.add_development_dependency "rubocop", "1.5.2"
   spec.add_development_dependency "rubocop-rails"
   spec.add_development_dependency "rubocop-performance"

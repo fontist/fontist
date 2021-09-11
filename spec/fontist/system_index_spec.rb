@@ -54,7 +54,7 @@ RSpec.describe Fontist::SystemIndex do
     let(:index_path) { File.join(tmp_dir, "system_index.yml") }
     let(:instance) do
       described_class.new(index_path,
-                          font_paths,
+                          -> { font_paths },
                           Fontist::SystemIndex::DefaultFamily.new)
     end
 

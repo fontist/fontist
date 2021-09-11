@@ -101,6 +101,11 @@ RSpec.describe Fontist::Font do
       before do
         FileUtils.mkdir_p(File.dirname(absolute_user_path))
         FileUtils.cp(fixture_path, absolute_user_path)
+        disable_system_font_paths_caching
+      end
+
+      after do
+        FileUtils.rm(absolute_user_path)
       end
 
       it "returns user's path" do

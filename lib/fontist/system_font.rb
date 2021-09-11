@@ -12,12 +12,20 @@ module Fontist
     end
 
     def self.system_font_paths
+      @system_font_paths ||= load_system_font_paths
+    end
+
+    def self.load_system_font_paths
       config_path = Fontist.system_file_path
       os = Fontist::Utils::System.user_os.to_s
       templates = YAML.load_file(config_path)["system"][os]["paths"]
       patterns = expand_paths(templates)
 
       Dir.glob(patterns)
+    end
+
+    def self.reset_system_font_paths_cache
+      @system_font_paths = nil
     end
 
     def self.expand_paths(paths)

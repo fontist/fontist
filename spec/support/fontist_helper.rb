@@ -110,6 +110,14 @@ module Fontist
       allow(Fontist).to receive(:system_file_path).and_return(
         system_file || Fontist.root_path.join("spec", "fixtures", "system.yml"),
       )
+
+      disable_system_font_paths_caching
+    end
+
+    def disable_system_font_paths_caching
+      allow(SystemFont).to receive(:system_font_paths) do
+        SystemFont.load_system_font_paths
+      end
     end
 
     def cleanup_fonts
@@ -129,18 +137,6 @@ module Fontist
 
       FileUtils.rm_rf(@fontist_dir)
       @fontist_dir = nil
-    end
-
-    def stub_system_font(filename)
-      raise("System dir is not stubbed") unless @system_dir
-
-      stub_font_file(filename, @system_dir)
-    end
-
-    def stub_fontist_font(filename)
-      raise("Fontist dir is not stubbed") unless @fontist_dir
-
-      stub_font_file(filename, @fontist_dir)
     end
 
     def stub_system_font_finder_to_fixture(name)
@@ -291,6 +287,10 @@ module Fontist
       example_path = File.join("spec", "examples", "formulas", filename)
       target_path = File.join(dir, filename)
       FileUtils.cp(example_path, target_path)
+    end
+
+    def example_manifest(name)
+      File.join("spec", "examples", "manifests", name)
     end
 
     def stub_env(name, value)
