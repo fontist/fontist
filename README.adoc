@@ -685,8 +685,8 @@ one, please refer to its documentation.
 There is an ability to use private fonts via private Fontist repositories.
 
 A Fontist repository is a Git repo which contains YAML formula files. Formulas can be created
-manually (see https://github.com/fontist/formulas/tree/master/Formulas)[examples],
-or #auto-generate-a-formula[auto-generated from an archive].
+manually (see https://github.com/fontist/formulas/tree/master/Formulas[examples]),
+or xref:Authoring Fontist formulas[auto-generated from an archive].
 
 A repository can be either a HTTPS or SSH Git repo. In case of SSH, a
 corresponding SSH key should be setup with `ssh-agent` in order to access this
