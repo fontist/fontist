@@ -15,7 +15,7 @@ module Fontist
         @file = file
         @sha = [sha].flatten.compact
         @file_size = file_size.to_i if file_size
-        @progress_bar = set_progress_bar(progress_bar)
+        @progress_bar = progress_bar
         @cache = Cache.new
       end
 
@@ -54,35 +54,48 @@ module Fontist
         options[:download_path] || Fontist.root_path.join("tmp")
       end
 
-      def set_progress_bar(progress_bar)
-        if progress_bar
+      def download_file
+        tries = tries ? tries + 1 : 1
+        do_download_file
+      rescue Down::Error => e
+        retry if tries < 3
+
+        raise Fontist::Errors::InvalidResourceError,
+              "Invalid URL: #{@file}. Error: #{e.inspect}."
+      end
+
+      def do_download_file
+        progress_bar = create_progress_bar
+        file = do_download_file_with_progress_bar(progress_bar)
+        progress_bar.finish
+        file
+      end
+
+      def create_progress_bar
+        if @progress_bar
           ProgressBar.new(@file_size)
         else
           NullProgressBar.new(@file_size)
         end
       end
 
-      def download_file
-        file = Down.download(
+      # rubocop:disable Metrics/MethodLength
+      def do_download_file_with_progress_bar(progress_bar)
+        Down.download(
           url,
           open_timeout: 10,
           read_timeout: 10,
           max_redirects: 10,
           headers: headers,
           content_length_proc: ->(content_length) {
-            @progress_bar.total = content_length if content_length
+            progress_bar.total = content_length if content_length
           },
           progress_proc: -> (progress) {
-            @progress_bar.increment(progress)
+            progress_bar.increment(progress)
           }
         )
-
-        @progress_bar.finish
-
-        file
-      rescue Down::NotFound
-        raise(Fontist::Errors::InvalidResourceError.new("Invalid URL: #{@file}"))
       end
+      # rubocop:enable Metrics/MethodLength
 
       def url
         @file.respond_to?(:url) ? @file.url : @file

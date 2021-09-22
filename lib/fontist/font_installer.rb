@@ -54,16 +54,30 @@ module Fontist
     end
 
     def download_file(source)
-      request = source.urls.first
-      url = request.respond_to?(:url) ? request.url : request
-      Fontist.ui.say(%(Downloading font "#{@formula.key}" from #{url}))
+      errors = []
+      source.urls.each do |request|
+        url = request.respond_to?(:url) ? request.url : request
+        Fontist.ui.say(%(Downloading font "#{@formula.key}" from #{url}))
 
+        result = try_download_file(request, source)
+        return result unless result.is_a?(Errors::InvalidResourceError)
+
+        errors << result
+      end
+
+      raise Errors::InvalidResourceError, errors.join(" ")
+    end
+
+    def try_download_file(request, source)
       Fontist::Utils::Downloader.download(
         request,
         sha: source.sha256,
         file_size: source.file_size,
         progress_bar: !@no_progress
       )
+    rescue Errors::InvalidResourceError => e
+      Fontist.ui.say(e.message)
+      e
     end
 
     def font_file?(path)
