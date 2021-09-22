@@ -37,6 +37,32 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
     end
+
+    context "timeout error on the first request" do
+      it "retries to download" do
+        expect(Down).to receive(:download).and_raise(Down::TimeoutError).once
+        expect(Down).to receive(:download).and_call_original.once
+
+        expect do
+          avoid_cache(sample_file[:file]) do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end
+        end.not_to raise_error
+      end
+    end
+
+    context "not-found error 3 times" do
+      it "raises the invalid resource error" do
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download)
+            .and_raise(Down::NotFound, "not found").exactly(3).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+        end
+      end
+    end
   end
 
   def sample_file
