@@ -1,6 +1,9 @@
 require "spec_helper"
 
 RSpec.describe Fontist::FontInstaller do
+  include_context "fresh home"
+  before { example_formula("andale.yml") }
+
   describe "#install" do
     context "with confirmation" do
       it "installs font" do
