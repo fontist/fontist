@@ -52,6 +52,8 @@ RSpec.describe Fontist::Font do
     end
 
     context "with macos system fonts", slow: true, macos: true do
+      before { stub_system_fonts(Fontist.orig_system_file_path) }
+
       # rubocop:disable Metrics/LineLength
       fonts = [
         ["Arial Unicode MS", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
@@ -74,6 +76,8 @@ RSpec.describe Fontist::Font do
     end
 
     context "with windows system fonts", windows: true do
+      before { stub_system_fonts(Fontist.orig_system_file_path) }
+
       fonts = [
         ["Arial", "C:/Windows/Fonts/arial.ttf"],
         ["Cambria", "C:/Windows/Fonts/cambria.ttc"],
@@ -101,7 +105,7 @@ RSpec.describe Fontist::Font do
       before do
         FileUtils.mkdir_p(File.dirname(absolute_user_path))
         FileUtils.cp(fixture_path, absolute_user_path)
-        disable_system_font_paths_caching
+        stub_system_fonts(Fontist.orig_system_file_path)
       end
 
       after do
@@ -441,13 +445,15 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported font but not installed" do
-      let(:font) { "overpass" }
+      let(:font) { "andale mono" }
 
       it "raises font missing error" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
           expect { command }.to raise_error Fontist::Errors::MissingFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "overpass" })
+          expect { command }.to(
+            raise_error { |e| expect(e.font).to eq "andale mono" },
+          )
         end
       end
     end
@@ -551,7 +557,10 @@ RSpec.describe Fontist::Font do
 
       it "returns system fonts" do
         stub_fonts_path_to_new_path do
-          expect(command.size).to be > 1
+          stub_system_fonts_path_to_new_path do
+            example_font_to_system("AndaleMo.TTF")
+            expect(command.size).to be 1
+          end
         end
       end
     end
@@ -652,7 +661,7 @@ RSpec.describe Fontist::Font do
 
       it "returns all fonts", slow: true do
         stub_fonts_path_to_new_path do
-          expect(command.size).to be > 1000
+          expect(command.size).to be > 1
           _, _, _, installed = unpack_status(command)
           expect(installed).to be false
         end
@@ -667,7 +676,7 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           stub_font_file("AndaleMo.TTF")
 
-          expect(command.size).to be > 1000
+          expect(command.size).to be > 1
 
           statuses = command.map do |_, fonts|
             fonts.map do |_, styles|

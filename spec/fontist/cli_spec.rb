@@ -19,7 +19,7 @@ RSpec.describe Fontist::CLI do
     context "supported font name" do
       it "returns success status" do
         stub_fonts_path_to_new_path do
-          status = described_class.start(["install", "overpass"])
+          status = described_class.start(["install", "lato"])
           expect(status).to be 0
         end
       end
@@ -144,10 +144,11 @@ RSpec.describe Fontist::CLI do
     context "collection font" do
       it "prints its formula" do
         stub_fonts_path_to_new_path do
-          example_font_to_fontist("CAMBRIA.TTC")
+          example_font_to_fontist("AndaleMo.TTF")
 
-          expect(Fontist.ui).to receive(:say).with(include("from cleartype formula"))
-          status = described_class.start(["status", "cambria"])
+          expect(Fontist.ui).to receive(:say)
+            .with(include("from andale formula"))
+          status = described_class.start(["status", "andale mono"])
           expect(status).to be 0
         end
       end
@@ -205,7 +206,7 @@ RSpec.describe Fontist::CLI do
     context "no font specified" do
       it "returns success status and prints list with no installed status", slow: true do
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error).at_least(1000).times
+          expect(Fontist.ui).to receive(:error).at_least(1).times
           expect(Fontist.ui).to receive(:success).exactly(0).times
           status = described_class.start(["list"])
           expect(status).to be 0

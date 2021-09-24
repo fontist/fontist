@@ -23,14 +23,12 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".find_fonts" do
-    it "returns the exact font font names" do
-      name = "Calibri"
+    it "returns the exact font names" do
+      name = "Andale Mono"
       fonts = Fontist::Formula.find_fonts(name)
       filenames = fonts.map(&:styles).flatten.map(&:font)
 
-      expect(filenames).to include("CALIBRI.TTF")
-      expect(filenames).to include("CALIBRIB.TTF")
-      expect(filenames).to include("CALIBRII.TTF")
+      expect(filenames).to include("AndaleMo.TTF")
     end
 
     it "returns empty array if invalid name provided" do
@@ -45,7 +43,7 @@ RSpec.describe Fontist::Formula do
     it "returns all registered formulas" do
       formulas = Fontist::Formula.all
 
-      expect(formulas.size).to be > 1000
+      expect(formulas.size).to be > 1
       expect(formulas.first.fonts.size).to be > 0
       expect(formulas.first.description).to be_kind_of(String)
     end

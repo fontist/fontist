@@ -6,6 +6,7 @@ RSpec.describe Fontist::Indexes::FilenameIndex do
 
     context "existing filename" do
       let(:command) { index.load_formulas("SourceHanSans-Bold.ttc") }
+      before { example_formula("source.yml") }
 
       it "returns formulas with this font" do
         expect(command.size).to be 1
