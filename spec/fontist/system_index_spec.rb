@@ -3,6 +3,8 @@ require "spec_helper"
 RSpec.describe Fontist::SystemIndex do
   context "two simultaneous runs" do
     it "generates the same system index", slow: true do
+      stub_system_fonts(Fontist.orig_system_file_path)
+
       reference_index_path = stub_system_index_path do
         Fontist::SystemIndex.system_index.rebuild
       end
@@ -19,7 +21,7 @@ RSpec.describe Fontist::SystemIndex do
           end
 
           def Fontist.default_fontist_path
-            Fontist.root_path.join("spec", "fixtures")
+            "#{Fontist.default_fontist_path}"
           end
 
           Fontist::SystemIndex.system_index.rebuild

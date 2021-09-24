@@ -21,7 +21,7 @@ module Fontist
       templates = YAML.load_file(config_path)["system"][os]["paths"]
       patterns = expand_paths(templates)
 
-      Dir.glob(patterns)
+      Dir.glob(patterns, File::FNM_CASEFOLD)
     end
 
     def self.reset_system_font_paths_cache
