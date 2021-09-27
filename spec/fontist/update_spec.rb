@@ -78,4 +78,17 @@ RSpec.describe Fontist::Update do
       end
     end
   end
+
+  context "private repo's branch is main instead of master" do
+    it "runs successfully" do
+      fresh_fontist_home do
+        fresh_main_repo do
+          formula_repo_with("andale.yml") do |dir|
+            Fontist::Repo.setup("example", dir)
+            command.call
+          end
+        end
+      end
+    end
+  end
 end
