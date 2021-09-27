@@ -41,34 +41,9 @@ module Fontist
     end
 
     def update_private_repos
-      private_repos.each do |path|
-        update_repo(path)
+      Repo.list.each do |name|
+        Repo.update(name)
       end
-    end
-
-    def update_repo(path)
-      Git.open(path).pull
-    rescue Git::GitExecuteError => e
-      name = repo_name(path)
-      raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
-        Formulas repo '#{name}' could not be updated.
-        Please consider reinitializing it with:
-          fontist remove #{name}
-          fontist setup #{name} REPO_URL
-
-        Git error:
-        #{e.message}
-      MSG
-    end
-
-    def private_repos
-      Dir.glob(Fontist.private_formulas_path.join("*")).select do |path|
-        File.directory?(path)
-      end
-    end
-
-    def repo_name(path)
-      File.basename(path)
     end
 
     def rebuild_index

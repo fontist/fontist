@@ -15,8 +15,20 @@ module Fontist
           raise(Errors::RepoNotFoundError, "No such repo '#{name}'.")
         end
 
-        Git.open(path).pull
+        git = Git.open(path)
+        git.pull("origin", git.current_branch)
+
         Index.rebuild
+      rescue Git::GitExecuteError => e
+        raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
+          Formulas repo '#{name}' could not be updated.
+          Please consider reinitializing it with:
+            fontist remove #{name}
+            fontist setup #{name} REPO_URL
+
+          Git error:
+          #{e.message}
+        MSG
       end
 
       def remove(name)

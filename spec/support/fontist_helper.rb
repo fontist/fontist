@@ -245,15 +245,13 @@ module Fontist
       end
     end
 
-    def formula_repo_with(example_formula)
+    def formula_repo_with(example_formula, branch = "main")
       Dir.mktmpdir do |dir|
         example_formula_to(example_formula, dir)
 
-        git = Git.init(dir)
-        git.config("user.name", "Test")
-        git.config("user.email", "test@example.com")
-        git.add(example_formula)
-        git.commit("msg")
+        init_repo(dir, branch) do |git|
+          git.add(example_formula)
+        end
 
         yield dir
       end
