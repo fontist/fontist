@@ -116,6 +116,21 @@ RSpec.describe Fontist::Font do
         expect(command).to include(include(user_path))
       end
     end
+
+    context "differing platforms" do
+      include_context "fresh home"
+
+      let(:font) { "work sans" }
+      before { example_formula("work_sans_macos_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:windows)
+      end
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+      end
+    end
   end
 
   describe ".install" do
@@ -421,6 +436,32 @@ RSpec.describe Fontist::Font do
         end
       end
     end
+
+    context "differing platform" do
+      let(:font) { "work sans" }
+      before { example_formula("work_sans_macos_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:windows)
+      end
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+      end
+    end
+
+    context "the same platform" do
+      let(:font) { "work sans" }
+      before { example_formula("work_sans_macos_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:macos)
+      end
+
+      it "does not raise any error" do
+        expect { command }.not_to raise_error
+      end
+    end
   end
 
   describe ".uninstall" do
@@ -686,6 +727,38 @@ RSpec.describe Fontist::Font do
 
           expect(statuses).to include(true)
         end
+      end
+    end
+
+    context "differing platforms" do
+      include_context "fresh home"
+
+      let(:font) { nil }
+      before { example_formula("work_sans_macos_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:windows)
+      end
+
+      it "does not contain the formula" do
+        formulas = command.keys.map(&:key)
+        expect(formulas).to eq []
+      end
+    end
+
+    context "the same platform" do
+      include_context "fresh home"
+
+      let(:font) { nil }
+      before { example_formula("work_sans_macos_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:macos)
+      end
+
+      it "returns the formula" do
+        formulas = command.keys.map(&:key)
+        expect(formulas).to eq ["work_sans_macos_only"]
       end
     end
   end

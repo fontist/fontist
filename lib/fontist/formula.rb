@@ -91,6 +91,10 @@ module Fontist
       @data["requires_license_agreement"] ? true : false
     end
 
+    def platforms
+      @data["platforms"]
+    end
+
     def extract
       Helpers.parse_to_object(@data["extract"])
     end
