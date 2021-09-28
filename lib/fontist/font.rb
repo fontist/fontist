@@ -62,7 +62,7 @@ module Fontist
     end
 
     def all
-      Fontist::Formula.all.map(&:fonts).flatten
+      all_formulas.map(&:fonts).flatten
     end
 
     private
@@ -99,11 +99,17 @@ module Fontist
     end
 
     def formula
-      @formula ||= Fontist::Formula.find(name)
+      @formula ||= formulas.first
     end
 
     def formulas
       @formulas ||= Fontist::Formula.find_many(name)
+        .select { |f| supported_formula?(f) }
+    end
+
+    def supported_formula?(formula)
+      formula.platforms.nil? ||
+        formula.platforms.include?(Fontist::Utils::System.user_os.to_s)
     end
 
     def downloadable_font
@@ -190,7 +196,7 @@ module Fontist
     end
 
     def all_formulas
-      Fontist::Formula.all
+      Fontist::Formula.all.select { |f| supported_formula?(f) }
     end
 
     def path(style)
