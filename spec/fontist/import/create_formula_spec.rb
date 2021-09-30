@@ -20,7 +20,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
   context "msi archive" do
     let(:url) { "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi" } # rubocop:disable Metrics/LineLength
-    let(:options) { { name: "Adobe Reader 19", mirror: ["https://web.archive.org/web/20200816153035/http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi"] } } # rubocop:disable Metrics/LineLength
+    let(:options) { { name: "Adobe Reader 19" } } # rubocop:disable Metrics/LineLength
 
     it "generates proper yaml", slow: true, dev: true do
       require "fontist/import/create_formula"

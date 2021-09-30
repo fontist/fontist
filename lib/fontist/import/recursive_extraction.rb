@@ -1,3 +1,5 @@
+require_relative "otf/font_file"
+require_relative "files/collection_file"
 require_relative "files/font_detector"
 
 module Fontist

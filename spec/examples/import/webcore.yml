@@ -1,5 +1,4 @@
 ---
-name: webcore
 description: webcore
 resources:
   webcore.rpm:

@@ -59,6 +59,14 @@ module Fontist
       Indexes::IndexFormula.new(path)
     end
 
+    def manual?
+      !downloadable?
+    end
+
+    def downloadable?
+      @data.key?("resources")
+    end
+
     def path
       @path
     end
@@ -100,7 +108,11 @@ module Fontist
     end
 
     def resources
-      Helpers.parse_to_object(@data["resources"].values)
+      Helpers.parse_to_object(@data["resources"]&.values)
+    end
+
+    def instructions
+      @data["instructions"]
     end
 
     def fonts

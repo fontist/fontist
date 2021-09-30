@@ -1,7 +1,5 @@
 require "fontist/import"
 require_relative "recursive_extraction"
-require_relative "otf/font_file"
-require_relative "files/collection_file"
 require_relative "helpers/hash_helper"
 require_relative "formula_builder"
 
@@ -14,21 +12,29 @@ module Fontist
       end
 
       def call
-        save(formula)
+        save(builder)
       end
 
       private
 
-      def formula
+      def builder
         builder = FormulaBuilder.new
-        builder.url = @url
+        setup_strings(builder, archive)
+        setup_files(builder)
+        builder
+      end
+
+      def setup_strings(builder, archive)
         builder.archive = archive
-        builder.extractor = extractor
+        builder.url = @url
         builder.options = @options
+      end
+
+      def setup_files(builder)
+        builder.extractor = extractor
         builder.font_files = extractor.font_files
         builder.font_collection_files = extractor.font_collection_files
         builder.license_text = extractor.license_text
-        builder.formula
       end
 
       def extractor
@@ -48,10 +54,10 @@ module Fontist
         Fontist::Utils::Downloader.download(url, progress_bar: true).path
       end
 
-      def save(hash)
-        filename = Import.name_to_filename(hash[:name])
+      def save(builder)
+        filename = Import.name_to_filename(builder.name)
         path = @options[:formula_dir] ? File.join(@options[:formula_dir], filename) : filename
-        yaml = YAML.dump(Helpers::HashHelper.stringify_keys(hash))
+        yaml = YAML.dump(Helpers::HashHelper.stringify_keys(builder.formula))
         File.write(path, yaml)
         path
       end

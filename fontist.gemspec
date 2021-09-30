@@ -29,15 +29,17 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "down", "~> 5.0"
   spec.add_runtime_dependency "extract_ttc", "~> 0.1"
+  spec.add_runtime_dependency "nokogiri", "~> 1.0"
+  spec.add_runtime_dependency "sys-uname", "~> 1.2"
   spec.add_runtime_dependency "thor", "~> 1.0.1"
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
+  spec.add_runtime_dependency "plist", "~> 3.0"
   spec.add_runtime_dependency "excavate", "~> 0.1"
 
   spec.add_development_dependency "pry"
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "gem-release"
-  spec.add_development_dependency "nokogiri", "~> 1.0"
   spec.add_development_dependency "rake", "~> 13"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-benchmark", "~> 0.6"

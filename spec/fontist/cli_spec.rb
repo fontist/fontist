@@ -87,6 +87,26 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+
+    context "manual font" do
+      include_context "fresh home"
+      before { example_formula("manual.yml") }
+
+      it "prints instructions how to install it" do
+        expect(Fontist.ui).to receive(:error).with(<<~MSG.chomp)
+          'al firat' font is missing.
+
+          To download and enable any of these fonts:
+
+          1. Open Font Book, which is in your Applications folder.
+          2. Select All Fonts in the sidebar, or use the Search field to find the font that you want to download. Fonts that are not already downloaded appear dimmed in the list of fonts.
+          3. Select the dimmed font and choose Edit > Download, or Control-click it and choose Download from the pop-up menu.
+        MSG
+
+        status = described_class.start(["install", "al firat"])
+        expect(status).to be Fontist::CLI::STATUS_MANUAL_FONT_ERROR
+      end
+    end
   end
 
   describe "#status" do
@@ -211,6 +231,17 @@ RSpec.describe Fontist::CLI do
           status = described_class.start(["list"])
           expect(status).to be 0
         end
+      end
+    end
+
+    context "manual font" do
+      include_context "fresh home"
+      before { example_formula("manual.yml") }
+
+      it "marks the font as manual" do
+        expect(Fontist.ui).to receive(:error).with(include("manual"))
+        status = described_class.start(["list", "al firat"])
+        expect(status).to be 0
       end
     end
   end

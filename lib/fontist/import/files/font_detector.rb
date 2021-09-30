@@ -9,11 +9,13 @@ module Fontist
         FONT_LABELS = ["OpenType font data",
                        "TrueType Font data"].freeze
 
-        COLLECTION_LABEL = "TrueType font collection data".freeze
+        COLLECTION_LABELS = ["OpenType font collection data",
+                             "TrueType font collection data"].freeze
 
         FONT_EXTENSIONS = {
           "OpenType font data" => "otf",
           "TrueType Font data" => "ttf",
+          "OpenType font collection data" => "ttc",
           "TrueType font collection data" => "ttc",
         }.freeze
 
@@ -22,7 +24,7 @@ module Fontist
 
           if brief.start_with?(*FONT_LABELS)
             :font
-          elsif brief.start_with?(COLLECTION_LABEL)
+          elsif brief.start_with?(*COLLECTION_LABELS)
             :collection
           else
             :other

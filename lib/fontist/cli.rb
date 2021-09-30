@@ -1,5 +1,6 @@
 require "thor"
 require "fontist/repo_cli"
+require "fontist/import_cli"
 require "fontist/google_cli"
 
 module Fontist
@@ -15,10 +16,12 @@ module Fontist
     STATUS_REPO_NOT_FOUND = 8
     STATUS_MAIN_REPO_NOT_FOUND = 9
     STATUS_REPO_COULD_NOT_BE_UPDATED = 10
+    STATUS_MANUAL_FONT_ERROR = 11
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
       Fontist::Errors::MissingFontError => [STATUS_MISSING_FONT_ERROR],
+      Fontist::Errors::ManualFontError => [STATUS_MANUAL_FONT_ERROR],
       Fontist::Errors::LicensingError => [STATUS_LICENSING_ERROR],
       Fontist::Errors::ManifestCouldNotBeFoundError => [STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR,
                                                         "Manifest could not be found."],
@@ -167,6 +170,9 @@ module Fontist
     desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
     subcommand "repo", Fontist::RepoCLI
 
+    desc "import SUBCOMMAND ...ARGS", "Manage imports"
+    subcommand "import", Fontist::ImportCLI
+
     desc "google SUBCOMMAND ...ARGS", "Manage Google formulas"
     subcommand "google", Fontist::GoogleCLI
 
@@ -205,10 +211,15 @@ module Fontist
           Fontist.ui.say(" #{font.name}")
 
           styles.each do |style, installed|
+            opts = []
+            opts << "manual" if formula.manual?
+            opts << (installed ? "installed" : "uninstalled")
+            msg = "  #{style.type} (#{opts.join(', ')})"
+
             if installed
-              Fontist.ui.success("  #{style.type} (installed)")
+              Fontist.ui.success(msg)
             else
-              Fontist.ui.error("  #{style.type} (uninstalled)")
+              Fontist.ui.error(msg)
             end
           end
         end

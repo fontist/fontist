@@ -1,12 +1,10 @@
 ---
-name: Adobe Reader 19
 description: Adobe Reader 19
 homepage: http://www.adobe.com/type
 resources:
   Adobe_Reader_19.msi:
     urls:
     - http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi
-    - https://web.archive.org/web/20200816153035/http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/misc/FontPack1902120058_XtdAlf_Lang_DC.msi
     sha256: b5b9e15791a177715fa5e93ea458f8627cada7ac3218531461cfd35cecef6c24
 fonts:
 - name: Adobe Arabic
