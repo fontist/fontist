@@ -38,21 +38,25 @@ module Fontist
     end
 
     def find
-      find_system_font || downloadable_font || raise_non_supported_font
+      find_system_font || downloadable_font || manual_font ||
+        raise_non_supported_font
     end
 
     def install
-      (find_system_font unless @force) || download_font || raise_non_supported_font
+      (find_system_font unless @force) || download_font || manual_font ||
+        raise_non_supported_font
     end
 
     def uninstall
-      uninstall_font || downloadable_font || raise_non_supported_font
+      uninstall_font || downloadable_font || manual_font ||
+        raise_non_supported_font
     end
 
     def status
       return installed_paths unless @name
 
-      find_system_font || downloadable_font || raise_non_supported_font
+      find_system_font || downloadable_font || manual_font ||
+        raise_non_supported_font
     end
 
     def list
@@ -98,8 +102,12 @@ module Fontist
       FontInstaller.new(formula, no_progress: @no_progress)
     end
 
-    def formula
-      @formula ||= formulas.first
+    def downloadable_formulas
+      @downloadable_formulas ||= formulas.select(&:downloadable?)
+    end
+
+    def manual_formulas
+      @manual_formulas ||= formulas.reject(&:downloadable?)
     end
 
     def formulas
@@ -108,20 +116,23 @@ module Fontist
     end
 
     def supported_formula?(formula)
-      formula.platforms.nil? ||
-        formula.platforms.include?(Fontist::Utils::System.user_os.to_s)
-    end
+      return true if formula.platforms.nil?
 
-    def downloadable_font
-      if formula
-        raise Fontist::Errors::MissingFontError.new(name)
+      formula.platforms.any? do |platform|
+        Utils::System.match?(platform)
       end
     end
 
-    def download_font
-      return if formulas.empty?
+    def downloadable_font
+      return if downloadable_formulas.empty?
 
-      formulas.flat_map do |formula|
+      raise Fontist::Errors::MissingFontError.new(name)
+    end
+
+    def download_font
+      return if downloadable_formulas.empty?
+
+      downloadable_formulas.flat_map do |formula|
         confirmation = check_and_confirm_required_license(formula)
         paths = font_installer(formula).install(confirmation: confirmation)
 
@@ -169,6 +180,12 @@ module Fontist
         -----------------------------------------------------------------------
         FONT LICENSE END ("#{name}")
       MSG
+    end
+
+    def manual_font
+      return if manual_formulas.empty?
+
+      raise Fontist::Errors::ManualFontError.new(name, manual_formulas.first)
     end
 
     def uninstall_font
@@ -221,7 +238,7 @@ module Fontist
 
     def list_styles(formulas)
       map_to_hash(formulas) do |formula|
-        map_to_hash(formula.fonts) do |font|
+        map_to_hash(requested_fonts(formula.fonts)) do |font|
           map_to_hash(font.styles) do |style|
             installed(style)
           end
@@ -231,6 +248,14 @@ module Fontist
 
     def map_to_hash(elements)
       elements.map { |e| [e, yield(e)] }.to_h
+    end
+
+    def requested_fonts(fonts)
+      return fonts unless @name
+
+      fonts.select do |font|
+        font.name.casecmp?(name)
+      end
     end
 
     def installed(style)

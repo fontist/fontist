@@ -1,3 +1,5 @@
+require "sys/uname"
+
 module Fontist
   module Utils
     module System
@@ -17,6 +19,14 @@ module Fontist
             raise Fontist::Error, "unknown os: #{host_os.inspect}"
           end
         end
+      end
+
+      def self.user_os_with_version
+        "#{user_os}-#{Sys::Uname.release}"
+      end
+
+      def self.match?(platform)
+        user_os_with_version.start_with?(platform)
       end
     end
   end

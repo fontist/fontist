@@ -131,6 +131,33 @@ RSpec.describe Fontist::Font do
         expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
       end
     end
+
+    context "differing platform versions" do
+      include_context "fresh home"
+
+      let(:font) { "work sans" }
+      before { example_formula("work_sans_macos_19_only.yml") }
+
+      before do
+        allow(Fontist::Utils::System).to receive(:user_os_with_version)
+          .and_return("macos-18")
+      end
+
+      it "raises font unsupported error" do
+        expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+      end
+    end
+
+    context "manual font" do
+      include_context "fresh home"
+
+      let(:font) { "al firat" }
+      before { example_formula("manual.yml") }
+
+      it "raises manual font error" do
+        expect { command }.to raise_error Fontist::Errors::ManualFontError
+      end
+    end
   end
 
   describe ".install" do
@@ -460,6 +487,17 @@ RSpec.describe Fontist::Font do
 
       it "does not raise any error" do
         expect { command }.not_to raise_error
+      end
+    end
+
+    context "manual font" do
+      include_context "fresh home"
+
+      let(:font) { "al firat" }
+      before { example_formula("manual.yml") }
+
+      it "raises manual font error" do
+        expect { command }.to raise_error Fontist::Errors::ManualFontError
       end
     end
   end

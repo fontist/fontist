@@ -4,34 +4,39 @@ require_relative "text_helper"
 module Fontist
   module Import
     class FormulaBuilder
-      FORMULA_ATTRIBUTES = %i[name description homepage resources
+      FORMULA_ATTRIBUTES = %i[description homepage resources
                               font_collections fonts extract copyright
                               license_url open_license digest command].freeze
 
-      attr_accessor :archive,
-                    :url,
-                    :extractor,
-                    :options,
-                    :font_files,
-                    :font_collection_files,
-                    :license_text
+      attr_writer :archive,
+                  :url,
+                  :extractor,
+                  :options,
+                  :font_files,
+                  :font_collection_files,
+                  :license_text,
+                  :homepage
 
       def initialize
         @options = {}
       end
 
       def formula
-        FORMULA_ATTRIBUTES.map { |name| [name, send(name)] }.to_h.compact
+        formula_attributes.map { |name| [name, send(name)] }.to_h.compact
       end
 
-      private
-
       def name
-        return options[:name] if options[:name]
+        return @options[:name] if @options[:name]
 
         unique_names = both_fonts.map(&:family_name).uniq
         TextHelper.longest_common_prefix(unique_names) ||
           both_fonts.first.family_name
+      end
+
+      private
+
+      def formula_attributes
+        FORMULA_ATTRIBUTES
       end
 
       def both_fonts
@@ -50,7 +55,7 @@ module Fontist
       end
 
       def homepage
-        both_fonts.map(&:homepage).compact.first
+        @options[:homepage] || both_fonts.map(&:homepage).compact.first
       end
 
       def resources

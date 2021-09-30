@@ -1,22 +1,5 @@
 inherit_from:
   - 'https://raw.githubusercontent.com/fontist/oss-guides/master/ci/rubocop.yml'
 
-AllCops:
-  Exclude:
-    - 'lib/fontist/import/google/fonts_public.pb.rb'
-    - 'lib/fontist/formula_template.rb'
-
 Rails:
   Enabled: false
-
-Layout/LineLength:
-  Exclude:
-    - 'lib/fontist/formulas/**/*.rb'
-
-Layout/FirstHashElementIndentation:
-  Exclude:
-    - 'lib/fontist/formulas/**/*.rb'
-
-Layout/HeredocIndentation:
-  Exclude:
-    - 'lib/fontist/formulas/**/*.rb'

@@ -72,6 +72,14 @@ module Fontist
       end
     end
 
+    class ManualFontError < FontError
+      def initialize(font, formula)
+        msg = "'#{font}' font is missing.\n\n#{formula.instructions}"
+
+        super(msg, font)
+      end
+    end
+
     class UnsupportedFontError < FontError
       def initialize(font)
         msg = <<~MSG.chomp
