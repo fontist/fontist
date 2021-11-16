@@ -6,6 +6,7 @@ resources:
     urls:
     - ../examples/archives/_2.6.6 Euphemia UCAS.zip
     sha256: 3a8a7181faf1a50e4cab35ad128ff11df7980c45e9c57e1f190f4355433b59f7
+    file_size: 273720
 fonts:
 - name: Euphemia UCAS
   styles:

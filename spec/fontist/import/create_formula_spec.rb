@@ -125,12 +125,13 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
     it "generates proper yaml", dev: true do
       require "fontist/import/create_formula"
-      expect(formula).to include example
+      expect_formula_includes(formula, example)
     end
   end
 
   # rubocop:disable Metrics/AbcSize
   def expect_formula_includes(formula, example)
+    # File.write(example_file, YAML.dump(formula))
     varies_attributes = %w[copyright homepage license_url open_license
                            requires_license_agreement command]
     exclude = %w[fonts font_collections] + varies_attributes

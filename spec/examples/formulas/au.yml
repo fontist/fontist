@@ -1,0 +1,65 @@
+---
+description: AU
+resources:
+  AU.zip:
+    urls:
+    - https://medarbejdere.au.dk/fileadmin/www.designmanual.au.dk/hent_filer/hent_skrifttyper/fonte.zip
+    sha256: 474fd713f50b289d3db1bc68ddd472fe8d3a3886b65213729843fe936385a912
+fonts:
+- name: AU Logo
+  styles:
+  - family_name: AU Logo
+    type: Bold
+    full_name: AU Logo Bold
+    post_script_name: AULogo-Bold
+    version: '1.000'
+    description: AU Logo contains logo, seal and other trademarks of Aarhus University
+    copyright: Copyright (c) 2015 by Aarhus University. All rights reserved.
+    font: AULogoBold.ttf
+  - family_name: AU Logo
+    type: Regular
+    full_name: AU Logo
+    post_script_name: AULogo
+    version: '1.000'
+    description: AU Logo contains logo, seal and other trademarks of Aarhus University
+    copyright: Copyright (c) 2015 by Aarhus University. All rights reserved.
+    font: AULogoReg.ttf
+- name: AU Passata
+  styles:
+  - family_name: AU Passata
+    type: Bold
+    full_name: AU Passata Bold
+    post_script_name: AUPassata-Bold
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPassata_Bold.ttf
+  - family_name: AU Passata
+    type: Regular
+    full_name: AU Passata
+    post_script_name: AUPassata-Regular
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPassata_Rg.ttf
+- name: AU Passata Light
+  styles:
+  - family_name: AU Passata Light
+    type: Regular
+    full_name: AU Passata Light
+    post_script_name: AUPassataLight-Regular
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPassata_Light.ttf
+- name: AU Peto
+  styles:
+  - family_name: AU Peto
+    type: Regular
+    full_name: AU Peto
+    post_script_name: AUPeto-Regular
+    version: '1.000'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AU_Peto.ttf
+extract:
+  format: zip
+copyright: Copyright (c) 2015 by Aarhus University. All rights reserved.
+open_license: |-
+  Passata requires no licences.

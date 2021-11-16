@@ -5,6 +5,7 @@ resources:
     urls:
     - "../examples/archives/office.pkg"
     sha256: ae8e5fa09e2e5ef6dd7e76dab7d498ba54c25416ccc63220693e5523e75bee12
+    file_size: 12862
 fonts:
 - name: Marlett
   styles:

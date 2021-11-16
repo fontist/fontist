@@ -117,6 +117,25 @@ NOTE: Specifying the formula's name or the font's filename is not supported.
 
 NOTE: The `install` command is similar to the `Font.install` library call.
 
+If there are several formulas with a requested font, then `fontist` searches
+for the newest version of the font among formulas with size below a limit
+(300 MB). This behavior can be changed with options.
+
+NOTE: If styles of a font are spread among several formulas, then all
+available formulas would be installed.
+
+Supported options:
+
+-f, [--force]:: Install even if it's already installed in system
+-a, [--accept-all-licenses]:: Accept all license agreements
+-h, [--hide-licenses]:: Hide license texts
+-p, [--no-progress]:: Hide download progress
+-V, [--version=VERSION]:: Install particular version of a font
+-s, [--smallest]:: Install the smallest formula
+-n, [--newest]:: Install the newest version of a font
+-S, [--size-limit=N]:: Specify size limit for a formula to be installed
+                       (default is 300 MB)
+
 === Uninstall fonts
 
 Uninstalls any font supported by Fontist.

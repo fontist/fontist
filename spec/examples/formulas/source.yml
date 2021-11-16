@@ -7,6 +7,7 @@ resources:
     urls:
     - https://github.com/fontist/source-fonts/releases/download/v1.0/source-fonts-1.0.zip
     sha256: 0107b5d4ba305cb4dff2ba19138407aa2153632a2c41592f74d20cd0d0261bfd
+    file_size: 101440249
 font_collections:
 - filename: SourceHanSans-Bold.ttc
   fonts:
@@ -67,10 +68,12 @@ font_collections:
         Font Name 'Source'."
 - filename: SourceHanSans-ExtraLight.ttc
   fonts:
-  - name: Source Han Sans
+  - name: Source Han Sans ExtraLight
     styles:
-    - family_name: Source Han Sans
-      type: ExtraLight
+    - family_name: Source Han Sans ExtraLight
+      type: Regular
+      preferred_family_name: Source Han Sans
+      preferred_type: ExtraLight
       full_name: Source Han Sans ExtraLight
       post_script_name: SourceHanSans-ExtraLight
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -78,10 +81,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans HC
+  - name: Source Han Sans HC ExtraLight
     styles:
-    - family_name: Source Han Sans HC
-      type: ExtraLight
+    - family_name: Source Han Sans HC ExtraLight
+      type: Regular
+      preferred_family_name: Source Han Sans HC
+      preferred_type: ExtraLight
       full_name: Source Han Sans HC ExtraLight
       post_script_name: SourceHanSansHC-ExtraLight
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -89,10 +94,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans K
+  - name: Source Han Sans K ExtraLight
     styles:
-    - family_name: Source Han Sans K
-      type: ExtraLight
+    - family_name: Source Han Sans K ExtraLight
+      type: Regular
+      preferred_family_name: Source Han Sans K
+      preferred_type: ExtraLight
       full_name: Source Han Sans K ExtraLight
       post_script_name: SourceHanSansK-ExtraLight
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -100,10 +107,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans SC
+  - name: Source Han Sans SC ExtraLight
     styles:
-    - family_name: Source Han Sans SC
-      type: ExtraLight
+    - family_name: Source Han Sans SC ExtraLight
+      type: Regular
+      preferred_family_name: Source Han Sans SC
+      preferred_type: ExtraLight
       full_name: Source Han Sans SC ExtraLight
       post_script_name: SourceHanSansSC-ExtraLight
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -111,10 +120,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans TC
+  - name: Source Han Sans TC ExtraLight
     styles:
-    - family_name: Source Han Sans TC
-      type: ExtraLight
+    - family_name: Source Han Sans TC ExtraLight
+      type: Regular
+      preferred_family_name: Source Han Sans TC
+      preferred_type: ExtraLight
       full_name: Source Han Sans TC ExtraLight
       post_script_name: SourceHanSansTC-ExtraLight
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -124,21 +135,12 @@ font_collections:
         Font Name 'Source'."
 - filename: SourceHanSans-Heavy.ttc
   fonts:
-  - name: Source Han Sans
+  - name: Source Han Sans HC Heavy
     styles:
-    - family_name: Source Han Sans
-      type: Heavy
-      full_name: Source Han Sans Heavy
-      post_script_name: SourceHanSans-Heavy
-      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
-      description: Dr. Ken Lunde (project architect, glyph set definition & overall
-        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
-      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
-        Font Name 'Source'."
-  - name: Source Han Sans HC
-    styles:
-    - family_name: Source Han Sans HC
-      type: Heavy
+    - family_name: Source Han Sans HC Heavy
+      type: Regular
+      preferred_family_name: Source Han Sans HC
+      preferred_type: Heavy
       full_name: Source Han Sans HC Heavy
       post_script_name: SourceHanSansHC-Heavy
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -146,10 +148,25 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans K
+  - name: Source Han Sans Heavy
     styles:
-    - family_name: Source Han Sans K
-      type: Heavy
+    - family_name: Source Han Sans Heavy
+      type: Regular
+      preferred_family_name: Source Han Sans
+      preferred_type: Heavy
+      full_name: Source Han Sans Heavy
+      post_script_name: SourceHanSans-Heavy
+      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
+        Font Name 'Source'."
+  - name: Source Han Sans K Heavy
+    styles:
+    - family_name: Source Han Sans K Heavy
+      type: Regular
+      preferred_family_name: Source Han Sans K
+      preferred_type: Heavy
       full_name: Source Han Sans K Heavy
       post_script_name: SourceHanSansK-Heavy
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -157,10 +174,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans SC
+  - name: Source Han Sans SC Heavy
     styles:
-    - family_name: Source Han Sans SC
-      type: Heavy
+    - family_name: Source Han Sans SC Heavy
+      type: Regular
+      preferred_family_name: Source Han Sans SC
+      preferred_type: Heavy
       full_name: Source Han Sans SC Heavy
       post_script_name: SourceHanSansSC-Heavy
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -168,10 +187,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans TC
+  - name: Source Han Sans TC Heavy
     styles:
-    - family_name: Source Han Sans TC
-      type: Heavy
+    - family_name: Source Han Sans TC Heavy
+      type: Regular
+      preferred_family_name: Source Han Sans TC
+      preferred_type: Heavy
       full_name: Source Han Sans TC Heavy
       post_script_name: SourceHanSansTC-Heavy
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -181,21 +202,12 @@ font_collections:
         Font Name 'Source'."
 - filename: SourceHanSans-Light.ttc
   fonts:
-  - name: Source Han Sans
+  - name: Source Han Sans HC Light
     styles:
-    - family_name: Source Han Sans
-      type: Light
-      full_name: Source Han Sans Light
-      post_script_name: SourceHanSans-Light
-      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
-      description: Dr. Ken Lunde (project architect, glyph set definition & overall
-        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
-      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
-        Font Name 'Source'."
-  - name: Source Han Sans HC
-    styles:
-    - family_name: Source Han Sans HC
-      type: Light
+    - family_name: Source Han Sans HC Light
+      type: Regular
+      preferred_family_name: Source Han Sans HC
+      preferred_type: Light
       full_name: Source Han Sans HC Light
       post_script_name: SourceHanSansHC-Light
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -203,10 +215,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans K
+  - name: Source Han Sans K Light
     styles:
-    - family_name: Source Han Sans K
-      type: Light
+    - family_name: Source Han Sans K Light
+      type: Regular
+      preferred_family_name: Source Han Sans K
+      preferred_type: Light
       full_name: Source Han Sans K Light
       post_script_name: SourceHanSansK-Light
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -214,10 +228,25 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans SC
+  - name: Source Han Sans Light
     styles:
-    - family_name: Source Han Sans SC
-      type: Light
+    - family_name: Source Han Sans Light
+      type: Regular
+      preferred_family_name: Source Han Sans
+      preferred_type: Light
+      full_name: Source Han Sans Light
+      post_script_name: SourceHanSans-Light
+      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
+        Font Name 'Source'."
+  - name: Source Han Sans SC Light
+    styles:
+    - family_name: Source Han Sans SC Light
+      type: Regular
+      preferred_family_name: Source Han Sans SC
+      preferred_type: Light
       full_name: Source Han Sans SC Light
       post_script_name: SourceHanSansSC-Light
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -225,10 +254,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans TC
+  - name: Source Han Sans TC Light
     styles:
-    - family_name: Source Han Sans TC
-      type: Light
+    - family_name: Source Han Sans TC Light
+      type: Regular
+      preferred_family_name: Source Han Sans TC
+      preferred_type: Light
       full_name: Source Han Sans TC Light
       post_script_name: SourceHanSansTC-Light
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -238,21 +269,12 @@ font_collections:
         Font Name 'Source'."
 - filename: SourceHanSans-Medium.ttc
   fonts:
-  - name: Source Han Sans
+  - name: Source Han Sans HC Medium
     styles:
-    - family_name: Source Han Sans
-      type: Medium
-      full_name: Source Han Sans Medium
-      post_script_name: SourceHanSans-Medium
-      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
-      description: Dr. Ken Lunde (project architect, glyph set definition & overall
-        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
-      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
-        Font Name 'Source'."
-  - name: Source Han Sans HC
-    styles:
-    - family_name: Source Han Sans HC
-      type: Medium
+    - family_name: Source Han Sans HC Medium
+      type: Regular
+      preferred_family_name: Source Han Sans HC
+      preferred_type: Medium
       full_name: Source Han Sans HC Medium
       post_script_name: SourceHanSansHC-Medium
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -260,10 +282,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans K
+  - name: Source Han Sans K Medium
     styles:
-    - family_name: Source Han Sans K
-      type: Medium
+    - family_name: Source Han Sans K Medium
+      type: Regular
+      preferred_family_name: Source Han Sans K
+      preferred_type: Medium
       full_name: Source Han Sans K Medium
       post_script_name: SourceHanSansK-Medium
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -271,10 +295,25 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans SC
+  - name: Source Han Sans Medium
     styles:
-    - family_name: Source Han Sans SC
-      type: Medium
+    - family_name: Source Han Sans Medium
+      type: Regular
+      preferred_family_name: Source Han Sans
+      preferred_type: Medium
+      full_name: Source Han Sans Medium
+      post_script_name: SourceHanSans-Medium
+      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
+        Font Name 'Source'."
+  - name: Source Han Sans SC Medium
+    styles:
+    - family_name: Source Han Sans SC Medium
+      type: Regular
+      preferred_family_name: Source Han Sans SC
+      preferred_type: Medium
       full_name: Source Han Sans SC Medium
       post_script_name: SourceHanSansSC-Medium
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -282,10 +321,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans TC
+  - name: Source Han Sans TC Medium
     styles:
-    - family_name: Source Han Sans TC
-      type: Medium
+    - family_name: Source Han Sans TC Medium
+      type: Regular
+      preferred_family_name: Source Han Sans TC
+      preferred_type: Medium
       full_name: Source Han Sans TC Medium
       post_script_name: SourceHanSansTC-Medium
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -295,21 +336,12 @@ font_collections:
         Font Name 'Source'."
 - filename: SourceHanSans-Normal.ttc
   fonts:
-  - name: Source Han Sans
+  - name: Source Han Sans HC Normal
     styles:
-    - family_name: Source Han Sans
-      type: Normal
-      full_name: Source Han Sans Normal
-      post_script_name: SourceHanSans-Normal
-      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
-      description: Dr. Ken Lunde (project architect, glyph set definition & overall
-        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
-      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
-        Font Name 'Source'."
-  - name: Source Han Sans HC
-    styles:
-    - family_name: Source Han Sans HC
-      type: Normal
+    - family_name: Source Han Sans HC Normal
+      type: Regular
+      preferred_family_name: Source Han Sans HC
+      preferred_type: Normal
       full_name: Source Han Sans HC Normal
       post_script_name: SourceHanSansHC-Normal
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -317,10 +349,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans K
+  - name: Source Han Sans K Normal
     styles:
-    - family_name: Source Han Sans K
-      type: Normal
+    - family_name: Source Han Sans K Normal
+      type: Regular
+      preferred_family_name: Source Han Sans K
+      preferred_type: Normal
       full_name: Source Han Sans K Normal
       post_script_name: SourceHanSansK-Normal
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -328,10 +362,25 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans SC
+  - name: Source Han Sans Normal
     styles:
-    - family_name: Source Han Sans SC
-      type: Normal
+    - family_name: Source Han Sans Normal
+      type: Regular
+      preferred_family_name: Source Han Sans
+      preferred_type: Normal
+      full_name: Source Han Sans Normal
+      post_script_name: SourceHanSans-Normal
+      version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
+        Font Name 'Source'."
+  - name: Source Han Sans SC Normal
+    styles:
+    - family_name: Source Han Sans SC Normal
+      type: Regular
+      preferred_family_name: Source Han Sans SC
+      preferred_type: Normal
       full_name: Source Han Sans SC Normal
       post_script_name: SourceHanSansSC-Normal
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -339,10 +388,12 @@ font_collections:
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014, 2015, 2018 Adobe (http://www.adobe.com/), with Reserved
         Font Name 'Source'."
-  - name: Source Han Sans TC
+  - name: Source Han Sans TC Normal
     styles:
-    - family_name: Source Han Sans TC
-      type: Normal
+    - family_name: Source Han Sans TC Normal
+      type: Regular
+      preferred_family_name: Source Han Sans TC
+      preferred_type: Normal
       full_name: Source Han Sans TC Normal
       post_script_name: SourceHanSansTC-Normal
       version: 2.000;hotconv 1.0.107;makeotfexe 2.5.65593
@@ -411,258 +462,276 @@ fonts:
 - name: Source Code Pro
   styles:
   - family_name: Source Code Pro
-    type: Regular
-    full_name: Source Code Pro
-    post_script_name: SourceCodePro-Regular
+    type: Bold
+    full_name: Source Code Pro Bold
+    post_script_name: SourceCodePro-Bold
     version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Regular.ttf
-  - family_name: Source Code Pro
-    type: Medium Italic
-    full_name: Source Code Pro Medium Italic
-    post_script_name: SourceCodePro-MediumIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-MediumIt.ttf
-  - family_name: Source Code Pro
-    type: Italic
-    full_name: Source Code Pro Italic
-    post_script_name: SourceCodePro-It
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-It.ttf
-  - family_name: Source Code Pro
-    type: ExtraLight Italic
-    full_name: Source Code Pro ExtraLight Italic
-    post_script_name: SourceCodePro-ExtraLightIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-ExtraLightIt.ttf
-  - family_name: Source Code Pro
-    type: ExtraLight
-    full_name: Source Code Pro ExtraLight
-    post_script_name: SourceCodePro-ExtraLight
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-ExtraLight.ttf
-  - family_name: Source Code Pro
-    type: Black Italic
-    full_name: Source Code Pro Black Italic
-    post_script_name: SourceCodePro-BlackIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-BlackIt.ttf
+    font: SourceCodePro-Bold.ttf
   - family_name: Source Code Pro
     type: Bold Italic
     full_name: Source Code Pro Bold Italic
     post_script_name: SourceCodePro-BoldIt
     version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
     font: SourceCodePro-BoldIt.ttf
   - family_name: Source Code Pro
-    type: Semibold Italic
-    full_name: Source Code Pro Semibold Italic
-    post_script_name: SourceCodePro-SemiboldIt
+    type: Italic
+    full_name: Source Code Pro Italic
+    post_script_name: SourceCodePro-It
     version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
-    font: SourceCodePro-SemiboldIt.ttf
+    font: SourceCodePro-It.ttf
   - family_name: Source Code Pro
-    type: Black
+    type: Regular
+    full_name: Source Code Pro
+    post_script_name: SourceCodePro-Regular
+    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-Regular.ttf
+- name: Source Code Pro Black
+  styles:
+  - family_name: Source Code Pro Black
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: Black Italic
+    full_name: Source Code Pro Black Italic
+    post_script_name: SourceCodePro-BlackIt
+    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-BlackIt.ttf
+  - family_name: Source Code Pro Black
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: Black
     full_name: Source Code Pro Black
     post_script_name: SourceCodePro-Black
     version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
     font: SourceCodePro-Black.ttf
-  - family_name: Source Code Pro
-    type: Bold
-    full_name: Source Code Pro Bold
-    post_script_name: SourceCodePro-Bold
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
+- name: Source Code Pro ExtraLight
+  styles:
+  - family_name: Source Code Pro ExtraLight
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: ExtraLight Italic
+    full_name: Source Code Pro ExtraLight Italic
+    post_script_name: SourceCodePro-ExtraLightIt
+    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Bold.ttf
-  - family_name: Source Code Pro
-    type: Semibold
-    full_name: Source Code Pro Semibold
-    post_script_name: SourceCodePro-Semibold
+    font: SourceCodePro-ExtraLightIt.ttf
+  - family_name: Source Code Pro ExtraLight
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: ExtraLight
+    full_name: Source Code Pro ExtraLight
+    post_script_name: SourceCodePro-ExtraLight
     version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Semibold.ttf
-  - family_name: Source Code Pro
-    type: Light Italic
+    font: SourceCodePro-ExtraLight.ttf
+- name: Source Code Pro Light
+  styles:
+  - family_name: Source Code Pro Light
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: Light Italic
     full_name: Source Code Pro Light Italic
     post_script_name: SourceCodePro-LightIt
     version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
     font: SourceCodePro-LightIt.ttf
-  - family_name: Source Code Pro
-    type: Medium
-    full_name: Source Code Pro Medium
-    post_script_name: SourceCodePro-Medium
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Medium.ttf
-  - family_name: Source Code Pro
-    type: Light
+  - family_name: Source Code Pro Light
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: Light
     full_name: Source Code Pro Light
     post_script_name: SourceCodePro-Light
     version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    description:
     copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’.
     font: SourceCodePro-Light.ttf
+- name: Source Code Pro Medium
+  styles:
+  - family_name: Source Code Pro Medium
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: Medium Italic
+    full_name: Source Code Pro Medium Italic
+    post_script_name: SourceCodePro-MediumIt
+    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-MediumIt.ttf
+  - family_name: Source Code Pro Medium
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: Medium
+    full_name: Source Code Pro Medium
+    post_script_name: SourceCodePro-Medium
+    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-Medium.ttf
+- name: Source Code Pro Semibold
+  styles:
+  - family_name: Source Code Pro Semibold
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: Semibold Italic
+    full_name: Source Code Pro Semibold Italic
+    post_script_name: SourceCodePro-SemiboldIt
+    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-SemiboldIt.ttf
+  - family_name: Source Code Pro Semibold
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: Semibold
+    full_name: Source Code Pro Semibold
+    post_script_name: SourceCodePro-Semibold
+    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
+    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’.
+    font: SourceCodePro-Semibold.ttf
 - name: Source Sans Pro
   styles:
-  - family_name: Source Sans Pro
-    type: Black Italic
-    full_name: Source Sans Pro Black Italic
-    post_script_name: SourceSansPro-BlackIt
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-BlackIt.ttf
-  - family_name: Source Sans Pro
-    type: Italic
-    full_name: Source Sans Pro Italic
-    post_script_name: SourceSansPro-It
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-It.ttf
-  - family_name: Source Sans Pro
-    type: Light
-    full_name: Source Sans Pro Light
-    post_script_name: SourceSansPro-Light
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-Light.ttf
-  - family_name: Source Sans Pro
-    type: ExtraLight
-    full_name: Source Sans Pro ExtraLight
-    post_script_name: SourceSansPro-ExtraLight
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-ExtraLight.ttf
-  - family_name: Source Sans Pro
-    type: ExtraLight Italic
-    full_name: Source Sans Pro ExtraLight Italic
-    post_script_name: SourceSansPro-ExtraLightIt
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-ExtraLightIt.ttf
-  - family_name: Source Sans Pro
-    type: Bold Italic
-    full_name: Source Sans Pro Bold Italic
-    post_script_name: SourceSansPro-BoldIt
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-BoldIt.ttf
-  - family_name: Source Sans Pro
-    type: Black
-    full_name: Source Sans Pro Black
-    post_script_name: SourceSansPro-Black
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-Black.ttf
-  - family_name: Source Sans Pro
-    type: Light Italic
-    full_name: Source Sans Pro Light Italic
-    post_script_name: SourceSansPro-LightIt
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-LightIt.ttf
-  - family_name: Source Sans Pro
-    type: Regular
-    full_name: Source Sans Pro
-    post_script_name: SourceSansPro-Regular
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-Regular.ttf
-  - family_name: Source Sans Pro
-    type: Semibold
-    full_name: Source Sans Pro Semibold
-    post_script_name: SourceSansPro-Semibold
-    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSansPro-Semibold.ttf
   - family_name: Source Sans Pro
     type: Bold
     full_name: Source Sans Pro Bold
     post_script_name: SourceSansPro-Bold
     version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
     copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’."
     font: SourceSansPro-Bold.ttf
   - family_name: Source Sans Pro
-    type: Semibold Italic
+    type: Bold Italic
+    full_name: Source Sans Pro Bold Italic
+    post_script_name: SourceSansPro-BoldIt
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-BoldIt.ttf
+  - family_name: Source Sans Pro
+    type: Italic
+    full_name: Source Sans Pro Italic
+    post_script_name: SourceSansPro-It
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-It.ttf
+  - family_name: Source Sans Pro
+    type: Regular
+    full_name: Source Sans Pro
+    post_script_name: SourceSansPro-Regular
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-Regular.ttf
+- name: Source Sans Pro Black
+  styles:
+  - family_name: Source Sans Pro Black
+    type: Italic
+    preferred_family_name: Source Sans Pro
+    preferred_type: Black Italic
+    full_name: Source Sans Pro Black Italic
+    post_script_name: SourceSansPro-BlackIt
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-BlackIt.ttf
+  - family_name: Source Sans Pro Black
+    type: Regular
+    preferred_family_name: Source Sans Pro
+    preferred_type: Black
+    full_name: Source Sans Pro Black
+    post_script_name: SourceSansPro-Black
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-Black.ttf
+- name: Source Sans Pro ExtraLight
+  styles:
+  - family_name: Source Sans Pro ExtraLight
+    type: Italic
+    preferred_family_name: Source Sans Pro
+    preferred_type: ExtraLight Italic
+    full_name: Source Sans Pro ExtraLight Italic
+    post_script_name: SourceSansPro-ExtraLightIt
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-ExtraLightIt.ttf
+  - family_name: Source Sans Pro ExtraLight
+    type: Regular
+    preferred_family_name: Source Sans Pro
+    preferred_type: ExtraLight
+    full_name: Source Sans Pro ExtraLight
+    post_script_name: SourceSansPro-ExtraLight
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-ExtraLight.ttf
+- name: Source Sans Pro Light
+  styles:
+  - family_name: Source Sans Pro Light
+    type: Italic
+    preferred_family_name: Source Sans Pro
+    preferred_type: Light Italic
+    full_name: Source Sans Pro Light Italic
+    post_script_name: SourceSansPro-LightIt
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-LightIt.ttf
+  - family_name: Source Sans Pro Light
+    type: Regular
+    preferred_family_name: Source Sans Pro
+    preferred_type: Light
+    full_name: Source Sans Pro Light
+    post_script_name: SourceSansPro-Light
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-Light.ttf
+- name: Source Sans Pro Semibold
+  styles:
+  - family_name: Source Sans Pro Semibold
+    type: Italic
+    preferred_family_name: Source Sans Pro
+    preferred_type: Semibold Italic
     full_name: Source Sans Pro Semibold Italic
     post_script_name: SourceSansPro-SemiboldIt
     version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
     copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’."
     font: SourceSansPro-SemiboldIt.ttf
+  - family_name: Source Sans Pro Semibold
+    type: Regular
+    preferred_family_name: Source Sans Pro
+    preferred_type: Semibold
+    full_name: Source Sans Pro Semibold
+    post_script_name: SourceSansPro-Semibold
+    version: 3.006;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSansPro-Semibold.ttf
 - name: Source Serif Pro
   styles:
-  - family_name: Source Serif Pro
-    type: Black
-    full_name: Source Serif Pro Black
-    post_script_name: SourceSerifPro-Black
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-Black.ttf
   - family_name: Source Serif Pro
     type: Bold
     full_name: Source Serif Pro Bold
     post_script_name: SourceSerifPro-Bold
     version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
     copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’."
     font: SourceSerifPro-Bold.ttf
@@ -671,95 +740,117 @@ fonts:
     full_name: Source Serif Pro Bold Italic
     post_script_name: SourceSerifPro-BoldIt
     version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
     copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’."
     font: SourceSerifPro-BoldIt.ttf
-  - family_name: Source Serif Pro
-    type: Regular
-    full_name: Source Serif Pro
-    post_script_name: SourceSerifPro-Regular
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-Regular.ttf
-  - family_name: Source Serif Pro
-    type: ExtraLight
-    full_name: Source Serif Pro ExtraLight
-    post_script_name: SourceSerifPro-ExtraLight
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-ExtraLight.ttf
-  - family_name: Source Serif Pro
-    type: Semibold Italic
-    full_name: Source Serif Pro Semibold Italic
-    post_script_name: SourceSerifPro-SemiboldIt
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-SemiboldIt.ttf
-  - family_name: Source Serif Pro
-    type: Black Italic
-    full_name: Source Serif Pro Black Italic
-    post_script_name: SourceSerifPro-BlackIt
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-BlackIt.ttf
-  - family_name: Source Serif Pro
-    type: Semibold
-    full_name: Source Serif Pro Semibold
-    post_script_name: SourceSerifPro-Semibold
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-Semibold.ttf
-  - family_name: Source Serif Pro
-    type: Light
-    full_name: Source Serif Pro Light
-    post_script_name: SourceSerifPro-Light
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-Light.ttf
-  - family_name: Source Serif Pro
-    type: Light Italic
-    full_name: Source Serif Pro Light Italic
-    post_script_name: SourceSerifPro-LightIt
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-LightIt.ttf
-  - family_name: Source Serif Pro
-    type: ExtraLight Italic
-    full_name: Source Serif Pro ExtraLight Italic
-    post_script_name: SourceSerifPro-ExtraLightIt
-    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
-    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’."
-    font: SourceSerifPro-ExtraLightIt.ttf
   - family_name: Source Serif Pro
     type: Italic
     full_name: Source Serif Pro Italic
     post_script_name: SourceSerifPro-It
     version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
-    description:
     copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
       with Reserved Font Name ‘Source’."
     font: SourceSerifPro-It.ttf
-extract:
-  format: zip
-  options:
-    fonts_sub_dir: fonts/
+  - family_name: Source Serif Pro
+    type: Regular
+    full_name: Source Serif Pro
+    post_script_name: SourceSerifPro-Regular
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-Regular.ttf
+- name: Source Serif Pro Black
+  styles:
+  - family_name: Source Serif Pro Black
+    type: Italic
+    preferred_family_name: Source Serif Pro
+    preferred_type: Black Italic
+    full_name: Source Serif Pro Black Italic
+    post_script_name: SourceSerifPro-BlackIt
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-BlackIt.ttf
+  - family_name: Source Serif Pro Black
+    type: Regular
+    preferred_family_name: Source Serif Pro
+    preferred_type: Black
+    full_name: Source Serif Pro Black
+    post_script_name: SourceSerifPro-Black
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-Black.ttf
+- name: Source Serif Pro ExtraLight
+  styles:
+  - family_name: Source Serif Pro ExtraLight
+    type: Italic
+    preferred_family_name: Source Serif Pro
+    preferred_type: ExtraLight Italic
+    full_name: Source Serif Pro ExtraLight Italic
+    post_script_name: SourceSerifPro-ExtraLightIt
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-ExtraLightIt.ttf
+  - family_name: Source Serif Pro ExtraLight
+    type: Regular
+    preferred_family_name: Source Serif Pro
+    preferred_type: ExtraLight
+    full_name: Source Serif Pro ExtraLight
+    post_script_name: SourceSerifPro-ExtraLight
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-ExtraLight.ttf
+- name: Source Serif Pro Light
+  styles:
+  - family_name: Source Serif Pro Light
+    type: Italic
+    preferred_family_name: Source Serif Pro
+    preferred_type: Light Italic
+    full_name: Source Serif Pro Light Italic
+    post_script_name: SourceSerifPro-LightIt
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-LightIt.ttf
+  - family_name: Source Serif Pro Light
+    type: Regular
+    preferred_family_name: Source Serif Pro
+    preferred_type: Light
+    full_name: Source Serif Pro Light
+    post_script_name: SourceSerifPro-Light
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-Light.ttf
+- name: Source Serif Pro Semibold
+  styles:
+  - family_name: Source Serif Pro Semibold
+    type: Italic
+    preferred_family_name: Source Serif Pro
+    preferred_type: Semibold Italic
+    full_name: Source Serif Pro Semibold Italic
+    post_script_name: SourceSerifPro-SemiboldIt
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-SemiboldIt.ttf
+  - family_name: Source Serif Pro Semibold
+    type: Regular
+    preferred_family_name: Source Serif Pro
+    preferred_type: Semibold
+    full_name: Source Serif Pro Semibold
+    post_script_name: SourceSerifPro-Semibold
+    version: 3.001;hotconv 1.0.111;makeotfexe 2.5.65597
+    copyright: "© 2014 - 2019 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: SourceSerifPro-Semibold.ttf
+extract: {}
+copyright: "© 2010 - 2019 Adobe Systems Incorporated (http://www.adobe.com/), with
+  Reserved Font Name ‘Source’."
+license_url: http://scripts.sil.org/OFL
 open_license: |-
   Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe in the United States and/or other countries.
 
@@ -854,3 +945,4 @@ open_license: |-
   DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
   FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
   OTHER DEALINGS IN THE FONT SOFTWARE.
+command: create-formula https://github.com/fontist/source-fonts/releases/download/v1.0/source-fonts-1.0.zip

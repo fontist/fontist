@@ -107,6 +107,12 @@ module Fontist
       Helpers.parse_to_object(@data["extract"])
     end
 
+    def file_size
+      return unless @data["resources"]
+
+      @data["resources"].values.first["file_size"]&.to_i
+    end
+
     def resources
       Helpers.parse_to_object(@data["resources"]&.values)
     end
@@ -115,8 +121,14 @@ module Fontist
       @data["instructions"]
     end
 
+    def fonts_by_name(name)
+      fonts.select do |font|
+        font.name.casecmp?(name)
+      end
+    end
+
     def fonts
-      @fonts ||= Helpers.parse_to_object(hash_collection_fonts + hash_fonts)
+      @fonts ||= Helpers.parse_to_object(fonts_by_family)
     end
 
     def digest
@@ -130,6 +142,41 @@ module Fontist
       @path.sub(Regexp.new("^" + escaped), "").sub(/\.yml$/, "")
     end
 
+    def fonts_by_family
+      return hash_all_fonts unless Fontist.preferred_family?
+
+      preferred_family_fonts
+    end
+
+    def preferred_family_fonts
+      groups = preferred_family_styles.group_by do |style|
+        style["family_name"]
+      end
+
+      groups.map do |font_name, font_styles|
+        { "name" => font_name, "styles" => font_styles }
+      end
+    end
+
+    def preferred_family_styles
+      hash_all_fonts.flat_map do |font|
+        font["styles"].map do |style|
+          style.merge(preferred_style(style))
+        end
+      end
+    end
+
+    def preferred_style(style)
+      { "family_name" => style["preferred_family_name"] || style["family_name"],
+        "type" => style["preferred_type"] || style["type"],
+        "default_family_name" => style["family_name"],
+        "default_type" => style["type"] }
+    end
+
+    def hash_all_fonts
+      hash_collection_fonts + hash_fonts
+    end
+
     def hash_collection_fonts
       return [] unless @data["font_collections"]
 
@@ -138,8 +185,7 @@ module Fontist
                       "source_font" => coll["source_filename"] }
 
         coll["fonts"].map do |font|
-          { "name" => font["name"],
-            "styles" => font["styles"].map { |s| filenames.merge(s) } }
+          font.merge("styles" => font["styles"].map { |s| filenames.merge(s) })
         end
       end
     end

@@ -1,5 +1,6 @@
 require "fontist/font_installer"
 require "fontist/font_path"
+require "fontist/formula_picker"
 
 module Fontist
   class Font
@@ -9,6 +10,10 @@ module Fontist
       @hide_licenses = options[:hide_licenses]
       @no_progress = options[:no_progress] || false
       @force = options[:force] || false
+      @version = options[:version]
+      @smallest = options[:smallest]
+      @newest = options[:newest]
+      @size_limit = options[:size_limit]
 
       check_or_create_fontist_path!
     end
@@ -102,6 +107,16 @@ module Fontist
       FontInstaller.new(formula, no_progress: @no_progress)
     end
 
+    def sufficient_formulas
+      @sufficient_formulas ||=
+        FormulaPicker.new(@name,
+                          size_limit: @size_limit,
+                          version: @version,
+                          smallest: @smallest,
+                          newest: @newest)
+          .call(downloadable_formulas)
+    end
+
     def downloadable_formulas
       @downloadable_formulas ||= formulas.select(&:downloadable?)
     end
@@ -130,9 +145,9 @@ module Fontist
     end
 
     def download_font
-      return if downloadable_formulas.empty?
+      return if sufficient_formulas.empty?
 
-      downloadable_formulas.flat_map do |formula|
+      sufficient_formulas.flat_map do |formula|
         confirmation = check_and_confirm_required_license(formula)
         paths = font_installer(formula).install(confirmation: confirmation)
 

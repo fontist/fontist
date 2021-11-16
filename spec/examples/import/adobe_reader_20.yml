@@ -6,6 +6,7 @@ resources:
     urls:
     - http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/2001220041/AcroRdrDC2001220041_en_US.exe
     sha256: 9dd98fe4d1abd7574ca99fa697983a1865bf1f343172e228c2bfbf638c2ddf73
+    file_size: 177434160
 fonts:
 - name: Adobe Pi Std
   styles:

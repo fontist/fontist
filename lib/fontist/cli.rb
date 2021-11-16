@@ -17,15 +17,24 @@ module Fontist
     STATUS_MAIN_REPO_NOT_FOUND = 9
     STATUS_REPO_COULD_NOT_BE_UPDATED = 10
     STATUS_MANUAL_FONT_ERROR = 11
+    STATUS_SIZE_LIMIT_ERROR = 12
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
       Fontist::Errors::MissingFontError => [STATUS_MISSING_FONT_ERROR],
+      Fontist::Errors::SizeLimitError => [
+        STATUS_SIZE_LIMIT_ERROR,
+        :append,
+        "Please specify higher `--size-limit`, or use the `--newest` or " \
+        "`--smallest` options.",
+      ],
       Fontist::Errors::ManualFontError => [STATUS_MANUAL_FONT_ERROR],
       Fontist::Errors::LicensingError => [STATUS_LICENSING_ERROR],
       Fontist::Errors::ManifestCouldNotBeFoundError => [STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR,
+                                                        :overwrite,
                                                         "Manifest could not be found."],
       Fontist::Errors::ManifestCouldNotBeReadError => [STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR,
+                                                       :overwrite,
                                                        "Manifest could not be read."],
       Fontist::Errors::FontIndexCorrupted => [STATUS_FONT_INDEX_CORRUPTED],
       Fontist::Errors::RepoNotFoundError => [STATUS_REPO_NOT_FOUND],
@@ -43,18 +52,27 @@ module Fontist
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
-    option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
-    option :hide_licenses, type: :boolean, desc: "Hide license texts"
-    option :no_progress, type: :boolean, desc: "Hide download progress"
+    option :accept_all_licenses, type: :boolean,
+                                 aliases: ["--confirm-license", :a],
+                                 desc: "Accept all license agreements"
+    option :hide_licenses, type: :boolean, aliases: :h,
+                           desc: "Hide license texts"
+    option :no_progress, type: :boolean, aliases: :p,
+                         desc: "Hide download progress"
+    option :version, type: :string, aliases: :V,
+                     desc: "Specify particular version of a font"
+    option :smallest, type: :boolean, aliases: :s,
+                      desc: "Install the smallest formula if several"
+    option :newest, type: :boolean, aliases: :n,
+                    desc: "Install the newest version of a font if several"
+    option :size_limit,
+           type: :numeric, aliases: :S,
+           desc: "Specify size limit for formula " \
+                 "(default is #{Fontist.formula_size_limit_in_megabytes} MB)"
     def install(font)
       handle_class_options(options)
-      Fontist::Font.install(
-        font,
-        force: options[:force],
-        confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses],
-        no_progress: options[:no_progress]
-      )
+      confirmation = options[:accept_all_licenses] ? "yes" : "no"
+      Fontist::Font.install(font, options.merge(confirmation: confirmation))
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
@@ -187,10 +205,18 @@ module Fontist
     end
 
     def handle_error(exception)
-      status, message = ERROR_TO_STATUS[exception.class]
+      status, mode, message = ERROR_TO_STATUS[exception.class]
       raise exception unless status
 
-      error(message || exception.message, status)
+      text = if message && mode == :overwrite
+               message
+             elsif message
+               "#{exception.message} #{message}"
+             else
+               exception.message
+             end
+
+      error(text, status)
     end
 
     def error(message, status)

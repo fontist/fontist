@@ -414,29 +414,13 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "when several formulas exist" do
-      let(:font) { "andale mono" }
-      before { example_formula("andale.yml") }
-      before { example_formula("webcore.yml") }
-
-      it "installs all matching formulas" do
-        expect(Fontist::FontInstaller).to receive(:new).at_least(2).times
-          .and_call_original
-        command
-        expect(font_file("AndaleMo.TTF")).to exist
-        expect(font_file("andalemo.ttf")).to exist
-      end
-    end
-
-    context "when several formulas exist and require license agreement" do
+    context "when requires license agreement" do
       let(:command) { Fontist::Font.install(font, confirmation: "no", **options) }
       let(:font) { "andale mono" }
       before { example_formula("andale.yml") }
-      before { example_formula("webcore.yml") }
 
       it "asks for acceptance for each formula" do
-        expect(Fontist.ui).to receive(:ask).and_return("yes")
-          .at_least(2).times
+        expect(Fontist.ui).to receive(:ask).and_return("yes").once
         command
       end
     end
@@ -498,6 +482,172 @@ RSpec.describe Fontist::Font do
 
       it "raises manual font error" do
         expect { command }.to raise_error Fontist::Errors::ManualFontError
+      end
+    end
+
+    context "two formulas with the same font" do
+      context "diff size, below the limit and above" do
+        let(:font) { "source sans pro" }
+
+        # file_size: 101_440_249, version: 3.006
+        before { example_formula("source.yml") }
+
+        # file_size: 987_127, version: 2.021, 1.076
+        before { example_formula("source_sans_pro.yml") }
+
+        before { set_size_limit(10) }
+
+        it "installs the smallest" do
+          expect_to_install("source_sans_pro")
+          command
+        end
+      end
+
+      context "both size below the limit, diff versions" do
+        let(:font) { "source sans pro" }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(1000) }
+
+        it "installs the newest" do
+          expect_to_install("source")
+          command
+        end
+      end
+
+      context "both size below the limit, same versions" do
+        let(:font) { "source sans pro" }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro_version_3.yml") }
+        before { set_size_limit(1000) }
+
+        it "installs the smallest" do
+          expect_to_install("source_sans_pro_version_3")
+          command
+        end
+      end
+
+      context "size above the limit" do
+        let(:font) { "source sans pro" }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "raises size-limit error" do
+          expect { command }.to raise_error(Fontist::Errors::SizeLimitError)
+        end
+      end
+
+      context "missing version" do
+        let(:font) { "cambria" }
+        before { example_formula("cleartype.yml") }
+
+        it "installs the font" do
+          expect(Fontist::FontInstaller).to receive(:new).once.and_call_original
+          command
+        end
+      end
+
+      context "diff styles" do
+        let(:font) { "au passata" }
+        before { example_formula("au.yml") }
+        before { example_formula("au_passata_oblique.yml") }
+        before { set_size_limit(1000) }
+
+        it "installs both" do
+          expect(Fontist::FontInstaller).to receive(:new).twice
+            .and_call_original
+          command
+        end
+      end
+
+      context "concrete version is passed" do
+        let(:font) { "source sans pro" }
+        let(:options) { { version: "2.021" } }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "installs formula with this version" do
+          expect_to_install("source_sans_pro")
+          command
+        end
+      end
+
+      context "concrete version is the smallest in a formula" do
+        let(:font) { "source sans pro" }
+        let(:options) { { version: "1.076" } }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "installs formula with this version" do
+          expect_to_install("source_sans_pro")
+          command
+        end
+      end
+
+      context "concrete version is passed and there is no such" do
+        let(:font) { "source sans pro" }
+        let(:options) { { version: "100.0" } }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "raises font unsupported error" do
+          expect { command }
+            .to raise_error Fontist::Errors::UnsupportedFontError
+        end
+      end
+
+      context "requested to install the smallest" do
+        let(:font) { "source sans pro" }
+        let(:options) { { smallest: true } }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "installs the smallest formula" do
+          expect_to_install("source_sans_pro")
+          command
+        end
+      end
+
+      context "requested to install the newest" do
+        let(:font) { "source sans pro" }
+        let(:options) { { newest: true } }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "installs the newest formula" do
+          expect_to_install("source")
+          command
+        end
+      end
+
+      context "with user-defined size limit" do
+        let(:font) { "source sans pro" }
+        let(:options) { { size_limit: 10 } }
+        before { example_formula("source.yml") }
+        before { example_formula("source_sans_pro.yml") }
+
+        it "installs a formula below the size limit" do
+          expect_to_install("source_sans_pro")
+          command
+        end
+      end
+
+      def expect_to_install(expected_formula)
+        original_new = Fontist::FontInstaller.method(:new)
+        expect(Fontist::FontInstaller).to receive(:new).once do |formula|
+          expect(formula.key).to eq expected_formula
+          original_new.call(formula)
+        end
+      end
+
+      def set_size_limit(limit)
+        allow(Fontist).to receive(:formula_size_limit_in_megabytes)
+          .and_return(limit)
       end
     end
   end
