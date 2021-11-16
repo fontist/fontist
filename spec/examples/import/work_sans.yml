@@ -6,6 +6,7 @@ resources:
     urls:
     - https://github.com/weiweihuanghuang/Work-Sans/archive/v2.010.zip
     sha256: 44e05ffb17d97205ec85feb82edcb2f6f99ef0874074096cec0d64f1b5af1973
+    file_size: 115377538
 fonts:
 - name: Work Sans
   styles:

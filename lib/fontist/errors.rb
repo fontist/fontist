@@ -28,6 +28,8 @@ module Fontist
 
     class RepoCouldNotBeUpdatedError < GeneralError; end
 
+    class SizeLimitError < GeneralError; end
+
     class TamperedFileError < GeneralError; end
 
     class TimeoutError < GeneralError; end

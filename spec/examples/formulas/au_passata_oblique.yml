@@ -1,0 +1,45 @@
+---
+description: AU Passata
+resources:
+  AU_Passata.zip:
+    urls:
+    - https://medarbejdere.au.dk/fileadmin/www.designmanual.au.dk/hent_filer/hent_skrifttyper/AUPass_Obliques.zip
+    sha256: 8e1df9c6ccdd0f787caa1d81962131a1a7ce6d67dfccc63a39e28b030224677d
+fonts:
+- name: AU Passata
+  styles:
+  - family_name: AU Passata
+    type: Bold Italic
+    full_name: AUPassata-BoldOblique
+    post_script_name: AUPassata-BoldOblique
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPass_BoldOblique.ttf
+  - family_name: AU Passata
+    type: Italic
+    full_name: AUPassata-Oblique
+    post_script_name: AUPassata-Oblique
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPass_RgOblique.ttf
+- name: AU Passata Light
+  styles:
+  - family_name: AU Passata Light
+    type: Bold Italic
+    full_name: AUPassataLight-BoldOblique
+    post_script_name: AUPassataLight-BoldOblique
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPassLight_BoldOblique.ttf
+  - family_name: AU Passata Light
+    type: Italic
+    full_name: AUPassataLight-Oblique
+    post_script_name: AUPassataLight-Oblique
+    version: '1.002'
+    copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+    font: AUPassLight_Oblique.ttf
+extract:
+  format: zip
+copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
+open_license: |-
+  Passata requires no licences.

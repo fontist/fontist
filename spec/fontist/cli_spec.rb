@@ -107,6 +107,46 @@ RSpec.describe Fontist::CLI do
         expect(status).to be Fontist::CLI::STATUS_MANUAL_FONT_ERROR
       end
     end
+
+    context "with version option" do
+      it "passes version number" do
+        expect(Fontist::Font).to receive(:install)
+          .with(anything, hash_including(version: "3.06"))
+          .and_return([])
+
+        described_class.start(["install", "--version", "3.06", "segoe ui"])
+      end
+    end
+
+    context "with smallest option" do
+      it "passes smallest option" do
+        expect(Fontist::Font).to receive(:install)
+          .with(anything, hash_including(smallest: true))
+          .and_return([])
+
+        described_class.start(["install", "--smallest", "segoe ui"])
+      end
+    end
+
+    context "with newest option" do
+      it "passes newest option" do
+        expect(Fontist::Font).to receive(:install)
+          .with(anything, hash_including(newest: true))
+          .and_return([])
+
+        described_class.start(["install", "--newest", "segoe ui"])
+      end
+    end
+
+    context "with size limit option" do
+      it "passes size limit number" do
+        expect(Fontist::Font).to receive(:install)
+          .with(anything, hash_including(size_limit: 1000))
+          .and_return([])
+
+        described_class.start(["install", "--size-limit", "1000", "segoe ui"])
+      end
+    end
   end
 
   describe "#status" do

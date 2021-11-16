@@ -107,6 +107,10 @@ module Fontist
     Fontist.fontist_version_path
   end
 
+  def self.formula_size_limit_in_megabytes
+    300
+  end
+
   def self.preferred_family?
     !!@preferred_family
   end

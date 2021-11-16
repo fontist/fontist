@@ -73,7 +73,7 @@ module Fontist
       end
 
       def resource_options_without_sha
-        { urls: [@url] + mirrors }
+        { urls: [@url] + mirrors, file_size: file_size }
       end
 
       def resource_options_with_sha
@@ -86,7 +86,7 @@ module Fontist
 
         sha = prepare_sha256(sha)
 
-        { urls: urls, sha256: sha }
+        { urls: urls, sha256: sha, file_size: file_size }
       end
 
       def downloads
@@ -118,6 +118,10 @@ module Fontist
         checksums = output.join(", ")
         Fontist.ui.error("WARN: SHA256 differs (#{checksums})")
         output
+      end
+
+      def file_size
+        File.size(@archive)
       end
 
       def font_collections

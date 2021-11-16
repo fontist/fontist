@@ -5,6 +5,7 @@ resources:
     urls:
     - https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_KO_x86.exe
     sha256: 674fab07d9c4300adc8edaff197a494b78cd7e543ebb7f6e1125ddeb1826e43b
+    file_size: 238946440
 font_collections:
 - filename: HMFMMUEX.ttc
   source_filename: HMFMMUEX.TTC_1042

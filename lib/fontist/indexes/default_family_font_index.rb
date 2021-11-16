@@ -9,7 +9,10 @@ module Fontist
 
       def add_formula(formula)
         formula.fonts.each do |font|
-          add_index_formula(font.name, formula.to_index_formula)
+          font.styles.each do |style|
+            font_name = style.default_family_name || font.name
+            add_index_formula(font_name, formula.to_index_formula)
+          end
         end
       end
 
