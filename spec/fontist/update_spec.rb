@@ -91,4 +91,21 @@ RSpec.describe Fontist::Update do
       end
     end
   end
+
+  context "private repo is set up before the main one" do
+    it "fetches the main repo" do
+      fresh_fontist_home do
+        remote_main_repo do |main_repo_url|
+          allow(Fontist).to receive(:formulas_repo_url)
+            .and_return(main_repo_url)
+
+          formula_repo_with("andale.yml") do |private_repo_url|
+            Fontist::Repo.setup("example", private_repo_url)
+
+            command.call
+          end
+        end
+      end
+    end
+  end
 end
