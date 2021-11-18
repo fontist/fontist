@@ -30,7 +30,14 @@ module Fontist
                          depth: 1)
       end
 
-      git = Git.open(Fontist.formulas_repo_path)
+      git = if Dir.exist?(Fontist.formulas_repo_path.join(".git"))
+              Git.open(Fontist.formulas_repo_path)
+            else
+              Git.init(Fontist.formulas_repo_path.to_s).tap do |g|
+                g.add_remote("origin", Fontist.formulas_repo_url)
+              end
+            end
+
       return git.pull("origin", @branch) if git.current_branch == @branch
 
       git.config("remote.origin.fetch",

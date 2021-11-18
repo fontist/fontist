@@ -32,6 +32,14 @@ module Fontist
     end
 
     def fresh_main_repo(branch = "main")
+      remote_main_repo(branch) do |dir|
+        Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
+
+        yield dir
+      end
+    end
+
+    def remote_main_repo(branch = "main")
       Dir.mktmpdir do |dir|
         FileUtils.mkdir(File.join(dir, "Formulas"))
         FileUtils.touch(File.join(dir, "Formulas", ".keep"))
@@ -39,8 +47,6 @@ module Fontist
         init_repo(dir, branch) do |git|
           git.add(File.join("Formulas", ".keep"))
         end
-
-        Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
 
         yield dir
       end
