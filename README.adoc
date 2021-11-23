@@ -618,7 +618,7 @@ repository https://github.com/fontist/formulas[formulas]:
 
 [source,sh]
 ----
-cd ~/.fontist/versions/v2/formulas
+cd ~/.fontist/versions/{last_version}/formulas
 git add Formulas/google
 git commit -m "Google Fonts update"
 git push
@@ -640,10 +640,42 @@ They can be updated with:
 [source,sh]
 ----
 fontist import-sil
-cd ~/.fontist/formulas
-git add Formulas/sil index.yml filename_index.yml
+cd ~/.fontist/versions/{last_version}/formulas
+git add Formulas/sil
 git commit -m "SIL fonts update"
 git push
+----
+
+=== Dynamically importing formulas from macOS
+
+macOS provides https://support.apple.com/en-om/HT211240#download[fonts] which
+can be manually downloaded with the Font Book app. When such font is requested,
+fontist prints information on how to install it.
+
+In order to know which fonts are available in a current version of macOS,
+for each version there is a formula containing all supported fonts.
+
+A new formula can be generated with:
+
+[source,sh]
+----
+fontist import macos --name "Big Sur" --fonts-link "https://support.apple.com/en-om/HT211240#download"
+cd ~/.fontist/versions/{last_version}/formulas
+git add Formulas/macos
+git commit -m "Add Big Sur macOS formula"
+git push
+----
+
+Here `--fonts-link` is a link to a page containing a list of available fonts
+in the Font Book app.
+
+If the import is run on a different version of macOS, then a proper version
+should be set in the `platforms` attribute of the generated formula:
+
+[source,yaml]
+----
+platforms:
+- macos-20
 ----
 
 

@@ -44,7 +44,11 @@ module Fontist
   end
 
   def self.fontist_version_path
-    Fontist.fontist_path.join("versions", Update::VERSION)
+    Fontist.fontist_path.join("versions", formulas_version)
+  end
+
+  def self.formulas_version
+    "v3"
   end
 
   def self.formulas_repo_url
