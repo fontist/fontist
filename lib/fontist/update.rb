@@ -1,9 +1,7 @@
 module Fontist
   class Update
-    VERSION = "v2".freeze
-
     def self.call
-      new(VERSION).call
+      new(Fontist.formulas_version).call
     end
 
     def initialize(branch = "main")

@@ -2,9 +2,9 @@ require "spec_helper"
 
 RSpec.describe "formulas isolation" do
   context "old version was used, then it changed" do
-    before { stub_const("Fontist::Update::VERSION", "master") }
+    before { allow(Fontist).to receive(:formulas_version).and_return("master") }
     include_context "fresh home"
-    before { stub_const("Fontist::Update::VERSION", "v2") }
+    before { allow(Fontist).to receive(:formulas_version).and_return("v2") }
 
     it "status should ask to update" do
       expect { Fontist::Formula.find("andale mono") }
@@ -19,16 +19,16 @@ RSpec.describe "formulas isolation" do
   end
 
   context "old version was used, then it changed, updated, and switched back" do
-    before { stub_const("Fontist::Update::VERSION", "master") }
+    before { allow(Fontist).to receive(:formulas_version).and_return("master") }
     include_context "fresh home"
 
     before do
       example_formula("andale.yml")
 
-      stub_const("Fontist::Update::VERSION", "v2")
+      allow(Fontist).to receive(:formulas_version).and_return("v2")
       Fontist::Formula.update_formulas_repo
 
-      stub_const("Fontist::Update::VERSION", "master")
+      allow(Fontist).to receive(:formulas_version).and_return("master")
     end
 
     it "does not ask to update and returns formula" do
