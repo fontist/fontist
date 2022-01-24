@@ -4,7 +4,7 @@ module Fontist
       module SystemHelper
         class << self
           def run(command)
-            Fontist.ui.say("Run `#{command}`") if Fontist.debug?
+            Fontist.ui.debug("Run `#{command}`")
 
             result = `#{command}`
             unless $CHILD_STATUS.to_i.zero?

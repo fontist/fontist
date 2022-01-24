@@ -119,11 +119,7 @@ module Fontist
     @preferred_family = bool
   end
 
-  def self.debug?
-    @debug || false
-  end
-
-  def self.debug=(bool)
-    @debug = bool
+  def self.log_level=(level)
+    Fontist.ui.level = level
   end
 end
