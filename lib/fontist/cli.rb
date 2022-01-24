@@ -1,10 +1,13 @@
 require "thor"
+require "fontist/cli/class_options"
 require "fontist/repo_cli"
 require "fontist/import_cli"
 require "fontist/google_cli"
 
 module Fontist
   class CLI < Thor
+    include ClassOptions
+
     STATUS_SUCCESS = 0
     STATUS_UNKNOWN_ERROR = 1
     STATUS_NON_SUPPORTED_FONT_ERROR = 2
@@ -50,6 +53,13 @@ module Fontist
     class_option :preferred_family,
                  type: :boolean,
                  desc: "Use Preferred Family when available"
+
+    class_option :quiet,
+                 aliases: :q,
+                 type: :boolean,
+                 desc: "Hide all messages"
+
+    class_option :formulas_path, type: :string, desc: "Path to formulas"
 
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
@@ -138,8 +148,12 @@ module Fontist
     end
 
     desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
-    option :accept_all_licenses, type: :boolean, aliases: "--confirm-license", desc: "Accept all license agreements"
-    option :hide_licenses, type: :boolean, desc: "Hide license texts"
+    option :accept_all_licenses, type: :boolean,
+                                 aliases: ["--confirm-license", :a],
+                                 desc: "Accept all license agreements"
+    option :hide_licenses, type: :boolean,
+                           aliases: :h,
+                           desc: "Hide license texts"
     def manifest_install(manifest)
       handle_class_options(options)
       paths = Fontist::Manifest::Install.from_file(
@@ -199,10 +213,6 @@ module Fontist
     subcommand "google", Fontist::GoogleCLI
 
     private
-
-    def handle_class_options(options)
-      Fontist.preferred_family = options[:preferred_family]
-    end
 
     def success
       STATUS_SUCCESS
