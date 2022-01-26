@@ -45,6 +45,13 @@ module Fontist
       end.flatten
     end
 
+    def self.find_by_key(key)
+      path = Fontist.formulas_path.join("#{key}.yml")
+      return unless File.exist?(path)
+
+      new_from_file(path)
+    end
+
     def self.new_from_file(path)
       data = YAML.load_file(path)
       new(data, path)
@@ -72,7 +79,7 @@ module Fontist
     end
 
     def key
-      @data["key"] || default_key
+      key_from_path
     end
 
     def description
@@ -137,7 +144,7 @@ module Fontist
 
     private
 
-    def default_key
+    def key_from_path
       escaped = Regexp.escape(Fontist.formulas_path.to_s + "/")
       @path.sub(Regexp.new("^" + escaped), "").sub(/\.yml$/, "")
     end

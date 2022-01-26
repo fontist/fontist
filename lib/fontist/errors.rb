@@ -12,6 +12,16 @@ module Fontist
     # it depends on this exception to automatically download formulas
     class FormulaIndexNotFoundError < GeneralError; end
 
+    class FormulaNotFoundError < GeneralError
+      def initialize(formula)
+        super(<<~MSG.chomp)
+          Formula '#{formula}' not found locally nor available in the Fontist formula repository.
+          Perhaps it is available at the latest Fontist formula repository.
+          You can update the formula repository using the command `fontist update` and try again.
+        MSG
+      end
+    end
+
     class MainRepoNotFoundError < FormulaIndexNotFoundError; end
 
     class InvalidResourceError < GeneralError; end

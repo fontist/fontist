@@ -14,6 +14,7 @@ module Fontist
       @smallest = options[:smallest]
       @newest = options[:newest]
       @size_limit = options[:size_limit]
+      @by_formula = options[:formula]
 
       check_or_create_fontist_path!
     end
@@ -48,6 +49,8 @@ module Fontist
     end
 
     def install
+      return install_formula if @by_formula
+
       (find_system_font unless @force) || download_font || manual_font ||
         raise_non_supported_font
     end
@@ -103,6 +106,22 @@ module Fontist
       end
     end
 
+    def install_formula
+      download_formula || raise_formula_not_found
+    end
+
+    def download_formula
+      formula = Formula.find_by_key(@name)
+      return unless formula
+      return unless formula.downloadable?
+
+      request_formula_installation(formula)
+    end
+
+    def raise_formula_not_found
+      raise Errors::FormulaNotFoundError.new(@name)
+    end
+
     def font_installer(formula)
       FontInstaller.new(formula, no_progress: @no_progress)
     end
@@ -148,13 +167,17 @@ module Fontist
       return if sufficient_formulas.empty?
 
       sufficient_formulas.flat_map do |formula|
-        confirmation = check_and_confirm_required_license(formula)
-        paths = font_installer(formula).install(confirmation: confirmation)
+        request_formula_installation(formula)
+      end
+    end
 
-        Fontist.ui.say("Fonts installed at:")
-        paths.each do |path|
-          Fontist.ui.say("- #{path}")
-        end
+    def request_formula_installation(formula)
+      confirmation = check_and_confirm_required_license(formula)
+      paths = font_installer(formula).install(confirmation: confirmation)
+
+      Fontist.ui.say("Fonts installed at:")
+      paths.each do |path|
+        Fontist.ui.say("- #{path}")
       end
     end
 

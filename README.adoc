@@ -127,6 +127,7 @@ available formulas would be installed.
 Supported options:
 
 -f, [--force]:: Install even if it's already installed in system
+-F, [--formula]:: Install by formula instead of font
 -a, [--accept-all-licenses]:: Accept all license agreements
 -h, [--hide-licenses]:: Hide license texts
 -p, [--no-progress]:: Hide download progress
