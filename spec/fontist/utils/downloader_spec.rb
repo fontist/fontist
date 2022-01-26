@@ -13,14 +13,25 @@ RSpec.describe Fontist::Utils::Downloader do
       expect(tempfile.size).to eq(sample_file[:file_size])
     end
 
-    it "raises an error for tempared file" do
-      expect{
-        Fontist::Utils::Downloader.download(
-          sample_file[:file],
-          sha: sample_file[:sha] + "mm",
-          file_size: sample_file[:file_size]
+    context "tampered file" do
+      it "prints warning and returns file" do
+        url = sample_file[:file]
+        sha = sample_file[:sha]
+        original_sha = "#{sample_file[:sha]}123"
+
+        expect(Fontist.ui).to receive(:error).with(
+          "SHA256 checksum mismatch for #{url}: #{sha}, " \
+          "should be #{original_sha}.",
         )
-      }.to raise_error(Fontist::Errors::TamperedFileError)
+
+        file = Fontist::Utils::Downloader.download(
+          url,
+          sha: original_sha,
+          file_size: sample_file[:file_size],
+        )
+
+        expect(file).not_to be_nil
+      end
     end
 
     context "with headers" do
@@ -73,4 +84,3 @@ RSpec.describe Fontist::Utils::Downloader do
     }
   end
 end
-
