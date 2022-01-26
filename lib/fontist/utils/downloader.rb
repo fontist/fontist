@@ -24,7 +24,7 @@ module Fontist
           download_file
         end
 
-        raise_if_tampered(file)
+        check_tampered(file)
 
         file
       end
@@ -33,15 +33,12 @@ module Fontist
 
       attr_reader :file, :sha, :file_size
 
-      def raise_if_tampered(file)
+      def check_tampered(file)
         file_checksum = Digest::SHA256.file(file).to_s
         if !sha.empty? && !sha.include?(file_checksum)
-          raise(
-            Fontist::Errors::TamperedFileError.new(
-              "The downloaded file from #{@file} doesn't " \
-              "match with the expected sha256 checksum (#{file_checksum})!\n" \
-              "Beginning of content: #{File.read(file, 3000)}",
-            ),
+          Fontist.ui.error(
+            "SHA256 checksum mismatch for #{url}: #{file_checksum}, " \
+            "should be #{sha.join(', or ')}.",
           )
         end
       end
