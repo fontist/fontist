@@ -147,6 +147,69 @@ RSpec.describe Fontist::CLI do
         described_class.start(["install", "--size-limit", "1000", "segoe ui"])
       end
     end
+
+    context "with formula option" do
+      include_context "fresh home"
+
+      let(:command) { described_class.start(["install", "--formula", formula]) }
+
+      let(:not_found_message) do
+        "Formula '#{formula}' not found locally nor available in the " \
+        "Fontist formula repository.\n" \
+        "Perhaps it is available at the latest Fontist formula " \
+        "repository.\n" \
+        "You can update the formula repository using the command " \
+        "`fontist update` and try again."
+      end
+
+      context "missing formula" do
+        let(:formula) { "missing" }
+        it "returns error status and prints that it's missing" do
+          expect(Fontist.ui).to receive(:error).with(not_found_message)
+          expect(command).to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+        end
+      end
+
+      context "manual formula" do
+        let(:formula) { "manual" }
+        before { example_formula("manual.yml") }
+
+        it "returns error status and prints that it's missing" do
+          expect(Fontist.ui).to receive(:error).with(not_found_message)
+          expect(command).to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+        end
+      end
+
+      context "formula from root dir" do
+        let(:formula) { "andale" }
+        before do
+          allow(Fontist.ui).to receive(:ask).and_return("yes").once
+          example_formula("andale.yml")
+        end
+
+        it "returns success status and prints fonts paths" do
+          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
+          expect(command).to be 0
+        end
+      end
+
+      context "formula from subdir" do
+        let(:formula) { "subdir/andale" }
+
+        before do
+          allow(Fontist.ui).to receive(:ask).and_return("yes").once
+
+          subdir_path = Fontist.formulas_path.join("subdir")
+          FileUtils.mkdir_p(subdir_path)
+          example_formula_to("andale.yml", subdir_path)
+        end
+
+        it "returns success status and prints fonts paths" do
+          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
+          expect(command).to be 0
+        end
+      end
+    end
   end
 
   describe "#status" do

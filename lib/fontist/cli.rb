@@ -18,6 +18,7 @@ module Fontist
     STATUS_REPO_COULD_NOT_BE_UPDATED = 10
     STATUS_MANUAL_FONT_ERROR = 11
     STATUS_SIZE_LIMIT_ERROR = 12
+    STATUS_FORMULA_NOT_FOUND = 13
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -39,6 +40,7 @@ module Fontist
       Fontist::Errors::FontIndexCorrupted => [STATUS_FONT_INDEX_CORRUPTED],
       Fontist::Errors::RepoNotFoundError => [STATUS_REPO_NOT_FOUND],
       Fontist::Errors::MainRepoNotFoundError => [STATUS_MAIN_REPO_NOT_FOUND],
+      Fontist::Errors::FormulaNotFoundError => [STATUS_FORMULA_NOT_FOUND],
     }.freeze
 
     def self.exit_on_failure?
@@ -52,6 +54,8 @@ module Fontist
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if it's already installed in system"
+    option :formula, type: :boolean, aliases: :F,
+                     desc: "Install by formula instead of font"
     option :accept_all_licenses, type: :boolean,
                                  aliases: ["--confirm-license", :a],
                                  desc: "Accept all license agreements"
