@@ -49,13 +49,13 @@ RSpec.describe Fontist::Manifest::Locations do
     end
 
     context "preferred family and no option" do
-      let(:manifest) { { "Lato Heavy" => nil } }
+      let(:manifest) { { "TeXGyreChorus" => nil } }
 
       it "finds by default family" do
         fresh_fonts_and_formulas do
-          example_font("Lato-Heavy.ttf")
+          example_font("texgyrechorus-mediumitalic.otf")
 
-          expect(command["Lato Heavy"]["Regular"]["paths"]).not_to be_empty
+          expect(command["TeXGyreChorus"]["Regular"]["paths"]).not_to be_empty
         end
       end
     end

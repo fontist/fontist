@@ -10,7 +10,7 @@ RSpec.describe Fontist::CLI do
         fresh_fontist_home do
           expect(Fontist.ui).to receive(:error)
             .with("Please fetch formulas with `fontist update`.")
-          status = described_class.start(["install", "lato"])
+          status = described_class.start(["install", "texgyrechorus"])
           expect(status).to be Fontist::CLI::STATUS_MAIN_REPO_NOT_FOUND
         end
       end
@@ -19,7 +19,7 @@ RSpec.describe Fontist::CLI do
     context "supported font name" do
       it "returns success status" do
         stub_fonts_path_to_new_path do
-          status = described_class.start(["install", "lato"])
+          status = described_class.start(["install", "texgyrechorus"])
           expect(status).to be 0
         end
       end

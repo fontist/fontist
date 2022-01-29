@@ -43,6 +43,7 @@ RSpec.configure do |config|
     example_formula("lato.yml")
     example_formula("courier.yml")
     example_formula("webcore.yml")
+    example_formula("tex_gyre_chorus.yml")
     Fontist::Index.rebuild
   end
 

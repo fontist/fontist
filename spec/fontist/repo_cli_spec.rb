@@ -5,7 +5,7 @@ RSpec.describe Fontist::RepoCLI do
   describe "#setup" do
     it "setups repo and lets find its formulas" do
       no_fonts_and_formulas do
-        formula_repo_with("lato.yml") do |dir|
+        formula_repo_with("tex_gyre_chorus.yml") do |dir|
           expect(Fontist.ui).to receive(:success).with(
             "Fontist repo 'acme' from '#{dir}' has been successfully set up.",
           )
@@ -31,7 +31,7 @@ RSpec.describe Fontist::RepoCLI do
     context "repo exists" do
       it "prints message and returns success status" do
         no_fonts_and_formulas do
-          formula_repo_with("lato.yml") do |dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
 
             expect(Fontist.ui).to receive(:success)
@@ -58,7 +58,7 @@ RSpec.describe Fontist::RepoCLI do
     context "repo exists" do
       it "returns success status" do
         no_fonts_and_formulas do
-          formula_repo_with("lato.yml") do |dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
 
             expect(Fontist.ui).to receive(:success)
@@ -76,7 +76,7 @@ RSpec.describe Fontist::RepoCLI do
     context "private repo exists" do
       it "prints its name in a list and returns success status" do
         fresh_fontist_home do
-          formula_repo_with("lato.yml") do |repo_dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |repo_dir|
             Fontist::Repo.setup("acme", repo_dir)
 
             expect(Fontist.ui).to receive(:say).with("acme")

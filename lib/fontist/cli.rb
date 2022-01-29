@@ -2,7 +2,6 @@ require "thor"
 require "fontist/cli/class_options"
 require "fontist/repo_cli"
 require "fontist/import_cli"
-require "fontist/google_cli"
 
 module Fontist
   class CLI < Thor
@@ -196,21 +195,11 @@ module Fontist
       STATUS_SUCCESS
     end
 
-    desc "import-sil", "Import formulas from SIL"
-    def import_sil
-      handle_class_options(options)
-      require "fontist/import/sil_import"
-      Fontist::Import::SilImport.new.call
-    end
-
     desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
     subcommand "repo", Fontist::RepoCLI
 
     desc "import SUBCOMMAND ...ARGS", "Manage imports"
     subcommand "import", Fontist::ImportCLI
-
-    desc "google SUBCOMMAND ...ARGS", "Manage Google formulas"
-    subcommand "google", Fontist::GoogleCLI
 
     private
 

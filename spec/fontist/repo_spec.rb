@@ -4,9 +4,9 @@ RSpec.describe Fontist::Repo do
   describe "#setup" do
     it "setups repo and lets find its formulas" do
       no_fonts_and_formulas do
-        formula_repo_with("lato.yml") do |dir|
+        formula_repo_with("tex_gyre_chorus.yml") do |dir|
           Fontist::Repo.setup("acme", dir)
-          expect(Fontist::Formula.find("Lato")).to be
+          expect(Fontist::Formula.find("TeXGyreChorus")).to be
         end
       end
     end
@@ -25,7 +25,7 @@ RSpec.describe Fontist::Repo do
     context "repo exists" do
       it "updates existing repo and lets find new formulas" do
         no_fonts_and_formulas do
-          formula_repo_with("lato.yml") do |dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
             add_to_formula_repo(dir, "andale.yml")
 
@@ -50,11 +50,11 @@ RSpec.describe Fontist::Repo do
     context "repo exists" do
       it "removes existing repo, and its formulas cannot be found anymore" do
         no_fonts_and_formulas do
-          formula_repo_with("lato.yml") do |dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
 
             Fontist::Repo.remove("acme")
-            expect(Fontist::Formula.find("Lato")).to be_nil
+            expect(Fontist::Formula.find("TeXGyreChorus")).to be_nil
           end
         end
       end
@@ -65,7 +65,7 @@ RSpec.describe Fontist::Repo do
     context "private repo exists" do
       it "returns a list of repo names" do
         fresh_fontist_home do
-          formula_repo_with("lato.yml") do |repo_dir|
+          formula_repo_with("tex_gyre_chorus.yml") do |repo_dir|
             Fontist::Repo.setup("acme", repo_dir)
 
             expect(described_class.list).to eq %w[acme]
