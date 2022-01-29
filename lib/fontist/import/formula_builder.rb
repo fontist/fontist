@@ -4,9 +4,10 @@ require_relative "text_helper"
 module Fontist
   module Import
     class FormulaBuilder
-      FORMULA_ATTRIBUTES = %i[description homepage resources
+      FORMULA_ATTRIBUTES = %i[platforms description homepage resources
                               font_collections fonts extract copyright
-                              license_url open_license digest command].freeze
+                              license_url requires_license_agreement
+                              open_license digest command].freeze
 
       attr_writer :archive,
                   :url,
@@ -28,9 +29,15 @@ module Fontist
       def name
         return @options[:name] if @options[:name]
 
-        unique_names = both_fonts.map(&:family_name).uniq
-        TextHelper.longest_common_prefix(unique_names) ||
-          both_fonts.first.family_name
+        common = %i[family_name type]
+          .map { |attr| both_fonts.map(&attr).uniq }
+          .map { |names| TextHelper.longest_common_prefix(names) }
+          .map { |prefix| prefix unless prefix == "Regular" }
+          .compact
+          .join(" ")
+        return common unless common.empty?
+
+        both_fonts.map(&:family_name).first
       end
 
       private
@@ -48,6 +55,10 @@ module Fontist
         raise Errors::FontNotFoundError, "No font found" if files.empty?
 
         files
+      end
+
+      def platforms
+        @options[:platforms]
       end
 
       def description
@@ -175,11 +186,16 @@ module Fontist
         both_fonts.map(&:license_url).compact.first
       end
 
+      def requires_license_agreement
+        @options[:requires_license_agreement]
+      end
+
       def open_license
-        unless @license_text
+        unless @license_text || requires_license_agreement
           Fontist.ui.error("WARN: please add license manually")
-          return
         end
+
+        return unless @license_text
 
         Fontist.ui.error("WARN: ensure it's an open license, otherwise " \
                          "change the 'open_license' attribute to " \

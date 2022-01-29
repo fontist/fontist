@@ -55,8 +55,8 @@ RSpec.describe Fontist::Manifest::Install do
     end
 
     context "preferred family and no option" do
-      let(:manifest) { { "Lato Heavy" => nil } }
-      before { example_formula("lato.yml") }
+      let(:manifest) { { "TeXGyreChorus" => nil } }
+      before { example_formula("tex_gyre_chorus.yml") }
 
       it "installs by default family" do
         expect { command }.not_to raise_error

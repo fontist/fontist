@@ -520,6 +520,24 @@ Fontist::Manifest::Locations.from_file("manifest.yml")
 Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
 ----
 
+=== Installing macOS-specific add-on fonts
+
+The purpose of Fontist allowing macOS-specific add-on fonts is to allow CI jobs
+on macOS environments to use these specially licensed fonts that are not
+available on other platforms.
+
+The "Canela" font is a commercial font that comes free with macOS.
+
+Run this command to install Canela on macOS.
+
+[source,sh]
+----
+$ fontist install Canela
+----
+
+WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
+platforms due to font licensing of those fonts.
+
 == Using Fontist with proxy servers
 
 Fontist uses Git internally for fetching formulas and fonts.
@@ -740,7 +758,7 @@ In case an update is found, it could be fetched to the library by:
 
 [source,sh]
 ----
-bin/fontist google import
+bin/fontist import google
 ----
 
 The script would update formulas which should be committed to a separate
@@ -769,7 +787,7 @@ They can be updated with:
 
 [source,sh]
 ----
-fontist import-sil
+fontist import sil
 cd ~/.fontist/versions/{last_version}/formulas
 git add Formulas/sil
 git commit -m "SIL fonts update"

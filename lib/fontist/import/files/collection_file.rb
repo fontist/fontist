@@ -26,9 +26,9 @@ module Fontist
 
         def read
           switch_to_temp_dir do |tmp_dir|
-            extract_ttfs(tmp_dir).map do |path|
-              Otf::FontFile.new(path)
-            end
+            extract_ttfs(tmp_dir)
+              .map { |path| Otf::FontFile.new(path) }
+              .reject { |font_file| hidden_or_pua_encoded?(font_file) }
           end
         end
 
@@ -45,6 +45,10 @@ module Fontist
           filenames.map do |filename|
             File.join(tmp_dir, filename)
           end
+        end
+
+        def hidden_or_pua_encoded?(font_file)
+          font_file.family_name.start_with?(".")
         end
 
         def detect_extension

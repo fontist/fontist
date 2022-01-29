@@ -55,11 +55,31 @@ module Fontist
       end
 
       def save(builder)
-        filename = Import.name_to_filename(builder.name)
-        path = @options[:formula_dir] ? File.join(@options[:formula_dir], filename) : filename
+        path = vacant_path
         yaml = YAML.dump(Helpers::HashHelper.stringify_keys(builder.formula))
         File.write(path, yaml)
         path
+      end
+
+      def vacant_path
+        path = path_from_name
+        return path unless @options[:keep_existing] && File.exist?(path)
+
+        2.upto(9) do |i|
+          candidate = path.sub(/\.yml$/, "#{i}.yml")
+          return candidate unless File.exist?(candidate)
+        end
+
+        raise Errors::GeneralError, "Formula #{path} already exists."
+      end
+
+      def path_from_name
+        filename = Import.name_to_filename(builder.name)
+        if @options[:formula_dir]
+          File.join(@options[:formula_dir], filename)
+        else
+          filename
+        end
       end
     end
   end

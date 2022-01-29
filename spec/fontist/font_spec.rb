@@ -426,24 +426,24 @@ RSpec.describe Fontist::Font do
     end
 
     context "preferred family and no option" do
-      let(:font) { "lato heavy" }
-      before { example_formula("lato.yml") }
+      let(:font) { "texgyrechorus" }
+      before { example_formula("tex_gyre_chorus.yml") }
 
       it "installs by default family" do
-        expect(command).to include(include("Lato-Heavy.ttf"))
-        expect(font_file("Lato-Heavy.ttf")).to exist
+        expect(command).to include(include("texgyrechorus-mediumitalic.otf"))
+        expect(font_file("texgyrechorus-mediumitalic.otf")).to exist
       end
     end
 
     context "preferred family with option" do
-      let(:font) { "lato heavy" }
-      before { example_formula("lato.yml") }
+      let(:font) { "texgyrechorus" }
+      before { example_formula("tex_gyre_chorus.yml") }
 
       it "does not find by default family" do
         with_option(:preferred_family) do
           expect { command }
             .to raise_error(Fontist::Errors::UnsupportedFontError)
-          expect(font_file("Lato-Heavy.ttf")).not_to exist
+          expect(font_file("texgyrechorus-mediumitalic.otf")).not_to exist
         end
       end
     end
@@ -729,14 +729,14 @@ RSpec.describe Fontist::Font do
     end
 
     context "preferred family and no option" do
-      let(:font) { "lato heavy" }
+      let(:font) { "texgyrechorus" }
 
       it "uninstall by default family" do
         fresh_fonts_and_formulas do
-          example_font("Lato-Heavy.ttf")
+          example_font("texgyrechorus-mediumitalic.otf")
 
           command
-          expect(font_file("Lato-Heavy.ttf")).not_to exist
+          expect(font_file("texgyrechorus-mediumitalic.otf")).not_to exist
         end
       end
     end
@@ -833,12 +833,12 @@ RSpec.describe Fontist::Font do
     end
 
     context "preferred family and no option" do
-      let(:font) { "lato heavy" }
+      let(:font) { "texgyrechorus" }
 
       it "finds by default family" do
         fresh_fonts_and_formulas do
-          example_font("Lato-Heavy.ttf")
-          expect(command).to include(include("Lato-Heavy.ttf"))
+          example_font("texgyrechorus-mediumitalic.otf")
+          expect(command).to include(include("texgyrechorus-mediumitalic.otf"))
         end
       end
     end

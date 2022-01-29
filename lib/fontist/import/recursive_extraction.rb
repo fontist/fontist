@@ -94,9 +94,19 @@ module Fontist
       def match_font(path)
         case Files::FontDetector.detect(path)
         when :font
-          @font_files << Otf::FontFile.new(path)
+          file = Otf::FontFile.new(path)
+          @font_files << file unless already_exist?(file)
         when :collection
           @collection_files << Files::CollectionFile.new(path)
+        end
+      end
+
+      def already_exist?(candidate)
+        @font_files.any? do |file|
+          file.family_name == candidate.family_name &&
+            file.type == candidate.type &&
+            file.version == candidate.version &&
+            file.font == candidate.font
         end
       end
 

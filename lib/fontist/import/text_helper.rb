@@ -20,7 +20,7 @@ module Fontist
           min, max = strs.minmax
           idx = min.size.times { |i| break i if min[i] != max[i] }
           prefix = min[0...idx].strip
-          return if prefix.empty?
+          return if prefix.size < 2
 
           prefix
         end
