@@ -63,9 +63,9 @@ module Fontist
 
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
-                   desc: "Install even if it's already installed in system"
+                   desc: "Install even if already installed in system"
     option :formula, type: :boolean, aliases: :F,
-                     desc: "Install by formula instead of font"
+                     desc: "Install whole formula instead of a font"
     option :accept_all_licenses, type: :boolean,
                                  aliases: ["--confirm-license", :a],
                                  desc: "Accept all license agreements"
@@ -76,12 +76,12 @@ module Fontist
     option :version, type: :string, aliases: :V,
                      desc: "Specify particular version of a font"
     option :smallest, type: :boolean, aliases: :s,
-                      desc: "Install the smallest formula if several"
+                      desc: "Install the smallest font by file size if several"
     option :newest, type: :boolean, aliases: :n,
                     desc: "Install the newest version of a font if several"
     option :size_limit,
            type: :numeric, aliases: :S,
-           desc: "Specify size limit for formula " \
+           desc: "Specify upper limit for file size of a formula to be installed" \
                  "(default is #{Fontist.formula_size_limit_in_megabytes} MB)"
     def install(font)
       handle_class_options(options)
