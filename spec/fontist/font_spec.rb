@@ -637,6 +637,27 @@ RSpec.describe Fontist::Font do
         end
       end
 
+      context "with update_fontconfig option set to true" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus.yml") }
+        let(:options) { { update_fontconfig: true } }
+
+        it "calls Fontconfig" do
+          expect(Fontist::Fontconfig).to receive(:update)
+          command
+        end
+      end
+
+      context "no update_fontconfig option" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus.yml") }
+
+        it "does not call Fontconfig" do
+          expect(Fontist::Fontconfig).not_to receive(:update)
+          command
+        end
+      end
+
       def expect_to_install(expected_formula)
         original_new = Fontist::FontInstaller.method(:new)
         expect(Fontist::FontInstaller).to receive(:new).once do |formula|

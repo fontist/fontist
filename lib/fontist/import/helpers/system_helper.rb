@@ -4,15 +4,7 @@ module Fontist
       module SystemHelper
         class << self
           def run(command)
-            Fontist.ui.debug("Run `#{command}`")
-
-            result = `#{command}`
-            unless $CHILD_STATUS.to_i.zero?
-              raise Errors::BinaryCallError,
-                    "Failed to run #{command}, status: #{$CHILD_STATUS}"
-            end
-
-            result
+            Fontist::Helpers.run(command)
           end
         end
       end

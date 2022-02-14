@@ -28,6 +28,14 @@ module Fontist
       def self.match?(platform)
         user_os_with_version.start_with?(platform)
       end
+
+      def self.fontconfig_installed?
+        Helpers.silence_stream($stderr) do
+          !!Helpers.run("fc-cache -V")
+        end
+      rescue Errno::ENOENT
+        false
+      end
     end
   end
 end

@@ -135,6 +135,7 @@ Supported options:
 `-n, [--newest]`:: Install the newest version of a font if several
 `-S, [--size-limit=N]`:: Specify upper limit for file size of a formula to be installed
                        (default is 300 MB)
+`-u, [--update-fontconfig]`:: Update Fontconfig
 
 
 NOTE: The `install` command is similar to the `Font.install` library call.
@@ -275,6 +276,30 @@ Roboto Mono:
     full_name: Roboto Mono Regular
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
+----
+
+=== Work with Fontconfig: `fontist fontconfig`
+
+Fontconfig is a software designed to provide fonts to other programs. It is
+typically used on Linux, but also available on macOS and Windows. Fontconfig is
+used by LibreOffice, GIMP, and many other programs.
+
+It order to find fontist fonts, Fontconfig should be updated to include fontist
+paths. It can be done with the `--update-fontconfig` option of the `install`
+command, or by calling a special one:
+
+[source,sh]
+----
+$ fontist fontconfig update
+----
+
+It would create a config in `~/.config/fontconfig/conf.d/10-fontist.conf`.
+
+To remove it, please use:
+
+[source,sh]
+----
+$ fontist fontconfig remove
 ----
 
 === Help: `fontist help`
@@ -518,6 +543,17 @@ Then the following calls would return font names and paths, as from the
 ----
 Fontist::Manifest::Locations.from_file("manifest.yml")
 Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
+----
+
+=== `Fontist::Fontconfig`
+
+Fontist supports work with Fontconfig via the Ruby interface:
+
+[source,ruby]
+----
+Fontist::Fontconfig.update              # let detect fontist fonts
+Fontist::Fontconfig.remove              # disable detection
+Fontist::Fontconfig.remove(force: true) # do not fail if no config exists
 ----
 
 === Installing macOS-specific add-on fonts

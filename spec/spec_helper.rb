@@ -16,6 +16,15 @@ RSpec.configure do |config|
     config.filter_run_excluding slow: true
   end
 
+  if Fontist::Utils::System.user_os == :windows
+    config.filter_run_excluding fontconfig: true
+  end
+
+  unless ENV.fetch("TEST_ENV", "local").upcase === "CI" ||
+      Fontist::Utils::System.fontconfig_installed?
+    config.filter_run_excluding fontconfig: true
+  end
+
   %i[windows macos linux].each do |system|
     unless Fontist::Utils::System.user_os == system
       config.filter_run_excluding system => true
