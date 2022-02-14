@@ -4,6 +4,18 @@ module Fontist
 
     class BinaryCallError < GeneralError; end
 
+    class FontconfigNotFoundError < GeneralError
+      def initialize
+        super("Could not find fontconfig.")
+      end
+    end
+
+    class FontconfigFileNotFoundError < GeneralError
+      def initialize
+        super("Fontist file could not be found in fontconfig configuration.")
+      end
+    end
+
     class FontIndexCorrupted < GeneralError; end
 
     class FontNotFoundError < GeneralError; end

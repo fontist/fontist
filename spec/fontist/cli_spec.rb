@@ -210,6 +210,34 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+
+    context "with update-fontconfig option" do
+      include_context "fresh home"
+      before { example_formula("tex_gyre_chorus.yml") }
+
+      let(:status) do
+        described_class.start(["install",
+                               "--update-fontconfig",
+                               "texgyrechorus"])
+      end
+
+      it "passes it" do
+        expect(Fontist::Font).to receive(:install)
+          .with(anything, hash_including(update_fontconfig: true))
+          .and_return([])
+
+        expect(status).to be 0
+      end
+
+      context "no fontconfig installed" do
+        it "returns fontconfig-not-found error code" do
+          allow(Fontist::Fontconfig).to receive(:update)
+            .and_raise(Fontist::Errors::FontconfigNotFoundError)
+
+          expect(status).to be Fontist::CLI::STATUS_FONTCONFIG_NOT_FOUND
+        end
+      end
+    end
   end
 
   describe "#status" do

@@ -2,6 +2,7 @@ require "thor"
 require "fontist/cli/class_options"
 require "fontist/repo_cli"
 require "fontist/import_cli"
+require "fontist/fontconfig_cli"
 
 module Fontist
   class CLI < Thor
@@ -21,6 +22,8 @@ module Fontist
     STATUS_MANUAL_FONT_ERROR = 11
     STATUS_SIZE_LIMIT_ERROR = 12
     STATUS_FORMULA_NOT_FOUND = 13
+    STATUS_FONTCONFIG_NOT_FOUND = 14
+    STATUS_FONTCONFIG_FILE_NOT_FOUND = 15
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -43,6 +46,9 @@ module Fontist
       Fontist::Errors::RepoNotFoundError => [STATUS_REPO_NOT_FOUND],
       Fontist::Errors::MainRepoNotFoundError => [STATUS_MAIN_REPO_NOT_FOUND],
       Fontist::Errors::FormulaNotFoundError => [STATUS_FORMULA_NOT_FOUND],
+      Fontist::Errors::FontconfigNotFoundError => [STATUS_FONTCONFIG_NOT_FOUND],
+      Fontist::Errors::FontconfigFileNotFoundError =>
+        [STATUS_FONTCONFIG_FILE_NOT_FOUND],
     }.freeze
 
     def self.exit_on_failure?
@@ -82,6 +88,8 @@ module Fontist
            type: :numeric, aliases: :S,
            desc: "Specify upper limit for file size of a formula to be installed" \
                  "(default is #{Fontist.formula_size_limit_in_megabytes} MB)"
+    option :update_fontconfig, type: :boolean, aliases: :u,
+                               desc: "Update fontconfig"
     def install(font)
       handle_class_options(options)
       confirmation = options[:accept_all_licenses] ? "yes" : "no"
@@ -200,6 +208,9 @@ module Fontist
 
     desc "import SUBCOMMAND ...ARGS", "Manage imports"
     subcommand "import", Fontist::ImportCLI
+
+    desc "fontconfig SUBCOMMAND ...ARGS", "Manage fontconfig"
+    subcommand "fontconfig", Fontist::FontconfigCLI
 
     private
 

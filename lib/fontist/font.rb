@@ -1,6 +1,7 @@
 require "fontist/font_installer"
 require "fontist/font_path"
 require "fontist/formula_picker"
+require "fontist/fontconfig"
 
 module Fontist
   class Font
@@ -15,6 +16,7 @@ module Fontist
       @newest = options[:newest]
       @size_limit = options[:size_limit]
       @by_formula = options[:formula]
+      @update_fontconfig = options[:update_fontconfig]
 
       check_or_create_fontist_path!
     end
@@ -166,9 +168,13 @@ module Fontist
     def download_font
       return if sufficient_formulas.empty?
 
-      sufficient_formulas.flat_map do |formula|
+      paths = sufficient_formulas.flat_map do |formula|
         request_formula_installation(formula)
       end
+
+      update_fontconfig
+
+      paths
     end
 
     def request_formula_installation(formula)
@@ -218,6 +224,12 @@ module Fontist
         -----------------------------------------------------------------------
         FONT LICENSE END ("#{name}")
       MSG
+    end
+
+    def update_fontconfig
+      return unless @update_fontconfig
+
+      Fontconfig.update
     end
 
     def manual_font
