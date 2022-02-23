@@ -160,17 +160,16 @@ These fonts are removed:
 
 === Status: `fontist status`
 
-Prints installed font paths grouped by formula and font.
+Prints installed font paths with a corresponding formula.
 
 [source,sh]
 ----
 $ fontist status "segoe ui"
-segoe_ui
- Segoe UI
-  Regular (/Users/user/.fontist/fonts/SEGOEUI.TTF)
-  Bold (/Users/user/.fontist/fonts/SEGOEUIB.TTF)
-  Italic (/Users/user/.fontist/fonts/SEGOEUII.TTF)
-  Bold Italic (/Users/user/.fontist/fonts/SEGOEUIZ.TTF)
+Fonts found at:
+- /Users/user/.fontist/fonts/SEGOEUII.TTF (from segoe_ui formula)
+- /Users/user/.fontist/fonts/SEGOEUIZ.TTF (from segoe_ui formula)
+- /Users/user/.fontist/fonts/SEGOEUIB.TTF (from segoe_ui formula)
+- /Users/user/.fontist/fonts/SEGOEUI.TTF (from segoe_ui formula)
 ----
 
 === List: `fontist list`
@@ -242,11 +241,21 @@ Segoe UI:
     - "/Users/user/.fontist/fonts/SEGOEUIB.TTF"
 Roboto Mono:
   Regular:
-    full_name:
-    paths: []
+    full_name: Roboto Mono Regular
+    paths:
+    - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
 
-Since "`Segoe UI`" is installed, but "`Roboto Mono`" is not.
+If one or more of requested fonts are missing, the "3" error code would be
+returned, and a message printed:
+
+[source,sh]
+----
+$ fontist manifest-locations manifest.yml
+'Roboto Mono' 'Regular' font is missing, please run `fontist install 'Roboto Mono'` to download the font.
+$ echo $?
+3
+----
 
 === Install fonts from manifest: `fontist manifest-install`
 
@@ -556,7 +565,7 @@ Fontist::Fontconfig.remove              # disable detection
 Fontist::Fontconfig.remove(force: true) # do not fail if no config exists
 ----
 
-=== Installing macOS-specific add-on fonts
+== Installing macOS-specific add-on fonts
 
 The purpose of Fontist allowing macOS-specific add-on fonts is to allow CI jobs
 on macOS environments to use these specially licensed fonts that are not
@@ -701,27 +710,6 @@ fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
 cp lato.yml ~/.fontist/formulas/Formulas/
 ----
 
-Though indexes are auto-generated now, maintainers should rebuild indexes in the
-main repo for backward compatibility with Fontist versions prior to v1.9.x.
-
-A formula index should be rebuilt when a new formula is generated or an existing
-one changed:
-
-[source,sh]
-----
-fontist rebuild-index --main-repo
-----
-
-Then, both the formula and the updated indexes should be committed and pushed to
-the formula repository:
-
-[source,sh]
-----
-cd ~/.fontist/formulas
-git add Formulas/lato.yml index.yml filename_index.yml
-git commit -m "Add Lato formula"
-----
-
 === Authentication for private formulas or private formula repositories
 
 Authorization of private archives in private formulas can be implemented with
@@ -784,29 +772,13 @@ WARNING: This section is only for Fontist maintainers.
 https://fonts.google.com[Google Fonts] provides probably the largest collection
 of widely-used, freely and openly licensed fonts.
 
-Fontist's https://github.com/fonitist/formula[formula library] includes support
+Fontist's https://github.com/fontist/formulas[formula library] includes support
 for all openly-licensed fonts provided through Google Fonts, and maintains
 Fontist formulas for all such fonts.
 
-A GHA workflow checks for updated fonts on Google Fonts daily.
-
-In case an update is found, it could be fetched to the library by:
-
-[source,sh]
-----
-bin/fontist import google
-----
-
-The script would update formulas which should be committed to a separate
-repository https://github.com/fontist/formulas[formulas]:
-
-[source,sh]
-----
-cd ~/.fontist/versions/{last_version}/formulas
-git add Formulas/google
-git commit -m "Google Fonts update"
-git push
-----
+https://github.com/fontist/formulas/blob/v3/.github/workflows/google.yml[A GHA
+workflow] checks for updated fonts on Google Fonts daily. In case an update is
+found, it's added to the repo by the workflow.
 
 === Dynamically importing formulas from SIL
 
@@ -833,33 +805,17 @@ git push
 === Dynamically importing formulas from macOS
 
 macOS provides https://support.apple.com/en-om/HT211240#download[fonts] which
-can be manually downloaded with `Font Book.app`. When such font is requested,
-Fontist prints information on how to install it.
+can be manually downloaded with `Font Book.app`.
 
-In order to know which fonts are available in a current version of macOS,
-for each version there is a formula containing all supported fonts.
-
-A new formula can be generated with:
+To update macOS formulas:
 
 [source,sh]
 ----
-fontist import macos --name "Big Sur" --fonts-link "https://support.apple.com/en-om/HT211240#download"
+fontist import macos
 cd ~/.fontist/versions/{last_version}/formulas
 git add Formulas/macos
-git commit -m "Add Big Sur macOS formula"
+git commit -m "Update macOS formulas"
 git push
-----
-
-Here `--fonts-link` is a link to a page containing a list of available fonts
-in the `Font Book.app`.
-
-If the import is run on a different version of macOS, then a proper version
-should be set in the `platforms` attribute of the generated formula:
-
-[source,yaml]
-----
-platforms:
-- macos-20
 ----
 
 
