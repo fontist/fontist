@@ -1,6 +1,8 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Utils::Downloader do
+  let(:url) { sample_file[:file] }
+
   describe ".download" do
     it "return the valid downloaded file" do
       tempfile = Fontist::Utils::Downloader.download(
@@ -71,6 +73,24 @@ RSpec.describe Fontist::Utils::Downloader do
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
           end.to raise_error(Fontist::Errors::InvalidResourceError)
+        end
+      end
+    end
+
+    context "file has no extension" do
+      it "uses content-type to detect extension" do
+        avoid_cache(url) do
+          expect(Down).to receive(:download).and_wrap_original do |m, *args|
+            m.call(*args).tap do |file|
+              allow(file).to receive(:original_filename)
+                .and_return("no_ext_filename")
+              allow(file).to receive(:content_type)
+                .and_return("application/zip")
+            end
+          end
+
+          file = Fontist::Utils::Downloader.download(url)
+          expect(File.basename(file.path)).to eq "no_ext_filename.zip"
         end
       end
     end

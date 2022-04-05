@@ -97,8 +97,17 @@ module Fontist
 
       def generate_file_path(source)
         dir = Dir.mktmpdir(nil, Fontist.downloads_path)
-        filename = source.original_filename
-        File.join(dir, filename)
+        File.join(dir, filename(source))
+      end
+
+      def filename(source)
+        if File.extname(source.original_filename).empty? && source.content_type
+          require "mime/types"
+          ext = MIME::Types[source.content_type].first&.preferred_extension
+          return "#{source.original_filename}.#{ext}" if ext
+        end
+
+        source.original_filename
       end
 
       def move(source_file, target_path)
