@@ -122,6 +122,10 @@ module Fontist
           true
         rescue Down::NotFound
           false
+        rescue Down::ClientError => e
+          raise unless e.message == "403 Forbidden"
+
+          false
         rescue Down::TimeoutError
           retry unless retries >= 3
           false
