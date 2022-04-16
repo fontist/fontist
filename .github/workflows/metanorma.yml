@@ -27,7 +27,15 @@ jobs:
 
       - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
 
-      - uses: ruby/setup-ruby@v1
+      - if: matrix.ruby == '3.0'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          rubygems: latest
+
+      - if: matrix.ruby != '3.0'
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
