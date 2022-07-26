@@ -809,7 +809,7 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           stub_system_fonts_path_to_new_path do
             example_font_to_system("AndaleMo.TTF")
-            expect(command.size).to be 1
+            expect(command.size).to eq 1
           end
         end
       end
@@ -821,7 +821,7 @@ RSpec.describe Fontist::Font do
       it "returns no fonts" do
         stub_fonts_path_to_new_path do
           stub_system_fonts_path_to_new_path do
-            expect(command.size).to be 0
+            expect(command.size).to eq 0
           end
         end
       end
@@ -913,7 +913,7 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           expect(command.size).to be > 1
           _, _, _, installed = unpack_status(command)
-          expect(installed).to be false
+          expect(installed).to eq false
         end
       end
     end

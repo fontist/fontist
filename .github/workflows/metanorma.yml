@@ -5,15 +5,44 @@ on:
     branches: [ main ]
   pull_request:
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      head_tag: ${{ steps.check.outputs.head_tag }}
+      foreign_pr: ${{ steps.check.outputs.foreign_pr }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Retrieve tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
+      - name: Set output variables
+        id: check
+        run: |
+          fpr="no"
+          tag=""
+          if [[ "${{ github.ref }}" == refs/heads/* ]]; then
+            tag="$(git tag --points-at HEAD)"
+          elif [[ "${{ github.ref }}" == refs/pull/* ]] && [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.event.pull_request.base.repo.full_name }}" ]; then
+            fpr="yes"
+          fi
+          echo "::set-output name=foreign_pr::${fpr}"
+          echo "::set-output name=head_tag::${tag}"
+
   test:
     name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
+    needs: prepare
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.6', '2.7', '3.0' ]
+        ruby: [ '2.6', '2.7', '3.0', '3.1' ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         experimental: [ true ]
     steps:
