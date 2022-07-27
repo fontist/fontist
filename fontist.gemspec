@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "fontist/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "fontist"
+  spec.name          = "fontist_ex"
   spec.version       = Fontist::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
   spec.add_runtime_dependency "plist", "~> 3.0"
-  spec.add_runtime_dependency "excavate", "~> 0.1"
+  spec.add_runtime_dependency "excavate", "~> 0.3.1"
 
   spec.add_development_dependency "pry"
   spec.add_development_dependency "bundler", "~> 2.0"
@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-benchmark", "~> 0.6"
-  spec.add_development_dependency "rubocop", "1.5.2"
+  spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-rails"
   spec.add_development_dependency "rubocop-performance"
 
