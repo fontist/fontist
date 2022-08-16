@@ -1,6 +1,6 @@
 = Fontist
 
-image:https://github.com/fontist/fontist/actions/workflows/rspec.yml/badge.svg["Build Status", link="https://github.com/fontist/fontist/actions/workflows/rspec.yml"]
+image:https://github.com/fontist/fontist/actions/workflows/test-and-release.yml/badge.svg["Build Status", link="https://github.com/fontist/fontist/actions/workflows/test-and-release.yml"]
 image:https://img.shields.io/gem/v/fontist.svg["Gem Version", link="https://rubygems.org/gems/fontist"]
 image:https://img.shields.io/github/issues-pr-raw/fontist/fontist.svg["Pull Requests", link="https://github.com/fontist/fontist/pulls"]
 

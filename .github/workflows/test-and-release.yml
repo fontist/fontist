@@ -13,15 +13,13 @@ concurrency:
 jobs:
   test:
     name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
-    needs: prepare
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ contains(matrix.os, 'ubuntu') || matrix.ruby == '3.1' }}
     strategy:
       fail-fast: false
       matrix:
         ruby: [ '2.6', '2.7', '3.0', '3.1' ]
         os: [ ubuntu-18.04, ubuntu-latest, windows-latest, macos-latest ]
-        experimental: [ false ]
 
     steps:
       - uses: actions/checkout@v3
