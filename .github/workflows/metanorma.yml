@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   pull_request:
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
@@ -13,11 +17,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.6', '2.7', '3.0' ]
+        ruby: [ '2.7', '3.0', '3.1' ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         experimental: [ true ]
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
         with:
           repository: metanorma/metanorma
 

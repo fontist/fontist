@@ -1,24 +1,30 @@
-name: rspec
+name: test-and-release
 
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
   pull_request:
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
 jobs:
-  build:
+  test:
     name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
+    needs: prepare
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.4', '2.5', '2.6', '2.7', '3.0' ]
+        ruby: [ '2.6', '2.7', '3.0', '3.1' ]
         os: [ ubuntu-18.04, ubuntu-latest, windows-latest, macos-latest ]
         experimental: [ false ]
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -33,15 +39,19 @@ jobs:
         env:
           TEST_ENV: CI
 
-      - if: matrix.os == 'windows-latest' && matrix.ruby == '2.4'
-        run: curl -O https://curl.se/ca/cacert.pem
-
-      - if: matrix.os == 'windows-latest' && matrix.ruby == '2.4'
-        run: bundle exec rspec --tag ~dev
-        env:
-          SSL_CERT_FILE: cacert.pem
-
-      - if: matrix.os != 'macos-latest' || matrix.os == 'windows-latest' && matrix.ruby == '2.4'
+      - if: matrix.os != 'macos-latest'
         run: bundle exec rspec --tag ~dev
         env:
           TEST_ENV: CI
+
+  release:
+    name: Release gem
+    needs: test
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: cadwallion/publish-rubygems-action@master
+        env:
+          RUBYGEMS_API_KEY: ${{secrets.FONTIST_CI_RUBYGEMS_API_KEY}}
