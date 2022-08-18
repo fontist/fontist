@@ -17,7 +17,8 @@ module Fontist
       end
 
       def self.digest(path)
-        checksums = Dir.glob(File.join(path, "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}"))
+        checksums = Dir.glob(File.join(path,
+                             "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}"))
           .sort
           .map { |x| Digest::SHA256.file(x).to_s }
 
