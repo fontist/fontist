@@ -21,7 +21,9 @@ module Fontist
       templates = YAML.load_file(config_path)["system"][os]["paths"]
       patterns = expand_paths(templates)
 
-      Dir.glob(patterns, File::FNM_CASEFOLD)
+      Dir.glob(patterns)
+      # File::FNM_CASEFOLD is officially ignored -- see https://ruby-doc.org/core-3.1.1/Dir.html#method-c-glob
+      # "Case sensitivity depends on your system"
     end
 
     def self.reset_system_font_paths_cache
