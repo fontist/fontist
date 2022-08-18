@@ -107,7 +107,7 @@ module Fontist
     end
 
     def system_paths(path)
-      pattern = File.join(path, "**", "*.{ttf,otf,ttc}")
+      pattern = File.join(path, "**", "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}")
       paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, Metrics/LineLength, avoid aliases in YAML
       { "system" => %w[linux windows macos unix].zip(paths).to_h }
     end
