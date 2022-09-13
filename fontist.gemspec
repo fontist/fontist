@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = %q{Install openly-licensed fonts on Windows, Linux and Mac!}
-  spec.description   = %q{Install openly-licensed fonts on Windows, Linux and Mac!}
+  spec.summary       = "Install openly-licensed fonts on Windows, Linux and Mac!"
+  spec.description   = "Install openly-licensed fonts on Windows, Linux and Mac!"
   spec.homepage      = "https://github.com/fontist/fontist"
   spec.license       = "BSD-2-Clause"
 
@@ -25,26 +25,26 @@ Gem::Specification.new do |spec|
   end
   spec.bindir        = "exe"
   spec.executables   = ["fontist"]
-  spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
   spec.add_runtime_dependency "down", "~> 5.0"
+  spec.add_runtime_dependency "excavate", "~> 0.3.1"
   spec.add_runtime_dependency "extract_ttc", "~> 0.1"
-  spec.add_runtime_dependency "nokogiri", "~> 1.0"
+  spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "mime-types", "~> 3.0"
+  spec.add_runtime_dependency "nokogiri", "~> 1.0"
+  spec.add_runtime_dependency "plist", "~> 3.0"
+  spec.add_runtime_dependency "socksify", "~> 1.7"
   spec.add_runtime_dependency "sys-uname", "~> 1.2"
   spec.add_runtime_dependency "thor", "~> 1.0.1"
-  spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
-  spec.add_runtime_dependency "plist", "~> 3.0"
-  spec.add_runtime_dependency "excavate", "~> 0.3.1"
-  spec.add_runtime_dependency "socksify", "~> 1.7"
 
-  spec.add_development_dependency "pry", "~> 0.14"
   spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_development_dependency "pry", "~> 0.14"
   spec.add_development_dependency "rake", "~> 13"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-benchmark", "~> 0.6"
   spec.add_development_dependency "rubocop", "~> 1.5"
-  spec.add_development_dependency "rubocop-rails", "~> 2.9"
   spec.add_development_dependency "rubocop-performance", "~> 1.10"
+  spec.add_development_dependency "rubocop-rails", "~> 2.9"
+  spec.metadata["rubygems_mfa_required"] = "true"
 end

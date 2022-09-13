@@ -3,7 +3,8 @@ require_relative "locations"
 module Fontist
   module Manifest
     class Install < Locations
-      def initialize(manifest, confirmation: "no", hide_licenses: false, no_progress: false)
+      def initialize(manifest, confirmation: "no", hide_licenses: false,
+no_progress: false)
         super(manifest)
         @confirmation = confirmation
         @hide_licenses = hide_licenses
@@ -27,7 +28,7 @@ module Fontist
           force: true,
           confirmation: @confirmation,
           hide_licenses: @hide_licenses,
-          no_progress: @no_progress
+          no_progress: @no_progress,
         )
       end
     end

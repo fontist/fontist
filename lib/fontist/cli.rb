@@ -115,7 +115,10 @@ module Fontist
     def status(font = nil)
       handle_class_options(options)
       paths = Fontist::Font.status(font)
-      return error("No font is installed.", STATUS_MISSING_FONT_ERROR) if paths.empty?
+      if paths.empty?
+        return error("No font is installed.",
+                     STATUS_MISSING_FONT_ERROR)
+      end
 
       success
     rescue Fontist::Errors::GeneralError => e
@@ -166,7 +169,7 @@ module Fontist
       paths = Fontist::Manifest::Install.from_file(
         manifest,
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses]
+        hide_licenses: options[:hide_licenses],
       )
 
       print_yaml(paths)
@@ -180,7 +183,7 @@ module Fontist
     option :mirror, repeatable: true
     option :subarchive, desc: "Subarchive to choose when there are several ones"
     option :subdir, desc: "Subdirectory to take fonts from, starting with the " \
-      "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
+                          "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
     def create_formula(url)
       handle_class_options(options)
       require "fontist/import/create_formula"

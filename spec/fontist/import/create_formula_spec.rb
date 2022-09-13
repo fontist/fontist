@@ -157,7 +157,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
         *example["fonts"].map do |font|
           { "name" => font["name"],
             "styles" => contain_exactly(*font["styles"]) }
-        end
+        end,
       )
     end
 
@@ -170,11 +170,11 @@ RSpec.describe "Fontist::Import::CreateFormula" do
                 *collection["fonts"].map do |font|
                   { "name" => font["name"],
                     "styles" => contain_exactly(*font["styles"]) }
-                end
-              )
-            )
+                end,
+              ),
+            ),
           )
-        end
+        end,
       )
     end
 

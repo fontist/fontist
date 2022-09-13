@@ -39,7 +39,8 @@ RSpec.describe Fontist::SystemIndex do
 
     it "throws FontIndexCorrupted error" do
       stub_system_index_path do
-        File.write(Fontist.system_index_path, YAML.dump([{ path: "/some/path" }]))
+        File.write(Fontist.system_index_path,
+                   YAML.dump([{ path: "/some/path" }]))
         expect { command }.to raise_error(Fontist::Errors::FontIndexCorrupted)
       end
     end
@@ -69,6 +70,28 @@ RSpec.describe Fontist::SystemIndex do
         .with(/#{corrupt_font_file} not recognized as a font file/)
 
       instance.find("some font", nil)
+    end
+  end
+  context "Arch Linux issue" do
+    it "generates system index when there is corrupt font file" do
+      d = stub_system_fonts_path_to_new_path
+      path = File.join(d, "corrupt_font.ttc")
+      File.write(path, "This is not a font file")
+
+      #      stub_system_font_finder_to_fixture("Fonts")
+
+      Fontist::SystemIndex.system_index.rebuild
+
+      #      stub_system_fonts(Fontist.orig_system_file_path)
+
+      #     path = File.join(stub_system_index_path, "corrupt_font.ttf")
+      #     File.write(path, "This is not a font file")
+
+      #      reference_index_path = stub_system_index_path do
+      #        Fontist::SystemIndex.system_index.rebuild
+      #      end
+
+      #      puts "#{reference_index_path}"
     end
   end
 end

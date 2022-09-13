@@ -122,7 +122,9 @@ module Fontist
     end
 
     def changed?(this, other)
-      this.map { |x| x[:path] }.uniq.sort != other.map { |x| x[:path] }.uniq.sort
+      this.map { |x| x[:path] }.uniq.sort != other.map do |x|
+                                               x[:path]
+                                             end.uniq.sort
     end
 
     def load_index

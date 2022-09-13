@@ -7,9 +7,9 @@ module Fontist
         def initialize
           otfinfo_path = `which otfinfo`
           if otfinfo_path.empty?
-            abort "otfinfo is not available. (Or is PATH not setup properly?)"\
-              " You must install otfinfo."\
-              " On macOS it can be installed via `brew install lcdf-typetools`."
+            abort "otfinfo is not available. (Or is PATH not setup properly?)" \
+                  " You must install otfinfo." \
+                  " On macOS it can be installed via `brew install lcdf-typetools`."
           end
         end
 

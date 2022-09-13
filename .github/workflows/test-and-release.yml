@@ -42,9 +42,29 @@ jobs:
         env:
           TEST_ENV: CI
 
+  archlinux-test:
+    name: Test on Arch Linux
+    runs-on: ubuntu-latest
+    container:
+      image: 'archlinux:latest'
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup packages
+        run: pacman -Syu --noconfirm git ruby binutils gcc autoconf make libffi
+
+      - run: bundle install
+
+      - name: Test
+        run: bundle exec rspec --tag ~dev
+
   release:
     name: Release gem
-    needs: test
+    needs: [ test, archlinux-test ]
     runs-on: ubuntu-latest
     if: contains(github.ref, 'refs/tags/v')
     steps:

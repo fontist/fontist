@@ -73,7 +73,7 @@ module Fontist
         request,
         sha: source.sha256,
         file_size: source.file_size,
-        progress_bar: !@no_progress
+        progress_bar: !@no_progress,
       )
     rescue Errors::InvalidResourceError => e
       Fontist.ui.say(e.message)

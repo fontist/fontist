@@ -49,7 +49,8 @@ module Fontist
       end
 
       def add_formula(_formula)
-        raise NotImplementedError, "Please define how to add formula to an index, use #add_index_formula"
+        raise NotImplementedError,
+              "Please define how to add formula to an index, use #add_index_formula"
       end
 
       def add_index_formula(key_raw, index_formula)

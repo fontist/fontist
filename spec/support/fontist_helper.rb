@@ -70,7 +70,7 @@ module Fontist
     end
 
     def no_fonts(&block)
-      if block_given?
+      if block
         stub_fonts_path_to_new_path do
           stub_system_fonts_path_to_new_path(&block)
         end
@@ -158,6 +158,10 @@ module Fontist
 
     def stub_license_agreement_prompt_with(confirmation = "yes")
       allow(Fontist.ui).to receive(:ask).and_return(confirmation)
+    end
+
+    def stub_license_agreement_prompt_with_exception
+      allow(Thor::LineEditor).to receive(:readline).and_raise(Errno::EBADF)
     end
 
     def fixtures_dir(&block)
@@ -300,7 +304,7 @@ module Fontist
     end
 
     def stub_env(name, value)
-      prev = ENV[name]
+      prev = ENV.fetch(name, nil)
       ENV[name] = value
       yield
       ENV[name] = prev

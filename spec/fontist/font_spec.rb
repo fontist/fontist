@@ -45,8 +45,12 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         no_fonts do
-          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "InvalidFont.ttf" })
+          expect do
+            command
+          end.to raise_error Fontist::Errors::UnsupportedFontError
+          expect { command }.to(raise_error do |e|
+                                  expect(e.font).to eq "InvalidFont.ttf"
+                                end)
         end
       end
     end
@@ -190,7 +194,15 @@ RSpec.describe Fontist::Font do
         stub_license_agreement_prompt_with("no")
 
         expect { Fontist::Font.install("andale mono") }.to raise_error(
-          Fontist::Errors::LicensingError
+          Fontist::Errors::LicensingError,
+        )
+      end
+
+      it "raises licensing error in fully detached mode" do
+        example_formula("andale.yml")
+        stub_license_agreement_prompt_with_exception
+        expect { Fontist::Font.install("andale mono") }.to raise_error(
+          Fontist::Errors::LicensingError,
         )
       end
     end
@@ -415,7 +427,9 @@ RSpec.describe Fontist::Font do
     end
 
     context "when requires license agreement" do
-      let(:command) { Fontist::Font.install(font, confirmation: "no", **options) }
+      let(:command) do
+        Fontist::Font.install(font, confirmation: "no", **options)
+      end
       let(:font) { "andale mono" }
       before { example_formula("andale.yml") }
 
@@ -681,7 +695,9 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        expect { command }.to(raise_error do |e|
+                                expect(e.font).to eq "nonexistent"
+                              end)
       end
     end
 
@@ -726,7 +742,9 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           example_font("overpass-regular.otf")
 
-          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
+          expect do
+            command
+          end.to raise_error Fontist::Errors::UnsupportedFontError
           expect(font_file("overpass-regular.otf")).to exist
         end
       end
@@ -771,8 +789,12 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         no_fonts do
-          expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+          expect do
+            command
+          end.to raise_error Fontist::Errors::UnsupportedFontError
+          expect { command }.to(raise_error do |e|
+                                  expect(e.font).to eq "nonexistent"
+                                end)
         end
       end
     end
@@ -784,7 +806,9 @@ RSpec.describe Fontist::Font do
         stub_system_fonts
         stub_fonts_path_to_new_path do
           expect { command }.to raise_error Fontist::Errors::MissingFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "andale mono" })
+          expect { command }.to(raise_error do |e|
+                                  expect(e.font).to eq "andale mono"
+                                end)
         end
       end
     end
@@ -873,7 +897,9 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        expect { command }.to(raise_error do |e|
+                                expect(e.font).to eq "nonexistent"
+                              end)
       end
     end
 

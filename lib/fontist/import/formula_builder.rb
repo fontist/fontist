@@ -32,8 +32,7 @@ module Fontist
         common = %i[family_name type]
           .map { |attr| both_fonts.map(&attr).uniq }
           .map { |names| TextHelper.longest_common_prefix(names) }
-          .map { |prefix| prefix unless prefix == "Regular" }
-          .compact
+          .reject { |prefix| prefix == "Regular" }
           .join(" ")
         return common unless common.empty?
 
