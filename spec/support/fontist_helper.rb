@@ -160,6 +160,10 @@ module Fontist
       allow(Fontist.ui).to receive(:ask).and_return(confirmation)
     end
 
+    def stub_license_agreement_prompt_with_exception
+      allow(Thor::LineEditor).to receive(:readline).and_raise(Errno::EBADF)
+    end
+
     def fixtures_dir(&block)
       Dir.chdir(Fontist.root_path.join("spec", "fixtures"), &block)
     end

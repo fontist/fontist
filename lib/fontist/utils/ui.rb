@@ -37,6 +37,9 @@ module Fontist
 
       def self.ask(message, options = {})
         new.ask(message, options)
+      rescue Errno::EBADF
+        say(" ... cannot get the answer in detached mode.")
+        "error"
       end
 
       def self.print(message)
