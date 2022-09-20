@@ -193,6 +193,14 @@ RSpec.describe Fontist::Font do
           Fontist::Errors::LicensingError
         )
       end
+
+      it "raises licensing error in fully detached mode" do
+        example_formula("andale.yml")
+        stub_license_agreement_prompt_with_exception
+        expect { Fontist::Font.install("andale mono") }.to raise_error(
+          Fontist::Errors::LicensingError,
+        )
+      end
     end
 
     context "uninstalled but supported" do
