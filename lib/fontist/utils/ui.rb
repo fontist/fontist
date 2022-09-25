@@ -38,7 +38,10 @@ module Fontist
       def self.ask(message, options = {})
         new.ask(message, options)
       rescue Errno::EBADF
-        say(" ... cannot get the answer in detached mode.")
+        say(<<~MSG.chomp)
+          ERROR: Fontist is unable to obtain agreement without an interactive prompt.
+          Please provide explicit agreement at execution or re-run Fontist with an interactive prompt.
+        MSG
         "error"
       end
 
