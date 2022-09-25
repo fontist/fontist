@@ -59,6 +59,5 @@ RSpec.describe Fontist::SystemFont do
         end
       end
     end
-
   end
 end
