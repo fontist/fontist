@@ -13,7 +13,6 @@ RSpec.describe Fontist::Font do
 
   describe ".find" do
     let(:command) { Fontist::Font.find(font) }
-
     context "with valid font name" do
       it "returns the fonts path" do
         name = "DejaVuSerif.ttf"
