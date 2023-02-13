@@ -60,7 +60,11 @@ module Fontist
         if Dir.exist?(path)
           Git.open(path).pull
         else
-          Git.clone(url, path, depth: 1)
+          repo = Git.clone(url, path, depth: 1)
+          if repo.branches[:main].name != repo.current_branch
+            # https://github.com/ruby-git/ruby-git/issues/531
+            repo.checkout(:main).pull
+          end
         end
       end
 

@@ -18,29 +18,36 @@ env:
 # https://github.com/rubygems/rubygems/pull/4488
 
 jobs:
+  prepare:
+    uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
+
   test:
-    name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
+    name: Test on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
     strategy:
       fail-fast: false
-      matrix:
-        ruby: [ '2.7', '3.0', '3.1' ]
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
-        run: brew install lcdf-typetools
-
-      - if: matrix.os == 'macos-latest'
-        run: bundle exec rspec
+        run: |
+          brew install lcdf-typetools
+          bundle exec rspec
         env:
           TEST_ENV: CI
 
@@ -69,13 +76,18 @@ jobs:
         run: bundle exec rspec --tag ~dev
 
   metanorma:
-    name: Test metanorma on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
+    name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
     strategy:
       fail-fast: false
-      matrix:
-        ruby: [ '2.7', '3.0', '3.1' ]
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -87,18 +99,10 @@ jobs:
 
       - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
 
-      - if: matrix.ruby == '3.0'
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler: ${{ env.BUNDLER_VER }}
-          bundler-cache: true
-          rubygems: latest
-
-      - if: matrix.ruby != '3.0'
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
@@ -114,6 +118,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cadwallion/publish-rubygems-action@master
-        env:
-          RUBYGEMS_API_KEY: ${{secrets.FONTIST_CI_RUBYGEMS_API_KEY}}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          bundler-cache: true
+
+      - uses: actions-mn/gem-release@main
+        with:
+          api-key: ${{ secrets.FONTIST_CI_RUBYGEMS_API_KEY }}
+          release-command: bundle exec rake release
