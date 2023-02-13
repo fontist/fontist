@@ -106,7 +106,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
   end
 
   context "rpm archive" do
-    let(:url) { "https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm" } # rubocop:disable Metrics/LineLength
+    let(:url) { "http://ftp.lysator.liu.se/pub/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm" } # rubocop:disable Metrics/LineLength
     let(:options) { { name: "webcore" } }
 
     it "generates proper yaml", slow: true, dev: true do

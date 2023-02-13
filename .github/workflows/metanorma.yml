@@ -10,16 +10,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prepare:
+    uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
+
   test:
-    name: Test on Ruby ${{ matrix.ruby }} ${{ matrix.os }}
+    name: Test on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
     strategy:
       fail-fast: false
-      matrix:
-        ruby: [ '2.7', '3.0', '3.1' ]
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        experimental: [ true ]
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,21 +35,12 @@ jobs:
         with:
           path: "fontist"
 
-      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
-
-      - if: matrix.ruby == '3.0'
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-          rubygems: latest
-
-      - if: matrix.ruby != '3.0'
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
           bundler-cache: true
 
-      - uses: metanorma/metanorma-build-scripts/inkscape-setup-action@main
+      - uses: metanorma/ci/inkscape-setup-action@main
 
       - run: bundle exec rake
