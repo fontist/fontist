@@ -15,6 +15,8 @@ Gem::Specification.new do |spec|
 
   spec.post_install_message = "Please run `fontist update` to fetch formulas."
 
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/fontist/fontist"
   spec.metadata["changelog_uri"] = "https://github.com/fontist/fontist"
@@ -36,11 +38,11 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
   spec.add_runtime_dependency "plist", "~> 3.0"
-  spec.add_runtime_dependency "excavate", "~> 0.3.1"
+  spec.add_runtime_dependency "excavate", "~> 0.3"
   spec.add_runtime_dependency "socksify", "~> 1.7"
 
   spec.add_development_dependency "pry", "~> 0.14"
-  spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_development_dependency "bundler", "~> 2.3"
   spec.add_development_dependency "rake", "~> 13"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-benchmark", "~> 0.6"

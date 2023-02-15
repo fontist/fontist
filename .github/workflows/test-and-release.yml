@@ -10,6 +10,13 @@ concurrency:
   group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
   cancel-in-progress: true
 
+env:
+  BUNDLER_VER: 2.3.24
+# Forcing bundler version to ensure that it is consistent everywhere and
+# does not cause bundler gem reinstalls
+# bundler/rubygems 2.3.22 is a minimal requirement to support gnu/musl differentiation
+# https://github.com/rubygems/rubygems/pull/4488
+
 jobs:
   prepare:
     uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
@@ -34,6 +41,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby.version }}
           rubygems: ${{ matrix.ruby.rubygems }}
+          bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
@@ -53,7 +61,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: 'archlinux:latest'
-    continue-on-error: false
     strategy:
       fail-fast: false
 
@@ -68,9 +75,44 @@ jobs:
       - name: Test
         run: bundle exec rspec --tag ~dev
 
+  metanorma:
+    name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: metanorma/metanorma
+
+      - uses: actions/checkout@master
+        with:
+          path: "fontist"
+
+      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - uses: metanorma/metanorma-build-scripts/inkscape-setup-action@main
+
+      - run: bundle exec rake
+
   release:
     name: Release gem
-    needs: [ test, archlinux-test ]
+    needs: [ test, archlinux-test, metanorma ]
     runs-on: ubuntu-latest
     if: contains(github.ref, 'refs/tags/v')
     steps:
