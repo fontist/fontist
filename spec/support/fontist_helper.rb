@@ -220,9 +220,17 @@ module Fontist
     end
 
     def example_font_to(filename, dir)
-      example_path = File.join("spec", "examples", "fonts", filename)
+      example_path = examples_font_path(filename)
       target_path = File.join(dir, filename)
       FileUtils.cp(example_path, target_path)
+    end
+
+    def examples_font_path(filename)
+      File.join("spec", "examples", "fonts", filename)
+    end
+
+    def examples_formula_path(filename)
+      File.join("spec", "examples", "formulas", filename)
     end
 
     def no_formulas(&block)
@@ -344,6 +352,13 @@ module Fontist
       yield
 
       Fontist.send("#{option}=", original)
+    end
+
+    def patch_yml(path, data, *dig_path)
+      key = dig_path.pop
+      formula = YAML.load_file(path)
+      formula.dig(*dig_path)[key] = data
+      File.write(path, YAML.dump(formula))
     end
   end
 end
