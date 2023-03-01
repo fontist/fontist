@@ -71,4 +71,50 @@ RSpec.describe Fontist::SystemIndex do
       instance.find("some font", nil)
     end
   end
+
+  context "preferred family index" do
+    let(:tmp_dir) { Fontist.temp_fontist_path }
+    let(:font_file) do
+      path = File.join(tmp_dir, "AndaleMo.TTF")
+      FileUtils.cp(examples_font_path("AndaleMo.TTF"), path)
+      path
+    end
+    let(:font_paths) { [font_file] }
+    let(:index_path) { tmp_dir / "system_index.yml" }
+    let(:formula_path) do
+      path = Fontist.formulas_path / "andale.yml"
+      FileUtils.cp(examples_formula_path("andale.yml"), path)
+      path
+    end
+
+    before do
+      patch_yml(formula_path,
+                { preferred_family_name: "Andale" },
+                "fonts", 0, "styles", 0, "override")
+    end
+
+    after do
+      index_path.delete
+    end
+
+    it "does not raise errors for preferred family" do
+      described_class.new(
+        index_path,
+        -> { font_paths },
+        Fontist::SystemIndex::PreferredFamily.new,
+      ).rebuild
+
+      expect(YAML.load_file(index_path).first[:family_name]).to eq "Andale"
+    end
+
+    it "does not raise errors for default family" do
+      described_class.new(
+        index_path,
+        -> { font_paths },
+        Fontist::SystemIndex::DefaultFamily.new,
+      ).rebuild
+
+      expect(YAML.load_file(index_path).first[:family_name]).to eq "Andale Mono"
+    end
+  end
 end

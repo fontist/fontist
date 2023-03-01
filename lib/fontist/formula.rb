@@ -52,6 +52,16 @@ module Fontist
       new_from_file(path)
     end
 
+    def self.find_by_font_file(font_file)
+      key = Indexes::FilenameIndex
+        .from_yaml
+        .load_index_formulas(File.basename(font_file))
+        .map(&:name)
+        .first
+
+      find_by_key(key)
+    end
+
     def self.new_from_file(path)
       data = YAML.load_file(path)
       new(data, path)
@@ -140,6 +150,14 @@ module Fontist
 
     def digest
       @data["digest"]
+    end
+
+    def style_override(font)
+      fonts
+        .map(&:styles)
+        .flatten
+        .detect { |s| s.family_name == font }
+        &.dig(:override) || {}
     end
 
     private

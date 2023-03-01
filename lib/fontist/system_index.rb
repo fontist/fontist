@@ -12,6 +12,10 @@ module Fontist
       def type(name)
         name.font_subfamily
       end
+
+      def transform_override_keys(dict)
+        dict
+      end
     end
 
     class PreferredFamily
@@ -25,6 +29,11 @@ module Fontist
         return name.font_subfamily if name.preferred_subfamily.empty?
 
         name.preferred_subfamily
+      end
+
+      def transform_override_keys(dict)
+        mapping = { preferred_family_name: :family_name, preferred_type: :type }
+        dict.transform_keys! { |k| mapping[k] }
       end
     end
 
@@ -187,13 +196,14 @@ module Fontist
 
     def parse_font(file, path)
       x = file.name
+      family_name = english_name(@family.family_name(x))
 
       {
         path: path,
         full_name: english_name(x.font_name),
-        family_name: english_name(@family.family_name(x)),
+        family_name: family_name,
         type: english_name(@family.type(x)),
-      }
+      }.merge(override_font_props(path, family_name))
     end
 
     def english_name(name)
@@ -220,6 +230,14 @@ module Fontist
 
     def visible_characters(text)
       text.gsub(/[^[:print:]]/, "").to_s
+    end
+
+    def override_font_props(path, font_name)
+      override = Formula.find_by_font_file(path)
+        &.style_override(font_name)&.to_h || {}
+
+      @family.transform_override_keys(override)
+        .slice(:full_name, :family_name, :type)
     end
 
     def save_index(index)

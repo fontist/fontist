@@ -71,4 +71,23 @@ RSpec.describe Fontist::Formula do
       expect(formula.license_required).to be false
     end
   end
+
+  describe ".find_by_font_file" do
+    it "existing font file" do
+      font_path = examples_font_path("ariali.ttf")
+      formula = described_class.find_by_font_file(font_path)
+      expect(formula).not_to be_nil
+    end
+
+    it "missing font file" do
+      expect(described_class.find_by_font_file("NonExisting.otf")).to be_nil
+    end
+  end
+
+  describe ".style_override" do
+    it "never nil" do
+      formula = described_class.find("Calibri")
+      expect(formula.style_override("Calibri")).not_to be_nil
+    end
+  end
 end
