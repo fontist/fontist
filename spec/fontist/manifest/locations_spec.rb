@@ -25,7 +25,7 @@ RSpec.describe Fontist::Manifest::Locations do
       end
     end
 
-    context "uninstalled font" do
+    context "not installed font" do
       let(:manifest) { { "Andale Mono" => ["Regular"] } }
 
       it "returns no path" do

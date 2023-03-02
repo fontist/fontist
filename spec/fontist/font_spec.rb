@@ -202,7 +202,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "uninstalled but supported" do
+    context "not installed but supported" do
       let(:font) { "andale mono" }
       let(:url) do
         "https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe"
@@ -243,7 +243,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "uninstalled but supported and in cache" do
+    context "not installed but supported and in cache" do
       let(:font) { "andale mono" }
       let(:options) { { force: true } }
       before { example_formula("andale.yml") }
@@ -887,7 +887,7 @@ RSpec.describe Fontist::Font do
     context "with supported font but not installed" do
       let(:font) { "andale mono" }
 
-      it "returns its status as uninstalled" do
+      it "returns its status as not installed" do
         stub_system_fonts
         stub_fonts_path_to_new_path do
           expect(command.size).to be >= 1

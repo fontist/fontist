@@ -252,7 +252,7 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "supported font name but uninstalled" do
+    context "supported font name but not installed" do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["status", "andale mono"])
@@ -318,10 +318,10 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "supported font name but uninstalled" do
-      it "prints `uninstalled`" do
+    context "supported font name but not installed" do
+      it "prints `not installed`" do
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error).with(include("uninstalled"))
+          expect(Fontist.ui).to receive(:error).with(include("not installed"))
           status = described_class.start(["list", "andale mono"])
           expect(status).to be 0
         end
@@ -513,7 +513,7 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "contains uninstalled font" do
+    context "contains not installed font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       it "returns error code and tells it could not find it" do
@@ -590,7 +590,7 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "unsupported and uninstalled font" do
+    context "unsupported and not installed font" do
       let(:manifest) { { "Unexisting Font" => "Regular" } }
 
       it "tells that font is unsupported" do
@@ -642,7 +642,7 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "uninstalled but supported font" do
+    context "not installed but supported font" do
       let(:manifest) { { "Andale Mono" => "Regular" } }
       before { example_formula("andale.yml") }
 
@@ -681,7 +681,7 @@ RSpec.describe Fontist::CLI do
       end
     end
 
-    context "uninstalled, one supported, one unsupported" do
+    context "not installed, one supported, one unsupported" do
       let(:manifest) do
         { "Andale Mono" => "Regular",
           "Unexisting Font" => "Regular" }
