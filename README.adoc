@@ -333,7 +333,7 @@ FONTIST_PATH=~/.fontist_new fontist update
 ----
 
 
-== Usage of the Fontist Ruby library
+== Using the Ruby library
 
 === `Fontist::Font`
 
@@ -567,13 +567,23 @@ Fontist::Fontconfig.remove              # disable detection
 Fontist::Fontconfig.remove(force: true) # do not fail if no config exists
 ----
 
-== Installing macOS-specific add-on fonts
 
-The purpose of Fontist allowing macOS-specific add-on fonts is to allow CI jobs
-on macOS environments to use these specially licensed fonts that are not
-available on other platforms.
+== Platform-specific features
 
-The "Canela" font is a commercial font that comes free with macOS.
+=== macOS-specific add-on fonts
+
+Newer versions of macOS provide on-demand installations of a wide range of
+licensed fonts. These macOS-specific add-on fonts can be installed via Fontist.
+
+A typical use for installing macOS add-on fonts is to allow CI jobs on
+macOS environments to use these specially-licensed fonts not available on other
+platforms.
+
+This blog post describes how this works:
+
+* https://www.fontist.org/blog/2022-02-11-macos-fonts/[Fontist blog: Installing macOS-specific add-on fonts]
+
+For example, the "Canela" font is a commercial font that comes free with macOS.
 
 Run this command to install Canela on macOS.
 
@@ -582,10 +592,20 @@ Run this command to install Canela on macOS.
 $ fontist install Canela
 ----
 
-WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
-platforms due to font licensing of those fonts.
+The full list of available fonts on various macOS versions can be found on the
+Apple Support site:
 
-== Using Fontist with proxy servers
+* https://support.apple.com/en-us/HT213266[Fonts in macOS 13 Ventura]
+* https://support.apple.com/en-us/HT212587[Fonts in macOS 12 Monteray]
+* https://support.apple.com/en-in/HT211240[Fonts in macOS 11 Big Sur]
+
+WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
+platforms due to font license restrictions of those fonts.
+
+
+== Advanced usage
+
+=== Using proxy servers
 
 Fontist uses Git internally for fetching formulas and fonts.
 
@@ -642,33 +662,36 @@ https://github.com/evantoli[evantoli]).
 
 
 
-== Authoring Fontist formulas
+== Custom Fontist repositories
 
-=== Private Fontist formulas and font repositories
-
-Fontist supports installing private fonts via private Fontist repositories.
+=== General
 
 A Fontist repository is a Git repo which contains YAML Formula files.
-Formulas can be created manually
+Fontist Formulas can be created manually within a Fontist repository
 (see https://github.com/fontist/formulas/tree/master/Formulas[examples]),
-or <<create-formula,auto-generated from an archive>>.
+or <<create-formula,auto-generated from a font archive>>.
 
-A repository can be either a HTTPS or SSH Git repo. In case of SSH, a
-corresponding SSH key should be setup with `ssh-agent` in order to access this
-private repository.
+A Fontist repository can be accessed either through HTTPS or SSH. In case of
+SSH, a corresponding SSH key should be setup with `ssh-agent` in order to access
+this custom repository.
 
-The `fontist repo setup` command fetches a repository's formulas, and saves the
-repository's name and URL for later use.
+=== Registering a Fontist repository
 
-Internally, all repositories are stored at
-`~/.fontist/formulas/Formulas/private`.
+The `fontist repo setup` command fetches a custom repository's formulas, and
+stores the repository's name and URL for later use.
+
+The `fontist repo setup` command uses the following syntax.
 
 [source,sh]
 ----
 fontist repo setup NAME URL
 ----
 
-E.g.
+Internally, all custom Fontist repository information is stored at
+`~/.fontist/formulas/Formulas/private`.
+
+For example, given a Fontist repository called "acme" accessible via a
+URL or an SSH address:
 
 [source,sh]
 ----
@@ -677,40 +700,63 @@ fontist repo setup acme https://example.com/acme/formulas.git
 fontist repo setup acme git@example.com:acme/formulas.git
 ----
 
-Then you can just install fonts from this repo:
+
+=== Listing custom Fontist repositories
 
 [source,sh]
 ----
-fontist install "private font"
+fontist repo list
 ----
 
-If the private Fontist formula repository is updated, you can fetch the updates
-with the `repo update` command:
+
+=== Installing fonts from a Fontist repository
+
+Once the custom Fontist repository is setup, one can install fonts from the
+repo through its formulas:
+
+[source,sh]
+----
+fontist install "custom font"
+----
+
+
+=== Updating a registered Fontist repository
+
+If the custom Fontist formula repository is updated, the `repo update` command
+is used to pull the newest changes:
+
+[source,sh]
+----
+fontist repo update NAME
+----
+
+For example, given a Fontist repository called "acme", the following command
+is used.
 
 [source,sh]
 ----
 fontist repo update acme
 ----
 
-If there is a need to avoid using private formulas, the repo can be removed
-with:
+
+=== Removing a registered Fontist repository
+
+If there is a need to remove a registered Fontist repository, the repo can be
+removed with:
 
 [source,sh]
 ----
 fontist repo remove acme
 ----
 
-[[create-formula]]
-=== Auto-generate a Fontist formula from a font archive
 
-A formula could be generated from a fonts archive. Just specify a URL to the
-archive:
+=== Private access
 
-[source,sh]
-----
-fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
-cp lato.yml ~/.fontist/formulas/Formulas/
-----
+Custom Fontist formulas and Fontist repositories can be made private to require
+authentication.
+
+For HTTPS and SSH Git Fontist repositories
+
 
 === Authentication for private formulas or private formula repositories
 
@@ -730,11 +776,57 @@ resources:
         Authorization: token ghp_1234567890abcdefghi
 ----
 
-A token can be obtained on the
-https://github.com/settings/tokens[GitHub Settings > Tokens page].
+If the Fontist formula repository is a GitHub repo, a token can be obtained on
+the https://github.com/settings/tokens[GitHub Settings > Tokens page].
 This token should have at least the `repo` scope for access to these assets.
 
 
+
+[[create-formula]]
+=== Create Fontist formulas
+
+==== General
+
+Fontist formulas can be easily hand-crafted in YAML. However, the
+auto-generation method is recommended for data accuracy and convenience.
+
+
+==== Auto-generate a Fontist formula from a font archive
+
+A formula could be generated from a fonts archive.
+
+The `fontist create-formula` command allows detecting all font files from a
+font archive in a multitude of formats (those supported by
+https://github.com/fontist/excavate[Excavate], including zip, 7z, gzip, tar,
+cab, exe).
+
+The `fontist create-formula` command supports archives located at remote URLs or
+local file paths.
+
+For file paths, specify the file path as argument:
+
+[source,sh]
+----
+wget https://www.latofonts.com/download/lato2ofl-zip/
+fontist create-formula lato.zip
+----
+
+For URLs, simply specify the URL as the argument:
+
+[source,sh]
+----
+fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+# > file created at lato.yml because the file downloaded is lato.zip
+----
+
+To test out the created formula, one may copy the formula into the user's
+private formula repository location.
+
+[source,sh]
+----
+fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+cp lato.yml ~/.fontist/formulas/Formulas/
+----
 
 
 ==== Overriding font metadata in Fontist formulas
