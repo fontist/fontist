@@ -3,7 +3,7 @@ module Fontist
     module Google
       def self.metadata_name(path)
         metadata_path = File.join(path, "METADATA.pb")
-        return unless File.exists?(metadata_path)
+        return unless File.exist?(metadata_path)
 
         File.foreach(metadata_path) do |line|
           name = line.match(/^name: "(.+)"/)
