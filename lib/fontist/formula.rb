@@ -163,8 +163,8 @@ module Fontist
     private
 
     def key_from_path
-      escaped = Regexp.escape(Fontist.formulas_path.to_s + "/")
-      @path.sub(Regexp.new("^" + escaped), "").sub(/\.yml$/, "")
+      escaped = Regexp.escape("#{Fontist.formulas_path}/")
+      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "")
     end
 
     def fonts_by_family

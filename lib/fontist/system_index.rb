@@ -46,6 +46,8 @@ module Fontist
     LANGUAGE_MAC_ENGLISH = 0
     LANGUAGE_MS_ENGLISH_AMERICAN = 0x409
 
+    ALLOWED_KEYS = %i[path full_name family_name type].freeze
+
     def self.system_index
       path = if Fontist.preferred_family?
                Fontist.system_preferred_family_index_path
@@ -130,8 +132,8 @@ module Fontist
       end
     end
 
-    def changed?(this, other)
-      this.map { |x| x[:path] }.uniq.sort != other.map { |x| x[:path] }.uniq.sort
+    def changed?(this, that)
+      this.map { |x| x[:path] }.uniq.sort != that.map { |x| x[:path] }.uniq.sort
     end
 
     def load_index
@@ -142,7 +144,7 @@ module Fontist
 
     def check_index(index)
       index.each do |item|
-        missing_keys = %i[path full_name family_name type] - item.keys
+        missing_keys = ALLOWED_KEYS - item.keys
         unless missing_keys.empty?
           raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
             Font index is corrupted.
@@ -173,10 +175,10 @@ module Fontist
         raise Errors::UnknownFontTypeError.new(path)
       end
     rescue StandardError
-      Fontist.ui.error($!.message)
-      Fontist.ui.error(
-        "Warning: File at #{path} not recognized as a font file.",
-      )
+      Fontist.ui.error(<<~MSG.chomp)
+        #{$!.message}
+        Warning: File at #{path} not recognized as a font file.
+      MSG
     end
 
     def detect_file_font(path)
@@ -237,12 +239,12 @@ module Fontist
         &.style_override(font_name)&.to_h || {}
 
       @family.transform_override_keys(override)
-        .slice(:full_name, :family_name, :type)
+        .slice(*ALLOWED_KEYS)
     end
 
     def save_index(index)
       dir = File.dirname(@index_path)
-      FileUtils.mkdir_p(dir) unless File.exist?(dir)
+      FileUtils.mkdir_p(dir)
       File.write(@index_path, YAML.dump(index))
     end
   end
