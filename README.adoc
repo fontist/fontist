@@ -6,6 +6,8 @@ image:https://img.shields.io/github/issues-pr-raw/fontist/fontist.svg["Pull Requ
 
 A simple library to find and download fonts for Windows, Linux and Mac.
 
+:toc:
+
 == Installation
 
 Install it directly as:
@@ -732,6 +734,32 @@ A token can be obtained on the
 https://github.com/settings/tokens[GitHub Settings > Tokens page].
 This token should have at least the `repo` scope for access to these assets.
 
+=== Override font's metadata to simplify
+
+For some fonts, we are faced with issues in font metadata. For example: "Frutiger" fonts used numbers to represent every font -- this means that "Frutiger Light", "Frutiger LightItalic", "Frutiger LightBold" are all considered "different font families", which is most certainly wrong.
+
+Here is how the `override` property can help:
+
+[source,yaml]
+---
+...
+resources:
+  ...
+fonts:
+- name: Frutiger 45 Light
+  styles:
+  - family_name: Frutiger 45 Light
+    type: Regular
+    full_name: Frutiger-Light
+    post_script_name: Frutiger-Light
+    override:
+      preferred_family_name: Frutiger
+  - ...
+----
+
+For the fragment above `fontist` will generate correct indexes and will allow easy install of all `Frutiger` fonts with a single command: `fontist install "Frutiger" --preferred-family`
+
+Fontist will not overwrite `overridde`n properties in actual `otf` files
 
 === Upgrading Fontist
 
