@@ -734,14 +734,55 @@ A token can be obtained on the
 https://github.com/settings/tokens[GitHub Settings > Tokens page].
 This token should have at least the `repo` scope for access to these assets.
 
-=== Override font's metadata to simplify
 
-For some fonts, we are faced with issues in font metadata. For example: "Frutiger" fonts used numbers to represent every font -- this means that "Frutiger Light", "Frutiger LightItalic", "Frutiger LightBold" are all considered "different font families", which is most certainly wrong.
 
-Here is how the `override` property can help:
+
+==== Overriding font metadata in Fontist formulas
+
+The `fontist create-formula` command creates font formulas using information
+embedded in the OTF metadata section.
+
+However, some fonts (such as older fonts) often contain inconsistent or
+imperfect metadata information. Some fonts for example applies different OTF
+`Family` values for different font styles. This will result in all font styles
+not being registered in the same Family.
+
+Fontist formula authors can rectify this situation by using the `override:` key,
+which allows the formula to override metadata information obtained from the font
+metadata.
+
+NOTE: The `override` key does not cause any change in the font files, it is only
+for updating information used by Fontist internally.
+
+The `override` key exists under the definition of individual font styles:
 
 [source,yaml]
----
+----
+resources:
+  ...
+fonts:
+- name: Original font name
+  styles:
+    - family_name: Original family name
+      type: Original style
+      override:
+        family_name: Overridden family name
+        type: Overridden style
+        preferred_family_name: Overridden preferred family name
+----
+
+For example, the "Frutiger" fonts published by Adobe in 1994 use numbers to
+represent the individual font styles, and have those names embedded in the OTF
+`Family` field, such as "Frutiger 45 Light". These fonts also do not use the OTF
+`Preferred Family` field, which is a more recent addition to OTF, due to their
+age.
+
+Here is how the `override` property can enforce all relevant styles to be
+registered under the same family name (by overriding the `preferred_family_name`
+value):
+
+[source,yaml]
+----
 ...
 resources:
   ...
@@ -757,9 +798,14 @@ fonts:
   - ...
 ----
 
-For the fragment above `fontist` will generate correct indexes and will allow easy install of all `Frutiger` fonts with a single command: `fontist install "Frutiger" --preferred-family`
+This fragment above will allow Fontist to generate correct indexes and allow
+installation of all `Frutiger` fonts with a single command:
 
-Fontist will not overwrite `overridde`n properties in actual `otf` files
+[source,sh]
+----
+$ fontist install "Frutiger" --preferred-family
+----
+
 
 === Upgrading Fontist
 
