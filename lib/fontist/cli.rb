@@ -253,7 +253,7 @@ module Fontist
           styles.each do |style, installed|
             opts = []
             opts << "manual" if formula.manual?
-            opts << (installed ? "installed" : "uninstalled")
+            opts << (installed ? "installed" : "not installed")
             msg = "  #{style.type} (#{opts.join(', ')})"
 
             if installed

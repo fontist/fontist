@@ -52,7 +52,7 @@ has the following requirements:
 These dependencies are generally present on all systems.
 
 
-== Usage of the Fontist command-line interface
+== Using the command-line interface (CLI)
 
 === The `fontist` command
 
@@ -192,8 +192,8 @@ segoe_ui
 $ fontist list "roboto mono"
 google/roboto_mono
  Roboto Mono
-  Regular (uninstalled)
-  Italic (uninstalled)
+  Regular (not installed)
+  Italic (not installed)
 ----
 
 === List installed font paths: `fontist manifest-locations`
