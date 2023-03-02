@@ -80,8 +80,8 @@ RSpec.describe Fontist::Utils::Downloader do
     context "file has no extension" do
       it "uses content-type to detect extension" do
         avoid_cache(url) do
-          expect(Down).to receive(:download).and_wrap_original do |m, *args|
-            m.call(*args).tap do |file|
+          expect(Down).to receive(:download).and_wrap_original do |m, *a, **kv|
+            m.call(*a, **kv).tap do |file|
               allow(file).to receive(:original_filename)
                 .and_return("no_ext_filename")
               allow(file).to receive(:content_type)
@@ -100,7 +100,7 @@ RSpec.describe Fontist::Utils::Downloader do
     @sample_file ||= {
       file_size: 150899,
       file: "https://drive.google.com/u/0/uc?id=1Kk-rpLyQk98ubgxhTRKD2ZkMoY9KqKXk&export=download",
-      sha: "5e513e4bfdada0ff10dd5b96414fcaeade84e235ce043865416ad7673cb6f3d8"
+      sha: "5e513e4bfdada0ff10dd5b96414fcaeade84e235ce043865416ad7673cb6f3d8",
     }
   end
 end
