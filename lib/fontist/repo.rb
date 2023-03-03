@@ -47,6 +47,20 @@ module Fontist
           .map { |path| File.basename(path) }
       end
 
+      def info(name)
+        path = Pathname.new repo_path(name)
+        unless path.exist?
+          raise(Errors::RepoNotFoundError, "No such repo '#{name}'.")
+        end
+
+        formulas = path.glob("*.yml").map do |formula_path|
+          formula = Formula.new_from_file(formula_path)
+          Struct.new(:name, :description).new(formula.key, formula.description)
+        end
+
+        [repo_metadata(path), formulas]
+      end
+
       private
 
       def ensure_private_formulas_path_exists
@@ -70,6 +84,20 @@ module Fontist
 
       def repo_path(name)
         Fontist.private_formulas_path.join(name)
+      end
+
+      def repo_metadata(path)
+        repo = Git.open(path)
+        log = repo.log
+        first = log.first
+
+        {
+          url: repo.config["remote.origin.url"],
+          revision: first.sha[0..6],
+          created: repo.gcommit(log.last.sha).date,
+          updated: repo.gcommit(first.sha).date,
+          dirty: !repo.status.changed.empty?,
+        }
       end
     end
   end

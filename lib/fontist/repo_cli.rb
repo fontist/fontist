@@ -47,6 +47,23 @@ module Fontist
       CLI::STATUS_SUCCESS
     end
 
+    desc "info NAME", "Information about repos"
+    def info(name)
+      handle_class_options(options)
+      meta, formulas = Repo.info(name)
+      Fontist.ui.say("Repository info for '#{name}':")
+      meta.each do |key, value|
+        Fontist.ui.say("  #{key}: #{value}")
+      end
+      Fontist.ui.say(formulas.empty? ? "No formulas found" : "Formulas found:")
+      formulas.each do |info|
+        Fontist.ui.say("- #{info.description} (#{info.name})")
+      end
+      CLI::STATUS_SUCCESS
+    rescue Errors::RepoNotFoundError
+      handle_repo_not_found(name)
+    end
+
     private
 
     def handle_repo_not_found(name)
