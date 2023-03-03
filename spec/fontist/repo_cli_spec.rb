@@ -95,8 +95,10 @@ RSpec.describe Fontist::RepoCLI do
         formula_repo_with("tex_gyre_chorus.yml") do |repo_dir|
           Fontist::Repo.setup("test", repo_dir)
 
-          expect(Fontist.ui).to receive(:say).with("Repository info for 'test':")
-          expect(Fontist.ui).to receive(:say).with("Formulas found:")
+          expect(Fontist.ui).to receive(:say).with(
+            include("Repository info for 'test':")
+              .and(include("Found 1 formulas:")),
+          )
 
           status = described_class.start(%w[info test])
           expect(status).to be Fontist::CLI::STATUS_SUCCESS
@@ -105,7 +107,9 @@ RSpec.describe Fontist::RepoCLI do
     end
 
     it "not exists" do
-      expect(Fontist.ui).to receive(:error).with("Fontist repo 'missing-repo' is not found.")
+      expect(Fontist.ui).to receive(:error).with(
+        "Fontist repo 'missing-repo' is not found.",
+      )
       status = described_class.start(%w[info missing-repo])
       expect(status).to be Fontist::CLI::STATUS_REPO_NOT_FOUND
     end
