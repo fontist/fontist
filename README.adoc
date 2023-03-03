@@ -313,6 +313,15 @@ To remove it, please use:
 $ fontist fontconfig remove
 ----
 
+=== Work with cache
+
+[source,sh]
+----
+$ fontist cache clear
+----
+
+The command above will clear fontist's download cache
+
 === Help: `fontist help`
 
 List of all commands could be seen by:

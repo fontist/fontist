@@ -1,6 +1,7 @@
 require "thor"
 require "fontist/cli/class_options"
 require "fontist/repo_cli"
+require "fontist/cache_cli"
 require "fontist/import_cli"
 require "fontist/fontconfig_cli"
 
@@ -211,6 +212,9 @@ module Fontist
 
     desc "fontconfig SUBCOMMAND ...ARGS", "Manage fontconfig"
     subcommand "fontconfig", Fontist::FontconfigCLI
+
+    desc "cache SUBCOMMAND ...ARGS", "Manage fontist cache"
+    subcommand "cache", Fontist::CacheCLI
 
     private
 
