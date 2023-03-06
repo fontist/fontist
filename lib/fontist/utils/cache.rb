@@ -3,6 +3,10 @@ module Fontist
     class Cache
       include Locking
 
+      def self.lock_path(path)
+        "#{path}.lock"
+      end
+
       def fetch(key)
         map = load_cache
         if cache_exist?(map[key])
@@ -79,7 +83,7 @@ module Fontist
       end
 
       def lock_path
-        cache_map_path.to_s + ".lock"
+        Cache.lock_path(cache_map_path)
       end
 
       def move_to_downloads(source)

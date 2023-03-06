@@ -121,7 +121,7 @@ module Fontist
     end
 
     def lock_path
-      "#{@index_path}.lock"
+      Utils::Cache.lock_path(@index_path)
     end
 
     def do_build_index
