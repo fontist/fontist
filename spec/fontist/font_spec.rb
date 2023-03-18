@@ -493,6 +493,11 @@ RSpec.describe Fontist::Font do
     end
 
     context "two formulas with the same font" do
+      before do
+        allow_any_instance_of(Fontist::Utils::Cache)
+          .to receive(:already_fetched?).and_return(false)
+      end
+
       context "diff size, below the limit and above" do
         let(:font) { "source code pro" }
 

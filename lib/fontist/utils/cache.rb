@@ -21,6 +21,11 @@ module Fontist
         downloaded_file(path)
       end
 
+      def already_fetched?(keys)
+        map = load_cache
+        keys.find { |k| cache_exist?(map[k]) }
+      end
+
       def delete(key)
         lock(lock_path) do
           map = load_cache

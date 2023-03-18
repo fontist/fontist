@@ -9,6 +9,7 @@ resources:
     - https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/georgi32.exe
     - http://sft.if.usp.br/msttcorefonts/georgi32.exe
     sha256: 2c2c7dcda6606ea5cf08918fb7cd3f3359e9e84338dc690013f20cd42e930301
+    file_size: 392440
 fonts:
 - name: Georgia
   styles:
