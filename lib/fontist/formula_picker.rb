@@ -11,7 +11,7 @@ module Fontist
     end
 
     def call(formulas)
-      return [] if formulas.size.zero?
+      return [] if formulas.empty?
       return formulas if contain_different_styles?(formulas)
       return by_version(formulas) if version_is_passed?
       return newest(formulas) if newest_is_passed?
@@ -82,7 +82,8 @@ module Fontist
 
     def filter_by_size_limit(formulas)
       formulas.select do |formula|
-        formula.file_size.nil? || formula.file_size < size_limit_in_bytes
+        formula.file_size.nil? || resources_cached?(formula) ||
+          formula.file_size < size_limit_in_bytes
       end
     end
 
@@ -121,6 +122,12 @@ module Fontist
       formulas.min_by do |formula|
         formula.file_size || 0
       end
+    end
+
+    def resources_cached?(formula)
+      Utils::Cache.new.already_fetched?(
+        formula.resources.flat_map(&:urls),
+      )
     end
   end
 end
