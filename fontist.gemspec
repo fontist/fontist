@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "nokogiri", "~> 1.0"
   spec.add_runtime_dependency "mime-types", "~> 3.0"
   spec.add_runtime_dependency "sys-uname", "~> 1.2"
-  spec.add_runtime_dependency "thor", "~> 1.0.1"
+  spec.add_runtime_dependency "thor", "~> 1.2.1"
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
   spec.add_runtime_dependency "plist", "~> 3.0"
