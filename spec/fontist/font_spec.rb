@@ -494,26 +494,26 @@ RSpec.describe Fontist::Font do
 
     context "two formulas with the same font" do
       context "diff size, below the limit and above" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
 
-        # file_size: 101_440_249, version: 3.006
+        # file_size: 101_440_249, version: 2.030
         before { example_formula("source.yml") }
 
-        # file_size: 987_127, version: 2.021, 1.076
-        before { example_formula("source_sans_pro.yml") }
+        # file_size: 1_147_828, version: 0.050, 0.030
+        before { example_formula("source_code_pro_version_0.yml") }
 
         before { set_size_limit(10) }
 
         it "installs the smallest" do
-          expect_to_install("source_sans_pro")
+          expect_to_install("source_code_pro_version_0")
           command
         end
       end
 
       context "both size below the limit, diff versions" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(1000) }
 
         it "installs the newest" do
@@ -523,21 +523,21 @@ RSpec.describe Fontist::Font do
       end
 
       context "both size below the limit, same versions" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro_version_3.yml") }
+        before { example_formula("source_code_pro.yml") }
         before { set_size_limit(1000) }
 
         it "installs the smallest" do
-          expect_to_install("source_sans_pro_version_3")
+          expect_to_install("source_code_pro")
           command
         end
       end
 
       context "size above the limit" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "raises size-limit error" do
@@ -569,35 +569,35 @@ RSpec.describe Fontist::Font do
       end
 
       context "concrete version is passed" do
-        let(:font) { "source sans pro" }
-        let(:options) { { version: "2.021" } }
+        let(:font) { "source code pro" }
+        let(:options) { { version: "0.050" } }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "installs formula with this version" do
-          expect_to_install("source_sans_pro")
+          expect_to_install("source_code_pro_version_0")
           command
         end
       end
 
       context "concrete version is the smallest in a formula" do
-        let(:font) { "source sans pro" }
-        let(:options) { { version: "1.076" } }
-        before { example_formula("source_sans_pro.yml") }
+        let(:font) { "source code pro" }
+        let(:options) { { version: "0.030" } }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "installs formula with this version" do
-          expect_to_install("source_sans_pro")
+          expect_to_install("source_code_pro_version_0")
           command
         end
       end
 
       context "concrete version is passed and there is no such" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         let(:options) { { version: "100.0" } }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "raises font unsupported error" do
@@ -607,23 +607,23 @@ RSpec.describe Fontist::Font do
       end
 
       context "requested to install the smallest" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         let(:options) { { smallest: true } }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "installs the smallest formula" do
-          expect_to_install("source_sans_pro")
+          expect_to_install("source_code_pro_version_0")
           command
         end
       end
 
       context "requested to install the newest" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         let(:options) { { newest: true } }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "installs the newest formula" do
@@ -633,13 +633,13 @@ RSpec.describe Fontist::Font do
       end
 
       context "with user-defined size limit" do
-        let(:font) { "source sans pro" }
+        let(:font) { "source code pro" }
         let(:options) { { size_limit: 10 } }
         before { example_formula("source.yml") }
-        before { example_formula("source_sans_pro.yml") }
+        before { example_formula("source_code_pro_version_0.yml") }
 
         it "installs a formula below the size limit" do
-          expect_to_install("source_sans_pro")
+          expect_to_install("source_code_pro_version_0")
           command
         end
       end
