@@ -123,7 +123,7 @@ for the newest version of the font among formulas with size below a limit
 (300 MB). This behavior can be changed with options.
 
 NOTE: If styles of a font are spread among several formulas, then all
-available formulas would be installed.
+available styles from all formulas would be installed.
 
 Supported options:
 
@@ -935,6 +935,33 @@ allowed the font to be installed when requesting the font name "`Courier`", but
 its font location was only obtainable using the full "`Courier New`" font name.
 From v1.10 onwards the behavior has been made consistent -- only the proper
 "`Courier New`" name should be used.
+
+[[install-font-change]]
+==== To v1.16+
+
+Fontist versions beyond v1.16 treats the `font` argument of the `install`
+command differently.
+After the upgrade, please ensure all required fonts are specified when using
+`fontist install`, `fontist manifest-install` (and their corresponding Ruby
+interface `Font.install` and `Manifest::Install`), or use the `-F, --formula`
+option.
+
+Starting from v1.16, Fontist installs only requested fonts instead of a whole
+formula, unless specified explicitly.
+changed now.
+
+For example, an installation request for the "`Arial`" font prior to v1.16 will
+setup all fonts found in the "`ms_truetype`" formula: "`Arial`", "`Trebuchet
+MS`", "`Verdana`" and "`Times New Roman`".
+
+From v1.16 onwards, Fontist will install _only_ the requested "`Arial`" font.
+
+To install all fonts from a formula, the `-F, --formula` option can be used:
+
+[source,sh]
+----
+$ fontist install --formula ms_truetype
+----
 
 
 

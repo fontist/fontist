@@ -3,8 +3,9 @@ require "excavate"
 
 module Fontist
   class FontInstaller
-    def initialize(formula, no_progress: false)
+    def initialize(formula, font_name: nil, no_progress: false)
       @formula = formula
+      @font_name = font_name
       @no_progress = no_progress
     end
 
@@ -90,9 +91,15 @@ module Fontist
 
     def source_files
       @source_files ||= @formula.fonts.flat_map do |font|
-        font.styles.map do |style|
-          style.source_font || style.font
-        end
+        next [] if @font_name && !font.name.casecmp?(@font_name)
+
+        font_files(font)
+      end
+    end
+
+    def font_files(font)
+      font.styles.map do |style|
+        style.source_font || style.font
       end
     end
 

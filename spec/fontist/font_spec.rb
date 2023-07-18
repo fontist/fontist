@@ -286,7 +286,7 @@ RSpec.describe Fontist::Font do
 
     context "with collection font name" do
       let(:font) { "Source Han Sans" }
-      let(:file) { "SourceHanSans-Normal.ttc" }
+      let(:file) { "SourceHanSans-Bold.ttc" }
       before { example_formula("source.yml") }
 
       it "returns path of collection file" do
@@ -363,8 +363,8 @@ RSpec.describe Fontist::Font do
 
     context "with subdir option" do
       let(:font) { "Work Sans" }
-      let(:file) { "WorkSans-Black.ttf" }
-      let(:current_version_size) { 203512 }
+      let(:file) { "WorkSans-Regular.ttf" }
+      let(:current_version_size) { 212660 }
       before { example_formula("work_sans.yml") }
 
       it "installs from proper directory", slow: true do
@@ -641,6 +641,17 @@ RSpec.describe Fontist::Font do
         it "installs a formula below the size limit" do
           expect_to_install("source_code_pro_version_0")
           command
+        end
+      end
+
+      context "formula contains more than one font" do
+        let(:font) { "lato" }
+        before { example_formula("lato.yml") }
+
+        it "installs only requested font" do
+          command
+          expect(font_file("Lato-Regular.ttf")).to exist
+          expect(font_file("Lato-Black.ttf")).not_to exist
         end
       end
 
