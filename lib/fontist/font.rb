@@ -125,7 +125,10 @@ module Fontist
     end
 
     def font_installer(formula)
-      FontInstaller.new(formula, no_progress: @no_progress)
+      options = { no_progress: @no_progress }
+      return FontInstaller.new(formula, **options) if @by_formula
+
+      FontInstaller.new(formula, font_name: @name, **options)
     end
 
     def sufficient_formulas
