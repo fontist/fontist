@@ -65,6 +65,11 @@ module Fontist
                  type: :boolean,
                  desc: "Hide all messages"
 
+    class_option :verbose,
+                 aliases: :v,
+                 type: :boolean,
+                 desc: "Print debug messages"
+
     class_option :formulas_path, type: :string, desc: "Path to formulas"
 
     desc "install FONT", "Install font"
@@ -182,6 +187,8 @@ module Fontist
     option :subarchive, desc: "Subarchive to choose when there are several ones"
     option :subdir, desc: "Subdirectory to take fonts from, starting with the " \
       "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
+    option :file_pattern, desc: "File pattern, e.g. '*.otf'. " \
+      "Uses `fnmatch` patterns."
     def create_formula(url)
       handle_class_options(options)
       require "fontist/import/create_formula"
