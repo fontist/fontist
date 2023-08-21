@@ -8,7 +8,7 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
-      def initialize(archive, subarchive: nil, subdir: nil, file_pattern: nil)
+      def initialize(archive, subdir: nil, file_pattern: nil)
         @archive = archive
         @subdir = subdir
         @file_pattern = file_pattern
