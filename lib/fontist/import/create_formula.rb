@@ -40,7 +40,6 @@ module Fontist
       def extractor
         @extractor ||=
           RecursiveExtraction.new(archive,
-                                  subarchive: @options[:subarchive],
                                   subdir: @options[:subdir],
                                   file_pattern: @options[:file_pattern])
       end

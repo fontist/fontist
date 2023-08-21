@@ -78,9 +78,9 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     end
   end
 
-  context "with specified subarchive archive" do
+  context "contains subarchive" do
     let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_HE_x86.exe" } # rubocop:disable Metrics/LineLength
-    let(:options) { { subarchive: "officelr.cab", name: "Guttman" } }
+    let(:options) { { name: "Guttman" } }
 
     it "generates proper yaml", slow: true, dev: true do
       expect_formula_includes(formula, example)
@@ -89,7 +89,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
   context "with collection which has unusual extension" do
     let(:url) { "https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_KO_x86.exe" } # rubocop:disable Metrics/LineLength
-    let(:options) { { subarchive: "officelr.cab", name: "Korean" } }
+    let(:options) { { name: "Korean" } }
 
     it "generates proper yaml", slow: true, dev: true do
       expect_formula_includes(formula, example)

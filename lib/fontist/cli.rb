@@ -184,7 +184,6 @@ module Fontist
     desc "create-formula URL", "Create a new formula with fonts from URL"
     option :name, desc: "Example: Times New Roman"
     option :mirror, repeatable: true
-    option :subarchive, desc: "Subarchive to choose when there are several ones"
     option :subdir, desc: "Subdirectory to take fonts from, starting with the " \
       "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
     option :file_pattern, desc: "File pattern, e.g. '*.otf'. " \
