@@ -8,9 +8,10 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
-      def initialize(archive, subarchive: nil, subdir: nil)
+      def initialize(archive, subarchive: nil, subdir: nil, file_pattern: nil)
         @archive = archive
         @subdir = subdir
+        @file_pattern = file_pattern
         @operations = {}
         @font_files = []
         @collection_files = []
@@ -72,10 +73,11 @@ module Fontist
 
       def extract_data(archive)
         Excavate::Archive.new(path(archive)).files(recursive_packages: true) do |path|
+          Fontist.ui.debug(path)
           next unless File.file?(path)
 
           match_license(path)
-          match_font(path) if font_directory?(path)
+          match_font(path) if font_candidate?(path)
         end
       end
 
@@ -110,6 +112,10 @@ module Fontist
         end
       end
 
+      def font_candidate?(path)
+        font_directory?(path) && file_pattern?(path)
+      end
+
       def font_directory?(path)
         return true unless subdirectory_pattern
 
@@ -118,6 +124,12 @@ module Fontist
 
       def subdirectory_pattern
         @subdirectory_pattern ||= "*" + @subdir.chomp("/") if @subdir
+      end
+
+      def file_pattern?(path)
+        return true unless @file_pattern
+
+        File.fnmatch?(@file_pattern, File.basename(path))
       end
     end
   end

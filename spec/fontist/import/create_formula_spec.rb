@@ -105,6 +105,18 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     end
   end
 
+  context "with specified file-pattern option" do
+    let(:archive_name) { "Lato2OFL.zip" }
+    let(:options) { { file_pattern: "*Italic.ttf" } }
+    let(:example_file) do
+      File.expand_path("../../examples/import/lato_only_italic.yml", __dir__)
+    end
+
+    it "generates proper yaml", dev: true do
+      expect_formula_includes(formula, example)
+    end
+  end
+
   context "rpm archive" do
     let(:url) { "http://ftp.lysator.liu.se/pub/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm" } # rubocop:disable Metrics/LineLength
     let(:options) { { name: "webcore" } }
