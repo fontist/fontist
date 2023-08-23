@@ -481,6 +481,66 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "has min_fontist attribute" do
+      context "higher min_fontist" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus_min_fontist_and_font.yml") }
+
+        it "throws FontistVersionError" do
+          expect { command }.to raise_error Fontist::Errors::FontistVersionError
+        end
+      end
+
+      context "higher min_fontist, above size limit" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus_min_fontist_and_font.yml") }
+        before { set_size_limit(0) }
+
+        before do
+          allow_any_instance_of(Fontist::Utils::Cache)
+            .to receive(:already_fetched?).and_return(false)
+        end
+
+        it "raises size-limit error" do
+          expect { command }.to raise_error(Fontist::Errors::SizeLimitError)
+        end
+      end
+
+      context "higher min_fontist, missing version" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus_min_fontist_and_font.yml") }
+        let(:options) { { version: "100.0" } }
+
+        it "raises font unsupported error" do
+          expect { command }
+            .to raise_error Fontist::Errors::UnsupportedFontError
+        end
+      end
+
+      context "two formulas, better choice with higher min_fontist" do
+        let(:font) { "texgyrechorus" }
+        before do
+          example_formula("tex_gyre_chorus_min_fontist_and_font.yml")
+          example_formula("tex_gyre_chorus.yml")
+        end
+
+        it "installs from that which does not require higher version" do
+          expect(command).to include(include("texgyrechorus-mediumitalic.otf"))
+          expect(font_file("texgyrechorus-mediumitalic.otf")).to exist
+        end
+      end
+
+      context "one formula, requires lower version of fontist" do
+        let(:font) { "texgyrechorus" }
+        before { example_formula("tex_gyre_chorus_min_fontist_1.yml") }
+
+        it "installs font" do
+          expect(command).to include(include("texgyrechorus-mediumitalic.otf"))
+          expect(font_file("texgyrechorus-mediumitalic.otf")).to exist
+        end
+      end
+    end
+
     context "manual font" do
       include_context "fresh home"
 
@@ -680,19 +740,19 @@ RSpec.describe Fontist::Font do
           command
         end
       end
+    end
 
-      def expect_to_install(expected_formula)
-        original_new = Fontist::FontInstaller.method(:new)
-        expect(Fontist::FontInstaller).to receive(:new).once do |formula|
-          expect(formula.key).to eq expected_formula
-          original_new.call(formula)
-        end
+    def expect_to_install(expected_formula)
+      original_new = Fontist::FontInstaller.method(:new)
+      expect(Fontist::FontInstaller).to receive(:new).once do |formula|
+        expect(formula.key).to eq expected_formula
+        original_new.call(formula)
       end
+    end
 
-      def set_size_limit(limit)
-        allow(Fontist).to receive(:formula_size_limit_in_megabytes)
-          .and_return(limit)
-      end
+    def set_size_limit(limit)
+      allow(Fontist).to receive(:formula_size_limit_in_megabytes)
+        .and_return(limit)
     end
   end
 

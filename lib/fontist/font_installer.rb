@@ -10,9 +10,8 @@ module Fontist
     end
 
     def install(confirmation:)
-      if @formula.license_required && !"yes".casecmp?(confirmation)
-        raise(Fontist::Errors::LicensingError)
-      end
+      raise_fontist_version_error unless supported_version?
+      raise_licensing_error unless license_is_accepted?(confirmation)
 
       install_font
     end
@@ -20,6 +19,33 @@ module Fontist
     private
 
     attr_reader :formula
+
+    def supported_version?
+      return true unless @formula.min_fontist
+
+      fontist_version = Gem::Version.new(Fontist::VERSION)
+      min_fontist_required = Gem::Version.new(@formula.min_fontist)
+
+      fontist_version >= min_fontist_required
+    end
+
+    def raise_fontist_version_error
+      raise Fontist::Errors::FontistVersionError,
+            "Formula requires higher version of fontist. " \
+            "Please upgrade fontist.\n" \
+            "Minimum required version: #{formula.min_fontist}. " \
+            "Current fontist version: #{Fontist::VERSION}."
+    end
+
+    def license_is_accepted?(confirmation)
+      return true unless @formula.license_required
+
+      "yes".casecmp?(confirmation)
+    end
+
+    def raise_licensing_error
+      raise(Fontist::Errors::LicensingError)
+    end
 
     def install_font
       fonts_paths = run_in_temp_dir { extract }

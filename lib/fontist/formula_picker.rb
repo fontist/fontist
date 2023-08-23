@@ -5,66 +5,117 @@ module Fontist
     def initialize(font_name, size_limit:, version:, smallest:, newest:)
       @font_name = font_name
       @size_limit = size_limit || Fontist.formula_size_limit_in_megabytes
-      @version = version
-      @smallest = smallest
-      @newest = newest
+
+      @options  = {}
+      @version  = @options[:version]  = version  if version
+      @smallest = @options[:smallest] = smallest if smallest
+      @newest   = @options[:newest]   = newest   if newest
     end
 
     def call(formulas)
       return [] if formulas.empty?
-      return formulas if contain_different_styles?(formulas)
-      return by_version(formulas) if version_is_passed?
-      return newest(formulas) if newest_is_passed?
-      return smallest(formulas) if smallest_is_passed?
 
-      default_way(formulas)
+      list = filter(formulas)
+      return [] if list.empty?
+
+      choose(list)
     end
 
     private
 
-    def version_is_passed?
-      !@version.nil?
+    def filter(formulas)
+      list = formulas
+
+      list = filter_by_passed_version(formulas) if @version
+      return [] if list.empty?
+
+      list = ensure_size_limit(list) if @options.empty?
+
+      ensure_fontist_version(list)
     end
 
-    def by_version(formulas)
-      formulas.each do |formula|
-        fonts = formula.fonts_by_name(@font_name)
-        fonts.each do |font|
-          font.styles.each do |style|
-            version = StyleVersion.new(style.version)
-            return [formula] if version == passed_version
-          end
+    def ensure_fontist_version(formulas)
+      suitable, unsuitable = filter_by_fontist_version(formulas)
+      raise_fontist_version_error(unsuitable) if suitable.empty?
+
+      suitable
+    end
+
+    def filter_by_fontist_version(formulas)
+      suitable, unsuitable = formulas.partition do |f|
+        f.min_fontist.nil? ||
+          Gem::Version.new(Fontist::VERSION) >= Gem::Version.new(f.min_fontist)
+      end
+
+      unless unsuitable.empty?
+        print_formulas_with_unsuitable_fontist_version(unsuitable)
+      end
+
+      [suitable, unsuitable]
+    end
+
+    def print_formulas_with_unsuitable_fontist_version(formulas)
+      Fontist.ui.debug(
+        "Some formulas were excluded from choice, because they require " \
+        "higher version of fontist: #{formulas_versions(formulas)}. " \
+        "Current fontist version: #{Fontist::VERSION}.",
+      )
+    end
+
+    def raise_fontist_version_error(formulas)
+      raise Fontist::Errors::FontistVersionError,
+            "Suitable formulas require higher version of fontist. " \
+            "Please upgrade fontist.\n" \
+            "Minimum required version: #{formulas_versions(formulas)}. " \
+            "Current fontist version: #{Fontist::VERSION}."
+    end
+
+    def formulas_versions(formulas)
+      formulas.map { |f| "#{f.key} (#{f.min_fontist})" }.join(", ")
+    end
+
+    def filter_by_passed_version(formulas)
+      formulas.select do |formula|
+        contain_passed_version?(formula)
+      end
+    end
+
+    def contain_passed_version?(formula)
+      fonts = formula.fonts_by_name(@font_name)
+      fonts.each do |font|
+        font.styles.each do |style|
+          version = StyleVersion.new(style.version)
+          return true if version == passed_version
         end
       end
 
-      []
+      false
     end
 
     def passed_version
       @passed_version ||= StyleVersion.new(@version)
     end
 
-    def newest_is_passed?
-      @newest
-    end
+    def choose(formulas)
+      return formulas if contain_different_styles?(formulas)
 
-    def newest(formulas)
-      newest_formulas = filter_by_max_version(formulas)
-      smallest(newest_formulas)
-    end
+      list = formulas
 
-    def smallest_is_passed?
-      @smallest
+      if @options.empty? || @newest
+        list = choose_max_version(list)
+      end
+
+      smallest(list)
     end
 
     def smallest(formulas)
       [choose_smallest_formula(formulas)]
     end
 
-    def default_way(formulas)
-      size_limited_formulas = filter_by_size_limit(formulas)
-      raise_size_limit_error if size_limited_formulas.empty?
-      newest(size_limited_formulas)
+    def choose_smallest_formula(formulas)
+      formulas.min_by do |formula|
+        formula.file_size || 0
+      end
     end
 
     def contain_different_styles?(formulas)
@@ -78,6 +129,13 @@ module Fontist
       end
 
       styles_by_formula.uniq.size > 1
+    end
+
+    def ensure_size_limit(formulas)
+      list = filter_by_size_limit(formulas)
+      raise_size_limit_error if list.empty?
+
+      list
     end
 
     def filter_by_size_limit(formulas)
@@ -97,7 +155,7 @@ module Fontist
             "(#{@size_limit} MB)."
     end
 
-    def filter_by_max_version(formulas)
+    def choose_max_version(formulas)
       formulas_with_version = detect_formula_version(formulas)
       max_version = formulas_with_version.map(&:first).max
       formulas_with_version.select do |version, _formula|
@@ -115,12 +173,6 @@ module Fontist
         end
 
         [versions.max, formula]
-      end
-    end
-
-    def choose_smallest_formula(formulas)
-      formulas.min_by do |formula|
-        formula.file_size || 0
       end
     end
 

@@ -148,6 +148,17 @@ RSpec.describe Fontist::CLI do
       end
     end
 
+    context "formula requires higher min fontist" do
+      include_context "fresh home"
+
+      before { example_formula("tex_gyre_chorus_min_fontist_and_font.yml") }
+
+      it "returns fontist-version error" do
+        status = described_class.start(["install", "texgyrechorus"])
+        expect(status).to be Fontist::CLI::STATUS_FONTIST_VERSION_ERROR
+      end
+    end
+
     context "with formula option" do
       include_context "fresh home"
 

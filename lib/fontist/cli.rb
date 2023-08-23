@@ -25,6 +25,7 @@ module Fontist
     STATUS_FORMULA_NOT_FOUND = 13
     STATUS_FONTCONFIG_NOT_FOUND = 14
     STATUS_FONTCONFIG_FILE_NOT_FOUND = 15
+    STATUS_FONTIST_VERSION_ERROR = 15
 
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
@@ -50,6 +51,7 @@ module Fontist
       Fontist::Errors::FontconfigNotFoundError => [STATUS_FONTCONFIG_NOT_FOUND],
       Fontist::Errors::FontconfigFileNotFoundError =>
         [STATUS_FONTCONFIG_FILE_NOT_FOUND],
+      Fontist::Errors::FontistVersionError => [STATUS_FONTIST_VERSION_ERROR],
     }.freeze
 
     def self.exit_on_failure?
