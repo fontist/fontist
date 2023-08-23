@@ -73,6 +73,10 @@ All commands support the following global options:
 NOTE: See <<preferred-family-change>> for the differences between
 "`preferred family`" and "`default family`".
 
+`-q, --quiet`:: Print as little information as possible, mostly critical errors.
+
+`-v, --verbose`:: Set the log level to debug. It prints formulas excluded
+during installation and information for developers of fontist.
 
 === Install fonts: `fontist install`
 
@@ -124,6 +128,12 @@ for the newest version of the font among formulas with size below a limit
 
 NOTE: If styles of a font are spread among several formulas, then all
 available styles from all formulas would be installed.
+
+NOTE: Some formulas may have the `min_fontist` attribute, which defines the
+minimum version of fontist by which they can be installed. If `fontist` is of a
+older version, then the formula is avoided to use. In order to see which
+formulas were excluded from the search, the `-v, --verbose` option can be
+specified.
 
 Supported options:
 
@@ -968,6 +978,15 @@ $ fontist install --formula ms_truetype
 == Maintenance (for Fontist maintainers only!)
 
 WARNING: This section is only for Fontist maintainers.
+
+=== Formulas versioning
+
+To add a new attribute, change how formula is treated or completely replace the structure, there are 2 ways to change a formula format:
+
+1. Use the `min_fontist` attribute in a formula. It sets a requirement for fontist to install the formula only if its version is equal or more than a specified version.
+2. Use a new branch in the formulas repo, e.g. "v2", "v3", "v4", etc. After creating a new branch, it should be defined in https://github.com/fontist/fontist/blob/v1.16.0/lib/fontist.rb#L51[`Fontist.formulas_version`]
+
+NOTE: Using a new branch would require all users to re-download the entire formulas repo. Since this method has a significant overhead, the former one (`min_fontist`) should be used whenever possible.
 
 === Dynamically importing formulas from Google Fonts
 

@@ -120,6 +120,10 @@ module Fontist
       @data["platforms"]
     end
 
+    def min_fontist
+      @data["min_fontist"]
+    end
+
     def extract
       Helpers.parse_to_object(@data["extract"])
     end

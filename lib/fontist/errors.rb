@@ -18,6 +18,8 @@ module Fontist
 
     class FontIndexCorrupted < GeneralError; end
 
+    class FontistVersionError < GeneralError; end
+
     class FontNotFoundError < GeneralError; end
 
     # for backward compatibility with metanorma,
