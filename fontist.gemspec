@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "git", "~> 1.0"
   spec.add_runtime_dependency "ttfunk", "~> 1.6"
   spec.add_runtime_dependency "plist", "~> 3.0"
-  spec.add_runtime_dependency "excavate", "~> 0.3"
+  spec.add_runtime_dependency "excavate", "~> 0.3", '>= 0.3.4'
   spec.add_runtime_dependency "socksify", "~> 1.7"
 
   spec.add_development_dependency "pry", "~> 0.14"
