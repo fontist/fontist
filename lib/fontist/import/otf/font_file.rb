@@ -70,7 +70,9 @@ module Fontist
         end
 
         def font
-          File.basename(@path, ".*") + "." + @extension
+          basename = File.basename(@path, ".*").chomp(".#{@extension}")
+
+          "#{basename}.#{@extension}"
         end
 
         def source_font
