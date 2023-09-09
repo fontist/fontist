@@ -18,6 +18,8 @@ module Fontist
 
     class FontIndexCorrupted < GeneralError; end
 
+    class FontFileError < GeneralError; end
+
     class FontistVersionError < GeneralError; end
 
     class FontNotFoundError < GeneralError; end

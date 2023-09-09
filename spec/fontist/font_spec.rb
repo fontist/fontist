@@ -756,6 +756,28 @@ RSpec.describe Fontist::Font do
     end
   end
 
+  describe ".install with no setup" do
+    include_context "empty home"
+
+    let(:command) do
+      Fontist::Font.install(font, confirmation: "yes", **options)
+    end
+
+    let(:options) { {} }
+
+    context "no main repo" do
+      let(:font) { "any font" }
+      before { stub_system_fonts(Fontist.orig_system_file_path) }
+
+      it "throws MainRepoNotFoundError" do
+        expect(Fontist::Indexes::BaseIndex)
+          .to receive(:from_yaml).once.and_call_original
+        expect { command }
+          .to raise_error(Fontist::Errors::MainRepoNotFoundError)
+      end
+    end
+  end
+
   describe ".uninstall" do
     let(:command) { Fontist::Font.uninstall(font) }
 
