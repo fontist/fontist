@@ -1,4 +1,5 @@
-require "ttfunk"
+require_relative "font_file"
+require_relative "collection_file"
 
 module Fontist
   class SystemIndex
@@ -6,11 +7,11 @@ module Fontist
 
     class DefaultFamily
       def family_name(name)
-        name.font_family
+        name.family
       end
 
       def type(name)
-        name.font_subfamily
+        name.subfamily
       end
 
       def transform_override_keys(dict)
@@ -20,15 +21,11 @@ module Fontist
 
     class PreferredFamily
       def family_name(name)
-        return name.font_family if name.preferred_family.empty?
-
-        name.preferred_family
+        name.preferred_family || name.family
       end
 
       def type(name)
-        return name.font_subfamily if name.preferred_subfamily.empty?
-
-        name.preferred_subfamily
+        name.preferred_subfamily || name.subfamily
       end
 
       def transform_override_keys(dict)
@@ -36,15 +33,6 @@ module Fontist
         dict.transform_keys! { |k| mapping[k] }
       end
     end
-
-    PLATFORM_MACINTOSH = 1
-    PLATFORM_MICROSOFT = 3
-
-    ENCODING_MAC_ROMAN = 0
-    ENCODING_MS_UNICODE_BMP = 1
-
-    LANGUAGE_MAC_ENGLISH = 0
-    LANGUAGE_MS_ENGLISH_AMERICAN = 0x409
 
     ALLOWED_KEYS = %i[path full_name family_name type].freeze
 
@@ -174,22 +162,26 @@ module Fontist
       else
         raise Errors::UnknownFontTypeError.new(path)
       end
-    rescue StandardError
+    rescue Errors::FontFileError => e
+      print_recognition_error(e, path)
+    end
+
+    def print_recognition_error(exception, path)
       Fontist.ui.error(<<~MSG.chomp)
-        #{$!.message}
+        #{exception.inspect}
         Warning: File at #{path} not recognized as a font file.
       MSG
+      nil
     end
 
     def detect_file_font(path)
-      content = File.read(path, mode: "rb")
-      file = TTFunk::File.new(content)
+      file = FontFile.from_path(path)
 
       parse_font(file, path)
     end
 
     def detect_collection_fonts(path)
-      TTFunk::Collection.open(path) do |collection|
+      CollectionFile.from_path(path) do |collection|
         collection.map do |file|
           parse_font(file, path)
         end
@@ -197,41 +189,14 @@ module Fontist
     end
 
     def parse_font(file, path)
-      x = file.name
-      family_name = english_name(@family.family_name(x))
+      family_name = @family.family_name(file)
 
       {
         path: path,
-        full_name: english_name(x.font_name),
+        full_name: file.full_name,
         family_name: family_name,
-        type: english_name(@family.type(x)),
+        type: @family.type(file),
       }.merge(override_font_props(path, family_name))
-    end
-
-    def english_name(name)
-      visible_characters(find_english(name))
-    end
-
-    def find_english(name)
-      name.find { |x| microsoft_english?(x) } ||
-        name.find { |x| mac_english?(x) } ||
-        name.last
-    end
-
-    def microsoft_english?(string)
-      string.platform_id == PLATFORM_MICROSOFT &&
-        string.encoding_id == ENCODING_MS_UNICODE_BMP &&
-        string.language_id == LANGUAGE_MS_ENGLISH_AMERICAN
-    end
-
-    def mac_english?(string)
-      string.platform_id == PLATFORM_MACINTOSH &&
-        string.encoding_id == ENCODING_MAC_ROMAN &&
-        string.language_id == LANGUAGE_MAC_ENGLISH
-    end
-
-    def visible_characters(text)
-      text.gsub(/[^[:print:]]/, "").to_s
     end
 
     def override_font_props(path, font_name)
