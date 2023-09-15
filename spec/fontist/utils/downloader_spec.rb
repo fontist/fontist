@@ -94,6 +94,29 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
     end
+
+    context "read_timeout is specified in config" do
+      include_context "fresh home"
+
+      before do
+        File.write(Fontist.config_path, YAML.dump(read_timeout: 20))
+        Fontist::Config.instance.load
+      end
+
+      after do
+        File.write(Fontist.config_path, YAML.dump({}))
+        Fontist::Config.instance.load
+      end
+
+      it "passes read_timeout to Down" do
+        expect(Down).to receive(:download)
+          .with(anything, hash_including(read_timeout: 20)).and_call_original
+
+        avoid_cache(sample_file[:file]) do
+          described_class.download(sample_file[:file])
+        end
+      end
+    end
   end
 
   def sample_file

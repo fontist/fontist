@@ -80,8 +80,8 @@ module Fontist
       def do_download_file_with_progress_bar(progress_bar)
         Down.download(
           url,
-          open_timeout: 10,
-          read_timeout: 10,
+          open_timeout: Fontist.open_timeout,
+          read_timeout: Fontist.read_timeout,
           max_redirects: 10,
           headers: headers,
           content_length_proc: ->(content_length) {

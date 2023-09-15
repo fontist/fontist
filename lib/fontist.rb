@@ -13,6 +13,7 @@ require "fontist/formula"
 require "fontist/system_font"
 require "fontist/manifest"
 require "fontist/helpers"
+require "fontist/config"
 
 module Fontist
   def self.ui
@@ -117,6 +118,22 @@ module Fontist
 
   def self.preferred_family=(bool)
     @preferred_family = bool
+  end
+
+  def self.open_timeout
+    config[:open_timeout]
+  end
+
+  def self.read_timeout
+    config[:read_timeout]
+  end
+
+  def self.config
+    Fontist::Config.instance.values
+  end
+
+  def self.config_path
+    Fontist.fontist_path.join("config.yml")
   end
 
   def self.log_level=(level)
