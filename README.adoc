@@ -299,6 +299,39 @@ Roboto Mono:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
 
+=== Work with fontist config: `fontist config`
+
+Fontist supports system-wide settings for the following parameters:
+
+`open_timeout`:: Sets timeout for opening a connection during download
+(default: 10)
+
+`read_timeout`:: Sets timeout for reading the opened connection during download
+(default: 10)
+
+Show current attributes in the config:
+
+[source,sh]
+----
+$ fontist config show
+Current config:
+read_timeout: 5
+----
+
+Assign a value to an attribute:
+
+[source,sh]
+----
+$ fontist config set read_timeout 60
+----
+
+Restore a default value of an attribute:
+
+[source,sh]
+----
+$ fontist config delete read_timeout
+----
+
 === Work with Fontconfig: `fontist fontconfig`
 
 Fontconfig is a software designed to provide fonts to other programs. It is
