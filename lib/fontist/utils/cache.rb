@@ -9,7 +9,7 @@ module Fontist
 
       def fetch(key)
         map = load_cache
-        if cache_exist?(map[key])
+        if Fontist.use_cache? && cache_exist?(map[key])
           print(map[key])
 
           return downloaded_file(map[key])
