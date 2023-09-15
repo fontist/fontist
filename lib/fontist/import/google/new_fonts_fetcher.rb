@@ -9,8 +9,9 @@ module Fontist
         REPO_URL = "https://github.com/google/fonts.git".freeze
         SKIPLIST_PATH = File.expand_path("skiplist.yml", __dir__)
 
-        def initialize(logging: false)
+        def initialize(logging: false, limit: nil)
           @logging = logging
+          @limit = limit
         end
 
         def call
@@ -30,11 +31,20 @@ module Fontist
         end
 
         def fetch_new_paths
-          fetch_fonts_paths.select do |path|
-            log_font(path) do
+          new_paths = []
+
+          fetch_fonts_paths.each do |path|
+            new = log_font(path) do
               new?(path)
             end
+
+            next unless new
+
+            new_paths << path
+            return new_paths if @limit && new_paths.size >= @limit
           end
+
+          new_paths
         end
 
         def fetch_fonts_paths
