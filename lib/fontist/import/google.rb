@@ -1,6 +1,8 @@
 module Fontist
   module Import
     module Google
+      DEFAULT_MAX_COUNT = 100
+
       def self.metadata_name(path)
         metadata_path = File.join(path, "METADATA.pb")
         return unless File.exist?(metadata_path)

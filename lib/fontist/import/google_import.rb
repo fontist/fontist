@@ -6,16 +6,21 @@ require_relative "create_formula"
 module Fontist
   module Import
     class GoogleImport
+      def initialize(options)
+        @max_count = options[:max_count] || Google::DEFAULT_MAX_COUNT
+      end
+
       def call
         fonts = new_fonts
         create_formulas(fonts)
-        rebuild_index
+        rebuild_index unless fonts.empty?
       end
 
       private
 
       def new_fonts
-        Fontist::Import::Google::NewFontsFetcher.new(logging: true).call
+        Fontist::Import::Google::NewFontsFetcher.new(logging: true,
+                                                     limit: @max_count).call
       end
 
       def create_formulas(fonts)
