@@ -59,22 +59,6 @@ module Fontist
       false
     end
 
-    class_option :preferred_family,
-                 type: :boolean,
-                 desc: "Use Preferred Family when available"
-
-    class_option :quiet,
-                 aliases: :q,
-                 type: :boolean,
-                 desc: "Hide all messages"
-
-    class_option :verbose,
-                 aliases: :v,
-                 type: :boolean,
-                 desc: "Print debug messages"
-
-    class_option :formulas_path, type: :string, desc: "Path to formulas"
-
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if already installed in system"

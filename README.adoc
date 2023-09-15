@@ -78,6 +78,9 @@ NOTE: See <<preferred-family-change>> for the differences between
 `-v, --verbose`:: Set the log level to debug. It prints formulas excluded
 during installation and information for developers of fontist.
 
+`-c, --no-cache`:: Prefer direct download even when a file is already cached in
+a system.
+
 === Install fonts: `fontist install`
 
 Fontist checks whether this font is already installed, and if not, then installs

@@ -136,6 +136,14 @@ module Fontist
     Fontist.fontist_path.join("config.yml")
   end
 
+  def self.use_cache?
+    instance_variable_defined?("@use_cache") ? @use_cache : true
+  end
+
+  def self.use_cache=(bool)
+    @use_cache = bool
+  end
+
   def self.log_level=(level)
     Fontist.ui.level = level
   end

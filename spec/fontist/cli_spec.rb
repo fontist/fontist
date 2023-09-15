@@ -249,6 +249,18 @@ RSpec.describe Fontist::CLI do
         end
       end
     end
+
+    context "--no-cache used" do
+      include_context "fresh home"
+
+      before { example_formula("tex_gyre_chorus.yml") }
+
+      it "calls the download library" do
+        expect(Down).to receive(:download).and_call_original
+
+        described_class.start(["install", "-c", "texgyrechorus"])
+      end
+    end
   end
 
   describe "#status" do
