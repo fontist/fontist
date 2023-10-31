@@ -8,6 +8,10 @@ module Fontist
       FONT_XML = "/System/Library/AssetsV2/com_apple_MobileAsset_Font6/com_apple_MobileAsset_Font6.xml".freeze # rubocop:disable Layout/LineLength
       HOMEPAGE = "https://support.apple.com/en-om/HT211240#document".freeze
 
+      def initialize(font_xml = FONT_XML)
+        @font_xml = font_xml
+      end
+
       def call
         links.each do |link|
           create_formula(link)
@@ -21,7 +25,7 @@ module Fontist
       private
 
       def links
-        data = Plist.parse_xml(FONT_XML)
+        data = Plist.parse_xml(@font_xml)
         data["Assets"].map do |x|
           x.values_at("__BaseURL", "__RelativePath").join
         end
