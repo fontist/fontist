@@ -59,5 +59,16 @@ RSpec.describe Fontist::SystemFont do
         end
       end
     end
+
+    context "system font has bad magic number" do
+      include_context "fresh home"
+      include_context "system fonts"
+
+      before { example_font_to_system("NISC18030.ttf") }
+
+      it "ignores this font, returns nil" do
+        expect(Fontist::SystemFont.find("GB18030 Bitmap")).to be_nil
+      end
+    end
   end
 end

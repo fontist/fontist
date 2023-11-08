@@ -12,11 +12,9 @@ RSpec.shared_context "system fonts" do
   end
 
   before do
-    allow(YAML).to receive(:load_file).with(Fontist.system_file_path)
-      .and_return(system_paths(system_dir))
+    new_paths = system_paths(system_dir)
+    allow(Fontist::SystemFont).to receive(:system_config).and_return(new_paths)
 
     disable_system_font_paths_caching
-
-    allow(YAML).to receive(:load_file).and_call_original
   end
 end

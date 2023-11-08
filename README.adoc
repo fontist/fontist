@@ -657,6 +657,15 @@ Apple Support site:
 WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
 platforms due to font license restrictions of those fonts.
 
+=== Known problematic fonts
+
+* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
+https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
+
+The full list of known problematic fonts:
+
+* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage]
+
 
 == Advanced usage
 

@@ -45,6 +45,7 @@ jobs:
           bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
+        name: Run tests including dev ones
         run: |
           brew install lcdf-typetools
           bundle exec rspec
