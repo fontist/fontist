@@ -16,14 +16,17 @@ module Fontist
     end
 
     def self.load_system_font_paths
-      config_path = Fontist.system_file_path
       os = Fontist::Utils::System.user_os.to_s
-      templates = YAML.load_file(config_path)["system"][os]["paths"]
+      templates = system_config["system"][os]["paths"]
       patterns = expand_paths(templates)
 
       Dir.glob(patterns)
       # File::FNM_CASEFOLD is officially ignored -- see https://ruby-doc.org/core-3.1.1/Dir.html#method-c-glob
       # "Case sensitivity depends on your system"
+    end
+
+    def self.system_config
+      YAML.load_file(Fontist.system_file_path)
     end
 
     def self.reset_system_font_paths_cache

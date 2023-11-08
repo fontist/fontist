@@ -76,6 +76,10 @@ module Fontist
     Fontist.lib_path.join("fontist", "system.yml")
   end
 
+  def self.excluded_fonts_path
+    Fontist.lib_path.join("fontist", "exclude.yml")
+  end
+
   def self.system_index_path
     Fontist.fontist_path.join("system_index.default_family.yml")
   end

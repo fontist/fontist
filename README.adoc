@@ -657,6 +657,15 @@ Apple Support site:
 WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
 platforms due to font license restrictions of those fonts.
 
+=== Known problematic fonts
+
+* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
+https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
+
+The full list of known problematic fonts:
+
+* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage]
+
 
 == Advanced usage
 
@@ -862,7 +871,7 @@ For file paths, specify the file path as argument:
 
 [source,sh]
 ----
-wget https://www.latofonts.com/download/lato2ofl-zip/
+wget https://www.latofonts.com/files/Lato2OFL.zip
 fontist create-formula lato.zip
 ----
 
@@ -870,7 +879,7 @@ For URLs, simply specify the URL as the argument:
 
 [source,sh]
 ----
-fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+fontist create-formula https://www.latofonts.com/files/Lato2OFL.zip
 # > file created at lato.yml because the file downloaded is lato.zip
 ----
 
@@ -879,7 +888,7 @@ private formula repository location.
 
 [source,sh]
 ----
-fontist create-formula https://www.latofonts.com/download/lato2ofl-zip/
+fontist create-formula https://www.latofonts.com/files/Lato2OFL.zip
 cp lato.yml ~/.fontist/formulas/Formulas/
 ----
 

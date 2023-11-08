@@ -66,6 +66,10 @@ module Fontist
       Fontist.preferred_family? ? PreferredFamily.new : DefaultFamily.new
     end
 
+    def excluded_fonts
+      @excluded_fonts ||= YAML.load_file(Fontist.excluded_fonts_path)
+    end
+
     def initialize(index_path, font_paths_fetcher, family)
       @index_path = index_path
       @font_paths_fetcher = font_paths_fetcher
@@ -154,16 +158,26 @@ module Fontist
     end
 
     def detect_fonts(path)
+      return if excluded?(path)
+
+      gather_fonts(path)
+    rescue Errors::FontFileError => e
+      print_recognition_error(e, path)
+    end
+
+    def excluded?(path)
+      excluded_fonts.include?(File.basename(path))
+    end
+
+    def gather_fonts(path)
       case File.extname(path).gsub(/^\./, "").downcase
       when "ttf", "otf"
         detect_file_font(path)
       when "ttc"
         detect_collection_fonts(path)
       else
-        raise Errors::UnknownFontTypeError.new(path)
+        print_recognition_error(Errors::UnknownFontTypeError.new(path), path)
       end
-    rescue Errors::FontFileError => e
-      print_recognition_error(e, path)
     end
 
     def print_recognition_error(exception, path)
