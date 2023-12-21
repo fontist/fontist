@@ -37,6 +37,7 @@ module Fontist
     end
 
     def persist
+      FileUtils.mkdir_p(File.dirname(Fontist.config_path))
       File.write(Fontist.config_path, YAML.dump(@custom_values))
     end
 
