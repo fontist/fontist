@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "down", "~> 5.0"
   spec.add_runtime_dependency "extract_ttc", "~> 0.1"
+  spec.add_runtime_dependency "json", "~> 2.0"
   spec.add_runtime_dependency "nokogiri", "~> 1.0"
   spec.add_runtime_dependency "mime-types", "~> 3.0"
   spec.add_runtime_dependency "sys-uname", "~> 1.2"
