@@ -15,34 +15,50 @@ module Fontist
     end
 
     def set(key, value)
+      attr = key.to_sym
+      unless default_values.key?(attr)
+        raise Errors::InvalidConfigAttributeError,
+              "No such attribute '#{attr}' exists."
+      end
+
       v = normalize_value(value)
-      @custom_values[key.to_s] = v
+      if respond_to?("#{attr}=")
+        public_send("#{attr}=", v)
+      else
+        @custom_values[attr] = v
+      end
 
       persist
     end
 
     def delete(key)
-      @custom_values.delete(key.to_s)
+      @custom_values.delete(key.to_sym)
 
       persist
     end
 
     def default_value(key)
-      default_values[key.to_s]
+      default_values[key.to_sym]
     end
 
     def default_values
-      { open_timeout: 10,
-        read_timeout: 10 }.transform_keys(&:to_s)
+      { fonts_path: Fontist.fontist_path.join("fonts"),
+        open_timeout: 10,
+        read_timeout: 10 }
     end
 
     def persist
+      values = @custom_values.transform_keys(&:to_s)
       FileUtils.mkdir_p(File.dirname(Fontist.config_path))
-      File.write(Fontist.config_path, YAML.dump(@custom_values))
+      File.write(Fontist.config_path, YAML.dump(values))
     end
 
     def load
       @custom_values = load_config_file
+    end
+
+    def fonts_path=(value)
+      @custom_values[:fonts_path] = File.expand_path(value)
     end
 
     private
@@ -50,7 +66,7 @@ module Fontist
     def load_config_file
       return {} unless File.exist?(Fontist.config_path)
 
-      YAML.load_file(Fontist.config_path)
+      YAML.load_file(Fontist.config_path).transform_keys(&:to_sym)
     end
 
     def normalize_value(value)
