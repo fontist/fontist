@@ -40,6 +40,8 @@ module Fontist
 
     class MainRepoNotFoundError < FormulaIndexNotFoundError; end
 
+    class InvalidConfigAttributeError < GeneralError; end
+
     class InvalidResourceError < GeneralError; end
 
     class LicensingError < GeneralError; end

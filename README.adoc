@@ -306,11 +306,13 @@ Roboto Mono:
 
 Fontist supports system-wide settings for the following parameters:
 
+`fonts_path`:: Sets path where to install fonts (default: `~/.fontist/fonts`)
+
 `open_timeout`:: Sets timeout for opening a connection during download
-(default: 10)
+(default: `10`)
 
 `read_timeout`:: Sets timeout for reading the opened connection during download
-(default: 10)
+(default: `10`)
 
 Show current attributes in the config:
 
@@ -377,7 +379,7 @@ List of all commands could be seen by:
 fontist help
 ----
 
-=== Configuration
+=== Configuration with environment variables
 
 By default Fontist uses the `~/.fontist` directory to store fonts and its
 files. It could be changed with the `FONTIST_PATH` environment variable.

@@ -99,13 +99,11 @@ RSpec.describe Fontist::Utils::Downloader do
       include_context "fresh home"
 
       before do
-        File.write(Fontist.config_path, YAML.dump(read_timeout: 20))
-        Fontist::Config.instance.load
+        Fontist::Config.instance.set(:read_timeout, 20)
       end
 
       after do
-        File.write(Fontist.config_path, YAML.dump({}))
-        Fontist::Config.instance.load
+        Fontist::Config.instance.delete(:read_timeout)
       end
 
       it "passes read_timeout to Down" do

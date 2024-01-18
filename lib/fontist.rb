@@ -37,7 +37,7 @@ module Fontist
   end
 
   def self.fonts_path
-    Fontist.fontist_path.join("fonts")
+    Pathname.new(config[:fonts_path])
   end
 
   def self.formulas_repo_path
