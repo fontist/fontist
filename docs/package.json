@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.11.8",
+    "typescript": "^5.3.3",
+    "vitepress": "^1.0.0-rc.40",
+    "vue": "^3.4.15",
+    "vue-tsc": "^1.8.27"
+  },
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  }
+}

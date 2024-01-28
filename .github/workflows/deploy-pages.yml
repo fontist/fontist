@@ -1,0 +1,46 @@
+name: deploy-pages
+on:
+  push:
+    branches: "main"
+    paths-ignore:
+      - README.md
+      - CONTRIBUTING.md
+      - LICENSE
+      - .gitignore
+      - .github/**
+      - "!.github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+jobs:
+  deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+      - run: rdoc
+      - run: npm ci
+        working-directory: docs
+      - id: configure-pages
+        uses: actions/configure-pages@v4
+      - run: npm run build
+        working-directory: docs
+        env:
+          BASE_URL: ${{ steps.configure-pages.outputs.base_url }}/
+      - run: mv docs/.vitepress/dist _site
+      - run: mv doc _site/reference/api-ruby
+      - uses: actions/upload-pages-artifact@v3
+      - id: deploy-pages
+        uses: actions/deploy-pages@v4
