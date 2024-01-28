@@ -1,0 +1,63 @@
+name: tebako-pack
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+  pull_request: # to be removed
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+env:
+  RUBY_VER: 3.2.3
+  TEBAKO_DIR: .archive/tebako
+  DEPS: deps
+  BUNDLER_VER: 2.3.22
+  BUILD_TYPE: Release
+  CC: clang-12
+  CXX: clang++-12
+
+jobs:
+  pack:
+    name: Pack fontist
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+
+    # ---------- Start of tebako prerequisites
+    - name: Install packages
+      run: |
+        sudo apt-get -y update
+        sudo apt-get -y install                                                   \
+        binutils-dev libevent-dev acl-dev libfmt-dev libjemalloc-dev              \
+        libdouble-conversion-dev libiberty-dev liblz4-dev liblzma-dev libssl-dev  \
+        libboost-filesystem-dev libboost-program-options-dev libboost-system-dev  \
+        libboost-iostreams-dev  libboost-date-time-dev libboost-context-dev       \
+        libboost-regex-dev libboost-thread-dev libbrotli-dev libunwind-dev        \
+        libdwarf-dev libelf-dev libgoogle-glog-dev libffi-dev libgdbm-dev         \
+        libyaml-dev libncurses-dev libreadline-dev libutfcpp-dev
+
+    - name: Install Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ env.RUBY_VER }}
+        bundler: ${{ env.BUNDLER_VER }}
+
+    - name: Install tebako
+      run: sudo gem install tebako
+
+    # ---------- Pack fontist
+    - name: Pack fontist
+      run: |
+        tebako press -R "$RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
+        strip fontist
+        ./fontist help || echo "fontist help exits with status 1"
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: fontist-ubuntu
+        path: fontist
