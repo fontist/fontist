@@ -8,6 +8,7 @@ export default defineConfig({
   description:
     "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.",
 
+    // https://github.com/vuejs/vitepress/issues/3508
   base: process.env.BASE_URL
     ? new URL(process.env.BASE_URL).pathname
     : undefined,

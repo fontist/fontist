@@ -30,7 +30,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
-      - run: rdoc
+      - run: rdoc -x docs
       - run: npm ci
         working-directory: docs
       - id: configure-pages
