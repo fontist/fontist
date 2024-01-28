@@ -12,46 +12,28 @@ concurrency:
 
 env:
   RUBY_VER: 3.2.3
-  TEBAKO_DIR: .archive/tebako
-  DEPS: deps
-  BUNDLER_VER: 2.3.22
-  BUILD_TYPE: Release
-  CC: clang-12
-  CXX: clang++-12
 
 jobs:
   pack:
     name: Pack fontist
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, macos-11.0]
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
-    # ---------- Start of tebako prerequisites
-    - name: Install packages
-      run: |
-        sudo apt-get -y update
-        sudo apt-get -y install                                                   \
-        binutils-dev libevent-dev acl-dev libfmt-dev libjemalloc-dev              \
-        libdouble-conversion-dev libiberty-dev liblz4-dev liblzma-dev libssl-dev  \
-        libboost-filesystem-dev libboost-program-options-dev libboost-system-dev  \
-        libboost-iostreams-dev  libboost-date-time-dev libboost-context-dev       \
-        libboost-regex-dev libboost-thread-dev libbrotli-dev libunwind-dev        \
-        libdwarf-dev libelf-dev libgoogle-glog-dev libffi-dev libgdbm-dev         \
-        libyaml-dev libncurses-dev libreadline-dev libutfcpp-dev
-
-    - name: Install Ruby
-      uses: ruby/setup-ruby@v1
+    - name: Setup Tebako
+      uses: ./.github/actions/setup-tebako
       with:
-        ruby-version: ${{ env.RUBY_VER }}
-        bundler: ${{ env.BUNDLER_VER }}
+        cache: build
+        ruby_version: ${{ env.RUBY_VER }}
+        bundler_version: 2.3.22
 
-    - name: Install tebako
-      run: sudo gem install tebako
-
-    # ---------- Pack fontist
-    - name: Pack fontist
+    - name: Pack Fontist
       run: |
         tebako press -R "$RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
         strip fontist
@@ -59,5 +41,5 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: fontist-ubuntu
+        name: fontist-${{ matrix.os }}
         path: fontist
