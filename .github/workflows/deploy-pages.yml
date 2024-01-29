@@ -38,7 +38,7 @@ jobs:
       - run: npm run build
         working-directory: docs
         env:
-          BASE_URL: ${{ steps.configure-pages.outputs.base_url }}/
+          BASE_PATH: ${{ steps.configure-pages.outputs.base_path }}/
       - run: mv docs/.vitepress/dist _site
       - run: mv doc _site/reference/api-ruby
       - uses: actions/upload-pages-artifact@v3
