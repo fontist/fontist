@@ -9,9 +9,7 @@ export default defineConfig({
     "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.",
 
     // https://github.com/vuejs/vitepress/issues/3508
-  base: process.env.BASE_URL
-    ? new URL(process.env.BASE_URL).pathname
-    : undefined,
+  base: process.env.BASE_PATH,
 
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
@@ -43,7 +41,7 @@ export default defineConfig({
           text: "API",
           items: [
             { text: "Fontist Ruby library", link: "/guide/api-ruby" },
-            { text: "Ruby API reference", link: "/reference/api-ruby/" },
+            { text: "Ruby API reference", link: "/reference/api-ruby/", target: "_self" },
           ],
         },
       ],
@@ -52,7 +50,7 @@ export default defineConfig({
           text: "Reference",
           items: [
             { text: "Fontist CLI reference", link: "/reference/" },
-            { text: "Ruby API reference", link: "/reference/api-ruby/" },
+            { text: "Ruby API reference", link: "/reference/api-ruby/", target: "_self" },
           ],
         },
       ],
@@ -64,7 +62,7 @@ export default defineConfig({
 
     footer: {
       copyright: `\
-Fontist is <a href="https://open.ribose.com/"><img alt="riboseopen" style="display: inline; height: 28px" valign=middle src="${process.env.BASE_URL || ""}riboseopen.png" /></a><br />
+Fontist is <a href="https://open.ribose.com/"><img alt="riboseopen" style="display: inline; height: 28px" valign=middle src="${process.env.BASE_PATH || ""}riboseopen.png" /></a><br />
 Copyright &copy; 2023 Ribose Group Inc. All rights reserved.<br />
 <a href="https://www.ribose.com/tos">Terms of Service</a> | <a href="https://www.ribose.com/privacy">Privacy Policy</a>`,
     },
