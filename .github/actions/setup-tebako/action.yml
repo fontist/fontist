@@ -51,22 +51,34 @@ runs:
 
         echo "BUILD_TYPE=Release" >> $GITHUB_ENV
         echo "TEBAKO_DIR=.archive/tebako" >> $GITHUB_ENV
-        echo "INCBIN_TAG=348e36b" >> $GITHUB_ENV
-        echo "DWARFS_WR_TAG=v0.4.0" >> $GITHUB_ENV
 
     - name: Install apt packages
       if: runner.os == 'Linux'
       shell: bash
       run: |
-        sudo apt-get -y update
-        sudo apt-get -y install                                                   \
-        binutils-dev libevent-dev acl-dev libfmt-dev libjemalloc-dev              \
-        libdouble-conversion-dev libiberty-dev liblz4-dev liblzma-dev libssl-dev  \
-        libboost-filesystem-dev libboost-program-options-dev libboost-system-dev  \
-        libboost-iostreams-dev  libboost-date-time-dev libboost-context-dev       \
-        libboost-regex-dev libboost-thread-dev libbrotli-dev libunwind-dev        \
-        libdwarf-dev libelf-dev libgoogle-glog-dev libffi-dev libgdbm-dev         \
-        libyaml-dev libncurses-dev libreadline-dev libutfcpp-dev
+        if [ -e "/etc/alpine-release" ]; then
+          apk --no-cache --upgrade add build-base cmake git bash   \
+          autoconf boost-static boost-dev flex-dev bison make      \
+          binutils-dev libevent-dev acl-dev sed python3 pkgconfig  \
+          lz4-dev openssl-dev zlib-dev xz ninja zip unzip curl     \
+          libunwind-dev libdwarf-dev gflags-dev elfutils-dev       \
+          libevent-static openssl-libs-static lz4-static xz-dev    \
+          zlib-static libunwind-static acl-static tar libffi-dev   \
+          gdbm-dev yaml-dev yaml-static ncurses-dev ncurses-static \
+          readline-dev readline-static p7zip ruby-dev gcompat      \
+          gettext-dev gperf brotli-dev brotli-static jemalloc-dev  \
+          fmt-dev xz-static clang
+        else
+          sudo apt-get -y update
+          sudo apt-get -y install                                                   \
+          binutils-dev libevent-dev acl-dev libfmt-dev libjemalloc-dev              \
+          libdouble-conversion-dev libiberty-dev liblz4-dev liblzma-dev libssl-dev  \
+          libboost-filesystem-dev libboost-program-options-dev libboost-system-dev  \
+          libboost-iostreams-dev  libboost-date-time-dev libboost-context-dev       \
+          libboost-regex-dev libboost-thread-dev libbrotli-dev libunwind-dev        \
+          libdwarf-dev libelf-dev libgoogle-glog-dev libffi-dev libgdbm-dev         \
+          libyaml-dev libncurses-dev libreadline-dev libutfcpp-dev
+        fi
 
     - name: Select XCode 12.4 & SDK 11.1
       if: runner.os == 'macOS'

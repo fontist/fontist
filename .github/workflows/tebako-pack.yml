@@ -31,7 +31,6 @@ jobs:
       with:
         cache: build
         ruby_version: ${{ env.RUBY_VER }}
-        bundler_version: 2.3.22
 
     - name: Pack Fontist
       run: |
