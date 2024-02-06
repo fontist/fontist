@@ -27,7 +27,7 @@ jobs:
         fetch-depth: 1
 
     - name: Setup Tebako
-      uses: ./.github/actions/setup-tebako
+      uses: tamatebako/tebako/.github/actions/setup-tebako@main
       with:
         cache: build
         ruby_version: ${{ env.RUBY_VER }}
