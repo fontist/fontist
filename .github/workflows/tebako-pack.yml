@@ -1,0 +1,61 @@
+name: tebako-pack
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+env:
+  # This is Ruby version that will be as a base for tebako package
+  # I.e.: fontist binary will be executed by this version of Ruby
+  PACKAGE_RUBY_VER: 3.2.3
+  # This is Ruby version that will be used to execute tebako itself
+  # It can be the same as PACKAGE_RUBY_VER but for whatever reason 3.1.4
+  # has better performance
+  TEBAKO_RUBY_VER: 3.1.4
+
+jobs:
+  pack:
+    name: Pack fontist
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      # macos-11 runner is deadly slow because brew is not supported on this version anymore
+      # so it is practically impossible to use it for tests anymore
+      matrix:
+        os: [ubuntu-20.04, macos-12]
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Setup Tebako
+      uses: tamatebako/tebako/.github/actions/setup-tebako@main
+      with:
+        cache: build
+        ruby_version: ${{ env.TEBAKO_RUBY_VER }}
+
+    - name: Pack Fontist
+      run: |
+        tebako press -R "$PACKAGE_RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
+        if [ ${{ matrix.os }} -ne "macos-12" ]; then
+          strip fontist
+        fi
+        ./fontist help || echo "fontist help exits with status 1"
+        cp ./fontist ./fontist-${{ runner.os }}
+
+    - if: github.event_name != 'workflow_dispatch'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          fontist-${{ runner.os }}
+
+    - if: github.event_name == 'workflow_dispatch'
+      uses: actions/upload-artifact@v4
+      with:
+        name: fontist-${{ matrix.os }}
+        path: fontist-${{ runner.os }}
