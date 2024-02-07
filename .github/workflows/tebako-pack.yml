@@ -25,8 +25,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
+      # macos-11 runner is deadly slow because brew is not supported on this version anymore
+      # so it is practically impossible to use it for tests anymore
       matrix:
-        os: [ubuntu-20.04, macos-11]
+        os: [ubuntu-20.04, macos-12]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -41,7 +43,7 @@ jobs:
     - name: Pack Fontist
       run: |
         tebako press -R "$PACKAGE_RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
-        if [ ${{ matrix.os }} -ne "macos-11" ]; then
+        if [ ${{ matrix.os }} -ne "macos-12" ]; then
           strip fontist
         fi
         ./fontist help || echo "fontist help exits with status 1"
