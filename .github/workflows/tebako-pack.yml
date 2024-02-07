@@ -11,7 +11,13 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  RUBY_VER: 3.2.3
+  # This is Ruby version that will be as a base for tebako package
+  # I.e.: fontist binary will be executed by this version of Ruby
+  PACKAGE_RUBY_VER: 3.2.3
+  # This is Ruby version that will be used to execute tebako itself
+  # It can be the same as PACKAGE_RUBY_VER but for whatever reason 3.1.4
+  # has better performance
+  TEBAKO_RUBY_VER: 3.1.4
 
 jobs:
   pack:
@@ -20,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-11.0]
+        os: [ubuntu-20.04, macos-11]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -30,13 +36,14 @@ jobs:
       uses: tamatebako/tebako/.github/actions/setup-tebako@main
       with:
         cache: build
-        ruby_version: ${{ env.RUBY_VER }}
-        bundler_version: 2.3.22
+        ruby_version: ${{ env.TEBAKO_RUBY_VER }}
 
     - name: Pack Fontist
       run: |
-        tebako press -R "$RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
-        strip fontist
+        tebako press -R "$PACKAGE_RUBY_VER" --root="." --entry-point="fontist" --output="fontist"
+        if [ ${{ matrix.os }} -ne "macos-11" ]; then
+          strip fontist
+        fi
         ./fontist help || echo "fontist help exits with status 1"
 
     - uses: actions/upload-artifact@v3
