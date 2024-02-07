@@ -4,7 +4,6 @@ on:
   push:
     tags: [ 'v*' ]
   workflow_dispatch:
-  pull_request: # to be removed
 
 concurrency:
   group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
@@ -30,7 +29,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-12]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -48,7 +47,7 @@ jobs:
         fi
         ./fontist help || echo "fontist help exits with status 1"
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: fontist-${{ matrix.os }}
         path: fontist
