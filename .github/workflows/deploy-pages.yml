@@ -30,7 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: latest
-          cache: pnpm
+          # Lockfile is in subfolder
+          # cache: pnpm
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
