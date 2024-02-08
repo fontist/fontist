@@ -20,12 +20,6 @@ hero:
       link: https://fontist.org/formulas/
 ---
 
-<script setup>
-import HomeContent from "./.vitepress/theme/components/HomeContent.vue"
-</script>
-
-<HomeContent>
-
 <!-- Excerpt from the Getting Started guide page. Try to keep it in sync! -->
 
 ```sh
@@ -45,5 +39,3 @@ fontist install "Consolas"
 <sup>👩‍⚖️ Some fonts may require you to accept license terms regarding their use.</sup>
 
 [📚 Read more in the Getting Started guide](/guide/)
-
-</HomeContent>
