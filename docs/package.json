@@ -1,17 +1,22 @@
 {
-  "type": "module",
-  "devDependencies": {
-    "@types/node": "^20.11.8",
-    "prettier": "^3.2.4",
-    "typescript": "^5.3.3",
-    "vitepress": "^1.0.0-rc.40",
-    "vue": "^3.4.15",
-    "vue-tsc": "^1.8.27"
-  },
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
     "format": "prettier -w ."
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "latest",
+    "prettier": "^3.2.4",
+    "typescript": "latest",
+    "vitepress": "^1.0.0-rc.40",
+    "vue": "^3.4.15",
+    "vue-tsc": "^1.8.27"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "vitepress@1.0.0-rc.42": "patches/vitepress@1.0.0-rc.42.patch"
+    }
   }
 }
