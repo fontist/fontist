@@ -18,6 +18,7 @@ hero:
     - theme: alt
       text: 🍰 Formulas
       link: https://fontist.org/formulas/
+      target: _self
 ---
 
 <!-- Excerpt from the Getting Started guide page. Try to keep it in sync! -->
