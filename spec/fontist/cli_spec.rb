@@ -2,6 +2,10 @@ require "spec_helper"
 require "fontist/cli"
 
 RSpec.describe Fontist::CLI do
+  after(:context) do
+    restore_default_settings
+  end
+
   describe "#install" do
     before { stub_system_fonts }
 
@@ -162,6 +166,8 @@ RSpec.describe Fontist::CLI do
     context "with formula option" do
       include_context "fresh home"
 
+      subject { command }
+
       let(:command) { described_class.start(["install", "--formula", formula]) }
 
       let(:not_found_message) do
@@ -218,6 +224,52 @@ RSpec.describe Fontist::CLI do
         it "returns success status and prints fonts paths" do
           expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
           expect(command).to be 0
+        end
+      end
+
+      context "with misspelled formula name" do
+        let(:formula) { "TX Gyre Chorus" }
+
+        before { example_formula("tex_gyre_chorus.yml") }
+
+        it "suggests to install 'tex_gyre_chorus'" do
+          allow(Fontist.ui).to receive(:ask).and_return("")
+          expect(Fontist.ui).to receive(:say).with(/tex gyre chorus/i)
+          subject
+        end
+
+        it "asks to choose" do
+          expect(Fontist.ui).to receive(:ask).and_return("")
+          subject
+        end
+
+        context "suggested formula is chosen" do
+          before { allow(Fontist.ui).to receive(:ask).and_return("0") }
+
+          it "installs the formula" do
+            expect(Fontist.ui).to receive(:say)
+              .with(/texgyrechorus-mediumitalic\.otf/i)
+            subject
+          end
+        end
+
+        context "with empty input" do
+          before { expect(Fontist.ui).to receive(:ask).and_return("") }
+
+          it "skips installation and prints formula not found" do
+            is_expected.to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+          end
+        end
+
+        context "with no-interactive flag" do
+          let(:command) { described_class.start(["install", *opts]) }
+          let(:opts) { ["--no-interactive", "--formula", formula] }
+
+          it "does not ask for input and returns formula-not-found" do
+            expect(Fontist.ui).not_to receive(:ask)
+
+            is_expected.to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+          end
         end
       end
     end

@@ -9,6 +9,7 @@ resources:
     - https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe
     - http://sft.if.usp.br/msttcorefonts/andale32.exe
     sha256: 0524fe42951adc3a7eb870e32f0920313c71f170c859b5f770d82b4ee111e970
+    file_size: 198384
 fonts:
 - name: Andale Mono
   styles:

@@ -9,6 +9,7 @@ resources:
     - https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/courie32.exe
     - http://sft.if.usp.br/msttcorefonts/courie32.exe
     sha256: bb511d861655dde879ae552eb86b134d6fae67cb58502e6ff73ec5d9151f3384
+    file_size: 646368
 fonts:
 - name: Courier New
   styles:

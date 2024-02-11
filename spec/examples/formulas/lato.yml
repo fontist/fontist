@@ -7,6 +7,7 @@ resources:
     urls:
     - https://www.latofonts.com/files/Lato2OFL.zip
     sha256: 42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8
+    file_size: 6102132
 fonts:
 - name: Lato
   styles:

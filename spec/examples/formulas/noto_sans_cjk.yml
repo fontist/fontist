@@ -1,0 +1,496 @@
+description: Noto Sans (Super OTC)
+homepage: http://www.google.com/get/noto/
+repository: https://github.com/googlefonts/noto-cjk/tree/main/Sans
+resources:
+  Noto_Sans.zip:
+    urls:
+    - https://github.com/notofonts/noto-cjk/raw/Sans2.004/Sans/SuperOTC/NotoSansCJK.ttc.zip
+    sha256: d400b74d7420dc468b8aa67c0c41706c784107b2a5144b449ff21fe6a1f6ee0b
+    file_size: 95181466
+font_collections:
+- filename: NotoSansCJK.ttc
+  fonts:
+  - name: Noto Sans CJK HK
+    styles:
+    - family_name: Noto Sans CJK HK
+      type: Bold
+      full_name: Noto Sans CJK HK Bold
+      post_script_name: NotoSansCJKhk-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans CJK HK
+      type: Regular
+      full_name: Noto Sans CJK HK
+      post_script_name: NotoSansCJKhk-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK HK Black
+    styles:
+    - family_name: Noto Sans CJK HK Black
+      type: Regular
+      preferred_family_name: Noto Sans CJK HK
+      preferred_type: Black
+      full_name: Noto Sans CJK HK Black
+      post_script_name: NotoSansCJKhk-Black
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK HK DemiLight
+    styles:
+    - family_name: Noto Sans CJK HK DemiLight
+      type: Regular
+      preferred_family_name: Noto Sans CJK HK
+      preferred_type: DemiLight
+      full_name: Noto Sans CJK HK DemiLight
+      post_script_name: NotoSansCJKhk-DemiLight
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK HK Light
+    styles:
+    - family_name: Noto Sans CJK HK Light
+      type: Regular
+      preferred_family_name: Noto Sans CJK HK
+      preferred_type: Light
+      full_name: Noto Sans CJK HK Light
+      post_script_name: NotoSansCJKhk-Light
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK HK Medium
+    styles:
+    - family_name: Noto Sans CJK HK Medium
+      type: Regular
+      preferred_family_name: Noto Sans CJK HK
+      preferred_type: Medium
+      full_name: Noto Sans CJK HK Medium
+      post_script_name: NotoSansCJKhk-Medium
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK HK Thin
+    styles:
+    - family_name: Noto Sans CJK HK Thin
+      type: Regular
+      preferred_family_name: Noto Sans CJK HK
+      preferred_type: Thin
+      full_name: Noto Sans CJK HK Thin
+      post_script_name: NotoSansCJKhk-Thin
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP
+    styles:
+    - family_name: Noto Sans CJK JP
+      type: Bold
+      full_name: Noto Sans CJK JP Bold
+      post_script_name: NotoSansCJKjp-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans CJK JP
+      type: Regular
+      full_name: Noto Sans CJK JP
+      post_script_name: NotoSansCJKjp-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP Black
+    styles:
+    - family_name: Noto Sans CJK JP Black
+      type: Regular
+      preferred_family_name: Noto Sans CJK JP
+      preferred_type: Black
+      full_name: Noto Sans CJK JP Black
+      post_script_name: NotoSansCJKjp-Black
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP DemiLight
+    styles:
+    - family_name: Noto Sans CJK JP DemiLight
+      type: Regular
+      preferred_family_name: Noto Sans CJK JP
+      preferred_type: DemiLight
+      full_name: Noto Sans CJK JP DemiLight
+      post_script_name: NotoSansCJKjp-DemiLight
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP Light
+    styles:
+    - family_name: Noto Sans CJK JP Light
+      type: Regular
+      preferred_family_name: Noto Sans CJK JP
+      preferred_type: Light
+      full_name: Noto Sans CJK JP Light
+      post_script_name: NotoSansCJKjp-Light
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP Medium
+    styles:
+    - family_name: Noto Sans CJK JP Medium
+      type: Regular
+      preferred_family_name: Noto Sans CJK JP
+      preferred_type: Medium
+      full_name: Noto Sans CJK JP Medium
+      post_script_name: NotoSansCJKjp-Medium
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK JP Thin
+    styles:
+    - family_name: Noto Sans CJK JP Thin
+      type: Regular
+      preferred_family_name: Noto Sans CJK JP
+      preferred_type: Thin
+      full_name: Noto Sans CJK JP Thin
+      post_script_name: NotoSansCJKjp-Thin
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR
+    styles:
+    - family_name: Noto Sans CJK KR
+      type: Bold
+      full_name: Noto Sans CJK KR Bold
+      post_script_name: NotoSansCJKkr-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans CJK KR
+      type: Regular
+      full_name: Noto Sans CJK KR
+      post_script_name: NotoSansCJKkr-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR Black
+    styles:
+    - family_name: Noto Sans CJK KR Black
+      type: Regular
+      preferred_family_name: Noto Sans CJK KR
+      preferred_type: Black
+      full_name: Noto Sans CJK KR Black
+      post_script_name: NotoSansCJKkr-Black
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR DemiLight
+    styles:
+    - family_name: Noto Sans CJK KR DemiLight
+      type: Regular
+      preferred_family_name: Noto Sans CJK KR
+      preferred_type: DemiLight
+      full_name: Noto Sans CJK KR DemiLight
+      post_script_name: NotoSansCJKkr-DemiLight
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR Light
+    styles:
+    - family_name: Noto Sans CJK KR Light
+      type: Regular
+      preferred_family_name: Noto Sans CJK KR
+      preferred_type: Light
+      full_name: Noto Sans CJK KR Light
+      post_script_name: NotoSansCJKkr-Light
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR Medium
+    styles:
+    - family_name: Noto Sans CJK KR Medium
+      type: Regular
+      preferred_family_name: Noto Sans CJK KR
+      preferred_type: Medium
+      full_name: Noto Sans CJK KR Medium
+      post_script_name: NotoSansCJKkr-Medium
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK KR Thin
+    styles:
+    - family_name: Noto Sans CJK KR Thin
+      type: Regular
+      preferred_family_name: Noto Sans CJK KR
+      preferred_type: Thin
+      full_name: Noto Sans CJK KR Thin
+      post_script_name: NotoSansCJKkr-Thin
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC
+    styles:
+    - family_name: Noto Sans CJK SC
+      type: Bold
+      full_name: Noto Sans CJK SC Bold
+      post_script_name: NotoSansCJKsc-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans CJK SC
+      type: Regular
+      full_name: Noto Sans CJK SC
+      post_script_name: NotoSansCJKsc-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC Black
+    styles:
+    - family_name: Noto Sans CJK SC Black
+      type: Regular
+      preferred_family_name: Noto Sans CJK SC
+      preferred_type: Black
+      full_name: Noto Sans CJK SC Black
+      post_script_name: NotoSansCJKsc-Black
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC DemiLight
+    styles:
+    - family_name: Noto Sans CJK SC DemiLight
+      type: Regular
+      preferred_family_name: Noto Sans CJK SC
+      preferred_type: DemiLight
+      full_name: Noto Sans CJK SC DemiLight
+      post_script_name: NotoSansCJKsc-DemiLight
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC Light
+    styles:
+    - family_name: Noto Sans CJK SC Light
+      type: Regular
+      preferred_family_name: Noto Sans CJK SC
+      preferred_type: Light
+      full_name: Noto Sans CJK SC Light
+      post_script_name: NotoSansCJKsc-Light
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC Medium
+    styles:
+    - family_name: Noto Sans CJK SC Medium
+      type: Regular
+      preferred_family_name: Noto Sans CJK SC
+      preferred_type: Medium
+      full_name: Noto Sans CJK SC Medium
+      post_script_name: NotoSansCJKsc-Medium
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK SC Thin
+    styles:
+    - family_name: Noto Sans CJK SC Thin
+      type: Regular
+      preferred_family_name: Noto Sans CJK SC
+      preferred_type: Thin
+      full_name: Noto Sans CJK SC Thin
+      post_script_name: NotoSansCJKsc-Thin
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC
+    styles:
+    - family_name: Noto Sans CJK TC
+      type: Bold
+      full_name: Noto Sans CJK TC Bold
+      post_script_name: NotoSansCJKtc-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans CJK TC
+      type: Regular
+      full_name: Noto Sans CJK TC
+      post_script_name: NotoSansCJKtc-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC Black
+    styles:
+    - family_name: Noto Sans CJK TC Black
+      type: Regular
+      preferred_family_name: Noto Sans CJK TC
+      preferred_type: Black
+      full_name: Noto Sans CJK TC Black
+      post_script_name: NotoSansCJKtc-Black
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC DemiLight
+    styles:
+    - family_name: Noto Sans CJK TC DemiLight
+      type: Regular
+      preferred_family_name: Noto Sans CJK TC
+      preferred_type: DemiLight
+      full_name: Noto Sans CJK TC DemiLight
+      post_script_name: NotoSansCJKtc-DemiLight
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC Light
+    styles:
+    - family_name: Noto Sans CJK TC Light
+      type: Regular
+      preferred_family_name: Noto Sans CJK TC
+      preferred_type: Light
+      full_name: Noto Sans CJK TC Light
+      post_script_name: NotoSansCJKtc-Light
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC Medium
+    styles:
+    - family_name: Noto Sans CJK TC Medium
+      type: Regular
+      preferred_family_name: Noto Sans CJK TC
+      preferred_type: Medium
+      full_name: Noto Sans CJK TC Medium
+      post_script_name: NotoSansCJKtc-Medium
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans CJK TC Thin
+    styles:
+    - family_name: Noto Sans CJK TC Thin
+      type: Regular
+      preferred_family_name: Noto Sans CJK TC
+      preferred_type: Thin
+      full_name: Noto Sans CJK TC Thin
+      post_script_name: NotoSansCJKtc-Thin
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans Mono CJK HK
+    styles:
+    - family_name: Noto Sans Mono CJK HK
+      type: Bold
+      full_name: Noto Sans Mono CJK HK Bold
+      post_script_name: NotoSansMonoCJKhk-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans Mono CJK HK
+      type: Regular
+      full_name: Noto Sans Mono CJK HK
+      post_script_name: NotoSansMonoCJKhk-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans Mono CJK JP
+    styles:
+    - family_name: Noto Sans Mono CJK JP
+      type: Bold
+      full_name: Noto Sans Mono CJK JP Bold
+      post_script_name: NotoSansMonoCJKjp-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans Mono CJK JP
+      type: Regular
+      full_name: Noto Sans Mono CJK JP
+      post_script_name: NotoSansMonoCJKjp-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans Mono CJK KR
+    styles:
+    - family_name: Noto Sans Mono CJK KR
+      type: Bold
+      full_name: Noto Sans Mono CJK KR Bold
+      post_script_name: NotoSansMonoCJKkr-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans Mono CJK KR
+      type: Regular
+      full_name: Noto Sans Mono CJK KR
+      post_script_name: NotoSansMonoCJKkr-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans Mono CJK SC
+    styles:
+    - family_name: Noto Sans Mono CJK SC
+      type: Bold
+      full_name: Noto Sans Mono CJK SC Bold
+      post_script_name: NotoSansMonoCJKsc-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans Mono CJK SC
+      type: Regular
+      full_name: Noto Sans Mono CJK SC
+      post_script_name: NotoSansMonoCJKsc-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+  - name: Noto Sans Mono CJK TC
+    styles:
+    - family_name: Noto Sans Mono CJK TC
+      type: Bold
+      full_name: Noto Sans Mono CJK TC Bold
+      post_script_name: NotoSansMonoCJKtc-Bold
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+    - family_name: Noto Sans Mono CJK TC
+      type: Regular
+      full_name: Noto Sans Mono CJK TC
+      post_script_name: NotoSansMonoCJKtc-Regular
+      version: 2.004;hotconv 1.0.118;makeotfexe 2.5.65603
+      description: Dr. Ken Lunde (project architect, glyph set definition & overall
+        production); Masataka HATTORI 服部正貴 (production & ideograph elements)
+      copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+extract: {}
+copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
+license_url: http://scripts.sil.org/OFL
+command: create-formula https://github.com/googlefonts/noto-cjk/raw/main/Sans/SuperOTC/NotoSansCJK.ttc.zip

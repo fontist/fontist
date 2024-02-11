@@ -22,6 +22,12 @@ module Fontist
                           type: :boolean,
                           desc: "Avoid using cache during download"
 
+        base.class_option :interactive,
+                          aliases: :i,
+                          type: :boolean,
+                          default: true,
+                          desc: "Interactive mode"
+
         base.class_option :formulas_path,
                           type: :string,
                           desc: "Path to formulas"
@@ -32,6 +38,7 @@ module Fontist
         Fontist.preferred_family = options[:preferred_family]
         Fontist.log_level = log_level(options)
         Fontist.use_cache = !options[:no_cache]
+        Fontist.interactive = options[:interactive]
 
         if options[:formulas_path]
           Fontist.formulas_path = Pathname.new(options[:formulas_path])

@@ -162,6 +162,8 @@ RSpec.describe Fontist::Font do
   describe ".install" do
     include_context "fresh home"
 
+    let(:subject) { command }
+
     let(:command) do
       Fontist::Font.install(font, confirmation: "yes", **options)
     end
@@ -739,6 +741,26 @@ RSpec.describe Fontist::Font do
           expect(Fontist::Fontconfig).not_to receive(:update)
           command
         end
+      end
+    end
+
+    context "with human-readable formula name" do
+      let(:options) { { formula: true } }
+      let(:font) { "TeX Gyre Chorus" }
+      before { example_formula("tex_gyre_chorus.yml") }
+
+      it { is_expected.to be }
+    end
+
+    context "with misspelled formula name" do
+      let(:options) { { formula: true } }
+      let(:font) { "TX Gyre Chorus" }
+      before { example_formula("tex_gyre_chorus.yml") }
+
+      it "raises formula-not-found error and not offers suggestions" do
+        expect(Fontist.ui).not_to receive(:ask)
+
+        expect { command }.to raise_error(Fontist::Errors::FormulaNotFoundError)
       end
     end
 

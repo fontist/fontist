@@ -5,6 +5,7 @@ resources:
     urls:
     - https://medarbejdere.au.dk/fileadmin/www.designmanual.au.dk/hent_filer/hent_skrifttyper/AUPass_Obliques.zip
     sha256: 8e1df9c6ccdd0f787caa1d81962131a1a7ce6d67dfccc63a39e28b030224677d
+    file_size: 111391
 fonts:
 - name: AU Passata
   styles:

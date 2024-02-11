@@ -6,6 +6,7 @@ resources:
     urls:
     - https://gitlab.com/fontmirror/langpacks/-/raw/master/OfficeLangPack2013_HE_x86.exe
     sha256: 10cdf6bf1bc4c61c41176f9cffac88fce09126babe1917c43c73630a5b0ae317
+    file_size: 234319936
 fonts:
 - name: Guttman Aharoni
   styles:
