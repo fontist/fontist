@@ -5,6 +5,11 @@ require "git"
 
 module Fontist
   class Formula
+    NAMESPACES = {
+      "sil" => "SIL",
+      "macos" => "macOS",
+    }.freeze
+
     def self.update_formulas_repo
       Update.call
     end
@@ -12,6 +17,12 @@ module Fontist
     def self.all
       Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
         Formula.new_from_file(path)
+      end
+    end
+
+    def self.all_keys
+      Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+        path.sub("#{Fontist.formulas_path}/", "").sub(".yml", "")
       end
     end
 
@@ -45,11 +56,25 @@ module Fontist
       end.flatten
     end
 
+    def self.find_by_key_or_name(name)
+      find_by_key(name) || find_by_name(name)
+    end
+
     def self.find_by_key(key)
       path = Fontist.formulas_path.join("#{key}.yml")
       return unless File.exist?(path)
 
       new_from_file(path)
+    end
+
+    def self.find_by_name(name)
+      key = name_to_key(name)
+
+      find_by_key(key)
+    end
+
+    def self.name_to_key(name)
+      name.downcase.gsub(" ", "_")
     end
 
     def self.find_by_font_file(font_file)
@@ -69,7 +94,7 @@ module Fontist
 
     def initialize(data, path)
       @data = data
-      @path = path
+      @path = real_path(path)
     end
 
     def to_index_formula
@@ -89,7 +114,13 @@ module Fontist
     end
 
     def key
-      key_from_path
+      @key ||= {}
+      @key[@path] ||= key_from_path
+    end
+
+    def name
+      @name ||= {}
+      @name[key] ||= namespace.empty? ? base_name : "#{namespace}/#{base_name}"
     end
 
     def description
@@ -142,6 +173,12 @@ module Fontist
       @data["instructions"]
     end
 
+    def font_by_name(name)
+      fonts.find do |font|
+        font.name.casecmp?(name)
+      end
+    end
+
     def fonts_by_name(name)
       fonts.select do |font|
         font.name.casecmp?(name)
@@ -166,9 +203,40 @@ module Fontist
 
     private
 
+    def real_path(path)
+      Dir.glob(path).first
+    end
+
     def key_from_path
       escaped = Regexp.escape("#{Fontist.formulas_path}/")
-      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "")
+      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
+    end
+
+    def namespace
+      namespace_from_mappings || namespace_from_key
+    end
+
+    def namespace_from_mappings
+      parts = key.split("/")
+      namespace_from_key = parts.take(parts.size - 1).join("/")
+      NAMESPACES[namespace_from_key]
+    end
+
+    def namespace_from_key
+      parts = key.downcase.gsub("_", " ").split("/")
+      parts.take(parts.size - 1).map do |namespace|
+        namespace.split.map(&:capitalize).join(" ")
+      end.join("/")
+    end
+
+    def base_name
+      @data["name"] || base_name_from_key
+    end
+
+    def base_name_from_key
+      key.split("/").last
+        .downcase.gsub("_", " ")
+        .split.map(&:capitalize).join(" ")
     end
 
     def fonts_by_family

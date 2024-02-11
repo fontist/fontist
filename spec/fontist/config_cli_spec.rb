@@ -4,6 +4,10 @@ require "fontist/cli"
 RSpec.describe Fontist::ConfigCLI do
   include_context "fresh home"
 
+  after(:context) do
+    restore_default_settings
+  end
+
   describe "#show" do
     let(:command) { described_class.start(["show"]) }
 

@@ -123,7 +123,29 @@ Here, `courier_prime` is the filename of the formula located at the public
 Fontist Formula repository
 (https://github.com/fontist/formulas/blob/v3/Formulas/courier_prime.yml[`courier_prime.yml`]).
 
-NOTE: Specifying the formula's name or the font's filename is not supported.
+You can also specify the human-readable name of the formula. This name is
+derived from the filename, with underscores replaced by spaces. It's not
+case-sensitive, meaning you can use capital letters if you prefer.
+
+[source,sh]
+----
+$ fontist install --formula "Courier Prime"
+$ fontist install --formula "Google/Noto Sans"
+----
+
+Installation by the formula name supports suggestions in CLI when input is
+partial:
+
+[source,sh]
+----
+$ fontist install --formula 'noto s'
+Formula 'noto s' not found. Did you mean?
+[0] Google/Noto Sans
+[1] Google/Noto Serif
+Please type number or press ENTER to skip installation:
+----
+
+NOTE: Specifying the font's filename is not supported yet.
 
 If there are several formulas with a requested font, then `fontist` searches
 for the newest version of the font among formulas with size below a limit

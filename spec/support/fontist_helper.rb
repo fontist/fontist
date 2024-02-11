@@ -293,10 +293,11 @@ module Fontist
       git.commit("msg")
     end
 
-    def example_formula(filename)
-      example_path = File.join("spec", "examples", "formulas", filename)
-      target_path = Fontist.formulas_path.join(filename)
-      FileUtils.cp(example_path, target_path)
+    def example_formula(path, target_path = nil)
+      example_path = File.join("spec", "examples", "formulas", path)
+      absolute_target_path = Fontist.formulas_path.join(target_path || path)
+      FileUtils.mkdir_p(File.dirname(absolute_target_path))
+      FileUtils.cp(example_path, absolute_target_path)
 
       Fontist::Index.rebuild
     end
@@ -359,6 +360,10 @@ module Fontist
       formula = YAML.load_file(path)
       formula.dig(*dig_path)[key] = data
       File.write(path, YAML.dump(formula))
+    end
+
+    def restore_default_settings
+      Fontist.interactive = false
     end
   end
 end

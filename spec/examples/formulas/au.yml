@@ -5,6 +5,7 @@ resources:
     urls:
     - https://medarbejdere.au.dk/fileadmin/www.designmanual.au.dk/hent_filer/hent_skrifttyper/fonte.zip
     sha256: 474fd713f50b289d3db1bc68ddd472fe8d3a3886b65213729843fe936385a912
+    file_size: 175497
 fonts:
 - name: AU Logo
   styles:

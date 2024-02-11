@@ -90,4 +90,28 @@ RSpec.describe Fontist::Formula do
       expect(formula.style_override("Calibri")).not_to be_nil
     end
   end
+
+  describe "#name" do
+    subject { described_class.find_by_key(key).name }
+
+    include_context "fresh home"
+
+    key_to_name = {
+      "andale" => "Andale",
+      "google/noto_sans" => "Google/Noto Sans",
+      # "noto_sans_cjk" => "Noto Sans CJK", # TODO: implement custom names
+    }
+
+    key_to_name.each do |key, name|
+      context "#{key}:" do
+        let(:key) { key }
+
+        before { example_formula("#{key}.yml") }
+
+        it "=> #{name}" do
+          is_expected.to eq name
+        end
+      end
+    end
+  end
 end

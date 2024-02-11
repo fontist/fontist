@@ -2,6 +2,7 @@ require "fontist/font_installer"
 require "fontist/font_path"
 require "fontist/formula_picker"
 require "fontist/fontconfig"
+require "fontist/formula_suggestion"
 
 module Fontist
   class Font
@@ -109,15 +110,46 @@ module Fontist
     end
 
     def install_formula
-      download_formula || raise_formula_not_found
+      download_formula || make_suggestions || raise_formula_not_found
     end
 
     def download_formula
-      formula = Formula.find_by_key(@name)
+      formula = Formula.find_by_key_or_name(@name)
       return unless formula
       return unless formula.downloadable?
 
       request_formula_installation(formula)
+    end
+
+    def make_suggestions
+      return unless Fontist.interactive?
+
+      suggestions = fuzzy_search_formulas
+      return if suggestions.empty?
+
+      choice = offer_to_choose(suggestions)
+      return unless choice
+
+      request_formula_installation(choice)
+    end
+
+    def fuzzy_search_formulas
+      @formula_suggestion ||= FormulaSuggestion.new
+      @formula_suggestion.find(@name)
+    end
+
+    def offer_to_choose(formulas)
+      Fontist.ui.say("Formula '#{@name}' not found. Did you mean?")
+
+      formulas.each_with_index do |formula, index|
+        Fontist.ui.say("[#{index}] #{formula.name}")
+      end
+
+      choice = Fontist.ui.ask("Please type number or " \
+                              "press ENTER to skip installation:").chomp
+      return unless choice.to_i.to_s == choice
+
+      formulas[choice.to_i]
     end
 
     def raise_formula_not_found
@@ -193,7 +225,7 @@ module Fontist
     def check_and_confirm_required_license(formula)
       return @confirmation unless formula.license_required
 
-      show_license(formula.license) unless @hide_licenses
+      show_license(formula) unless @hide_licenses
       return @confirmation if @confirmation.casecmp?("yes")
 
       confirmation = ask_for_agreement
@@ -204,8 +236,8 @@ module Fontist
       )
     end
 
-    def show_license(license)
-      Fontist.ui.say(license_agrement_message(license))
+    def show_license(formula)
+      Fontist.ui.say(license_agrement_message(formula))
     end
 
     def ask_for_agreement
@@ -215,18 +247,26 @@ module Fontist
       )
     end
 
-    def license_agrement_message(license)
+    def license_agrement_message(formula)
+      human_name = human_name(formula)
+
       <<~MSG
-        FONT LICENSE ACCEPTANCE REQUIRED FOR "#{name}":
+        FONT LICENSE ACCEPTANCE REQUIRED FOR "#{human_name}":
 
         Fontist can install this font if you accept its licensing conditions.
 
-        FONT LICENSE BEGIN ("#{name}")
+        FONT LICENSE BEGIN ("#{human_name}")
         -----------------------------------------------------------------------
-        #{license}
+        #{formula.license}
         -----------------------------------------------------------------------
-        FONT LICENSE END ("#{name}")
+        FONT LICENSE END ("#{human_name}")
       MSG
+    end
+
+    def human_name(formula)
+      return formula.name if @by_formula
+
+      formula.font_by_name(@name).name
     end
 
     def update_fontconfig

@@ -151,4 +151,12 @@ module Fontist
   def self.log_level=(level)
     Fontist.ui.level = level
   end
+
+  def self.interactive?
+    @interactive || false
+  end
+
+  def self.interactive=(bool)
+    @interactive = bool
+  end
 end

@@ -2,6 +2,10 @@ require "spec_helper"
 require "fontist/cli"
 
 RSpec.describe Fontist::CacheCLI do
+  after(:context) do
+    restore_default_settings
+  end
+
   describe "#clear" do
     let(:downloads_path) { Pathname.new "/fontist/download" }
     let(:system_index) { Pathname.new "/fontist/system_index" }

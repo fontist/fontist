@@ -2,6 +2,10 @@ require "spec_helper"
 require "fontist/cli"
 
 RSpec.describe Fontist::FontconfigCLI do
+  after(:context) do
+    restore_default_settings
+  end
+
   describe "#update" do
     let(:command) { described_class.start(["update"]) }
     let(:status) { command }

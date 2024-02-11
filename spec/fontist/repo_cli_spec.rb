@@ -2,6 +2,10 @@ require "spec_helper"
 require "fontist/cli"
 
 RSpec.describe Fontist::RepoCLI do
+  after(:context) do
+    restore_default_settings
+  end
+
   describe "#setup" do
     it "setups repo and lets find its formulas" do
       no_fonts_and_formulas do
