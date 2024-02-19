@@ -24,23 +24,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: latest
       - uses: actions/setup-node@v4
         with:
           node-version: latest
           # Lockfile is in subfolder
-          # cache: pnpm
+          # cache: npm
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
       - run: rdoc -x docs
-      - run: pnpm install
+      - run: npm install
         working-directory: docs
       - id: configure-pages
         uses: actions/configure-pages@v4
-      - run: pnpm build
+      - run: npm run build
         working-directory: docs
         env:
           BASE_PATH: ${{ steps.configure-pages.outputs.base_path }}/
