@@ -50,4 +50,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop", "~> 1.22.1"
   spec.add_development_dependency "rubocop-rails", "~> 2.9"
   spec.add_development_dependency "rubocop-performance", "~> 1.10"
+  spec.add_development_dependency "vcr"
+  spec.add_development_dependency "webmock"
 end
