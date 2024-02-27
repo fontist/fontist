@@ -37,6 +37,4 @@ fontist install "Open Sans"
 fontist install "Consolas"
 ```
 
-<sup>👩‍⚖️ Some fonts may require you to accept license terms regarding their use.</sup>
-
 [📚 Read more in the Getting Started guide](/guide/)

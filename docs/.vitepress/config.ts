@@ -2,27 +2,29 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  ignoreDeadLinks: true,
-
   // https://vitepress.dev/guide/routing#generating-clean-url
-  // ✅ Works with GitHub Pages.
   cleanUrls: true,
 
   title: "Fontist",
   description:
     "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.",
 
-    // https://github.com/vuejs/vitepress/issues/3508
+  // https://github.com/vuejs/vitepress/issues/3508
   base: process.env.BASE_PATH,
 
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
-    logo: { src: "/logo.png" },
+    logo: "/logo.png",
 
     nav: [
       { text: "Home", link: "/" },
       { text: "Guide", link: "/guide/" },
       { text: "Reference", link: "/reference/" },
+      {
+        text: "Formulas",
+        link: "https://fontist.org/formulas/",
+        target: "_self",
+      },
     ],
 
     sidebar: {
@@ -37,15 +39,20 @@ export default defineConfig({
             { text: "Using Fontist with a proxy", link: "/guide/proxy" },
             {
               text: "Create a new Fontist Formula",
-              link: "https://fontist.org/formulas/",
-            }, // TODO: Put formulas webiste "Create formula" guide here
+              link: "https://fontist.org/formulas/guide/create-formula",
+              target: "_self",
+            },
           ],
         },
         {
           text: "API",
           items: [
             { text: "Fontist Ruby library", link: "/guide/api-ruby" },
-            { text: "Ruby API reference", link: "/reference/api-ruby/", target: "_self" },
+            {
+              text: "Ruby API reference",
+              link: "https://fontist.org/fontist/reference/api-ruby/",
+              target: "_self",
+            },
           ],
         },
       ],
@@ -54,7 +61,11 @@ export default defineConfig({
           text: "Reference",
           items: [
             { text: "Fontist CLI reference", link: "/reference/" },
-            { text: "Ruby API reference", link: "/reference/api-ruby/", target: "_self" },
+            {
+              text: "Ruby API reference",
+              link: "https://fontist.org/fontist/reference/api-ruby/",
+              target: "_self",
+            },
           ],
         },
       ],
