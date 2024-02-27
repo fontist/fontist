@@ -4,6 +4,10 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   ignoreDeadLinks: true,
 
+  // https://vitepress.dev/guide/routing#generating-clean-url
+  // ✅ Works with GitHub Pages.
+  cleanUrls: true,
+
   title: "Fontist",
   description:
     "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.",
