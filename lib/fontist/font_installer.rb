@@ -1,5 +1,6 @@
 require "fontist/utils"
 require "excavate"
+require "diffy"
 
 module Fontist
   class FontInstaller
@@ -112,6 +113,14 @@ module Fontist
     end
 
     def source_file?(path)
+      if path.match(/(otf|ttf|ttc)$/i)
+        source_files.each do |sf|
+          if sf.match(/(otf|ttf|ttc)$/i)
+            puts Diffy::Diff.new(File.basename(path), sf, ignore_crlf: true)
+          end
+        end
+      end
+
       source_files.include?(File.basename(path))
     end
 
