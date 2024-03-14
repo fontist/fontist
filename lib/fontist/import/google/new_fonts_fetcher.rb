@@ -63,6 +63,8 @@ module Fontist
         end
 
         def new?(path)
+          return unless path.end_with?("coveredbyyourgrace")
+
           metadata_name = Google.metadata_name(path)
           return unless metadata_name
           return if in_skiplist?(metadata_name)
@@ -94,6 +96,7 @@ module Fontist
         def fonts_up_to_date?(formula, path)
           styles = formula_styles(formula)
           repo_fonts(path).all? do |font|
+            puts "Archive name: "
             style = styles.find { |s| s.font == repo_to_archive_name(font) }
             return false unless style
 

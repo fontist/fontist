@@ -116,7 +116,7 @@ module Fontist
       if path.match(/(otf|ttf|ttc)$/i)
         source_files.each do |sf|
           if sf.match(/(otf|ttf|ttc)$/i)
-            puts Diffy::Diff.new(File.basename(path), sf, ignore_crlf: true)
+            puts Diffy::Diff.new("#{File.basename(path)}\n", "#{sf}\n", ignore_crlf: true)
           end
         end
       end
