@@ -1,3 +1,4 @@
+require "net/http"
 require_relative "../google"
 require_relative "../otf_parser"
 
@@ -63,8 +64,6 @@ module Fontist
         end
 
         def new?(path)
-          return unless path.end_with?("coveredbyyourgrace")
-
           metadata_name = Google.metadata_name(path)
           return unless metadata_name
           return if in_skiplist?(metadata_name)
@@ -83,6 +82,12 @@ module Fontist
           formula = formula(metadata_name)
           return false unless formula
 
+          return false unless same_repo_content?(formula, path)
+
+          !size_changed?(formula, metadata_name)
+        end
+
+        def same_repo_content?(formula, path)
           repo_digest_up_to_date?(formula, path) ||
             fonts_up_to_date?(formula, path)
         end
@@ -96,7 +101,6 @@ module Fontist
         def fonts_up_to_date?(formula, path)
           styles = formula_styles(formula)
           repo_fonts(path).all? do |font|
-            puts "Archive name: "
             style = styles.find { |s| s.font == repo_to_archive_name(font) }
             return false unless style
 
@@ -128,10 +132,32 @@ module Fontist
           Fontist::Import::Google.style_version(info["Version"])
         end
 
+        def size_changed?(formula, metadata_name)
+          formula_size = formula.resources.first.file_size
+          return true unless formula_size
+
+          archive_size = fetch_size(metadata_name)
+          return unless archive_size
+
+          formula_size != archive_size
+        end
+
+        def fetch_size(name)
+          Net::HTTP.start("fonts.google.com", 443, use_ssl: true) do |h|
+            response = h.head("/download?family=#{ERB::Util.url_encode(name)}")
+            next unless response.is_a?(Net::HTTPOK)
+
+            header = response['content-length']
+            next unless header
+
+            header.is_a?(Array) ? header.first.to_i : header.to_i
+          end
+        end
+
         def downloadable?(name)
           retries ||= 0
           retries += 1
-          Down.open("https://fonts.google.com/download?family=#{name}")
+          Down.open("https://fonts.google.com/download?family=#{ERB::Util.url_encode(name)}")
           true
         rescue Down::NotFound
           false
