@@ -35,7 +35,7 @@ module Fontist
           new_paths = []
 
           fetch_fonts_paths.each do |path|
-            next unless path.end_with?("coveredbyyourgrace") || path.end_with?("anton")
+            # next unless path.end_with?("coveredbyyourgrace") || path.end_with?("anton")
 
             new = log_font(path) do
               new?(path)
