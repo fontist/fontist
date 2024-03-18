@@ -86,7 +86,11 @@ module Fontist
       end
 
       def match_license(path)
-        @license_text ||= File.read(path) if license?(path)
+        @license_text ||= read_text(path) if license?(path)
+      end
+
+      def read_text(path)
+        File.read(path).gsub(/[\u0080-\uffff]/, "")
       end
 
       def license?(file)

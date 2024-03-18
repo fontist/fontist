@@ -1,3 +1,4 @@
+require "net/http"
 require_relative "../google"
 require_relative "../otf_parser"
 
@@ -34,6 +35,8 @@ module Fontist
           new_paths = []
 
           fetch_fonts_paths.each do |path|
+            # next unless path.end_with?("coveredbyyourgrace") || path.end_with?("anton")
+
             new = log_font(path) do
               new?(path)
             end
@@ -81,6 +84,12 @@ module Fontist
           formula = formula(metadata_name)
           return false unless formula
 
+          return false unless same_repo_content?(formula, path)
+
+          same_archive_content?(formula, metadata_name)
+        end
+
+        def same_repo_content?(formula, path)
           repo_digest_up_to_date?(formula, path) ||
             fonts_up_to_date?(formula, path)
         end
@@ -125,10 +134,69 @@ module Fontist
           Fontist::Import::Google.style_version(info["Version"])
         end
 
+        def same_archive_content?(formula, metadata_name)
+          !size_changed?(formula, metadata_name) ||
+            archive_fonts_up_to_date?(formula, metadata_name)
+        end
+
+        def size_changed?(formula, metadata_name)
+          formula_size = formula.resources.first.file_size
+          return true unless formula_size
+
+          archive_size = fetch_size(metadata_name)
+          return unless archive_size
+
+          formula_size != archive_size
+        end
+
+        def fetch_size(name)
+          Net::HTTP.start("fonts.google.com", 443, use_ssl: true) do |h|
+            response = h.head("/download?family=#{ERB::Util.url_encode(name)}")
+            next unless response.is_a?(Net::HTTPOK)
+
+            header = response['content-length']
+            next unless header
+
+            header.is_a?(Array) ? header.first.to_i : header.to_i
+          end
+        end
+
+        def archive_fonts_up_to_date?(formula, metadata_name)
+          styles = formula_styles(formula)
+          archive_fonts(metadata_name) do |font|
+            puts
+            puts "Font: #{font}"
+            style = styles.find { |s| s.font == File.basename(font) }
+            puts "Style: #{style}"
+            return false unless style
+
+            puts "Font version: #{otfinfo_version(font)}"
+            return false unless otfinfo_version(font) == style.version
+          end
+
+          puts "Font up-to-date: true"
+          true
+        end
+
+        def archive_fonts(name)
+          archive = download(name)
+
+          Excavate::Archive.new(archive).files do |path|
+            next unless File.file?(path)
+
+            yield path if path.end_with?(".ttf") || path.end_with?(".otf")
+          end
+        end
+
+        def download(name)
+          url = "https://fonts.google.com/download?family=#{ERB::Util.url_encode(name)}"
+          Fontist::Utils::Downloader.download(url, progress_bar: true).path
+        end
+
         def downloadable?(name)
           retries ||= 0
           retries += 1
-          Down.open("https://fonts.google.com/download?family=#{name}")
+          Down.open("https://fonts.google.com/download?family=#{ERB::Util.url_encode(name)}")
           true
         rescue Down::NotFound
           false
