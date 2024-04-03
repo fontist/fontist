@@ -16,7 +16,11 @@ module Fontist
       end
 
       def self.level
-        @level || default_level
+        @level ||= env_level || default_level
+      end
+
+      def self.env_level
+        ENV['FONTIST_LOG'] && ENV['FONTIST_LOG'].to_sym
       end
 
       def self.default_level
