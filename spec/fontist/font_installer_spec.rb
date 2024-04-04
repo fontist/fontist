@@ -83,5 +83,18 @@ RSpec.describe Fontist::FontInstaller do
         end
       end
     end
+
+    context "google formula" do
+      before { example_formula("source_code_pro.yml") }
+      let(:formula) { Fontist::Formula.find_by_key(name) }
+      let(:name) { "source_code_pro" }
+
+      context "by formula without font name" do
+        it "does not fail and install all fonts" do
+          fonts = described_class.new(formula).install(confirmation: "yes")
+          expect(fonts.count).to be_positive
+        end
+      end
+    end
   end
 end

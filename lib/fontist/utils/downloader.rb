@@ -10,12 +10,17 @@ module Fontist
         ruby2_keywords :download if respond_to?(:ruby2_keywords, true)
       end
 
-      def initialize(file, file_size: nil, sha: nil, progress_bar: nil)
+      def initialize(file,
+                     file_size: nil,
+                     sha: nil,
+                     progress_bar: nil,
+                     use_content_length: true)
         # TODO: If the first mirror fails, try the second one
         @file = file
         @sha = [sha].flatten.compact
         @file_size = file_size.to_i if file_size
         @progress_bar = progress_bar
+        @use_content_length = use_content_length
         @cache = Cache.new
       end
 
@@ -85,7 +90,9 @@ module Fontist
           max_redirects: 10,
           headers: headers,
           content_length_proc: ->(content_length) {
-            progress_bar.total = content_length if content_length
+            if @use_content_length && content_length
+              progress_bar.total = content_length
+            end
           },
           progress_proc: -> (progress) {
             progress_bar.increment(progress)

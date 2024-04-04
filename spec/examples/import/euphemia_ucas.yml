@@ -1,8 +1,9 @@
 ---
+name: Euphemia UCAS
 description: Euphemia UCAS
 homepage: www.microsoft.com/typography
 resources:
-  Euphemia_UCAS.zip:
+  _2.6.6 Euphemia UCAS.zip:
     urls:
     - ../examples/archives/_2.6.6 Euphemia UCAS.zip
     sha256: 3a8a7181faf1a50e4cab35ad128ff11df7980c45e9c57e1f190f4355433b59f7

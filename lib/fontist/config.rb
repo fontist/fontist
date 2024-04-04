@@ -44,7 +44,8 @@ module Fontist
     def default_values
       { fonts_path: Fontist.fontist_path.join("fonts"),
         open_timeout: 10,
-        read_timeout: 10 }
+        read_timeout: 10,
+        google_fonts_key: nil }
     end
 
     def persist

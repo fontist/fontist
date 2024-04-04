@@ -890,27 +890,35 @@ RSpec.describe Fontist::CLI do
 
   describe "#help" do
     it "should return exit code 0 on general help command" do
-      system("ruby exe/fontist help")
+      execute_with_no_output("ruby exe/fontist help")
 
       expect($?.exitstatus).to eq(0)
     end
 
     it "should return exit code 0 on --help" do
-      system("ruby exe/fontist --help")
+      execute_with_no_output("ruby exe/fontist --help")
 
       expect($?.exitstatus).to eq(0)
     end
 
     it "should return exit code 0 on specific help command" do
-      system("ruby exe/fontist help install")
+      execute_with_no_output("ruby exe/fontist help install")
 
       expect($?.exitstatus).to eq(0)
     end
 
     it "should return non 0 exit code for missing command" do
-      system("ruby exe/fontist help_missing")
+      execute_with_no_output("ruby exe/fontist help_missing")
 
       expect($?.exitstatus).not_to eq(0)
+    end
+
+    def execute_with_no_output(cmd)
+      Fontist::Helpers.silence_stream($stderr) do
+        Fontist::Helpers.silence_stream($stdout) do
+          system(cmd)
+        end
+      end
     end
   end
 

@@ -1,6 +1,8 @@
 module Fontist
   module Utils
     class Cache
+      MAX_FILENAME_SIZE = 255
+
       include Locking
 
       def self.lock_path(path)
@@ -110,6 +112,11 @@ module Fontist
       end
 
       def filename(source)
+        filename = response_to_filename(source)
+        format_filename(filename)
+      end
+
+      def response_to_filename(source)
         if File.extname(source.original_filename).empty? && source.content_type
           require "mime/types"
           ext = MIME::Types[source.content_type].first&.preferred_extension
@@ -117,6 +124,15 @@ module Fontist
         end
 
         source.original_filename
+      end
+
+      def format_filename(filename)
+        return filename unless filename.length > MAX_FILENAME_SIZE
+
+        ext = File.extname(filename)
+        target_size = MAX_FILENAME_SIZE - ext.length
+        cut_filename = filename.slice(0, target_size)
+        "#{cut_filename}#{ext}"
       end
 
       def move(source_file, target_path)

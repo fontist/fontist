@@ -1066,7 +1066,7 @@ Fontist's https://github.com/fontist/formulas[formula library] includes support
 for all openly-licensed fonts provided through Google Fonts, and maintains
 Fontist formulas for all such fonts.
 
-https://github.com/fontist/formulas/blob/v3/.github/workflows/google.yml[A GHA
+https://github.com/fontist/formulas/blob/v4/.github/workflows/google.yml[A GHA
 workflow] checks for updated fonts on Google Fonts daily. In case an update is
 found, it's added to the repo by the workflow.
 

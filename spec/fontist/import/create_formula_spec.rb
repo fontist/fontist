@@ -160,7 +160,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
   def expect_formula_includes(formula, example)
     # File.write(example_file, YAML.dump(formula))
     varies_attributes = %w[copyright homepage license_url open_license
-                           requires_license_agreement command]
+                           requires_license_agreement command resources name]
     exclude = %w[fonts font_collections] + varies_attributes
     expect(except(formula, *exclude)).to eq(except(example, *exclude))
 
