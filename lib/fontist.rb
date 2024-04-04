@@ -49,7 +49,7 @@ module Fontist
   end
 
   def self.formulas_version
-    "v3"
+    "v4"
   end
 
   def self.formulas_repo_url
@@ -158,5 +158,9 @@ module Fontist
 
   def self.interactive=(bool)
     @interactive = bool
+  end
+
+  def self.google_fonts_key
+    ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end
 end

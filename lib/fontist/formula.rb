@@ -109,6 +109,12 @@ module Fontist
       @data.key?("resources")
     end
 
+    def source
+      return unless @data["resources"]
+
+      @data["resources"].values.first["source"]
+    end
+
     def path
       @path
     end

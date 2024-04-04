@@ -2,6 +2,8 @@ module Fontist
   module Manifest
     class Locations
       def initialize(manifest)
+        Fontist.ui.debug("Manifest: #{manifest}")
+
         @manifest = manifest
       end
 

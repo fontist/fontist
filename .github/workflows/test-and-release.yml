@@ -16,6 +16,7 @@ env:
 # does not cause bundler gem reinstalls
 # bundler/rubygems 2.3.22 is a minimal requirement to support gnu/musl differentiation
 # https://github.com/rubygems/rubygems/pull/4488
+  GOOGLE_FONTS_API_KEY: ${{secrets.FONTIST_CI_GOOGLE_FONTS_API_KEY}}
 
 jobs:
   prepare:
