@@ -9,7 +9,7 @@ http.use_ssl = true
 http.set_debug_output($stdout)
 
 # http.ca_file = "/etc/ssl/cert.pem"
-http.ca_file = "/etc/ssl/cert-nonexistent.pem"
+# http.ca_file = "/etc/ssl/cert-nonexistent.pem"
 
 http.start do |h|
   request = Net::HTTP::Head.new(uri)
