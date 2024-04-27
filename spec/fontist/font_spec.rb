@@ -291,6 +291,7 @@ RSpec.describe Fontist::Font do
       let(:file) { "SourceHanSans-Bold.ttc" }
       before { example_formula("source.yml") }
 
+
       it "returns path of collection file" do
         expect(command).to include(include(file))
       end
