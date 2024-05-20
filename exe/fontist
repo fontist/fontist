@@ -4,8 +4,9 @@ require "fontist"
 require "fontist/cli"
 
 fontist_cli = proc {
-  status_code = Fontist::CLI.start(ARGV)
-  exit status_code.is_a?(Integer) ? status_code : 1
+  rc = Fontist::CLI.start(ARGV)
+  return if ARGV.include? "help"
+  exit rc.is_a?(Integer) ? rc : Fontist::CLI::STATUS_UNKNOWN_ERROR
 }
 
 if ENV["SOCKS_PROXY"]
