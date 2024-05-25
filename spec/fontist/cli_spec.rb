@@ -888,6 +888,32 @@ RSpec.describe Fontist::CLI do
     end
   end
 
+  describe "#help" do
+    it "should return exit code 0 on general help command" do
+      system("ruby exe/fontist help")
+
+      expect($?.exitstatus).to eq(0)
+    end
+
+    it "should return exit code 0 on --help" do
+      system("ruby exe/fontist --help")
+
+      expect($?.exitstatus).to eq(0)
+    end
+
+    it "should return exit code 0 on specific help command" do
+      system("ruby exe/fontist help install")
+
+      expect($?.exitstatus).to eq(0)
+    end
+
+    it "should return non 0 exit code for missing command" do
+      exit_code = system("ruby exe/fontist help_missing")
+
+      expect($?.exitstatus).not_to eq(0)
+    end
+  end
+
   def expect_say_yaml(result)
     expect(Fontist.ui).to receive(:say).with(include_yaml(result))
     expect(command).to be 0

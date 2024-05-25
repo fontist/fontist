@@ -1,5 +1,6 @@
 require "thor"
 require "fontist/cli/class_options"
+require "fontist/cli/thor_ext"
 require "fontist/repo_cli"
 require "fontist/cache_cli"
 require "fontist/import_cli"
@@ -9,6 +10,7 @@ require "fontist/config_cli"
 module Fontist
   class CLI < Thor
     include ClassOptions
+    extend ThorExt::Start
 
     STATUS_SUCCESS = 0
     STATUS_UNKNOWN_ERROR = 1
