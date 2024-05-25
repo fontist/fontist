@@ -119,9 +119,9 @@ RSpec.describe Fontist::Utils::Downloader do
 
   def sample_file
     @sample_file ||= {
-      file_size: 150899,
-      file: "https://drive.google.com/u/0/uc?id=1Kk-rpLyQk98ubgxhTRKD2ZkMoY9KqKXk&export=download",
-      sha: "5e513e4bfdada0ff10dd5b96414fcaeade84e235ce043865416ad7673cb6f3d8",
+      file_size: 7918,
+      file: "https://filesamples.com/samples/document/csv/sample4.csv",
+      sha: "d576fa191d9780cf5ec7c0158af192131d358e5d6f9ef52a4ca1c83f22808708",
     }
   end
 end
