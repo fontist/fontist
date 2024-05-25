@@ -908,7 +908,7 @@ RSpec.describe Fontist::CLI do
     end
 
     it "should return non 0 exit code for missing command" do
-      exit_code = system("ruby exe/fontist help_missing")
+      system("ruby exe/fontist help_missing")
 
       expect($?.exitstatus).not_to eq(0)
     end

@@ -1,14 +1,16 @@
 module Fontist
   module ThorExt
-    # Configures Thor to behave more like a typical CLI, with better help and error handling.
+    # Configures Thor to behave more like a typical CLI, with better help
+    # and error handling.
     #
     # - Passing -h or --help to a command will show help for that command.
-    # - Unrecognized options will be treated as errors (instead of being silently ignored).
+    # - Unrecognized options will be treated as errors.
     # - Error messages will be printed in red to stderr, without stack trace.
-    # - Full stack traces can be enabled by setting the VERBOSE environment variable.
+    # - Full stack traces can be enabled by setting the VERBOSE env variable.
     # - Errors will cause Thor to exit with a non-zero status.
     #
-    # To take advantage of this behavior, your CLI should subclass Thor and extend this module.
+    # To take advantage of this behavior, your CLI should subclass Thor
+    # and extend this module.
     #
     #   class CLI < Thor
     #     extend ThorExt::Start
@@ -18,7 +20,8 @@ module Fontist
     #
     #   CLI.start
     #
-    # In tests, prevent Kernel.exit from being called when an error occurs, like this:
+    # In tests, prevent Kernel.exit from being called when an error occurs,
+    # like this:
     #
     #   CLI.start(args, exit_on_failure: false)
     #
@@ -30,7 +33,7 @@ module Fontist
         base.check_unknown_options!
       end
 
-      def start(given_args=ARGV, config={})
+      def start(given_args = ARGV, config = {})
         config[:shell] ||= Thor::Base.shell.new
         handle_help_switches(given_args) do |args|
           dispatch(nil, args, nil, config)
@@ -41,6 +44,7 @@ module Fontist
 
       private
 
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def handle_help_switches(given_args)
         yield(given_args.dup)
       rescue Thor::UnknownArgumentError => e
@@ -61,11 +65,13 @@ module Fontist
         raise if ENV["VERBOSE"] || !config.fetch(:exit_on_failure, true)
 
         message = error.message.to_s
-        message.prepend("[#{error.class}] ") if message.empty? || !error.is_a?(Thor::Error)
-
+        if message.empty? || !error.is_a?(Thor::Error)
+          message.prepend("[#{error.class}] ")
+        end
         config[:shell]&.say_error(message, :red)
         exit(false)
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end
