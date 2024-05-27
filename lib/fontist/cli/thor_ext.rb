@@ -1,12 +1,17 @@
+require "fontist/utils/ui"
+
 module Fontist
   module ThorExt
+    # Sources:
+    # - https://github.com/mattbrictson/gem/blob/main/lib/example/thor_ext.rb
+    # - https://mattbrictson.com/blog/fixing-thor-cli-behavior
+    #
     # Configures Thor to behave more like a typical CLI, with better help
     # and error handling.
     #
     # - Passing -h or --help to a command will show help for that command.
     # - Unrecognized options will be treated as errors.
     # - Error messages will be printed in red to stderr, without stack trace.
-    # - Full stack traces can be enabled by setting the VERBOSE env variable.
     # - Errors will cause Thor to exit with a non-zero status.
     #
     # To take advantage of this behavior, your CLI should subclass Thor
@@ -24,9 +29,6 @@ module Fontist
     # like this:
     #
     #   CLI.start(args, exit_on_failure: false)
-    #
-    # - https://mattbrictson.com/blog/fixing-thor-cli-behavior
-    # - https://github.com/mattbrictson/gem/blob/main/lib/example/thor_ext.rb
     module Start
       def self.extended(base)
         super
@@ -44,7 +46,7 @@ module Fontist
 
       private
 
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
       def handle_help_switches(given_args)
         yield(given_args.dup)
       rescue Thor::UnknownArgumentError => e
@@ -62,7 +64,7 @@ module Fontist
 
       def handle_exception_on_start(error, config)
         return if error.is_a?(Errno::EPIPE)
-        raise if ENV["VERBOSE"] || !config.fetch(:exit_on_failure, true)
+        raise if Fontist.ui.debug? || !config.fetch(:exit_on_failure, true)
 
         message = error.message.to_s
         if message.empty? || !error.is_a?(Thor::Error)
@@ -71,7 +73,7 @@ module Fontist
         config[:shell]&.say_error(message, :red)
         exit(false)
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
     end
   end
 end
