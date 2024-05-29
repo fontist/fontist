@@ -216,6 +216,11 @@ module Fontist
       confirmation = check_and_confirm_required_license(formula)
       paths = font_installer(formula).install(confirmation: confirmation)
 
+      if paths.nil? || paths.empty?
+        Fontist.ui.error("Fonts not found in formula #{formula}")
+        return
+      end
+
       Fontist.ui.say("Fonts installed at:")
       paths.each do |path|
         Fontist.ui.say("- #{path}")

@@ -1,3 +1,5 @@
+require "ostruct"
+
 module Fontist
   module Helpers
     def self.parse_to_object(data)

@@ -19,6 +19,10 @@ module Fontist
         @level || default_level
       end
 
+      def self.debug?
+        log_levels.include?(:debug)
+      end
+
       def self.default_level
         :fatal
       end
@@ -50,7 +54,7 @@ module Fontist
       end
 
       def self.debug(message)
-        new.say(message) if log_levels.include?(:debug)
+        new.say(message) if debug?
       end
 
       def self.log_levels
