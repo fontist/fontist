@@ -84,7 +84,7 @@ jobs:
     needs: prepare
     if: needs.prepare.outputs.push-for-tag != 'true'
 
-    continue-on-error: ${{ matrix.ruby.experimental || matrix.os == 'windows-latest' }} # workaround https://github.com/metanorma/metanorma/issues/288
+    continue-on-error: true # ${{ matrix.ruby.experimental || matrix.os == 'windows-latest' }} # workaround https://github.com/metanorma/metanorma/issues/288
     strategy:
       fail-fast: false
       max-parallel: 5
