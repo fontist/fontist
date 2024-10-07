@@ -72,7 +72,7 @@ jobs:
       - name: Setup packages
         run: |
           pacman -Syu --noconfirm git ruby binutils gcc autoconf make libffi
-          gem install bundler
+          sudo gem install bundler
 
       - run: bundle install
 
