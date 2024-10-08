@@ -1,8 +1,8 @@
 name: tebako-pack
 
 on:
-  push:
-    tags: [ 'v*' ]
+  repository_dispatch:
+    types: [ do-release ]
   workflow_dispatch:
 
 concurrency:

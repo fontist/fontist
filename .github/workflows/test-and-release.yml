@@ -36,7 +36,7 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -60,6 +60,7 @@ jobs:
 
   archlinux-test:
     name: Test on Arch Linux
+    needs: prepare
     runs-on: ubuntu-latest
     container:
       image: 'archlinux:latest'
@@ -67,12 +68,18 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
-
       - name: Setup packages
-        run: pacman -Syu --noconfirm git ruby binutils gcc autoconf make libffi
+        run: pacman -Syu --noconfirm git binutils gcc autoconf make libffi libyaml gmp
 
-      - run: bundle install
+      - uses: actions/checkout@v4
+
+      - uses: asdf-vm/actions/install@v3
+        with:
+          tool_versions: ruby ${{ needs.prepare.outputs.default-ruby-version }}
+
+      - run: |
+          gem install bundler
+          bundle install
 
       - name: Test
         run: bundle exec rspec --tag ~dev
@@ -84,14 +91,14 @@ jobs:
     needs: prepare
     if: needs.prepare.outputs.push-for-tag != 'true'
 
-    continue-on-error: true # ${{ matrix.ruby.experimental || matrix.os == 'windows-latest' }} # workaround https://github.com/metanorma/metanorma/issues/288
+    continue-on-error: ${{ matrix.ruby.experimental }}
     strategy:
       fail-fast: false
       max-parallel: 5
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: metanorma/metanorma
 
@@ -118,14 +125,12 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.ref, 'refs/tags/v')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@v1
+      - name: Repository ready for release
+        uses: peter-evans/repository-dispatch@v3
         with:
-          ruby-version: 3.1
-          bundler-cache: true
-
-      - uses: actions-mn/gem-release@main
-        with:
-          api-key: ${{ secrets.FONTIST_CI_RUBYGEMS_API_KEY }}
-          release-command: bundle exec rake release
+          token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: do-release
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "type": "do-release"}'
