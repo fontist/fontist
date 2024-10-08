@@ -36,7 +36,7 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -71,7 +71,7 @@ jobs:
       - name: Setup packages
         run: pacman -Syu --noconfirm git binutils gcc autoconf make libffi libyaml gmp
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: asdf-vm/actions/install@v3
         with:
@@ -91,14 +91,14 @@ jobs:
     needs: prepare
     if: needs.prepare.outputs.push-for-tag != 'true'
 
-    continue-on-error: true # ${{ matrix.ruby.experimental || matrix.os == 'windows-latest' }} # workaround https://github.com/metanorma/metanorma/issues/288
+    continue-on-error: ${{ matrix.ruby.experimental }}
     strategy:
       fail-fast: false
       max-parallel: 5
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: metanorma/metanorma
 
@@ -121,18 +121,16 @@ jobs:
 
   release:
     name: Release gem
-    needs: [ archlinux-test, metanorma ] # test, 
+    needs: [ test, archlinux-test, metanorma ]
     runs-on: ubuntu-latest
     if: contains(github.ref, 'refs/tags/v')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@v1
+      - name: Repository ready for release
+        uses: peter-evans/repository-dispatch@v3
         with:
-          ruby-version: 3.1
-          bundler-cache: true
-
-      - uses: actions-mn/gem-release@main
-        with:
-          api-key: ${{ secrets.FONTIST_CI_RUBYGEMS_API_KEY }}
-          release-command: bundle exec rake release
+          token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: do-release
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "type": "do-release"}'
