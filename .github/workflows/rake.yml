@@ -46,17 +46,9 @@ jobs:
           bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
-        name: Run tests including dev ones
-        run: |
-          brew install lcdf-typetools
-          bundle exec rspec
-        env:
-          TEST_ENV: CI
+        run: brew install lcdf-typetools
 
-      - if: matrix.os != 'macos-latest'
-        run: bundle exec rspec --tag ~dev
-        env:
-          TEST_ENV: CI
+      - run: bundle exec rake
 
   archlinux-test:
     name: Test on Arch Linux
@@ -66,6 +58,8 @@ jobs:
       image: 'archlinux:latest'
     strategy:
       fail-fast: false
+    env:
+      CI: true
 
     steps:
       - name: Setup packages
@@ -82,4 +76,4 @@ jobs:
           bundle install
 
       - name: Test
-        run: bundle exec rspec --tag ~dev
+        run: bundle exec rake
