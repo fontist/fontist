@@ -12,7 +12,9 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   # Skip the slow tests locally
-  unless ENV.fetch("TEST_ENV", "local").upcase === "CI"
+  if ENV["CI"]
+    config.filter_run_excluding dev: true
+  else
     config.filter_run_excluding slow: true
   end
 
@@ -20,8 +22,7 @@ RSpec.configure do |config|
     config.filter_run_excluding fontconfig: true
   end
 
-  unless ENV.fetch("TEST_ENV", "local").upcase === "CI" ||
-      Fontist::Utils::System.fontconfig_installed?
+  unless ENV["CI"].nil? || Fontist::Utils::System.fontconfig_installed?
     config.filter_run_excluding fontconfig: true
   end
 

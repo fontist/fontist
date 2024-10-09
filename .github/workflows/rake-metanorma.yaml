@@ -1,0 +1,53 @@
+name: rake-metanorma
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+env:
+  BUNDLER_VER: 2.3.24
+
+jobs:
+  prepare:
+    uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
+
+  metanorma:
+    name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: metanorma/metanorma
+
+      - uses: actions/checkout@master
+        with:
+          path: "fontist"
+
+      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - uses: metanorma/metanorma-build-scripts/inkscape-setup-action@main
+
+      - run: bundle exec rake

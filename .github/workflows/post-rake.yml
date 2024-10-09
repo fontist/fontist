@@ -1,0 +1,26 @@
+name: post-rake
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: 
+    - rake
+    - rake-metanorma
+    types:
+    - completed
+
+jobs:
+  post-rake:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - if: contains(github.ref, 'refs/tags/v')
+      name: Repository ready for release
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
+        repository: ${{ github.repository }}
+        event-type: do-release
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "type": "do-release"}'

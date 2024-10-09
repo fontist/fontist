@@ -1,4 +1,4 @@
-name: test-and-release
+name: rake
 
 on:
   push:
@@ -46,17 +46,9 @@ jobs:
           bundler-cache: true
 
       - if: matrix.os == 'macos-latest'
-        name: Run tests including dev ones
-        run: |
-          brew install lcdf-typetools
-          bundle exec rspec
-        env:
-          TEST_ENV: CI
+        run: brew install lcdf-typetools
 
-      - if: matrix.os != 'macos-latest'
-        run: bundle exec rspec --tag ~dev
-        env:
-          TEST_ENV: CI
+      - run: bundle exec rake
 
   archlinux-test:
     name: Test on Arch Linux
@@ -66,6 +58,8 @@ jobs:
       image: 'archlinux:latest'
     strategy:
       fail-fast: false
+    env:
+      CI: true
 
     steps:
       - name: Setup packages
@@ -82,55 +76,4 @@ jobs:
           bundle install
 
       - name: Test
-        run: bundle exec rspec --tag ~dev
-
-  metanorma:
-    name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-
-    needs: prepare
-    if: needs.prepare.outputs.push-for-tag != 'true'
-
-    continue-on-error: ${{ matrix.ruby.experimental }}
-    strategy:
-      fail-fast: false
-      max-parallel: 5
-      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: metanorma/metanorma
-
-      - uses: actions/checkout@master
-        with:
-          path: "fontist"
-
-      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby.version }}
-          rubygems: ${{ matrix.ruby.rubygems }}
-          bundler: ${{ env.BUNDLER_VER }}
-          bundler-cache: true
-
-      - uses: metanorma/metanorma-build-scripts/inkscape-setup-action@main
-
-      - run: bundle exec rake
-
-  release:
-    name: Release gem
-    needs: [ test, archlinux-test, metanorma ]
-    runs-on: ubuntu-latest
-    if: contains(github.ref, 'refs/tags/v')
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Repository ready for release
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
-          repository: ${{ github.repository }}
-          event-type: do-release
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "type": "do-release"}'
+        run: bundle exec rake
