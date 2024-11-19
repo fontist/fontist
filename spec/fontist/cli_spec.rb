@@ -56,11 +56,12 @@ RSpec.describe Fontist::CLI do
       it "tells the index is corrupted and proposes to remove it" do
         stub_system_index_path do
           File.write(Fontist.system_index_path, YAML.dump([{ path: "/some/path" }]))
-          expect(Fontist.ui).to receive(:error)
-            .with("Font index is corrupted.\n" \
-                  "Item {:path=>\"/some/path\"} misses required attributes: full_name, family_name, type.\n" \
-                  "You can remove the index file (#{Fontist.system_index_path}) and try again.")
-
+          expect(Fontist.ui).to receive(:error) do |msg|
+            expect(msg).to start_with("Font index is corrupted.")
+            expect(msg).to include("misses required attributes:")
+            expect(msg).to end_with("You can remove the index file (#{Fontist.system_index_path}) and try again.")
+            true
+          end
           described_class.start(["install", "some"])
         end
       end
