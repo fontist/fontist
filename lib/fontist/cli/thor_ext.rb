@@ -68,7 +68,7 @@ module Fontist
 
         message = error.message.to_s
         if message.empty? || !error.is_a?(Thor::Error)
-          message.prepend("[#{error.class}] ")
+          message = "[#{error.class}] #{message}"
         end
         config[:shell]&.say_error(message, :red)
         exit(false)
