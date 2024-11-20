@@ -107,7 +107,11 @@ module Fontist
       end
 
       def generate_file_path(source)
-        dir = Dir.mktmpdir(nil, Fontist.downloads_path)
+        # WORKAROUND: `to_s` below is needed to avoid ArgumentError
+        # on `Dir.mktmpdir`, which occurs in ruby-3.4-preview2.
+        # Double-check on stable ruby-3.4 and remove if no longer needed.
+
+        dir = Dir.mktmpdir(nil, Fontist.downloads_path.to_s)
         File.join(dir, filename(source))
       end
 
