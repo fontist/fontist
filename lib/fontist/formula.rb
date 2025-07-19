@@ -88,7 +88,10 @@ module Fontist
     end
 
     def self.new_from_file(path)
-      data = YAML.load_file(path)
+      data = YAML.safe_load(
+        File.read(path),
+        permitted_classes: [Date, Symbol, Time]
+      )
       new(data, path)
     end
 
