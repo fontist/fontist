@@ -39,8 +39,8 @@ RSpec.describe Fontist::ConfigCLI do
     it "prints all available keys with their defaults" do
       expect(Fontist.ui).to receive(:say).with("Available keys:")
       expect(Fontist.ui).to receive(:say).with(start_with("fonts_path"))
-      expect(Fontist.ui).to receive(:say).with("open_timeout (default: 10)")
-      expect(Fontist.ui).to receive(:say).with("read_timeout (default: 10)")
+      expect(Fontist.ui).to receive(:say).with("open_timeout (default: 60)")
+      expect(Fontist.ui).to receive(:say).with("read_timeout (default: 60)")
 
       described_class.start(["keys"])
     end

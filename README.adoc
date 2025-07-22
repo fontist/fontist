@@ -331,10 +331,10 @@ Fontist supports system-wide settings for the following parameters:
 `fonts_path`:: Sets path where to install fonts (default: `~/.fontist/fonts`)
 
 `open_timeout`:: Sets timeout for opening a connection during download
-(default: `10`)
+(default: `60`)
 
 `read_timeout`:: Sets timeout for reading the opened connection during download
-(default: `10`)
+(default: `60`)
 
 Show current attributes in the config:
 
