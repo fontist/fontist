@@ -36,8 +36,8 @@ fontist config show
 $ fontist config keys
 Available keys:
 fonts_path (default: /home/octocat/.fontist/fonts)
-open_timeout (default: 10)
-read_timeout (default: 10)
+open_timeout (default: 60)
+read_timeout (default: 60)
 
 $ fontist config set fonts_path /var/myfonts
 'fonts_path' set to '/var/myfonts'.
@@ -55,9 +55,9 @@ Config is empty.
 
 - **`fonts_path`:** Where to put the `.ttf` files. Defaults to `~/.fontist/fonts`
 
-- **`open_timeout`:** Defaults to 10.
+- **`open_timeout`:** Defaults to 60.
 
-- **`read_timeout`:** Defaults to 10.
+- **`read_timeout`:** Defaults to 60.
 
 ## `fontist status [font-name]`
 
