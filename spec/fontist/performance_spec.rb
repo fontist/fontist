@@ -12,7 +12,7 @@ RSpec.describe "Performance testing" do
       end.to perform_under(1).sec
 
       expect do
-        Fontist::Manifest::Locations.from_file(
+        Fontist::Manifest.from_file(
           example_manifest("mscorefonts.yml"),
         )
       end.to perform_under(1).sec

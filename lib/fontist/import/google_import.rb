@@ -69,7 +69,7 @@ module Fontist
 
       def formula(font_name)
         path = formula_path(font_name)
-        Formula.new_from_file(path) if File.exist?(path)
+        Formula.from_file(path) if File.exist?(path)
       end
 
       def formula_path(name)

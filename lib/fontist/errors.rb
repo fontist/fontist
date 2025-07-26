@@ -28,6 +28,8 @@ module Fontist
     # it depends on this exception to automatically download formulas
     class FormulaIndexNotFoundError < GeneralError; end
 
+    class FormulaInvalidError < GeneralError; end
+
     class FormulaNotFoundError < GeneralError
       def initialize(formula)
         super(<<~MSG.chomp)

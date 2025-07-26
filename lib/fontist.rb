@@ -1,19 +1,9 @@
 require "down"
 require "digest"
-require "json"
-require "yaml"
 require "singleton"
 
-require "fontist/errors"
-require "fontist/version"
-
-require "fontist/repo"
-require "fontist/font"
-require "fontist/formula"
-require "fontist/system_font"
-require "fontist/manifest"
-require "fontist/helpers"
-require "fontist/config"
+require_relative "fontist/errors"
+require_relative "fontist/version"
 
 module Fontist
   def self.ui
@@ -164,3 +154,25 @@ module Fontist
     ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end
 end
+
+require_relative "fontist/repo"
+require_relative "fontist/font"
+require_relative "fontist/formula"
+require_relative "fontist/system_font"
+require_relative "fontist/manifest"
+require_relative "fontist/manifest_response"
+require_relative "fontist/manifest_request"
+require_relative "fontist/helpers"
+require_relative "fontist/config"
+require_relative "fontist/update"
+require_relative "fontist/index"
+require_relative "fontist/indexes/font_index"
+require_relative "fontist/indexes/filename_index"
+require_relative "fontist/cli"
+require_relative "fontist/font_installer"
+require_relative "fontist/fontconfig"
+require_relative "fontist/formula_picker"
+require_relative "fontist/formula_suggestion"
+require_relative "fontist/extract"
+require_relative "fontist/font_style"
+require_relative "fontist/font_collection"

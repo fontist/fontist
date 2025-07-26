@@ -1,0 +1,2568 @@
+---
+source han sans:
+- source.yml
+source han sans hc:
+- source.yml
+source han sans k:
+- source.yml
+source han sans sc:
+- source.yml
+source han sans tc:
+- source.yml
+source code pro:
+- source.yml
+- google/source_code_pro.yml
+source sans pro:
+- source.yml
+- google/source_sans_pro.yml
+source serif pro:
+- source.yml
+- google/source_serif_pro.yml
+fzshuti:
+- chinese_simplified.yml
+fzyaoti:
+- chinese_simplified.yml
+lisu:
+- chinese_simplified.yml
+mt extra:
+- chinese_simplified.yml
+- korean.yml
+- guttman.yml
+- chinese_traditional.yml
+- arabic.yml
+- japanese.yml
+microsoft yahei:
+- chinese_simplified.yml
+- microsoft_yahei.yml
+stcaiyun:
+- chinese_simplified.yml
+stfangsong:
+- chinese_simplified.yml
+sthupo:
+- chinese_simplified.yml
+stkaiti:
+- chinese_simplified.yml
+stliti:
+- chinese_simplified.yml
+stsong:
+- chinese_simplified.yml
+stxihei:
+- chinese_simplified.yml
+stxingkai:
+- chinese_simplified.yml
+stxinwei:
+- chinese_simplified.yml
+stzhongsong:
+- chinese_simplified.yml
+youyuan:
+- chinese_simplified.yml
+fira code:
+- fira_code.yml
+malgun gothic:
+- malgun_gothic.yml
+- korean.yml
+arial:
+- ms_truetype.yml
+- webcore.yml
+trebuchet:
+- ms_truetype.yml
+verdana:
+- ms_truetype.yml
+- webcore.yml
+times new roman:
+- ms_truetype.yml
+- webcore.yml
+georgia:
+- georgia.yml
+- webcore.yml
+microsoft jhenghei:
+- microsoft_jhenghei.yml
+- chinese_traditional.yml
+mingliu:
+- mingliu.yml
+mingliu_hkscs:
+- mingliu.yml
+pmingliu:
+- mingliu.yml
+mingliu-extb:
+- mingliu.yml
+mingliu_hkscs-extb:
+- mingliu.yml
+pmingliu-extb:
+- mingliu.yml
+meiryo:
+- meiryo.yml
+- cleartype.yml
+dengxian:
+- dengxian.yml
+au passata:
+- au_passata_oblique.yml
+- au.yml
+au passata light:
+- au_passata_oblique.yml
+- au_passata_light_bold.yml
+- au.yml
+comic sans:
+- comic.yml
+euphemia ucas:
+- euphemia.yml
+stix two math:
+- stix.yml
+stix two text:
+- stix.yml
+geo:
+- google/geo.yml
+rochester:
+- google/rochester.yml
+keania one:
+- google/keania_one.yml
+libre barcode 39 extended:
+- google/libre_barcode_39_extended.yml
+unlock:
+- google/unlock.yml
+nova square:
+- google/nova_square.yml
+scope one:
+- google/scope_one.yml
+darker grotesque:
+- google/darker_grotesque.yml
+overlock:
+- google/overlock.yml
+oregano:
+- google/oregano.yml
+sedgwick ave display:
+- google/sedgwick_ave_display.yml
+bungee shade:
+- google/bungee_shade.yml
+chivo:
+- google/chivo.yml
+yantramanav:
+- google/yantramanav.yml
+courier prime:
+- google/courier_prime.yml
+allerta:
+- google/allerta.yml
+tillana:
+- google/tillana.yml
+fugaz one:
+- google/fugaz_one.yml
+freehand:
+- google/freehand.yml
+ruslan display:
+- google/ruslan_display.yml
+sintony:
+- google/sintony.yml
+permanent marker:
+- google/permanent_marker.yml
+fahkwang:
+- google/fahkwang.yml
+habibi:
+- google/habibi.yml
+linden hill:
+- google/linden_hill.yml
+stalinist one:
+- google/stalinist_one.yml
+liu jian mao cao:
+- google/liu_jian_mao_cao.yml
+stardos stencil:
+- google/stardos_stencil.yml
+faster one:
+- google/faster_one.yml
+athiti:
+- google/athiti.yml
+grenze:
+- google/grenze.yml
+elsie:
+- google/elsie.yml
+press start 2p:
+- google/press_start_2p.yml
+nova slim:
+- google/nova_slim.yml
+average sans:
+- google/average_sans.yml
+palanquin dark:
+- google/palanquin_dark.yml
+katibeh:
+- google/katibeh.yml
+baskervville:
+- google/baskervville.yml
+kameron:
+- google/kameron.yml
+archivo black:
+- google/archivo_black.yml
+metal mania:
+- google/metal_mania.yml
+ma shan zheng:
+- google/ma_shan_zheng.yml
+ruluko:
+- google/ruluko.yml
+lacquer:
+- google/lacquer.yml
+anton:
+- google/anton.yml
+cute font:
+- google/cute_font.yml
+kurale:
+- google/kurale.yml
+kite one:
+- google/kite_one.yml
+lemon:
+- google/lemon.yml
+julee:
+- google/julee.yml
+syncopate:
+- google/syncopate.yml
+rakkas:
+- google/rakkas.yml
+courgette:
+- google/courgette.yml
+saira condensed:
+- google/saira_condensed.yml
+niconne:
+- google/niconne.yml
+geostar fill:
+- google/geostar_fill.yml
+sacramento:
+- google/sacramento.yml
+artifika:
+- google/artifika.yml
+notable:
+- google/notable.yml
+fresca:
+- google/fresca.yml
+questrial:
+- google/questrial.yml
+playfair display:
+- google/playfair_display.yml
+swanky and moo moo:
+- google/swanky_and_moo_moo.yml
+bonbon:
+- google/bonbon.yml
+kelly slab:
+- google/kelly_slab.yml
+berkshire swash:
+- google/berkshire_swash.yml
+pt serif caption:
+- google/pt_serif_caption.yml
+amiko:
+- google/amiko.yml
+metamorphous:
+- google/metamorphous.yml
+pattaya:
+- google/pattaya.yml
+sonsie one:
+- google/sonsie_one.yml
+dorsa:
+- google/dorsa.yml
+hanuman:
+- google/hanuman.yml
+kulim park:
+- google/kulim_park.yml
+bellefair:
+- google/bellefair.yml
+quattrocento sans:
+- google/quattrocento_sans.yml
+delius unicase:
+- google/delius_unicase.yml
+gilda display:
+- google/gilda_display.yml
+odibee sans:
+- google/odibee_sans.yml
+kirang haerang:
+- google/kirang_haerang.yml
+quantico:
+- google/quantico.yml
+chilanka:
+- google/chilanka.yml
+siamreap:
+- google/siamreap.yml
+averia serif libre:
+- google/averia_serif_libre.yml
+nanum myeongjo:
+- google/nanum_myeongjo.yml
+della respira:
+- google/della_respira.yml
+bigelow rules:
+- google/bigelow_rules.yml
+thabit:
+- google/thabit.yml
+taviraj:
+- google/taviraj.yml
+spinnaker:
+- google/spinnaker.yml
+ribeye:
+- google/ribeye.yml
+kanit:
+- google/kanit.yml
+sulphur point:
+- google/sulphur_point.yml
+fascinate inline:
+- google/fascinate_inline.yml
+pathway gothic one:
+- google/pathway_gothic_one.yml
+medula one:
+- google/medula_one.yml
+andada:
+- google/andada.yml
+freckle face:
+- google/freckle_face.yml
+amarante:
+- google/amarante.yml
+sanchez:
+- google/sanchez.yml
+port lligat slab:
+- google/port_lligat_slab.yml
+bungee hairline:
+- google/bungee_hairline.yml
+molle:
+- google/molle.yml
+im fell double pica:
+- google/im_fell_double_pica.yml
+gamja flower:
+- google/gamja_flower.yml
+satisfy:
+- google/satisfy.yml
+doppio one:
+- google/doppio_one.yml
+flamenco:
+- google/flamenco.yml
+gupter:
+- google/gupter.yml
+faustina:
+- google/faustina.yml
+italiana:
+- google/italiana.yml
+modak:
+- google/modak.yml
+hind madurai:
+- google/hind_madurai.yml
+beth ellen:
+- google/beth_ellen.yml
+miltonian:
+- google/miltonian.yml
+patrick hand:
+- google/patrick_hand.yml
+jsmath cmr10:
+- google/jsmath_cmr10.yml
+trade winds:
+- google/trade_winds.yml
+passion one:
+- google/passion_one.yml
+khand:
+- google/khand.yml
+antic didone:
+- google/antic_didone.yml
+allerta stencil:
+- google/allerta_stencil.yml
+raleway dots:
+- google/raleway_dots.yml
+esteban:
+- google/esteban.yml
+im fell double pica sc:
+- google/im_fell_double_pica_sc.yml
+ibm plex serif:
+- google/ibm_plex_serif.yml
+bubbler one:
+- google/bubbler_one.yml
+sura:
+- google/sura.yml
+martel sans:
+- google/martel_sans.yml
+marck script:
+- google/marck_script.yml
+heebo:
+- google/heebo.yml
+federo:
+- google/federo.yml
+baumans:
+- google/baumans.yml
+tajawal:
+- google/tajawal.yml
+dokdo:
+- google/dokdo.yml
+bokor:
+- google/bokor.yml
+buda:
+- google/buda.yml
+londrina sketch:
+- google/londrina_sketch.yml
+lexend deca:
+- google/lexend_deca.yml
+rokkitt:
+- google/rokkitt.yml
+krub:
+- google/krub.yml
+josefin slab:
+- google/josefin_slab.yml
+archivo narrow:
+- google/archivo_narrow.yml
+inknut antiqua:
+- google/inknut_antiqua.yml
+oranienbaum:
+- google/oranienbaum.yml
+lusitana:
+- google/lusitana.yml
+lemonada:
+- google/lemonada.yml
+jomolhari:
+- google/jomolhari.yml
+rowdies:
+- google/rowdies.yml
+lobster two:
+- google/lobster_two.yml
+tenali ramakrishna:
+- google/tenali_ramakrishna.yml
+catamaran:
+- google/catamaran.yml
+oxanium:
+- google/oxanium.yml
+the girl next door:
+- google/the_girl_next_door.yml
+crafty girls:
+- google/crafty_girls.yml
+vast shadow:
+- google/vast_shadow.yml
+offside:
+- google/offside.yml
+paprika:
+- google/paprika.yml
+eater caps:
+- google/eater_caps.yml
+limelight:
+- google/limelight.yml
+molengo:
+- google/molengo.yml
+encode sans:
+- google/encode_sans.yml
+bahianita:
+- google/bahianita.yml
+spectral sc:
+- google/spectral_sc.yml
+barrio:
+- google/barrio.yml
+righteous:
+- google/righteous.yml
+basic:
+- google/basic.yml
+sigmar one:
+- google/sigmar_one.yml
+wire one:
+- google/wire_one.yml
+gudea:
+- google/gudea.yml
+encode sans condensed:
+- google/encode_sans_condensed.yml
+lovers quarrel:
+- google/lovers_quarrel.yml
+asap:
+- google/asap.yml
+aladin:
+- google/aladin.yml
+sofia:
+- google/sofia.yml
+bebas neue:
+- google/bebas_neue.yml
+angkor:
+- google/angkor.yml
+vampiro one:
+- google/vampiro_one.yml
+farsan:
+- google/farsan.yml
+montez:
+- google/montez.yml
+salsa:
+- google/salsa.yml
+neuton:
+- google/neuton.yml
+mallanna:
+- google/mallanna.yml
+coming soon:
+- google/coming_soon.yml
+snippet:
+- google/snippet.yml
+medievalsharp:
+- google/medievalsharp.yml
+unifrakturcook:
+- google/unifrakturcook.yml
+wendy one:
+- google/wendy_one.yml
+play:
+- google/play.yml
+amiri:
+- google/amiri.yml
+ubuntu:
+- google/ubuntu.yml
+mako:
+- google/mako.yml
+la belle aurore:
+- google/la_belle_aurore.yml
+petit formal script:
+- google/petit_formal_script.yml
+rasa:
+- google/rasa.yml
+averia libre:
+- google/averia_libre.yml
+great vibes:
+- google/great_vibes.yml
+corben:
+- google/corben.yml
+ranga:
+- google/ranga.yml
+vibur:
+- google/vibur.yml
+glegoo:
+- google/glegoo.yml
+belgrano:
+- google/belgrano.yml
+ibarra real nova:
+- google/ibarra_real_nova.yml
+east sea dokdo:
+- google/east_sea_dokdo.yml
+yrsa:
+- google/yrsa.yml
+ubuntu condensed:
+- google/ubuntu_condensed.yml
+k2d:
+- google/k2d.yml
+arima madurai:
+- google/arima_madurai.yml
+baloo paaji 2:
+- google/baloo_paaji_2.yml
+dm serif display:
+- google/dm_serif_display.yml
+halant:
+- google/halant.yml
+monsieur la doulaise:
+- google/monsieur_la_doulaise.yml
+spirax:
+- google/spirax.yml
+chicle:
+- google/chicle.yml
+hammersmith one:
+- google/hammersmith_one.yml
+yellowtail:
+- google/yellowtail.yml
+asar:
+- google/asar.yml
+varela round:
+- google/varela_round.yml
+overlock sc:
+- google/overlock_sc.yml
+smythe:
+- google/smythe.yml
+astloch:
+- google/astloch.yml
+londrina solid:
+- google/londrina_solid.yml
+prociono:
+- google/prociono.yml
+suwannaphum:
+- google/suwannaphum.yml
+hanalei fill:
+- google/hanalei_fill.yml
+ledger:
+- google/ledger.yml
+pragati narrow:
+- google/pragati_narrow.yml
+gravitas one:
+- google/gravitas_one.yml
+baloo chettan 2:
+- google/baloo_chettan_2.yml
+mrs saint delafield:
+- google/mrs_saint_delafield.yml
+lily script one:
+- google/lily_script_one.yml
+averia sans libre:
+- google/averia_sans_libre.yml
+jsmath cmsy10:
+- google/jsmath_cmsy10.yml
+nanum gothic coding:
+- google/nanum_gothic_coding.yml
+epilogue:
+- google/epilogue.yml
+alegreya sans:
+- google/alegreya_sans.yml
+pt sans caption:
+- google/pt_sans_caption.yml
+comic neue:
+- google/comic_neue.yml
+flavors:
+- google/flavors.yml
+simonetta:
+- google/simonetta.yml
+mate sc:
+- google/mate_sc.yml
+cabin:
+- google/cabin.yml
+inder:
+- google/inder.yml
+ruthie:
+- google/ruthie.yml
+butcherman:
+- google/butcherman.yml
+amatica sc:
+- google/amatica_sc.yml
+baloo paaji:
+- google/baloo_paaji.yml
+concert one:
+- google/concert_one.yml
+oleo script swash caps:
+- google/oleo_script_swash_caps.yml
+mada:
+- google/mada.yml
+frijole:
+- google/frijole.yml
+oldenburg:
+- google/oldenburg.yml
+archivo:
+- google/archivo.yml
+gotu:
+- google/gotu.yml
+gfs didot:
+- google/gfs_didot.yml
+cousine:
+- google/cousine.yml
+pinyon script:
+- google/pinyon_script.yml
+share tech mono:
+- google/share_tech_mono.yml
+asset:
+- google/asset.yml
+cormorant sc:
+- google/cormorant_sc.yml
+crete round:
+- google/crete_round.yml
+ubuntu mono:
+- google/ubuntu_mono.yml
+noto sans:
+- google/noto_sans.yml
+quintessential:
+- google/quintessential.yml
+major mono display:
+- google/major_mono_display.yml
+black and white picture:
+- google/black_and_white_picture.yml
+squada one:
+- google/squada_one.yml
+dm serif text:
+- google/dm_serif_text.yml
+aleo:
+- google/aleo.yml
+advent pro:
+- google/advent_pro.yml
+snowburst one:
+- google/snowburst_one.yml
+benchnine:
+- google/benchnine.yml
+charmonman:
+- google/charmonman.yml
+blinker:
+- google/blinker.yml
+charm:
+- google/charm.yml
+henny penny:
+- google/henny_penny.yml
+poppins:
+- google/poppins.yml
+josefin sans std light:
+- google/josefin_sans_std_light.yml
+jockey one:
+- google/jockey_one.yml
+barlow condensed:
+- google/barlow_condensed.yml
+coda caption:
+- google/coda_caption.yml
+carter one:
+- google/carter_one.yml
+baloo chettan:
+- google/baloo_chettan.yml
+butterfly kids:
+- google/butterfly_kids.yml
+grand hotel:
+- google/grand_hotel.yml
+ruda:
+- google/ruda.yml
+orbitron:
+- google/orbitron.yml
+alike angular:
+- google/alike_angular.yml
+actor:
+- google/actor.yml
+puritan:
+- google/puritan.yml
+emblema one:
+- google/emblema_one.yml
+red hat text:
+- google/red_hat_text.yml
+trochut:
+- google/trochut.yml
+mr de haviland:
+- google/mr_de_haviland.yml
+londrina shadow:
+- google/londrina_shadow.yml
+josefin sans:
+- google/josefin_sans.yml
+akronim:
+- google/akronim.yml
+sansita:
+- google/sansita.yml
+rajdhani:
+- google/rajdhani.yml
+tinos:
+- google/tinos.yml
+poly:
+- google/poly.yml
+jacques francois shadow:
+- google/jacques_francois_shadow.yml
+balthazar:
+- google/balthazar.yml
+anonymous pro:
+- google/anonymous_pro.yml
+laila:
+- google/laila.yml
+goudy bookletter 1911:
+- google/goudy_bookletter_1911.yml
+clicker script:
+- google/clicker_script.yml
+libre barcode 39 text:
+- google/libre_barcode_39_text.yml
+butcherman caps:
+- google/butcherman_caps.yml
+baloo thambi 2:
+- google/baloo_thambi_2.yml
+lexend mega:
+- google/lexend_mega.yml
+sree krushnadevaraya:
+- google/sree_krushnadevaraya.yml
+rubik mono one:
+- google/rubik_mono_one.yml
+mukta:
+- google/mukta.yml
+signika:
+- google/signika.yml
+mulish:
+- google/mulish.yml
+baloo bhaijaan:
+- google/baloo_bhaijaan.yml
+fauna one:
+- google/fauna_one.yml
+risque:
+- google/risque.yml
+seaweed script:
+- google/seaweed_script.yml
+didact gothic:
+- google/didact_gothic.yml
+playfair display sc:
+- google/playfair_display_sc.yml
+fondamento:
+- google/fondamento.yml
+mukta mahee:
+- google/mukta_mahee.yml
+caudex:
+- google/caudex.yml
+life savers:
+- google/life_savers.yml
+ravi prakash:
+- google/ravi_prakash.yml
+jsmath cmex10:
+- google/jsmath_cmex10.yml
+seymour one:
+- google/seymour_one.yml
+homemade apple:
+- google/homemade_apple.yml
+creepster:
+- google/creepster.yml
+cutive mono:
+- google/cutive_mono.yml
+rancho:
+- google/rancho.yml
+aref ruqaa:
+- google/aref_ruqaa.yml
+abril fatface:
+- google/abril_fatface.yml
+contrail one:
+- google/contrail_one.yml
+chelsea market:
+- google/chelsea_market.yml
+ropa sans:
+- google/ropa_sans.yml
+jomhuria:
+- google/jomhuria.yml
+merriweather sans:
+- google/merriweather_sans.yml
+cedarville cursive:
+- google/cedarville_cursive.yml
+barriecito:
+- google/barriecito.yml
+slabo 13px:
+- google/slabo_13px.yml
+khula:
+- google/khula.yml
+grenze gotisch:
+- google/grenze_gotisch.yml
+mountains of christmas:
+- google/mountains_of_christmas.yml
+almendra:
+- google/almendra.yml
+glass antiqua:
+- google/glass_antiqua.yml
+galdeano:
+- google/galdeano.yml
+ribeye marrow:
+- google/ribeye_marrow.yml
+cherry cream soda:
+- google/cherry_cream_soda.yml
+paytone one:
+- google/paytone_one.yml
+armata:
+- google/armata.yml
+sarina:
+- google/sarina.yml
+chau philomene one:
+- google/chau_philomene_one.yml
+red hat display:
+- google/red_hat_display.yml
+rubik one:
+- google/rubik_one.yml
+mr bedford:
+- google/mr_bedford.yml
+shadows into light:
+- google/shadows_into_light.yml
+caveat brush:
+- google/caveat_brush.yml
+graduate:
+- google/graduate.yml
+bevan:
+- google/bevan.yml
+gafata:
+- google/gafata.yml
+crimson text:
+- google/crimson_text.yml
+waiting for the sunrise:
+- google/waiting_for_the_sunrise.yml
+rhodium libre:
+- google/rhodium_libre.yml
+secular one:
+- google/secular_one.yml
+battambang:
+- google/battambang.yml
+bentham:
+- google/bentham.yml
+alike:
+- google/alike.yml
+krona one:
+- google/krona_one.yml
+frank ruhl libre:
+- google/frank_ruhl_libre.yml
+nokora:
+- google/nokora.yml
+fenix:
+- google/fenix.yml
+chango:
+- google/chango.yml
+sedgwick ave:
+- google/sedgwick_ave.yml
+sarabun:
+- google/sarabun.yml
+fira sans extra condensed:
+- google/fira_sans_extra_condensed.yml
+spartan:
+- google/spartan.yml
+bayon:
+- google/bayon.yml
+imprima:
+- google/imprima.yml
+tomorrow:
+- google/tomorrow.yml
+kranky:
+- google/kranky.yml
+allura:
+- google/allura.yml
+bowlby one sc:
+- google/bowlby_one_sc.yml
+noto serif:
+- google/noto_serif.yml
+bungee inline:
+- google/bungee_inline.yml
+bungee:
+- google/bungee.yml
+poiret one:
+- google/poiret_one.yml
+neucha:
+- google/neucha.yml
+yanone kaffeesatz:
+- google/yanone_kaffeesatz.yml
+kdam thmor:
+- google/kdam_thmor.yml
+bahiana:
+- google/bahiana.yml
+tauri:
+- google/tauri.yml
+cabin condensed:
+- google/cabin_condensed.yml
+princess sofia:
+- google/princess_sofia.yml
+sarala:
+- google/sarala.yml
+kaushan script:
+- google/kaushan_script.yml
+sriracha:
+- google/sriracha.yml
+poor story:
+- google/poor_story.yml
+merienda:
+- google/merienda.yml
+encode sans expanded:
+- google/encode_sans_expanded.yml
+dawning of a new day:
+- google/dawning_of_a_new_day.yml
+baloo bhai:
+- google/baloo_bhai.yml
+crimson pro:
+- google/crimson_pro.yml
+libre baskerville:
+- google/libre_baskerville.yml
+fjord one:
+- google/fjord_one.yml
+arizonia:
+- google/arizonia.yml
+supermercado one:
+- google/supermercado_one.yml
+kalam:
+- google/kalam.yml
+baloo 2:
+- google/baloo_2.yml
+im fell great primer sc:
+- google/im_fell_great_primer_sc.yml
+zhi mang xing:
+- google/zhi_mang_xing.yml
+abhaya libre:
+- google/abhaya_libre.yml
+stylish:
+- google/stylish.yml
+manrope:
+- google/manrope.yml
+denk one:
+- google/denk_one.yml
+nova mono:
+- google/nova_mono.yml
+eagle lake:
+- google/eagle_lake.yml
+pompiere:
+- google/pompiere.yml
+antic slab:
+- google/antic_slab.yml
+alatsi:
+- google/alatsi.yml
+bad script:
+- google/bad_script.yml
+rammetto one:
+- google/rammetto_one.yml
+dhurjati:
+- google/dhurjati.yml
+nova cut:
+- google/nova_cut.yml
+space mono:
+- google/space_mono.yml
+dynalight:
+- google/dynalight.yml
+baloo bhaina 2:
+- google/baloo_bhaina_2.yml
+old standard tt:
+- google/old_standard_tt.yml
+convergence:
+- google/convergence.yml
+ultra:
+- google/ultra.yml
+gorditas:
+- google/gorditas.yml
+cinzel decorative:
+- google/cinzel_decorative.yml
+uncial antiqua:
+- google/uncial_antiqua.yml
+galindo:
+- google/galindo.yml
+black ops one:
+- google/black_ops_one.yml
+spectral:
+- google/spectral.yml
+kenia:
+- google/kenia.yml
+iceberg:
+- google/iceberg.yml
+mitr:
+- google/mitr.yml
+happy monkey:
+- google/happy_monkey.yml
+sumana:
+- google/sumana.yml
+exo 2:
+- google/exo_2.yml
+diplomata:
+- google/diplomata.yml
+rufina:
+- google/rufina.yml
+six caps:
+- google/six_caps.yml
+marcellus:
+- google/marcellus.yml
+atma:
+- google/atma.yml
+orienta:
+- google/orienta.yml
+cairo:
+- google/cairo.yml
+libre caslon display:
+- google/libre_caslon_display.yml
+inria serif:
+- google/inria_serif.yml
+norican:
+- google/norican.yml
+bungee outline:
+- google/bungee_outline.yml
+livvic:
+- google/livvic.yml
+chonburi:
+- google/chonburi.yml
+homenaje:
+- google/homenaje.yml
+joti one:
+- google/joti_one.yml
+cormorant infant:
+- google/cormorant_infant.yml
+libre barcode 128 text:
+- google/libre_barcode_128_text.yml
+itim:
+- google/itim.yml
+nova script:
+- google/nova_script.yml
+inconsolata:
+- google/inconsolata.yml
+kristi:
+- google/kristi.yml
+thasadith:
+- google/thasadith.yml
+codystar:
+- google/codystar.yml
+gayathri:
+- google/gayathri.yml
+arvo:
+- google/arvo.yml
+cantarell:
+- google/cantarell.yml
+lustria:
+- google/lustria.yml
+miniver:
+- google/miniver.yml
+port lligat sans:
+- google/port_lligat_sans.yml
+piedra:
+- google/piedra.yml
+nosifer:
+- google/nosifer.yml
+cherry swash:
+- google/cherry_swash.yml
+scada:
+- google/scada.yml
+alegreya sans sc:
+- google/alegreya_sans_sc.yml
+league script:
+- google/league_script.yml
+duru sans:
+- google/duru_sans.yml
+schoolbell:
+- google/schoolbell.yml
+wellfleet:
+- google/wellfleet.yml
+alfa slab one:
+- google/alfa_slab_one.yml
+srisakdi:
+- google/srisakdi.yml
+prata:
+- google/prata.yml
+jsmath cmti10:
+- google/jsmath_cmti10.yml
+alex brush:
+- google/alex_brush.yml
+fasthand:
+- google/fasthand.yml
+sora:
+- google/sora.yml
+baloo tammudu 2:
+- google/baloo_tammudu_2.yml
+philosopher:
+- google/philosopher.yml
+electrolize:
+- google/electrolize.yml
+inika:
+- google/inika.yml
+single day:
+- google/single_day.yml
+original surfer:
+- google/original_surfer.yml
+bangers:
+- google/bangers.yml
+mr bedfort:
+- google/mr_bedfort.yml
+share:
+- google/share.yml
+im fell french canon sc:
+- google/im_fell_french_canon_sc.yml
+metrophobic:
+- google/metrophobic.yml
+adobe blank:
+- google/adobe_blank.yml
+hi melody:
+- google/hi_melody.yml
+nanum pen script:
+- google/nanum_pen_script.yml
+wallpoet:
+- google/wallpoet.yml
+saira extra condensed:
+- google/saira_extra_condensed.yml
+zeyada:
+- google/zeyada.yml
+koho:
+- google/koho.yml
+fjalla one:
+- google/fjalla_one.yml
+cantora one:
+- google/cantora_one.yml
+baloo tamma 2:
+- google/baloo_tamma_2.yml
+emilys candy:
+- google/emilys_candy.yml
+terminal dosis light:
+- google/terminal_dosis_light.yml
+share tech:
+- google/share_tech.yml
+peralta:
+- google/peralta.yml
+miriam libre:
+- google/miriam_libre.yml
+economica:
+- google/economica.yml
+gothic a1:
+- google/gothic_a1.yml
+ranchers:
+- google/ranchers.yml
+nixie one:
+- google/nixie_one.yml
+anaheim:
+- google/anaheim.yml
+candal:
+- google/candal.yml
+hind:
+- google/hind.yml
+smokum:
+- google/smokum.yml
+merriweather:
+- google/merriweather.yml
+fira sans condensed:
+- google/fira_sans_condensed.yml
+arya:
+- google/arya.yml
+patrick hand sc:
+- google/patrick_hand_sc.yml
+prosto one:
+- google/prosto_one.yml
+mali:
+- google/mali.yml
+londrina outline:
+- google/londrina_outline.yml
+saira:
+- google/saira.yml
+yesteryear:
+- google/yesteryear.yml
+dangrek:
+- google/dangrek.yml
+pacifico:
+- google/pacifico.yml
+kavivanar:
+- google/kavivanar.yml
+alef:
+- google/alef.yml
+new rocker:
+- google/new_rocker.yml
+pavanam:
+- google/pavanam.yml
+days one:
+- google/days_one.yml
+diplomata sc:
+- google/diplomata_sc.yml
+aldrich:
+- google/aldrich.yml
+marmelad:
+- google/marmelad.yml
+rock salt:
+- google/rock_salt.yml
+playball:
+- google/playball.yml
+hind vadodara:
+- google/hind_vadodara.yml
+bigshot one:
+- google/bigshot_one.yml
+julius sans one:
+- google/julius_sans_one.yml
+im fell great primer:
+- google/im_fell_great_primer.yml
+miltonian tattoo:
+- google/miltonian_tattoo.yml
+kodchasan:
+- google/kodchasan.yml
+oleo script:
+- google/oleo_script.yml
+black han sans:
+- google/black_han_sans.yml
+kotta one:
+- google/kotta_one.yml
+volkhov:
+- google/volkhov.yml
+shojumaru:
+- google/shojumaru.yml
+open sans condensed:
+- google/open_sans_condensed.yml
+just me again down here:
+- google/just_me_again_down_here.yml
+trirong:
+- google/trirong.yml
+give you glory:
+- google/give_you_glory.yml
+ofl sorts mill goudy tt:
+- google/ofl_sorts_mill_goudy_tt.yml
+pt sans:
+- google/pt_sans.yml
+chathura:
+- google/chathura.yml
+oswald:
+- google/oswald.yml
+macondo swash caps:
+- google/macondo_swash_caps.yml
+ibm plex sans:
+- google/ibm_plex_sans.yml
+signika negative:
+- google/signika_negative.yml
+barlow semi condensed:
+- google/barlow_semi_condensed.yml
+nunito:
+- google/nunito.yml
+cuprum:
+- google/cuprum.yml
+comfortaa:
+- google/comfortaa.yml
+yatra one:
+- google/yatra_one.yml
+maitree:
+- google/maitree.yml
+b612 mono:
+- google/b612_mono.yml
+nothing you could do:
+- google/nothing_you_could_do.yml
+judson:
+- google/judson.yml
+mclaren:
+- google/mclaren.yml
+purple purse:
+- google/purple_purse.yml
+saira stencil one:
+- google/saira_stencil_one.yml
+slackey:
+- google/slackey.yml
+oxygen:
+- google/oxygen.yml
+autour one:
+- google/autour_one.yml
+arimo:
+- google/arimo.yml
+reem kufi:
+- google/reem_kufi.yml
+rye:
+- google/rye.yml
+lohit tamil:
+- google/lohit_tamil.yml
+finger paint:
+- google/finger_paint.yml
+gentium book basic:
+- google/gentium_book_basic.yml
+redressed:
+- google/redressed.yml
+baloo da:
+- google/baloo_da.yml
+crushed:
+- google/crushed.yml
+lakki reddy:
+- google/lakki_reddy.yml
+gruppo:
+- google/gruppo.yml
+jsmath cmbx10:
+- google/jsmath_cmbx10.yml
+vt323:
+- google/vt323.yml
+vibes:
+- google/vibes.yml
+rozha one:
+- google/rozha_one.yml
+news cycle:
+- google/news_cycle.yml
+gentium basic:
+- google/gentium_basic.yml
+rationale:
+- google/rationale.yml
+libre caslon text:
+- google/libre_caslon_text.yml
+dm sans:
+- google/dm_sans.yml
+atomic age:
+- google/atomic_age.yml
+khmer:
+- google/khmer.yml
+federant:
+- google/federant.yml
+cardo:
+- google/cardo.yml
+quicksand:
+- google/quicksand.yml
+lalezar:
+- google/lalezar.yml
+dancing script:
+- google/dancing_script.yml
+libre barcode 128:
+- google/libre_barcode_128.yml
+zcool qingke huangyou:
+- google/zcool_qingke_huangyou.yml
+cookie:
+- google/cookie.yml
+margarine:
+- google/margarine.yml
+rouge script:
+- google/rouge_script.yml
+farro:
+- google/farro.yml
+felipa:
+- google/felipa.yml
+pontano sans:
+- google/pontano_sans.yml
+marcellus sc:
+- google/marcellus_sc.yml
+trocchi:
+- google/trocchi.yml
+lateef:
+- google/lateef.yml
+dosis:
+- google/dosis.yml
+peddana:
+- google/peddana.yml
+hind siliguri:
+- google/hind_siliguri.yml
+kavoon:
+- google/kavoon.yml
+almendra sc:
+- google/almendra_sc.yml
+radley:
+- google/radley.yml
+elsie swash caps:
+- google/elsie_swash_caps.yml
+amethysta:
+- google/amethysta.yml
+ovo:
+- google/ovo.yml
+zilla slab highlight:
+- google/zilla_slab_highlight.yml
+libre barcode 39 extended text:
+- google/libre_barcode_39_extended_text.yml
+fanwood text:
+- google/fanwood_text.yml
+lobster:
+- google/lobster.yml
+preahvihear:
+- google/preahvihear.yml
+just another hand:
+- google/just_another_hand.yml
+gfs neohellenic:
+- google/gfs_neohellenic.yml
+dekko:
+- google/dekko.yml
+vollkorn:
+- google/vollkorn.yml
+teko:
+- google/teko.yml
+roboto:
+- google/roboto.yml
+baloo bhaina:
+- google/baloo_bhaina.yml
+quattrocento:
+- google/quattrocento.yml
+almarai:
+- google/almarai.yml
+voces:
+- google/voces.yml
+ruge boogie:
+- google/ruge_boogie.yml
+exo:
+- google/exo.yml
+libre barcode 39:
+- google/libre_barcode_39.yml
+amatic sc:
+- google/amatic_sc.yml
+meie script:
+- google/meie_script.yml
+italianno:
+- google/italianno.yml
+sevillana:
+- google/sevillana.yml
+unifrakturmaguntia:
+- google/unifrakturmaguntia.yml
+boogaloo:
+- google/boogaloo.yml
+stint ultra condensed:
+- google/stint_ultra_condensed.yml
+big shoulders display:
+- google/big_shoulders_display.yml
+literata:
+- google/literata.yml
+bubblegum sans:
+- google/bubblegum_sans.yml
+chela one:
+- google/chela_one.yml
+dr sugiyama:
+- google/dr_sugiyama.yml
+fredoka one:
+- google/fredoka_one.yml
+maiden orange:
+- google/maiden_orange.yml
+merienda one:
+- google/merienda_one.yml
+arbutus slab:
+- google/arbutus_slab.yml
+suravaram:
+- google/suravaram.yml
+staatliches:
+- google/staatliches.yml
+holtwood one sc:
+- google/holtwood_one_sc.yml
+big shoulders text:
+- google/big_shoulders_text.yml
+antic:
+- google/antic.yml
+tangerine:
+- google/tangerine.yml
+nanum gothic:
+- google/nanum_gothic.yml
+nova round:
+- google/nova_round.yml
+chenla:
+- google/chenla.yml
+gaegu:
+- google/gaegu.yml
+fredericka the great:
+- google/fredericka_the_great.yml
+caladea:
+- google/caladea.yml
+megrim:
+- google/megrim.yml
+baloo tamma:
+- google/baloo_tamma.yml
+viga:
+- google/viga.yml
+galada:
+- google/galada.yml
+cinzel:
+- google/cinzel.yml
+fruktur:
+- google/fruktur.yml
+timmana:
+- google/timmana.yml
+assistant:
+- google/assistant.yml
+terminal dosis:
+- google/terminal_dosis.yml
+monofett:
+- google/monofett.yml
+allan:
+- google/allan.yml
+museomoderno:
+- google/museomoderno.yml
+acme:
+- google/acme.yml
+griffy:
+- google/griffy.yml
+pangolin:
+- google/pangolin.yml
+copse:
+- google/copse.yml
+mate:
+- google/mate.yml
+chakra petch:
+- google/chakra_petch.yml
+content:
+- google/content.yml
+text me one:
+- google/text_me_one.yml
+maven pro:
+- google/maven_pro.yml
+marko one:
+- google/marko_one.yml
+tulpen one:
+- google/tulpen_one.yml
+bellota text:
+- google/bellota_text.yml
+kadwa:
+- google/kadwa.yml
+covered by your grace:
+- google/covered_by_your_grace.yml
+amita:
+- google/amita.yml
+gidugu:
+- google/gidugu.yml
+miss saint delafield:
+- google/miss_saint_delafield.yml
+alegreya sc:
+- google/alegreya_sc.yml
+baloo:
+- google/baloo.yml
+englebert:
+- google/englebert.yml
+calligraffitti:
+- google/calligraffitti.yml
+domine:
+- google/domine.yml
+bowlby one:
+- google/bowlby_one.yml
+scheherazade:
+- google/scheherazade.yml
+inter:
+- google/inter.yml
+sunshiney:
+- google/sunshiney.yml
+moul:
+- google/moul.yml
+bitter:
+- google/bitter.yml
+germania one:
+- google/germania_one.yml
+abel:
+- google/abel.yml
+sansita one:
+- google/sansita_one.yml
+condiment:
+- google/condiment.yml
+changa:
+- google/changa.yml
+enriqueta:
+- google/enriqueta.yml
+manjari:
+- google/manjari.yml
+jura:
+- google/jura.yml
+koulen:
+- google/koulen.yml
+trykker:
+- google/trykker.yml
+monda:
+- google/monda.yml
+varela:
+- google/varela.yml
+istok web:
+- google/istok_web.yml
+montserrat subrayada:
+- google/montserrat_subrayada.yml
+fira mono:
+- google/fira_mono.yml
+zcool kuaile:
+- google/zcool_kuaile.yml
+vesper libre:
+- google/vesper_libre.yml
+aclonica:
+- google/aclonica.yml
+delius:
+- google/delius.yml
+lora:
+- google/lora.yml
+abeezee:
+- google/abeezee.yml
+petrona:
+- google/petrona.yml
+mina:
+- google/mina.yml
+odor mean chey:
+- google/odor_mean_chey.yml
+belleza:
+- google/belleza.yml
+sail:
+- google/sail.yml
+short stack:
+- google/short_stack.yml
+michroma:
+- google/michroma.yml
+brawler:
+- google/brawler.yml
+warnes:
+- google/warnes.yml
+walter turncoat:
+- google/walter_turncoat.yml
+ramaraja:
+- google/ramaraja.yml
+suranna:
+- google/suranna.yml
+im fell dw pica sc:
+- google/im_fell_dw_pica_sc.yml
+sen:
+- google/sen.yml
+b612:
+- google/b612.yml
+fascinate:
+- google/fascinate.yml
+revalia:
+- google/revalia.yml
+eczar:
+- google/eczar.yml
+nova oval:
+- google/nova_oval.yml
+bai jamjuree:
+- google/bai_jamjuree.yml
+jolly lodger:
+- google/jolly_lodger.yml
+knewave:
+- google/knewave.yml
+bellota:
+- google/bellota.yml
+sorts mill goudy:
+- google/sorts_mill_goudy.yml
+ramabhadra:
+- google/ramabhadra.yml
+coustard:
+- google/coustard.yml
+donegal one:
+- google/donegal_one.yml
+sancreek:
+- google/sancreek.yml
+nobile:
+- google/nobile.yml
+caesar dressing:
+- google/caesar_dressing.yml
+titan one:
+- google/titan_one.yml
+slabo 27px:
+- google/slabo_27px.yml
+kumar one:
+- google/kumar_one.yml
+cormorant garamond:
+- google/cormorant_garamond.yml
+plaster:
+- google/plaster.yml
+mukta vaani:
+- google/mukta_vaani.yml
+jost:
+- google/jost.yml
+song myung:
+- google/song_myung.yml
+over the rainbow:
+- google/over_the_rainbow.yml
+averia gruesa libre:
+- google/averia_gruesa_libre.yml
+cantata one:
+- google/cantata_one.yml
+nanum brush script:
+- google/nanum_brush_script.yml
+quando:
+- google/quando.yml
+long cang:
+- google/long_cang.yml
+caveat:
+- google/caveat.yml
+unna:
+- google/unna.yml
+leckerli one:
+- google/leckerli_one.yml
+asul:
+- google/asul.yml
+romanesco:
+- google/romanesco.yml
+rum raisin:
+- google/rum_raisin.yml
+siemreap:
+- google/siemreap.yml
+love ya like a sister:
+- google/love_ya_like_a_sister.yml
+changa one:
+- google/changa_one.yml
+encode sans semi expanded:
+- google/encode_sans_semi_expanded.yml
+el messiri:
+- google/el_messiri.yml
+libre franklin:
+- google/libre_franklin.yml
+modern antiqua:
+- google/modern_antiqua.yml
+fontdiner swanky:
+- google/fontdiner_swanky.yml
+rubik:
+- google/rubik.yml
+lekton:
+- google/lekton.yml
+jaldi:
+- google/jaldi.yml
+martel:
+- google/martel.yml
+racing sans one:
+- google/racing_sans_one.yml
+lexend exa:
+- google/lexend_exa.yml
+rosarivo:
+- google/rosarivo.yml
+turret road:
+- google/turret_road.yml
+monoton:
+- google/monoton.yml
+combo:
+- google/combo.yml
+im fell french canon:
+- google/im_fell_french_canon.yml
+sunflower:
+- google/sunflower.yml
+ek mukta:
+- google/ek_mukta.yml
+lexend zetta:
+- google/lexend_zetta.yml
+sofadi one:
+- google/sofadi_one.yml
+iceland:
+- google/iceland.yml
+meera inimai:
+- google/meera_inimai.yml
+stalin one:
+- google/stalin_one.yml
+mystery quest:
+- google/mystery_quest.yml
+public sans:
+- google/public_sans.yml
+zilla slab:
+- google/zilla_slab.yml
+chewy:
+- google/chewy.yml
+telex:
+- google/telex.yml
+taprom:
+- google/taprom.yml
+eb garamond:
+- google/eb_garamond.yml
+- eb_garamond.yml
+baloo da 2:
+- google/baloo_da_2.yml
+pridi:
+- google/pridi.yml
+almendra display:
+- google/almendra_display.yml
+gloria hallelujah:
+- google/gloria_hallelujah.yml
+lohit bengali:
+- google/lohit_bengali.yml
+architects daughter:
+- google/architects_daughter.yml
+lancelot:
+- google/lancelot.yml
+skranji:
+- google/skranji.yml
+numans:
+- google/numans.yml
+ntr:
+- google/ntr.yml
+yeseva one:
+- google/yeseva_one.yml
+baloo bhai 2:
+- google/baloo_bhai_2.yml
+im fell dw pica:
+- google/im_fell_dw_pica.yml
+euphoria script:
+- google/euphoria_script.yml
+oxygen mono:
+- google/oxygen_mono.yml
+shrikhand:
+- google/shrikhand.yml
+rosario:
+- google/rosario.yml
+karla:
+- google/karla.yml
+varta:
+- google/varta.yml
+encode sans semi condensed:
+- google/encode_sans_semi_condensed.yml
+baloo tammudu:
+- google/baloo_tammudu.yml
+lilita one:
+- google/lilita_one.yml
+forum:
+- google/forum.yml
+qwigley:
+- google/qwigley.yml
+aubrey:
+- google/aubrey.yml
+marvel:
+- google/marvel.yml
+alice:
+- google/alice.yml
+lexend tera:
+- google/lexend_tera.yml
+sahitya:
+- google/sahitya.yml
+raleway:
+- google/raleway.yml
+unkempt:
+- google/unkempt.yml
+ceviche one:
+- google/ceviche_one.yml
+luckiest guy:
+- google/luckiest_guy.yml
+spicy rice:
+- google/spicy_rice.yml
+nunito sans:
+- google/nunito_sans.yml
+gelasio:
+- google/gelasio.yml
+rambla:
+- google/rambla.yml
+hepta slab:
+- google/hepta_slab.yml
+shanti:
+- google/shanti.yml
+damion:
+- google/damion.yml
+proza libre:
+- google/proza_libre.yml
+mogra:
+- google/mogra.yml
+capriola:
+- google/capriola.yml
+suez one:
+- google/suez_one.yml
+pt serif:
+- google/pt_serif.yml
+irish grover:
+- google/irish_grover.yml
+cutive:
+- google/cutive.yml
+gabriela:
+- google/gabriela.yml
+palanquin:
+- google/palanquin.yml
+cagliostro:
+- google/cagliostro.yml
+dhyana:
+- google/dhyana.yml
+gurajada:
+- google/gurajada.yml
+cormorant upright:
+- google/cormorant_upright.yml
+alegreya:
+- google/alegreya.yml
+herr von muellerhoff:
+- google/herr_von_muellerhoff.yml
+junge:
+- google/junge.yml
+kantumruy:
+- google/kantumruy.yml
+russo one:
+- google/russo_one.yml
+underdog:
+- google/underdog.yml
+fira sans:
+- google/fira_sans.yml
+girassol:
+- google/girassol.yml
+francois one:
+- google/francois_one.yml
+prompt:
+- google/prompt.yml
+metal:
+- google/metal.yml
+jacques francois:
+- google/jacques_francois.yml
+delius swash caps:
+- google/delius_swash_caps.yml
+ibm plex mono:
+- google/ibm_plex_mono.yml
+creepster caps:
+- google/creepster_caps.yml
+croissant one:
+- google/croissant_one.yml
+cormorant unicase:
+- google/cormorant_unicase.yml
+voltaire:
+- google/voltaire.yml
+pt sans narrow:
+- google/pt_sans_narrow.yml
+moulpali:
+- google/moulpali.yml
+goblin one:
+- google/goblin_one.yml
+jsmath cmmi10:
+- google/jsmath_cmmi10.yml
+buenard:
+- google/buenard.yml
+sarpanch:
+- google/sarpanch.yml
+erica one:
+- google/erica_one.yml
+baloo thambi:
+- google/baloo_thambi.yml
+im fell english:
+- google/im_fell_english.yml
+zcool xiaowei:
+- google/zcool_xiaowei.yml
+strait:
+- google/strait.yml
+mrs sheppards:
+- google/mrs_sheppards.yml
+amaranth:
+- google/amaranth.yml
+solway:
+- google/solway.yml
+gochi hand:
+- google/gochi_hand.yml
+aguafina script:
+- google/aguafina_script.yml
+mansalva:
+- google/mansalva.yml
+do hyeon:
+- google/do_hyeon.yml
+montaga:
+- google/montaga.yml
+podkova:
+- google/podkova.yml
+gugi:
+- google/gugi.yml
+mr dafoe:
+- google/mr_dafoe.yml
+calistoga:
+- google/calistoga.yml
+jua:
+- google/jua.yml
+reenie beanie:
+- google/reenie_beanie.yml
+noticia text:
+- google/noticia_text.yml
+miss fajardose:
+- google/miss_fajardose.yml
+stint ultra expanded:
+- google/stint_ultra_expanded.yml
+lexend peta:
+- google/lexend_peta.yml
+devonshire:
+- google/devonshire.yml
+audiowide:
+- google/audiowide.yml
+cambay:
+- google/cambay.yml
+asap condensed:
+- google/asap_condensed.yml
+magra:
+- google/magra.yml
+karma:
+- google/karma.yml
+stoke:
+- google/stoke.yml
+loved by the king:
+- google/loved_by_the_king.yml
+lexend giga:
+- google/lexend_giga.yml
+alata:
+- google/alata.yml
+titillium web:
+- google/titillium_web.yml
+balsamiq sans:
+- google/balsamiq_sans.yml
+mirza:
+- google/mirza.yml
+bree serif:
+- google/bree_serif.yml
+roboto slab:
+- google/roboto_slab.yml
+headland one:
+- google/headland_one.yml
+meddon:
+- google/meddon.yml
+jim nightshade:
+- google/jim_nightshade.yml
+annie use your telescope:
+- google/annie_use_your_telescope.yml
+im fell english sc:
+- google/im_fell_english_sc.yml
+roboto mono:
+- google/roboto_mono.yml
+coiny:
+- google/coiny.yml
+pt mono:
+- google/pt_mono.yml
+coda:
+- google/coda.yml
+biryani:
+- google/biryani.yml
+unica one:
+- google/unica_one.yml
+geostar:
+- google/geostar.yml
+kreon:
+- google/kreon.yml
+passero one:
+- google/passero_one.yml
+red rose:
+- google/red_rose.yml
+carme:
+- google/carme.yml
+cabin sketch:
+- google/cabin_sketch.yml
+ewert:
+- google/ewert.yml
+vidaloka:
+- google/vidaloka.yml
+macondo:
+- google/macondo.yml
+markazi text:
+- google/markazi_text.yml
+bilbo:
+- google/bilbo.yml
+niramit:
+- google/niramit.yml
+mandali:
+- google/mandali.yml
+be vietnam:
+- google/be_vietnam.yml
+eater:
+- google/eater.yml
+carrois gothic sc:
+- google/carrois_gothic_sc.yml
+mukta malar:
+- google/mukta_malar.yml
+cormorant:
+- google/cormorant.yml
+pirata one:
+- google/pirata_one.yml
+milonga:
+- google/milonga.yml
+bilbo swash caps:
+- google/bilbo_swash_caps.yml
+barlow:
+- google/barlow.yml
+vollkorn sc:
+- google/vollkorn_sc.yml
+poller one:
+- google/poller_one.yml
+handlee:
+- google/handlee.yml
+yeon sung:
+- google/yeon_sung.yml
+viaoda libre:
+- google/viaoda_libre.yml
+inria sans:
+- google/inria_sans.yml
+special elite:
+- google/special_elite.yml
+ibm plex sans condensed:
+- google/ibm_plex_sans_condensed.yml
+nova flat:
+- google/nova_flat.yml
+engagement:
+- google/engagement.yml
+manuale:
+- google/manuale.yml
+indie flower:
+- google/indie_flower.yml
+shadows into light two:
+- google/shadows_into_light_two.yml
+dm mono:
+- google/dm_mono.yml
+tienne:
+- google/tienne.yml
+recursive:
+- google/recursive.yml
+patua one:
+- google/patua_one.yml
+hind guntur:
+- google/hind_guntur.yml
+sniglet:
+- google/sniglet.yml
+cambo:
+- google/cambo.yml
+expletus sans:
+- google/expletus_sans.yml
+nosifer caps:
+- google/nosifer_caps.yml
+arapey:
+- google/arapey.yml
+sirin stencil:
+- google/sirin_stencil.yml
+arsenal:
+- google/arsenal.yml
+carrois gothic:
+- google/carrois_gothic.yml
+parisienne:
+- google/parisienne.yml
+mouse memoirs:
+- google/mouse_memoirs.yml
+sue ellen francisco:
+- google/sue_ellen_francisco.yml
+average:
+- google/average.yml
+arbutus:
+- google/arbutus.yml
+cherry bomb:
+- google/cherry_bomb.yml
+hanalei:
+- google/hanalei.yml
+tenor sans:
+- google/tenor_sans.yml
+saira semi condensed:
+- google/saira_semi_condensed.yml
+adamina:
+- google/adamina.yml
+stalemate:
+- google/stalemate.yml
+segoe ui:
+- segoe_ui.yml
+expo m:
+- korean.yml
+moeumt r:
+- korean.yml
+ami r:
+- korean.yml
+hygothic-extra:
+- korean.yml
+hygothic-medium:
+- korean.yml
+hygraphic-medium:
+- korean.yml
+hygungso-bold:
+- korean.yml
+hyheadline-medium:
+- korean.yml
+hymyeongjo-extra:
+- korean.yml
+hypmokgak-bold:
+- korean.yml
+hypost-light:
+- korean.yml
+hypost-medium:
+- korean.yml
+hyshortsamul-medium:
+- korean.yml
+hysinmyeongjo-medium:
+- korean.yml
+headline r:
+- korean.yml
+magic r:
+- korean.yml
+new gulim:
+- korean.yml
+pyunji r:
+- korean.yml
+yet r:
+- korean.yml
+guttman aharoni:
+- guttman.yml
+guttman drogolin:
+- guttman.yml
+guttman frank:
+- guttman.yml
+guttman frnew:
+- guttman.yml
+guttman haim:
+- guttman.yml
+guttman haim-condensed:
+- guttman.yml
+guttman hatzvi:
+- guttman.yml
+guttman kav:
+- guttman.yml
+guttman kav-light:
+- guttman.yml
+guttman logo1:
+- guttman.yml
+guttman mantova:
+- guttman.yml
+guttman mantova-decor:
+- guttman.yml
+guttman miryam:
+- guttman.yml
+guttman myamfix:
+- guttman.yml
+guttman rashi:
+- guttman.yml
+guttman stam:
+- guttman.yml
+guttman stam1:
+- guttman.yml
+guttman vilna:
+- guttman.yml
+guttman yad:
+- guttman.yml
+guttman yad-brush:
+- guttman.yml
+guttman yad-light:
+- guttman.yml
+guttman-aharoni:
+- guttman.yml
+guttman-aram:
+- guttman.yml
+guttman-courmir:
+- guttman.yml
+monotype hadassah:
+- guttman.yml
+aga arabesque:
+- arabic.yml
+aga arabesque desktop:
+- arabic.yml
+akhbar mt:
+- arabic.yml
+arabic typesetting:
+- arabic.yml
+bold italic art:
+- arabic.yml
+decotype naskh:
+- arabic.yml
+decotype naskh extensions:
+- arabic.yml
+decotype naskh special:
+- arabic.yml
+decotype naskh swashes:
+- arabic.yml
+decotype naskh variants:
+- arabic.yml
+decotype thuluth:
+- arabic.yml
+diwani bent:
+- arabic.yml
+diwani letter:
+- arabic.yml
+diwani outline shaded:
+- arabic.yml
+diwani simple outline:
+- arabic.yml
+diwani simple outline 2:
+- arabic.yml
+diwani simple striped:
+- arabic.yml
+farsi simple bold:
+- arabic.yml
+farsi simple outline:
+- arabic.yml
+italic outline art:
+- arabic.yml
+kufi extended outline:
+- arabic.yml
+kufi outline shaded:
+- arabic.yml
+led italic font:
+- arabic.yml
+monotype koufi:
+- arabic.yml
+mudir mt:
+- arabic.yml
+old antic bold:
+- arabic.yml
+old antic decorative:
+- arabic.yml
+old antic outline:
+- arabic.yml
+old antic outline shaded:
+- arabic.yml
+pt bold arch:
+- arabic.yml
+pt bold broken:
+- arabic.yml
+pt bold dusky:
+- arabic.yml
+pt bold heading:
+- arabic.yml
+pt bold mirror:
+- arabic.yml
+pt bold stars:
+- arabic.yml
+pt separated baloon:
+- arabic.yml
+pt simple bold ruled:
+- arabic.yml
+simple bold jut out:
+- arabic.yml
+simple indust outline:
+- arabic.yml
+simple indust shaded:
+- arabic.yml
+simple outline pat:
+- arabic.yml
+cambria:
+- cleartype.yml
+- webcore.yml
+cambria math:
+- cleartype.yml
+- webcore.yml
+meiryo ui:
+- cleartype.yml
+calibri:
+- cleartype.yml
+- webcore.yml
+candara:
+- cleartype.yml
+- webcore.yml
+consola:
+- cleartype.yml
+constantia:
+- cleartype.yml
+- webcore.yml
+corbel:
+- cleartype.yml
+- webcore.yml
+impact:
+- impact.yml
+- webcore.yml
+selawik:
+- selawik.yml
+hggothice:
+- japanese.yml
+hgpgothice:
+- japanese.yml
+hgsgothice:
+- japanese.yml
+hggothicm:
+- japanese.yml
+hgpgothicm:
+- japanese.yml
+hgsgothicm:
+- japanese.yml
+hggyoshotai:
+- japanese.yml
+hgpgyoshotai:
+- japanese.yml
+hgsgyoshotai:
+- japanese.yml
+hgkyokashotai:
+- japanese.yml
+hgpkyokashotai:
+- japanese.yml
+hgskyokashotai:
+- japanese.yml
+hgminchob:
+- japanese.yml
+hgpminchob:
+- japanese.yml
+hgsminchob:
+- japanese.yml
+hgminchoe:
+- japanese.yml
+hgpminchoe:
+- japanese.yml
+hgsminchoe:
+- japanese.yml
+hgpsoeikakupoptai:
+- japanese.yml
+hgssoeikakupoptai:
+- japanese.yml
+hgsoeikakupoptai:
+- japanese.yml
+hgpsoeipresenceeb:
+- japanese.yml
+hgssoeipresenceeb:
+- japanese.yml
+hgsoeipresenceeb:
+- japanese.yml
+hgpsoeikakugothicub:
+- japanese.yml
+hgssoeikakugothicub:
+- japanese.yml
+hgsoeikakugothicub:
+- japanese.yml
+hgmarugothicmpro:
+- japanese.yml
+hgseikaishotaipro:
+- japanese.yml
+ocrb:
+- japanese.yml
+andale mono:
+- andale.yml
+- webcore.yml
+montserrat:
+- montserrat.yml
+montserrat alternates:
+- montserrat.yml
+tex gyre chorus:
+- tex_gyre_chorus.yml
+webdings:
+- webding.yml
+- webcore.yml
+mingzat:
+- sil/mingzat.yml
+apparatus sil:
+- sil/apparatus_sil.yml
+tagmukay:
+- sil/tagmukay.yml
+padauk:
+- sil/padauk.yml
+padauk book:
+- sil/padauk.yml
+alkalami:
+- sil/alkalami.yml
+alkalami light:
+- sil/alkalami.yml
+doulos sil:
+- sil/doulos_sil.yml
+unicode bmp fallback sil:
+- sil/unicode_bmp_fallback_sil.yml
+andika:
+- sil/andika.yml
+abyssinica sil:
+- sil/abyssinica_sil.yml
+akatab:
+- sil/akatab.yml
+sophia nubian:
+- sil/sophia_nubian.yml
+nokyung:
+- sil/nokyung.yml
+nuosu sil:
+- sil/nuosu_sil.yml
+doulos sil cipher:
+- sil/doulos_sil_cipher.yml
+khmer busra:
+- sil/khmer.yml
+khmer mondulkiri:
+- sil/khmer.yml
+galatia sil:
+- sil/galatia_sil.yml
+narnoor:
+- sil/narnoor.yml
+ezra sil:
+- sil/ezra_sil.yml
+ezra sil sr:
+- sil/ezra_sil.yml
+shishan hmd:
+- sil/shishan_hmd.yml
+shishan hmdd:
+- sil/shishan_hmd.yml
+shishan hmdn:
+- sil/shishan_hmd.yml
+namdhinggo sil:
+- sil/namdhinggo_sil.yml
+scheherazade new:
+- sil/scheherazade_new.yml
+gentium plus:
+- sil/gentium_plus.yml
+tai heritage pro:
+- sil/tai_heritage_pro.yml
+lateefgr:
+- sil/lateefgr.yml
+awami nastaliq:
+- sil/awami_nastaliq.yml
+shimenkan:
+- sil/shimenkan.yml
+shimenkan book:
+- sil/shimenkan.yml
+shimenkan extra light:
+- sil/shimenkan.yml
+shimenkan light:
+- sil/shimenkan.yml
+harmattan:
+- sil/harmattan.yml
+annapurna sil:
+- sil/annapurna_sil.yml
+dai banna sil book:
+- sil/dai_banna_sil.yml
+dai banna sil light:
+- sil/dai_banna_sil.yml
+charis sil:
+- sil/charis_sil.yml
+adobe arabic:
+- adobe_reader_19.yml
+adobe devanagari:
+- adobe_reader_19.yml
+adobe fan heiti std:
+- adobe_reader_19.yml
+adobe gothic std:
+- adobe_reader_19.yml
+adobe hebrew:
+- adobe_reader_19.yml
+adobe heiti std:
+- adobe_reader_19.yml
+adobe ming std:
+- adobe_reader_19.yml
+adobe myungjo std:
+- adobe_reader_19.yml
+adobe song std:
+- adobe_reader_19.yml
+adobe thai:
+- adobe_reader_19.yml
+kozuka gothic pr6n:
+- adobe_reader_19.yml
+kozuka mincho pr6n:
+- adobe_reader_19.yml
+myriad arabic:
+- adobe_reader_19.yml
+myriad hebrew:
+- adobe_reader_19.yml
+overpass:
+- overpass.yml
+overpass mono:
+- overpass.yml
+eb garamond 12 all sc:
+- eb_garamond.yml
+eb garamond initials:
+- eb_garamond.yml
+eb garamond initials fill1:
+- eb_garamond.yml
+eb garamond initials fill2:
+- eb_garamond.yml
+eb garamond sc:
+- eb_garamond.yml
+tahoma:
+- tahoma.yml
+- webcore.yml
+courier:
+- courier.yml
+yu gothic:
+- yu.yml
+yu gothic ui:
+- yu.yml
+yu mincho:
+- yu.yml
+arial black:
+- arial_black.yml
+- webcore.yml
+lato:
+- lato.yml
+au logo:
+- au.yml
+au peto:
+- au.yml
+work sans:
+- work_sans.yml
+opensans:
+- open_sans.yml
+comic sans ms:
+- webcore.yml
+consolas:
+- webcore.yml
+courier new:
+- webcore.yml
+lucida console:
+- webcore.yml
+lucida sans unicode:
+- webcore.yml
+microsoft sans serif:
+- webcore.yml
+symbol:
+- webcore.yml
+trebuchet ms:
+- webcore.yml
+wingdings:
+- webcore.yml
+wingdings 2:
+- webcore.yml
+wingdings 3:
+- webcore.yml
+adobe pi std:
+- adobe_reader_20.yml
+courier std:
+- adobe_reader_20.yml
+minion pro:
+- adobe_reader_20.yml
+myriad cad:
+- adobe_reader_20.yml
+myriad pro:
+- adobe_reader_20.yml

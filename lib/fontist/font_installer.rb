@@ -40,7 +40,7 @@ module Fontist
     end
 
     def license_is_accepted?(confirmation)
-      return true unless @formula.license_required
+      return true unless @formula.license_required?
 
       "yes".casecmp?(confirmation)
     end

@@ -16,7 +16,7 @@ module Fontist
 
     def formulas
       @formulas ||= if fontist_font?
-                      Indexes::FilenameIndex.from_yaml.load_index_formulas(File.basename(@path)).map(&:name)
+                      Indexes::FilenameIndex.from_file.load_index_formulas(File.basename(@path)).map(&:name)
                     else
                       []
                     end

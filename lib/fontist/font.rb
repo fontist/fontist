@@ -228,7 +228,7 @@ module Fontist
     end
 
     def check_and_confirm_required_license(formula)
-      return @confirmation unless formula.license_required
+      return @confirmation unless formula.license_required?
 
       show_license(formula) unless @hide_licenses
       return @confirmation if @confirmation.casecmp?("yes")

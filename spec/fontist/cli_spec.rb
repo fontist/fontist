@@ -15,7 +15,7 @@ RSpec.describe Fontist::CLI do
           expect(Fontist.ui).to receive(:error)
             .with("Please fetch formulas with `fontist update`.")
           status = described_class.start(["install", "texgyrechorus"])
-          expect(status).to be Fontist::CLI::STATUS_MAIN_REPO_NOT_FOUND
+          expect(status).to eq Fontist::CLI::STATUS_MAIN_REPO_NOT_FOUND
         end
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe Fontist::CLI do
       it "returns success status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["install", "texgyrechorus"])
-          expect(status).to be 0
+          expect(status).to eq 0
         end
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["install", "unexisting"])
-          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+          expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
 
@@ -109,7 +109,7 @@ RSpec.describe Fontist::CLI do
         MSG
 
         status = described_class.start(["install", "al firat"])
-        expect(status).to be Fontist::CLI::STATUS_MANUAL_FONT_ERROR
+        expect(status).to eq Fontist::CLI::STATUS_MANUAL_FONT_ERROR
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe Fontist::CLI do
 
       it "returns fontist-version error" do
         status = described_class.start(["install", "texgyrechorus"])
-        expect(status).to be Fontist::CLI::STATUS_FONTIST_VERSION_ERROR
+        expect(status).to eq Fontist::CLI::STATUS_FONTIST_VERSION_ERROR
       end
     end
 
@@ -184,7 +184,7 @@ RSpec.describe Fontist::CLI do
         let(:formula) { "missing" }
         it "returns error status and prints that it's missing" do
           expect(Fontist.ui).to receive(:error).with(not_found_message)
-          expect(command).to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+          expect(command).to eq Fontist::CLI::STATUS_FORMULA_NOT_FOUND
         end
       end
 
@@ -194,7 +194,7 @@ RSpec.describe Fontist::CLI do
 
         it "returns error status and prints that it's missing" do
           expect(Fontist.ui).to receive(:error).with(not_found_message)
-          expect(command).to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+          expect(command).to eq Fontist::CLI::STATUS_FORMULA_NOT_FOUND
         end
       end
 
@@ -258,7 +258,7 @@ RSpec.describe Fontist::CLI do
           before { expect(Fontist.ui).to receive(:ask).and_return("") }
 
           it "skips installation and prints formula not found" do
-            is_expected.to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+            is_expected.to eq Fontist::CLI::STATUS_FORMULA_NOT_FOUND
           end
         end
 
@@ -269,7 +269,7 @@ RSpec.describe Fontist::CLI do
           it "does not ask for input and returns formula-not-found" do
             expect(Fontist.ui).not_to receive(:ask)
 
-            is_expected.to be Fontist::CLI::STATUS_FORMULA_NOT_FOUND
+            is_expected.to eq Fontist::CLI::STATUS_FORMULA_NOT_FOUND
           end
         end
       end
@@ -298,7 +298,7 @@ RSpec.describe Fontist::CLI do
           allow(Fontist::Fontconfig).to receive(:update)
             .and_raise(Fontist::Errors::FontconfigNotFoundError)
 
-          expect(status).to be Fontist::CLI::STATUS_FONTCONFIG_NOT_FOUND
+          expect(status).to eq Fontist::CLI::STATUS_FONTCONFIG_NOT_FOUND
         end
       end
     end
@@ -323,7 +323,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["status", "unexisting"])
-          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+          expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
     end
@@ -332,7 +332,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["status", "andale mono"])
-          expect(status).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
+          expect(status).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -363,7 +363,7 @@ RSpec.describe Fontist::CLI do
         stub_fonts_path_to_new_path do
           expect(Fontist.ui).to receive(:error).with("No font is installed.")
           status = described_class.start(["status"])
-          expect(status).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
+          expect(status).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -389,7 +389,7 @@ RSpec.describe Fontist::CLI do
       it "returns error status" do
         stub_fonts_path_to_new_path do
           status = described_class.start(["list", "unexisting"])
-          expect(status).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+          expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
     end
@@ -465,7 +465,7 @@ RSpec.describe Fontist::CLI do
       it "tells manifest could not be found" do
         expect(Fontist.ui).to receive(:error)
           .with("Manifest could not be found.")
-        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
       end
     end
 
@@ -475,7 +475,7 @@ RSpec.describe Fontist::CLI do
       it "tells manifest could not be read" do
         expect(Fontist.ui).to receive(:error)
           .with("Manifest could not be read.")
-        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -598,7 +598,7 @@ RSpec.describe Fontist::CLI do
           expect(Fontist.ui).to receive(:error)
             .with("'Andale Mono' 'Regular' font is missing, " \
                   "please run `fontist install 'Andale Mono'` to download the font.")
-          expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
+          expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -612,7 +612,7 @@ RSpec.describe Fontist::CLI do
           expect(Fontist.ui).to receive(:error)
             .with("'Unsupported Font' 'Regular' font is missing, " \
                   "please run `fontist install 'Unsupported Font'` to download the font.")
-          expect(command).to be Fontist::CLI::STATUS_MISSING_FONT_ERROR
+          expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -636,7 +636,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells manifest not found" do
         expect(Fontist.ui).to receive(:error).with("Manifest could not be found.")
-        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_FOUND_ERROR
       end
     end
 
@@ -645,7 +645,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells manifest could not be read" do
         expect(Fontist.ui).to receive(:error).with("Manifest could not be read.")
-        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -654,7 +654,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells manifest could not be read" do
         expect(Fontist.ui).to receive(:error).with("Manifest could not be read.")
-        expect(command).to be Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_MANIFEST_COULD_NOT_BE_READ_ERROR
       end
     end
 
@@ -671,7 +671,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells that font is unsupported" do
         expect(Fontist.ui).to receive(:error).with(/Font 'Unexisting Font' not found locally nor/)
-        expect(command).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
       end
     end
 
@@ -767,7 +767,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells that font is unsupported" do
         expect(Fontist.ui).to receive(:error).with(/Font 'Unexisting Font' not found locally nor/)
-        expect(command).to be Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
       end
     end
 
@@ -829,7 +829,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells that license should be confirmed in order for font to be installed" do
         expect(Fontist.ui).to receive(:error).with("Fontist will not download these fonts unless you accept the terms.")
-        expect(command).to be Fontist::CLI::STATUS_LICENSING_ERROR
+        expect(command).to eq Fontist::CLI::STATUS_LICENSING_ERROR
       end
     end
 

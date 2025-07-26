@@ -122,11 +122,11 @@ module Fontist
       # rubocop:enable Metrics/MethodLength, Metrics/LineLength
 
       def requires_license_agreement(formula)
-        formula.license if formula.license && formula.license_required
+        formula.license if formula.license && formula.license_required?
       end
 
       def open_license(formula)
-        formula.license if formula.license && !formula.license_required
+        formula.license if formula.license && !formula.license_required?
       end
     end
   end

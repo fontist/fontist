@@ -2,157 +2,131 @@ require_relative "font_file"
 require_relative "collection_file"
 
 module Fontist
-  class SystemIndex
-    include Utils::Locking
 
-    class DefaultFamily
-      def family_name(name)
-        name.family
-      end
+  # {:path=>"/Library/Fonts/Arial Unicode.ttf",
+  # :full_name=>"Arial Unicode MS",
+  # :family_name=>"Arial Unicode MS",
+  # :preferred_family_name=>"Arial",
+  # :preferred_subfamily=>"Regular",
+  # :subfamily=>"Regular"},
+  class SystemIndexFont < Lutaml::Model::Serializable
+    attribute :path, :string
+    attribute :full_name, :string
+    attribute :family_name, :string
+    attribute :preferred_family_name, :string
+    attribute :preferred_subfamily, :string
+    attribute :subfamily, :string
 
-      def type(name)
-        name.subfamily
-      end
+    key_value do
+      map "path", to: :path
+      map "full_name", to: :full_name
+      map "family_name", to: :family_name
+      map "type", to: :subfamily
+      map "preferred_family_name", to: :preferred_family_name
+      map "preferred_subfamily", to: :preferred_subfamily
+    end
+  end
 
-      def transform_override_keys(dict)
-        dict
-      end
+  class SystemIndexFontCollection < Lutaml::Model::Collection
+    instances :fonts, SystemIndexFont
+    attr_accessor :path, :paths_loader
+
+    key_value do
+      map_instances to: :fonts
     end
 
-    class PreferredFamily
-      def family_name(name)
-        name.preferred_family || name.family
-      end
+    def set_path(path)
+      @path = path
+    end
 
-      def type(name)
-        name.preferred_subfamily || name.subfamily
-      end
+    def set_path_loader(paths_loader)
+      @paths_loader = paths_loader
+    end
 
-      def transform_override_keys(dict)
-        mapping = { preferred_family_name: :family_name, preferred_type: :type }
-        dict.transform_keys! { |k| mapping[k] }
+    def self.from_file(path:, paths_loader:)
+      # If the file does not exist, return a new collection
+      return new unless File.exist?(path)
+
+      from_yaml(IO.read(path)).tap do |content|
+        content.set_path(path)
+        content.set_path_loader(paths_loader)
+        content.check_index
       end
     end
 
     ALLOWED_KEYS = %i[path full_name family_name type].freeze
 
-    def self.system_index
-      path = if Fontist.preferred_family?
-               Fontist.system_preferred_family_index_path
-             else
-               Fontist.system_index_path
-             end
+    # Check if the content has all required keys
+    def check_index
+      fonts.each do |font|
+        missing_keys = ALLOWED_KEYS.select do |key|
 
-      @system_index ||= {}
-      @system_index[Fontist.preferred_family?] ||= {}
-      @system_index[Fontist.preferred_family?][path] ||=
-        new(path, -> { SystemFont.font_paths }, family)
-    end
+          # TODO: remove this if possible...
+          # Map "type" is mapped to "subfamily"
+          key = :subfamily if key == :type
 
-    def self.fontist_index
-      path = if Fontist.preferred_family?
-               Fontist.fontist_preferred_family_index_path
-             else
-               Fontist.fontist_index_path
-             end
+          # This is a boolean
+          false if font.send(key)
+        end
 
-      @fontist_index ||= {}
-      @fontist_index[Fontist.preferred_family?] ||= {}
-      @fontist_index[Fontist.preferred_family?][path] ||=
-        new(path, -> { SystemFont.fontist_font_paths }, family)
-    end
-
-    def self.family
-      Fontist.preferred_family? ? PreferredFamily.new : DefaultFamily.new
-    end
-
-    def excluded_fonts
-      @excluded_fonts ||= YAML.load_file(Fontist.excluded_fonts_path)
-    end
-
-    def initialize(index_path, font_paths_fetcher, family)
-      @index_path = index_path
-      @font_paths_fetcher = font_paths_fetcher
-      @family = family
-    end
-
-    def find(font, style)
-      fonts = index.select do |file|
-        file[:family_name].casecmp?(font) &&
-          (style.nil? || file[:type].casecmp?(style))
-      end
-
-      fonts.empty? ? nil : fonts
-    end
-
-    def rebuild
-      build_index
-    end
-
-    private
-
-    def index
-      return @index unless index_changed?
-
-      @index = build_index
-    end
-
-    def index_changed?
-      @index.nil? ||
-        @index.map { |x| x[:path] }.uniq.sort != font_paths.sort
-    end
-
-    def font_paths
-      @font_paths_fetcher.call
-    end
-
-    def build_index
-      lock(lock_path) do
-        do_build_index
-      end
-    end
-
-    def lock_path
-      Utils::Cache.lock_path(@index_path)
-    end
-
-    def do_build_index
-      previous_index = load_index
-      updated_index = detect_paths(font_paths, previous_index)
-      updated_index.tap do |index|
-        save_index(index) if changed?(updated_index, previous_index)
-      end
-    end
-
-    def changed?(this, that)
-      this.map { |x| x[:path] }.uniq.sort != that.map { |x| x[:path] }.uniq.sort
-    end
-
-    def load_index
-      index = File.exist?(@index_path) ? YAML.load_file(@index_path) : []
-      check_index(index)
-      index
-    end
-
-    def check_index(index)
-      index.each do |item|
-        missing_keys = ALLOWED_KEYS - item.keys
-        unless missing_keys.empty?
+        if missing_keys.any?
           raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
             Font index is corrupted.
-            Item #{item.inspect} misses required attributes: #{missing_keys.join(', ')}.
-            You can remove the index file (#{@index_path}) and try again.
+            Item #{font.inspect} misses required attributes: #{missing_keys.join(', ')}.
+            You can remove the index file (#{@path}) and try again.
           MSG
         end
       end
     end
 
-    def detect_paths(paths, index)
-      by_path = index.group_by { |x| x[:path] }
+    def to_file(path)
+      FileUtils.mkdir_p(File.dirname(path))
+      File.write(path, to_yaml)
+    end
 
-      paths.flat_map do |path|
-        next by_path[path] if by_path[path]
+    def find(font, style)
+      return nil unless fonts
 
+      found_fonts = fonts.select do |file|
+        file.family_name.casecmp?(font) &&
+          (style.nil? || file.type.casecmp?(style))
+      end
+
+      found_fonts.empty? ? nil : found_fonts
+    end
+
+    def update
+      tap do |col|
+        col.fonts = detect_paths(@paths_loader.call)
+      end
+    end
+
+    def build(forced: false)
+      updated_fonts = update
+      if forced || changed?(updated_fonts, previous_index.fonts)
+        to_file(@path)
+      end
+
+      self
+    end
+
+    def rebuild
+      build(forced: true)
+    end
+
+    private
+
+    def font_paths
+      fonts.map(&:paths).uniq.sort
+    end
+
+    def changed?(this_fonts, that_fonts)
+      this_fonts.map(&:path).uniq.sort != that_fonts.map(&:path).uniq.sort
+    end
+
+    def detect_paths(paths)
+      # paths are file paths to font files
+      paths.sort.uniq.flat_map do |path|
         detect_fonts(path)
       end.compact
     end
@@ -162,11 +136,16 @@ module Fontist
 
       gather_fonts(path)
     rescue Errors::FontFileError => e
+      puts "Error processing font file at #{path}: #{e.message}"
       print_recognition_error(e, path)
     end
 
     def excluded?(path)
       excluded_fonts.include?(File.basename(path))
+    end
+
+    def excluded_fonts
+      @excluded_fonts ||= YAML.load_file(Fontist.excluded_fonts_path)
     end
 
     def gather_fonts(path)
@@ -189,42 +168,57 @@ module Fontist
     end
 
     def detect_file_font(path)
-      file = FontFile.from_path(path)
+      font_file = FontFile.from_path(path)
 
-      parse_font(file, path)
+      parse_font(font_file, path)
     end
 
     def detect_collection_fonts(path)
       CollectionFile.from_path(path) do |collection|
-        collection.map do |file|
-          parse_font(file, path)
+        collection.map do |font_file|
+          parse_font(font_file, path)
         end
       end
     end
 
-    def parse_font(file, path)
-      family_name = @family.family_name(file)
-
-      {
+    def parse_font(font_file, path)
+      SystemIndexFont.new(
         path: path,
-        full_name: file.full_name,
-        family_name: family_name,
-        type: @family.type(file),
-      }.merge(override_font_props(path, family_name))
+        full_name: font_file.full_name,
+        family_name: font_file.family,
+        subfamily: font_file.subfamily,
+        preferred_family_name: font_file.preferred_family,
+        preferred_subfamily_name: font_file.preferred_subfamily,
+      )
+    end
+  end
+
+  class SystemIndex
+    include Utils::Locking
+
+    def self.system_index
+      @system_index ||= SystemIndexFontCollection.from_file(
+        path: Fontist.system_index_path,
+        paths_loader: -> { SystemFont.system_font_paths }
+      )
     end
 
-    def override_font_props(path, font_name)
-      override = Formula.find_by_font_file(path)
-        &.style_override(font_name)&.to_h || {}
-
-      @family.transform_override_keys(override)
-        .slice(*ALLOWED_KEYS)
+    def self.fontist_index
+      @fontist_index ||= SystemIndexFontCollection.from_file(
+        path: Fontist.fontist_index_path,
+        paths_loader: -> { SystemFont.fontist_font_paths }
+      )
     end
 
-    def save_index(index)
-      dir = File.dirname(@index_path)
-      FileUtils.mkdir_p(dir)
-      File.write(@index_path, YAML.dump(index))
-    end
+    # def build_index
+    #   lock(lock_path) do
+    #     do_build_index
+    #   end
+    # end
+
+    # def lock_path
+    #   Utils::Cache.lock_path(@index_path)
+    # end
+
   end
 end

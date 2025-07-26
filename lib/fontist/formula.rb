@@ -1,23 +1,98 @@
-require "fontist/index"
-require "fontist/helpers"
-require "fontist/update"
+require "lutaml/model"
+require_relative "font_model"
+require_relative "font_collection"
+require_relative "extract"
+require_relative "index"
+require_relative "helpers"
+require_relative "update"
 require "git"
 
 module Fontist
-  class Formula
+  require "lutaml/model"
+
+  class Resource < Lutaml::Model::Serializable
+    attribute :source, :string
+    attribute :urls, :string, collection: true
+    attribute :sha256, :string, collection: true
+    attribute :file_size, :integer
+    attribute :family, :string
+    attribute :files, :string, collection: true
+
+    key_value do
+      map "source", to: :source
+      map "urls", to: :urls
+      map "sha256", to: :sha256
+      map "file_size", to: :file_size
+      map "family", to: :family
+      map "files", to: :files
+    end
+  end
+
+  class ResourceCollection < Lutaml::Model::Collection
+    instances :resources, Resource
+
+    key_value do
+      map_key to_instance: :source
+      map_instances to: :resources
+    end
+  end
+
+  class Formula < Lutaml::Model::Serializable
     NAMESPACES = {
       "sil" => "SIL",
       "macos" => "macOS",
     }.freeze
+
+    attr_accessor :path
+
+    attribute :name, :string
+    attribute :description, :string
+    attribute :homepage, :string
+    attribute :repository, :string
+    attribute :copyright, :string
+    attribute :license_url, :string
+    attribute :open_license, :string
+    attribute :requires_license_agreement, :string
+    attribute :platforms, :string, collection: true
+    attribute :min_fontist, :string
+    attribute :digest, :string
+    attribute :instructions, :string
+    attribute :resources, ResourceCollection
+    attribute :font_collections, FontCollection, collection: true
+    attribute :fonts, FontModel, collection: true
+    attribute :extract, Extract, collection: true
+    attribute :command, :string
+
+    key_value do
+      map "name", to: :name
+      map "description", to: :description
+      map "homepage", to: :homepage
+      map "repository", to: :repository
+      map "resources", to: :resources
+      map "platforms", to: :platforms
+      map "digest", to: :digest
+      map "instructions", to: :instructions
+      map "fonts", to: :fonts
+      map "font_collections", to: :font_collections
+      map "extract", to: :extract
+      map "min_fontist", to: :min_fontist
+      map "copyright", to: :copyright
+      map "requires_license_agreement", to: :requires_license_agreement
+      map "license_url", to: :license_url
+      map "open_license", to: :open_license
+      map "command", to: :command
+    end
 
     def self.update_formulas_repo
       Update.call
     end
 
     def self.all
-      Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
-        Formula.new_from_file(path)
+      formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+        Formula.from_file(path)
       end
+
+      FormulaCollection.new(formulas)
     end
 
     def self.all_keys
@@ -27,15 +102,15 @@ module Fontist
     end
 
     def self.find(font_name)
-      Indexes::FontIndex.from_yaml.load_formulas(font_name).first
+      Indexes::FontIndex.from_file.load_formulas(font_name).first
     end
 
     def self.find_many(font_name)
-      Indexes::FontIndex.from_yaml.load_formulas(font_name)
+      Indexes::FontIndex.from_file.load_formulas(font_name)
     end
 
     def self.find_fonts(font_name)
-      formulas = Indexes::FontIndex.from_yaml.load_formulas(font_name)
+      formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
 
       formulas.map do |formula|
         formula.fonts.select do |f|
@@ -45,7 +120,7 @@ module Fontist
     end
 
     def self.find_styles(font_name, style_name)
-      formulas = Indexes::FontIndex.from_yaml.load_formulas(font_name)
+      formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
 
       formulas.map do |formula|
         formula.fonts.map do |f|
@@ -64,7 +139,7 @@ module Fontist
       path = Fontist.formulas_path.join("#{key}.yml")
       return unless File.exist?(path)
 
-      new_from_file(path)
+      from_file(path)
     end
 
     def self.find_by_name(name)
@@ -78,30 +153,22 @@ module Fontist
     end
 
     def self.find_by_font_file(font_file)
-      key = Indexes::FilenameIndex
-        .from_yaml
+      key = Indexes::FilenameIndex.from_file
         .load_index_formulas(File.basename(font_file))
-        .map(&:name)
+        .map(&:key)
         .first
 
       find_by_key(key)
     end
 
-    def self.new_from_file(path)
-      data = YAML.safe_load(
-        File.read(path),
-        permitted_classes: [Date, Symbol, Time]
-      )
-      new(data, path)
-    end
+    def self.from_file(path)
+      raise Fontist::Errors::FormulaCouldNotBeFoundError, "Formula file not found: #{path}" unless File.exist?(path)
 
-    def initialize(data, path)
-      @data = data
-      @path = real_path(path)
-    end
+      content = File.read(path)
 
-    def to_index_formula
-      Indexes::IndexFormula.new(path)
+      from_yaml(content).tap do |formula|
+        formula.path = path
+      end
     end
 
     def manual?
@@ -109,77 +176,41 @@ module Fontist
     end
 
     def downloadable?
-      @data.key?("resources")
+      !resources.nil? && !resources.empty?
     end
 
     def source
-      return unless @data["resources"]
-
-      @data["resources"].values.first["source"]
+      return nil if resources.empty?
+      resources.first.source
     end
 
-    def path
-      @path
-    end
+    # def key
+    #   @key ||= {}
+    #   @key[@path] ||= key_from_path
+    # end
 
-    def key
-      @key ||= {}
-      @key[@path] ||= key_from_path
-    end
+    # def key_from_path
+    #   return "" unless @path
+    #   escaped = Regexp.escape("#{Fontist.formulas_path}/")
+    #   @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
+    # end
 
-    def name
-      @name ||= {}
-      @name[key] ||= namespace.empty? ? base_name : "#{namespace}/#{base_name}"
-    end
-
-    def description
-      @data["description"]
-    end
-
-    def homepage
-      @data["homepage"]
-    end
-
-    def copyright
-      @data["copyright"]
-    end
-
-    def license_url
-      @data["license_url"]
-    end
+    # def name
+    #   @name ||= {}
+    #   @name[key] ||= namespace.empty? ? base_name : "#{namespace}/#{base_name}"
+    # end
 
     def license
-      @data["open_license"] || @data["requires_license_agreement"]
+      open_license || requires_license_agreement
     end
 
-    def license_required
-      @data["requires_license_agreement"] ? true : false
-    end
-
-    def platforms
-      @data["platforms"]
-    end
-
-    def min_fontist
-      @data["min_fontist"]
-    end
-
-    def extract
-      Helpers.parse_to_object(@data["extract"])
+    def license_required?
+      requires_license_agreement ? true : false
     end
 
     def file_size
-      return unless @data["resources"]
-
-      @data["resources"].values.first["file_size"]&.to_i
-    end
-
-    def resources
-      Helpers.parse_to_object(@data["resources"]&.values)
-    end
-
-    def instructions
-      @data["instructions"]
+      return nil if resources.nil? || resources.empty?
+      resources.first.file_size
     end
 
     def font_by_name(name)
@@ -194,13 +225,9 @@ module Fontist
       end
     end
 
-    def fonts
-      @fonts ||= Helpers.parse_to_object(fonts_by_family)
-    end
-
-    def digest
-      @data["digest"]
-    end
+    # def fonts
+    #   @fonts ||= Helpers.parse_to_object(fonts_by_family)
+    # end
 
     def style_override(font)
       fonts
@@ -212,13 +239,8 @@ module Fontist
 
     private
 
-    def real_path(path)
+    def real_path
       Dir.glob(path).first
-    end
-
-    def key_from_path
-      escaped = Regexp.escape("#{Fontist.formulas_path}/")
-      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
     end
 
     def namespace
@@ -247,15 +269,14 @@ module Fontist
         .downcase.gsub("_", " ")
         .split.map(&:capitalize).join(" ")
     end
+    def fonts_by_family(data)
+      return hash_all_fonts(data) unless Fontist.preferred_family?
 
-    def fonts_by_family
-      return hash_all_fonts unless Fontist.preferred_family?
-
-      preferred_family_fonts
+      preferred_family_fonts(data)
     end
 
-    def preferred_family_fonts
-      groups = preferred_family_styles.group_by do |style|
+    def preferred_family_fonts(data)
+      groups = preferred_family_styles(data).group_by do |style|
         style["family_name"]
       end
 
@@ -264,8 +285,8 @@ module Fontist
       end
     end
 
-    def preferred_family_styles
-      hash_all_fonts.flat_map do |font|
+    def preferred_family_styles(data)
+      hash_all_fonts(data).flat_map do |font|
         font["styles"].map do |style|
           style.merge(preferred_style(style))
         end
@@ -273,20 +294,22 @@ module Fontist
     end
 
     def preferred_style(style)
-      { "family_name" => style["preferred_family_name"] || style["family_name"],
+      {
+        "family_name" => style["preferred_family_name"] || style["family_name"],
         "type" => style["preferred_type"] || style["type"],
         "default_family_name" => style["family_name"],
-        "default_type" => style["type"] }
+        "default_type" => style["type"]
+      }
     end
 
-    def hash_all_fonts
-      hash_collection_fonts + hash_fonts
+    def hash_all_fonts(data)
+      hash_collection_fonts(data) + hash_fonts(data)
     end
 
-    def hash_collection_fonts
-      return [] unless @data["font_collections"]
+    def hash_collection_fonts(data)
+      return [] unless data["font_collections"]
 
-      @data["font_collections"].flat_map do |coll|
+      data["font_collections"].flat_map do |coll|
         filenames = { "font" => coll["filename"],
                       "source_font" => coll["source_filename"] }
 
@@ -296,10 +319,20 @@ module Fontist
       end
     end
 
-    def hash_fonts
-      return [] unless @data["fonts"]
+    def hash_fonts(data)
+      return [] unless data["fonts"]
 
-      @data["fonts"]
+      data["fonts"]
     end
   end
+
+  class FormulaCollection < Lutaml::Model::Collection
+    instances :formulas, Formula
+
+    key_value do
+      map 'name', to: :name
+      map 'formula', to: :formula
+    end
+  end
+
 end

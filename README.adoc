@@ -534,7 +534,7 @@ Fontist.preferred_family = true
 ----
 
 [[fontist-locations]]
-==== `Fontist::Manifest::Locations`
+==== Locations
 
 Fontist lets you find font locations from a defined manifest Hash in the
 following format:
@@ -552,7 +552,7 @@ Font name is useful to choose a specific font in a font collection file (TTC).
 
 [source,ruby]
 ----
-Fontist::Manifest::Locations.from_hash(manifest)
+Fontist::Manifest.from_hash(manifest)
 ----
 
 [source,ruby]
@@ -578,14 +578,14 @@ Fontist::Manifest::Locations.from_hash(manifest)
 ----
 
 [[fontist-install]]
-==== `Fontist::Manifest::Install`
+==== Install
 
 Fontist lets you not only to obtain font locations but also to install fonts
 from the manifest:
 
 [source,ruby]
 ----
-Fontist::Manifest::Install.from_hash(manifest, confirmation: "yes")
+manifest.install(confirmation: "yes")
 ----
 
 It will install fonts and return their locations:
@@ -631,8 +631,8 @@ Then the following calls would return font names and paths, as from the
 
 [source,ruby]
 ----
-Fontist::Manifest::Locations.from_file("manifest.yml")
-Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
+manifest = Fontist::Manifest.from_file("manifest.yml")
+manifest.install(confirmation: "yes")
 ----
 
 === `Fontist::Fontconfig`
