@@ -27,6 +27,8 @@ module Fontist
   end
 
   def self.fonts_path
+    return if config[:fonts_path].nil?
+
     Pathname.new(config[:fonts_path])
   end
 
@@ -131,7 +133,7 @@ module Fontist
   end
 
   def self.use_cache?
-    instance_variable_defined?("@use_cache") ? @use_cache : true
+    instance_variable_defined?(:@use_cache) ? @use_cache : true
   end
 
   def self.use_cache=(bool)

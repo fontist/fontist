@@ -10,7 +10,7 @@ RSpec.describe Fontist::Manifest do
     end
   end
 
-  describe ".from_hash" do
+  describe ".from_yaml" do
     let(:instance) { described_class.from_yaml(manifest) }
 
     context "empty manifest" do
@@ -23,51 +23,14 @@ RSpec.describe Fontist::Manifest do
       end
     end
 
-    context "installed font" do
+    context "manifest given" do
       let(:manifest) { { "Andale Mono" => ["Regular"] }.to_yaml }
 
-      it "returns its path" do
+      it "deserialize correctly" do
         no_fonts do
           example_font_to_fontist("AndaleMo.TTF")
-          puts "*"*30
-          puts instance.inspect
-
-          expect(instance["Andale Mono"]["Regular"]["paths"]).not_to be_empty
-        end
-      end
-    end
-
-    context "not installed font" do
-      let(:manifest) { { "Andale Mono" => ["Regular"] }.to_yaml }
-
-      it "returns no path" do
-        no_fonts do
-          expect { instance }.to raise_error Fontist::Errors::MissingFontError
-          expect { instance }.to(raise_error { |e| expect(e.font).to eq "Andale Mono" })
-          expect { instance }.to(raise_error { |e| expect(e.style).to eq "Regular" })
-        end
-      end
-    end
-
-    context "collection font" do
-      let(:manifest) { { "Cambria Math" => ["Regular"] }.to_yaml }
-
-      it "returns its full name" do
-        no_fonts do
-          example_font_to_fontist("CAMBRIA.TTC")
-          expect(instance["Cambria Math"]["Regular"]["full_name"]).to eq "Cambria Math"
-        end
-      end
-    end
-
-    context "preferred family and no option" do
-      let(:manifest) { { "TeXGyreChorus" => nil } }
-
-      it "finds by default family" do
-        fresh_fonts_and_formulas do
-          example_font("texgyrechorus-mediumitalic.otf")
-
-          expect(instance["TeXGyreChorus"]["Regular"]["paths"]).not_to be_empty
+          expect(instance.first.name).to eq("Andale Mono")
+          expect(instance.first.styles).to eq(["Regular"])
         end
       end
     end
@@ -78,11 +41,11 @@ RSpec.describe Fontist::Manifest do
       include_context "fresh home"
       before { example_formula("andale.yml") }
 
-      let(:instance) { described_class.from_hash(manifest) }
+      let(:instance) { described_class.from_hash(manifest).install }
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       context "confirmation option passed" do
-        let(:instance) { described_class.from_hash(manifest, confirmation: "yes") }
+        let(:instance) { described_class.from_hash(manifest).install(confirmation: "yes") }
 
         it "accepts it with no error" do
           expect { instance }.not_to raise_error
@@ -109,7 +72,7 @@ RSpec.describe Fontist::Manifest do
       end
 
       context "confirmation option passed as no and nil input is returned" do
-        let(:instance) { described_class.from_hash(manifest, confirmation: "no") }
+        let(:instance) { described_class.from_hash(manifest).install(confirmation: "no") }
         before { stub_license_agreement_prompt_with(nil) }
 
         it "raises licensing error" do

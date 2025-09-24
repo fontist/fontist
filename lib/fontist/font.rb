@@ -237,7 +237,7 @@ module Fontist
       return confirmation if confirmation&.casecmp?("yes")
 
       raise Fontist::Errors::LicensingError.new(
-        "Fontist will not download these fonts unless you accept the terms."
+        "Fontist will not download these fonts unless you accept the terms.",
       )
     end
 
@@ -248,7 +248,7 @@ module Fontist
     def ask_for_agreement
       Fontist.ui.ask(
         "\nDo you accept all presented font licenses, and want Fontist " \
-        "to download these fonts for you? => TYPE 'Yes' or 'No':"
+        "to download these fonts for you? => TYPE 'Yes' or 'No':",
       )
     end
 
@@ -351,7 +351,7 @@ module Fontist
     def requested_fonts(fonts)
       return fonts unless @name
 
-      fonts.select do |font|
+      fonts&.select do |font|
         font.name.casecmp?(name)
       end
     end

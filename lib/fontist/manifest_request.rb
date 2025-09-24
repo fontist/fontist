@@ -60,12 +60,11 @@ module Fontist
     instances :fonts, ManifestRequestFont
 
     # TODO: This should be moved to base Manifest class
-    key_value do
-      map to: :fonts, root_mappings: {
-        name: :key,
-        styles: :value,
-      }
-    end
+    # key_value do
+    #   map to: :fonts
+    #   map_key to_instance: :name
+    #   map_value to_instance: :styles
+    # end
 
     def to_response
       ManifestResponse.new.tap do |response|

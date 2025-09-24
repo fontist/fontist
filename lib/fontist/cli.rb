@@ -144,7 +144,7 @@ module Fontist
          "Get locations of fonts from MANIFEST (yaml)"
     def manifest_locations(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest::Locations.from_file(manifest)
+      paths = Fontist::Manifest.from_file(manifest)
       print_yaml(paths)
       success
     rescue Fontist::Errors::GeneralError => e
@@ -160,12 +160,11 @@ module Fontist
                            desc: "Hide license texts"
     def manifest_install(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest::Install.from_file(
-        manifest,
+      instance = Fontist::Manifest.from_file(manifest)
+      paths = instance.install(
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses]
+        hide_licenses: options[:hide_licenses],
       )
-
       print_yaml(paths)
       success
     rescue Fontist::Errors::GeneralError => e
@@ -243,7 +242,7 @@ module Fontist
     end
 
     def print_yaml(object)
-      Fontist.ui.say(YAML.dump(object))
+      Fontist.ui.say(object.respond_to?(:to_yaml) ? object.to_yaml : YAML.dump(object))
     end
 
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

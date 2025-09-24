@@ -73,7 +73,7 @@ RSpec.describe Fontist::Formula do
       expect(formula.homepage).to be_kind_of(String)
       expect(formula.copyright).to be_kind_of(String)
       expect(formula.license_url).to be_kind_of(String)
-      expect(formula.resources).to be_kind_of(Array)
+      expect(formula.resources).to be_kind_of(Fontist::ResourceCollection)
       expect(formula.resources.first.urls.first).to be_kind_of(String)
       expect(formula.fonts).to be_kind_of(Array)
       expect(formula.fonts.first.name).to be_kind_of(String)

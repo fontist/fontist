@@ -17,23 +17,15 @@ module Fontist
     attribute :file_size, :integer
     attribute :family, :string
     attribute :files, :string, collection: true
-
-    key_value do
-      map "source", to: :source
-      map "urls", to: :urls
-      map "sha256", to: :sha256
-      map "file_size", to: :file_size
-      map "family", to: :family
-      map "files", to: :files
-    end
   end
 
   class ResourceCollection < Lutaml::Model::Collection
     instances :resources, Resource
 
     key_value do
+      root "resources"
+      map to: :resources
       map_key to_instance: :source
-      map_instances to: :resources
     end
   end
 
@@ -43,9 +35,8 @@ module Fontist
       "macos" => "macOS",
     }.freeze
 
-    attr_accessor :path
-
     attribute :name, :string
+    attribute :path, :string
     attribute :description, :string
     attribute :homepage, :string
     attribute :repository, :string
@@ -59,7 +50,7 @@ module Fontist
     attribute :instructions, :string
     attribute :resources, ResourceCollection
     attribute :font_collections, FontCollection, collection: true
-    attribute :fonts, FontModel, collection: true
+    attribute :fonts, FontModel, collection: true, default: []
     attribute :extract, Extract, collection: true
     attribute :command, :string
 
@@ -68,12 +59,12 @@ module Fontist
       map "description", to: :description
       map "homepage", to: :homepage
       map "repository", to: :repository
-      map "resources", to: :resources
       map "platforms", to: :platforms
+      map "resources", to: :resources
       map "digest", to: :digest
       map "instructions", to: :instructions
-      map "fonts", to: :fonts
       map "font_collections", to: :font_collections
+      map "fonts", to: :fonts
       map "extract", to: :extract
       map "min_fontist", to: :min_fontist
       map "copyright", to: :copyright
@@ -181,19 +172,21 @@ module Fontist
 
     def source
       return nil if resources.empty?
+
       resources.first.source
     end
 
-    # def key
-    #   @key ||= {}
-    #   @key[@path] ||= key_from_path
-    # end
+    def key
+      @key ||= {}
+      @key[@path] ||= key_from_path
+    end
 
-    # def key_from_path
-    #   return "" unless @path
-    #   escaped = Regexp.escape("#{Fontist.formulas_path}/")
-    #   @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
-    # end
+    def key_from_path
+      return "" unless @path
+
+      escaped = Regexp.escape("#{Fontist.formulas_path}/")
+      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
+    end
 
     # def name
     #   @name ||= {}
@@ -210,6 +203,7 @@ module Fontist
 
     def file_size
       return nil if resources.nil? || resources.empty?
+
       resources.first.file_size
     end
 
@@ -334,5 +328,4 @@ module Fontist
       map 'formula', to: :formula
     end
   end
-
 end

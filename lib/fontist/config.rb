@@ -57,6 +57,7 @@ module Fontist
 
     def initialize
       @custom_values = {}
+      super
     end
 
     def values
@@ -75,11 +76,8 @@ module Fontist
       end
 
       v = normalize_value(value)
-      if respond_to?("#{attr}=")
-        public_send("#{attr}=", v)
-      else
-        @custom_values[attr] = v
-      end
+      @custom_values[attr] = v
+      send("#{attr}=", v) if respond_to?("#{attr}=")
 
       persist
     end
@@ -115,7 +113,8 @@ module Fontist
     end
 
     def fonts_path=(value)
-      @custom_values[:fonts_path] = File.expand_path(value)
+      @custom_values[:fonts_path] = File.expand_path(value.to_s)
+      @fonts_path = @custom_values[:fonts_path]
     end
 
     def to_file(path)
