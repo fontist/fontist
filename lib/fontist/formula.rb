@@ -20,7 +20,7 @@ module Fontist
     attribute :files, :string, collection: true
 
     def empty?
-      urls.nil? || urls.empty?
+      (urls.nil? && files.nil?)
     end
   end
 
@@ -157,10 +157,10 @@ module Fontist
     def self.find_by_font_file(font_file)
       key = Indexes::FilenameIndex.from_file
         .load_index_formulas(File.basename(font_file))
-        .flat_map(&:formula_path)
+        .flat_map(&:name)
         .first
 
-        find_by_key(normalized(key))
+        find_by_key(key)
     end
 
     def self.from_file(path)
@@ -176,13 +176,6 @@ module Fontist
 
     def self.titleize(str)
       str.split("/").map { |part| part.split("_").map(&:capitalize).join(" ") }.join("/")
-    end
-
-    def self.normalized(path)
-      return "" unless path
-
-      escaped = Regexp.escape("#{Fontist.formulas_path}/")
-      path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
     end
 
     def manual?
@@ -205,7 +198,10 @@ module Fontist
     end
 
     def key_from_path
-      self.class.normalized(@path)
+      return "" unless @path
+
+      escaped = Regexp.escape("#{Fontist.formulas_path}/")
+      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
     end
 
     # def name

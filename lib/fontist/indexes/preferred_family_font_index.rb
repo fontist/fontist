@@ -37,14 +37,18 @@ module Fontist
 
         key = normalize_key(font_name)
 
-        return if index_formula(key)
-
         formula_path = Array(formula_path)
         paths = formula_path.map { |p| relative_formula_path(p) }
 
+        if index_formula(key)
+          index_formula(key).formula_path.concat(paths).uniq!
+
+          return
+        end
+
         entries << FormulaKeyToPath.new(
           key: key,
-          formula_path: paths
+          formula_path: paths,
         )
       end
 

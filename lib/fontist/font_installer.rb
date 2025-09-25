@@ -95,7 +95,7 @@ module Fontist
     end
 
     def fonts
-      @formula.fonts.select do |font|
+      all_fonts.select do |font|
         @font_name.nil? || font.name.casecmp?(@font_name)
       end
     end
@@ -126,13 +126,29 @@ module Fontist
     end
 
     def target_filenames
-      @target_filenames ||= @formula.fonts.flat_map do |font|
+      @target_filenames ||= all_fonts.flat_map do |font|
         font.styles.map do |style|
           source = style.source_font || style.font
           target = style.font
           [source, target]
         end
       end.to_h
+    end
+
+    def all_fonts
+      @formula.fonts + collection_fonts
+    end
+
+    def collection_fonts
+      Array(@formula.font_collections).flat_map do |c|
+        c.fonts.flat_map do |f|
+          f.styles.each do |s|
+            s.font = c.filename
+            s.source_font = c.source_filename
+          end
+          f
+        end
+      end
     end
   end
 end

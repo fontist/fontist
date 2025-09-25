@@ -14,29 +14,16 @@ module Fontist
               "Please fetch formulas with `fontist update`.",
             )
           end
-          index_model = if File.exist?(file_path)
-            # puts "Reading index from #{file_path}"
-            file_content = File.read(file_path).strip
 
-            if file_content.empty?
-              raise Fontist::Errors::FontIndexCorrupted, "Index file is empty: #{file_path}"
-            end
+          rebuild unless File.exist?(file_path)
 
-            from_yaml(file_content)
-          else
-            # puts "Index file not found: #{file_path}. Rebuilding index..."
-            rebuild
+          file_content = File.read(file_path).strip
+
+          if file_content.empty?
+            raise Fontist::Errors::FontIndexCorrupted, "Index file is empty: #{file_path}"
           end
 
-          # puts "Index has contents:"
-          # puts index_model.to_yaml
-
-          # # Check if the file was effectively empty (no fonts defined)
-          # if index_model.nil? || index_model.empty?
-          #   puts "[fontist] Warning: Index file #{file_path} is empty or has no fonts defined." if Fontist.ui.debug?
-          # end
-
-          index_model
+          from_yaml(file_content)
         end
 
         def rebuild
@@ -83,7 +70,7 @@ module Fontist
       end
 
       def load_formulas(key)
-        index_formulas(key).map(&:to_full)
+        index_formulas(key).flat_map(&:to_full)
       end
 
       def load_index_formulas(key)

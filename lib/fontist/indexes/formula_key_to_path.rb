@@ -11,13 +11,24 @@ module Fontist
       end
 
       def to_full
-        Formula.from_file(full_path)
+        formula_path.map { |p| Formula.from_file(full_path(p)) }
+      end
+
+      def name
+        formula_path.map { |p| normalized(p) }
+      end
+
+      def normalized(path)
+        return "" unless path
+
+        escaped = Regexp.escape("#{Fontist.formulas_path}/")
+        path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
       end
 
       private
 
-      def full_path
-        Fontist.formulas_path.join(formula_path.first).to_s
+      def full_path(path)
+        Fontist.formulas_path.join(path).to_s
       end
     end
   end

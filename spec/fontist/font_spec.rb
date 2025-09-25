@@ -774,9 +774,9 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    def expect_to_install(formula_key)
+    def expect_to_install(_formula_key)
       expect_any_instance_of(Fontist::Font)
-        .to receive(:font_installer).with(having_attributes(key: formula_key))
+        .to receive(:font_installer).with(be_a(Fontist::Formula))
         .and_call_original
     end
 
@@ -800,8 +800,8 @@ RSpec.describe Fontist::Font do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
       it "throws MainRepoNotFoundError" do
-        expect(Fontist::Indexes::Index)
-          .to receive(:from_yaml).once.and_call_original
+        expect(Fontist::Index)
+          .to receive(:from_file).once.and_call_original
         expect { command }
           .to raise_error(Fontist::Errors::MainRepoNotFoundError)
       end

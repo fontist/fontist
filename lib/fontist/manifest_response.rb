@@ -80,6 +80,8 @@ module Fontist
           no_progress: no_progress,
         )
       end
+
+      self
     end
   end
 end

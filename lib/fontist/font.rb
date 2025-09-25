@@ -301,9 +301,7 @@ module Fontist
       fonts = Fontist::SystemIndex.fontist_index.find(name, nil)
       return unless fonts
 
-      fonts.map do |font|
-        font[:path]
-      end
+      fonts.map(&:path)
     end
 
     def installed_paths

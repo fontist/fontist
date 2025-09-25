@@ -39,6 +39,21 @@ module Fontist
         no_progress: no_progress,
       )
     end
+
+    def to_response
+      return self if group_paths.nil? || group_paths.empty?
+
+      ManifestResponseFont.new(
+        name: name,
+        styles: group_paths.map do |type, details|
+          ManifestResponseFontStyle.new(
+            type: type,
+            full_name: details["full_name"],
+            paths: details["paths"],
+          )
+        end,
+      )
+    end
   end
 
   # Manifest class for managing font manifests.
@@ -72,7 +87,7 @@ module Fontist
         raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest #{path} has no fonts defined."
       end
 
-      manifest_model
+      manifest_model.to_response
     rescue StandardError => e
       raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file could not be read: #{e.message}"
     end
@@ -86,6 +101,14 @@ module Fontist
         end
 
         [font.name, paths]
+      end
+    end
+
+    def to_response
+      ManifestResponse.new.tap do |response|
+        response.fonts = Array(fonts).map do |font|
+          font.to_response
+        end
       end
     end
 
