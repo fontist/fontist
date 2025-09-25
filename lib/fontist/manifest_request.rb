@@ -5,7 +5,6 @@ module Fontist
   class ManifestRequestFont < ManifestFont
     def to_response
       font_styles = locate_styles.map do |style, detailed_styles|
-
         # puts "Detailed styles for #{name}: #{detailed_styles.inspect}"
 
         if detailed_styles.nil? || detailed_styles.empty?
@@ -17,7 +16,7 @@ module Fontist
           ManifestResponseFontStyle.new(
             full_name: detailed_styles.first.full_name,
             type: detailed_styles.first.type,
-            paths: detailed_styles.map(&:path)
+            paths: detailed_styles.map(&:path),
           )
         end
       end
@@ -37,10 +36,10 @@ module Fontist
     # :family_name=>"Arial Unicode MS",
     # :type=>"Regular"}, ...],
     def locate_styles
-      styles.map do |style|
+      Array(styles).map do |style|
         [
           style,
-          Fontist::SystemFont.find_styles(name, style)
+          Fontist::SystemFont.find_styles(name, style),
         ]
       end
     end

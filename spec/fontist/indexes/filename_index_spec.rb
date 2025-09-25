@@ -1,11 +1,11 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Indexes::FilenameIndex do
-
   describe "#from_yaml" do
     context "round-trips" do
-      filename = 'spec/fixtures/filename_index/filename_index.yml'
-      it "#{filename}" do
+      filename = File.join(Fontist.fontist_version_path, "filename_index.yml")
+
+      it filename.to_s do
         content = File.read(filename)
         expect(described_class.from_yaml(content).to_yaml).to eq(content)
       end
@@ -13,8 +13,7 @@ RSpec.describe Fontist::Indexes::FilenameIndex do
   end
 
   describe "#load_formulas" do
-    let(:filename) { 'spec/fixtures/filename_index/filename_index.yml' }
-    let(:index) { described_class.from_file(filename) }
+    let(:index) { described_class.from_file }
 
     context "existing filename" do
       let(:command) { index.load_formulas("SourceHanSans-Bold.ttc") }

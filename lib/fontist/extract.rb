@@ -9,15 +9,16 @@ module Fontist
       map "file", to: :file
       map "fonts_sub_dir", to: :fonts_sub_dir
     end
-
   end
 
   class Extract < Lutaml::Model::Serializable
     attribute :format, :string
+    attribute :file, :string
     attribute :options, ExtractOptions, collection: true
 
     key_value do
       map "format", to: :format
+      map "file", to: :file
       map "options", to: :options
     end
   end

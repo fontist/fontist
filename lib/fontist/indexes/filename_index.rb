@@ -55,14 +55,13 @@ module Fontist
 
         entries << FormulaKeyToPath.new(
           key: key,
-          formula_path: paths
+          formula_path: paths,
         )
       end
 
       def normalize_key(key)
         key
       end
-
     end
   end
 end

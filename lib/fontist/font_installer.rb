@@ -111,7 +111,7 @@ module Fontist
     end
 
     def subdirectories
-      @subdirectories ||= [@formula.extract].flatten.map(&:options).compact.map(&:fonts_sub_dir).compact
+      @subdirectories ||= [@formula.extract].flatten.compact.map(&:options).compact.map(&:fonts_sub_dir).compact
     end
 
     def install_font_file(source)

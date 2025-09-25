@@ -908,16 +908,15 @@ fonts:
       Type Solutions, Inc. All Rights Reserved.
     font: WINGDNG3.ttf
     source_font: WINGDNG3.TTF
-extract: {}
 copyright: Wingdings 2 designed by Bigelow & Holmes Inc. for Microsoft Corporation.
   Copyright © 1992 Microsoft Corporation. Pat. Pend. All Rights Reserved. © 1990-1991
   Type Solutions, Inc. All Rights Reserved.
 requires_license_agreement: |-
-    It is a fact that Linux lacks good high quality fonts for general use. In
-    the other hand, Microsoft invests time and money to provide a nice and
-    clean look and feel with high quality fonts like Verdana and Tahoma. The
-    result of this work is found in their typography
-    (http://microsoft.com/typography) web site. This is an attempt to give
-    Linux end users a very easy way to use them, trough an RPM package.
+  It is a fact that Linux lacks good high quality fonts for general use. In
+  the other hand, Microsoft invests time and money to provide a nice and
+  clean look and feel with high quality fonts like Verdana and Tahoma. The
+  result of this work is found in their typography
+  (http://microsoft.com/typography) web site. This is an attempt to give
+  Linux end users a very easy way to use them, trough an RPM package.
 
-    These fonts are free only for who have a Microsoft Windows license.
+  These fonts are free only for who have a Microsoft Windows license.

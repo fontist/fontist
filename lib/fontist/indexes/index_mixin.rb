@@ -14,7 +14,6 @@ module Fontist
               "Please fetch formulas with `fontist update`.",
             )
           end
-
           index_model = if File.exist?(file_path)
             # puts "Reading index from #{file_path}"
             file_content = File.read(file_path).strip
@@ -51,17 +50,16 @@ module Fontist
           add_formula(formula)
         end
 
+        to_file
+
         self
       end
 
       def add_formula(formula)
         raise unless formula.is_a?(Formula)
 
-        fonts = if formula.font_collections
-             formula.font_collections.flat_map(&:fonts)
-           else
-             formula.fonts
-           end
+        fonts = formula.fonts
+        fonts = fonts + collection_fonts(formula.font_collections) if formula.font_collections
 
         fonts.each do |font|
           font.styles.each do |style|
@@ -70,6 +68,18 @@ module Fontist
         end
 
         entries
+      end
+
+      def collection_fonts(collection)
+        collection.flat_map do |c|
+          c.fonts.flat_map do |f|
+            f.styles.each do |s|
+              s.font = c.filename
+              s.source_font = c.source_filename
+            end
+            f
+          end
+        end
       end
 
       def load_formulas(key)
@@ -92,16 +102,16 @@ module Fontist
       private
 
       def index_formula(key)
-        entries.detect { |f| f.key == key }
+        Array(entries).detect { |f| f.key.casecmp(key).zero? }
       end
 
       def index_formulas(key)
-        entries.select { |f| f.key == key }
+        Array(entries).select { |f| f.key.casecmp(key).zero? }
       end
 
       def relative_formula_path(path)
-        escaped = Regexp.escape(Fontist.formulas_path.to_s + "/")
-        path.sub(Regexp.new("^" + escaped), "")
+        escaped = Regexp.escape("#{Fontist.formulas_path}/")
+        path.sub(Regexp.new("^#{escaped}"), "")
       end
     end
   end

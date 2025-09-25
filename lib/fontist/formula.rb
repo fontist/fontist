@@ -11,12 +11,17 @@ module Fontist
   require "lutaml/model"
 
   class Resource < Lutaml::Model::Serializable
+    attribute :name, :string
     attribute :source, :string
     attribute :urls, :string, collection: true
     attribute :sha256, :string, collection: true
     attribute :file_size, :integer
     attribute :family, :string
     attribute :files, :string, collection: true
+
+    def empty?
+      urls.nil? || urls.empty?
+    end
   end
 
   class ResourceCollection < Lutaml::Model::Collection
@@ -25,7 +30,11 @@ module Fontist
     key_value do
       root "resources"
       map to: :resources
-      map_key to_instance: :source
+      map_key to_instance: :name
+    end
+
+    def empty?
+      resources.nil? || Array(resources).any?(&:empty?)
     end
   end
 
@@ -39,6 +48,7 @@ module Fontist
     attribute :path, :string
     attribute :description, :string
     attribute :homepage, :string
+    attribute :display_progress_bar, :boolean
     attribute :repository, :string
     attribute :copyright, :string
     attribute :license_url, :string
@@ -58,6 +68,7 @@ module Fontist
       map "name", to: :name
       map "description", to: :description
       map "homepage", to: :homepage
+      map "display_progress_bar", to: :display_progress_bar
       map "repository", to: :repository
       map "platforms", to: :platforms
       map "resources", to: :resources
@@ -146,10 +157,10 @@ module Fontist
     def self.find_by_font_file(font_file)
       key = Indexes::FilenameIndex.from_file
         .load_index_formulas(File.basename(font_file))
-        .map(&:key)
+        .flat_map(&:formula_path)
         .first
 
-      find_by_key(key)
+        find_by_key(normalized(key))
     end
 
     def self.from_file(path)
@@ -159,7 +170,19 @@ module Fontist
 
       from_yaml(content).tap do |formula|
         formula.path = path
+        formula.name = titleize(formula.key_from_path) if formula.name.nil?
       end
+    end
+
+    def self.titleize(str)
+      str.split("/").map { |part| part.split("_").map(&:capitalize).join(" ") }.join("/")
+    end
+
+    def self.normalized(path)
+      return "" unless path
+
+      escaped = Regexp.escape("#{Fontist.formulas_path}/")
+      path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
     end
 
     def manual?
@@ -182,10 +205,7 @@ module Fontist
     end
 
     def key_from_path
-      return "" unless @path
-
-      escaped = Regexp.escape("#{Fontist.formulas_path}/")
-      @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
+      self.class.normalized(@path)
     end
 
     # def name
@@ -227,8 +247,7 @@ module Fontist
       fonts
         .map(&:styles)
         .flatten
-        .detect { |s| s.family_name == font }
-        &.dig(:override) || {}
+        .detect { |s| s.family_name == font }&.override || {}
     end
 
     private

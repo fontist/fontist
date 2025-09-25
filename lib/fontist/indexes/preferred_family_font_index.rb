@@ -28,7 +28,7 @@ module Fontist
       end
 
       def self.path
-        Fontist.formula_index_path
+        Fontist.formula_preferred_family_index_path
       end
 
       def add_index_formula(style, formula_path)

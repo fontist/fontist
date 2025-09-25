@@ -55,6 +55,5 @@ module Fontist
       # Fontist::Indexes::PreferredFamilyFontIndex.reset_cache
       # Fontist::Indexes::FilenameIndex.reset_cache
     end
-
   end
 end

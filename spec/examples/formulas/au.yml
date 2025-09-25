@@ -62,5 +62,4 @@ fonts:
 extract:
   format: zip
 copyright: Copyright (c) 2015 by Aarhus University. All rights reserved.
-open_license: |-
-  Passata requires no licences.
+open_license: Passata requires no licences.

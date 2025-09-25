@@ -9,6 +9,36 @@ module Fontist
       map "name", to: :name
       map "styles", to: :styles
     end
+
+    def style_paths
+      Array(styles).flat_map do |style|
+        find_font_with_name(name, style)
+      end.compact
+    end
+
+    def group_paths
+      style_paths.group_by(&:type)
+        .transform_values { |group| style(group) }
+    end
+
+    def style(styles_ary)
+      { "full_name" => styles_ary.first.full_name,
+        "paths" => styles_ary.filter_map(&:path) }
+    end
+
+    def find_font_with_name(font, style)
+      Fontist::SystemFont.find_styles(font, style)
+    end
+
+    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+      Fontist::Font.install(
+        name,
+        force: true,
+        confirmation: confirmation,
+        hide_licenses: hide_licenses,
+        no_progress: no_progress,
+      )
+    end
   end
 
   # Manifest class for managing font manifests.
@@ -48,14 +78,14 @@ module Fontist
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false)
-      Array(@fonts).each do |font|
-        Fontist::Font.install(
-          font.name,
-          force: true,
-          confirmation: confirmation,
-          hide_licenses: hide_licenses,
-          no_progress: no_progress,
-        )
+      Array(fonts).to_h do |font|
+        paths = font.group_paths
+        if paths.length < fonts.length
+          font.install(confirmation: confirmation, hide_licenses: hide_licenses, no_progress: no_progress)
+          paths = font.group_paths
+        end
+
+        [font.name, paths]
       end
     end
 

@@ -1,3 +1,4 @@
+---
 description: Noto Sans (Super OTC)
 homepage: http://www.google.com/get/noto/
 repository: https://github.com/googlefonts/noto-cjk/tree/main/Sans
@@ -490,7 +491,6 @@ font_collections:
       description: Dr. Ken Lunde (project architect, glyph set definition & overall
         production); Masataka HATTORI 服部正貴 (production & ideograph elements)
       copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
-extract: {}
 copyright: "© 2014-2021 Adobe (http://www.adobe.com/)."
 license_url: http://scripts.sil.org/OFL
 command: create-formula https://github.com/googlefonts/noto-cjk/raw/main/Sans/SuperOTC/NotoSansCJK.ttc.zip

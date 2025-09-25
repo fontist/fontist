@@ -2,7 +2,6 @@ require_relative "font_file"
 require_relative "collection_file"
 
 module Fontist
-
   # {:path=>"/Library/Fonts/Arial Unicode.ttf",
   # :full_name=>"Arial Unicode MS",
   # :family_name=>"Arial Unicode MS",
@@ -16,6 +15,7 @@ module Fontist
     attribute :preferred_family_name, :string
     attribute :preferred_subfamily, :string
     attribute :subfamily, :string
+    alias :type :subfamily
 
     key_value do
       map "path", to: :path
@@ -45,9 +45,13 @@ module Fontist
 
     def self.from_file(path:, paths_loader:)
       # If the file does not exist, return a new collection
-      return new unless File.exist?(path)
+      return new.set_content(path, paths_loader) unless File.exist?(path)
 
-      from_yaml(IO.read(path)).tap do |content|
+      from_yaml(File.read(path)).set_content(path, paths_loader)
+    end
+
+    def set_content(path, paths_loader)
+      tap do |content|
         content.set_path(path)
         content.set_path_loader(paths_loader)
         content.check_index
@@ -59,14 +63,8 @@ module Fontist
     # Check if the content has all required keys
     def check_index
       fonts.each do |font|
-        missing_keys = ALLOWED_KEYS.select do |key|
-
-          # TODO: remove this if possible...
-          # Map "type" is mapped to "subfamily"
-          key = :subfamily if key == :type
-
-          # This is a boolean
-          false if font.send(key)
+        missing_keys = ALLOWED_KEYS.reject do |key|
+          font.send(key)
         end
 
         if missing_keys.any?
@@ -85,7 +83,8 @@ module Fontist
     end
 
     def find(font, style)
-      return nil unless fonts
+      build
+      check_index
 
       found_fonts = fonts.select do |file|
         file.family_name.casecmp?(font) &&
@@ -97,11 +96,12 @@ module Fontist
 
     def update
       tap do |col|
-        col.fonts = detect_paths(@paths_loader.call)
+        col.fonts = detect_paths(@paths_loader&.call || [])
       end
     end
 
     def build(forced: false)
+      previous_index = load_index
       updated_fonts = update
       if forced || changed?(updated_fonts, previous_index.fonts)
         to_file(@path)
@@ -115,6 +115,12 @@ module Fontist
     end
 
     private
+
+    def load_index
+      index = path && File.exist?(path) ? self.class.from_yaml(File.read(path)) : self.class.new
+      index.check_index
+      index
+    end
 
     def font_paths
       fonts.map(&:paths).uniq.sort
@@ -197,16 +203,16 @@ module Fontist
     include Utils::Locking
 
     def self.system_index
-      @system_index ||= SystemIndexFontCollection.from_file(
+      @system_index = SystemIndexFontCollection.from_file(
         path: Fontist.system_index_path,
-        paths_loader: -> { SystemFont.system_font_paths }
+        paths_loader: -> { SystemFont.font_paths },
       )
     end
 
     def self.fontist_index
-      @fontist_index ||= SystemIndexFontCollection.from_file(
+      @fontist_index = SystemIndexFontCollection.from_file(
         path: Fontist.fontist_index_path,
-        paths_loader: -> { SystemFont.fontist_font_paths }
+        paths_loader: -> { SystemFont.fontist_font_paths },
       )
     end
 

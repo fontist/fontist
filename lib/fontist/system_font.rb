@@ -3,7 +3,6 @@ require_relative "system_index"
 module Fontist
   # TODO: This is actually a SystemIndex font entry
   class SystemFont < Lutaml::Model::Serializable
-
     def self.font_paths
       system_font_paths + fontist_font_paths
     end
@@ -49,13 +48,12 @@ module Fontist
       styles = find_styles(font)
       return unless styles
 
-      styles.map { |x| x[:path] }
+      styles.map(&:path)
     end
 
     # This returns a SystemIndexEntry
     def self.find_styles(font, style = nil)
       SystemIndex.system_index.find(font, style)
     end
-
   end
 end

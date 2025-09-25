@@ -1,7 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Fontist::FontCollection do
-
   describe ".from_yaml" do
     formula_paths = Dir.glob('spec/examples/formulas/*.yml')
 
@@ -26,5 +25,4 @@ RSpec.describe Fontist::FontCollection do
       end
     end
   end
-
 end
