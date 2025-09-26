@@ -97,6 +97,14 @@ module Fontist
       manifest_model.to_response(locations: locations)
     end
 
+    def self.from_hash(data, options = {})
+      locations = options.delete(:locations) || false
+
+      model = super(data, options)
+
+      model.to_response(locations: locations)
+    end
+
     def self.font_class
       ManifestFont
     end

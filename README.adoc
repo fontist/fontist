@@ -552,7 +552,7 @@ Font name is useful to choose a specific font in a font collection file (TTC).
 
 [source,ruby]
 ----
-Fontist::Manifest.from_hash(manifest)
+Fontist::Manifest.from_hash(manifest, locations: true)
 ----
 
 [source,ruby]
