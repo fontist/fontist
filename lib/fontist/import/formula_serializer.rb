@@ -26,7 +26,7 @@ module Fontist
       def fonts_attributes
         { display_progress_bar: formula_progress_bar(@formula),
           resources: @formula.resources,
-          font_collections: font_collections(@formula.fonts),
+          font_collections: font_collections(@formula.font_collections),
           fonts: standalone_fonts(@formula.fonts),
           extract: extract_type(@code) }
       end

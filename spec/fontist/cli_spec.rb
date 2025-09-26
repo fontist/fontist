@@ -857,9 +857,14 @@ RSpec.describe Fontist::CLI do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       it "calls installation with a yes option" do
+        instance = double("manifest instance")
         expect(Fontist::Manifest).to receive(:from_file)
-          .with(anything, hash_including(confirmation: "yes"))
-          .and_return([])
+          .with(anything)
+          .and_return(instance)
+        expect(instance).to receive(:to_hash)
+        expect(instance).to receive(:install)
+          .with(hash_including(confirmation: "yes"))
+          .and_return(instance)
 
         command
       end

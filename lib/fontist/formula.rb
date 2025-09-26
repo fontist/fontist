@@ -115,7 +115,7 @@ module Fontist
       formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
 
       formulas.map do |formula|
-        formula.fonts.select do |f|
+        formula.all_fonts.select do |f|
           f.name.casecmp?(font_name)
         end
       end.flatten
@@ -125,7 +125,7 @@ module Fontist
       formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
 
       formulas.map do |formula|
-        formula.fonts.map do |f|
+        formula.all_fonts.map do |f|
           f.styles.select do |s|
             f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
           end
@@ -160,7 +160,7 @@ module Fontist
         .flat_map(&:name)
         .first
 
-        find_by_key(key)
+      find_by_key(key)
     end
 
     def self.from_file(path)
@@ -224,23 +224,38 @@ module Fontist
     end
 
     def font_by_name(name)
-      fonts.find do |font|
+      all_fonts.find do |font|
         font.name.casecmp?(name)
       end
     end
 
     def fonts_by_name(name)
-      fonts.select do |font|
+      all_fonts.select do |font|
         font.name.casecmp?(name)
       end
     end
 
+    def all_fonts
+      Array(fonts) + collection_fonts
+    end
+
+    def collection_fonts
+      Array(font_collections).flat_map do |c|
+        c.fonts.flat_map do |f|
+          f.styles.each do |s|
+            s.font = c.filename
+            s.source_font = c.source_filename
+          end
+          f
+        end
+      end
+    end
     # def fonts
     #   @fonts ||= Helpers.parse_to_object(fonts_by_family)
     # end
 
     def style_override(font)
-      fonts
+      all_fonts
         .map(&:styles)
         .flatten
         .detect { |s| s.family_name == font }&.override || {}
@@ -278,6 +293,7 @@ module Fontist
         .downcase.gsub("_", " ")
         .split.map(&:capitalize).join(" ")
     end
+
     def fonts_by_family(data)
       return hash_all_fonts(data) unless Fontist.preferred_family?
 

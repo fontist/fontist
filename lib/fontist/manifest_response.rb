@@ -3,15 +3,9 @@ require_relative "manifest"
 
 module Fontist
   class ManifestResponseFontStyle < Lutaml::Model::Serializable
-    attribute :full_name, :string
     attribute :type, :string
+    attribute :full_name, :string
     attribute :paths, :string, collection: true
-
-    key_value do
-      map "full_name", to: :full_name
-      map "type", to: :type
-      map "paths", to: :paths
-    end
   end
 
   class ManifestResponseFont < ManifestFont
@@ -19,7 +13,8 @@ module Fontist
     attribute :styles, ManifestResponseFontStyle, collection: true
 
     key_value do
-      map to: :styles, child_mappings: {
+      map "name", to: :name
+      map "styles", to: :styles, child_mappings: {
         type: :key,
         full_name: :full_name,
         paths: :paths,
@@ -37,7 +32,7 @@ module Fontist
 
       Fontist::Font.install(
         name,
-        force: true,
+        force: false,
         confirmation: confirmation,
         hide_licenses: hide_licenses,
         no_progress: no_progress,

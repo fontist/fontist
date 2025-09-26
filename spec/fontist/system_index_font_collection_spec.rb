@@ -4,7 +4,7 @@ RSpec.describe Fontist::SystemIndexFontCollection do
 
   describe "#from_yaml" do
     context "round-trips" do
-      filename = File.join(Fontist.system_index_path, "fontist_index.default_family.yml")
+      filename = File.join(Fontist.system_index_path)
 
       it "#{filename}" do
         raw_content = IO.read(filename)

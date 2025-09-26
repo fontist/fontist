@@ -144,8 +144,8 @@ module Fontist
          "Get locations of fonts from MANIFEST (yaml)"
     def manifest_locations(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest.from_file(manifest)
-      print_yaml(paths)
+      paths = Fontist::Manifest.from_file(manifest, locations: true)
+      print_yaml(paths.to_hash)
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
@@ -165,7 +165,7 @@ module Fontist
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
         hide_licenses: options[:hide_licenses],
       )
-      print_yaml(paths)
+      print_yaml(paths.to_hash)
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
@@ -242,7 +242,7 @@ module Fontist
     end
 
     def print_yaml(object)
-      Fontist.ui.say(object.respond_to?(:to_yaml) ? object.to_yaml : YAML.dump(object))
+      Fontist.ui.say(YAML.dump(object))
     end
 
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

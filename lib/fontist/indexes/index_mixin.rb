@@ -45,28 +45,13 @@ module Fontist
       def add_formula(formula)
         raise unless formula.is_a?(Formula)
 
-        fonts = formula.fonts
-        fonts = fonts + collection_fonts(formula.font_collections) if formula.font_collections
-
-        fonts.each do |font|
+        formula.all_fonts.each do |font|
           font.styles.each do |style|
             add_index_formula(style, formula.path)
           end
         end
 
         entries
-      end
-
-      def collection_fonts(collection)
-        collection.flat_map do |c|
-          c.fonts.flat_map do |f|
-            f.styles.each do |s|
-              s.font = c.filename
-              s.source_font = c.source_filename
-            end
-            f
-          end
-        end
       end
 
       def load_formulas(key)
@@ -89,11 +74,11 @@ module Fontist
       private
 
       def index_formula(key)
-        Array(entries).detect { |f| f.key.casecmp(key).zero? }
+        Array(entries).detect { |f| normalize_key(f.key) == normalize_key(key) }
       end
 
       def index_formulas(key)
-        Array(entries).select { |f| f.key.casecmp(key).zero? }
+        Array(entries).select { |f| normalize_key(f.key) == normalize_key(key) }
       end
 
       def relative_formula_path(path)

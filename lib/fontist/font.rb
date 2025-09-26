@@ -334,7 +334,7 @@ module Fontist
 
     def list_styles(formulas)
       map_to_hash(formulas) do |formula|
-        map_to_hash(requested_fonts(formula.fonts)) do |font|
+        map_to_hash(requested_fonts(formula.all_fonts)) do |font|
           map_to_hash(font.styles) do |style|
             installed(style)
           end

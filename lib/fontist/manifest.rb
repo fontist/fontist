@@ -5,19 +5,17 @@ module Fontist
     attribute :name, :string
     attribute :styles, :string, collection: true
 
-    key_value do
-      map "name", to: :name
-      map "styles", to: :styles
-    end
-
-    def style_paths
-      Array(styles).flat_map do |style|
-        find_font_with_name(name, style)
+    def style_paths(locations: false)
+      ary = Array(styles)
+      (ary.empty? ? [nil] : ary).flat_map do |style|
+        find_font_with_name(name, style).tap do |x|
+          raise Errors::MissingFontError.new(name, style) if x.nil? && locations
+        end
       end.compact
     end
 
-    def group_paths
-      style_paths.group_by(&:type)
+    def group_paths(locations: false)
+      style_paths(locations: locations).group_by(&:type)
         .transform_values { |group| style(group) }
     end
 
@@ -40,12 +38,14 @@ module Fontist
       )
     end
 
-    def to_response
-      return self if group_paths.nil? || group_paths.empty?
+    def to_response(locations: false)
+      groups = group_paths(locations: locations)
+
+      return self if groups.empty?
 
       ManifestResponseFont.new(
         name: name,
-        styles: group_paths.map do |type, details|
+        styles: groups.map do |type, details|
           ManifestResponseFontStyle.new(
             type: type,
             full_name: details["full_name"],
@@ -53,6 +53,10 @@ module Fontist
           )
         end,
       )
+    end
+
+    def group_paths_empty?
+      group_paths.compact.empty?
     end
   end
 
@@ -68,46 +72,44 @@ module Fontist
       }
     end
 
-    def self.from_file(path)
+    def self.from_file(path, locations: false)
       Fontist.ui.debug("Manifest: #{path}")
 
       raise Fontist::Errors::ManifestCouldNotBeFoundError, "Manifest file not found: #{path}" unless File.exist?(path)
 
       file_content = File.read(path).strip
+
       if file_content.empty?
         raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file is empty: #{path}"
       end
 
-      manifest_model = self.from_yaml(file_content)
-
-      # Check if the file was effectively empty (no fonts defined)
-      # TODO: There is a bug here:
-      # lutaml-model-0.7.5/lib/lutaml/model/serialize.rb:635:in `method_missing': undefined method `empty?' for an instance of Fontist::ManifestRequestFont (NoMethodError)
-      if manifest_model.nil? || manifest_model.fonts.empty?
-        raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest #{path} has no fonts defined."
+      manifest_model = begin
+        from_yaml(file_content)
+      rescue StandardError => e
+        raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file could not be read: #{e.message}"
       end
 
-      manifest_model.to_response
-    rescue StandardError => e
-      raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file could not be read: #{e.message}"
+      manifest_model.to_response(locations: locations)
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false)
-      Array(fonts).to_h do |font|
+      Array(fonts).each do |font|
         paths = font.group_paths
+
         if paths.length < fonts.length
           font.install(confirmation: confirmation, hide_licenses: hide_licenses, no_progress: no_progress)
-          paths = font.group_paths
         end
-
-        [font.name, paths]
       end
+
+      to_response
     end
 
-    def to_response
+    def to_response(locations: false)
+      return self if Array(fonts).any?(&:group_paths_empty?) && !locations
+
       ManifestResponse.new.tap do |response|
         response.fonts = Array(fonts).map do |font|
-          font.to_response
+          font.to_response(locations: locations)
         end
       end
     end

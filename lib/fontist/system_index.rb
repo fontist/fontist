@@ -54,7 +54,6 @@ module Fontist
       tap do |content|
         content.set_path(path)
         content.set_path_loader(paths_loader)
-        content.check_index
       end
     end
 
@@ -62,7 +61,7 @@ module Fontist
 
     # Check if the content has all required keys
     def check_index
-      fonts.each do |font|
+      Array(fonts).each do |font|
         missing_keys = ALLOWED_KEYS.reject do |key|
           font.send(key)
         end
@@ -83,15 +82,25 @@ module Fontist
     end
 
     def find(font, style)
-      build
-      check_index
-
-      found_fonts = fonts.select do |file|
+      found_fonts = index.select do |file|
         file.family_name.casecmp?(font) &&
           (style.nil? || file.type.casecmp?(style))
       end
 
       found_fonts.empty? ? nil : found_fonts
+    end
+
+    def index
+      return fonts unless index_changed?
+
+      build
+      check_index
+
+      fonts
+    end
+
+    def index_changed?
+      fonts.nil? || fonts.empty? || font_paths != (@paths_loader&.call || []).sort.uniq  
     end
 
     def update
@@ -103,7 +112,7 @@ module Fontist
     def build(forced: false)
       previous_index = load_index
       updated_fonts = update
-      if forced || changed?(updated_fonts, previous_index.fonts)
+      if forced || changed?(updated_fonts, previous_index.fonts || [])
         to_file(@path)
       end
 
@@ -117,13 +126,13 @@ module Fontist
     private
 
     def load_index
-      index = path && File.exist?(path) ? self.class.from_yaml(File.read(path)) : self.class.new
+      index = self.class.from_file(path: @path, paths_loader: @paths_loader)
       index.check_index
       index
     end
 
     def font_paths
-      fonts.map(&:paths).uniq.sort
+      fonts.map(&:path).uniq.sort
     end
 
     def changed?(this_fonts, that_fonts)
@@ -188,6 +197,8 @@ module Fontist
     end
 
     def parse_font(font_file, path)
+      font_exists!(path)
+
       SystemIndexFont.new(
         path: path,
         full_name: font_file.full_name,
@@ -196,6 +207,10 @@ module Fontist
         preferred_family_name: font_file.preferred_family,
         preferred_subfamily_name: font_file.preferred_subfamily,
       )
+    end
+
+    def font_exists!(path)
+      Formula.find_by_font_file(path)
     end
   end
 
@@ -225,6 +240,5 @@ module Fontist
     # def lock_path
     #   Utils::Cache.lock_path(@index_path)
     # end
-
   end
 end
