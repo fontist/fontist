@@ -21,6 +21,7 @@ fonts:
       Font License --  see http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt for
       details.
     font: texgyrechorus-mediumitalic.otf
+extract: {}
 copyright: Copyright 2006, 2009 for TeX Gyre extensions by B. Jackowski and J.M. Nowacki
   (on behalf of TeX users groups). This work is released under the GUST Font License
   --  see http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt for details.

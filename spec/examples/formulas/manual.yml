@@ -1,13 +1,13 @@
 ---
 description: Fonts included with macOS Big Sur
 homepage: https://support.apple.com/en-om/HT211240#download
+resources: []
 instructions: |-
   To download and enable any of these fonts:
 
   1. Open Font Book, which is in your Applications folder.
   2. Select All Fonts in the sidebar, or use the Search field to find the font that you want to download. Fonts that are not already downloaded appear dimmed in the list of fonts.
   3. Select the dimmed font and choose Edit > Download, or Control-click it and choose Download from the pop-up menu.
-resources: {}
 font_collections:
 - filename: AlFirat.ttc
   fonts:

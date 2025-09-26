@@ -58,7 +58,7 @@ module Fontist
     attribute :min_fontist, :string
     attribute :digest, :string
     attribute :instructions, :string
-    attribute :resources, ResourceCollection
+    attribute :resources, ResourceCollection, collection: true
     attribute :font_collections, FontCollection, collection: true
     attribute :fonts, FontModel, collection: true, default: []
     attribute :extract, Extract, collection: true
@@ -71,12 +71,16 @@ module Fontist
       map "display_progress_bar", to: :display_progress_bar
       map "repository", to: :repository
       map "platforms", to: :platforms
-      map "resources", to: :resources
+      map "resources", to: :resources, value_map: {
+        to: { empty: :empty, omitted: :omitted, nil: :nil },
+      }
       map "digest", to: :digest
       map "instructions", to: :instructions
       map "font_collections", to: :font_collections
       map "fonts", to: :fonts
-      map "extract", to: :extract
+      map "extract", to: :extract, value_map: {
+        to: { empty: :empty, omitted: :omitted, nil: :nil },
+      }
       map "min_fontist", to: :min_fontist
       map "copyright", to: :copyright
       map "requires_license_agreement", to: :requires_license_agreement
