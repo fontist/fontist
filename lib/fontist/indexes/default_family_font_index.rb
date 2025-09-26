@@ -31,25 +31,8 @@ module Fontist
         Fontist.formula_index_path
       end
 
-      def add_index_formula(style, formula_path)
-        font_name = style.default_family_name || style.family_name
-        raise if font_name.nil? || font_name.empty?
-
-        key = normalize_key(font_name)
-
-        formula_path = Array(formula_path)
-        paths = formula_path.map { |p| relative_formula_path(p) }
-
-        if index_formula(key)
-          index_formula(key).formula_path.concat(paths).uniq!
-
-          return
-        end
-
-        entries << FormulaKeyToPath.new(
-          key: key,
-          formula_path: paths,
-        )
+      def index_key_for_style(style)
+        style.default_family_name || style.family_name
       end
 
       def normalize_key(key)

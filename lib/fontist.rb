@@ -27,8 +27,6 @@ module Fontist
   end
 
   def self.fonts_path
-    return if config[:fonts_path].nil?
-
     Pathname.new(config[:fonts_path])
   end
 

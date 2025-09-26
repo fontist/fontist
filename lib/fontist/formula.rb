@@ -20,7 +20,7 @@ module Fontist
     attribute :files, :string, collection: true
 
     def empty?
-      (urls.nil? && files.nil?)
+      Array(urls).empty? && Array(files).empty?
     end
   end
 
@@ -34,7 +34,7 @@ module Fontist
     end
 
     def empty?
-      resources.nil? || Array(resources).any?(&:empty?)
+      resources.nil? || Array(resources).all?(&:empty?)
     end
   end
 
@@ -168,7 +168,10 @@ module Fontist
     end
 
     def self.from_file(path)
-      raise Fontist::Errors::FormulaCouldNotBeFoundError, "Formula file not found: #{path}" unless File.exist?(path)
+      unless File.exist?(path)
+        raise Fontist::Errors::FormulaCouldNotBeFoundError,
+              "Formula file not found: #{path}"
+      end
 
       content = File.read(path)
 
@@ -179,7 +182,9 @@ module Fontist
     end
 
     def self.titleize(str)
-      str.split("/").map { |part| part.split("_").map(&:capitalize).join(" ") }.join("/")
+      str.split("/").map do |part|
+        part.tr("_", " ").split.map(&:capitalize).join(" ")
+      end.join("/")
     end
 
     def manual?
@@ -197,8 +202,7 @@ module Fontist
     end
 
     def key
-      @key ||= {}
-      @key[@path] ||= key_from_path
+      @key ||= key_from_path
     end
 
     def key_from_path
@@ -207,11 +211,6 @@ module Fontist
       escaped = Regexp.escape("#{Fontist.formulas_path}/")
       @path.sub(Regexp.new("^#{escaped}"), "").sub(/\.yml$/, "").to_s
     end
-
-    # def name
-    #   @name ||= {}
-    #   @name[key] ||= namespace.empty? ? base_name : "#{namespace}/#{base_name}"
-    # end
 
     def license
       open_license || requires_license_agreement
@@ -254,9 +253,6 @@ module Fontist
         end
       end
     end
-    # def fonts
-    #   @fonts ||= Helpers.parse_to_object(fonts_by_family)
-    # end
 
     def style_override(font)
       all_fonts
@@ -327,7 +323,7 @@ module Fontist
         "family_name" => style["preferred_family_name"] || style["family_name"],
         "type" => style["preferred_type"] || style["type"],
         "default_family_name" => style["family_name"],
-        "default_type" => style["type"]
+        "default_type" => style["type"],
       }
     end
 
@@ -359,8 +355,8 @@ module Fontist
     instances :formulas, Formula
 
     key_value do
-      map 'name', to: :name
-      map 'formula', to: :formula
+      map "name", to: :name
+      map "formula", to: :formula
     end
   end
 end

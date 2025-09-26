@@ -57,26 +57,10 @@ module Fontist
   #     paths:
   #     - "/Users/foo/.fontist/fonts/NotoSans-Condensed.ttf"
   class ManifestResponse < Manifest
-    # Share key_value mappings with superclass, only change font class
     instances :fonts, ManifestResponseFont
 
-    # TODO: This should be moved to base Manifest class
-    # key_value do
-    #   map to: :fonts
-    #   map_key to_instance: :name
-    #   map_value to_instance: :styles
-    # end
-
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
-      fonts.each do |font|
-        font.install(
-          confirmation: confirmation,
-          hide_licenses: hide_licenses,
-          no_progress: no_progress,
-        )
-      end
-
-      self
+    def self.font_class
+      ManifestResponseFont
     end
   end
 end

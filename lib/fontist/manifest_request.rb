@@ -23,7 +23,7 @@ module Fontist
 
       ManifestResponseFont.new(
         name: name,
-        styles: font_styles
+        styles: font_styles,
       )
     end
 
@@ -55,22 +55,10 @@ module Fontist
   # - Italic
   # - Bold Italic
   class ManifestRequest < Manifest
-    # Share key_value mappings with superclass, only change font class
     instances :fonts, ManifestRequestFont
 
-    # TODO: This should be moved to base Manifest class
-    # key_value do
-    #   map to: :fonts
-    #   map_key to_instance: :name
-    #   map_value to_instance: :styles
-    # end
-
-    def to_response
-      ManifestResponse.new.tap do |response|
-        response.fonts = fonts.map do |font|
-          font.to_response
-        end
-      end
+    def self.font_class
+      ManifestRequestFont
     end
   end
 end

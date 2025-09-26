@@ -75,40 +75,54 @@ module Fontist
     def self.from_file(path, locations: false)
       Fontist.ui.debug("Manifest: #{path}")
 
-      raise Fontist::Errors::ManifestCouldNotBeFoundError, "Manifest file not found: #{path}" unless File.exist?(path)
+      unless File.exist?(path)
+        raise Fontist::Errors::ManifestCouldNotBeFoundError,
+              "Manifest file not found: #{path}"
+      end
 
       file_content = File.read(path).strip
 
       if file_content.empty?
-        raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file is empty: #{path}"
+        raise Fontist::Errors::ManifestCouldNotBeReadError,
+              "Manifest file is empty: #{path}"
       end
 
       manifest_model = begin
         from_yaml(file_content)
       rescue StandardError => e
-        raise Fontist::Errors::ManifestCouldNotBeReadError, "Manifest file could not be read: #{e.message}"
+        raise Fontist::Errors::ManifestCouldNotBeReadError,
+              "Manifest file could not be read: #{e.message}"
       end
 
       manifest_model.to_response(locations: locations)
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
-      Array(fonts).each do |font|
-        paths = font.group_paths
+    def self.font_class
+      ManifestFont
+    end
 
-        if paths.length < fonts.length
-          font.install(confirmation: confirmation, hide_licenses: hide_licenses, no_progress: no_progress)
+    def fonts_casted
+      Array(fonts).map do |font|
+        self.class.font_class === font ? font : self.class.font_class.new(font.to_h)
+      end
+    end
+
+    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+      fonts_casted.each do |font|
+        paths = font.group_paths
+        if paths.length < fonts_casted.length
+          font.install(confirmation: confirmation,
+                       hide_licenses: hide_licenses, no_progress: no_progress)
         end
       end
-
       to_response
     end
 
     def to_response(locations: false)
-      return self if Array(fonts).any?(&:group_paths_empty?) && !locations
+      return self if fonts_casted.any?(&:group_paths_empty?) && !locations
 
       ManifestResponse.new.tap do |response|
-        response.fonts = Array(fonts).map do |font|
+        response.fonts = fonts_casted.map do |font|
           font.to_response(locations: locations)
         end
       end

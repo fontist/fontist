@@ -54,6 +54,29 @@ module Fontist
         entries
       end
 
+      def index_key_for_style(_style)
+        raise NotImplementedError, "index_key_for_style(style) must be implemented in including class"
+      end
+
+      def add_index_formula(style, formula_path)
+        key = index_key_for_style(style)
+        raise if key.nil? || key.empty?
+
+        key = normalize_key(key)
+        formula_path = Array(formula_path)
+        paths = formula_path.map { |p| relative_formula_path(p) }
+
+        if index_formula(key)
+          index_formula(key).formula_path.concat(paths).uniq!
+          return
+        end
+
+        entries << FormulaKeyToPath.new(
+          key: key,
+          formula_path: paths,
+        )
+      end
+
       def load_formulas(key)
         index_formulas(key).flat_map(&:to_full)
       end
