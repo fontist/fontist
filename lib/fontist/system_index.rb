@@ -147,7 +147,6 @@ module Fontist
 
       gather_fonts(path)
     rescue Errors::FontFileError => e
-      puts "Error processing font file at #{path}: #{e.message}"
       print_recognition_error(e, path)
     end
 
