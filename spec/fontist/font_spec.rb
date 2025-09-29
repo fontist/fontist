@@ -800,8 +800,6 @@ RSpec.describe Fontist::Font do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
       it "throws MainRepoNotFoundError" do
-        expect(Fontist::Indexes::FilenameIndex)
-          .to receive(:from_file).once.and_call_original
         expect { command }
           .to raise_error(Fontist::Errors::MainRepoNotFoundError)
       end

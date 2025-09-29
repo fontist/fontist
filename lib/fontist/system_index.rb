@@ -61,18 +61,14 @@ module Fontist
 
     # Check if the content has all required keys
     def check_index
+      Fontist.formulas_repo_path_exists!
+
       Array(fonts).each do |font|
         missing_keys = ALLOWED_KEYS.reject do |key|
           font.send(key)
         end
 
-        if missing_keys.any?
-          raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
-            Font index is corrupted.
-            Item #{font.inspect} misses required attributes: #{missing_keys.join(', ')}.
-            You can remove the index file (#{@path}) and try again.
-          MSG
-        end
+        raise_font_index_corrupted(font, missing_keys) if missing_keys.any?
       end
     end
 
@@ -197,8 +193,6 @@ module Fontist
     end
 
     def parse_font(font_file, path)
-      font_exists!(path)
-
       SystemIndexFont.new(
         path: path,
         full_name: font_file.full_name,
@@ -209,8 +203,12 @@ module Fontist
       )
     end
 
-    def font_exists!(path)
-      Formula.find_by_font_file(path)
+    def raise_font_index_corrupted(font, missing_keys)
+      raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
+        Font index is corrupted.
+        Item #{font.inspect} misses required attributes: #{missing_keys.join(', ')}.
+        You can remove the index file (#{@path}) and try again.
+      MSG
     end
   end
 

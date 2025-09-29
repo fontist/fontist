@@ -153,6 +153,14 @@ module Fontist
   def self.google_fonts_key
     ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end
+
+  def self.formulas_repo_path_exists!
+    return true if Dir.exist?(Fontist.formulas_repo_path)
+
+    raise Errors::MainRepoNotFoundError.new(
+      "Please fetch formulas with `fontist update`.",
+    )
+  end
 end
 
 require_relative "fontist/repo"

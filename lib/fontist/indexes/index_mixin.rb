@@ -9,11 +9,7 @@ module Fontist
         def from_file(file_path = self.path)
           Fontist.ui.debug("Index: #{file_path}")
 
-          unless Dir.exist?(Fontist.formulas_repo_path)
-            raise Errors::MainRepoNotFoundError.new(
-              "Please fetch formulas with `fontist update`.",
-            )
-          end
+          Fontist.formulas_repo_path_exists!
 
           rebuild unless File.exist?(file_path)
 
