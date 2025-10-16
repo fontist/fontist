@@ -1,7 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Fontist::SystemIndex do
-
   context "two simultaneous runs" do
     it "generates the same system index", slow: true do
       stub_system_fonts(Fontist.orig_system_file_path)
@@ -101,13 +100,13 @@ RSpec.describe Fontist::SystemIndex do
 
     it "does not raise errors for preferred family" do
       font_index = instance.rebuild
-      font = font_index.find('Andale Mono', nil).first
-      expect(font.preferred_family_name).to eq nil
+      font = font_index.find("Andale Mono", nil).first
+      expect(font.preferred_family_name).to be_nil
     end
 
     it "does not raise errors for default family" do
       font_index = instance.rebuild
-      font = font_index.find('Andale Mono', nil).first
+      font = font_index.find("Andale Mono", nil).first
       expect(font.family_name).to eq "Andale Mono"
     end
   end

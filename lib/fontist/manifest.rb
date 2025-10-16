@@ -137,7 +137,7 @@ module Fontist
     end
 
     def to_file(path)
-      File.mkdir_p(File.dirname(path))
+      FileUtils.mkdir_p(File.dirname(path))
       File.write(path, to_yaml)
     end
   end

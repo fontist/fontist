@@ -96,7 +96,7 @@ module Fontist
     end
 
     def index_changed?
-      fonts.nil? || fonts.empty? || font_paths != (@paths_loader&.call || []).sort.uniq  
+      fonts.nil? || fonts.empty? || font_paths != (@paths_loader&.call || []).sort.uniq
     end
 
     def update
