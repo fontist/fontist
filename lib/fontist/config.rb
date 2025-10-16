@@ -126,7 +126,7 @@ module Fontist
     def load_config_file
       return {} unless File.exist?(Fontist.config_path)
 
-      self.class.from_file(Fontist.config_path)
+      self.class.from_file(Fontist.config_path)&.to_hash || {}
     end
 
     def normalize_value(value)
