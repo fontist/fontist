@@ -55,7 +55,7 @@ module Fontist
       end
     end
 
-    def initialize
+    def initialize(**attrs)
       @custom_values = {}
       super
     end
@@ -126,7 +126,7 @@ module Fontist
     def load_config_file
       return {} unless File.exist?(Fontist.config_path)
 
-      self.class.from_file(Fontist.config_path)&.to_hash || {}
+      self.class.from_file(Fontist.config_path)&.to_hash&.transform_keys(&:to_sym) || {}
     end
 
     def normalize_value(value)
