@@ -8,7 +8,7 @@ RSpec.describe Fontist::FormulaPicker do
       before { example_formula("georgia.yml") }
 
       let(:formula_path) { Fontist.formulas_path.join("georgia.yml") }
-      let(:formula) { Fontist::Formula.new_from_file(formula_path) }
+      let(:formula) { Fontist::Formula.from_file(formula_path) }
 
       it "don't raises size-limit error if cached" do
         cache = double

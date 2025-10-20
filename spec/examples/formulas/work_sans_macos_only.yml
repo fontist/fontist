@@ -3,7 +3,7 @@ name: Work Sans
 description: Work Sans
 homepage: http://wweeiihhuuaanngg@gmail.com
 platforms:
-  - macos
+- macos
 resources:
   Work_Sans.zip:
     urls:

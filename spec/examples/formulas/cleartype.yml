@@ -13,7 +13,7 @@ resources:
     sha256:
     - 249473568eba7a1e4f95498acba594e0f42e6581add4dead70c1dfb908a09423
     - c4e753548d3092ffd7dd3849105e0a26d9b5a1afe46e6e667fe7c6887893701f
-    file_size: '62914560'
+    file_size: 62914560
 font_collections:
 - filename: CAMBRIA.TTC
   fonts:

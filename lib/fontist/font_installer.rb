@@ -40,7 +40,7 @@ module Fontist
     end
 
     def license_is_accepted?(confirmation)
-      return true unless @formula.license_required
+      return true unless @formula.license_required?
 
       "yes".casecmp?(confirmation)
     end
@@ -95,7 +95,7 @@ module Fontist
     end
 
     def fonts
-      @formula.fonts.select do |font|
+      @formula.all_fonts.select do |font|
         @font_name.nil? || font.name.casecmp?(@font_name)
       end
     end
@@ -111,7 +111,7 @@ module Fontist
     end
 
     def subdirectories
-      @subdirectories ||= [@formula.extract].flatten.map(&:options).compact.map(&:fonts_sub_dir).compact
+      @subdirectories ||= [@formula.extract].flatten.compact.map(&:options).compact.map(&:fonts_sub_dir).compact
     end
 
     def install_font_file(source)
@@ -126,7 +126,7 @@ module Fontist
     end
 
     def target_filenames
-      @target_filenames ||= @formula.fonts.flat_map do |font|
+      @target_filenames ||= @formula.all_fonts.flat_map do |font|
         font.styles.map do |style|
           source = style.source_font || style.font
           target = style.font

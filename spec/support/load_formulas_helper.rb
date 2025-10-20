@@ -30,6 +30,9 @@ module Fontist
   end
 end
 
+# Temporary directory for tests
+ENV["FONTIST_TEMP_DIR"] = Dir.mktmpdir
+
 RSpec.configure do |config|
   config.before(:suite) do
     FileUtils.mkdir_p(Fontist.fonts_path)

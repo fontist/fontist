@@ -26,8 +26,8 @@ module Fontist
       def fonts_attributes
         { display_progress_bar: formula_progress_bar(@formula),
           resources: @formula.resources,
-          font_collections: font_collections(@formula.fonts),
-          fonts: standalone_fonts(@formula.fonts),
+          font_collections: font_collections(@formula.all_fonts),
+          fonts: standalone_fonts(@formula.all_fonts),
           extract: extract_type(@code) }
       end
 
@@ -122,11 +122,11 @@ module Fontist
       # rubocop:enable Metrics/MethodLength, Metrics/LineLength
 
       def requires_license_agreement(formula)
-        formula.license if formula.license && formula.license_required
+        formula.license if formula.license && formula.license_required?
       end
 
       def open_license(formula)
-        formula.license if formula.license && !formula.license_required
+        formula.license if formula.license && !formula.license_required?
       end
     end
   end

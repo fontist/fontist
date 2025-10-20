@@ -1,11 +1,12 @@
 require "thor"
-require "fontist/cli/class_options"
-require "fontist/cli/thor_ext"
-require "fontist/repo_cli"
-require "fontist/cache_cli"
-require "fontist/import_cli"
-require "fontist/fontconfig_cli"
-require "fontist/config_cli"
+require_relative "../fontist"
+require_relative "cli/class_options"
+require_relative "cli/thor_ext"
+require_relative "repo_cli"
+require_relative "cache_cli"
+require_relative "import_cli"
+require_relative "fontconfig_cli"
+require_relative "config_cli"
 
 module Fontist
   class CLI < Thor
@@ -143,8 +144,8 @@ module Fontist
          "Get locations of fonts from MANIFEST (yaml)"
     def manifest_locations(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest::Locations.from_file(manifest)
-      print_yaml(paths)
+      paths = Fontist::Manifest.from_file(manifest, locations: true)
+      print_yaml(paths.to_hash)
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
@@ -159,13 +160,12 @@ module Fontist
                            desc: "Hide license texts"
     def manifest_install(manifest)
       handle_class_options(options)
-      paths = Fontist::Manifest::Install.from_file(
-        manifest,
+      instance = Fontist::Manifest.from_file(manifest)
+      paths = instance.install(
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses]
+        hide_licenses: options[:hide_licenses],
       )
-
-      print_yaml(paths)
+      print_yaml(paths.to_hash)
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)

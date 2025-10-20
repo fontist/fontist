@@ -35,7 +35,7 @@ module Fontist
 
     def build_formulas(path)
       path.glob("*.yml").map do |formula_path|
-        formula = Formula.new_from_file(formula_path)
+        formula = Formula.from_file(formula_path)
         Struct.new(:name, :description).new(formula.key, formula.description)
       end
     end

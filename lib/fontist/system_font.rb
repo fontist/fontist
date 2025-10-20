@@ -1,12 +1,8 @@
 require_relative "system_index"
 
 module Fontist
-  class SystemFont
-    def initialize(font:, style: nil)
-      @font = font
-      @style = style
-    end
-
+  # TODO: This is actually a SystemIndex font entry
+  class SystemFont < Lutaml::Model::Serializable
     def self.font_paths
       system_font_paths + fontist_font_paths
     end
@@ -15,6 +11,7 @@ module Fontist
       @system_font_paths ||= load_system_font_paths
     end
 
+    # This detects all fonts on the system from the configuration file.
     def self.load_system_font_paths
       os = Fontist::Utils::System.user_os.to_s
       templates = system_config["system"][os]["paths"]
@@ -48,29 +45,14 @@ module Fontist
     end
 
     def self.find(font)
-      new(font: font).find
-    end
-
-    def self.find_styles(font, style)
-      new(font: font, style: style).find_styles
-    end
-
-    def find
-      styles = find_styles
+      styles = find_styles(font)
       return unless styles
 
-      styles.map { |x| x[:path] }
+      styles.map(&:path)
     end
 
-    def find_styles
-      find_by_index
-    end
-
-    private
-
-    attr_reader :font, :style
-
-    def find_by_index
+    # This returns a SystemIndexEntry
+    def self.find_styles(font, style = nil)
       SystemIndex.system_index.find(font, style)
     end
   end

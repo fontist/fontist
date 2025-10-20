@@ -228,7 +228,7 @@ module Fontist
     end
 
     def check_and_confirm_required_license(formula)
-      return @confirmation unless formula.license_required
+      return @confirmation unless formula.license_required?
 
       show_license(formula) unless @hide_licenses
       return @confirmation if @confirmation.casecmp?("yes")
@@ -237,7 +237,7 @@ module Fontist
       return confirmation if confirmation&.casecmp?("yes")
 
       raise Fontist::Errors::LicensingError.new(
-        "Fontist will not download these fonts unless you accept the terms."
+        "Fontist will not download these fonts unless you accept the terms.",
       )
     end
 
@@ -248,7 +248,7 @@ module Fontist
     def ask_for_agreement
       Fontist.ui.ask(
         "\nDo you accept all presented font licenses, and want Fontist " \
-        "to download these fonts for you? => TYPE 'Yes' or 'No':"
+        "to download these fonts for you? => TYPE 'Yes' or 'No':",
       )
     end
 
@@ -301,9 +301,7 @@ module Fontist
       fonts = Fontist::SystemIndex.fontist_index.find(name, nil)
       return unless fonts
 
-      fonts.map do |font|
-        font[:path]
-      end
+      fonts.map(&:path)
     end
 
     def installed_paths
@@ -336,7 +334,7 @@ module Fontist
 
     def list_styles(formulas)
       map_to_hash(formulas) do |formula|
-        map_to_hash(requested_fonts(formula.fonts)) do |font|
+        map_to_hash(requested_fonts(formula.all_fonts)) do |font|
           map_to_hash(font.styles) do |style|
             installed(style)
           end
@@ -351,7 +349,7 @@ module Fontist
     def requested_fonts(fonts)
       return fonts unless @name
 
-      fonts.select do |font|
+      fonts&.select do |font|
         font.name.casecmp?(name)
       end
     end

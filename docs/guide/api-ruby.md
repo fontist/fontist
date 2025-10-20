@@ -91,7 +91,7 @@ Fontist can be switched to use the preferred family names. This format was used 
 Fontist.preferred_family = true
 ```
 
-### Fontist::Manifest::Locations
+### Manifest from YAML file or Hash
 
 Fontist lets you find font locations from a defined manifest Hash in the following format:
 
@@ -105,7 +105,8 @@ Fontist lets you find font locations from a defined manifest Hash in the followi
 Calling the following code returns a nested Hash with font paths and names. Font name is useful to choose a specific font in a font collection file (TTC).
 
 ```ruby
-Fontist::Manifest::Locations.from_hash(manifest)
+Fontist::Manifest.from_yaml(manifest)
+Fontist::Manifest.from_hash(manifest)
 ```
 
 ```ruby
@@ -129,12 +130,10 @@ Fontist::Manifest::Locations.from_hash(manifest)
 }
 ```
 
-### Fontist::Manifest::Install
-
 Fontist lets you not only obtain font locations but also install fonts from the manifest:
 
 ```ruby
-Fontist::Manifest::Install.from_hash(manifest, confirmation: "yes")
+manifest.install(confirmation: "yes")
 ```
 
 It will install fonts and return their locations:
@@ -159,7 +158,7 @@ It will install fonts and return their locations:
 }
 ```
 
-### Support of YAML format
+#### Support of YAML format
 
 Both commands support a YAML file as an input with a `from_file` method. For example, if there is a `manifest.yml` file containing:
 
@@ -172,11 +171,11 @@ Roboto Mono:
   - Regular
 ```
 
-Then the following calls would return font names and paths, as from the `from_hash` method (see Fontist::Manifest::Install and Fontist::Manifest::Locations).
+Then the following calls would return font names and paths, as from the `from_hash` method (see Fontist::Manifest).
 
 ```ruby
-Fontist::Manifest::Locations.from_file("manifest.yml")
-Fontist::Manifest::Install.from_file("manifest.yml", confirmation: "yes")
+manifest = Fontist::Manifest.from_file("manifest.yml")
+manifest.install(confirmation: "yes")
 ```
 
 ## Fontist::Fontconfig

@@ -18,7 +18,6 @@ fonts:
     full_name: Georgia
     post_script_name: Georgia
     version: '2.05'
-    description:
     copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
       Reserved.
     font: Georgia.TTF
@@ -27,7 +26,6 @@ fonts:
     full_name: Georgia Italic
     post_script_name: Georgia-Italic
     version: '2.05'
-    description:
     copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
       Reserved.
     font: Georgiai.TTF
@@ -36,7 +34,6 @@ fonts:
     full_name: Georgia Bold
     post_script_name: Georgia-Bold
     version: '2.05'
-    description:
     copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
       Reserved.
     font: Georgiab.TTF
@@ -45,7 +42,6 @@ fonts:
     full_name: Georgia Bold Italic
     post_script_name: Georgia-BoldItalic
     version: '2.05'
-    description:
     copyright: Typeface and data copyright 1996 Microsoft Corporation. All Rights
       Reserved.
     font: Georgiaz.TTF
