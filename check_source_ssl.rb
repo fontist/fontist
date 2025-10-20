@@ -2,7 +2,7 @@
 
 require "net/http"
 
-uri = URI('https://github.com/fontist/source-fonts/releases/download/v1.0/source-fonts-1.0.zip')
+uri = URI("https://github.com/fontist/source-fonts/releases/download/v1.0/source-fonts-1.0.zip")
 
 http = Net::HTTP.new(uri.host, uri.port)
 http.use_ssl = true
