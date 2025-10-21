@@ -1,15 +1,27 @@
 require "spec_helper"
 
-RSpec.describe Fontist::Indexes::FontIndex do
+RSpec.describe Fontist::Indexes::DefaultFamilyFontIndex do
+  describe "#from_yaml" do
+    context "round-trips" do
+      filename = File.join(Fontist.fontist_version_path, "formula_index.default_family.yml")
+
+      it "#{filename}" do
+        content = File.read(filename)
+        expect(described_class.from_yaml(content).to_yaml).to eq(content)
+      end
+    end
+  end
+
   describe "#load_formulas" do
-    let(:index) { described_class.from_yaml }
+    let(:filename) { File.join(Fontist.fontist_version_path, "formula_index.default_family.yml") }
+    let(:index) { described_class.from_file(filename) }
 
     context "by font" do
       let(:command) { index.load_formulas("lato") }
 
       it "returns formulas with this font" do
         expect(command.size).to be 1
-        expect(command.first.key).to eq "lato"
+        expect(command.first.name).to eq "Lato"
       end
     end
 
@@ -22,21 +34,21 @@ RSpec.describe Fontist::Indexes::FontIndex do
     end
   end
 
-  describe ".from_yaml" do
+  describe ".from_file" do
     context "index not found" do
       it "rebuilds index and raises no error" do
         no_formulas do
-          FileUtils.rm(Fontist.formula_index_path)
+          FileUtils.rm(described_class.path)
 
-          expect { described_class.from_yaml }.not_to raise_error
+          expect { described_class.from_file }.not_to raise_error
         end
       end
     end
   end
 
   describe ".rebuild" do
-    let(:command) { Fontist::Indexes::DefaultFamilyFontIndex.rebuild }
-    let(:index) { YAML.load_file(Fontist.formula_index_path) }
+    let(:command) { described_class.rebuild.to_file }
+    let(:index) { YAML.load_file(described_class.path) }
 
     it "builds an index with fonts, styles and a path to a formula" do
       no_formulas do

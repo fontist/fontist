@@ -191,7 +191,7 @@ RSpec.describe Fontist::Font do
         stub_license_agreement_prompt_with("no")
 
         expect { Fontist::Font.install("andale mono") }.to raise_error(
-          Fontist::Errors::LicensingError
+          Fontist::Errors::LicensingError,
         )
       end
 
@@ -217,10 +217,10 @@ RSpec.describe Fontist::Font do
       it "prints descriptive messages of what's going on" do
         # rubocop:disable Metrics/LineLength
         expect(Fontist.ui).to receive(:say).with(%(Font "andale mono" not found locally.))
-        expect(Fontist.ui).to receive(:say).with(%(Downloading font "andale" from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
+        expect(Fontist.ui).to receive(:say).with(%(Downloading from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
         expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+% \(\d+\/\d+ MiB\)/)
         expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
-        expect(Fontist.ui).to receive(:say).with(%(Installing font "andale".))
+        expect(Fontist.ui).to receive(:say).with(%(Installing from formula "andale".))
         expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
         expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
         # rubocop:enable Metrics/LineLength
@@ -566,7 +566,7 @@ RSpec.describe Fontist::Font do
         # file_size: 101_440_249, version: 2.030
         before { example_formula("source.yml") }
 
-        # file_size: 1_147_828, version: 0.050, 0.030
+        # file_size not set, version: 0.050, 0.030
         before { example_formula("source_code_pro_version_0.yml") }
 
         before { set_size_limit(10) }
@@ -604,11 +604,21 @@ RSpec.describe Fontist::Font do
       context "size above the limit" do
         let(:font) { "source code pro" }
         before { example_formula("source.yml") }
-        before { example_formula("source_code_pro_version_0.yml") }
         before { set_size_limit(0) }
 
         it "raises size-limit error" do
           expect { command }.to raise_error(Fontist::Errors::SizeLimitError)
+        end
+      end
+
+      context "formula has no file_size and size limit is very low" do
+        let(:font) { "source code pro" }
+        before { example_formula("source_code_pro.yml") }
+        before { set_size_limit(0) }
+
+        it "install the formula anyway" do
+          expect_to_install("source_code_pro")
+          command
         end
       end
 
@@ -677,11 +687,11 @@ RSpec.describe Fontist::Font do
         let(:font) { "source code pro" }
         let(:options) { { smallest: true } }
         before { example_formula("source.yml") }
-        before { example_formula("source_code_pro_version_0.yml") }
+        before { example_formula("source_code_pro.yml") }
         before { set_size_limit(0) }
 
         it "installs the smallest formula" do
-          expect_to_install("source_code_pro_version_0")
+          expect_to_install("source_code_pro")
           command
         end
       end
@@ -703,10 +713,10 @@ RSpec.describe Fontist::Font do
         let(:font) { "source code pro" }
         let(:options) { { size_limit: 10 } }
         before { example_formula("source.yml") }
-        before { example_formula("source_code_pro_version_0.yml") }
+        before { example_formula("source_code_pro.yml") }
 
         it "installs a formula below the size limit" do
-          expect_to_install("source_code_pro_version_0")
+          expect_to_install("source_code_pro")
           command
         end
       end
@@ -764,12 +774,10 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    def expect_to_install(expected_formula)
-      original_new = Fontist::FontInstaller.method(:new)
-      expect(Fontist::FontInstaller).to receive(:new).once do |formula|
-        expect(formula.key).to eq expected_formula
-        original_new.call(formula)
-      end
+    def expect_to_install(_formula_key)
+      expect_any_instance_of(Fontist::Font)
+        .to receive(:font_installer).with(be_a(Fontist::Formula))
+        .and_call_original
     end
 
     def set_size_limit(limit)
@@ -792,8 +800,6 @@ RSpec.describe Fontist::Font do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
       it "throws MainRepoNotFoundError" do
-        expect(Fontist::Indexes::BaseIndex)
-          .to receive(:from_yaml).once.and_call_original
         expect { command }
           .to raise_error(Fontist::Errors::MainRepoNotFoundError)
       end

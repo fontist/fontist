@@ -19,10 +19,6 @@ module Fontist
         save_operation_subdir
       end
 
-      def extension
-        fetch_extension(@archive)
-      end
-
       def font_files
         ensure_extracted
         @font_files
@@ -50,18 +46,6 @@ module Fontist
 
         @operations[:options] ||= {}
         @operations[:options][:fonts_sub_dir] = @subdir
-      end
-
-      def fetch_extension(file)
-        File.extname(filename(file)).sub(/^\./, "")
-      end
-
-      def filename(file)
-        if file.respond_to?(:original_filename)
-          file.original_filename
-        else
-          File.basename(file)
-        end
       end
 
       def ensure_extracted

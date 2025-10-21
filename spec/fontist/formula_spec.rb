@@ -1,6 +1,20 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Formula do
+
+  describe ".from_file" do
+    formula_paths = Dir.glob('spec/examples/formulas/*.yml')
+
+    context "round-trips" do
+      formula_paths.each do |formula_path|
+        it "#{formula_path}" do
+          content = File.read(formula_path)
+          expect(Fontist::Formula.from_yaml(content).to_yaml).to eq(content)
+        end
+      end
+    end
+  end
+
   describe ".find" do
     context "by font name" do
       it "returns the font formulas" do
@@ -44,13 +58,13 @@ RSpec.describe Fontist::Formula do
       formulas = Fontist::Formula.all
 
       expect(formulas.size).to be > 1
-      expect(formulas.first.fonts.size).to be > 0
+      expect(formulas.first.all_fonts.size).to be > 0
       expect(formulas.first.description).to be_kind_of(String)
     end
   end
 
   describe "#from_hash" do
-    let(:formula) { described_class.new_from_file(path) }
+    let(:formula) { described_class.from_file(path) }
     let(:path) { Fontist.formulas_path.join("lato.yml").to_s }
 
     it "fills attributes" do
@@ -59,16 +73,16 @@ RSpec.describe Fontist::Formula do
       expect(formula.homepage).to be_kind_of(String)
       expect(formula.copyright).to be_kind_of(String)
       expect(formula.license_url).to be_kind_of(String)
-      expect(formula.resources).to be_kind_of(Array)
+      expect(formula.resources).to be_kind_of(Fontist::ResourceCollection)
       expect(formula.resources.first.urls.first).to be_kind_of(String)
-      expect(formula.fonts).to be_kind_of(Array)
-      expect(formula.fonts.first.name).to be_kind_of(String)
-      expect(formula.fonts.first.styles).to be_kind_of(Array)
-      expect(formula.fonts.first.styles.first.type).to be_kind_of(String)
-      expect(formula.fonts.first.styles.first.font).to be_kind_of(String)
+      expect(formula.all_fonts).to be_kind_of(Array)
+      expect(formula.all_fonts.first.name).to be_kind_of(String)
+      expect(formula.all_fonts.first.styles).to be_kind_of(Array)
+      expect(formula.all_fonts.first.styles.first.type).to be_kind_of(String)
+      expect(formula.all_fonts.first.styles.first.font).to be_kind_of(String)
       expect(formula.extract.options).to be_nil
       expect(formula.license).to be_kind_of(String)
-      expect(formula.license_required).to be false
+      expect(formula.license_required?).to be false
     end
   end
 

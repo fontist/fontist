@@ -4,6 +4,10 @@ module Fontist
       @text = text
     end
 
+    def to_s
+      value.join(" . ")
+    end
+
     def value
       @value ||= numbers || default_value
     end

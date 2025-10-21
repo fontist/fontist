@@ -1,5 +1,7 @@
 require "fontist/utils"
 require "excavate"
+require_relative "resources/archive_resource"
+require_relative "resources/google_resource"
 
 module Fontist
   class FontInstaller
@@ -38,7 +40,7 @@ module Fontist
     end
 
     def license_is_accepted?(confirmation)
-      return true unless @formula.license_required
+      return true unless @formula.license_required?
 
       "yes".casecmp?(confirmation)
     end
@@ -48,63 +50,32 @@ module Fontist
     end
 
     def install_font
-      fonts_paths = run_in_temp_dir { extract }
+      fonts_paths = do_install_font
       fonts_paths.empty? ? nil : fonts_paths
     end
 
-    def run_in_temp_dir
-      Dir.mktmpdir(nil, Dir.tmpdir) do |dir|
-        @temp_dir = Pathname.new(dir)
-
-        result = yield
-
-        @temp_dir = nil
-
-        result
-      end
-    end
-
-    def extract
-      archive = download_file(@formula.resources.first)
-
-      install_fonts_from_archive(archive)
-    end
-
-    def install_fonts_from_archive(archive)
-      Fontist.ui.say(%(Installing font "#{@formula.key}".))
+    def do_install_font
+      Fontist.ui.say(%(Installing from formula "#{@formula.key}".))
 
       Array.new.tap do |fonts_paths|
-        Excavate::Archive.new(archive.path).files(recursive_packages: true) do |path|
+        resource.files(source_files) do |path|
           fonts_paths << install_font_file(path) if font_file?(path)
         end
       end
     end
 
-    def download_file(source)
-      errors = []
-      source.urls.each do |request|
-        url = request.respond_to?(:url) ? request.url : request
-        Fontist.ui.say(%(Downloading font "#{@formula.key}" from #{url}))
+    def resource
+      resource_class = if @formula.source == "google"
+                         Resources::GoogleResource
+                       else
+                         Resources::ArchiveResource
+                       end
 
-        result = try_download_file(request, source)
-        return result unless result.is_a?(Errors::InvalidResourceError)
-
-        errors << result
-      end
-
-      raise Errors::InvalidResourceError, errors.join(" ")
+      resource_class.new(resource_options, no_progress: @no_progress)
     end
 
-    def try_download_file(request, source)
-      Fontist::Utils::Downloader.download(
-        request,
-        sha: source.sha256,
-        file_size: source.file_size,
-        progress_bar: !@no_progress
-      )
-    rescue Errors::InvalidResourceError => e
-      Fontist.ui.say(e.message)
-      e
+    def resource_options
+      @formula.resources.first
     end
 
     def font_file?(path)
@@ -116,16 +87,16 @@ module Fontist
     end
 
     def source_files
-      @source_files ||= @formula.fonts.flat_map do |font|
-        next [] if @font_name && !font.name.casecmp?(@font_name)
-
-        font_files(font)
+      @source_files ||= fonts.flat_map do |font|
+        font.styles.map do |style|
+          style.source_font || style.font
+        end
       end
     end
 
-    def font_files(font)
-      font.styles.map do |style|
-        style.source_font || style.font
+    def fonts
+      @formula.all_fonts.select do |font|
+        @font_name.nil? || font.name.casecmp?(@font_name)
       end
     end
 
@@ -140,7 +111,7 @@ module Fontist
     end
 
     def subdirectories
-      @subdirectories ||= [@formula.extract].flatten.map(&:options).compact.map(&:fonts_sub_dir).compact
+      @subdirectories ||= [@formula.extract].flatten.compact.map(&:options).compact.map(&:fonts_sub_dir).compact
     end
 
     def install_font_file(source)
@@ -155,7 +126,7 @@ module Fontist
     end
 
     def target_filenames
-      @target_filenames ||= @formula.fonts.flat_map do |font|
+      @target_filenames ||= @formula.all_fonts.flat_map do |font|
         font.styles.map do |style|
           source = style.source_font || style.font
           target = style.font

@@ -39,7 +39,7 @@ RSpec.describe Fontist::SystemFont do
           example_font_to_system("arialbi.ttf")
 
           result = Fontist::SystemFont.find_styles("Arial", "Italic")
-          paths = result.map { |s| s[:path] }
+          paths = result.map(&:path)
           expect(paths).to match [include("ariali.ttf")]
           expect(paths).not_to include(include("arialbi.ttf"))
         end
@@ -53,7 +53,7 @@ RSpec.describe Fontist::SystemFont do
 
           ["Regular", "Italic", "Bold", "Bold Italic"].each do |style|
             result = Fontist::SystemFont.find_styles("Times", style)
-            paths = result.map { |s| s[:path] }
+            paths = result.map(&:path)
             expect(paths).to match [include("Times.ttc")]
           end
         end

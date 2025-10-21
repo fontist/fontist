@@ -1,49 +1,70 @@
 require "shellwords"
 require_relative "text_helper"
+require_relative "helpers/hash_helper"
 
 module Fontist
   module Import
     class FormulaBuilder
-      FORMULA_ATTRIBUTES = %i[platforms description homepage resources
+      FORMULA_ATTRIBUTES = %i[name platforms description homepage resources
                               font_collections fonts extract copyright
                               license_url requires_license_agreement
                               open_license digest command].freeze
 
-      attr_writer :archive,
-                  :url,
-                  :extractor,
+      attr_writer :resources,
                   :options,
                   :font_files,
                   :font_collection_files,
                   :license_text,
-                  :homepage
+                  :operations
 
       def initialize
         @options = {}
+        @font_files = []
+        @font_collection_files = []
       end
 
       def formula
         formula_attributes.map { |name| [name, send(name)] }.to_h.compact
       end
 
-      def name
-        return @options[:name] if @options[:name]
-
-        common = %i[family_name type]
-          .map { |attr| both_fonts.map(&attr).uniq }
-          .map { |names| TextHelper.longest_common_prefix(names) }
-          .map { |prefix| prefix unless prefix == "Regular" }
-          .compact
-          .join(" ")
-        return common unless common.empty?
-
-        both_fonts.map(&:family_name).first
+      def save
+        path = vacant_path
+        yaml = YAML.dump(Helpers::HashHelper.stringify_keys(formula))
+        File.write(path, yaml)
+        path
       end
 
       private
 
       def formula_attributes
         FORMULA_ATTRIBUTES
+      end
+
+      def name
+        @name ||= generate_name
+      end
+
+      def generate_name
+        return @options[:name] if @options[:name]
+
+        common = common_prefix
+        return common unless common.empty?
+
+        both_fonts.map(&:family_name).first
+      end
+
+      def common_prefix
+        family_prefix = common_prefix_by_attr(:family_name)
+        style_prefix = common_prefix_by_attr(:type)
+
+        [family_prefix, style_prefix].compact.join(" ")
+      end
+
+      def common_prefix_by_attr(attr)
+        names = both_fonts.map(&attr).uniq
+        prefix = TextHelper.longest_common_prefix(names)
+
+        prefix unless prefix == "Regular"
       end
 
       def both_fonts
@@ -70,69 +91,7 @@ module Fontist
       end
 
       def resources
-        filename = name.gsub(" ", "_") + "." + @extractor.extension
-
-        { filename => resource_options }
-      end
-
-      def resource_options
-        if @options[:skip_sha]
-          resource_options_without_sha
-        else
-          resource_options_with_sha
-        end
-      end
-
-      def resource_options_without_sha
-        { urls: [@url] + mirrors, file_size: file_size }
-      end
-
-      def resource_options_with_sha
-        urls = []
-        sha = []
-        downloads do |url, path|
-          urls << url
-          sha << Digest::SHA256.file(path).to_s
-        end
-
-        sha = prepare_sha256(sha)
-
-        { urls: urls, sha256: sha, file_size: file_size }
-      end
-
-      def downloads
-        yield @url, @archive
-
-        mirrors.each do |url|
-          path = download(url)
-          next unless path
-
-          yield url, path
-        end
-      end
-
-      def mirrors
-        @options[:mirror] || []
-      end
-
-      def download(url)
-        Fontist::Utils::Downloader.download(url, progress_bar: true).path
-      rescue Errors::InvalidResourceError
-        Fontist.ui.error("WARN: a mirror is not found '#{url}'")
-        nil
-      end
-
-      def prepare_sha256(input)
-        output = input.uniq
-        return output.first if output.size == 1
-
-        checksums = output.join(", ")
-        Fontist.ui.error("WARN: SHA256 differs (#{checksums})")
-        output
-      end
-
-      def file_size
-        File.size(@archive)
+        @resources || raise("Resources should be set.")
       end
 
       def font_collections
@@ -175,7 +134,7 @@ module Fontist
       end
 
       def extract
-        @extractor.operations
+        @operations || {}
       end
 
       def copyright
@@ -197,9 +156,11 @@ module Fontist
 
         return unless @license_text
 
-        Fontist.ui.error("WARN: ensure it's an open license, otherwise " \
-                         "change the 'open_license' attribute to " \
-                         "'requires_license_agreement'")
+        unless @options[:open_license]
+          Fontist.ui.error("WARN: ensure it's an open license, otherwise " \
+                           "change the 'open_license' attribute to " \
+                           "'requires_license_agreement'")
+        end
 
         TextHelper.cleanup(@license_text)
       end
@@ -210,6 +171,27 @@ module Fontist
 
       def command
         Shellwords.shelljoin(ARGV)
+      end
+
+      def vacant_path
+        path = path_from_name
+        return path unless @options[:keep_existing] && File.exist?(path)
+
+        2.upto(9) do |i|
+          candidate = path.sub(/\.yml$/, "#{i}.yml")
+          return candidate unless File.exist?(candidate)
+        end
+
+        raise Errors::GeneralError, "Formula #{path} already exists."
+      end
+
+      def path_from_name
+        filename = Import.name_to_filename(name)
+        if @options[:formula_dir]
+          File.join(@options[:formula_dir], filename)
+        else
+          filename
+        end
       end
     end
   end

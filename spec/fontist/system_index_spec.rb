@@ -55,9 +55,10 @@ RSpec.describe Fontist::SystemIndex do
     let(:font_paths) { [corrupt_font_file] }
     let(:index_path) { File.join(tmp_dir, "system_index.yml") }
     let(:instance) do
-      described_class.new(index_path,
-                          -> { font_paths },
-                          Fontist::SystemIndex::DefaultFamily.new)
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { font_paths })
+      end
     end
 
     it "does not raise errors" do
@@ -86,11 +87,11 @@ RSpec.describe Fontist::SystemIndex do
       FileUtils.cp(examples_formula_path("andale.yml"), path)
       path
     end
-
-    before do
-      patch_yml(formula_path,
-                { preferred_family_name: "Andale" },
-                "fonts", 0, "styles", 0, "override")
+    let(:instance) do
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { font_paths })
+      end
     end
 
     after do
@@ -98,23 +99,15 @@ RSpec.describe Fontist::SystemIndex do
     end
 
     it "does not raise errors for preferred family" do
-      described_class.new(
-        index_path,
-        -> { font_paths },
-        Fontist::SystemIndex::PreferredFamily.new,
-      ).rebuild
-
-      expect(YAML.load_file(index_path).first[:family_name]).to eq "Andale"
+      font_index = instance.rebuild
+      font = font_index.find("Andale Mono", nil).first
+      expect(font.preferred_family_name).to be_nil
     end
 
     it "does not raise errors for default family" do
-      described_class.new(
-        index_path,
-        -> { font_paths },
-        Fontist::SystemIndex::DefaultFamily.new,
-      ).rebuild
-
-      expect(YAML.load_file(index_path).first[:family_name]).to eq "Andale Mono"
+      font_index = instance.rebuild
+      font = font_index.find("Andale Mono", nil).first
+      expect(font.family_name).to eq "Andale Mono"
     end
   end
 end

@@ -1,0 +1,83 @@
+name: rake
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+    paths-ignore:
+      - '**.adoc'
+  pull_request:
+    paths-ignore:
+      - '**.adoc'
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+env:
+  BUNDLER_VER: 2.3.24
+# Forcing bundler version to ensure that it is consistent everywhere and
+# does not cause bundler gem reinstalls
+# bundler/rubygems 2.3.22 is a minimal requirement to support gnu/musl differentiation
+# https://github.com/rubygems/rubygems/pull/4488
+  GOOGLE_FONTS_API_KEY: ${{secrets.FONTIST_CI_GOOGLE_FONTS_API_KEY}}
+
+jobs:
+  prepare:
+    uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
+
+  test:
+    name: Test on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    needs: prepare
+    if: needs.prepare.outputs.push-for-tag != 'true'
+
+    continue-on-error: ${{ matrix.ruby.experimental }}
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby.version }}
+          rubygems: ${{ matrix.ruby.rubygems }}
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - if: matrix.os == 'macos-latest'
+        run: brew install lcdf-typetools
+
+      - run: bundle exec rake
+
+  archlinux-test:
+    name: Test on Arch Linux
+    needs: prepare
+    runs-on: ubuntu-latest
+    container:
+      image: 'archlinux:latest'
+    strategy:
+      fail-fast: false
+    env:
+      CI: true
+
+    steps:
+      - name: Setup packages
+        run: pacman -Syu --noconfirm git binutils gcc autoconf make libffi libyaml gmp
+
+      - uses: actions/checkout@v4
+
+      - uses: asdf-vm/actions/install@v3
+        with:
+          tool_versions: ruby ${{ needs.prepare.outputs.default-ruby-version }}
+
+      - run: |
+          gem install bundler
+          bundle install
+
+      - name: Test
+        run: bundle exec rake

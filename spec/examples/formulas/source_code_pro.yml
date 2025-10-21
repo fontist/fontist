@@ -3,10 +3,26 @@ name: Source Code Pro
 description: Source Code Pro
 homepage: http://www.adobe.com/type
 resources:
-  Source_Code_Pro.zip:
-    urls:
-    - https://fonts.google.com/download?family=Source%20Code%20Pro
-    file_size: 1147828
+  Source Code Pro:
+    source: google
+    family: Source Code Pro
+    files:
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyQhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DJKQhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DP6QhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DBKXhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DCuXhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyXhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DGWXhM5hTXUcdJg.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7I1rSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTMo1rSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTbI1rSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTXo1rSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTsoprSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTi4prSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7IprSVcZZJiGpw.ttf
+    - https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTxYprSVcZZJiGpw.ttf
 fonts:
 - name: Source Code Pro
   styles:
@@ -14,34 +30,34 @@ fonts:
     type: Bold
     full_name: Source Code Pro Bold
     post_script_name: SourceCodePro-Bold
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Bold.ttf
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DCuXhM5hTXUcdJg.ttf
   - family_name: Source Code Pro
     type: Bold Italic
     full_name: Source Code Pro Bold Italic
-    post_script_name: SourceCodePro-BoldIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-BoldItalic.ttf
+    post_script_name: SourceCodePro-BoldItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTi4prSVcZZJiGpw.ttf
   - family_name: Source Code Pro
     type: Italic
     full_name: Source Code Pro Italic
-    post_script_name: SourceCodePro-It
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Italic.ttf
+    post_script_name: SourceCodePro-Italic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTbI1rSVcZZJiGpw.ttf
   - family_name: Source Code Pro
     type: Regular
-    full_name: Source Code Pro
+    full_name: Source Code Pro Regular
     post_script_name: SourceCodePro-Regular
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Regular.ttf
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQhM5hTXUcdJg.ttf
 - name: Source Code Pro Black
   styles:
   - family_name: Source Code Pro Black
@@ -49,21 +65,43 @@ fonts:
     preferred_family_name: Source Code Pro
     preferred_type: Black Italic
     full_name: Source Code Pro Black Italic
-    post_script_name: SourceCodePro-BlackIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-BlackItalic.ttf
+    post_script_name: SourceCodePro-BlackItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTxYprSVcZZJiGpw.ttf
   - family_name: Source Code Pro Black
     type: Regular
     preferred_family_name: Source Code Pro
     preferred_type: Black
     full_name: Source Code Pro Black
     post_script_name: SourceCodePro-Black
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Black.ttf
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DGWXhM5hTXUcdJg.ttf
+- name: Source Code Pro ExtraBold
+  styles:
+  - family_name: Source Code Pro ExtraBold
+    type: Italic
+    preferred_family_name: Source Code Pro
+    preferred_type: ExtraBold Italic
+    full_name: Source Code Pro ExtraBold Italic
+    post_script_name: SourceCodePro-ExtraBoldItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7IprSVcZZJiGpw.ttf
+  - family_name: Source Code Pro ExtraBold
+    type: Regular
+    preferred_family_name: Source Code Pro
+    preferred_type: ExtraBold
+    full_name: Source Code Pro ExtraBold
+    post_script_name: SourceCodePro-ExtraBold
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyXhM5hTXUcdJg.ttf
 - name: Source Code Pro ExtraLight
   styles:
   - family_name: Source Code Pro ExtraLight
@@ -71,21 +109,21 @@ fonts:
     preferred_family_name: Source Code Pro
     preferred_type: ExtraLight Italic
     full_name: Source Code Pro ExtraLight Italic
-    post_script_name: SourceCodePro-ExtraLightIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-ExtraLightItalic.ttf
+    post_script_name: SourceCodePro-ExtraLightItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7I1rSVcZZJiGpw.ttf
   - family_name: Source Code Pro ExtraLight
     type: Regular
     preferred_family_name: Source Code Pro
     preferred_type: ExtraLight
     full_name: Source Code Pro ExtraLight
     post_script_name: SourceCodePro-ExtraLight
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-ExtraLight.ttf
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyQhM5hTXUcdJg.ttf
 - name: Source Code Pro Light
   styles:
   - family_name: Source Code Pro Light
@@ -93,21 +131,21 @@ fonts:
     preferred_family_name: Source Code Pro
     preferred_type: Light Italic
     full_name: Source Code Pro Light Italic
-    post_script_name: SourceCodePro-LightIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-LightItalic.ttf
+    post_script_name: SourceCodePro-LightItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTMo1rSVcZZJiGpw.ttf
   - family_name: Source Code Pro Light
     type: Regular
     preferred_family_name: Source Code Pro
     preferred_type: Light
     full_name: Source Code Pro Light
     post_script_name: SourceCodePro-Light
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Light.ttf
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DJKQhM5hTXUcdJg.ttf
 - name: Source Code Pro Medium
   styles:
   - family_name: Source Code Pro Medium
@@ -115,53 +153,53 @@ fonts:
     preferred_family_name: Source Code Pro
     preferred_type: Medium Italic
     full_name: Source Code Pro Medium Italic
-    post_script_name: SourceCodePro-MediumIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-MediumItalic.ttf
+    post_script_name: SourceCodePro-MediumItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTXo1rSVcZZJiGpw.ttf
   - family_name: Source Code Pro Medium
     type: Regular
     preferred_family_name: Source Code Pro
     preferred_type: Medium
     full_name: Source Code Pro Medium
     post_script_name: SourceCodePro-Medium
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-Medium.ttf
-- name: Source Code Pro Semibold
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DP6QhM5hTXUcdJg.ttf
+- name: Source Code Pro SemiBold
   styles:
-  - family_name: Source Code Pro Semibold
+  - family_name: Source Code Pro SemiBold
     type: Italic
     preferred_family_name: Source Code Pro
-    preferred_type: Semibold Italic
-    full_name: Source Code Pro Semibold Italic
-    post_script_name: SourceCodePro-SemiboldIt
-    version: 1.050;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-SemiBoldItalic.ttf
-  - family_name: Source Code Pro Semibold
+    preferred_type: SemiBold Italic
+    full_name: Source Code Pro SemiBold Italic
+    post_script_name: SourceCodePro-SemiBoldItalic
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTsoprSVcZZJiGpw.ttf
+  - family_name: Source Code Pro SemiBold
     type: Regular
     preferred_family_name: Source Code Pro
-    preferred_type: Semibold
-    full_name: Source Code Pro Semibold
-    post_script_name: SourceCodePro-Semibold
-    version: 2.030;PS 1.000;hotconv 16.6.51;makeotf.lib2.5.65220
-    copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-      with Reserved Font Name ‘Source’.
-    font: SourceCodePro-SemiBold.ttf
+    preferred_type: SemiBold
+    full_name: Source Code Pro SemiBold
+    post_script_name: SourceCodePro-SemiBold
+    version: 2.030;hotconv 1.0.116;makeotfexe 2.5.65601
+    copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/),
+      with Reserved Font Name ‘Source’."
+    font: HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DBKXhM5hTXUcdJg.ttf
 extract: {}
-copyright: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/),
-  with Reserved Font Name ‘Source’.
-license_url: http://www.adobe.com/type/legal.html
+copyright: "© 2010 - 2020 Adobe Systems Incorporated (http://www.adobe.com/), with
+  Reserved Font Name ‘Source’."
+license_url: http://scripts.sil.org/OFL
 open_license: |-
   Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.
 
   This Font Software is licensed under the SIL Open Font License, Version 1.1.
-  This license is copied below, and is also available with a FAQ at:
-  http://scripts.sil.org/OFL
+
+  This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
 
 
   -----------------------------------------------------------
@@ -250,5 +288,4 @@ open_license: |-
   DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
   FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
   OTHER DEALINGS IN THE FONT SOFTWARE.
-digest: 326194b9b8cdae88a5f6287264292e040f098a5a59edf6a46784b271a379e77b
-command: google import --formulas_path Formulas
+command: import google -n 9999

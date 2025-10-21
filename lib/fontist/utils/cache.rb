@@ -1,6 +1,58 @@
+require "lutaml/model"
+
 module Fontist
   module Utils
+    class CacheIndexItem < Lutaml::Model::Serializable
+      attribute :url, :string
+      attribute :name, :string
+    end
+
+    class CacheIndex < Lutaml::Model::Serializable
+      attribute :items, CacheIndexItem, collection: true, default: []
+
+      key_value do
+        map to: :items, root_mappings: {
+          url: :key,
+          name: :value,
+        }
+      end
+
+      def self.from_file(path)
+        return new unless File.exist?(path)
+
+        content = File.read(path)
+
+        return new if content.strip.empty? || content.strip == "---"
+
+        from_yaml(content) || {}
+      end
+
+      def to_file(path)
+        File.write(path, to_yaml)
+      end
+
+      def [](key)
+        Array(items).find { |i| i.url == key }&.name
+      end
+
+      def []=(key, value)
+        item = Array(items).find { |i| i.url == key }
+        if item
+          item.name = value
+        else
+          items << CacheIndexItem.new(url: key, name: value)
+        end
+      end
+
+      def delete(key)
+        item = Array(items).find { |i| i.url == key }
+        items.delete(item) if item
+      end
+    end
+
     class Cache
+      MAX_FILENAME_SIZE = 255
+
       include Locking
 
       def self.lock_path(path)
@@ -32,7 +84,7 @@ module Fontist
           return unless map[key]
 
           value = map.delete(key)
-          File.write(cache_map_path, YAML.dump(map))
+          map.to_file(cache_map_path)
           value
         end
       end
@@ -41,7 +93,7 @@ module Fontist
         lock(lock_path) do
           map = load_cache
           map[key] = value
-          File.write(cache_map_path, YAML.dump(map))
+          map.to_file(cache_map_path)
         end
       end
 
@@ -52,7 +104,7 @@ module Fontist
       end
 
       def load_cache
-        cache_map_path.exist? ? YAML.load_file(cache_map_path) : {}
+        CacheIndex.from_file(cache_map_path)
       end
 
       def downloaded_file(path)
@@ -81,7 +133,7 @@ module Fontist
         lock(lock_path) do
           map = load_cache
           map[key] = path
-          File.write(cache_map_path, YAML.dump(map))
+          map.to_file(cache_map_path)
         end
 
         path
@@ -105,11 +157,20 @@ module Fontist
       end
 
       def generate_file_path(source)
-        dir = Dir.mktmpdir(nil, Fontist.downloads_path)
+        # WORKAROUND: `to_s` below is needed to avoid ArgumentError
+        # on `Dir.mktmpdir`, which occurs in ruby-3.4-preview2.
+        # Double-check on stable ruby-3.4 and remove if no longer needed.
+
+        dir = Dir.mktmpdir(nil, Fontist.downloads_path.to_s)
         File.join(dir, filename(source))
       end
 
       def filename(source)
+        filename = response_to_filename(source)
+        format_filename(filename)
+      end
+
+      def response_to_filename(source)
         if File.extname(source.original_filename).empty? && source.content_type
           require "mime/types"
           ext = MIME::Types[source.content_type].first&.preferred_extension
@@ -117,6 +178,15 @@ module Fontist
         end
 
         source.original_filename
+      end
+
+      def format_filename(filename)
+        return filename unless filename.length > MAX_FILENAME_SIZE
+
+        ext = File.extname(filename)
+        target_size = MAX_FILENAME_SIZE - ext.length
+        cut_filename = filename.slice(0, target_size)
+        "#{cut_filename}#{ext}"
       end
 
       def move(source_file, target_path)
