@@ -3,6 +3,7 @@ require "lutaml/model"
 module Fontist
   class Config < Lutaml::Model::Serializable
     attribute :fonts_path, :string
+    attribute :google_fonts_key, :string
     attribute :open_timeout, :integer
     attribute :read_timeout, :integer
     attribute :continue_on_checksum_mismatch, :boolean
@@ -13,6 +14,7 @@ module Fontist
 
     key_value do
       map "fonts_path", to: :fonts_path
+      map "google_fonts_key", to: :google_fonts_key
       map "open_timeout", to: :open_timeout
       map "read_timeout", to: :read_timeout
       map "continue_on_checksum_mismatch", to: :continue_on_checksum_mismatch
