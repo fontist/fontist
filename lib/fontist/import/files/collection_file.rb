@@ -25,26 +25,15 @@ module Fontist
         private
 
         def read
-          switch_to_temp_dir do |tmp_dir|
+          Dir.mktmpdir do |tmp_dir|
             extract_ttfs(tmp_dir)
               .map { |path| Otf::FontFile.new(path) }
               .reject { |font_file| hidden_or_pua_encoded?(font_file) }
           end
         end
 
-        def switch_to_temp_dir
-          Dir.mktmpdir do |tmp_dir|
-            Dir.chdir(tmp_dir) do
-              yield tmp_dir
-            end
-          end
-        end
-
         def extract_ttfs(tmp_dir)
-          filenames = ExtractTtc.extract(@path)
-          filenames.map do |filename|
-            File.join(tmp_dir, filename)
-          end
+          ExtractTtc.extract(@path, output_dir: tmp_dir)
         end
 
         def hidden_or_pua_encoded?(font_file)
