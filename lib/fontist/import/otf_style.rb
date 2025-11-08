@@ -1,3 +1,5 @@
+require_relative "font_style"
+
 module Fontist
   module Import
     class OtfStyle
@@ -24,7 +26,7 @@ module Fontist
           style[:preferred_style] = @info["Preferred subfamily"]
         end
 
-        OpenStruct.new(style)
+        FontStyle.new(style)
       end
 
       private
