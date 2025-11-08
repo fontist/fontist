@@ -45,7 +45,7 @@ This might be useful if you want to know the name of the font or the available s
 Fontist::Font.all
 ```
 
-The return values are `OpenStruct` objects, so you can easily do any other operation you would do in any Ruby object.
+The return values are model objects, so you can easily access their properties and perform operations on them.
 
 ## Fontist::Formula
 
@@ -79,7 +79,7 @@ The `Fontist::Formula` interface exposes an interface to list all registered fon
 Fontist::Formula.all
 ```
 
-The return values are `OpenStruct` objects, so you can easily do any other operation you would do in any Ruby object.
+The return values are model objects, so you can easily access their properties and perform operations on them.
 
 ## Fontist::Manifest
 

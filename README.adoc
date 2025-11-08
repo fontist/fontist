@@ -478,8 +478,8 @@ styles. You can do that by using:
 Fontist::Font.all
 ----
 
-The return values are `OpenStruct` objects, so you can easily do any other
-operation you would do in any ruby object.
+The return values are model objects, so you can easily access their properties
+and perform operations on them.
 
 === `Fontist::Formula`
 
@@ -528,8 +528,8 @@ what type fonts can be installed using that formula. Usages:
 Fontist::Formula.all
 ----
 
-The return values are `OpenStruct` objects, so you can easily do any other
-operation you would do in any ruby object.
+The return values are model objects, so you can easily access their properties
+and perform operations on them.
 
 === `Fontist::Manifest`
 

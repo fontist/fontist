@@ -38,8 +38,10 @@ RSpec.describe Fontist::Utils::Downloader do
 
     context "with headers" do
       let(:request) do
-        OpenStruct.new(url: sample_file[:file],
-                       headers: { "Accept" => "application/octet-stream" })
+        Struct.new(:url, :headers).new(
+          sample_file[:file],
+          { "Accept" => "application/octet-stream" }
+        )
       end
 
       it "uses them" do
