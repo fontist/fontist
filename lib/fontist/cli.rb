@@ -178,6 +178,8 @@ module Fontist
       "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
     option :file_pattern, desc: "File pattern, e.g. '*.otf'. " \
       "Uses `fnmatch` patterns."
+    option :name_prefix, desc: "Prefix to add to all font family names, " \
+      "e.g. 'Wine ' for compatibility fonts"
     def create_formula(url)
       handle_class_options(options)
       require "fontist/import/create_formula"

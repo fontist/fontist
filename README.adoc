@@ -4,7 +4,17 @@ image:https://github.com/fontist/fontist/actions/workflows/test-and-release.yml/
 image:https://img.shields.io/gem/v/fontist.svg["Gem Version", link="https://rubygems.org/gems/fontist"]
 image:https://img.shields.io/github/issues-pr-raw/fontist/fontist.svg["Pull Requests", link="https://github.com/fontist/fontist/pulls"]
 
-A simple library to find and download fonts for Windows, Linux and Mac.
+Fontist lets you find and download fonts for Windows, Linux and Mac.
+
+Fontist is designed to facilitate automated and unattended management of font
+installations on modern operating systems.
+
+Fontist provides a repository of open
+https://github.com/fontist/formulas[Fontist Formulas] that can be easily
+installed, and also supports private font formula repositories for private or
+licensed commercial fonts.
+
+Learn more (and find your font) at https://www.fontist.org[fontist.org].
 
 :toc:
 
@@ -914,6 +924,62 @@ private formula repository location.
 ----
 fontist create-formula https://www.latofonts.com/files/Lato2OFL.zip
 cp lato.yml ~/.fontist/formulas/Formulas/
+----
+
+==== Options for `create-formula`
+
+The `create-formula` command supports several options to customize formula generation:
+
+`--name`::
+Specify a custom formula name instead of auto-detecting from fonts.
++
+[source,sh]
+----
+fontist create-formula https://example.com/fonts.zip --name "My Custom Fonts"
+----
+
+`--subdir`::
+Extract fonts only from a specific subdirectory within the archive.
+Uses `fnmatch` patterns.
++
+[source,sh]
+----
+fontist create-formula https://example.com/fonts.zip --subdir "fonts/otf"
+----
+
+`--file-pattern`::
+Filter font files by pattern. Uses `fnmatch` patterns.
++
+[source,sh]
+----
+fontist create-formula https://example.com/fonts.zip --file-pattern "*.otf"
+----
+
+`--name-prefix`::
+Add a prefix to all font family names in the generated formula. This is useful
+for distinguishing compatibility or replacement fonts from original proprietary
+fonts.
++
+[source,sh]
+----
+fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz \
+  --subdir fonts \
+  --file-pattern '*.ttf' \
+  --name-prefix 'Wine '
+----
++
+This will generate a formula where all fonts have names prefixed with `"Wine "`,
+such as "Wine Courier", "Wine Tahoma", "Wine Symbol", etc., making it clear
+these are Wine compatibility fonts rather than the original Microsoft fonts.
+
+`--mirror`::
+Specify mirror URLs for the font archive (can be used multiple times).
++
+[source,sh]
+----
+fontist create-formula https://example.com/fonts.zip \
+  --mirror https://mirror1.example.com/fonts.zip \
+  --mirror https://mirror2.example.com/fonts.zip
 ----
 
 

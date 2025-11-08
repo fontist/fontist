@@ -8,10 +8,11 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
-      def initialize(archive, subdir: nil, file_pattern: nil)
+      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil)
         @archive = archive
         @subdir = subdir
         @file_pattern = file_pattern
+        @name_prefix = name_prefix
         @operations = {}
         @font_files = []
         @collection_files = []
@@ -80,10 +81,10 @@ module Fontist
       def match_font(path)
         case Files::FontDetector.detect(path)
         when :font
-          file = Otf::FontFile.new(path)
+          file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          @collection_files << Files::CollectionFile.new(path)
+          @collection_files << Files::CollectionFile.new(path, name_prefix: @name_prefix)
         end
       end
 
@@ -97,7 +98,11 @@ module Fontist
       end
 
       def font_candidate?(path)
-        font_directory?(path) && file_pattern?(path)
+        has_font_extension?(path) && font_directory?(path) && file_pattern?(path)
+      end
+
+      def has_font_extension?(path)
+        path.match?(/\.(ttf|otf|ttc|woff|woff2)$/i)
       end
 
       def font_directory?(path)

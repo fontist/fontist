@@ -8,8 +8,9 @@ module Fontist
       class CollectionFile
         attr_reader :fonts
 
-        def initialize(path)
+        def initialize(path, name_prefix: nil)
           @path = path
+          @name_prefix = name_prefix
           @fonts = read
           @extension = detect_extension
         end
@@ -27,7 +28,7 @@ module Fontist
         def read
           Dir.mktmpdir do |tmp_dir|
             extract_ttfs(tmp_dir)
-              .map { |path| Otf::FontFile.new(path) }
+              .map { |path| Otf::FontFile.new(path, name_prefix: @name_prefix) }
               .reject { |font_file| hidden_or_pua_encoded?(font_file) }
           end
         end
