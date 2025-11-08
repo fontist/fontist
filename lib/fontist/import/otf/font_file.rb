@@ -21,8 +21,9 @@ module Fontist
 
         attr_reader :path
 
-        def initialize(path)
+        def initialize(path, name_prefix: nil)
           @path = path
+          @name_prefix = name_prefix
           @info = read
           @extension = detect_extension
         end
@@ -36,7 +37,8 @@ module Fontist
         end
 
         def family_name
-          info["Family"]
+          name = info["Family"]
+          @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def type
@@ -44,7 +46,10 @@ module Fontist
         end
 
         def preferred_family_name
-          info["Preferred family"]
+          name = info["Preferred family"]
+          return unless name
+
+          @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def preferred_type

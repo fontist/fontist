@@ -111,7 +111,8 @@ module Fontist
         @extractor ||=
           RecursiveExtraction.new(archive,
                                   subdir: @options[:subdir],
-                                  file_pattern: @options[:file_pattern])
+                                  file_pattern: @options[:file_pattern],
+                                  name_prefix: @options[:name_prefix])
       end
 
       def archive
