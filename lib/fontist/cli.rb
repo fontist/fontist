@@ -93,6 +93,7 @@ module Fontist
 
       STATUS_SUCCESS
     end
+
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if already installed in system"
