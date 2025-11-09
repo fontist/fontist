@@ -928,6 +928,20 @@ RSpec.describe Fontist::CLI do
     end
   end
 
+  describe "#version" do
+    it "returns exit code 0" do
+      status = described_class.start(["version"])
+      expect(status).to eq(0)
+    end
+
+    it "displays version number" do
+      expect(Fontist.ui).to receive(:say).with("fontist: #{Fontist::VERSION}")
+      expect(Fontist.ui).to receive(:say).with(/formulas:/).at_most(4).times
+      described_class.start(["version"])
+    end
+
+  end
+
   def expect_say_yaml(result)
     expect(Fontist.ui).to receive(:say).with(include_yaml(result))
     expect(command).to be 0
