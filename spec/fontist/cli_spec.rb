@@ -940,6 +940,11 @@ RSpec.describe Fontist::CLI do
       described_class.start(["version"])
     end
 
+    it "supports --version flag" do
+      expect(Fontist.ui).to receive(:say).with("fontist: #{Fontist::VERSION}")
+      expect(Fontist.ui).to receive(:say).with(/formulas:|branch:|commit:|updated:/).at_most(4).times
+      described_class.start(["--version"])
+    end
   end
 
   def expect_say_yaml(result)
