@@ -45,7 +45,9 @@ RSpec.describe Fontist::Font do
       it "raises font unsupported error" do
         no_fonts do
           expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "InvalidFont.ttf" })
+          expect { command }.to(raise_error do |e|
+            expect(e.font).to eq "InvalidFont.ttf"
+          end)
         end
       end
     end
@@ -53,7 +55,7 @@ RSpec.describe Fontist::Font do
     context "with macos system fonts", slow: true, macos: true do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
-      # rubocop:disable Metrics/LineLength
+      # rubocop:disable Layout/LineLength
       fonts = [
         ["Arial Unicode MS", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
         ["AppleGothic", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"],
@@ -61,7 +63,7 @@ RSpec.describe Fontist::Font do
         ["Apple Symbols", "/System/Library/Fonts/Apple Symbols.ttf"],
         ["Helvetica", "/System/Library/Fonts/Helvetica.ttc"],
       ]
-      # rubocop:enable Metrics/LineLength
+      # rubocop:enable Layout/LineLength
 
       fonts.each do |font_name, path|
         context font_name do
@@ -97,8 +99,8 @@ RSpec.describe Fontist::Font do
 
     context "with windows user fonts", windows: true do
       let(:font) { "dejavu serif" }
-      let(:fixture_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
-      let(:user_path) { File.join("AppData", "Local", "Microsoft", "Windows", "Fonts", "DejaVuSerif.ttf") } # rubocop:disable Metrics/LineLength
+      let(:fixture_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf") } # rubocop:disable Layout/LineLength
+      let(:user_path) { File.join("AppData", "Local", "Microsoft", "Windows", "Fonts", "DejaVuSerif.ttf") } # rubocop:disable Layout/LineLength
       let(:absolute_user_path) { File.join(Dir.home, user_path) }
 
       before do
@@ -215,7 +217,7 @@ RSpec.describe Fontist::Font do
       around { |example| avoid_cache(url) { example.run } }
 
       it "prints descriptive messages of what's going on" do
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         expect(Fontist.ui).to receive(:say).with(%(Font "andale mono" not found locally.))
         expect(Fontist.ui).to receive(:say).with(%(Downloading from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
         expect(Fontist.ui).to receive(:print).with(/\r\e\[0KDownloading:\s+\d+% \(\d+\/\d+ MiB\)/)
@@ -223,7 +225,7 @@ RSpec.describe Fontist::Font do
         expect(Fontist.ui).to receive(:say).with(%(Installing from formula "andale".))
         expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
         expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
 
         command
       end
@@ -814,7 +816,9 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        expect { command }.to(raise_error do |e|
+          expect(e.font).to eq "nonexistent"
+        end)
       end
     end
 
@@ -905,7 +909,9 @@ RSpec.describe Fontist::Font do
       it "raises font unsupported error" do
         no_fonts do
           expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+          expect { command }.to(raise_error do |e|
+            expect(e.font).to eq "nonexistent"
+          end)
         end
       end
     end
@@ -917,7 +923,9 @@ RSpec.describe Fontist::Font do
         stub_system_fonts
         stub_fonts_path_to_new_path do
           expect { command }.to raise_error Fontist::Errors::MissingFontError
-          expect { command }.to(raise_error { |e| expect(e.font).to eq "andale mono" })
+          expect { command }.to(raise_error do |e|
+            expect(e.font).to eq "andale mono"
+          end)
         end
       end
     end
@@ -1006,7 +1014,9 @@ RSpec.describe Fontist::Font do
 
       it "raises font unsupported error" do
         expect { command }.to raise_error Fontist::Errors::UnsupportedFontError
-        expect { command }.to(raise_error { |e| expect(e.font).to eq "nonexistent" })
+        expect { command }.to(raise_error do |e|
+          expect(e.font).to eq "nonexistent"
+        end)
       end
     end
 

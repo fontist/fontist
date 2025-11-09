@@ -94,9 +94,9 @@ module Fontist
               progress_bar.total = content_length
             end
           },
-          progress_proc: -> (progress) {
+          progress_proc: ->(progress) {
             progress_bar.increment(progress)
-          }
+          },
         )
       end
       # rubocop:enable Metrics/MethodLength
@@ -106,9 +106,9 @@ module Fontist
       end
 
       def headers
-        @file.respond_to?(:headers) &&
+        (@file.respond_to?(:headers) &&
           @file.headers &&
-          @file.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
+          @file.headers.to_h.to_h { |k, v| [k.to_s, v] }) || # rubocop:disable Style/HashTransformKeys, Layout/LineLength
           {}
       end
     end
@@ -116,7 +116,7 @@ module Fontist
     class ProgressBar
       def initialize(total)
         @counter = 0
-        @total  = total
+        @total = total
         @printed_percent = -1
         @printed_size = -1
         @start = Time.now
@@ -135,7 +135,8 @@ module Fontist
       def finish
         print
 
-        Fontist.ui.print(format(", %<mb_per_second>.2f MiB/s, done.\n", mb_per_second: mb_per_second))
+        Fontist.ui.print(format(", %<mb_per_second>.2f MiB/s, done.\n",
+                                mb_per_second: mb_per_second))
       end
 
       private
@@ -202,7 +203,8 @@ module Fontist
       end
 
       def print_size
-        Fontist.ui.print(format("\r\e[0KDownloading: %<downloaded>4d MiB", downloaded: counter_mb))
+        Fontist.ui.print(format("\r\e[0KDownloading: %<downloaded>4d MiB",
+                                downloaded: counter_mb))
       end
 
       def mb_per_second

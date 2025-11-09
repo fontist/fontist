@@ -19,6 +19,7 @@ module Fontist
     # - pclinuxos_webcore_fonts.yml
     class PreferredFamilyFontIndex < Lutaml::Model::Collection
       include IndexMixin
+
       instances :entries, FormulaKeyToPath
 
       key_value do

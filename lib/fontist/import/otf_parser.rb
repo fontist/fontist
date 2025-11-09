@@ -19,8 +19,7 @@ module Fontist
         text.split("\n")
           .select { |x| x.include?(":") }
           .map { |x| x.split(":", 2) }
-          .map { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
-          .to_h
+          .to_h { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
       end
     end
   end

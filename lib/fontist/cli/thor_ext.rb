@@ -51,7 +51,7 @@ module Fontist
         # Handle version flags before Thor processes them
         # Only intercept --version if it's used as a global flag (first arg or no command before it)
         if given_args.include?("--version") &&
-           (given_args.first == "--version" || !given_args.first&.match?(/^[a-z]/))
+            (given_args.first == "--version" || !given_args.first&.match?(/^[a-z]/))
           yield(["version"])
           return
         end

@@ -10,6 +10,5 @@ module Fontist
       map "name", to: :name
       map "styles", to: :styles
     end
-
   end
 end
