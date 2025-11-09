@@ -70,7 +70,7 @@ module Fontist
     end
 
     def no_fonts(&block)
-      if block_given?
+      if block
         stub_fonts_path_to_new_path do
           stub_system_fonts_path_to_new_path(&block)
         end
@@ -110,7 +110,7 @@ module Fontist
       pattern = File.join(path,
                           "**",
                           "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}")
-      paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, Metrics/LineLength, avoid aliases in YAML
+      paths = 4.times.map { { "paths" => [pattern] } } # rubocop:disable Performance/TimesMap, Layout/LineLength, avoid aliases in YAML
       { "system" => %w[linux windows macos unix].zip(paths).to_h }
     end
 
@@ -313,7 +313,7 @@ module Fontist
     end
 
     def stub_env(name, value)
-      prev = ENV[name]
+      prev = ENV.fetch(name, nil)
       ENV[name] = value
       yield
       ENV[name] = prev

@@ -343,7 +343,7 @@ module Fontist
     end
 
     def map_to_hash(elements)
-      elements.map { |e| [e, yield(e)] }.to_h
+      elements.to_h { |e| [e, yield(e)] }
     end
 
     def requested_fonts(fonts)

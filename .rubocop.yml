@@ -1,6 +1,10 @@
 inherit_from:
-  - 'https://raw.githubusercontent.com/fontist/oss-guides/master/ci/rubocop.yml'
+  - .rubocop_todo.yml
+  - https://raw.githubusercontent.com/riboseinc/oss-guides/main/ci/rubocop.yml
 
 AllCops:
   TargetRubyVersion: 2.7
   SuggestExtensions: false
+
+plugins:
+  - rubocop-performance

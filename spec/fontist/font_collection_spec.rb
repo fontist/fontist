@@ -2,13 +2,13 @@ require "spec_helper"
 
 RSpec.describe Fontist::FontCollection do
   describe ".from_yaml" do
-    formula_paths = Dir.glob('spec/examples/formulas/*.yml')
+    formula_paths = Dir.glob("spec/examples/formulas/*.yml")
 
     context "round-trips 'font_collections' of" do
       formula_paths.each do |formula_path|
         context "formula #{formula_path}" do
           content = File.read(formula_path)
-          collections = YAML.load(content)["font_collections"]
+          collections = YAML.safe_load(content)["font_collections"]
 
           # Not all formulas have font collections
           # so we skip those without any.

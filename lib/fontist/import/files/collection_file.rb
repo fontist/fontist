@@ -16,7 +16,7 @@ module Fontist
         end
 
         def filename
-          File.basename(@path, ".*") + "." + @extension
+          "#{File.basename(@path, '.*')}.#{@extension}"
         end
 
         def source_filename

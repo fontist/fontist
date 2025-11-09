@@ -55,7 +55,8 @@ RSpec.describe Fontist::CLI do
     context "font index is corrupted" do
       it "tells the index is corrupted and proposes to remove it" do
         stub_system_index_path do
-          File.write(Fontist.system_index_path, YAML.dump([{ path: "/some/path" }]))
+          File.write(Fontist.system_index_path,
+                     YAML.dump([{ path: "/some/path" }]))
           expect(Fontist.ui).to receive(:error) do |msg|
             expect(msg).to start_with("Font index is corrupted.")
             expect(msg).to include("misses required attributes:")
@@ -173,11 +174,11 @@ RSpec.describe Fontist::CLI do
 
       let(:not_found_message) do
         "Formula '#{formula}' not found locally nor available in the " \
-        "Fontist formula repository.\n" \
-        "Perhaps it is available at the latest Fontist formula " \
-        "repository.\n" \
-        "You can update the formula repository using the command " \
-        "`fontist update` and try again."
+          "Fontist formula repository.\n" \
+          "Perhaps it is available at the latest Fontist formula " \
+          "repository.\n" \
+          "You can update the formula repository using the command " \
+          "`fontist update` and try again."
       end
 
       context "missing formula" do
@@ -431,7 +432,8 @@ RSpec.describe Fontist::CLI do
     end
 
     context "no font specified" do
-      it "returns success status and prints list with no installed status", slow: true do
+      it "returns success status and prints list with no installed status",
+         slow: true do
         stub_fonts_path_to_new_path do
           expect(Fontist.ui).to receive(:error).at_least(1).times
           expect(Fontist.ui).to receive(:success).exactly(0).times
@@ -578,7 +580,7 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns no-space location" do
-        stub_system_fonts_path_to_new_path do |system_dir|
+        stub_system_fonts_path_to_new_path do |_system_dir|
           example_font_to_system("NotoSansOriya.ttc")
 
           stub_fonts_path_to_new_path do
@@ -683,7 +685,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Noto Sans Oriya" =>
           { "Regular" => { "full_name" => "Noto Sans Oriya",
-                           "paths" => [include("NotoSansOriya.ttc")] } }
+                           "paths" => [include("NotoSansOriya.ttc")] } },
         )
       end
     end
@@ -697,7 +699,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [include("AndaleMo.TTF")] } }
+                           "paths" => [include("AndaleMo.TTF")] } },
         )
       end
     end
@@ -713,7 +715,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => include(include("AndaleMo.TTF")) } }
+                           "paths" => include(include("AndaleMo.TTF")) } },
         )
       end
     end
@@ -731,7 +733,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => include(/AndaleMo\.TTF/i) } }
+                           "paths" => include(/AndaleMo\.TTF/i) } },
         )
       end
     end
@@ -752,7 +754,7 @@ RSpec.describe Fontist::CLI do
                            "paths" => include(/AndaleMo\.TTF/i) } },
           "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [font_path("courbd.ttf")] } }
+                        "paths" => [font_path("courbd.ttf")] } },
         )
       end
     end
@@ -789,7 +791,7 @@ RSpec.describe Fontist::CLI do
                           "paths" => include(/Georgiai\.TTF/i) },
             "Bold Italic" => { "full_name" => "Georgia Bold Italic",
                                "paths" => include(/Georgiaz\.TTF/i) },
-          }
+          },
         )
       end
     end
@@ -812,7 +814,7 @@ RSpec.describe Fontist::CLI do
                           "paths" => [font_path("couri.ttf")] },
             "Bold Italic" => { "full_name" => "Courier New Bold Italic",
                                "paths" => [font_path("courbi.ttf")] },
-          }
+          },
         )
       end
     end
@@ -847,7 +849,7 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => include(/AndaleMo\.TTF/i) } }
+                           "paths" => include(/AndaleMo\.TTF/i) } },
         )
       end
     end

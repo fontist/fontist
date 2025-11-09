@@ -37,7 +37,8 @@ module Fontist
       end
 
       def create_formula_by_archive_url(url)
-        path = Fontist::Import::CreateFormula.new(url, formula_dir: formula_dir).call
+        path = Fontist::Import::CreateFormula.new(url,
+                                                  formula_dir: formula_dir).call
         Fontist.ui.success("Formula has been successfully created: #{path}")
 
         path
@@ -75,11 +76,15 @@ module Fontist
 
       def find_archive_link(document)
         links = document.css("a.btn-download")
-        download_links = links.select { |tag| tag.content.include?("DOWNLOAD CURRENT VERSION") }
+        download_links = links.select do |tag|
+          tag.content.include?("DOWNLOAD CURRENT VERSION")
+        end
         return download_links.first unless download_links.empty?
 
         links = document.css("a")
-        download_links = links.select { |tag| tag.content.match?(/Download.*\.zip/) }
+        download_links = links.select do |tag|
+          tag.content.match?(/Download.*\.zip/)
+        end
         download_links.first
       end
 
@@ -91,7 +96,7 @@ module Fontist
 
       def formula_dir
         @formula_dir ||= Fontist.formulas_path.join("sil").tap do |path|
-          FileUtils.mkdir_p(path) unless File.exist?(path)
+          FileUtils.mkdir_p(path)
         end
       end
     end

@@ -84,7 +84,8 @@ module Fontist
           file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          @collection_files << Files::CollectionFile.new(path, name_prefix: @name_prefix)
+          @collection_files << Files::CollectionFile.new(path,
+                                                         name_prefix: @name_prefix)
         end
       end
 
@@ -112,7 +113,7 @@ module Fontist
       end
 
       def subdirectory_pattern
-        @subdirectory_pattern ||= "*" + @subdir.chomp("/") if @subdir
+        @subdirectory_pattern ||= "*#{@subdir.chomp('/')}" if @subdir
       end
 
       def file_pattern?(path)

@@ -1,21 +1,18 @@
 require "spec_helper"
 
 RSpec.describe Fontist::SystemIndexFontCollection do
-
   describe "#from_yaml" do
     context "round-trips" do
       filename = File.join(Fontist.system_index_path)
 
-      it "#{filename}" do
-        raw_content = IO.read(filename)
-        content = YAML.load(raw_content)
+      it filename.to_s do
+        raw_content = File.read(filename)
+        content = YAML.safe_load(raw_content)
         # Convert all "content" symbol keys into string keys, "content" is an
         # array with each item a hash here
 
         content = content.map do |item|
-          item.each_with_object({}) do |(key, value), result|
-            result[key.to_s] = value
-          end
+          item.transform_keys(&:to_s)
         end
 
         collection = described_class.from_yaml(raw_content).tap do |col|
@@ -27,5 +24,4 @@ RSpec.describe Fontist::SystemIndexFontCollection do
       end
     end
   end
-
 end

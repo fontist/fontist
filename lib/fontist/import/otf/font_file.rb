@@ -29,11 +29,11 @@ module Fontist
         end
 
         def to_style
-          STYLE_ATTRIBUTES.map { |name| [name, send(name)] }.to_h.compact
+          STYLE_ATTRIBUTES.to_h { |name| [name, send(name)] }.compact
         end
 
         def to_collection_style
-          COLLECTION_ATTRIBUTES.map { |name| [name, send(name)] }.to_h.compact
+          COLLECTION_ATTRIBUTES.to_h { |name| [name, send(name)] }.compact
         end
 
         def family_name
@@ -108,8 +108,7 @@ module Fontist
             .split("\n")
             .select { |x| x.include?(":") }
             .map { |x| x.split(":", 2) }
-            .map { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
-            .to_h
+            .to_h { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
         end
 
         def detect_extension

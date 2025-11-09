@@ -19,7 +19,7 @@ module Fontist
 
     def update_main_repo
       dir = File.dirname(Fontist.formulas_repo_path)
-      FileUtils.mkdir_p(dir) unless File.exist?(dir)
+      FileUtils.mkdir_p(dir)
 
       unless Dir.exist?(Fontist.formulas_repo_path)
         return Git.clone(Fontist.formulas_repo_url,
