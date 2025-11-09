@@ -63,6 +63,36 @@ module Fontist
       false
     end
 
+    desc "version", "Show fontist version"
+    def version
+      handle_class_options(options)
+      Fontist.ui.say("fontist: #{Fontist::VERSION}")
+
+      # Show formulas repository information if available
+      if Dir.exist?(Fontist.formulas_repo_path)
+        begin
+          require "git"
+          repo = Git.open(Fontist.formulas_repo_path)
+          repo_url = repo.config["remote.origin.url"] || Fontist.formulas_repo_url
+          branch = repo.current_branch
+          # Use execute.first for git gem ~> 4.0 compatibility
+          log_entry = repo.log(1).execute.first
+          revision = log_entry.sha[0..6]
+          updated = repo.gcommit(log_entry.sha).date.strftime("%Y-%m-%d")
+
+          Fontist.ui.say("formulas:")
+          Fontist.ui.say("  repo: #{repo_url}")
+          Fontist.ui.say("  version: #{Fontist.formulas_version}")
+          Fontist.ui.say("  branch: #{branch}")
+          Fontist.ui.say("  commit: #{revision}")
+          Fontist.ui.say("  updated: #{updated}")
+        rescue StandardError => e
+          Fontist.ui.debug("Could not read formulas repository info: #{e.message}")
+        end
+      end
+
+      STATUS_SUCCESS
+    end
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if already installed in system"
