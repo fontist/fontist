@@ -37,7 +37,7 @@ module Fontist
 
       def start(given_args = ARGV, config = {})
         config[:shell] ||= Thor::Base.shell.new
-        handle_help_switches(given_args) do |args|
+        handle_version_and_help_switches(given_args) do |args|
           dispatch(nil, args, nil, config)
         end
       rescue StandardError => e
@@ -47,7 +47,15 @@ module Fontist
       private
 
       # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
-      def handle_help_switches(given_args)
+      def handle_version_and_help_switches(given_args)
+        # Handle version flags before Thor processes them
+        # Only intercept --version if it's used as a global flag (first arg or no command before it)
+        if given_args.include?("--version") &&
+           (given_args.first == "--version" || !given_args.first&.match?(/^[a-z]/))
+          yield(["version"])
+          return
+        end
+
         yield(given_args.dup)
       rescue Thor::UnknownArgumentError => e
         retry_with_args = []
