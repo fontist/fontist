@@ -100,7 +100,7 @@ module Fontist
     def self.from_hash(data, options = {})
       locations = options.delete(:locations) || false
 
-      model = super(data, options)
+      model = super
 
       model.to_response(locations: locations)
     end

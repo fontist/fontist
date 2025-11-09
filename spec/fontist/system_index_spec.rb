@@ -39,7 +39,8 @@ RSpec.describe Fontist::SystemIndex do
 
     it "throws FontIndexCorrupted error" do
       stub_system_index_path do
-        File.write(Fontist.system_index_path, YAML.dump([{ path: "/some/path" }]))
+        File.write(Fontist.system_index_path,
+                   YAML.dump([{ path: "/some/path" }]))
         expect { command }.to raise_error(Fontist::Errors::FontIndexCorrupted)
       end
     end

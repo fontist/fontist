@@ -1,4 +1,3 @@
-
 module Fontist
   module Indexes
     class FormulaKeyToPath < Lutaml::Model::Serializable

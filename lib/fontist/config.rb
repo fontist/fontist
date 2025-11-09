@@ -103,7 +103,10 @@ module Fontist
     def persist
       config_model = self.class.new
       @custom_values.each do |key, value|
-        config_model.send("#{key}=", value) if config_model.respond_to?("#{key}=")
+        if config_model.respond_to?("#{key}=")
+          config_model.send("#{key}=",
+                            value)
+        end
       end
 
       FileUtils.mkdir_p(File.dirname(Fontist.config_path))

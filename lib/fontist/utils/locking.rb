@@ -3,7 +3,7 @@ module Fontist
     module Locking
       def lock(lock_path)
         File.dirname(lock_path).tap do |dir|
-          FileUtils.mkdir_p(dir) unless File.exist?(dir)
+          FileUtils.mkdir_p(dir)
         end
 
         f = File.open(lock_path, File::CREAT)

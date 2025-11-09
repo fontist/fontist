@@ -107,11 +107,11 @@ module Fontist
     end
 
     def subdirectory_pattern
-      @subdirectory_pattern ||= "*" + subdirectories.first.chomp("/") unless subdirectories.empty?
+      @subdirectory_pattern ||= "*#{subdirectories.first.chomp('/')}" unless subdirectories.empty?
     end
 
     def subdirectories
-      @subdirectories ||= [@formula.extract].flatten.compact.map(&:options).compact.map(&:fonts_sub_dir).compact
+      @subdirectories ||= [@formula.extract].flatten.compact.filter_map(&:options).filter_map(&:fonts_sub_dir)
     end
 
     def install_font_file(source)

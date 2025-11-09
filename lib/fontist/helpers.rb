@@ -21,7 +21,7 @@ module Fontist
 
     def self.silence_stream(stream)
       old_stream = stream.dup
-      stream.reopen(RbConfig::CONFIG["host_os"] =~ /mswin|mingw/ ? "NUL:" : "/dev/null") # rubocop:disable Performance/RegexpMatch, Metrics/LineLength
+      stream.reopen(RbConfig::CONFIG["host_os"] =~ /mswin|mingw/ ? File::NULL : File::NULL) # rubocop:disable Performance/RegexpMatch, Layout/LineLength
       stream.sync = true
       yield
     ensure

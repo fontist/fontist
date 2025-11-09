@@ -60,7 +60,7 @@ module Fontist
 
       def formula_dir
         @formula_dir ||= Fontist.formulas_path.join("macos").tap do |path|
-          FileUtils.mkdir_p(path) unless File.exist?(path)
+          FileUtils.mkdir_p(path)
         end
       end
     end

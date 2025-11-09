@@ -54,7 +54,7 @@ module Fontist
       def yaml_formula_path(formula)
         name = formula_path(formula).match(/formulas\/(.*)_fonts?.rb/)[1]
 
-        Fontist.formulas_path.join(name + ".yml")
+        Fontist.formulas_path.join("#{name}.yml")
       end
 
       def stringify_keys(hash)

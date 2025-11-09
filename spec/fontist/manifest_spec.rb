@@ -4,7 +4,7 @@ RSpec.describe Fontist::Manifest do
   describe "parsing" do
     let(:manifest_path) { "spec/examples/manifests/mscorefonts.yml" }
     it "round-trips" do
-      content = "---\n" + File.read(manifest_path).split("---\n").last
+      content = "---\n#{File.read(manifest_path).split("---\n").last}"
       manifest = described_class.from_yaml(content)
       expect(manifest.to_yaml).to eq(content)
     end
@@ -45,7 +45,9 @@ RSpec.describe Fontist::Manifest do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       context "confirmation option passed" do
-        let(:instance) { described_class.from_hash(manifest).install(confirmation: "yes") }
+        let(:instance) do
+          described_class.from_hash(manifest).install(confirmation: "yes")
+        end
 
         it "accepts it with no error" do
           expect { instance }.not_to raise_error
@@ -72,7 +74,9 @@ RSpec.describe Fontist::Manifest do
       end
 
       context "confirmation option passed as no and nil input is returned" do
-        let(:instance) { described_class.from_hash(manifest).install(confirmation: "no") }
+        let(:instance) do
+          described_class.from_hash(manifest).install(confirmation: "no")
+        end
         before { stub_license_agreement_prompt_with(nil) }
 
         it "raises licensing error" do
@@ -100,5 +104,4 @@ RSpec.describe Fontist::Manifest do
       end
     end
   end
-
 end
