@@ -63,7 +63,7 @@ RSpec.describe Fontist::FontInstaller do
     context "all mirrors fail" do
       let(:mirrors) do
         ["https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe",
-         "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe", # rubocop:disable Metrics/LineLength
+         "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe", # rubocop:disable Layout/LineLength
          "http://sft.if.usp.br/msttcorefonts/andale32.exe"]
       end
 

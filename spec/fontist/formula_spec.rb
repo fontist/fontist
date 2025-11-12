@@ -1,13 +1,12 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Formula do
-
   describe ".from_file" do
-    formula_paths = Dir.glob('spec/examples/formulas/*.yml')
+    formula_paths = Dir.glob("spec/examples/formulas/*.yml")
 
     context "round-trips" do
       formula_paths.each do |formula_path|
-        it "#{formula_path}" do
+        it formula_path.to_s do
           content = File.read(formula_path)
           expect(Fontist::Formula.from_yaml(content).to_yaml).to eq(content)
         end

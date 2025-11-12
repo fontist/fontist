@@ -103,7 +103,7 @@ module Fontist
         standalone.empty? ? nil : standalone
       end
 
-      # rubocop:disable Metrics/MethodLength, Metrics/LineLength
+      # rubocop:disable Metrics/MethodLength, Layout/LineLength
       def extract_type(code)
         case code
         when /def extract.+exe_extract.+cab_extract.+ppviewer\.cab/m
@@ -119,7 +119,7 @@ module Fontist
           raise NotImplementedError, "Please implement an extract format"
         end
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/LineLength
+      # rubocop:enable Metrics/MethodLength, Layout/LineLength
 
       def requires_license_agreement(formula)
         formula.license if formula.license && formula.license_required?

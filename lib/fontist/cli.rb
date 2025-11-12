@@ -63,6 +63,37 @@ module Fontist
       false
     end
 
+    desc "version", "Show fontist version"
+    def version
+      handle_class_options(options)
+      Fontist.ui.say("fontist: #{Fontist::VERSION}")
+
+      # Show formulas repository information if available
+      if Dir.exist?(Fontist.formulas_repo_path)
+        begin
+          require "git"
+          repo = Git.open(Fontist.formulas_repo_path)
+          repo_url = repo.config["remote.origin.url"] || Fontist.formulas_repo_url
+          branch = repo.current_branch
+          # Use execute.first for git gem ~> 4.0 compatibility
+          log_entry = repo.log(1).execute.first
+          revision = log_entry.sha[0..6]
+          updated = repo.gcommit(log_entry.sha).date.strftime("%Y-%m-%d")
+
+          Fontist.ui.say("formulas:")
+          Fontist.ui.say("  repo: #{repo_url}")
+          Fontist.ui.say("  version: #{Fontist.formulas_version}")
+          Fontist.ui.say("  branch: #{branch}")
+          Fontist.ui.say("  commit: #{revision}")
+          Fontist.ui.say("  updated: #{updated}")
+        rescue StandardError => e
+          Fontist.ui.debug("Could not read formulas repository info: #{e.message}")
+        end
+      end
+
+      STATUS_SUCCESS
+    end
+
     desc "install FONT", "Install font"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if already installed in system"
@@ -112,7 +143,10 @@ module Fontist
     def status(font = nil)
       handle_class_options(options)
       paths = Fontist::Font.status(font)
-      return error("No font is installed.", STATUS_MISSING_FONT_ERROR) if paths.empty?
+      if paths.empty?
+        return error("No font is installed.",
+                     STATUS_MISSING_FONT_ERROR)
+      end
 
       success
     rescue Fontist::Errors::GeneralError => e
@@ -175,11 +209,11 @@ module Fontist
     option :name, desc: "Example: Times New Roman"
     option :mirror, repeatable: true
     option :subdir, desc: "Subdirectory to take fonts from, starting with the " \
-      "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
+                          "root dir, e.g.: stixfonts-2.10/fonts/static_otf. May include `fnmatch` patterns."
     option :file_pattern, desc: "File pattern, e.g. '*.otf'. " \
-      "Uses `fnmatch` patterns."
+                                "Uses `fnmatch` patterns."
     option :name_prefix, desc: "Prefix to add to all font family names, " \
-      "e.g. 'Wine ' for compatibility fonts"
+                               "e.g. 'Wine ' for compatibility fonts"
     def create_formula(url)
       handle_class_options(options)
       require "fontist/import/create_formula"

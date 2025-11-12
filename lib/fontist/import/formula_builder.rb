@@ -24,7 +24,7 @@ module Fontist
       end
 
       def formula
-        formula_attributes.map { |name| [name, send(name)] }.to_h.compact
+        formula_attributes.to_h { |name| [name, send(name)] }.compact
       end
 
       def save
@@ -87,7 +87,7 @@ module Fontist
       end
 
       def homepage
-        @options[:homepage] || both_fonts.map(&:homepage).compact.first
+        @options[:homepage] || both_fonts.filter_map(&:homepage).first
       end
 
       def resources
@@ -138,11 +138,11 @@ module Fontist
       end
 
       def copyright
-        both_fonts.map(&:copyright).compact.first
+        both_fonts.filter_map(&:copyright).first
       end
 
       def license_url
-        both_fonts.map(&:license_url).compact.first
+        both_fonts.filter_map(&:license_url).first
       end
 
       def requires_license_agreement

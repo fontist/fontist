@@ -14,13 +14,13 @@ module Fontist
       end
 
       def self.formula_path(name)
-        filename = name.downcase.gsub(" ", "_") + ".yml"
+        filename = "#{name.downcase.gsub(' ', '_')}.yml"
         Fontist.formulas_path.join("google", filename)
       end
 
       def self.digest(path)
         checksums = Dir.glob(File.join(path,
-                             "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}"))
+                                       "*.{[t|T][t|T][f|F],[o|O][t|T][f|F],[t|T][t|T][c|C]}"))
           .sort
           .map { |x| Digest::SHA256.file(x).to_s }
 

@@ -18,6 +18,7 @@ module Fontist
     # - adobe_reader_19.yml
     class FilenameIndex < Lutaml::Model::Collection
       include IndexMixin
+
       instances :entries, FormulaKeyToPath
 
       key_value do

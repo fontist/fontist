@@ -6,7 +6,7 @@ module Fontist
       end
 
       module ClassMethods
-        def from_file(file_path = self.path)
+        def from_file(file_path = path)
           Fontist.ui.debug("Index: #{file_path}")
 
           Fontist.formulas_repo_path_exists!
@@ -16,7 +16,8 @@ module Fontist
           file_content = File.read(file_path).strip
 
           if file_content.empty?
-            raise Fontist::Errors::FontIndexCorrupted, "Index file is empty: #{file_path}"
+            raise Fontist::Errors::FontIndexCorrupted,
+                  "Index file is empty: #{file_path}"
           end
 
           from_yaml(file_content)
@@ -51,7 +52,8 @@ module Fontist
       end
 
       def index_key_for_style(_style)
-        raise NotImplementedError, "index_key_for_style(style) must be implemented in including class"
+        raise NotImplementedError,
+              "index_key_for_style(style) must be implemented in including class"
       end
 
       def add_index_formula(style, formula_path)
