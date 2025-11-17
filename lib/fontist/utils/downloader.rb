@@ -102,13 +102,15 @@ module Fontist
       # rubocop:enable Metrics/MethodLength
 
       def url
-        @file.respond_to?(:url) ? @file.url : @file
+        obj = Helpers.url_object(@file)
+        obj.respond_to?(:url) ? obj.url : obj
       end
 
       def headers
-        @file.respond_to?(:headers) &&
-          @file.headers &&
-          @file.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
+        obj = Helpers.url_object(@file)
+        obj.respond_to?(:headers) &&
+          obj.headers &&
+          obj.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
           {}
       end
     end
