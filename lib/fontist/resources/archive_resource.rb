@@ -33,10 +33,11 @@ module Fontist
       end
 
       def try_download_file(request, source)
-        info_log(request)
+        url = Helpers.url_object(request)
+        info_log(url)
 
         Fontist::Utils::Downloader.download(
-          request,
+          url,
           sha: source.sha256,
           file_size: source.file_size,
           progress_bar: !@options[:no_progress],
