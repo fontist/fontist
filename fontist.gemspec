@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "git", "~> 1.0"
   spec.add_dependency "ttfunk", "~> 1.6"
   spec.add_dependency "plist", "~> 3.0"
-  spec.add_dependency "excavate", "~> 0.3", '>= 0.3.4'
+  spec.add_dependency "excavate", "~> 0.3", '>= 0.3.7'
   spec.add_dependency "socksify", "~> 1.7"
   spec.add_dependency "lutaml-model", "~> 0.7"
 end
