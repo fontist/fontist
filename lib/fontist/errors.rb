@@ -20,6 +20,8 @@ module Fontist
 
     class FontFileError < GeneralError; end
 
+    class FontExtractError < GeneralError; end
+
     class FontistVersionError < GeneralError; end
 
     class FontNotFoundError < GeneralError; end

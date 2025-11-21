@@ -1,24 +1,97 @@
+# DEPRECATED: This class is deprecated and will be removed in a future version.
+# Please use Fontist::Import::GoogleImporter instead, which provides access
+# to the new architecture with improved performance, error handling, and features.
+#
+# @deprecated Use {Fontist::Import::GoogleImporter} instead
+# @see Fontist::Import::GoogleImporter
+
 require_relative "google"
 require_relative "google/api"
 require_relative "google/create_google_formula"
 
 module Fontist
   module Import
+    # Legacy Google Fonts import class
+    #
+    # @deprecated This class is deprecated and maintained only for backward compatibility.
+    #   Use {GoogleImporter} instead which provides:
+    #   - Better error handling and retry logic
+    #   - Parallel processing support
+    #   - Configuration-driven customization
+    #   - Progress reporting
+    #   - Comprehensive logging
+    #
+    # @example Migration to new system
+    #   # Old way (deprecated)
+    #   GoogleImport.new(max_count: 10).call
+    #
+    #   # New way (recommended)
+    #   GoogleImporter.new(max_count: 10).import
     class GoogleImport
       REPO_PATH = Fontist.fontist_path.join("google", "fonts")
       REPO_URL = "https://github.com/google/fonts.git".freeze
 
+      # @deprecated Use {GoogleImporter#new} instead
       def initialize(options)
+        warn_deprecation
         @max_count = options[:max_count] || Google::DEFAULT_MAX_COUNT
+        @options = options
       end
 
+      # @deprecated Use {GoogleImporter#import} instead
       def call
+        warn_deprecation
+
+        # For backward compatibility, delegate to new GoogleImporter
+        if use_new_importer?
+          delegate_to_new_importer
+        else
+          legacy_import
+        end
+      end
+
+      private
+
+      # Checks if new importer should be used
+      #
+      # @return [Boolean] true if new importer is available and should be used
+      def use_new_importer?
+        # Check if new importer is available
+        require_relative "google_importer"
+        true
+      rescue LoadError
+        false
+      end
+
+      # Delegates to new GoogleImporter
+      #
+      # @return [void]
+      def delegate_to_new_importer
+        Fontist.ui.say("Using new Google Fonts import system...", :green)
+
+        importer = Fontist::Import::GoogleImporter.new(@options)
+        result = importer.import
+
+        if result[:success]
+          Fontist.ui.success("Import completed successfully")
+          Fontist.ui.say("  Successful: #{result[:successful]}")
+          Fontist.ui.say("  Failed: #{result[:failed]}") if result[:failed]&.positive?
+        else
+          Fontist.ui.error("Import failed: #{result[:error]}")
+        end
+      rescue StandardError => e
+        Fontist.ui.error("New importer failed, falling back to legacy: #{e.message}")
+        legacy_import
+      end
+
+      # Legacy import implementation (original code)
+      #
+      # @return [void]
+      def legacy_import
         update_repo
         count = update_formulas
         rebuild_index if count.positive?
       end
-
-      private
 
       def update_repo
         if Dir.exist?(REPO_PATH)
@@ -97,6 +170,29 @@ module Fontist
 
       def rebuild_index
         Fontist::Index.rebuild
+      end
+
+      # Prints deprecation warning
+      #
+      # @return [void]
+      def warn_deprecation
+        return if @deprecation_warned
+
+        Fontist.ui.say("=" * 80, :yellow)
+        Fontist.ui.say("DEPRECATION WARNING:", :yellow)
+        Fontist.ui.say("Fontist::Import::GoogleImport is deprecated and will be removed in a future version.", :yellow)
+        Fontist.ui.say("Please use Fontist::Import::GoogleImporter instead.", :yellow)
+        Fontist.ui.say("", :yellow)
+        Fontist.ui.say("Migration:", :yellow)
+        Fontist.ui.say("  Old: GoogleImport.new(max_count: 10).call", :yellow)
+        Fontist.ui.say("  New: GoogleImporter.new(max_count: 10).import", :yellow)
+        Fontist.ui.say("", :yellow)
+        Fontist.ui.say("The new importer provides better error handling, parallel processing,", :yellow)
+        Fontist.ui.say("configuration-driven customization, and comprehensive logging.", :yellow)
+        Fontist.ui.say("=" * 80, :yellow)
+        Fontist.ui.say("")
+
+        @deprecation_warned = true
       end
     end
   end

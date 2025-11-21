@@ -1,5 +1,25 @@
 require "bundler/setup"
 require "fontist"
+require "vcr"
+require "webmock/rspec"
+
+# Configure VCR for HTTP request caching
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.default_cassette_options = {
+    record: :new_episodes,
+    match_requests_on: [:method, :uri, :body]
+  }
+  # Filter sensitive API keys from cassettes
+  config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do |interaction|
+    if interaction.request.uri.include?("googleapis.com")
+      URI.decode_www_form(URI.parse(interaction.request.uri).query || "")
+         .to_h["key"]
+    end
+  end
+end
 
 Dir["./spec/support/**/*.rb"].sort.each { |file| require file }
 

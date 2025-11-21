@@ -1,3 +1,5 @@
+require_relative "../helpers/system_helper"
+
 module Fontist
   module Import
     module Files

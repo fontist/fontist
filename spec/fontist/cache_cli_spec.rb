@@ -24,9 +24,9 @@ RSpec.describe Fontist::CacheCLI do
     end
 
     it "download deleted" do
-      cache_file = double("download cache file")
+      cache_file = Pathname.new("/fontist/download/cache_file")
+      allow(cache_file).to receive(:rmtree)
 
-      expect(cache_file).to receive(:rmtree).once
       expect(downloads_path).to receive(:exist?).and_return(true)
       expect(downloads_path).to receive(:each_child) { |&b| b.call(cache_file) }
 
