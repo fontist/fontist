@@ -1,0 +1,119 @@
+// Proto schema for Google Fonts METADATA.pb files
+// This is a documentation file - not used for code generation
+// Based on analysis of actual METADATA.pb files from google/fonts repository
+
+syntax = "proto3";
+
+package google.fonts;
+
+// Root metadata message for a font family
+message FamilyProto {
+  // Font family name (e.g., "Roboto", "Noto Sans")
+  string name = 1;
+
+  // Designer name(s), comma-separated
+  string designer = 2;
+
+  // License type: "OFL", "APACHE2", "UFL"
+  string license = 3;
+
+  // Category: "SANS_SERIF", "SERIF", "DISPLAY", "HANDWRITING", "MONOSPACE"
+  string category = 4;
+
+  // Date added in YYYY-MM-DD format
+  string date_added = 5;
+
+  // Individual font file entries (e.g., Regular, Bold, Italic)
+  repeated FontProto fonts = 6;
+
+  // Character subsets supported (e.g., "latin", "latin-ext", "cyrillic")
+  repeated string subsets = 7;
+
+  // Variable font axes definitions
+  repeated AxisProto axes = 8;
+
+  // Source repository information
+  SourceProto source = 9;
+
+  // Registry default overrides for variable fonts
+  // Map of axis tag to default value
+  map<string, float> registry_default_overrides = 10;
+
+  // Whether this is a Noto font
+  bool is_noto = 11;
+
+  // Supported languages with script info (e.g., "en_Latn", "ar_Arab")
+  repeated string languages = 12;
+
+  // Primary script (e.g., "Arab", "Latn", "Cyrl")
+  string primary_script = 13;
+}
+
+// Individual font file within a family
+message FontProto {
+  // Font family name (same as parent)
+  string name = 1;
+
+  // Style: "normal" or "italic"
+  string style = 2;
+
+  // Weight: 100, 200, ..., 900
+  int32 weight = 3;
+
+  // Filename (e.g., "Roboto-Regular.ttf", "RobotoFlex[wght].ttf")
+  string filename = 4;
+
+  // PostScript name (e.g., "Roboto-Regular")
+  string post_script_name = 5;
+
+  // Full name (e.g., "Roboto Regular")
+  string full_name = 6;
+
+  // Copyright notice
+  string copyright = 7;
+}
+
+// Variable font axis definition
+message AxisProto {
+  // Axis tag: "wght", "wdth", "slnt", "opsz", etc.
+  string tag = 1;
+
+  // Minimum value for this axis
+  float min_value = 2;
+
+  // Maximum value for this axis
+  float max_value = 3;
+
+  // Default value (optional, often omitted)
+  float default_value = 4;
+}
+
+// Source repository information
+message SourceProto {
+  // Git repository URL
+  string repository_url = 1;
+
+  // Git commit hash
+  string commit = 2;
+
+  // Archive URL for releases (optional)
+  string archive_url = 3;
+
+  // Branch name (e.g., "main", "master")
+  string branch = 4;
+
+  // Config YAML file path in repository
+  string config_yaml = 5;
+
+  // File mappings from source to destination
+  repeated FileProto files = 6;
+}
+
+// File mapping in source repository
+message FileProto {
+  // Source file path in repository
+  string source_file = 1;
+
+  // Destination file path (relative to font directory)
+  string dest_file = 2;
+}

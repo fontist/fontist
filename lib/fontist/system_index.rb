@@ -207,13 +207,16 @@ module Fontist
     end
 
     def parse_font(font_file, path)
+      # Skip fonts with incomplete metadata
+      return nil unless font_file.full_name && font_file.family
+
       SystemIndexFont.new(
         path: path,
         full_name: font_file.full_name,
         family_name: font_file.family,
         subfamily: font_file.subfamily,
         preferred_family_name: font_file.preferred_family,
-        preferred_subfamily_name: font_file.preferred_subfamily,
+        preferred_subfamily: font_file.preferred_subfamily,
       )
     end
 

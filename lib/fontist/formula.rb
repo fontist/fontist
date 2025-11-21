@@ -19,8 +19,16 @@ module Fontist
     attribute :family, :string
     attribute :files, :string, collection: true
 
+    # v4 schema upgrade - optional for backward compatibility
+    attribute :format, :string                              # ttf, otf, woff2, ttc, otc
+    attribute :variable_axes, :string, collection: true     # [wght], [ital,wght], etc.
+
     def empty?
       Array(urls).empty? && Array(files).empty?
+    end
+
+    def variable_font?
+      variable_axes && !variable_axes.empty?
     end
   end
 

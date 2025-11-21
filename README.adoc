@@ -63,6 +63,12 @@ has the following requirements:
 
 These dependencies are generally present on all systems.
 
+NOTE: As of v2.1, Fontist uses modern, pure-Ruby font processing libraries:
+`fontisan` for font metadata extraction and collection handling (replacing the
+legacy `ttfunk` and `extract_ttc` gems), and `marcel` for MIME type detection
+(replacing `mime-types`). These changes improve cross-platform compatibility
+and eliminate external binary dependencies.
+
 
 == Using the command-line interface (CLI)
 
@@ -333,6 +339,7 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
+
 
 === Work with fontist config: `fontist config`
 
@@ -1116,25 +1123,172 @@ WARNING: This section is only for Fontist maintainers.
 
 === Formulas versioning
 
-To add a new attribute, change how formula is treated or completely replace the structure, there are 2 ways to change a formula format:
+To add a new attribute, change how formula is treated or completely replace the
+structure, there are 2 ways to change a formula format:
 
-1. Use the `min_fontist` attribute in a formula. It sets a requirement for fontist to install the formula only if its version is equal or more than a specified version.
-2. Use a new branch in the formulas repo, e.g. "v2", "v3", "v4", etc. After creating a new branch, it should be defined in https://github.com/fontist/fontist/blob/v1.16.0/lib/fontist.rb#L51[`Fontist.formulas_version`]
+. Use the `min_fontist` attribute in a formula. It sets a requirement for
+fontist to install the formula only if its version is equal or more than a
+specified version.
 
-NOTE: Using a new branch would require all users to re-download the entire formulas repo. Since this method has a significant overhead, the former one (`min_fontist`) should be used whenever possible.
+. Use a new branch in the formulas repo, e.g. "v2", "v3", "v4", etc. After
+creating a new branch, it should be defined in
+https://github.com/fontist/fontist/blob/v1.16.0/lib/fontist.rb#L51[`Fontist.formulas_version`]
+
+NOTE: Using a new branch would require all users to re-download the entire
+formulas repo. Since this method has a significant overhead, the former one
+(`min_fontist`) should be used whenever possible.
 
 === Dynamically importing formulas from Google Fonts
 
-https://fonts.google.com[Google Fonts] provides probably the largest collection
-of widely-used, freely and openly licensed fonts.
+==== General
+
+https://fonts.google.com[Google Fonts] provides the largest collection of freely
+and openly licensed fonts, including many that are widely used in web design and
+digital publishing.
 
 Fontist's https://github.com/fontist/formulas[formula library] includes support
-for all openly-licensed fonts provided through Google Fonts, and maintains
-Fontist formulas for all such fonts.
+for all fonts provided through Google Fonts, and maintains Fontist formulas for
+all such fonts.
 
-https://github.com/fontist/formulas/blob/v4/.github/workflows/google.yml[A GHA
-workflow] checks for updated fonts on Google Fonts daily. In case an update is
-found, it's added to the repo by the workflow.
+Fontist supports importing fonts from Google Fonts in multiple formats:
+
+TTF:: (TrueType Font) Standard font files
+VF:: (Variable Fonts) Fonts with adjustable design axes (weight, width, slant, etc.)
+WOFF2:: (Web Open Font Format 2) Optimized web fonts
+
+==== Data sources
+
+Each Fontist Google Fonts formula is automatically generated and updated
+using two data sources:
+
+* The https://github.com/google/fonts[Google Fonts GitHub repository] provides
+structured metadata and font file sources (OTF/TTF and Variable Fonts).
+
+* The https://developers.google.com/fonts/docs/developer_api[Google Fonts Developer API]
+provides Google Fonts CDN URLs, static versions of Variable Fonts
+and WOFF2 web font files.
+
+==== Google Fonts API integration
+
+Google Fonts API provides separate endpoints for TTF fonts, Variable Fonts, and
+WOFF2 web fonts. Fontist integrates data from these endpoints and merges them
+into a unified database.
+
+The Google Fonts importer uses a layered, object-oriented architecture:
+
+----
+        ┌──────────────────────────┐
+        │   FontDatabase           │
+        │   (Single Entry Point)   │
+        └───────────┬──────────────┘
+                    │
+      ┌─────────────┼─────────────┬─────────────┐
+      ▼             ▼             ▼             ▼
+┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
+│   Ttf    │  │    Vf    │  │  Woff2   │  │  Github  │
+│  (API)   │  │  (API)   │  │  (API)   │  │  (Repo)  │
+└──────────┘  └──────────┘  └──────────┘  └──────────┘
+
+All 4 Data Sources Are Equal
+----
+
+==== Google Fonts importer architecture
+
+The Google Fonts importer uses an ultra-simple architecture with FontDatabase as
+the single entry point and four equal data sources:
+
+Models (`lib/fontist/import/google/models/`)::
+Data structures for font information
+`FontFamily`::: Unified font data (API + Github metadata)
+`Axis`::: Variable font axes information
+`FontVariant`::: Individual font file data
+
+Data Sources (`lib/fontist/import/google/data_sources/`)::
+Four equal sources providing different information
+`Ttf`::: Fetches TTF URLs from Google Fonts API
+`Vf`::: Fetches variable font URLs + axes from Google Fonts API
+`Woff2`::: Fetches WOFF2 URLs from Google Fonts API
+`Github`::: Reads metadata from local google/fonts repository
+
+Database (`lib/fontist/import/google/font_database.rb`)::
+Single entry point for all operations
+** Merges data from all 4 sources
+** Query methods: `all_fonts`, `font_by_name`, `variable_fonts_only`
+** Formula generation: `to_formula(name)`, `save_formulas(dir)`
+
+API (`lib/fontist/import/google/api.rb`)::
+Optional convenience facade for API-only operations
+
+The Fontist Google Fonts can be used via Ruby library to query font data or
+generate formulas:
+
+[example]
+====
+[source,ruby]
+----
+require 'fontist/import/google/font_database'
+
+# Build database from all 4 sources (user must provide local path)
+db = Fontist::Import::Google::FontDatabase.build(
+  api_key: ENV['GOOGLE_FONTS_API_KEY'],
+  source_path: '/path/to/google/fonts'  # Local checkout required
+)
+
+# Query merged data
+roboto = db.font_by_name('Roboto')
+puts roboto.designer      # From Github repository
+puts roboto.axes.count    # From API (VF endpoint)
+
+# Generate formulas
+db.save_formulas('./formulas')  # All fonts
+db.save_formulas('./formulas', family_name: 'Roboto')  # Single font
+
+# API-only operations (no Github data)
+families = Fontist::Import::Google::Api.items
+variable_fonts = Fontist::Import::Google::Api.variable_fonts_only
+----
+====
+
+For detailed usage examples, see
+link:docs/google-fonts-multi-format-usage.md[Google Fonts Multi-Format Usage Guide].
+
+==== Importing fonts from Google Fonts as Fontist Formulas
+
+Prerequisites:
+
+. Local git checkout of the https://github.com/google/fonts[google/fonts repository].
+. Google Fonts Developer API key (set using `export GOOGLE_FONTS_API_KEY=your_api_key`).
+
+To update Google Fonts formulas from a local checkout of the
+https://github.com/google/fonts[google/fonts repository]:
+
+[source,sh]
+----
+fontist import google \
+  --source-path /path/to/google/fonts \
+  --output-path ~/.fontist/versions/{version}/formulas/Formulas/google \
+  --verbose
+----
+
+To import a single font for testing:
+
+[source,sh]
+----
+fontist import google \
+  --font-family "Roboto" \
+  --source-path /path/to/google/fonts \
+  --verbose
+----
+
+==== Automated updates
+
+Fontist uses a
+https://github.com/fontist/formulas/blob/v4/.github/workflows/google.yml[GHA workflow]
+to check for updated fonts on Google Fonts daily.
+
+New, updated, or removed fonts are automatically committed to the
+https://github.com/fontist/formulas[Fontist formula repository].
+
 
 === Dynamically importing formulas from SIL
 
@@ -1157,6 +1311,7 @@ git add Formulas/sil
 git commit -m "SIL fonts update"
 git push
 ----
+
 
 === Dynamically importing formulas from macOS
 

@@ -14,6 +14,7 @@ Gemfile.lock
 /spec/fixtures/formulas/
 /spec/fixtures/*
 !/spec/fixtures/system.yml
+!/spec/fixtures/google_fonts/
 
 # rspec failure tracking
 .rspec_status

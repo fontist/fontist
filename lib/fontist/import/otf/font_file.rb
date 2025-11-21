@@ -1,15 +1,10 @@
-require_relative "../otfinfo/otfinfo_requirement"
-require_relative "../text_helper"
+require_relative "../font_metadata_extractor"
 require_relative "../files/font_detector"
 
 module Fontist
   module Import
     module Otf
       class FontFile
-        REQUIREMENTS = {
-          otfinfo: Otfinfo::OtfinfoRequirement.new,
-        }.freeze
-
         STYLE_ATTRIBUTES = %i[family_name type preferred_family_name
                               preferred_type full_name post_script_name
                               version description copyright font
@@ -24,8 +19,8 @@ module Fontist
         def initialize(path, name_prefix: nil)
           @path = path
           @name_prefix = name_prefix
-          @info = read
           @extension = detect_extension
+          @metadata = extract_metadata
         end
 
         def to_style
@@ -37,41 +32,39 @@ module Fontist
         end
 
         def family_name
-          name = info["Family"]
+          name = @metadata.family_name
           @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def type
-          info["Subfamily"]
+          @metadata.subfamily_name
         end
 
         def preferred_family_name
-          name = info["Preferred family"]
+          name = @metadata.preferred_family_name
           return unless name
 
           @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def preferred_type
-          info["Preferred subfamily"]
+          @metadata.preferred_subfamily_name
         end
 
         def full_name
-          info["Full name"]
+          @metadata.full_name
         end
 
         def post_script_name
-          info["PostScript name"]
+          @metadata.postscript_name
         end
 
         def version
-          return unless info["Version"]
-
-          info["Version"].gsub("Version ", "")
+          @metadata.version
         end
 
         def description
-          info["Description"]
+          @metadata.description
         end
 
         def font
@@ -85,30 +78,21 @@ module Fontist
         end
 
         def copyright
-          info["Copyright"]
+          @metadata.copyright
         end
 
         def homepage
-          info["Vendor URL"]
+          @metadata.vendor_url
         end
 
         def license_url
-          info["License URL"]
+          @metadata.license_url
         end
 
         private
 
-        attr_reader :info
-
-        def read
-          text = REQUIREMENTS[:otfinfo].call(@path)
-
-          text
-            .encode("UTF-8", invalid: :replace, replace: "")
-            .split("\n")
-            .select { |x| x.include?(":") }
-            .map { |x| x.split(":", 2) }
-            .to_h { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
+        def extract_metadata
+          FontMetadataExtractor.new(@path).extract
         end
 
         def detect_extension

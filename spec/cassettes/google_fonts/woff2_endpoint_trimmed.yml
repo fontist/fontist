@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.googleapis.com/webfonts/v1/webfonts?key=<GOOGLE_FONTS_API_KEY>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.googleapis.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Cache-Control:
+      - public, max-age=3600
+      Content-Length:
+      - '1909'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "kind": "webfonts#webfontList",
+          "items": [
+            {
+              "family": "Roboto",
+              "variants": [
+                "regular",
+                "100"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "greek-ext",
+                "latin",
+                "latin-ext",
+                "math",
+                "symbols",
+                "vietnamese"
+              ],
+              "version": "v49",
+              "lastModified": "2025-09-08",
+              "files": {
+                "100": "https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmTggvWl0Qn.ttf",
+                "regular": "https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmTggvWl0Qn.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmSiA8.ttf"
+            },
+            {
+              "family": "Roboto Flex",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v30",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/robotoflex/v30/NaNnepOXO_NexZs0b5QrzlOHb8wCikXpYqmZsWI-__OGbt8jZktqc2V3Zs0KvDLdBP8SBZtOs2IifRuUZQMsPJtUsR4DEK6cULNeUx9XgTnH37Ha_FIAp4Fm0PP1hw45DntW2x0wZGzhPmr1YNMYKYn9_1IQXGwJAiUJVUMdN5YUW4O8HtSoXjC1z3QSabshNFVe3e0O5j3ZjrZCu23Qd4G0EBysQNK-QKavMl1cKq3tHXtXi8mzLjaAQbGunCNCKMY.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/robotoflex/v30/NaNnepOXO_NexZs0b5QrzlOHb8wCikXpYqmZsWI-__OGbt8jZktqc2V3Zs0KvDLdBP8SBZtOs2IifRuUZQMsPJtUsR4DEK6cULNeUx9XgTnH37Ha_FIAp4Fm0PP1hw45DntW2x0wZGzhPmr1YNMYKYn9_1IQXGwJAiUJVUMdN5YUW4O8HtSoXjC1z3QSabshNFVe3e0O5j3ZjrZCu23Qd4G0EBysQNK-QKavMl1cKq3tHXtXi8mzLjaAcbCkmA.ttf"
+            }
+          ]
+        }
+  recorded_at: Sun, 10 Nov 2025 12:00:00 GMT
+recorded_with: VCR 6.0.0

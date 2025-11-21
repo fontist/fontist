@@ -35,3 +35,5 @@ module Fontist
     end
   end
 end
+
+require_relative "google/api"

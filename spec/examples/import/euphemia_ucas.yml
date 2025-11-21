@@ -5,7 +5,7 @@ homepage: www.microsoft.com/typography
 resources:
   _2.6.6 Euphemia UCAS.zip:
     urls:
-    - ../examples/archives/_2.6.6 Euphemia UCAS.zip
+    - archives/_2.6.6 Euphemia UCAS.zip
     sha256: 3a8a7181faf1a50e4cab35ad128ff11df7980c45e9c57e1f190f4355433b59f7
     file_size: 273720
 fonts:
@@ -16,7 +16,6 @@ fonts:
     full_name: Euphemia UCAS Bold
     post_script_name: EuphemiaUCAS-Bold
     version: 2.660 2005
-    description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     font: Euphemia UCAS Bold 2.6.6.ttf
   - family_name: Euphemia UCAS
@@ -24,7 +23,6 @@ fonts:
     full_name: Euphemia UCAS Italic
     post_script_name: EuphemiaUCAS-Italic
     version: 2.660 2004
-    description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     font: Euphemia UCAS Italic 2.6.6.ttf
   - family_name: Euphemia UCAS
@@ -32,8 +30,8 @@ fonts:
     full_name: Euphemia UCAS
     post_script_name: EuphemiaUCAS
     version: 2.660 2004
-    description: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
     font: Euphemia UCAS Regular 2.6.6.ttf
 extract: {}
 copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
+command: ''

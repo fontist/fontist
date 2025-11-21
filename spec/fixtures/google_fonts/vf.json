@@ -1,0 +1,393 @@
+{
+  "kind": "webfonts#webfontList",
+  "items": [
+    {
+      "family": "ABeeZee",
+      "variants": [
+        "regular",
+        "italic"
+      ],
+      "subsets": [
+        "latin",
+        "latin-ext"
+      ],
+      "version": "v23",
+      "lastModified": "2025-09-08",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/abeezee/v23/esDR31xSG-6AGleN6tKukbcHCpE.ttf",
+        "italic": "https://fonts.gstatic.com/s/abeezee/v23/esDT31xSG-6AGleN2tCklZUCGpG-GQ.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/abeezee/v23/esDR31xSG-6AGleN2tOklQ.ttf"
+    },
+    {
+      "family": "AR One Sans",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v6",
+      "lastModified": "2025-09-16",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/aronesans/v6/TUZ0zwhrmbFp0Srr_tH6fuSaU5EP1H3r.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/aronesans/v6/TUZezwhrmbFp0Srr_tH6fv6RcUejHO_u7GF5aXfv-U2QzBLF6gslWn_9PWw9mg.ttf",
+      "axes": [
+        {
+          "tag": "ARRR",
+          "start": 10,
+          "end": 60
+        },
+        {
+          "tag": "wght",
+          "start": 400,
+          "end": 700
+        }
+      ]
+    },
+    {
+      "family": "Advent Pro",
+      "variants": [
+        "regular",
+        "italic"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "latin",
+        "latin-ext"
+      ],
+      "version": "v33",
+      "lastModified": "2025-09-16",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/adventpro/v33/V8mAoQfxVT4Dvddr_yOwtT2nKb5ZFtI.ttf",
+        "italic": "https://fonts.gstatic.com/s/adventpro/v33/V8mCoQfxVT4Dvddr_yOwhT-tLZxcBtItFw.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/adventpro/v33/V8mqoQfxVT4Dvddr_yOwrzaFxV7JtdQgFqXdUAQrGp_zgX5sWCpLQyN_TZAs.ttf",
+      "axes": [
+        {
+          "tag": "wdth",
+          "start": 100,
+          "end": 200
+        },
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 900
+        }
+      ]
+    },
+    {
+      "family": "Afacad Flux",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v4",
+      "lastModified": "2025-09-08",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/afacadflux/v4/9oRKNYYQryMlneUPykRmTvvzM83LHq0O.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/afacadflux/v4/9oRgNYYQryMlneUPykRmTuH4ET0fri4I5rJVT_CWHKDZnskVK5edsUwXVaVgRg.ttf",
+      "axes": [
+        {
+          "tag": "slnt",
+          "start": -14,
+          "end": 14
+        },
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 1000
+        }
+      ]
+    },
+    {
+      "family": "Comfortaa",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v47",
+      "lastModified": "2025-09-08",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/comfortaa/v47/1Ptsg8LJRfWJmhDAuUsISotrDfGGxA.ttf"
+      },
+      "category": "display",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/comfortaa/v47/1Pt_g8LJRfWJmhDAuUsSQamb1W0lwk4S4WjMDrUfJQ.ttf",
+      "axes": [
+        {
+          "tag": "wght",
+          "start": 300,
+          "end": 700
+        }
+      ]
+    },
+    {
+      "family": "Material Icons",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "latin"
+      ],
+      "version": "v145",
+      "lastModified": "2025-09-17",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNZIhI8tIHh.ttf"
+      },
+      "category": "monospace",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDvNYKBY.ttf"
+    },
+    {
+      "family": "Noto Sans JP",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "cyrillic",
+        "japanese",
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v55",
+      "lastModified": "2025-09-05",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/notosansjp/v55/-F62fjtqLzI2JPCgQBnw7HFoxgIO2lZ9hg.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/notosansjp/v55/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj35rS1g.ttf",
+      "axes": [
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 900
+        }
+      ]
+    },
+    {
+      "family": "Noto Serif",
+      "variants": [
+        "regular",
+        "italic"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "greek-ext",
+        "latin",
+        "latin-ext",
+        "math",
+        "vietnamese"
+      ],
+      "version": "v33",
+      "lastModified": "2025-09-06",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/notoserif/v33/ga6Iaw1J5X9T9RW6j9bNTFAcaRi_bMQ.ttf",
+        "italic": "https://fonts.gstatic.com/s/notoserif/v33/ga6Kaw1J5X9T9RW6j9bNfFIWbTq6fMRRMw.ttf"
+      },
+      "category": "serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/notoserif/v33/ga6iaw1J5X9T9RW6j9bNVls-hfgvz8JcMofYTa32J4wsL2JAlAhZqFCTwccP.ttf",
+      "axes": [
+        {
+          "tag": "wdth",
+          "start": 62.5,
+          "end": 100
+        },
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 900
+        }
+      ]
+    },
+    {
+      "family": "Roboto",
+      "variants": [
+        "regular",
+        "italic"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "greek-ext",
+        "latin",
+        "latin-ext",
+        "math",
+        "symbols",
+        "vietnamese"
+      ],
+      "version": "v49",
+      "lastModified": "2025-09-08",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/roboto/v49/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf",
+        "italic": "https://fonts.gstatic.com/s/roboto/v49/KFOkCnqEu92Fr1Mu52xPKTM1K9nz.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmSiA8.ttf",
+      "axes": [
+        {
+          "tag": "wdth",
+          "start": 75,
+          "end": 100
+        },
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 900
+        }
+      ]
+    },
+    {
+      "family": "Roboto Flex",
+      "variants": [
+        "regular"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v30",
+      "lastModified": "2025-09-05",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/robotoflex/v30/NaPccZLOBv5T3oB7Cb4i0wu9TsDOCZRS.ttf"
+      },
+      "category": "sans-serif",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/robotoflex/v30/NaNnepOXO_NexZs0b5QrzlOHb8wCikXpYqmZsWI-__OGbt8jZktqc2V3Zs0KvDLdBP8SBZtOs2IifRuUZQMsPJtUsR4DEK6cULNeUx9XgTnH37Ha_FIAp4Fm0PP1hw45DntW2x0wZGzhPmr1YNMYKYn9_1IQXGwJAiUJVUMdN5YUW4O8HtSoXjC1z3QSabshNFVe3e0O5j3ZjrZCu23Qd4G0EBysQNK-QKavMl1cKq3tHXtXi8mzLjaAcbCkmA.ttf",
+      "axes": [
+        {
+          "tag": "GRAD",
+          "start": -200,
+          "end": 150
+        },
+        {
+          "tag": "XOPQ",
+          "start": 27,
+          "end": 175
+        },
+        {
+          "tag": "XTRA",
+          "start": 323,
+          "end": 603
+        },
+        {
+          "tag": "YOPQ",
+          "start": 25,
+          "end": 135
+        },
+        {
+          "tag": "YTAS",
+          "start": 649,
+          "end": 854
+        },
+        {
+          "tag": "YTDE",
+          "start": -305,
+          "end": -98
+        },
+        {
+          "tag": "YTFI",
+          "start": 560,
+          "end": 788
+        },
+        {
+          "tag": "YTLC",
+          "start": 416,
+          "end": 570
+        },
+        {
+          "tag": "YTUC",
+          "start": 528,
+          "end": 760
+        },
+        {
+          "tag": "opsz",
+          "start": 8,
+          "end": 144
+        },
+        {
+          "tag": "slnt",
+          "start": -10,
+          "end": 0
+        },
+        {
+          "tag": "wdth",
+          "start": 25,
+          "end": 151
+        },
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 1000
+        }
+      ]
+    },
+    {
+      "family": "Roboto Mono",
+      "variants": [
+        "regular",
+        "italic"
+      ],
+      "subsets": [
+        "cyrillic",
+        "cyrillic-ext",
+        "greek",
+        "latin",
+        "latin-ext",
+        "vietnamese"
+      ],
+      "version": "v31",
+      "lastModified": "2025-09-11",
+      "files": {
+        "regular": "https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-BfR8bXMIghMoX6-XqKC.ttf",
+        "italic": "https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-BfR8bXMIjhOq3qcW7KCG1w.ttf"
+      },
+      "category": "monospace",
+      "kind": "webfonts#webfont",
+      "menu": "https://fonts.gstatic.com/s/robotomono/v31/L0xuDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_3vq_QuW9.ttf",
+      "axes": [
+        {
+          "tag": "wght",
+          "start": 100,
+          "end": 700
+        }
+      ]
+    }
+  ]
+}
