@@ -75,7 +75,7 @@ module Fontist
         git.pull("origin", git.current_branch)
 
         Index.rebuild
-      rescue Git::GitExecuteError => e
+      rescue Git::Error => e
         raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
           Formulas repo '#{name}' could not be updated.
           Please consider reinitializing it with:

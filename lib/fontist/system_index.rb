@@ -78,9 +78,14 @@ module Fontist
     end
 
     def find(font, style)
-      found_fonts = index.select do |file|
-        file.family_name.casecmp?(font) &&
-          (style.nil? || file.type.casecmp?(style))
+      current_fonts = index
+
+      if style.nil?
+        found_fonts = current_fonts.select { |file| file.family_name&.casecmp?(font) }
+      else
+        found_fonts = current_fonts.select do |file|
+          file.family_name&.casecmp?(font) && file.type&.casecmp?(style)
+        end
       end
 
       found_fonts.empty? ? nil : found_fonts
@@ -215,15 +220,23 @@ module Fontist
     include Utils::Locking
 
     def self.system_index
+      current_path = Fontist.system_index_path
+      return @system_index if !@system_index.nil? && @system_index_path == current_path
+
+      @system_index_path = current_path
       @system_index = SystemIndexFontCollection.from_file(
-        path: Fontist.system_index_path,
+        path: current_path,
         paths_loader: -> { SystemFont.font_paths },
       )
     end
 
     def self.fontist_index
+      current_path = Fontist.fontist_index_path
+      return @fontist_index if !@fontist_index.nil? && @fontist_index_path == current_path
+
+      @fontist_index_path = current_path
       @fontist_index = SystemIndexFontCollection.from_file(
-        path: Fontist.fontist_index_path,
+        path: current_path,
         paths_loader: -> { SystemFont.fontist_font_paths },
       )
     end
