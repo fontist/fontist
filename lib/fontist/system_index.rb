@@ -101,7 +101,12 @@ module Fontist
     end
 
     def index_changed?
-      fonts.nil? || fonts.empty? || font_paths != (@paths_loader&.call || []).sort.uniq
+      return true if fonts.nil? || fonts.empty?
+
+      current_paths = (@paths_loader&.call&.sort&.uniq || [])
+      excluded_paths_in_current = current_paths.select { |path| excluded?(path) }
+
+      current_paths != (font_paths + excluded_paths_in_current).uniq.sort
     end
 
     def update
@@ -141,9 +146,14 @@ module Fontist
     end
 
     def detect_paths(paths)
-      # paths are file paths to font files
+      existing_fonts_by_path = fonts&.group_by(&:path) || {}
+
       paths.sort.uniq.flat_map do |path|
-        detect_fonts(path)
+        if existing_fonts_by_path[path]&.any?
+          existing_fonts_by_path[path]
+        else
+          detect_fonts(path)
+        end
       end.compact
     end
 
