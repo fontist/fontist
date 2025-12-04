@@ -111,4 +111,77 @@ RSpec.describe Fontist::SystemIndex do
       expect(font.family_name).to eq "Andale Mono"
     end
   end
+
+  describe "#index_changed?" do
+    let(:tmp_dir) { create_tmp_dir }
+    let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+    let(:font_paths) { [] }
+    let(:instance) do
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { paths_loader_call })
+      end
+    end
+
+    context "when paths loader returns excluded fonts in addition to indexed fonts" do
+      let(:font_file_path) { File.join(tmp_dir, "regular_font.ttf") }
+      let(:excluded_font_path) { File.join(tmp_dir, "NISC18030.ttf") }
+      let(:font_paths) { [font_file_path] }
+      let(:paths_loader_call) { [font_file_path, excluded_font_path] }
+
+      before do
+        # Create the font file
+        FileUtils.cp(examples_font_path("AndaleMo.TTF"), font_file_path)
+        
+        # Create the excluded font file
+        FileUtils.cp(examples_font_path("AndaleMo.TTF"), excluded_font_path)
+        
+        # Build initial index with only the regular font
+        instance.update
+        instance.to_file(index_path)
+      end
+
+      it "returns false because excluded fonts should not trigger a rebuild" do
+        expect(instance.index_changed?).to be false
+      end
+    end
+
+    context "when paths loader returns additional non-excluded fonts" do
+      let(:font_file_path) { File.join(tmp_dir, "regular_font.ttf") }
+      let(:excluded_font_path) { File.join(tmp_dir, "NISC18030.ttf") }
+      let(:additional_font_path) { File.join(tmp_dir, "additional_font.ttf") }
+      let(:paths_loader_call) { [font_file_path, excluded_font_path, additional_font_path] }
+
+      before do
+        # Create the font files
+        FileUtils.cp(examples_font_path("AndaleMo.TTF"), font_file_path)
+        FileUtils.cp(examples_font_path("AndaleMo.TTF"), excluded_font_path)
+        FileUtils.cp(examples_font_path("AndaleMo.TTF"), additional_font_path)
+        
+        # Build initial index with only the regular font (simulating old state)
+        instance = Fontist::SystemIndexFontCollection.from_file(
+          path: index_path,
+          paths_loader: -> { [font_file_path, excluded_font_path] }
+        )
+        instance.update
+        instance.to_file(index_path)
+      end
+
+      it "returns true because there are new non-excluded fonts" do
+        expect(instance.index_changed?).to be true
+      end
+
+      it "calls update only once when rebuilding" do
+        # Reset the instance to reload from file
+        reloaded_instance = Fontist::SystemIndexFontCollection.from_file(
+          path: index_path,
+          paths_loader: -> { paths_loader_call }
+        )
+        
+        expect(reloaded_instance).to receive(:update).once.and_call_original
+        reloaded_instance.find("Andale Mono", nil)
+        reloaded_instance.find("Andale Mono", nil)
+      end
+    end
+  end
 end
