@@ -1,4 +1,5 @@
 require "lutaml/model"
+require "marcel"
 
 module Fontist
   module Utils
@@ -172,12 +173,27 @@ module Fontist
 
       def response_to_filename(source)
         if File.extname(source.original_filename).empty? && source.content_type
-          require "mime/types"
-          ext = MIME::Types[source.content_type].first&.preferred_extension
+          require "marcel"
+          ext = extension_from_mime(source.content_type)
           return "#{source.original_filename}.#{ext}" if ext
         end
 
         source.original_filename
+      end
+
+      def extension_from_mime(content_type)
+        # Common MIME type to extension mapping
+        case content_type
+        when "application/zip" then "zip"
+        when "application/x-tar" then "tar"
+        when "application/gzip", "application/x-gzip" then "gz"
+        when "application/x-7z-compressed" then "7z"
+        when "application/octet-stream" then "bin"
+        when "application/vnd.ms-cab-compressed" then "cab"
+        else
+          # Fallback: extract from MIME type subtype
+          content_type.split('/').last.gsub(/[^a-z0-9]/, '')
+        end
       end
 
       def format_filename(filename)

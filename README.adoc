@@ -63,6 +63,12 @@ has the following requirements:
 
 These dependencies are generally present on all systems.
 
+NOTE: As of v2.1, Fontist uses modern, pure-Ruby font processing libraries:
+`fontisan` for font metadata extraction and collection handling (replacing the
+legacy `ttfunk` and `extract_ttc` gems), and `marcel` for MIME type detection
+(replacing `mime-types`). These changes improve cross-platform compatibility
+and eliminate external binary dependencies.
+
 
 == Using the command-line interface (CLI)
 
@@ -333,6 +339,7 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
+
 
 === Work with fontist config: `fontist config`
 

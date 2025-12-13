@@ -213,7 +213,7 @@ module Fontist
         family_name: font_file.family,
         subfamily: font_file.subfamily,
         preferred_family_name: font_file.preferred_family,
-        preferred_subfamily_name: font_file.preferred_subfamily,
+        preferred_subfamily: font_file.preferred_subfamily,
       )
     end
 
