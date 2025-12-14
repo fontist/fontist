@@ -14,9 +14,10 @@ VCR.configure do |config|
   }
   # Filter sensitive API keys from cassettes
   config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do |interaction|
-    if interaction.request.uri.include?("googleapis.com")
-      URI.decode_www_form(URI.parse(interaction.request.uri).query || "")
-        .to_h["key"]
+    uri = URI.parse(interaction.request.uri)
+    host = uri.host
+    if host == "googleapis.com" || host&.end_with?(".googleapis.com")
+      URI.decode_www_form(uri.query || "").to_h["key"]
     end
   end
 end

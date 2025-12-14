@@ -67,7 +67,8 @@ module Fontist
         def extract_font_files
           fonts = []
 
-          @content.scan(/fonts\s*\{([^}]+)\}/m) do |match|
+          # Use possessive quantifier [^}]++ to prevent backtracking
+          @content.scan(/fonts\s*\{([^}]++)\}/m) do |match|
             font_block = match[0]
 
             filename = font_block[/filename:\s*"([^"]*)"/, 1]
