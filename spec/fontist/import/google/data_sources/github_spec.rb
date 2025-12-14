@@ -35,7 +35,7 @@ RSpec.describe Fontist::Import::Google::DataSources::Github do
     it "returns FontFamily models" do
       families = source.fetch
       expect(families).to all(
-        be_a(Fontist::Import::Google::Models::FontFamily)
+        be_a(Fontist::Import::Google::Models::FontFamily),
       )
     end
 

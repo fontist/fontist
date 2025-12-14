@@ -42,7 +42,7 @@ module Fontist
         private
 
         def extract_fonts
-          extracted = @collection.num_fonts.times.map do |index|
+          extracted = Array.new(@collection.num_fonts) do |index|
             extract_font_at(index)
           end
           extracted.reject { |font| hidden?(font) }

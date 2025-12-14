@@ -81,7 +81,7 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "AR One Sans",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
         ],
       )
@@ -138,10 +138,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Variable Font",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wdth", start: 75, end: 125
+            tag: "wdth", start: 75, end: 125,
           ),
         ],
       )
@@ -172,10 +172,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Test",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wdth", start: 75, end: 125
+            tag: "wdth", start: 75, end: 125,
           ),
         ],
       )
@@ -193,10 +193,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Test",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wdth", start: 75, end: 125
+            tag: "wdth", start: 75, end: 125,
           ),
         ],
       )
@@ -214,10 +214,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Test",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "slnt", start: -14, end: 14
+            tag: "slnt", start: -14, end: 14,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
         ],
       )
@@ -235,13 +235,13 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Test",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "ARRR", start: 10, end: 60
+            tag: "ARRR", start: 10, end: 60,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "MORF", start: 0, end: 60
+            tag: "MORF", start: 0, end: 60,
           ),
         ],
       )
@@ -259,10 +259,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         family: "Test",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wdth", start: 75, end: 125
+            tag: "wdth", start: 75, end: 125,
           ),
         ],
       )
@@ -345,7 +345,7 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
       )
 
       expect(family.variant_url("regular")).to eq(
-        "https://example.com/regular.ttf"
+        "https://example.com/regular.ttf",
       )
     end
 
@@ -375,10 +375,10 @@ RSpec.describe Fontist::Import::Google::Models::FontFamily do
         version: "v6",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
           Fontist::Import::Google::Models::Axis.new(
-            tag: "ARRR", start: 10, end: 60
+            tag: "ARRR", start: 10, end: 60,
           ),
         ],
       )

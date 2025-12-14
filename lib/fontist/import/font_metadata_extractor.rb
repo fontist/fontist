@@ -25,14 +25,15 @@ module Fontist
           full_name: safe_get(font_info, :full_name),
           postscript_name: safe_get(font_info, :postscript_name),
           preferred_family_name: safe_get(font_info, :preferred_family_name),
-          preferred_subfamily_name: safe_get(font_info, :preferred_subfamily_name),
+          preferred_subfamily_name: safe_get(font_info,
+                                             :preferred_subfamily_name),
           version: clean_version(safe_get(font_info, :version)),
           copyright: safe_get(font_info, :copyright),
           description: safe_get(font_info, :license_description),
           vendor_url: safe_get(font_info, :vendor_url),
           license_url: safe_get(font_info, :license_url),
           font_format: safe_get(font_info, :font_format),
-          is_variable: safe_get(font_info, :is_variable)
+          is_variable: safe_get(font_info, :is_variable),
         )
       end
 

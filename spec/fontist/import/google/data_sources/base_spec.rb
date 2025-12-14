@@ -71,13 +71,13 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
             "version" => "v1",
             "lastModified" => "2025-01-01",
             "files" => {
-              "regular" => "https://example.com/font.ttf"
+              "regular" => "https://example.com/font.ttf",
             },
             "category" => "sans-serif",
             "kind" => "webfonts#webfont",
-            "menu" => "https://example.com/menu.ttf"
-          }
-        ]
+            "menu" => "https://example.com/menu.ttf",
+          },
+        ],
       }
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
       expect(families).to be_an(Array)
       expect(families.length).to eq(1)
       expect(families.first).to be_a(
-        Fontist::Import::Google::Models::FontFamily
+        Fontist::Import::Google::Models::FontFamily,
       )
     end
 
@@ -117,7 +117,7 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
       families = client.fetch
       expect(families).to be_an(Array)
       expect(families.first).to be_a(
-        Fontist::Import::Google::Models::FontFamily
+        Fontist::Import::Google::Models::FontFamily,
       )
     end
 

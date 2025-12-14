@@ -35,7 +35,7 @@ RSpec.describe Fontist::Import::Google::DataSources::Woff2 do
         expect(families).to be_an(Array)
         expect(families).not_to be_empty
         expect(families.first).to be_a(
-          Fontist::Import::Google::Models::FontFamily
+          Fontist::Import::Google::Models::FontFamily,
         )
       end
     end

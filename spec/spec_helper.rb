@@ -10,13 +10,13 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.default_cassette_options = {
     record: :new_episodes,
-    match_requests_on: [:method, :uri, :body]
+    match_requests_on: %i[method uri body],
   }
   # Filter sensitive API keys from cassettes
   config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do |interaction|
     if interaction.request.uri.include?("googleapis.com")
       URI.decode_www_form(URI.parse(interaction.request.uri).query || "")
-         .to_h["key"]
+        .to_h["key"]
     end
   end
 end

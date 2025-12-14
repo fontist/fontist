@@ -29,7 +29,7 @@ module Fontist
         log "Building v4 database from Google Fonts API and GitHub repository..."
         database = Google::FontDatabase.build_v4(
           api_key: @api_key,
-          source_path: @source_path
+          source_path: @source_path,
         )
 
         font_families = @font_family ? [@font_family] : database.all_fonts.map(&:family)

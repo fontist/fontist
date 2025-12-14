@@ -124,7 +124,6 @@ module Fontist
         end
       end
 
-
       # Detect format from resource with intelligent archive handling
       #
       # This method:
@@ -182,10 +181,10 @@ module Fontist
       # @return [Boolean] true if archive extension detected
       def archive_extension?(path)
         # Match .zip, .tar.gz, .tgz, etc.
-        return true if path =~ /\.(#{ARCHIVE_EXTENSIONS.join('|')})(?:\?|$)/i
+        return true if /\.(#{ARCHIVE_EXTENSIONS.join('|')})(?:\?|$)/i.match?(path)
 
         # Match compound extensions like .tar.gz
-        return true if path =~ /\.tar\.(gz|bz2)(?:\?|$)/i
+        return true if /\.tar\.(gz|bz2)(?:\?|$)/i.match?(path)
 
         false
       end
@@ -208,7 +207,7 @@ module Fontist
       # @return [String, nil] format or nil
       def detect_format_from_url(url)
         # Extract filename from URL
-        filename = url.split('/').last.split('?').first
+        filename = url.split("/").last.split("?").first
         detect_format_from_name(filename)
       end
 
@@ -306,7 +305,7 @@ module Fontist
           Otf::FontFile.new(path)
           # If it parses, it's likely a font file
           # Guess ttf if we can't determine
-          return "ttf"
+          "ttf"
         rescue StandardError
           nil
         end

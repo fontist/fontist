@@ -174,7 +174,7 @@ RSpec.describe Fontist::Import::Google::FontDatabase do
     it "returns merged font families" do
       fonts = db.all_fonts
       expect(fonts.map(&:family)).to include("ABeeZee", "Roboto",
-                                              "AR One Sans")
+                                             "AR One Sans")
     end
 
     it "returns unique families" do

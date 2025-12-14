@@ -9,7 +9,7 @@ module GoogleFontsFixtures
       "..",
       "fixtures",
       "google_fonts",
-      "#{name}.json"
+      "#{name}.json",
     )
 
     unless File.exist?(fixture_path)
@@ -26,7 +26,8 @@ module GoogleFontsFixtures
   def stub_google_fonts_api(fixture_name)
     # Load all fixtures at once for nested stub support
     @google_fonts_fixtures ||= {}
-    @google_fonts_fixtures[fixture_name] = load_google_fonts_fixture(fixture_name)
+    @google_fonts_fixtures[fixture_name] =
+      load_google_fonts_fixture(fixture_name)
 
     # Setup stub that routes to correct fixture based on URL
     allow(Net::HTTP).to receive(:get_response) do |uri|
@@ -54,7 +55,9 @@ module GoogleFontsFixtures
     yield if block_given?
   ensure
     # Clean up if this is the outermost stub
-    if caller.none? { |line| line.include?('stub_google_fonts_api') && !line.include?(__FILE__) }
+    if caller.none? do |line|
+      line.include?("stub_google_fonts_api") && !line.include?(__FILE__)
+    end
       @google_fonts_fixtures = nil
       RSpec::Mocks.space.proxy_for(Net::HTTP).reset if defined?(RSpec::Mocks)
     end

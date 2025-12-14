@@ -10,7 +10,7 @@ module Fontist
       end
 
       def from_content(content)
-        Tempfile.create(['font', '.ttf']) do |tmpfile|
+        Tempfile.create(["font", ".ttf"]) do |tmpfile|
           tmpfile.binmode
           tmpfile.write(content)
           tmpfile.flush
@@ -44,7 +44,7 @@ module Fontist
           subfamily_name: name_table.english_name(Fontisan::Tables::Name::SUBFAMILY),
           preferred_family: name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY),
           preferred_subfamily: name_table.english_name(Fontisan::Tables::Name::PREFERRED_SUBFAMILY),
-          postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME)
+          postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME),
         }
       end
 

@@ -12,7 +12,7 @@ module Fontist
         # Provides common functionality for fetching data from the API,
         # caching responses, and parsing JSON into FontFamily models.
         class Base
-          BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts"
+          BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts".freeze
 
           attr_reader :api_key, :capability
 

@@ -57,7 +57,7 @@ module Fontist
 
             # Try to parse as JSON first
             begin
-              return JSON.parse(files_data)
+              JSON.parse(files_data)
             rescue JSON::ParserError, TypeError
               # If it fails, convert Ruby hash syntax to JSON and parse
               if files_data.is_a?(String)

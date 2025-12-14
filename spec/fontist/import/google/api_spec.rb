@@ -22,7 +22,7 @@ RSpec.describe Fontist::Import::Google::Api do
             expect(fonts).to be_an(Array)
             expect(fonts).not_to be_empty
             expect(fonts.first).to be_a(
-              Fontist::Import::Google::Models::FontFamily
+              Fontist::Import::Google::Models::FontFamily,
             )
           end
         end
@@ -65,7 +65,7 @@ RSpec.describe Fontist::Import::Google::Api do
         stub_google_fonts_api(:vf) do
           stub_google_fonts_api(:woff2) do
             expect(described_class.database).to be_a(
-              Fontist::Import::Google::FontDatabase
+              Fontist::Import::Google::FontDatabase,
             )
           end
         end
@@ -211,7 +211,7 @@ RSpec.describe Fontist::Import::Google::Api do
         expect(ttf_data).to be_an(Array)
         expect(ttf_data).not_to be_empty
         expect(ttf_data.first).to be_a(
-          Fontist::Import::Google::Models::FontFamily
+          Fontist::Import::Google::Models::FontFamily,
         )
       end
     end
@@ -238,7 +238,7 @@ RSpec.describe Fontist::Import::Google::Api do
         expect(vf_data).to be_an(Array)
         expect(vf_data).not_to be_empty
         expect(vf_data.first).to be_a(
-          Fontist::Import::Google::Models::FontFamily
+          Fontist::Import::Google::Models::FontFamily,
         )
       end
     end
@@ -267,7 +267,7 @@ RSpec.describe Fontist::Import::Google::Api do
         expect(woff2_data).to be_an(Array)
         expect(woff2_data).not_to be_empty
         expect(woff2_data.first).to be_a(
-          Fontist::Import::Google::Models::FontFamily
+          Fontist::Import::Google::Models::FontFamily,
         )
       end
     end

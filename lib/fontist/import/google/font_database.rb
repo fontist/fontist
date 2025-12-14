@@ -37,7 +37,7 @@ module Fontist
           new(
             ttf_data: ttf_data,
             github_data: github_data,
-            version: 4
+            version: 4,
           )
         end
 
@@ -63,7 +63,7 @@ module Fontist
             vf_data: vf_data,
             woff2_data: woff2_data,
             github_data: github_data,
-            version: 5
+            version: 5,
           )
         end
 
@@ -90,7 +90,8 @@ module Fontist
         # @param woff2_data [Array, nil] WOFF2 endpoint data (optional, for v5)
         # @param github_data [Array, nil] GitHub repository data (optional)
         # @param version [Integer] Formula version (4 or 5)
-        def initialize(ttf_data:, vf_data: nil, woff2_data: nil, github_data: nil, version: 4)
+        def initialize(ttf_data:, vf_data: nil, woff2_data: nil,
+github_data: nil, version: 4)
           @ttf_data = Array(ttf_data)
           @vf_data = Array(vf_data)
           @woff2_data = Array(woff2_data)
@@ -99,7 +100,7 @@ module Fontist
           @ttf_files = {}
           @woff2_files = {}
           @github_index = index_github_data
-          @github_data = @github_index  # Expose indexed version
+          @github_data = @github_index # Expose indexed version
           @fonts = merge_data
         end
 
@@ -201,22 +202,23 @@ module Fontist
 
           # Read license from GitHub if available
           license_url, license_text = if github_family&.license_text
-            [
-              "https://scripts.sil.org/OFL",
-              github_family.license_text
-            ]
-          else
-            [
-              "https://scripts.sil.org/OFL",
-              "SIL Open Font License v1.1"
-            ]
-          end
+                                        [
+                                          "https://scripts.sil.org/OFL",
+                                          github_family.license_text,
+                                        ]
+                                      else
+                                        [
+                                          "https://scripts.sil.org/OFL",
+                                          "SIL Open Font License v1.1",
+                                        ]
+                                      end
 
           # Build fonts first to get copyright
           fonts_data = build_fonts_v4(family)
 
           # Extract copyright from first font style, or use license_text as fallback
-          copyright = fonts_data.dig(0, "styles", 0, "copyright") || github_family&.license_text
+          copyright = fonts_data.dig(0, "styles", 0,
+                                     "copyright") || github_family&.license_text
 
           # Use GitHub description if available
           description = github_family&.description || default_description(family)
@@ -230,8 +232,8 @@ module Fontist
             extract: {},
             copyright: copyright,
             license_url: license_url,
-            license: license_text,  # Changed from open_license
-            open_license: license_text
+            license: license_text, # Changed from open_license
+            open_license: license_text,
           }.compact
         end
 
@@ -253,7 +255,7 @@ module Fontist
             "source" => "google",
             "family" => family.family,
             "files" => files,
-            "format" => format
+            "format" => format,
           }
 
           # Add variable_axes if present
@@ -269,8 +271,8 @@ module Fontist
           parsed_fonts = []
 
           # V4: Download and parse ONLY TTF files to get complete metadata
-          @ttf_files[family.family]&.each do |variant, url|
-            sleep(0.05)  # Throttle API requests
+          @ttf_files[family.family]&.each_value do |url|
+            sleep(0.05) # Throttle API requests
 
             begin
               # Download font
@@ -295,12 +297,13 @@ module Fontist
                 post_script_name: metadata.postscript_name,
                 version: metadata.version,
                 copyright: metadata.copyright,
-                font: filename
+                font: filename,
               }
 
               # Add preferred names if present
               if metadata.preferred_family_name
-                style_data[:preferred_family_name] = metadata.preferred_family_name
+                style_data[:preferred_family_name] =
+                  metadata.preferred_family_name
               end
               if metadata.preferred_subfamily_name
                 style_data[:preferred_type] = metadata.preferred_subfamily_name
@@ -325,14 +328,16 @@ module Fontist
           fonts_by_subfamily.map do |subfamily_name, styles|
             {
               "name" => subfamily_name,
-              "styles" => styles.map { |s| stringify_style(s) }
+              "styles" => styles.map { |s| stringify_style(s) },
             }
           end
         end
 
         # Convert style hash to string keys
         def stringify_style(style)
-          style.transform_keys(&:to_s).transform_values { |v| v.is_a?(Symbol) ? v.to_s : v }
+          style.transform_keys(&:to_s).transform_values do |v|
+            v.is_a?(Symbol) ? v.to_s : v
+          end
         end
 
         # Find filename for a variant
@@ -425,7 +430,8 @@ module Fontist
             @woff2_files[family_name] = woff2_font.files if woff2_font
 
             # Create merged font
-            merged[family_name] = merge_font_family(base_font, ttf_font, vf_font, woff2_font)
+            merged[family_name] =
+              merge_font_family(base_font, ttf_font, vf_font, woff2_font)
           end
 
           merged
@@ -445,7 +451,7 @@ module Fontist
             base_font.version,
             ttf_font&.version,
             vf_font&.version,
-            woff2_font&.version
+            woff2_font&.version,
           )
 
           # Use the most recent lastModified
@@ -453,7 +459,7 @@ module Fontist
             base_font.last_modified,
             ttf_font&.last_modified,
             vf_font&.last_modified,
-            woff2_font&.last_modified
+            woff2_font&.last_modified,
           )
 
           # Use TTF files as primary
@@ -494,7 +500,11 @@ module Fontist
 
         # Get the most recent date string
         def most_recent_date(*dates)
-          dates.compact.max_by { |d| Date.parse(d) rescue Date.new(0) }
+          dates.compact.max_by do |d|
+            Date.parse(d)
+          rescue StandardError
+            Date.new(0)
+          end
         end
       end
     end

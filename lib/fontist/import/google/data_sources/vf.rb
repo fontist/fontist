@@ -14,7 +14,7 @@ module Fontist
         # Fonts without axes are static fonts that support the VF capability
         # but don't have variable font axes.
         class Vf < Base
-          CAPABILITY = "VF"
+          CAPABILITY = "VF".freeze
 
           # Initialize a new Variable Fonts data source
           #

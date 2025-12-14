@@ -16,7 +16,7 @@ RSpec.describe Fontist::Import::Models::FontMetadata do
         vendor_url: "https://example.com",
         license_url: "https://example.com/license",
         font_format: "truetype",
-        is_variable: false
+        is_variable: false,
       )
 
       expect(metadata.family_name).to eq("Test Family")
@@ -37,7 +37,7 @@ RSpec.describe Fontist::Import::Models::FontMetadata do
     it "handles nil values gracefully" do
       metadata = described_class.new(
         family_name: "Test Family",
-        subfamily_name: "Regular"
+        subfamily_name: "Regular",
       )
 
       expect(metadata.family_name).to eq("Test Family")
@@ -54,7 +54,7 @@ RSpec.describe Fontist::Import::Models::FontMetadata do
         family_name: "Test Family",
         subfamily_name: "Regular",
         full_name: "Test Family Regular",
-        version: "1.0.0"
+        version: "1.0.0",
       )
 
       json = metadata.to_json
@@ -72,7 +72,7 @@ RSpec.describe Fontist::Import::Models::FontMetadata do
         "subfamily_name" => "Regular",
         "full_name" => "Test Family Regular",
         "version" => "1.0.0",
-        "is_variable" => true
+        "is_variable" => true,
       }.to_json
 
       metadata = described_class.from_json(json_data)

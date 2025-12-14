@@ -128,7 +128,7 @@ module Fontist
               ttf_data: ttf_client.fetch,
               vf_data: vf_client.fetch,
               woff2_data: woff2_client.fetch,
-              version: 5  # Use v5 to include variable fonts
+              version: 5, # Use v5 to include variable fonts
             )
           end
 

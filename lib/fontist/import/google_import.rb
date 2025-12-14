@@ -180,15 +180,23 @@ module Fontist
 
         Fontist.ui.say("=" * 80, :yellow)
         Fontist.ui.say("DEPRECATION WARNING:", :yellow)
-        Fontist.ui.say("Fontist::Import::GoogleImport is deprecated and will be removed in a future version.", :yellow)
-        Fontist.ui.say("Please use Fontist::Import::GoogleImporter instead.", :yellow)
+        Fontist.ui.say(
+          "Fontist::Import::GoogleImport is deprecated and will be removed in a future version.", :yellow
+        )
+        Fontist.ui.say("Please use Fontist::Import::GoogleImporter instead.",
+                       :yellow)
         Fontist.ui.say("", :yellow)
         Fontist.ui.say("Migration:", :yellow)
         Fontist.ui.say("  Old: GoogleImport.new(max_count: 10).call", :yellow)
-        Fontist.ui.say("  New: GoogleImporter.new(max_count: 10).import", :yellow)
+        Fontist.ui.say("  New: GoogleImporter.new(max_count: 10).import",
+                       :yellow)
         Fontist.ui.say("", :yellow)
-        Fontist.ui.say("The new importer provides better error handling, parallel processing,", :yellow)
-        Fontist.ui.say("configuration-driven customization, and comprehensive logging.", :yellow)
+        Fontist.ui.say(
+          "The new importer provides better error handling, parallel processing,", :yellow
+        )
+        Fontist.ui.say(
+          "configuration-driven customization, and comprehensive logging.", :yellow
+        )
         Fontist.ui.say("=" * 80, :yellow)
         Fontist.ui.say("")
 

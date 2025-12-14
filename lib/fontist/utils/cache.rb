@@ -192,7 +192,7 @@ module Fontist
         when "application/vnd.ms-cab-compressed" then "cab"
         else
           # Fallback: extract from MIME type subtype
-          content_type.split('/').last.gsub(/[^a-z0-9]/, '')
+          content_type.split("/").last.gsub(/[^a-z0-9]/, "")
         end
       end
 

@@ -53,7 +53,7 @@ RSpec.describe Fontist::Import::Google::Models::FontVariant do
         family: "AR One Sans",
         axes: [
           Fontist::Import::Google::Models::Axis.new(
-            tag: "wght", start: 100, end: 900
+            tag: "wght", start: 100, end: 900,
           ),
         ],
       )

@@ -16,7 +16,7 @@ module Fontist
           end
 
           # Valid font formats
-          VALID_FORMATS = [:ttf, :woff2].freeze
+          VALID_FORMATS = %i[ttf woff2].freeze
 
           # Check if this is a variable font
           # Note: This requires access to the parent family's axes

@@ -56,7 +56,7 @@ module Fontist
           #
           # @return [Array<Float>] [start, end]
           def range
-            [self.start, self.end]
+            [start, self.end]
           end
 
           # Get a human-readable description of the axis
@@ -64,7 +64,7 @@ module Fontist
           # @return [String] description of the axis
           def description
             type = STANDARD_TAGS[tag] || "custom"
-            start_val = format_value(self.start)
+            start_val = format_value(start)
             end_val = format_value(self.end)
             "#{tag} (#{type}): #{start_val}–#{end_val}"
           end

@@ -6,7 +6,7 @@ RSpec.describe "Performance testing" do
   before(:all) do
     # Pre-install fonts to ensure RPM is cached
     Fontist::Manifest.from_file(
-      example_manifest("mscorefonts.yml")
+      example_manifest("mscorefonts.yml"),
     ).install(confirmation: "yes", no_progress: true)
   end
 

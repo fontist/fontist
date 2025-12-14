@@ -7,6 +7,6 @@ VCR.configure do |config|
   config.allow_http_connections_when_no_cassette = true
   config.default_cassette_options = {
     record: :none,
-    allow_playback_repeats: true
+    allow_playback_repeats: true,
   }
 end

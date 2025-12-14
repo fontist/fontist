@@ -10,7 +10,7 @@ module Fontist
         # WOFF2 capability. The response includes fonts in WOFF2 format, which
         # is optimized for web delivery.
         class Woff2 < Base
-          CAPABILITY = "WOFF2"
+          CAPABILITY = "WOFF2".freeze
 
           # Initialize a new WOFF2 data source
           #

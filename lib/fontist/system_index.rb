@@ -81,7 +81,9 @@ module Fontist
       current_fonts = index
 
       if style.nil?
-        found_fonts = current_fonts.select { |file| file.family_name&.casecmp?(font) }
+        found_fonts = current_fonts.select do |file|
+          file.family_name&.casecmp?(font)
+        end
       else
         found_fonts = current_fonts.select do |file|
           file.family_name&.casecmp?(font) && file.type&.casecmp?(style)
@@ -103,8 +105,10 @@ module Fontist
     def index_changed?
       return true if fonts.nil? || fonts.empty?
 
-      current_paths = (@paths_loader&.call&.sort&.uniq || [])
-      excluded_paths_in_current = current_paths.select { |path| excluded?(path) }
+      current_paths = @paths_loader&.call&.sort&.uniq || []
+      excluded_paths_in_current = current_paths.select do |path|
+        excluded?(path)
+      end
 
       current_paths != (font_paths + excluded_paths_in_current).uniq.sort
     end

@@ -200,7 +200,9 @@ module Fontist
           end
 
           def find_fields(name)
-            @fields_data.select { |f| f["name"] == name }.map { |f| FieldWrapper.new(f) }
+            @fields_data.select do |f|
+              f["name"] == name
+            end.map { |f| FieldWrapper.new(f) }
           end
         end
 
@@ -231,6 +233,7 @@ module Fontist
 
           def message
             return nil unless @value.is_a?(Hash)
+
             MessageWrapper.new(@value)
           end
         end

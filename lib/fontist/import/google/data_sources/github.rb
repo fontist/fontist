@@ -289,7 +289,7 @@ module Fontist
                                 encoding: "UTF-8")
 
             # Extract homepage URL from license if present
-            homepage = content[/https?:\/\/[^\s\)]+/]
+            homepage = content[/https?:\/\/[^\s)]+/]
 
             { text: content, homepage: homepage }
           end
@@ -306,8 +306,8 @@ module Fontist
 
             # Strip HTML tags and clean up
             content.gsub(/<[^>]*>/, " ")
-                   .gsub(/\s+/, " ")
-                   .strip
+              .gsub(/\s+/, " ")
+              .strip
           end
         end
       end

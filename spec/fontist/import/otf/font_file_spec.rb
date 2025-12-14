@@ -2,7 +2,9 @@ require "spec_helper"
 
 RSpec.describe Fontist::Import::Otf::FontFile do
   describe "initialization" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
 
     it "initializes with path" do
       font_file = described_class.new(font_path)
@@ -18,14 +20,17 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#to_style" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns hash with style attributes" do
       style = font_file.to_style
 
       expect(style).to be_a(Hash)
-      expect(style).to include(:family_name, :type, :full_name, :post_script_name)
+      expect(style).to include(:family_name, :type, :full_name,
+                               :post_script_name)
       expect(style).to include(:version, :copyright, :font)
     end
 
@@ -43,7 +48,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#to_collection_style" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns hash without font and source_font" do
@@ -57,12 +64,15 @@ RSpec.describe Fontist::Import::Otf::FontFile do
     it "includes all other style attributes" do
       style = font_file.to_collection_style
 
-      expect(style).to include(:family_name, :type, :full_name, :post_script_name)
+      expect(style).to include(:family_name, :type, :full_name,
+                               :post_script_name)
     end
   end
 
   describe "#family_name" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
 
     it "returns family name without prefix" do
       font_file = described_class.new(font_path)
@@ -78,7 +88,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#type" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns subfamily name" do
@@ -87,7 +99,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#preferred_family_name" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
 
     context "when preferred family name exists" do
       let(:font_file) { described_class.new(font_path) }
@@ -110,7 +124,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#preferred_type" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns preferred subfamily name" do
@@ -120,7 +136,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#full_name" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns full font name" do
@@ -130,7 +148,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#post_script_name" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns PostScript name" do
@@ -140,7 +160,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#version" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns version string" do
@@ -154,7 +176,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#description" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns description (license description)" do
@@ -164,7 +188,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#copyright" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns copyright information" do
@@ -174,7 +200,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#homepage" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns vendor URL" do
@@ -184,7 +212,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "#license_url" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "returns license URL" do
@@ -195,7 +225,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
 
   describe "#font" do
     context "with simple extension" do
-      let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+      let(:font_path) do
+        File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+      end
       let(:font_file) { described_class.new(font_path) }
 
       it "returns standardized font filename" do
@@ -204,7 +236,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
     end
 
     context "with compound extension" do
-      let(:font_path) { File.join(__dir__, "../../../examples/fonts/Times.ttc") }
+      let(:font_path) do
+        File.join(__dir__, "../../../examples/fonts/Times.ttc")
+      end
       let(:font_file) { described_class.new(font_path) }
 
       it "handles collection files correctly" do
@@ -215,7 +249,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
 
   describe "#source_font" do
     context "when font name matches original" do
-      let(:font_path) { File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf") }
+      let(:font_path) do
+        File.join(__dir__, "../../../examples/fonts/DejaVuSerif.ttf")
+      end
       let(:font_file) { described_class.new(font_path) }
 
       it "returns nil when names match" do
@@ -225,7 +261,9 @@ RSpec.describe Fontist::Import::Otf::FontFile do
   end
 
   describe "with OpenType font" do
-    let(:font_path) { File.join(__dir__, "../../../examples/fonts/overpass-regular.otf") }
+    let(:font_path) do
+      File.join(__dir__, "../../../examples/fonts/overpass-regular.otf")
+    end
     let(:font_file) { described_class.new(font_path) }
 
     it "extracts all metadata correctly" do

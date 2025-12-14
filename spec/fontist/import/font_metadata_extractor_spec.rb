@@ -3,7 +3,9 @@ require "spec_helper"
 RSpec.describe Fontist::Import::FontMetadataExtractor do
   describe "#extract" do
     context "with TrueType font" do
-      let(:font_path) { File.join(__dir__, "../../examples/fonts/DejaVuSerif.ttf") }
+      let(:font_path) do
+        File.join(__dir__, "../../examples/fonts/DejaVuSerif.ttf")
+      end
       let(:extractor) { described_class.new(font_path) }
 
       it "extracts metadata successfully" do
@@ -37,7 +39,9 @@ RSpec.describe Fontist::Import::FontMetadataExtractor do
     end
 
     context "with OpenType font" do
-      let(:font_path) { File.join(__dir__, "../../examples/fonts/overpass-regular.otf") }
+      let(:font_path) do
+        File.join(__dir__, "../../examples/fonts/overpass-regular.otf")
+      end
       let(:extractor) { described_class.new(font_path) }
 
       it "extracts metadata successfully" do

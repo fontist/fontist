@@ -399,7 +399,7 @@ module Fontist
             parts << "(Noto)" if noto_font?
             parts << "- #{font_count} files"
             parts << "- #{axis_count} axes" if variable_font?
-            parts << "- #{language_count} languages" if language_count > 0
+            parts << "- #{language_count} languages" if language_count.positive?
             parts.join(" ")
           end
 
@@ -430,21 +430,25 @@ module Fontist
 
           def fonts_array
             return [] unless fonts
+
             fonts.is_a?(Array) ? fonts : [fonts]
           end
 
           def axes_array
             return [] unless axes
+
             axes.is_a?(Array) ? axes : [axes]
           end
 
           def subsets_array
             return [] unless subsets
+
             subsets.is_a?(Array) ? subsets : [subsets]
           end
 
           def languages_array
             return [] unless languages
+
             languages.is_a?(Array) ? languages : [languages]
           end
 
@@ -452,16 +456,20 @@ module Fontist
 
           def valid_license?
             return true if license.nil?
+
             %w[OFL APACHE UFL].include?(license)
           end
 
           def valid_category?
             return true if category.nil?
-            %w[SANS_SERIF SERIF DISPLAY HANDWRITING MONOSPACE].include?(category)
+
+            %w[SANS_SERIF SERIF DISPLAY HANDWRITING
+               MONOSPACE].include?(category)
           end
 
           def valid_date_format?
             return true if date_added.nil?
+
             date_added.match?(/^\d{4}-\d{2}-\d{2}$/)
           end
         end

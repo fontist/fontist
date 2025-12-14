@@ -27,7 +27,7 @@ module Fontist
         source_path: options[:source_path],
         output_path: options[:output_path],
         font_family: options[:font_family],
-        verbose: options[:verbose]
+        verbose: options[:verbose],
       )
 
       result = importer.import
