@@ -70,11 +70,11 @@ module Fontist
       @info[:subfamily_name]
     end
 
-    def preferred_family
+    def preferred_family_name
       @info[:preferred_family]
     end
 
-    def preferred_subfamily
+    def preferred_subfamily_name
       @info[:preferred_subfamily]
     end
   end

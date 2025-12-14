@@ -6,14 +6,14 @@ module Fontist
   # :full_name=>"Arial Unicode MS",
   # :family_name=>"Arial Unicode MS",
   # :preferred_family_name=>"Arial",
-  # :preferred_subfamily=>"Regular",
+  # :preferred_subfamily_name=>"Regular",
   # :subfamily=>"Regular"},
   class SystemIndexFont < Lutaml::Model::Serializable
     attribute :path, :string
     attribute :full_name, :string
     attribute :family_name, :string
     attribute :preferred_family_name, :string
-    attribute :preferred_subfamily, :string
+    attribute :preferred_subfamily_name, :string
     attribute :subfamily, :string
     alias :type :subfamily
 
@@ -23,7 +23,7 @@ module Fontist
       map "family_name", to: :family_name
       map "type", to: :subfamily
       map "preferred_family_name", to: :preferred_family_name
-      map "preferred_subfamily", to: :preferred_subfamily
+      map "preferred_subfamily_name", to: :preferred_subfamily_name
     end
   end
 
@@ -215,8 +215,8 @@ module Fontist
         full_name: font_file.full_name,
         family_name: font_file.family,
         subfamily: font_file.subfamily,
-        preferred_family_name: font_file.preferred_family,
-        preferred_subfamily: font_file.preferred_subfamily,
+        preferred_family_name: font_file.preferred_family_name,
+        preferred_subfamily_name: font_file.preferred_subfamily_name,
       )
     end
 
