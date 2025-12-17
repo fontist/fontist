@@ -16,6 +16,8 @@ module Fontist
         yield
 
         Fontist::Index.reset_cache
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
       end
     end
 
@@ -84,10 +86,17 @@ module Fontist
       @fontist_dir = create_tmp_dir
       allow(Fontist).to receive(:fonts_path)
         .and_return(Pathname.new(@fontist_dir))
+
+      # Reset system index cache when paths change
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+
       return @fontist_dir unless block_given?
 
       result = yield @fontist_dir
       cleanup_fontist_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
       result
     end
 
@@ -99,10 +108,17 @@ module Fontist
       system_file.close
 
       stub_system_fonts(system_file)
+
+      # Reset system index cache when paths change
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+
       return @system_dir unless block_given?
 
       result = yield @system_dir
       cleanup_system_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
       result
     end
 
@@ -120,6 +136,9 @@ module Fontist
       )
 
       disable_system_font_paths_caching
+      # Reset system index cache when system file changes
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
     end
 
     def disable_system_font_paths_caching

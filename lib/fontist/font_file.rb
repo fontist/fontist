@@ -25,8 +25,12 @@ module Fontist
       private
 
       def extract_font_info_from_path(path)
-        # Load font using Fontisan's Ruby API
-        font = Fontisan::FontLoader.load(path)
+        # Load font using Fontisan's metadata-only mode with lazy loading for
+        # maximum performance during system font indexing. This combination:
+        # - Metadata mode: Loads only 6 essential tables vs ~15-20 tables
+        # - Lazy loading: Defers table parsing until tables are accessed
+        # Together this provides ~5x speedup according to fontisan benchmarks
+        font = Fontisan::FontLoader.load(path, mode: :metadata, lazy: true)
         extract_names_from_font(font)
       rescue StandardError => e
         raise_font_file_error(e)

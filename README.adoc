@@ -114,8 +114,27 @@ These fonts are found or installed:
 - /Users/user/.fontist/fonts/SEGOEUIZ.TTF
 ----
 
-By default, all matching styles (according to the font's "`default family`" name)
-are installed.
+Multiple fonts can be installed in a single command:
+
+[source,sh]
+----
+$ fontist install "segoe ui" "roboto" "arial"
+Successfully installed 3 font(s): segoe ui, roboto, arial
+----
+
+When installing multiple fonts, Fontist will continue installing remaining fonts
+even if one fails, and report all results at the end:
+
+[source,sh]
+----
+$ fontist install "segoe ui" "nonexistent font" "roboto"
+Successfully installed 2 font(s): segoe ui, roboto
+Failed to install 1 font(s):
+  - nonexistent font: Font 'nonexistent font' not found...
+----
+
+By default, all matching styles (according to the font's "`default family`"
+name) are installed.
 
 NOTE: Prior to v1.10, the font's "`preferred family`" name is used to match
 styles for search. See <<preferred-family-change>> for details of that change.
@@ -408,6 +427,101 @@ $ fontist cache clear
 ----
 
 The command above will clear fontist's download cache
+
+=== Manage system font index: `fontist index`
+
+==== General
+
+Fontist maintains an index of system fonts for fast lookups. The `fontist index`
+command provides tools to manage this index.
+
+==== Rebuild index: `fontist index rebuild`
+
+Rebuild the system font index from scratch:
+
+[source,sh]
+----
+$ fontist index rebuild
+System font index rebuilt successfully
+----
+
+With verbose output to see progress and statistics:
+
+[source,sh]
+----
+$ fontist index rebuild --verbose
+Rebuilding system font index from scratch...
+--------------------------------------------------------------------------------
+Using parallel processing with 8 cores
+⠇ 2056/2056 ...Library/Fonts/Zapfino.ttf
+
+================================================================================
+Index Build Statistics:
+================================================================================
+  Total time:          2.30 seconds
+  Total fonts:         2056
+  Parsed fonts:        1
+  Cached fonts:        2055
+  Cache hit rate:      100.0%
+  Errors:              0
+  Avg time per font:   2.2958 seconds
+================================================================================
+System font index rebuilt successfully
+----
+
+NOTE: The first rebuild will parse all fonts and take 3-5 minutes. Subsequent
+rebuilds leverage file-level caching and complete in seconds if fonts haven't
+changed.
+
+==== Incremental build: `fontist index build`
+
+Build or update the index incrementally (faster than rebuild):
+
+[source,sh]
+----
+$ fontist index build --verbose
+----
+
+==== Show index information: `fontist index info`
+
+Display information about the current index:
+
+[source,sh]
+----
+$ fontist index info
+System Font Index Information:
+--------------------------------------------------------------------------------
+  Path:       /Users/user/.fontist/system_index.default_family.yml
+  Size:       576.41 KB
+  Fonts:      2738
+  Last scan:  2025-12-14 08:25:00
+--------------------------------------------------------------------------------
+----
+
+==== Clear index: `fontist index clear`
+
+Delete the system font index (will be rebuilt on next use):
+
+[source,sh]
+----
+$ fontist index clear
+System font index cleared: /Users/user/.fontist/system_index.default_family.yml
+----
+
+==== Index command options
+
+All `fontist index` commands support these options:
+
+`-v, --verbose`:: Show detailed progress and statistics
+`-o, --output=PATH`:: Save index to specified path (for inspection)
+
+[example]
+====
+[source,sh]
+----
+$ fontist index rebuild --verbose --output /tmp/my-index.yml
+----
+====
 
 === Help: `fontist help`
 

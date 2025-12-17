@@ -154,6 +154,53 @@ RSpec.describe Fontist::CLI do
       end
     end
 
+    context "with multiple fonts" do
+      it "installs all fonts successfully" do
+        stub_fonts_path_to_new_path do
+          expect(Fontist.ui).to receive(:success)
+            .with("Successfully installed 2 font(s): texgyrechorus, andale mono")
+
+          status = described_class.start(["install", "--accept-all-licenses", "texgyrechorus", "andale mono"])
+          expect(status).to eq 0
+        end
+      end
+
+      it "continues on failure and reports all results" do
+        stub_fonts_path_to_new_path do
+          expect(Fontist.ui).to receive(:success)
+            .with("Successfully installed 1 font(s): texgyrechorus")
+          expect(Fontist.ui).to receive(:error)
+            .with("Failed to install 1 font(s):")
+          expect(Fontist.ui).to receive(:error)
+            .with(/unexisting/)
+
+          status = described_class.start(["install", "--accept-all-licenses", "texgyrechorus", "unexisting"])
+          expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
+        end
+      end
+
+      it "returns error when no fonts specified" do
+        expect(Fontist.ui).to receive(:error)
+          .with("Please specify at least one font to install.")
+
+        status = described_class.start(["install"])
+        expect(status).to eq Fontist::CLI::STATUS_UNKNOWN_ERROR
+      end
+
+      it "passes options to each font installation" do
+        no_fonts do
+          expect(Fontist::Font).to receive(:install)
+            .with("font1", hash_including(confirmation: "yes"))
+            .and_return([])
+          expect(Fontist::Font).to receive(:install)
+            .with("font2", hash_including(confirmation: "yes"))
+            .and_return([])
+
+          described_class.start(["install", "--accept-all-licenses", "font1", "font2"])
+        end
+      end
+    end
+
     context "formula requires higher min fontist" do
       include_context "fresh home"
 

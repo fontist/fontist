@@ -34,6 +34,22 @@ module Fontist
       new(options.merge(name: name)).install
     end
 
+    def self.install_many(names, options = {})
+      successes = []
+      failures = []
+
+      names.each do |name|
+        begin
+          install(name, options)
+          successes << name
+        rescue Fontist::Errors::GeneralError => e
+          failures << { font: name, error: e }
+        end
+      end
+
+      { successes: successes, failures: failures }
+    end
+
     def self.uninstall(name)
       new(name: name).uninstall
     end
