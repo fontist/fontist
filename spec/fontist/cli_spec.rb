@@ -25,7 +25,7 @@ RSpec.describe Fontist::CLI do
         stub_fonts_path_to_new_path do
           # Mock the font installation to avoid real downloads
           allow(Fontist::Font).to receive(:install)
-            .and_return([font_path("texgyrechorus-mediumitalic.otf")])
+            .and_return(["texgyrechorus-mediumitalic.otf"])
 
           status = described_class.start(["install", "texgyrechorus"])
           expect(status).to eq 0
@@ -164,10 +164,10 @@ RSpec.describe Fontist::CLI do
           # Mock font installations to avoid real downloads
           allow(Fontist::Font).to receive(:install)
             .with("texgyrechorus", anything)
-            .and_return([font_path("texgyrechorus-mediumitalic.otf")])
+            .and_return(["texgyrechorus-mediumitalic.otf"])
           allow(Fontist::Font).to receive(:install)
             .with("andale mono", anything)
-            .and_return([font_path("AndaleMo.TTF")])
+            .and_return(["AndaleMo.TTF"])
 
           expect(Fontist.ui).to receive(:success)
             .with("Successfully installed 2 font(s): texgyrechorus, andale mono")
@@ -182,7 +182,7 @@ RSpec.describe Fontist::CLI do
           # Mock successful install for first font
           allow(Fontist::Font).to receive(:install)
             .with("texgyrechorus", anything)
-            .and_return([font_path("texgyrechorus-mediumitalic.otf")])
+            .and_return(["texgyrechorus-mediumitalic.otf"])
           # Mock error for unsupported font with required message
           allow(Fontist::Font).to receive(:install)
             .with("unexisting", anything)
