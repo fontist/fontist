@@ -29,6 +29,10 @@ module Fontist
         @instance ||= new.tap(&:load)
       end
 
+      def reset
+        @instance = nil
+      end
+
       def values
         instance.values
       end

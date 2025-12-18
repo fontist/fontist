@@ -378,7 +378,9 @@ RSpec.describe Fontist::CLI do
 
     context "supported font name but not installed" do
       it "returns error status" do
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+
           status = described_class.start(["status", "andale mono"])
           expect(status).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
@@ -397,8 +399,9 @@ RSpec.describe Fontist::CLI do
       end
 
       it "shows formula and font names" do
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_font("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say).with(/^- .*AndaleMo.TTF \(from andale formula\)$/)
           described_class.start(["status", "andale mono"])
@@ -418,8 +421,9 @@ RSpec.describe Fontist::CLI do
 
     context "collection font" do
       it "prints its formula" do
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_font("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say)
             .with(include("from andale formula"))
@@ -547,12 +551,14 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        stub_system_index_path do
+          stub_system_fonts
+          stub_fonts_path_to_new_path do
+            example_font_to_fontist("AndaleMo.TTF")
 
-          expect(Fontist.ui).to receive(:say).with(output)
-          expect(command).to be 0
+            expect(Fontist.ui).to receive(:say).with(output)
+            expect(command).to be 0
+          end
         end
       end
     end
@@ -566,12 +572,14 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("courbd.ttf")
+        stub_system_index_path do
+          stub_system_fonts
+          stub_fonts_path_to_new_path do
+            example_font_to_fontist("courbd.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(output)
-          expect(command).to be 0
+            expect(Fontist.ui).to receive(:say).with(output)
+            expect(command).to be 0
+          end
         end
       end
     end
@@ -592,13 +600,15 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
-          example_font_to_fontist("courbd.ttf")
+        stub_system_index_path do
+          stub_system_fonts
+          stub_fonts_path_to_new_path do
+            example_font_to_fontist("AndaleMo.TTF")
+            example_font_to_fontist("courbd.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(output)
-          expect(command).to be 0
+            expect(Fontist.ui).to receive(:say).with(output)
+            expect(command).to be 0
+          end
         end
       end
     end
@@ -607,12 +617,14 @@ RSpec.describe Fontist::CLI do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       it "returns font location" do
-        stub_system_fonts_path_to_new_path do |system_dir|
-          example_font_to_system("Andale Mono.ttf")
+        stub_system_index_path do
+          stub_system_fonts_path_to_new_path do |system_dir|
+            example_font_to_system("Andale Mono.ttf")
 
-          stub_fonts_path_to_new_path do
-            expect(Fontist.ui).to receive(:say).with(include(system_dir))
-            expect(command).to be 0
+            stub_fonts_path_to_new_path do
+              expect(Fontist.ui).to receive(:say).with(include(system_dir))
+              expect(command).to be 0
+            end
           end
         end
       end
@@ -627,12 +639,14 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns no-space location" do
-        stub_system_fonts_path_to_new_path do |_system_dir|
-          example_font_to_system("NotoSansOriya.ttc")
+        stub_system_index_path do
+          stub_system_fonts_path_to_new_path do |_system_dir|
+            example_font_to_system("NotoSansOriya.ttc")
 
-          stub_fonts_path_to_new_path do
-            expect(Fontist.ui).to receive(:say).with(include_yaml(result))
-            expect(command).to be 0
+            stub_fonts_path_to_new_path do
+              expect(Fontist.ui).to receive(:say).with(include_yaml(result))
+              expect(command).to be 0
+            end
           end
         end
       end
@@ -642,12 +656,14 @@ RSpec.describe Fontist::CLI do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       it "returns error code and tells it could not find it" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error)
-            .with("'Andale Mono' 'Regular' font is missing, " \
-                  "please run `fontist install 'Andale Mono'` to download the font.")
-          expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
+        stub_system_index_path do
+          stub_system_fonts
+          stub_fonts_path_to_new_path do
+            expect(Fontist.ui).to receive(:error)
+              .with("'Andale Mono' 'Regular' font is missing, " \
+                    "please run `fontist install 'Andale Mono'` to download the font.")
+            expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
+          end
         end
       end
     end

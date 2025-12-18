@@ -1,5 +1,18 @@
 module Fontist
   module Helper
+    # Reset all Fontist caches to ensure test isolation
+    # Delegates to IsolationManager for proper encapsulation
+    def reset_all_fontist_caches
+      Fontist::Test::IsolationManager.instance.reset_all
+    end
+
+    # Reset verification flags on cached index instances
+    # This is now handled by IsolationManager components
+    def reset_index_verification_flags
+      # Deprecated - handled by IsolationManager
+      reset_all_fontist_caches
+    end
+
     def stub_fontist_path_to_temp_path
       allow(Fontist).to receive(:fontist_path).and_return(
         Fontist.root_path.join("spec", "fixtures"),
@@ -30,6 +43,7 @@ module Fontist
         yield dir
 
         allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+        reset_all_fontist_caches  # Clean up after
       end
     end
 
@@ -87,10 +101,6 @@ module Fontist
       allow(Fontist).to receive(:fonts_path)
         .and_return(Pathname.new(@fontist_dir))
 
-      # Reset system index cache when paths change
-      Fontist::SystemIndex.reset_cache
-      Fontist::SystemFont.reset_font_paths_cache
-
       return @fontist_dir unless block_given?
 
       result = yield @fontist_dir
@@ -108,10 +118,6 @@ module Fontist
       system_file.close
 
       stub_system_fonts(system_file)
-
-      # Reset system index cache when paths change
-      Fontist::SystemIndex.reset_cache
-      Fontist::SystemFont.reset_font_paths_cache
 
       return @system_dir unless block_given?
 
@@ -136,9 +142,6 @@ module Fontist
       )
 
       disable_system_font_paths_caching
-      # Reset system index cache when system file changes
-      Fontist::SystemIndex.reset_cache
-      Fontist::SystemFont.reset_font_paths_cache
     end
 
     def disable_system_font_paths_caching

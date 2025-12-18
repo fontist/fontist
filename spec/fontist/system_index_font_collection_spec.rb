@@ -3,9 +3,9 @@ require "spec_helper"
 RSpec.describe Fontist::SystemIndexFontCollection do
   describe "#from_yaml" do
     context "round-trips" do
-      filename = File.join(Fontist.system_index_path)
+      it "round-trips system index file" do
+        filename = File.join(Fontist.system_index_path)
 
-      it filename.to_s do
         raw_content = File.read(filename)
         content = YAML.safe_load(raw_content)
         # Convert all "content" symbol keys into string keys, "content" is an

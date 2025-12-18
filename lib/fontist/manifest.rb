@@ -116,12 +116,19 @@ module Fontist
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false)
+      installed_any = false
       fonts_casted.each do |font|
         paths = font.group_paths
-        if paths.length < fonts_casted.length
+        if paths.empty?
           font.install(confirmation: confirmation,
                        hide_licenses: hide_licenses, no_progress: no_progress)
+          installed_any = true
         end
+      end
+      # Only reset fontist index (not system index) if we actually installed fonts
+      if installed_any
+        # Reset only the fontist font cache, not system fonts
+        Fontist::SystemFont.reset_fontist_font_paths_cache
       end
       to_response
     end
