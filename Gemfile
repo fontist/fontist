@@ -14,3 +14,8 @@ gem "rubocop-rails"
 gem "rubocop-rake"
 gem "vcr"
 gem "webmock"
+
+# Profiling tools (development only)
+# gem "ruby-prof", "~> 1.7"
+# stackprof uses Unix-specific system calls and doesn't compile on Windows
+# gem "stackprof", "~> 0.2", install_if: -> { RUBY_PLATFORM !~ /mingw|mswin/ }
