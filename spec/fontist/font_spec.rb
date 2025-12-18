@@ -56,8 +56,13 @@ RSpec.describe Fontist::Font do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
       # rubocop:disable Layout/LineLength
+      # Fonts confirmed to exist on vanilla GHA macOS runners
       fonts = [
+        ["Apple Braille", "/System/Library/Fonts/Apple Braille Outline 6 Dot.ttf"],
+        ["Apple Symbols", "/System/Library/Fonts/Apple Symbols.ttf"],
+        ["Courier", "/System/Library/Fonts/Courier.ttc"],
         ["Helvetica", "/System/Library/Fonts/Helvetica.ttc"],
+        ["Times", "/System/Library/Fonts/Times.ttc"],
       ]
       # rubocop:enable Layout/LineLength
 
@@ -75,6 +80,7 @@ RSpec.describe Fontist::Font do
     context "with windows system fonts", windows: true do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
+      # Fonts confirmed to exist on vanilla GHA Windows runners
       fonts = [
         ["Arial", "C:/Windows/Fonts/arial.ttf"],
         ["Cambria", "C:/Windows/Fonts/cambria.ttc"],
@@ -87,7 +93,6 @@ RSpec.describe Fontist::Font do
           let(:font) { font_name }
 
           it "returns #{path}" do
-            skip "Font file #{path} not found on this system" unless File.exist?(path)
             expect(command).to include(path)
           end
         end
