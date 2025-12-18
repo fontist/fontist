@@ -22,7 +22,14 @@ VCR.configure do |config|
   end
 end
 
-Dir["./spec/support/**/*.rb"].sort.each { |file| require file }
+# Load test isolation manager first - it defines Fontist::Test module
+# that other support files depend on
+require_relative "support/spec_isolation_manager"
+
+# Load remaining support files (excluding spec_isolation_manager.rb)
+Dir["./spec/support/**/*.rb"].sort.each do |file|
+  require file unless file.end_with?("spec_isolation_manager.rb")
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
