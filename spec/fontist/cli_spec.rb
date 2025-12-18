@@ -183,10 +183,10 @@ RSpec.describe Fontist::CLI do
           allow(Fontist::Font).to receive(:install)
             .with("texgyrechorus", anything)
             .and_return([font_path("texgyrechorus-mediumitalic.otf")])
-          # Mock error for unsupported font
+          # Mock error for unsupported font with required message
           allow(Fontist::Font).to receive(:install)
             .with("unexisting", anything)
-            .and_raise(Fontist::Errors::UnsupportedFontError)
+            .and_raise(Fontist::Errors::UnsupportedFontError.new("unexisting"))
 
           expect(Fontist.ui).to receive(:success)
             .with("Successfully installed 1 font(s): texgyrechorus")
