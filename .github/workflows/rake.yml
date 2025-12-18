@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BUNDLER_VER: 2.3.24
+  BUNDLER_VER: latest
 # Forcing bundler version to ensure that it is consistent everywhere and
 # does not cause bundler gem reinstalls
 # bundler/rubygems 2.3.22 is a minimal requirement to support gnu/musl differentiation

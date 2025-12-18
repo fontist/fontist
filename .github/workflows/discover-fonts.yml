@@ -1,0 +1,52 @@
+name: discover-fonts
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+    paths-ignore:
+      - '**.adoc'
+  pull_request:
+    paths-ignore:
+      - '**.adoc'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-macos:
+    name: macOS fonts
+    runs-on: macos-latest
+    steps:
+      - name: List ALL Core System Fonts
+        run: |
+          echo "=== ALL FONTS IN /System/Library/Fonts/ ==="
+          find /System/Library/Fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | sort
+          echo ""
+          echo "=== Total Count ==="
+          find /System/Library/Fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | wc -l
+
+  discover-windows:
+    name: Windows fonts
+    runs-on: windows-latest
+    steps:
+      - name: List ALL Windows Fonts
+        shell: pwsh
+        run: |
+          Write-Host "=== ALL FONTS IN C:\Windows\Fonts\ ==="
+          Get-ChildItem -Path "C:\Windows\Fonts\" -Include *.ttf,*.ttc,*.otf -Recurse | ForEach-Object { $_.FullName } | Sort-Object
+          Write-Host ""
+          Write-Host "=== Total Count ==="
+          (Get-ChildItem -Path "C:\Windows\Fonts\" -Include *.ttf,*.ttc,*.otf -Recurse).Count
+
+  discover-linux:
+    name: Linux fonts
+    runs-on: ubuntu-latest
+    steps:
+      - name: List ALL System Fonts
+        run: |
+          echo "=== ALL FONTS IN /usr/share/fonts/ ==="
+          find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | sort
+          echo ""
+          echo "=== Total Count ==="
+          find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | wc -l
