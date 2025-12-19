@@ -42,26 +42,19 @@ module Fontist
         private
 
         def extract_fonts
-          extracted = Array.new(@collection.num_fonts) do |index|
+          Array.new(@collection.num_fonts) do |index|
             extract_font_at(index)
           end
-          extracted.reject { |font| hidden?(font) }
         end
 
         def extract_font_at(index)
-          result = nil
           Tempfile.create(["font", ".ttf"]) do |tmpfile|
             File.open(@path, "rb") do |io|
               font = @collection.font(index, io)
               font.to_file(tmpfile.path)
-              result = Otf::FontFile.new(tmpfile.path, name_prefix: @name_prefix)
+              Otf::FontFile.new(tmpfile.path, name_prefix: @name_prefix)
             end
-
-            # On Windows, explicitly close tempfile to release file handle
-            # This allows Ruby's automatic cleanup to delete the file properly
-            tmpfile.close if Fontist::Utils::System.user_os == :windows
           end
-          result
         end
 
         def hidden?(font_file)

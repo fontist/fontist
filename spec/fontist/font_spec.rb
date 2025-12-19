@@ -945,15 +945,13 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "andale mono" }
+      let(:font) { "overpass" }
 
       it "returns its path" do
-        stub_fonts_path_to_new_path do
-          stub_system_fonts_path_to_new_path do
-            example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_font("overpass-regular.otf")
 
-            expect(command).to all(include("AndaleMo.TTF"))
-          end
+          expect(command).to all(include("overpass-regular.otf"))
         end
       end
     end

@@ -10,20 +10,14 @@ module Fontist
       end
 
       def from_content(content)
-        result = nil
         Tempfile.create(["font", ".ttf"]) do |tmpfile|
           tmpfile.binmode
           tmpfile.write(content)
           tmpfile.flush
 
           font_info = extract_font_info_from_path(tmpfile.path)
-          result = new(font_info)
-
-          # On Windows, explicitly close tempfile to release file handle
-          # This allows Ruby's automatic cleanup to delete the file properly
-          tmpfile.close if Fontist::Utils::System.user_os == :windows
+          new(font_info)
         end
-        result
       rescue StandardError => e
         raise_font_file_error(e)
       end

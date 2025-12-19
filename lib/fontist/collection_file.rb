@@ -43,7 +43,6 @@ module Fontist
       # Extract font from collection to temporary file,
       # then load and extract metadata
       Tempfile.create(["font", ".ttf"]) do |tmpfile|
-        result = nil
         File.open(@path, "rb") do |io|
           # Get font from collection
           font = @collection.font(index, io)
@@ -52,14 +51,9 @@ module Fontist
           font.to_file(tmpfile.path)
 
           # Load and extract metadata using FontFile
-          result = FontFile.from_path(tmpfile.path)
+          # On Windows, ensure we don't hold file references
+          FontFile.from_path(tmpfile.path)
         end
-
-        # On Windows, explicitly close tempfile to release file handle
-        # This allows Ruby's automatic cleanup to delete the file properly
-        tmpfile.close if Fontist::Utils::System.user_os == :windows
-
-        result
       end
     end
 
