@@ -948,11 +948,12 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "returns its path" do
-        stub_system_fonts
         stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+          stub_system_fonts_path_to_new_path do
+            example_font_to_fontist("AndaleMo.TTF")
 
-          expect(command).to all(include("AndaleMo.TTF"))
+            expect(command).to all(include("AndaleMo.TTF"))
+          end
         end
       end
     end
