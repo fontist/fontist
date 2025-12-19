@@ -7,7 +7,11 @@ module Fontist
          "and fetches its formulas"
     def setup(name, url)
       handle_class_options(options)
-      Repo.setup(name, url)
+      result = Repo.setup(name, url)
+
+      # setup returns false if user cancelled
+      return CLI::STATUS_SUCCESS if result == false
+
       Fontist.ui.success(
         "Fontist repo '#{name}' from '#{url}' has been successfully set up.",
       )
@@ -24,6 +28,9 @@ module Fontist
       CLI::STATUS_SUCCESS
     rescue Errors::RepoNotFoundError
       handle_repo_not_found(name)
+    rescue Errors::RepoCouldNotBeUpdatedError => e
+      Fontist.ui.error(e.message)
+      CLI::STATUS_REPO_COULD_NOT_BE_UPDATED
     end
 
     desc "remove NAME", "Remove fontist repo named NAME"

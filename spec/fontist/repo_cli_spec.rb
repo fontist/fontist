@@ -19,6 +19,46 @@ RSpec.describe Fontist::RepoCLI do
         end
       end
     end
+
+    context "repo already exists and user cancels" do
+      it "does not show success message and returns success status" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            Fontist::Repo.setup("acme", dir)
+
+            # Setup again but cancel
+            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+            expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(false)
+            expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
+            expect(Fontist.ui).not_to receive(:success)
+
+            status = described_class.start(["setup", "acme", dir])
+            expect(status).to be 0
+          end
+        end
+      end
+    end
+
+    context "repo already exists and user confirms overwrite" do
+      it "shows success message and returns success status" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            Fontist::Repo.setup("acme", dir)
+
+            # Setup again with confirmation
+            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+            expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(true)
+            expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+            expect(Fontist.ui).to receive(:success).with(
+              "Fontist repo 'acme' from '#{dir}' has been successfully set up.",
+            )
+
+            status = described_class.start(["setup", "acme", dir])
+            expect(status).to be 0
+          end
+        end
+      end
+    end
   end
 
   describe "#update" do
@@ -42,6 +82,25 @@ RSpec.describe Fontist::RepoCLI do
               .with("Fontist repo 'acme' has been successfully updated.")
             status = described_class.start(["update", "acme"])
             expect(status).to be 0
+          end
+        end
+      end
+    end
+
+    context "git error during update" do
+      it "prints error message and returns update error status" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            Fontist::Repo.setup("acme", dir)
+
+            # Simulate git error
+            allow_any_instance_of(Git::Base).to receive(:pull).and_raise(Git::Error, "Unable to fetch")
+
+            expect(Fontist.ui).to receive(:error).with(include("Formulas repo 'acme' could not be updated"))
+            expect(Fontist.ui).not_to receive(:success)
+
+            status = described_class.start(["update", "acme"])
+            expect(status).to be Fontist::CLI::STATUS_REPO_COULD_NOT_BE_UPDATED
           end
         end
       end
