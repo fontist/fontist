@@ -47,9 +47,6 @@ module Fontist
           allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
           reset_all_fontist_caches  # Clean up after
 
-          # Force garbage collection to release file handles on Windows
-          GC.start
-
           # On Windows, wait a bit for file handles to be released
           sleep(0.1) if Fontist::Utils::System.user_os == :windows
         end
@@ -57,7 +54,6 @@ module Fontist
         # Windows-specific: retry cleanup after file handles are released
         if Fontist::Utils::System.user_os == :windows && retry_count < 3
           retry_count += 1
-          GC.start
           sleep(0.2)
           retry
         end

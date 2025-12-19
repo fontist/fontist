@@ -16,7 +16,7 @@ module Fontist
           tmpfile.flush
 
           font_info = extract_font_info_from_path(tmpfile.path)
-          return new(font_info)
+          new(font_info)
         end
       rescue StandardError => e
         raise_font_file_error(e)

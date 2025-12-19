@@ -59,6 +59,12 @@ RSpec.describe Fontist::Font do
         Fontist::SystemIndex.system_index.rebuild
       end
 
+      after do
+        # Reset system index to prevent affecting other tests
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
+      end
+
       # rubocop:disable Layout/LineLength
       # Fonts confirmed to exist on vanilla GHA macOS runners
       fonts = [
@@ -939,14 +945,13 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "andale mono" }
+      let(:font) { "overpass" }
 
       it "returns its path" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_font("overpass-regular.otf")
 
-          expect(command).to all(include("AndaleMo.TTF"))
+          expect(command).to all(include("overpass-regular.otf"))
         end
       end
     end

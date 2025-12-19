@@ -51,6 +51,7 @@ module Fontist
           font.to_file(tmpfile.path)
 
           # Load and extract metadata using FontFile
+          # On Windows, ensure we don't hold file references
           FontFile.from_path(tmpfile.path)
         end
       end

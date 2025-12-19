@@ -42,10 +42,9 @@ module Fontist
         private
 
         def extract_fonts
-          extracted = Array.new(@collection.num_fonts) do |index|
+          Array.new(@collection.num_fonts) do |index|
             extract_font_at(index)
           end
-          extracted.reject { |font| hidden?(font) }
         end
 
         def extract_font_at(index)
