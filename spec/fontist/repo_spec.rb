@@ -82,6 +82,57 @@ RSpec.describe Fontist::Repo do
         end
       end
     end
+
+    context "duplicate URL detection" do
+      it "prevents setting up repo with same URL under different name" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            # Setup first repo
+            Fontist::Repo.setup("acme", dir)
+
+            # Try to setup same URL under different name
+            expect(Fontist.ui).to receive(:error).with(include("Repository URL already in use by 'acme'"))
+            expect(Fontist.ui).to receive(:error).with(include("URL: #{dir}"))
+            expect(Fontist.ui).to receive(:error).with(include("Cannot setup duplicate repository"))
+
+            result = Fontist::Repo.setup("acme-duplicate", dir)
+            expect(result).to be false
+          end
+        end
+      end
+
+      it "allows same name with same URL (overwrite scenario)" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            # Setup first repo
+            Fontist::Repo.setup("acme", dir)
+
+            # Setup same name with same URL should prompt for overwrite
+            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+            expect(Fontist.ui).to receive(:yes?).and_return(true)
+            expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+
+            result = Fontist::Repo.setup("acme", dir)
+            expect(result).to be true
+          end
+        end
+      end
+
+      it "normalizes URLs correctly for comparison" do
+        no_fonts_and_formulas do
+          formula_repo_with("tex_gyre_chorus.yml") do |dir|
+            # Setup with trailing slash
+            dir_with_slash = "#{dir}/"
+            Fontist::Repo.setup("acme", dir_with_slash)
+
+            # Try same URL without trailing slash
+            expect(Fontist.ui).to receive(:error).with(include("Repository URL already in use"))
+            result = Fontist::Repo.setup("acme-dup", dir)
+            expect(result).to be false
+          end
+        end
+      end
+    end
   end
 
   describe "#update" do
