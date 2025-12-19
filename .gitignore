@@ -9,12 +9,12 @@
 Gemfile.lock
 
 # fonts
-/spec/fixtures/fonts/*
-/spec/fixtures/fonts/DejaVuSerif.ttf
-/spec/fixtures/formulas/
-/spec/fixtures/*
-!/spec/fixtures/system.yml
-!/spec/fixtures/google_fonts/
+# /spec/fixtures/fonts/*
+# /spec/fixtures/fonts/DejaVuSerif.ttf
+# /spec/fixtures/formulas/
+# /spec/fixtures/*
+# !/spec/fixtures/system.yml
+# !/spec/fixtures/google_fonts/
 
 # rspec failure tracking
 .rspec_status

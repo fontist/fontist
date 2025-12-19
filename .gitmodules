@@ -1,0 +1,3 @@
+[submodule "spec/fixtures/formulas"]
+	path = spec/fixtures/formulas
+	url = https://github.com/fontist/formulas

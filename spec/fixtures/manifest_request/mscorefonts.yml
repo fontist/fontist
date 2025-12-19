@@ -1,0 +1,36 @@
+# https://packages.debian.org/ru/sid/ttf-mscorefonts-installer
+---
+Andale Mono:
+- Regular
+Arial Black:
+- Regular
+Arial:
+- Bold
+- Italic
+- Bold Italic
+Comic Sans MS:
+- Bold
+Courier New:
+- Bold
+- Italic
+- Bold Italic
+Georgia:
+- Bold
+- Italic
+- Bold Italic
+Impact:
+- Regular
+Times New Roman:
+- Bold
+- Italic
+- Bold Italic
+Trebuchet MS:
+- Bold
+- Italic
+- Bold Italic
+Verdana:
+- Bold
+- Italic
+- Bold Italic
+Webdings:
+- Regular
