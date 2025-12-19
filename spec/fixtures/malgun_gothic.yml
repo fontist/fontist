@@ -1,0 +1,44 @@
+---
+name: Malgun Gothic
+description: Malgun Gothic
+homepage: http://www.microsoft.com
+resources:
+  VistaFont_KOR.EXE:
+    urls:
+    - https://gitlab.com/fontmirror/archive/-/raw/master/VistaFont_KOR.EXE
+    - https://download.microsoft.com/download/0/3/e/03e8f61e-be04-4cbd-8007-85a544fec76b/VistaFont_KOR.EXE
+    sha256:
+    - db5da6c17b02f1e6359aa8c019d9666abdf2e3438d08e77fb4b1576b6023b9f9
+    - c5fe8a36856c7aac913b5a64cf23c9ba1afc07ac538529d61b0e08dbefd2975a
+    file_size: 2778160
+fonts:
+- name: Malgun Gothic
+  styles:
+  - family_name: Malgun Gothic
+    type: Bold
+    full_name: Malgun Gothic Bold
+    post_script_name: MalgunGothicBold
+    version: '5.00'
+    description: "NOTIFICATION OF LICENSE AGREEMENT \r\n\r\nYou may use this font
+      to display and print content as permitted by the license terms for the product
+      in which this font is included. You may only (i) embed this font in content
+      as permitted by the embedding restrictions included in this font; and (ii) temporarily
+      download this font to a printer or other output device to help print content."
+    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
+    font: malgunbd.ttf
+  - family_name: Malgun Gothic
+    type: Regular
+    full_name: Malgun Gothic
+    post_script_name: MalgunGothicRegular
+    version: '5.00'
+    description: "NOTIFICATION OF LICENSE AGREEMENT \r\n\r\nYou may use this font
+      to display and print content as permitted by the license terms for the product
+      in which this font is included. You may only (i) embed this font in content
+      as permitted by the embedding restrictions included in this font; and (ii) temporarily
+      download this font to a printer or other output device to help print content.\r\n"
+    copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
+    font: malgun.ttf
+extract: {}
+copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
+license_url: http://www.microsoft.com/typography/fonts
+command: ''
