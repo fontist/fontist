@@ -59,6 +59,12 @@ RSpec.describe Fontist::Font do
         Fontist::SystemIndex.system_index.rebuild
       end
 
+      after do
+        # Reset system index to prevent affecting other tests
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
+      end
+
       # rubocop:disable Layout/LineLength
       # Fonts confirmed to exist on vanilla GHA macOS runners
       fonts = [
