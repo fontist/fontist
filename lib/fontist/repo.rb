@@ -64,6 +64,15 @@ module Fontist
         ensure_private_formulas_path_exists
         path = repo_path(name)
 
+        # Check for duplicate URL across all repos
+        existing_repo_with_url = find_repo_by_url(url)
+        if existing_repo_with_url && existing_repo_with_url != name
+          Fontist.ui.error(Paint["Repository URL already in use by '#{existing_repo_with_url}'", :red])
+          Fontist.ui.error(Paint["URL: #{url}", :yellow])
+          Fontist.ui.error(Paint["Cannot setup duplicate repository.", :red])
+          return false
+        end
+
         if Dir.exist?(path)
           Fontist.ui.say(Paint["Repository '#{name}' already exists at #{path}", :yellow])
           unless Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]", :yellow, :bright])
@@ -131,6 +140,50 @@ module Fontist
       end
 
       private
+
+      def find_repo_by_url(target_url)
+        normalized_target = normalize_git_url(target_url)
+
+        list.each do |repo_name|
+          repo_path_obj = repo_path(repo_name)
+          next unless Dir.exist?(repo_path_obj)
+
+          begin
+            git = Git.open(repo_path_obj)
+            existing_url = git.config["remote.origin.url"]
+            return repo_name if normalize_git_url(existing_url) == normalized_target
+          rescue
+            # Skip repos that can't be opened
+            next
+          end
+        end
+
+        nil
+      end
+
+      def normalize_git_url(url)
+        return "" if url.nil? || url.empty?
+
+        normalized = url.to_s.strip.downcase
+
+        # Remove trailing slashes
+        normalized = normalized.sub(%r{/+$}, "")
+
+        # Remove .git extension
+        normalized = normalized.sub(/\.git$/, "")
+
+        # Normalize protocol variations
+        normalized = normalized.sub(%r{^https?://}, "")
+        normalized = normalized.sub(%r{^git@}, "")
+        normalized = normalized.sub(%r{^ssh://}, "")
+        normalized = normalized.sub(%r{^git://}, "")
+
+        # Normalize git@ style to https style for comparison
+        # git@github.com:user/repo -> github.com/user/repo
+        normalized = normalized.sub(/:/, "/")
+
+        normalized
+      end
 
       def ensure_private_formulas_path_exists
         Fontist.private_formulas_path.tap do |path|
