@@ -529,9 +529,22 @@ RSpec.describe Fontist::CLI do
 
   describe "#manifest_locations" do
     let(:command) { described_class.start(["manifest-locations", path]) }
-    let(:path) { Tempfile.new.tap { |f| f.write(content) && f.close }.path }
+    let(:tempfile) { Tempfile.new.tap { |f| f.write(content) && f.close } }
+    let(:path) { tempfile.path }
     let(:content) { YAML.dump(manifest) }
     let(:output) { include_yaml(result) }
+
+    after do
+      # Explicitly cleanup tempfile on Windows to avoid permission errors
+      # Rescue in case tempfile was never created (contexts that override path)
+      if Fontist::Utils::System.user_os == :windows
+        begin
+          tempfile.unlink
+        rescue
+          # Ignore - either tempfile wasn't created or cleanup failed
+        end
+      end
+    end
 
     context "manifest not found" do
       let(:path) { Fontist.root_path.join("unexisting") }
@@ -711,9 +724,22 @@ RSpec.describe Fontist::CLI do
       described_class.start(["manifest-install", *options, path])
     end
 
-    let(:path) { Tempfile.new.tap { |f| f.write(content) && f.close }.path }
+    let(:tempfile) { Tempfile.new.tap { |f| f.write(content) && f.close } }
+    let(:path) { tempfile.path }
     let(:content) { YAML.dump(manifest) }
     let(:options) { [] }
+
+    after do
+      # Explicitly cleanup tempfile on Windows to avoid permission errors
+      # Rescue in case tempfile was never created (contexts that override path)
+      if Fontist::Utils::System.user_os == :windows
+        begin
+          tempfile.unlink
+        rescue
+          # Ignore - either tempfile wasn't created or cleanup failed
+        end
+      end
+    end
 
     before { stub_license_agreement_prompt_with("yes") }
 
