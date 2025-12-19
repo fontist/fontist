@@ -53,7 +53,11 @@ RSpec.describe Fontist::Font do
     end
 
     context "with macos system fonts", slow: true, macos: true do
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+      before do
+        stub_system_fonts(Fontist.orig_system_file_path)
+        # Rebuild system index to detect actual macOS fonts
+        Fontist::SystemIndex.system_index.rebuild
+      end
 
       # rubocop:disable Layout/LineLength
       # Fonts confirmed to exist on vanilla GHA macOS runners

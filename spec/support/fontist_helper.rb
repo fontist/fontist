@@ -132,11 +132,11 @@ module Fontist
     def stub_system_fonts_path_to_new_path
       @system_dir = create_tmp_dir
 
-      system_file = Tempfile.new
-      system_file.write(YAML.dump(system_paths(@system_dir)))
-      system_file.close
+      @system_file_tempfile = Tempfile.new
+      @system_file_tempfile.write(YAML.dump(system_paths(@system_dir)))
+      @system_file_tempfile.close
 
-      stub_system_fonts(system_file)
+      stub_system_fonts(@system_file_tempfile)
 
       return @system_dir unless block_given?
 
@@ -144,6 +144,17 @@ module Fontist
       cleanup_system_fonts
       Fontist::SystemIndex.reset_cache
       Fontist::SystemFont.reset_font_paths_cache
+
+      # Explicitly unlink tempfile on Windows to avoid permission errors
+      if Fontist::Utils::System.user_os == :windows && @system_file_tempfile
+        begin
+          @system_file_tempfile.unlink
+        rescue
+          # Ignore cleanup errors
+        end
+        @system_file_tempfile = nil
+      end
+
       result
     end
 
