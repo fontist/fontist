@@ -53,6 +53,16 @@ module Fontist
         "error"
       end
 
+      def self.yes?(message)
+        new.yes?(message)
+      rescue Errno::EBADF
+        say(<<~MSG.chomp)
+          ERROR: Fontist is unable to obtain agreement without an interactive prompt.
+          Please provide explicit agreement at execution or re-run Fontist with an interactive prompt.
+        MSG
+        false
+      end
+
       def self.print(message)
         super if log_levels.include?(:info)
       end
