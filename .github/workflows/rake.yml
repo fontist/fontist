@@ -49,9 +49,6 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
-      - if: matrix.os == 'macos-latest'
-        run: brew install lcdf-typetools
-
       - run: bundle exec rake
 
   archlinux-test:
