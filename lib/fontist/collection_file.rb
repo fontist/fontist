@@ -42,19 +42,21 @@ module Fontist
     def [](index)
       # Extract font from collection to temporary file,
       # then load and extract metadata
-      Tempfile.create(["font", ".ttf"]) do |tmpfile|
-        File.open(@path, "rb") do |io|
-          # Get font from collection
-          font = @collection.font(index, io)
+      tmpfile = Tempfile.new(["font", ".ttf"])
+      tmpfile.binmode
 
-          # Write to tempfile
-          font.to_file(tmpfile.path)
+      File.open(@path, "rb") do |io|
+        # Get font from collection
+        font = @collection.font(index, io)
 
-          # Load and extract metadata using FontFile
-          # On Windows, ensure we don't hold file references
-          FontFile.from_path(tmpfile.path)
-        end
+        # Write to tempfile
+        font.to_file(tmpfile.path)
       end
+
+      tmpfile.close
+      # Load and extract metadata using FontFile
+      # Tempfile will be deleted by GC, not immediately
+      FontFile.from_path(tmpfile.path)
     end
 
     # Removed extract_font_info method - now using FontFile.from_path

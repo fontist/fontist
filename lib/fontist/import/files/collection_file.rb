@@ -48,13 +48,16 @@ module Fontist
         end
 
         def extract_font_at(index)
-          Tempfile.create(["font", ".ttf"]) do |tmpfile|
-            File.open(@path, "rb") do |io|
-              font = @collection.font(index, io)
-              font.to_file(tmpfile.path)
-              Otf::FontFile.new(tmpfile.path, name_prefix: @name_prefix)
-            end
+          tmpfile = Tempfile.new(["font", ".ttf"])
+          tmpfile.binmode
+
+          File.open(@path, "rb") do |io|
+            font = @collection.font(index, io)
+            font.to_file(tmpfile.path)
           end
+
+          tmpfile.close
+          Otf::FontFile.new(tmpfile.path, name_prefix: @name_prefix)
         end
 
         def hidden?(font_file)

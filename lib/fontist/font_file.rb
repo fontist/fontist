@@ -10,14 +10,14 @@ module Fontist
       end
 
       def from_content(content)
-        Tempfile.create(["font", ".ttf"]) do |tmpfile|
-          tmpfile.binmode
-          tmpfile.write(content)
-          tmpfile.flush
+        tmpfile = Tempfile.new(["font", ".ttf"])
+        tmpfile.binmode
+        tmpfile.write(content)
+        tmpfile.flush
+        tmpfile.close
 
-          font_info = extract_font_info_from_path(tmpfile.path)
-          new(font_info)
-        end
+        font_info = extract_font_info_from_path(tmpfile.path)
+        new(font_info)
       rescue StandardError => e
         raise_font_file_error(e)
       end
