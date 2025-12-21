@@ -49,6 +49,25 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
+      - name: Build and display fontist system index
+        run: |
+          echo "=== Building Fontist System Index ==="
+          bundle exec fontist index rebuild --verbose
+          echo ""
+          echo "=== System Index Path ==="
+          bundle exec fontist index path
+          echo ""
+          echo "=== First 50 Fonts (YAML) ==="
+          bundle exec fontist index list --format yaml --limit 50
+
+      - name: Upload system index as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-index-${{ matrix.os }}-ruby-${{ matrix.ruby.version }}
+          path: ~/.fontist/fontist_index.*.yml
+          if-no-files-found: ignore
+
       - run: bundle exec rake
 
   archlinux-test:
