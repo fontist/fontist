@@ -39,12 +39,10 @@ module Fontist
       failures = []
 
       names.each do |name|
-        begin
-          install(name, options)
-          successes << name
-        rescue Fontist::Errors::GeneralError => e
-          failures << { font: name, error: e }
-        end
+        install(name, options)
+        successes << name
+      rescue Fontist::Errors::GeneralError => e
+        failures << { font: name, error: e }
       end
 
       { successes: successes, failures: failures }
@@ -250,7 +248,10 @@ module Fontist
       return @confirmation if @confirmation.casecmp?("yes")
 
       confirmation = ask_for_agreement
-      return confirmation if confirmation&.casecmp?("yes")
+      if confirmation&.casecmp?("yes")
+        @confirmation = "yes" # Persist acceptance to avoid re-prompting
+        return confirmation
+      end
 
       raise Fontist::Errors::LicensingError.new(
         "Fontist will not download these fonts unless you accept the terms.",
@@ -264,7 +265,8 @@ module Fontist
     def ask_for_agreement
       Fontist.ui.ask(
         "\nDo you accept all presented font licenses, and want Fontist " \
-        "to download these fonts for you? => TYPE 'Yes' or 'No':",
+        "to download these fonts for you? => TYPE 'yes' to continue, " \
+        "or press ENTER to cancel:",
       )
     end
 

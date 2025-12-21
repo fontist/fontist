@@ -45,7 +45,7 @@ module Fontist
           yield dir
 
           allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
-          reset_all_fontist_caches  # Clean up after
+          reset_all_fontist_caches # Clean up after
 
           # On Windows, wait a bit for file handles to be released
           sleep(0.1) if Fontist::Utils::System.user_os == :windows
@@ -145,7 +145,7 @@ module Fontist
       if Fontist::Utils::System.user_os == :windows && @system_file_tempfile
         begin
           @system_file_tempfile.unlink
-        rescue
+        rescue StandardError
           # Ignore cleanup errors
         end
         @system_file_tempfile = nil

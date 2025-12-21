@@ -15,7 +15,8 @@ RSpec.describe Fontist::Repo do
       it "raises error with helpful message" do
         no_fonts_and_formulas do
           expect { Fontist::Repo.setup("acme", "invalid-url") }
-            .to raise_error(Fontist::Errors::RepoCouldNotBeUpdatedError, /Invalid repository URL/)
+            .to raise_error(Fontist::Errors::RepoCouldNotBeUpdatedError,
+                            /Invalid repository URL/)
         end
       end
     end
@@ -24,7 +25,7 @@ RSpec.describe Fontist::Repo do
       it "raises appropriate error" do
         no_fonts_and_formulas do
           allow(Git).to receive(:clone).and_raise(
-            Git::Error.new("fatal: repository 'https://github.com/invalid/repo' not found")
+            Git::Error.new("fatal: repository 'https://github.com/invalid/repo' not found"),
           )
 
           expect { Fontist::Repo.setup("acme", "https://github.com/invalid/repo") }
@@ -37,11 +38,12 @@ RSpec.describe Fontist::Repo do
       it "raises error with credential configuration instructions" do
         no_fonts_and_formulas do
           allow(Git).to receive(:clone).and_raise(
-            Git::Error.new("fatal: Authentication failed")
+            Git::Error.new("fatal: Authentication failed"),
           )
 
           expect { Fontist::Repo.setup("acme", "https://github.com/private/repo") }
-            .to raise_error(Fontist::Errors::RepoCouldNotBeUpdatedError, /Authentication failed/)
+            .to raise_error(Fontist::Errors::RepoCouldNotBeUpdatedError,
+                            /Authentication failed/)
         end
       end
     end

@@ -172,7 +172,8 @@ RSpec.describe Fontist::CLI do
           expect(Fontist.ui).to receive(:success)
             .with("Successfully installed 2 font(s): texgyrechorus, andale mono")
 
-          status = described_class.start(["install", "--accept-all-licenses", "texgyrechorus", "andale mono"])
+          status = described_class.start(["install", "--accept-all-licenses",
+                                          "texgyrechorus", "andale mono"])
           expect(status).to eq 0
         end
       end
@@ -195,7 +196,8 @@ RSpec.describe Fontist::CLI do
           expect(Fontist.ui).to receive(:error)
             .with(/unexisting/)
 
-          status = described_class.start(["install", "--accept-all-licenses", "texgyrechorus", "unexisting"])
+          status = described_class.start(["install", "--accept-all-licenses",
+                                          "texgyrechorus", "unexisting"])
           expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
@@ -217,7 +219,8 @@ RSpec.describe Fontist::CLI do
             .with("font2", hash_including(confirmation: "yes"))
             .and_return([])
 
-          described_class.start(["install", "--accept-all-licenses", "font1", "font2"])
+          described_class.start(["install", "--accept-all-licenses", "font1",
+                                 "font2"])
         end
       end
     end
@@ -540,7 +543,7 @@ RSpec.describe Fontist::CLI do
       if Fontist::Utils::System.user_os == :windows
         begin
           tempfile.unlink
-        rescue
+        rescue StandardError
           # Ignore - either tempfile wasn't created or cleanup failed
         end
       end
@@ -735,7 +738,7 @@ RSpec.describe Fontist::CLI do
       if Fontist::Utils::System.user_os == :windows
         begin
           tempfile.unlink
-        rescue
+        rescue StandardError
           # Ignore - either tempfile wasn't created or cleanup failed
         end
       end

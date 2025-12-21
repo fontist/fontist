@@ -47,11 +47,13 @@ module Fontist
 
     def avg_time_per_font
       return 0 if @parsed_fonts.zero?
+
       elapsed_time / @parsed_fonts
     end
 
     def cache_hit_rate
       return 0 if @total_fonts.zero?
+
       (@cache_hits.to_f / @total_fonts * 100).round(1)
     end
 
@@ -63,7 +65,7 @@ module Fontist
         cached_fonts: @cache_hits,
         errors: @errors,
         cache_hit_rate: "#{cache_hit_rate}%",
-        avg_time_per_font: avg_time_per_font.round(4)
+        avg_time_per_font: avg_time_per_font.round(4),
       }
     end
 
@@ -71,16 +73,19 @@ module Fontist
       return unless verbose
 
       s = summary
-      puts "\n" + Paint["=" * 80, :cyan]
+      puts "\n#{Paint['=' * 80, :cyan]}"
       puts Paint["Index Build Statistics:", :cyan, :bright]
       puts Paint["=" * 80, :cyan]
-      puts "  Total time:          #{Paint[format('%.2f', s[:total_time]), :green]} seconds"
+      puts "  Total time:          #{Paint[format('%.2f', s[:total_time]),
+                                           :green]} seconds"
       puts "  Total fonts:         #{Paint[s[:total_fonts], :yellow]}"
       puts "  Parsed fonts:        #{Paint[s[:parsed_fonts], :yellow]}"
       puts "  Cached fonts:        #{Paint[s[:cached_fonts], :green]}"
       puts "  Cache hit rate:      #{Paint[s[:cache_hit_rate], :green]}"
-      puts "  Errors:              #{Paint[s[:errors], s[:errors].zero? ? :green : :red]}"
-      puts "  Avg time per font:   #{Paint[format('%.4f', s[:avg_time_per_font]), :green]} seconds"
+      puts "  Errors:              #{Paint[s[:errors],
+                                           s[:errors].zero? ? :green : :red]}"
+      puts "  Avg time per font:   #{Paint[format('%.4f', s[:avg_time_per_font]),
+                                           :green]} seconds"
       puts Paint["=" * 80, :cyan]
     end
   end
@@ -208,7 +213,7 @@ module Fontist
 
     def index_changed?
       return true if fonts.nil? || fonts.empty?
-      return false if @index_check_done  # Skip if already verified in this session
+      return false if @index_check_done # Skip if already verified in this session
 
       # Quick check: if index was scanned recently, trust it
       if recently_scanned?
@@ -259,8 +264,6 @@ module Fontist
       self
     end
 
-    public
-
     def update
       tap do |col|
         col.fonts = detect_paths(@paths_loader&.call || [])
@@ -269,7 +272,8 @@ module Fontist
 
     def update(verbose: false, stats: nil)
       tap do |col|
-        col.fonts = detect_paths(@paths_loader&.call || [], verbose: verbose, stats: stats)
+        col.fonts = detect_paths(@paths_loader&.call || [], verbose: verbose,
+                                                            stats: stats)
       end
     end
 
@@ -303,11 +307,12 @@ module Fontist
       lock(lock_path) do
         # Re-check if another process already rebuilt while we waited for lock
         if File.exist?(@path)
-          existing = self.class.from_file(path: @path, paths_loader: @paths_loader)
+          existing = self.class.from_file(path: @path,
+                                          paths_loader: @paths_loader)
 
           # If recently rebuilt by another process, use that instead
           if existing.last_scan_time &&
-             (Time.now.to_i - existing.last_scan_time.to_i) < 60
+              (Time.now.to_i - existing.last_scan_time.to_i) < 60
             Fontist.ui.debug("Index recently rebuilt by another process, using existing")
             self.fonts = existing.fonts
             self.last_scan_time = existing.last_scan_time
@@ -354,6 +359,7 @@ module Fontist
 
     def recently_scanned?
       return false unless last_scan_time
+
       time_since_scan < INDEX_REBUILD_THRESHOLD
     end
 
@@ -377,6 +383,7 @@ module Fontist
 
     def directory_mtime(dir)
       return 0 unless File.directory?(dir)
+
       File.mtime(dir).to_i
     rescue Errno::ENOENT, Errno::EACCES
       0
@@ -435,24 +442,30 @@ module Fontist
       use_parallel = parallel && sorted_paths.size > 100
 
       if use_parallel
-        process_paths_parallel(sorted_paths, existing_fonts_by_path, verbose: verbose, stats: stats)
+        process_paths_parallel(sorted_paths, existing_fonts_by_path,
+                               verbose: verbose, stats: stats)
       else
-        process_paths_sequential(sorted_paths, existing_fonts_by_path, verbose: verbose, stats: stats)
+        process_paths_sequential(sorted_paths, existing_fonts_by_path,
+                                 verbose: verbose, stats: stats)
       end
     end
 
-    def process_paths_parallel(sorted_paths, existing_fonts_by_path, verbose:, stats:)
-      require 'parallel'
+    def process_paths_parallel(sorted_paths, existing_fonts_by_path, verbose:,
+stats:)
+      require "parallel"
 
       # Auto-detect cores, cap at 8 for optimal I/O performance
       num_cores = [Parallel.processor_count, 8].min
 
-      puts Paint["Using parallel processing with #{num_cores} cores", :cyan] if verbose
+      if verbose
+        puts Paint["Using parallel processing with #{num_cores} cores",
+                   :cyan]
+      end
 
       # Thread-safe progress tracking
       progress_mutex = Mutex.new
       processed_count = 0
-      spinner_chars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+      spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
 
       results = Parallel.map(sorted_paths, in_threads: num_cores) do |path|
         cached = existing_fonts_by_path[path]
@@ -462,7 +475,8 @@ module Fontist
         if verbose && stats
           progress_mutex.synchronize do
             processed_count += 1
-            display_progress(processed_count, sorted_paths.size, path, spinner_chars)
+            display_progress(processed_count, sorted_paths.size, path,
+                             spinner_chars)
           end
         end
 
@@ -473,12 +487,16 @@ module Fontist
       results
     end
 
-    def process_paths_sequential(sorted_paths, existing_fonts_by_path, verbose:, stats:)
-      spinner_chars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+    def process_paths_sequential(sorted_paths, existing_fonts_by_path,
+verbose:, stats:)
+      spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
       spinner_index = 0
 
       results = sorted_paths.flat_map.with_index do |path, index|
-        display_progress(index + 1, sorted_paths.size, path, spinner_chars, spinner_index) if verbose && stats
+        if verbose && stats
+          display_progress(index + 1, sorted_paths.size, path, spinner_chars,
+                           spinner_index)
+        end
         spinner_index += 1
 
         cached = existing_fonts_by_path[path]
@@ -501,24 +519,27 @@ module Fontist
       end
     end
 
-    def display_progress(current, total, path, spinner_chars, spinner_index = nil)
+    def display_progress(current, total, path, spinner_chars,
+spinner_index = nil)
       spinner_index ||= (current / 10) % spinner_chars.length
       spinner = spinner_chars[spinner_index % spinner_chars.length]
 
       display_path = path
       max_path_len = 60
       if display_path.length > max_path_len
-        display_path = "..." + display_path[-max_path_len..]
+        display_path = "...#{display_path[-max_path_len..]}"
       end
 
       progress = "#{current}/#{total}"
-      print "\r#{Paint[spinner, :cyan]} #{Paint[progress, :yellow]} #{Paint[display_path, :white]}"
+      print "\r#{Paint[spinner,
+                       :cyan]} #{Paint[progress,
+                                       :yellow]} #{Paint[display_path, :white]}"
       print " " * [0, 80 - display_path.length - progress.length - 3].max
       $stdout.flush
     end
 
     def clear_progress_line
-      print "\r" + " " * 80 + "\r"
+      print "\r#{' ' * 80}\r"
     end
 
     def file_unchanged?(path, cached_font)
@@ -589,8 +610,16 @@ module Fontist
       return nil unless font_file.full_name && font_file.family
 
       # Get file metadata for caching
-      file_size = File.size(path) rescue 0
-      file_mtime = File.mtime(path).to_i rescue 0
+      file_size = begin
+        File.size(path)
+      rescue StandardError
+        0
+      end
+      file_mtime = begin
+        File.mtime(path).to_i
+      rescue StandardError
+        0
+      end
 
       SystemIndexFont.new(
         path: path,

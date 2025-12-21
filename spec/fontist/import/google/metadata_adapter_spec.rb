@@ -9,7 +9,8 @@ RSpec.describe Fontist::Import::Google::MetadataAdapter do
   describe ".adapt" do
     context "with simple font (ABeeZee)" do
       let(:file_path) do
-        File.expand_path("../../../fixtures/google_fonts/abeezee/METADATA.pb", __dir__)
+        File.expand_path("../../../fixtures/google_fonts/abeezee/METADATA.pb",
+                         __dir__)
       end
       let(:unibuf_message) { Unibuf.parse_textproto_file(file_path) }
       let(:metadata) { described_class.adapt(unibuf_message) }
@@ -49,7 +50,9 @@ RSpec.describe Fontist::Import::Google::MetadataAdapter do
 
     context "with variable font (Alexandria)" do
       let(:file_path) do
-        File.expand_path("../../../fixtures/google_fonts/alexandria/METADATA.pb", __dir__)
+        File.expand_path(
+          "../../../fixtures/google_fonts/alexandria/METADATA.pb", __dir__
+        )
       end
       let(:unibuf_message) { Unibuf.parse_textproto_file(file_path) }
       let(:metadata) { described_class.adapt(unibuf_message) }
@@ -74,7 +77,9 @@ RSpec.describe Fontist::Import::Google::MetadataAdapter do
 
     context "with complex variable font (Roboto Flex)" do
       let(:file_path) do
-        File.expand_path("../../../fixtures/google_fonts/robotoflex/METADATA.pb", __dir__)
+        File.expand_path(
+          "../../../fixtures/google_fonts/robotoflex/METADATA.pb", __dir__
+        )
       end
       let(:unibuf_message) { Unibuf.parse_textproto_file(file_path) }
       let(:metadata) { described_class.adapt(unibuf_message) }
@@ -100,7 +105,8 @@ RSpec.describe Fontist::Import::Google::MetadataAdapter do
 
     context "with large file (Noto Sans)" do
       let(:file_path) do
-        File.expand_path("../../../fixtures/google_fonts/notosans/METADATA.pb", __dir__)
+        File.expand_path("../../../fixtures/google_fonts/notosans/METADATA.pb",
+                         __dir__)
       end
       let(:unibuf_message) { Unibuf.parse_textproto_file(file_path) }
       let(:metadata) { described_class.adapt(unibuf_message) }

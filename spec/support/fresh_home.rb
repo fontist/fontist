@@ -10,7 +10,7 @@ RSpec.shared_context "fresh home" do
         example.run
 
         @temp_dir = nil
-        
+
         # On Windows, wait a bit for file handles to be released
         sleep(0.1) if Fontist::Utils::System.user_os == :windows
       end
