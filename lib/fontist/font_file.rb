@@ -17,7 +17,9 @@ module Fontist
         tmpfile.close
 
         font_info = extract_font_info_from_path(tmpfile.path)
-        new(font_info)
+        # Keep tempfile alive to prevent GC issues on Windows
+        # Return both the font object and tempfile so caller can keep it referenced
+        new(font_info, tmpfile)
       rescue StandardError => e
         raise_font_file_error(e)
       end
@@ -58,8 +60,10 @@ module Fontist
       end
     end
 
-    def initialize(font_info)
+    def initialize(font_info, tempfile = nil)
       @info = font_info
+      # Keep tempfile alive to prevent GC issues on Windows
+      @tempfile = tempfile
     end
 
     def full_name
