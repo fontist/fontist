@@ -67,15 +67,18 @@ module Fontist
         # Check for duplicate URL across all repos
         existing_repo_with_url = find_repo_by_url(url)
         if existing_repo_with_url && existing_repo_with_url != name
-          Fontist.ui.error(Paint["Repository URL already in use by '#{existing_repo_with_url}'", :red])
+          Fontist.ui.error(Paint["Repository URL already in use by '#{existing_repo_with_url}'",
+                                 :red])
           Fontist.ui.error(Paint["URL: #{url}", :yellow])
           Fontist.ui.error(Paint["Cannot setup duplicate repository.", :red])
           return false
         end
 
         if Dir.exist?(path)
-          Fontist.ui.say(Paint["Repository '#{name}' already exists at #{path}", :yellow])
-          unless Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]", :yellow, :bright])
+          Fontist.ui.say(Paint["Repository '#{name}' already exists at #{path}",
+                               :yellow])
+          unless Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]",
+                                       :yellow, :bright])
             Fontist.ui.say(Paint["Setup cancelled.", :red])
             return false
           end
@@ -152,7 +155,7 @@ module Fontist
             git = Git.open(repo_path_obj)
             existing_url = git.config["remote.origin.url"]
             return repo_name if normalize_git_url(existing_url) == normalized_target
-          rescue
+          rescue StandardError
             # Skip repos that can't be opened
             next
           end
@@ -180,9 +183,7 @@ module Fontist
 
         # Normalize git@ style to https style for comparison
         # git@github.com:user/repo -> github.com/user/repo
-        normalized = normalized.sub(/:/, "/")
-
-        normalized
+        normalized.sub(/:/, "/")
       end
 
       def ensure_private_formulas_path_exists
@@ -195,13 +196,13 @@ module Fontist
         # Basic URL validation - allow file paths and standard git URLs
         url_str = url.to_s
         is_valid = url_str.match?(%r{^(https?://|git@|ssh://|git://|file://|/)}) ||
-                   File.exist?(url_str) ||
-                   File.directory?(url_str)
+          File.exist?(url_str) ||
+          File.directory?(url_str)
 
         unless is_valid
           raise Errors::RepoCouldNotBeUpdatedError.new(
             "Invalid repository URL: #{url}\n" \
-            "URL must be a valid git repository URL (http://, https://, git@, ssh://, git://) or a local path"
+            "URL must be a valid git repository URL (http://, https://, git@, ssh://, git://) or a local path",
           )
         end
 
@@ -214,13 +215,15 @@ module Fontist
           Fontist.ui.say(Paint["Updating repository '#{name}'...", :cyan])
           Git.open(path).pull
         else
-          Fontist.ui.say(Paint["Cloning repository '#{name}' from #{url}...", :cyan])
+          Fontist.ui.say(Paint["Cloning repository '#{name}' from #{url}...",
+                               :cyan])
           repo = Git.clone(url, path, depth: 1)
           if repo.branches[:main].name != repo.current_branch
             # https://github.com/ruby-git/ruby-git/issues/531
             repo.checkout(:main).pull
           end
-          Fontist.ui.say(Paint["Repository '#{name}' cloned successfully.", :green])
+          Fontist.ui.say(Paint["Repository '#{name}' cloned successfully.",
+                               :green])
         end
       end
 
@@ -228,7 +231,8 @@ module Fontist
         error_msg = error.message
 
         # Check for common error patterns
-        if error_msg.match?(/could not resolve host|unable to access/i)
+        case error_msg
+        when /could not resolve host|unable to access/i
           raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
             Repository URL is not accessible: #{url}
 
@@ -242,7 +246,7 @@ module Fontist
 
             Git error: #{error_msg}
           MSG
-        elsif error_msg.match?(/authentication failed|permission denied|publickey/i)
+        when /authentication failed|permission denied|publickey/i
           raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
             Authentication failed for repository: #{url}
 
@@ -259,7 +263,7 @@ module Fontist
 
             Git error: #{error_msg}
           MSG
-        elsif error_msg.match?(/repository not found|does not exist/i)
+        when /repository not found|does not exist/i
           raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
             Repository not found: #{url}
 

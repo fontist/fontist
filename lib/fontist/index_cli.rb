@@ -6,32 +6,135 @@ module Fontist
   class IndexCLI < Thor
     include CLI::ClassOptions
 
-    desc "build", "Build system font index (warm/incremental build)"
+    desc "build", "Rebuild system font index from scratch (cold build)"
     option :verbose, type: :boolean, aliases: :v,
                      desc: "Show detailed progress and statistics"
     option :output, type: :string, aliases: :o,
                     desc: "Save index to specified path (for inspection)"
-    def build
+    def rebuild
       handle_class_options(options)
 
-      stats = options[:verbose] ? Fontist::IndexStats.new : nil
+      # Always create stats for progress display
+      stats = Fontist::IndexStats.new
 
-      if options[:verbose]
-        puts Paint["Building system font index...", :cyan, :bright]
-        puts Paint["-" * 80, :cyan]
+      puts Paint["Building system font index...", :cyan, :bright]
+      puts Paint["-" * 80, :cyan]
+
+      # Show platform information
+      os = Fontist::Utils::System.user_os
+      os_name = case os
+                when :macosx then "macOS"
+                when :linux then "Linux"
+                when :windows then "Windows"
+                else os == :macosx ? "macOS" : os.to_s.capitalize
+                end
+      puts Paint["Platform: ", :white] + Paint[os_name, :yellow, :bright]
+      puts
+
+      # Show directories being scanned with spinner and counts
+      puts Paint["Scanning directories:", :cyan]
+      system_config = SystemFont.system_config
+      templates = system_config["system"][os.to_s]["paths"]
+      expanded_paths = SystemFont.expand_paths(templates)
+
+      spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+
+      # Show spinner while scanning
+      all_fonts = []
+      spinner_thread = Thread.new do
+        spinner_idx = 0
+        loop do
+          print "\r  #{Paint[spinner_chars[spinner_idx % spinner_chars.length],
+                             :cyan]} Scanning font directories..."
+          $stdout.flush
+          spinner_idx += 1
+          sleep 0.1
+        end
       end
 
-      index = Fontist::SystemIndex.system_index
-      index.build(verbose: options[:verbose], stats: stats)
+      # Actually glob to find all font files (system fonts)
+      expanded_paths.each do |pattern|
+        all_fonts.concat(Dir.glob(pattern).select { |f| File.file?(f) })
+      end
 
-      stats&.print_summary(verbose: options[:verbose])
+      # Add fontist-managed fonts
+      fontist_pattern = File.join(Fontist.fonts_path.to_s, "**",
+                                  "*.{ttf,ttc,otf,otc}")
+      fontist_fonts = Dir.glob(fontist_pattern).select { |f| File.file?(f) }
+      all_fonts.concat(fontist_fonts)
+
+      spinner_thread.kill
+      print "\r#{' ' * 80}\r"
+
+      # Group fonts by their parent directory
+      fonts_by_dir = {}
+      all_fonts.each do |font_path|
+        dir = File.dirname(font_path)
+        fonts_by_dir[dir] ||= 0
+        fonts_by_dir[dir] += 1
+      end
+
+      # Sort directories and display with counts
+      sorted_dirs = fonts_by_dir.keys.sort
+      sorted_dirs.each do |dir|
+        count = fonts_by_dir[dir]
+        status = Paint["✓", :green]
+        count_display = Paint[" (#{count} #{count == 1 ? 'font' : 'fonts'})",
+                              :yellow]
+
+        # Mark fontist managed directories
+        is_fontist = dir.start_with?(Fontist.fonts_path.to_s)
+        managed_tag = if is_fontist
+                        " #{Paint['(fontist managed)', :black,
+                                  :bright]}"
+                      else
+                        ""
+                      end
+
+        puts "  #{status} #{Paint[dir, :white]}#{count_display}#{managed_tag}"
+      end
+
+      total_font_files = all_fonts.size
+      puts
+      puts Paint["Total font files found: ",
+                 :white] + Paint[total_font_files.to_s, :yellow, :bright]
+      puts Paint["(Note: Font collections like .ttc files contain multiple fonts)",
+                 :black, :bright]
+      puts Paint["-" * 80, :cyan]
+      puts
+
+      # Always show progress during indexing
+      index = Fontist::SystemIndex.system_index
+      index.build(verbose: true, stats: stats)
+
+      if options[:verbose]
+        stats.print_summary(verbose: true)
+      end
 
       if options[:output]
         index.to_file(options[:output])
         Fontist.ui.success("Index saved to: #{options[:output]}")
       end
 
-      Fontist.ui.success("System font index built successfully")
+      # Show final summary with collection info
+      total_indexed = index.fonts.size
+      collection_fonts = total_indexed - total_font_files
+
+      puts
+      puts Paint["  Index file: ",
+                 :white] + Paint[Fontist.system_index_path, :cyan]
+      puts Paint["✓ System font index rebuilt successfully", :green, :bright]
+      puts Paint["  Font files processed: ",
+                 :white] + Paint[total_font_files.to_s, :yellow, :bright]
+      puts Paint["  Total fonts indexed:  ",
+                 :white] + Paint[total_indexed.to_s, :yellow, :bright]
+      if collection_fonts.positive?
+        puts Paint["  Fonts from collections: ",
+                   :white] + Paint[collection_fonts.to_s,
+                                   :cyan] + Paint[" (.ttc/.otc files)", :black,
+                                                  :bright]
+      end
+
       CLI::STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
       Fontist.ui.error(e.message)
@@ -46,24 +149,127 @@ module Fontist
     def rebuild
       handle_class_options(options)
 
-      stats = options[:verbose] ? Fontist::IndexStats.new : nil
+      # Always create stats for progress display
+      stats = Fontist::IndexStats.new
 
-      if options[:verbose]
-        puts Paint["Rebuilding system font index from scratch...", :cyan, :bright]
-        puts Paint["-" * 80, :cyan]
+      puts Paint["Rebuilding system font index from scratch...", :cyan, :bright]
+      puts Paint["-" * 80, :cyan]
+
+      # Show platform information
+      os = Fontist::Utils::System.user_os
+      os_name = case os
+                when :macos then "macOS"
+                when :linux then "Linux"
+                when :windows then "Windows"
+                else os.to_s.capitalize
+                end
+      puts Paint["Platform: ", :white] + Paint[os_name, :yellow, :bright]
+      puts
+
+      # Show directories being scanned with spinner and counts
+      puts Paint["Scanning directories:", :cyan]
+      system_config = SystemFont.system_config
+      templates = system_config["system"][os.to_s]["paths"]
+      expanded_paths = SystemFont.expand_paths(templates)
+
+      spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+
+      # Show spinner while scanning
+      all_fonts = []
+      spinner_thread = Thread.new do
+        spinner_idx = 0
+        loop do
+          print "\r  #{Paint[spinner_chars[spinner_idx % spinner_chars.length],
+                             :cyan]} Scanning font directories..."
+          $stdout.flush
+          spinner_idx += 1
+          sleep 0.1
+        end
       end
 
-      index = Fontist::SystemIndex.system_index
-      index.rebuild(verbose: options[:verbose], stats: stats)
+      # Actually glob to find all font files (system fonts)
+      expanded_paths.each do |pattern|
+        all_fonts.concat(Dir.glob(pattern).select { |f| File.file?(f) })
+      end
 
-      stats&.print_summary(verbose: options[:verbose])
+      # Add fontist-managed fonts
+      fontist_pattern = File.join(Fontist.fonts_path.to_s, "**",
+                                  "*.{ttf,ttc,otf,otc}")
+      fontist_fonts = Dir.glob(fontist_pattern).select { |f| File.file?(f) }
+      all_fonts.concat(fontist_fonts)
+
+      spinner_thread.kill
+      print "\r#{' ' * 80}\r"
+
+      # Group fonts by their parent directory
+      fonts_by_dir = {}
+      all_fonts.each do |font_path|
+        dir = File.dirname(font_path)
+        fonts_by_dir[dir] ||= 0
+        fonts_by_dir[dir] += 1
+      end
+
+      # Sort directories and display with counts
+      sorted_dirs = fonts_by_dir.keys.sort
+      sorted_dirs.each do |dir|
+        count = fonts_by_dir[dir]
+        status = Paint["✓", :green]
+        count_display = Paint[" (#{count} #{count == 1 ? 'font' : 'fonts'})",
+                              :yellow]
+
+        # Mark fontist managed directories
+        is_fontist = dir.start_with?(Fontist.fonts_path.to_s)
+        managed_tag = if is_fontist
+                        " #{Paint['(fontist managed)', :black,
+                                  :bright]}"
+                      else
+                        ""
+                      end
+
+        puts "  #{status} #{Paint[dir, :white]}#{count_display}#{managed_tag}"
+      end
+
+      total_font_files = all_fonts.size
+      puts
+      puts Paint["Total font files found: ",
+                 :white] + Paint[total_font_files.to_s, :yellow, :bright]
+      puts Paint["(Note: Font collections like .ttc files contain multiple fonts)",
+                 :black, :bright]
+      puts Paint["-" * 80, :cyan]
+      puts
+
+      # Always show progress during indexing
+      index = Fontist::SystemIndex.system_index
+      index.rebuild(verbose: true, stats: stats)
+
+      if options[:verbose]
+        stats.print_summary(verbose: true)
+      end
 
       if options[:output]
         index.to_file(options[:output])
         Fontist.ui.success("Index saved to: #{options[:output]}")
       end
 
-      Fontist.ui.success("System font index rebuilt successfully")
+      # Show final summary with collection info
+      total_indexed = index.fonts.size
+      collection_fonts = total_indexed - total_font_files
+
+      puts
+      puts Paint["  Index file: ",
+                 :white] + Paint[Fontist.system_index_path, :cyan]
+      puts Paint["✓ System font index rebuilt successfully", :green, :bright]
+      puts Paint["  Font files processed: ",
+                 :white] + Paint[total_font_files.to_s, :yellow, :bright]
+      puts Paint["  Total fonts indexed:  ",
+                 :white] + Paint[total_indexed.to_s, :yellow, :bright]
+      if collection_fonts.positive?
+        puts Paint["  Fonts from collections: ",
+                   :white] + Paint[collection_fonts.to_s,
+                                   :cyan] + Paint[" (.ttc/.otc files)", :black,
+                                                  :bright]
+      end
+
       CLI::STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
       Fontist.ui.error(e.message)
@@ -100,7 +306,7 @@ module Fontist
           path: index_path,
           size: "#{(File.size(index_path) / 1024.0).round(2)} KB",
           fonts: index.fonts&.size || 0,
-          last_scan: index.last_scan_time ? Time.at(index.last_scan_time).strftime("%Y-%m-%d %H:%M:%S") : "never"
+          last_scan: File.mtime(index_path).strftime("%Y-%m-%d %H:%M:%S"),
         }
 
         puts Paint["System Font Index Information:", :cyan, :bright]

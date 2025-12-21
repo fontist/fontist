@@ -15,7 +15,7 @@ module Fontist
         font = Fontisan::FontLoader.load(
           @path,
           font_index: 0,
-          mode: Fontisan::LoadingModes::METADATA
+          mode: Fontisan::LoadingModes::METADATA,
         )
 
         build_metadata_from_font(font)
@@ -28,8 +28,8 @@ module Fontist
 
       def build_metadata_from_font(font)
         name_table = font.table(Fontisan::Constants::NAME_TAG)
-        os2_table = font.table(Fontisan::Constants::OS2_TAG)
-        head_table = font.table(Fontisan::Constants::HEAD_TAG)
+        font.table(Fontisan::Constants::OS2_TAG)
+        font.table(Fontisan::Constants::HEAD_TAG)
 
         Models::FontMetadata.new(
           family_name: name_table&.english_name(Fontisan::Tables::Name::FAMILY),

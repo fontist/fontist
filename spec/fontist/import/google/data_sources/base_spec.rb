@@ -14,7 +14,8 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
       expect(client.api_key).to eq(api_key)
       expect(client.capability).to be_nil
 
-      client_with_capability = described_class.new(api_key: api_key, capability: "VF")
+      client_with_capability = described_class.new(api_key: api_key,
+                                                   capability: "VF")
       expect(client_with_capability.capability).to eq("VF")
     end
   end
@@ -26,7 +27,8 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
       expect(url).to include("key=#{api_key}")
       expect(url).not_to include("capability")
 
-      client_with_capability = described_class.new(api_key: api_key, capability: "VF")
+      client_with_capability = described_class.new(api_key: api_key,
+                                                   capability: "VF")
       url_with_capability = client_with_capability.url
       expect(url_with_capability).to include("capability=VF")
     end
@@ -68,12 +70,14 @@ RSpec.describe Fontist::Import::Google::DataSources::Base do
     end
 
     it "handles empty or missing items" do
-      expect(client.parse_response({ "kind" => "webfonts#webfontList", "items" => [] })).to eq([])
+      expect(client.parse_response({ "kind" => "webfonts#webfontList",
+                                     "items" => [] })).to eq([])
       expect(client.parse_response({ "kind" => "webfonts#webfontList" })).to eq([])
     end
   end
 
-  describe "API interaction", vcr: { cassette_name: "google_fonts/ttf_sample" } do
+  describe "API interaction",
+           vcr: { cassette_name: "google_fonts/ttf_sample" } do
     it "fetches, parses, caches data and supports cache clearing" do
       # Test fetch_raw
       raw_data = client.fetch_raw

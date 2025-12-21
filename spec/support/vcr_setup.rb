@@ -9,7 +9,7 @@ VCR.configure do |config|
   config.default_cassette_options = {
     record: :none,
     allow_playback_repeats: true,
-    match_requests_on: [:method, :host, :path],
+    match_requests_on: %i[method host path],
   }
 
   # Filter sensitive API keys in both requests and responses
@@ -22,10 +22,12 @@ VCR.configure do |config|
     if ENV["GOOGLE_FONTS_API_KEY"]
       key = ENV["GOOGLE_FONTS_API_KEY"]
       # Replace in URI
-      interaction.request.uri.gsub!(/key=#{Regexp.escape(key)}/, "key=<GOOGLE_FONTS_API_KEY>")
+      interaction.request.uri.gsub!(/key=#{Regexp.escape(key)}/,
+                                    "key=<GOOGLE_FONTS_API_KEY>")
       # Replace URL-encoded version
       encoded_key = CGI.escape(key)
-      interaction.request.uri.gsub!(/key=#{Regexp.escape(encoded_key)}/, "key=<GOOGLE_FONTS_API_KEY>")
+      interaction.request.uri.gsub!(/key=#{Regexp.escape(encoded_key)}/,
+                                    "key=<GOOGLE_FONTS_API_KEY>")
     end
   end
 end

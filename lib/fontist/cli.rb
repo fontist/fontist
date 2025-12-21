@@ -123,19 +123,22 @@ module Fontist
       handle_class_options(options)
 
       if fonts.empty?
-        return error("Please specify at least one font to install.", STATUS_UNKNOWN_ERROR)
+        return error("Please specify at least one font to install.",
+                     STATUS_UNKNOWN_ERROR)
       end
 
       # For backward compatibility, use original behavior for single font
       if fonts.size == 1
         confirmation = options[:accept_all_licenses] ? "yes" : "no"
-        Fontist::Font.install(fonts.first, options.merge(confirmation: confirmation))
+        Fontist::Font.install(fonts.first,
+                              options.merge(confirmation: confirmation))
         return success
       end
 
       # Multi-font installation
       confirmation = options[:accept_all_licenses] ? "yes" : "no"
-      result = Fontist::Font.install_many(fonts, options.merge(confirmation: confirmation))
+      result = Fontist::Font.install_many(fonts,
+                                          options.merge(confirmation: confirmation))
 
       # Report results
       if result[:successes].any?
@@ -145,7 +148,7 @@ module Fontist
       if result[:failures].any?
         Fontist.ui.error("Failed to install #{result[:failures].size} font(s):")
         result[:failures].each do |failure|
-          status, mode, message = ERROR_TO_STATUS[failure[:error].class]
+          _, mode, message = ERROR_TO_STATUS[failure[:error].class]
           text = if message && mode == :overwrite
                    message
                  elsif message

@@ -170,9 +170,11 @@ RSpec.describe "Fontist::Import::CreateFormula" do
       normalized_formula_fonts = formula["fonts"].map do |font|
         {
           "name" => font["name"],
-          "styles" => font["styles"].map { |style|
-            style.reject { |k, _v| k == "preferred_type" || k == "preferred_family_name" }
-          }
+          "styles" => font["styles"].map do |style|
+            style.reject do |k, _v|
+              ["preferred_type", "preferred_family_name"].include?(k)
+            end
+          end,
         }
       end
 
@@ -191,11 +193,13 @@ RSpec.describe "Fontist::Import::CreateFormula" do
           "fonts" => collection["fonts"].map do |font|
             {
               "name" => font["name"],
-              "styles" => font["styles"].map { |style|
-                style.reject { |k, _v| k == "preferred_type" || k == "preferred_family_name" }
-              }
+              "styles" => font["styles"].map do |style|
+                style.reject do |k, _v|
+                  ["preferred_type", "preferred_family_name"].include?(k)
+                end
+              end,
             }
-          end
+          end,
         )
       end
 
