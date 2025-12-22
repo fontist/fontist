@@ -15,8 +15,12 @@ permissions:
 
 jobs:
   discover-macos:
-    name: macOS fonts
-    runs-on: macos-latest
+    name: macOS ${{ matrix.version }} fonts
+    runs-on: macos-${{ matrix.version }}
+    strategy:
+      matrix:
+        version: [13, 14, 15, 26]
+      fail-fast: false
     steps:
       - name: List ALL Core System Fonts
         run: |
@@ -25,6 +29,28 @@ jobs:
           echo ""
           echo "=== Total Count ==="
           find /System/Library/Fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | wc -l
+
+      - name: Find and Display Catalogs
+        run: |
+          echo "=== Available Font Catalogs ==="
+          find /System/Library/AssetsV2/ -name "*.xml" -type f 2>/dev/null | sort || echo "No AssetsV2 directory found"
+          echo ""
+          echo "=== Catalog Details ==="
+          for xml in /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml; do
+            if [ -f "$xml" ]; then
+              catalog_name=$(basename "$(dirname "$xml")")
+              file_size=$(wc -c < "$xml")
+              asset_count=$(grep -c "<dict>" "$xml" || echo 0)
+              echo "$catalog_name: $file_size bytes, ~$asset_count assets"
+            fi
+          done
+
+      - name: Upload Catalogs
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.version }}-catalogs
+          path: /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml
+          if-no-files-found: warn
 
   discover-windows:
     name: Windows fonts
