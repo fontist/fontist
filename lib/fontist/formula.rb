@@ -209,6 +209,28 @@ module Fontist
       resources.first.source
     end
 
+    def compatible_with_platform?(platform = nil)
+      target = platform || Utils::System.user_os.to_s
+
+      # No platform restrictions = compatible with all
+      return true if platforms.nil? || platforms.empty?
+
+      platforms.include?(target)
+    end
+
+    def platform_restriction_message
+      return nil if compatible_with_platform?
+
+      current = Utils::System.user_os
+      "Font '#{name}' is only available for: #{platforms.join(', ')}. " \
+      "Your current platform is: #{current}. " \
+      "This font cannot be installed on your system."
+    end
+
+    def requires_system_installation?
+      source == "apple_cdn" && platforms&.include?("macos")
+    end
+
     def key
       @key ||= key_from_path
     end
@@ -252,6 +274,9 @@ module Fontist
 
     def collection_fonts
       Array(font_collections).flat_map do |c|
+        { "font" => c.filename,
+          "source_font" => c.source_filename }
+
         c.fonts.flat_map do |f|
           f.styles.each do |s|
             s.font = c.filename

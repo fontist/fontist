@@ -438,8 +438,14 @@ module Fontist
 
       sorted_paths = paths.sort.uniq
 
+      # Disable parallel processing on Windows due to fontisan's internal tempfile GC issues
+      # Windows file locking prevents deletion of recently-accessed files, causing
+      # EACCES errors when fontisan's checksum calculator creates tempfiles that get GC'd
+      # See: https://github.com/fontist/fontist/issues/xxx
+      is_windows = Fontist::Utils::System.user_os == :windows
+
       # Decide whether to use parallel processing
-      use_parallel = parallel && sorted_paths.size > 100
+      use_parallel = parallel && sorted_paths.size > 100 && !is_windows
 
       if use_parallel
         process_paths_parallel(sorted_paths, existing_fonts_by_path,
@@ -689,6 +695,13 @@ spinner_index = nil)
       @system_index_path = nil
       @fontist_index = nil
       @fontist_index_path = nil
+    end
+
+    # Rebuild the system font index
+    # Called after installing fonts to system directories (e.g., apple_cdn)
+    def self.rebuild(verbose: false)
+      system_index.rebuild(verbose: verbose)
+      Fontist.ui.success("System font index rebuilt successfully.") if verbose
     end
 
     # def build_index

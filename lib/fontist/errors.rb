@@ -125,5 +125,26 @@ module Fontist
         super(msg, font)
       end
     end
+
+    class PlatformMismatchError < FontError
+      attr_reader :required_platforms, :current_platform
+
+      def initialize(font_name, required_platforms, current_platform)
+        @required_platforms = Array(required_platforms)
+        @current_platform = current_platform
+
+        msg = build_message(font_name)
+        super(msg, font_name)
+      end
+
+      private
+
+      def build_message(font_name)
+        "Font '#{font_name}' is only available for: #{@required_platforms.join(', ')}. " \
+        "Your current platform is: #{@current_platform}. " \
+        "This font is licensed exclusively for the specified platform(s) and " \
+        "cannot be installed on your system."
+      end
+    end
   end
 end

@@ -53,10 +53,49 @@ module Fontist
     end
 
     desc "macos", "Create formula for on-demand macOS fonts"
+    option :version,
+           type: :numeric,
+           desc: "Import specific Font version (7 or 8)"
+    option :all_versions,
+           type: :boolean,
+           desc: "Import all available versions"
+    option :catalog_path,
+           type: :string,
+           desc: "Path to specific catalog XML"
     def macos
       handle_class_options(options)
       require_relative "import/macos"
-      Import::Macos.new.call
+
+      if options[:all_versions]
+        import_all_macos_versions
+      else
+        import_specific_macos_version
+      end
+
+      CLI::STATUS_SUCCESS
+    end
+
+    desc "macos-catalogs", "List available macOS font catalogs"
+    def macos_catalogs
+      handle_class_options(options)
+      require_relative "macos/catalog/catalog_manager"
+
+      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
+
+      if catalogs.empty?
+        Fontist.ui.error("No macOS font catalogs found.")
+        Fontist.ui.say("Expected location: /System/Library/AssetsV2/")
+        return CLI::STATUS_UNKNOWN_ERROR
+      end
+
+      Fontist.ui.say("Available macOS Font Catalogs:")
+      catalogs.each do |catalog_path|
+        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
+        size = File.size(catalog_path)
+
+        Fontist.ui.say("  Font#{version}: #{catalog_path} (#{format_bytes(size)})")
+      end
+
       CLI::STATUS_SUCCESS
     end
 
@@ -80,6 +119,48 @@ module Fontist
       minutes = (seconds / 60).floor
       remaining_seconds = (seconds % 60).round(2)
       "#{minutes}m #{remaining_seconds}s"
+    end
+
+    def import_all_macos_versions
+      require_relative "macos/catalog/catalog_manager"
+
+      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
+
+      catalogs.each do |catalog_path|
+        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
+        Fontist.ui.say("Importing Font#{version}...")
+
+        Import::Macos.new(catalog_path).call
+      end
+    end
+
+    def import_specific_macos_version
+      catalog_path = options[:catalog_path] || find_catalog_by_version(options[:version])
+
+      Import::Macos.new(catalog_path).call
+    end
+
+    def find_catalog_by_version(version)
+      require_relative "macos/catalog/catalog_manager"
+
+      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
+
+      if version
+        catalogs.find { |path| path.include?("Font#{version}") } ||
+          raise("Font#{version} catalog not found")
+      else
+        catalogs.last || raise("No macOS font catalogs found")
+      end
+    end
+
+    def format_bytes(bytes)
+      if bytes < 1024
+        "#{bytes} B"
+      elsif bytes < 1024 * 1024
+        "#{(bytes / 1024.0).round(1)} KB"
+      else
+        "#{(bytes / (1024.0 * 1024)).round(1)} MB"
+      end
     end
   end
 end
