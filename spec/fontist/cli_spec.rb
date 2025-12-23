@@ -531,7 +531,7 @@ RSpec.describe Fontist::CLI do
   end
 
   describe "#manifest_locations" do
-    let(:command) { described_class.start(["manifest-locations", path]) }
+    let(:command) { described_class.start(["manifest", "locations", path]) }
     let(:tempfile) { Tempfile.new.tap { |f| f.write(content) && f.close } }
     let(:path) { tempfile.path }
     let(:content) { YAML.dump(manifest) }
@@ -724,7 +724,7 @@ RSpec.describe Fontist::CLI do
     include_context "fresh home"
 
     let(:command) do
-      described_class.start(["manifest-install", *options, path])
+      described_class.start(["manifest", "install", *options, path])
     end
 
     let(:tempfile) { Tempfile.new.tap { |f| f.write(content) && f.close } }
