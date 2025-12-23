@@ -8,6 +8,7 @@ require_relative "import_cli"
 require_relative "fontconfig_cli"
 require_relative "config_cli"
 require_relative "index_cli"
+require_relative "manifest_cli"
 
 module Fontist
   class CLI < Thor
@@ -218,36 +219,8 @@ module Fontist
       STATUS_REPO_COULD_NOT_BE_UPDATED
     end
 
-    desc "manifest-locations MANIFEST",
-         "Get locations of fonts from MANIFEST (yaml)"
-    def manifest_locations(manifest)
-      handle_class_options(options)
-      paths = Fontist::Manifest.from_file(manifest, locations: true)
-      print_yaml(paths.to_hash)
-      success
-    rescue Fontist::Errors::GeneralError => e
-      handle_error(e)
-    end
-
-    desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
-    option :accept_all_licenses, type: :boolean,
-                                 aliases: ["--confirm-license", :a],
-                                 desc: "Accept all license agreements"
-    option :hide_licenses, type: :boolean,
-                           aliases: :h,
-                           desc: "Hide license texts"
-    def manifest_install(manifest)
-      handle_class_options(options)
-      instance = Fontist::Manifest.from_file(manifest)
-      paths = instance.install(
-        confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses],
-      )
-      print_yaml(paths.to_hash)
-      success
-    rescue Fontist::Errors::GeneralError => e
-      handle_error(e)
-    end
+    desc "manifest SUBCOMMAND ...ARGS", "Manage font manifests"
+    subcommand "manifest", Fontist::ManifestCLI
 
     desc "create-formula URL", "Create a new formula with fonts from URL"
     option :name, desc: "Example: Times New Roman"

@@ -268,13 +268,13 @@ google/roboto_mono
   Italic (not installed)
 ----
 
-=== List installed font paths: `fontist manifest-locations`
+=== List installed font paths: `fontist manifest locations`
 
 Returns locations of fonts specified in a YAML file as an input.
 
 [source,sh]
 ----
-$ fontist manifest-locations MANIFEST_FILE
+$ fontist manifest locations MANIFEST_FILE
 ----
 
 `MANIFEST_FILE` is the location of a manifest file that contains specification
@@ -296,7 +296,7 @@ The following command will return the following YAML output:
 
 [source,sh]
 ----
-$ fontist manifest-locations manifest.yml
+$ fontist manifest locations manifest.yml
 ----
 
 [source,yml]
@@ -323,19 +323,19 @@ returned, and a message printed:
 
 [source,sh]
 ----
-$ fontist manifest-locations manifest.yml
+$ fontist manifest locations manifest.yml
 'Roboto Mono' 'Regular' font is missing, please run `fontist install 'Roboto Mono'` to download the font.
 $ echo $?
 3
 ----
 
-=== Install fonts from manifest: `fontist manifest-install`
+=== Install fonts from manifest: `fontist manifest install`
 
-Install fonts from a YAML Fontist manifest:
+You can install all fonts specified in the manifest file:
 
 [source,sh]
 ----
-$ fontist manifest-install --confirm-license manifest.yml
+$ fontist manifest install --confirm-license manifest.yml
 ----
 
 Where `manifest.yaml` is:
@@ -358,7 +358,6 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
-
 
 === Work with fontist config: `fontist config`
 
@@ -1208,7 +1207,7 @@ From v1.10 onwards the behavior has been made consistent -- only the proper
 Fontist versions beyond v1.16 treats the `font` argument of the `install`
 command differently.
 After the upgrade, please ensure all required fonts are specified when using
-`fontist install`, `fontist manifest-install` (and their corresponding Ruby
+`fontist install`, `fontist manifest install` (and their corresponding Ruby
 interface `Font.install` and `Manifest::Install`), or use the `-F, --formula`
 option.
 
