@@ -41,4 +41,4 @@ fonts:
 extract: {}
 copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
 license_url: http://www.microsoft.com/typography/fonts
-command: ''
+command: "--format progress"

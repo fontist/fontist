@@ -25,4 +25,4 @@ fonts:
 extract: {}
 copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
 license_url: http://www.microsoft.com/typography/fonts
-command: ''
+command: "--format progress"
