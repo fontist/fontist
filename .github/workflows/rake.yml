@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: system-index-${{ matrix.os }}-ruby-${{ matrix.ruby.version }}
-          path: ~/.fontist/fontist_index.*.yml
+          path: $HOME/.fontist/fontist_index.*.yml
           if-no-files-found: ignore
 
       - run: bundle exec rake

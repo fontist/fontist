@@ -31,8 +31,9 @@ module Fontist
           end
 
           def detect_version(catalog_path)
-            basename = File.basename(catalog_path)
-            match = basename.match(/Font(\d+)/)
+            # Extract version from directory name or filename
+            # e.g., /path/com_apple_MobileAsset_Font7/file.xml -> 7
+            match = catalog_path.match(/Font(\d+)/)
 
             unless match
               raise ArgumentError,
