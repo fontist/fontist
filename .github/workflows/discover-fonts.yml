@@ -32,16 +32,23 @@ jobs:
 
       - name: Find and Display Catalogs
         run: |
-          echo "=== Available Font Catalogs ==="
-          find /System/Library/AssetsV2/ -name "*.xml" -type f 2>/dev/null | sort || echo "No AssetsV2 directory found"
+          echo "=== Available Font Catalogs (XML) ==="
+          find /System/Library/AssetsV2/ -name "*.xml" -type f 2>/dev/null | sort || echo "No XML catalogs found"
+          echo ""
+          echo "=== Available Font Catalogs (Plist) ==="
+          find /System/Library/AssetsV2/ -name "*.plist" -type f 2>/dev/null | sort || echo "No plist files found"
+          echo ""
+          echo "=== All MobileAsset Font Files ==="
+          find /System/Library/AssetsV2/com_apple_MobileAsset_Font*/ -type f 2>/dev/null | sort || echo "No MobileAsset Font directory found"
           echo ""
           echo "=== Catalog Details ==="
-          for xml in /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml; do
-            if [ -f "$xml" ]; then
-              catalog_name=$(basename "$(dirname "$xml")")
-              file_size=$(wc -c < "$xml")
-              asset_count=$(grep -c "<dict>" "$xml" || echo 0)
-              echo "$catalog_name: $file_size bytes, ~$asset_count assets"
+          for file in /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.{xml,plist}; do
+            if [ -f "$file" ]; then
+              catalog_dir=$(basename "$(dirname "$file")")
+              file_name=$(basename "$file")
+              file_size=$(wc -c < "$file" 2>/dev/null || echo 0)
+              file_type=$(file -b "$file" 2>/dev/null || echo "unknown")
+              echo "$catalog_dir/$file_name: $file_size bytes, type: $file_type"
             fi
           done
 
@@ -49,7 +56,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-${{ matrix.version }}-catalogs
-          path: /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml
+          path: |
+            /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml
+            /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.plist
           if-no-files-found: warn
 
   discover-windows:

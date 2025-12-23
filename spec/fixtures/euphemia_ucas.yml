@@ -34,4 +34,4 @@ fonts:
     font: Euphemia UCAS Regular 2.6.6.ttf
 extract: {}
 copyright: Copyright (c) 2004 by Tiro Typeworks. All rights reserved.
-command: ''
+command: "--format progress"

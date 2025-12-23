@@ -2,6 +2,7 @@ require "fontist/utils"
 require "excavate"
 require_relative "resources/archive_resource"
 require_relative "resources/google_resource"
+require_relative "resources/apple_cdn_resource"
 
 module Fontist
   class FontInstaller
@@ -12,6 +13,7 @@ module Fontist
     end
 
     def install(confirmation:)
+      raise_platform_error unless platform_compatible?
       raise_fontist_version_error unless supported_version?
       raise_licensing_error unless license_is_accepted?(confirmation)
 
@@ -21,6 +23,18 @@ module Fontist
     private
 
     attr_reader :formula
+
+    def platform_compatible?
+      @formula.compatible_with_platform?
+    end
+
+    def raise_platform_error
+      raise Fontist::Errors::PlatformMismatchError.new(
+        @font_name || @formula.name,
+        @formula.platforms,
+        Fontist::Utils::System.user_os,
+      )
+    end
 
     def supported_version?
       return true unless @formula.min_fontist
@@ -67,6 +81,8 @@ module Fontist
     def resource
       resource_class = if @formula.source == "google"
                          Resources::GoogleResource
+                       elsif @formula.source == "apple_cdn"
+                         Resources::AppleCDNResource
                        else
                          Resources::ArchiveResource
                        end
@@ -115,10 +131,52 @@ module Fontist
     end
 
     def install_font_file(source)
+      if @formula.source == "apple_cdn"
+        install_to_system_directory(source)
+      else
+        install_to_fontist_directory(source)
+      end
+    end
+
+    def install_to_system_directory(source)
+      target_dir = macos_asset_directory
+      FileUtils.mkdir_p(target_dir)
+
+      target = target_dir.join(File.basename(source))
+      FileUtils.cp(source, target)
+
+      Fontist.ui.say("Installed to system directory: #{target}")
+
+      # Rebuild system index to recognize newly installed font
+      Fontist::SystemIndex.rebuild
+
+      target.to_s
+    end
+
+    def install_to_fontist_directory(source)
       target = Fontist.fonts_path.join(target_filename(File.basename(source))).to_s
       FileUtils.mv(source, target)
 
       target
+    end
+
+    def macos_asset_directory
+      # Install to: /System/Library/AssetsV2/com_apple_MobileAsset_Font*/
+      # Generate unique asset identifier from formula key
+      require "digest"
+      asset_id = Digest::SHA256.hexdigest(@formula.key)[0..39]
+      version = detect_catalog_version
+
+      Pathname.new("/System/Library/AssetsV2")
+        .join("com_apple_MobileAsset_Font#{version}")
+        .join("#{asset_id}.asset")
+        .join("AssetData")
+    end
+
+    def detect_catalog_version
+      # Extract from formula metadata or default to 8
+      # This can be enhanced to parse from resource URL if needed
+      8
     end
 
     def target_filename(source_filename)
