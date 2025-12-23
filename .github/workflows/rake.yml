@@ -60,12 +60,33 @@ jobs:
           echo "=== First 50 Fonts (YAML) ==="
           bundle exec fontist index list --format yaml --limit 50
 
+      - name: Copy index files for artifact upload
+        if: always()
+        run: |
+          echo "=== Debugging file locations ==="
+          echo "HOME is: $HOME"
+          echo "Checking if .fontist directory exists:"
+          ls -la $HOME/.fontist/ || echo ".fontist directory not found"
+          echo ""
+          echo "Looking for system_index files:"
+          find $HOME/.fontist -name "system_index*.yml" -type f 2>/dev/null || echo "No system_index files found"
+          echo ""
+          echo "Creating artifacts directory..."
+          mkdir -p ./artifacts
+          echo ""
+          echo "Copying index files..."
+          cp $HOME/.fontist/system_index.default_family.yml ./artifacts/ 2>/dev/null && echo "  ✓ Copied system_index.default_family.yml" || echo "  ✗ Failed to copy system_index.default_family.yml"
+          cp $HOME/.fontist/system_index.preferred_family.yml ./artifacts/ 2>/dev/null && echo "  ✓ Copied system_index.preferred_family.yml" || echo "  ✗ File not found or copy failed"
+          echo ""
+          echo "Artifacts directory contents:"
+          ls -la ./artifacts/ || echo "Artifacts directory is empty"
+
       - name: Upload system index as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: system-index-${{ matrix.os }}-ruby-${{ matrix.ruby.version }}
-          path: $HOME/.fontist/fontist_index.*.yml
+          path: ./artifacts/
           if-no-files-found: ignore
 
       - run: bundle exec rake
