@@ -1,0 +1,9 @@
+branch: main
+files:
+  Roboto-Thin.ttf: Roboto-Thin.ttf
+  Roboto-ThinItalic.ttf: Roboto-ThinItalic.ttf
+  Roboto-Light.ttf: Roboto-Light.ttf
+  Roboto-Regular.ttf: Roboto-Regular.ttf
+  Roboto-Italic.ttf: Roboto-Italic.ttf
+  Roboto-Bold.ttf: Roboto-Bold.ttf
+archive: https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-android.zip

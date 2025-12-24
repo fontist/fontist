@@ -1,7 +1,35 @@
 require "bundler/setup"
 require "fontist"
+require "vcr"
+require "webmock/rspec"
 
-Dir["./spec/support/**/*.rb"].sort.each { |file| require file }
+# Configure VCR for HTTP request caching
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.default_cassette_options = {
+    record: :new_episodes,
+    match_requests_on: %i[method uri body],
+  }
+  # Filter sensitive API keys from cassettes
+  config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do |interaction|
+    uri = URI.parse(interaction.request.uri)
+    host = uri.host
+    if host == "googleapis.com" || host&.end_with?(".googleapis.com")
+      URI.decode_www_form(uri.query || "").to_h["key"]
+    end
+  end
+end
+
+# Load test isolation manager first - it defines Fontist::Test module
+# that other support files depend on
+require_relative "support/spec_isolation_manager"
+
+# Load remaining support files (excluding spec_isolation_manager.rb)
+Dir["./spec/support/**/*.rb"].sort.each do |file|
+  require file unless file.end_with?("spec_isolation_manager.rb")
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

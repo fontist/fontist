@@ -1,0 +1,35 @@
+---
+Yu Gothic:
+  Bold:
+    full_name: Yu Gothic Bold
+    paths:
+    - "/Applications/Microsoft Excel.app/Contents/Resources/DFonts/YuGothB.ttc"
+    - "/Applications/Microsoft OneNote.app/Contents/Resources/DFonts/YuGothB.ttc"
+    - "/Applications/Microsoft Outlook.app/Contents/Resources/DFonts/YuGothB.ttc"
+    - "/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts/YuGothB.ttc"
+    - "/Applications/Microsoft Word.app/Contents/Resources/DFonts/YuGothB.ttc"
+  Regular:
+    full_name: Yu Gothic Regular
+    paths:
+    - "/Applications/Microsoft Excel.app/Contents/Resources/DFonts/YuGothR.ttc"
+    - "/Applications/Microsoft OneNote.app/Contents/Resources/DFonts/YuGothR.ttc"
+    - "/Applications/Microsoft Outlook.app/Contents/Resources/DFonts/YuGothR.ttc"
+    - "/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts/YuGothR.ttc"
+    - "/Applications/Microsoft Word.app/Contents/Resources/DFonts/YuGothR.ttc"
+Noto Sans Condensed:
+  Regular:
+    full_name: Noto Sans Condensed
+    paths:
+    - "/Users/foo/.fontist/fonts/NotoSans-Condensed.ttf"
+  Bold:
+    full_name: Noto Sans Condensed Bold
+    paths:
+    - "/Users/foo/.fontist/fonts/NotoSans-CondensedBold.ttf"
+  Bold Italic:
+    full_name: Noto Sans Condensed Bold Italic
+    paths:
+    - "/Users/foo/.fontist/fonts/NotoSans-CondensedBoldItalic.ttf"
+  Italic:
+    full_name: Noto Sans Condensed Italic
+    paths:
+    - "/Users/foo/.fontist/fonts/NotoSans-CondensedItalic.ttf"

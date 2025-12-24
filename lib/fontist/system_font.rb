@@ -41,7 +41,16 @@ module Fontist
     end
 
     def self.fontist_font_paths
-      Dir.glob(Fontist.fonts_path.join("**"))
+      @fontist_font_paths ||= Dir.glob(Fontist.fonts_path.join("**"))
+    end
+
+    def self.reset_fontist_font_paths_cache
+      @fontist_font_paths = nil
+    end
+
+    def self.reset_font_paths_cache
+      reset_system_font_paths_cache
+      reset_fontist_font_paths_cache
     end
 
     def self.find(font)

@@ -1,5 +1,18 @@
 module Fontist
   module Helper
+    # Reset all Fontist caches to ensure test isolation
+    # Delegates to IsolationManager for proper encapsulation
+    def reset_all_fontist_caches
+      Fontist::Test::IsolationManager.instance.reset_all
+    end
+
+    # Reset verification flags on cached index instances
+    # This is now handled by IsolationManager components
+    def reset_index_verification_flags
+      # Deprecated - handled by IsolationManager
+      reset_all_fontist_caches
+    end
+
     def stub_fontist_path_to_temp_path
       allow(Fontist).to receive(:fontist_path).and_return(
         Fontist.root_path.join("spec", "fixtures"),
@@ -16,18 +29,36 @@ module Fontist
         yield
 
         Fontist::Index.reset_cache
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
       end
     end
 
     def fresh_fontist_home
-      Dir.mktmpdir do |dir|
-        orig_home = Fontist.default_fontist_path
-        allow(Fontist).to receive(:default_fontist_path)
-          .and_return(Pathname.new(dir))
+      retry_count = 0
+      begin
+        Dir.mktmpdir do |dir|
+          orig_home = Fontist.default_fontist_path
+          allow(Fontist).to receive(:default_fontist_path)
+            .and_return(Pathname.new(dir))
 
-        yield dir
+          yield dir
 
-        allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+          allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+          reset_all_fontist_caches # Clean up after
+
+          # On Windows, wait a bit for file handles to be released
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+        end
+      rescue Errno::ENOTEMPTY, Errno::EACCES => e
+        # Windows-specific: retry cleanup after file handles are released
+        if Fontist::Utils::System.user_os == :windows && retry_count < 3
+          retry_count += 1
+          sleep(0.2)
+          retry
+        end
+        # If cleanup still fails, warn but don't fail the test
+        warn "Warning: Could not clean up temp directory: #{e.message}"
       end
     end
 
@@ -84,25 +115,42 @@ module Fontist
       @fontist_dir = create_tmp_dir
       allow(Fontist).to receive(:fonts_path)
         .and_return(Pathname.new(@fontist_dir))
+
       return @fontist_dir unless block_given?
 
       result = yield @fontist_dir
       cleanup_fontist_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
       result
     end
 
     def stub_system_fonts_path_to_new_path
       @system_dir = create_tmp_dir
 
-      system_file = Tempfile.new
-      system_file.write(YAML.dump(system_paths(@system_dir)))
-      system_file.close
+      @system_file_tempfile = Tempfile.new
+      @system_file_tempfile.write(YAML.dump(system_paths(@system_dir)))
+      @system_file_tempfile.close
 
-      stub_system_fonts(system_file)
+      stub_system_fonts(@system_file_tempfile)
+
       return @system_dir unless block_given?
 
       result = yield @system_dir
       cleanup_system_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+
+      # Explicitly unlink tempfile on Windows to avoid permission errors
+      if Fontist::Utils::System.user_os == :windows && @system_file_tempfile
+        begin
+          @system_file_tempfile.unlink
+        rescue StandardError
+          # Ignore cleanup errors
+        end
+        @system_file_tempfile = nil
+      end
+
       result
     end
 

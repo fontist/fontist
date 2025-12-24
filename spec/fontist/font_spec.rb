@@ -53,15 +53,26 @@ RSpec.describe Fontist::Font do
     end
 
     context "with macos system fonts", slow: true, macos: true do
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+      before do
+        stub_system_fonts(Fontist.orig_system_file_path)
+        # Rebuild system index to detect actual macOS fonts
+        Fontist::SystemIndex.system_index.rebuild
+      end
+
+      after do
+        # Reset system index to prevent affecting other tests
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
+      end
 
       # rubocop:disable Layout/LineLength
+      # Fonts confirmed to exist on vanilla GHA macOS runners
       fonts = [
-        ["Arial Unicode MS", "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"],
-        ["AppleGothic", "/System/Library/Fonts/Supplemental/AppleGothic.ttf"],
         ["Apple Braille", "/System/Library/Fonts/Apple Braille Outline 6 Dot.ttf"],
         ["Apple Symbols", "/System/Library/Fonts/Apple Symbols.ttf"],
+        ["Courier", "/System/Library/Fonts/Courier.ttc"],
         ["Helvetica", "/System/Library/Fonts/Helvetica.ttc"],
+        ["Times", "/System/Library/Fonts/Times.ttc"],
       ]
       # rubocop:enable Layout/LineLength
 
@@ -79,6 +90,7 @@ RSpec.describe Fontist::Font do
     context "with windows system fonts", windows: true do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
+      # Fonts confirmed to exist on vanilla GHA Windows runners
       fonts = [
         ["Arial", "C:/Windows/Fonts/arial.ttf"],
         ["Cambria", "C:/Windows/Fonts/cambria.ttc"],
@@ -835,8 +847,9 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "raises font missing error" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+
           expect { command }.to raise_error Fontist::Errors::MissingFontError
           expect { command }.to(
             raise_error { |e| expect(e.font).to eq "andale mono" },
@@ -847,8 +860,8 @@ RSpec.describe Fontist::Font do
 
     context "with supported and installed font" do
       it "removes font" do
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("overpass-regular.otf")
+        fresh_fonts_and_formulas do
+          example_font("overpass-regular.otf")
 
           Fontist::Font.uninstall("overpass")
           expect(font_file("overpass-regular.otf")).not_to exist
@@ -875,8 +888,8 @@ RSpec.describe Fontist::Font do
       let(:other) { "overpass-regular.otf" }
 
       it "removes only this font and keeps others" do
-        stub_fonts_path_to_new_path do
-          [this, other].each { |f| example_font_to_fontist(f) }
+        fresh_fonts_and_formulas do
+          [this, other].each { |f| example_font(f) }
 
           command
 
@@ -920,8 +933,9 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "raises font missing error" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+
           expect { command }.to raise_error Fontist::Errors::MissingFontError
           expect { command }.to(raise_error do |e|
             expect(e.font).to eq "andale mono"
@@ -931,14 +945,13 @@ RSpec.describe Fontist::Font do
     end
 
     context "with supported and installed font" do
-      let(:font) { "andale mono" }
+      let(:font) { "overpass" }
 
       it "returns its path" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_font("overpass-regular.otf")
 
-          expect(command).to eq [font_path("AndaleMo.TTF")]
+          expect(command).to all(include("overpass-regular.otf"))
         end
       end
     end
@@ -985,8 +998,9 @@ RSpec.describe Fontist::Font do
       let(:font) { "arial" }
 
       it "shows original formula" do
-        no_fonts do
-          example_font_to_fontist("ariali.ttf")
+        fresh_fonts_and_formulas do
+          example_formula("webcore.yml")
+          example_font("ariali.ttf")
 
           expect(Fontist.ui).to receive(:say).with(/from .*webcore formula/)
           command

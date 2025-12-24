@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require_relative "../lib/fontist/import/upgrade_formulas"
+
+# Parse command line arguments
+options = {
+  verbose: ARGV.include?("--verbose") || ARGV.include?("-v"),
+  dry_run: ARGV.include?("--dry-run"),
+  skip_download: ARGV.include?("--skip-download"),
+}
+
+# Get formulas path
+formulas_path = ARGV.find { |arg| !arg.start_with?("-") }
+unless formulas_path
+  puts "Usage: upgrade-formulas <formulas_path> [OPTIONS]"
+  puts ""
+  puts "Options:"
+  puts "  --verbose, -v      Show detailed progress"
+  puts "  --dry-run          Preview changes without modifying files"
+  puts "  --skip-download    Skip downloading archives (faster, less accurate)"
+  puts ""
+  puts "Examples:"
+  puts "  upgrade-formulas /path/to/formulas --verbose"
+  puts "  upgrade-formulas Formulas/akabara-cinderella.yml --dry-run --verbose"
+  puts ""
+  puts "Note: Without --skip-download, archives will be downloaded and"
+  puts "      inspected to accurately detect font formats. This is slower"
+  puts "      but ensures archives are NOT marked with format attributes."
+  exit 1
+end
+
+unless File.exist?(formulas_path) || Dir.exist?(formulas_path)
+  puts "Error: Path does not exist: #{formulas_path}"
+  exit 1
+end
+
+# Run upgrade
+puts "Upgrading formulas in: #{formulas_path}"
+puts "Options: #{options.inspect}" if options[:verbose]
+puts ""
+
+start_time = Time.now
+upgrader = Fontist::Import::UpgradeFormulas.new(formulas_path, options)
+results = upgrader.upgrade_all
+duration = Time.now - start_time
+
+# Print results
+puts ""
+puts "=" * 60
+puts "Upgrade Results"
+puts "=" * 60
+puts "Duration: #{duration.round(2)}s"
+puts "Upgraded: #{results[:upgraded]}"
+puts "Skipped:  #{results[:skipped]}"
+puts "Failed:   #{results[:failed]}"
+
+if results[:failed].positive?
+  puts ""
+  puts "Errors:"
+  results[:errors].each do |error|
+    puts "  - #{error[:formula]}: #{error[:error]}"
+  end
+  exit 1
+end
+
+puts ""
+puts "✓ Upgrade completed successfully!"

@@ -40,7 +40,7 @@ RSpec.describe Fontist::Utils::Downloader do
       let(:request) do
         Struct.new(:url, :headers).new(
           sample_file[:file],
-          { "Accept" => "application/octet-stream" }
+          { "Accept" => "application/octet-stream" },
         )
       end
 

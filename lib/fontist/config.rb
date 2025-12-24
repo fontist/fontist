@@ -29,6 +29,10 @@ module Fontist
         @instance ||= new.tap(&:load)
       end
 
+      def reset
+        @instance = nil
+      end
+
       def values
         instance.values
       end
@@ -78,6 +82,10 @@ module Fontist
       end
 
       v = normalize_value(value)
+
+      # Expand fonts_path to absolute path
+      v = File.expand_path(v.to_s) if attr == :fonts_path
+
       @custom_values[attr] = v
       send("#{attr}=", v) if respond_to?("#{attr}=")
 
@@ -115,11 +123,6 @@ module Fontist
 
     def load
       @custom_values = load_config_file
-    end
-
-    def fonts_path=(value)
-      @custom_values[:fonts_path] = File.expand_path(value.to_s)
-      @fonts_path = @custom_values[:fonts_path]
     end
 
     def to_file(path)
