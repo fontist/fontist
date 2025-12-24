@@ -62,6 +62,7 @@ jobs:
 
       - name: Copy index files for artifact upload
         if: always()
+        shell: bash
         run: |
           echo "=== Debugging file locations ==="
           echo "HOME is: $HOME"
@@ -83,6 +84,7 @@ jobs:
 
       - name: Test macOS supplementary font installation
         if: startsWith(matrix.os, 'macos')
+        shell: bash
         run: |
           echo "========================================================================="
           echo "   macOS Supplementary Font Installation Test"
