@@ -95,7 +95,7 @@ RSpec.describe Fontist::RepoCLI do
 
             # Simulate git error
             allow_any_instance_of(Git::Base).to receive(:pull).and_raise(
-              Git::Error, "Unable to fetch"
+              Git::GitExecuteError, "Unable to fetch"
             )
 
             expect(Fontist.ui).to receive(:error).with(include("Formulas repo 'acme' could not be updated"))

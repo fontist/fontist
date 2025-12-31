@@ -25,7 +25,7 @@ RSpec.describe Fontist::Repo do
       it "raises appropriate error" do
         no_fonts_and_formulas do
           allow(Git).to receive(:clone).and_raise(
-            Git::Error.new("fatal: repository 'https://github.com/invalid/repo' not found"),
+            Git::GitExecuteError.new("fatal: repository 'https://github.com/invalid/repo' not found"),
           )
 
           expect { Fontist::Repo.setup("acme", "https://github.com/invalid/repo") }
@@ -38,7 +38,7 @@ RSpec.describe Fontist::Repo do
       it "raises error with credential configuration instructions" do
         no_fonts_and_formulas do
           allow(Git).to receive(:clone).and_raise(
-            Git::Error.new("fatal: Authentication failed"),
+            Git::GitExecuteError.new("fatal: Authentication failed"),
           )
 
           expect { Fontist::Repo.setup("acme", "https://github.com/private/repo") }
