@@ -11,38 +11,46 @@ module Fontist
     option :output_path,
            type: :string,
            desc: "Output path for generated formulas (default: ./Formulas/google)"
-    option :font_family,
-           type: :string, aliases: :f,
+    option :font_name,
+           type: :string, aliases: [:f, :font_family],
            desc: "Import specific font family by name"
+    option :force,
+           type: :boolean,
+           desc: "Overwrite existing formulas"
     option :verbose,
            type: :boolean, aliases: :v,
            desc: "Enable verbose output"
+    option :import_cache,
+           type: :string,
+           desc: "Directory for import cache (default: ~/.fontist/import_cache)"
 
     def google
       handle_class_options(options)
 
       require "fontist/import/google_fonts_importer"
 
+      # Support both --font-name and --font-family (backward compatibility)
+      font_name = options[:font_name] || options[:font_family]
+
       importer = Fontist::Import::GoogleFontsImporter.new(
         source_path: options[:source_path],
         output_path: options[:output_path],
-        font_family: options[:font_family],
+        font_family: font_name,
+        force: options[:force],
         verbose: options[:verbose],
+        import_cache: options[:import_cache],
       )
 
       result = importer.import
 
-      # Report results
-      Fontist.ui.success("Import completed")
-      Fontist.ui.say("  Successful: #{result[:successful]}")
-      Fontist.ui.say("  Failed: #{result[:failed]}") if result[:failed]&.positive?
-      Fontist.ui.say("  Duration: #{format_duration(result[:duration])}")
-
-      if result[:errors].any?
-        Fontist.ui.say("\nErrors:")
-        result[:errors].each do |error|
-          Fontist.ui.say("  - #{error[:font]}: #{error[:error]}")
-        end
+      # Report results only in non-verbose mode (verbose mode already has rich summary)
+      unless options[:verbose]
+        Fontist.ui.success("Import completed")
+        Fontist.ui.say("  Successful: #{result[:successful]}")
+        Fontist.ui.say("  Skipped: #{result[:skipped]}") if result[:skipped]&.positive?
+        Fontist.ui.say("  Overwritten: #{result[:overwritten]}") if result[:overwritten]&.positive?
+        Fontist.ui.say("  Failed: #{result[:failed]}") if result[:failed]&.positive?
+        Fontist.ui.say("  Duration: #{format_duration(result[:duration])}")
       end
 
       CLI::STATUS_SUCCESS
@@ -52,59 +60,109 @@ module Fontist
       Fontist::CLI::STATUS_UNKNOWN_ERROR
     end
 
-    desc "macos", "Create formula for on-demand macOS fonts"
-    option :version,
-           type: :numeric,
-           desc: "Import specific Font version (7 or 8)"
-    option :all_versions,
-           type: :boolean,
-           desc: "Import all available versions"
-    option :catalog_path,
+    desc "macos", "Import macOS supplementary fonts"
+    option :plist,
            type: :string,
-           desc: "Path to specific catalog XML"
+           desc: "Path to macOS font catalog XML (e.g., com_apple_MobileAsset_Font8.xml)"
+    option :output_path,
+           type: :string,
+           desc: "Output directory for generated formulas (default: formulas/macos)"
+    option :formulas_dir,
+           type: :string,
+           desc: "DEPRECATED: Use --output-path instead"
+    option :font_name,
+           type: :string, aliases: :f,
+           desc: "Import specific font by name (optional)"
+    option :force,
+           type: :boolean,
+           desc: "Overwrite existing formulas"
+    option :verbose,
+           type: :boolean, aliases: :v,
+           desc: "Enable verbose output"
+    option :import_cache,
+           type: :string,
+           desc: "Directory for import cache (default: ~/.fontist/import_cache)"
+
     def macos
       handle_class_options(options)
       require_relative "import/macos"
 
-      if options[:all_versions]
-        import_all_macos_versions
-      else
-        import_specific_macos_version
-      end
+      # Handle deprecated formulas_dir option
+      output_dir = if options[:formulas_dir] && !options[:output_path]
+                     Fontist.ui.error("DEPRECATED: --formulas-dir is deprecated, use --output-path instead")
+                     options[:formulas_dir]
+                   else
+                     options[:output_path]
+                   end
+
+      plist_path = options[:plist] || detect_latest_catalog
+      force = options[:force]
+      verbose = options[:verbose]
+      font_name = options[:font_name]
+
+      Import::Macos.new(
+        plist_path,
+        formulas_dir: output_dir,
+        font_name: font_name,
+        force: force,
+        verbose: verbose,
+        import_cache: options[:import_cache]
+      ).call
 
       CLI::STATUS_SUCCESS
+    rescue StandardError => e
+      Fontist.ui.error("Import error: #{e.message}")
+      Fontist.ui.error(e.backtrace.join("\n")) if options[:verbose]
+      CLI::STATUS_UNKNOWN_ERROR
     end
 
-    desc "macos-catalogs", "List available macOS font catalogs"
-    def macos_catalogs
-      handle_class_options(options)
-      require_relative "macos/catalog/catalog_manager"
+    desc "sil", "Import formulas from SIL International"
+    option :output_path,
+           type: :string,
+           desc: "Output directory for generated formulas (default: ~/.fontist/versions/v4/formulas/Formulas/sil)"
+    option :font_name,
+           type: :string, aliases: :f,
+           desc: "Import specific font by name (optional)"
+    option :force,
+           type: :boolean,
+           desc: "Overwrite existing formulas"
+    option :verbose,
+           type: :boolean, aliases: :v,
+           desc: "Enable verbose output"
+    option :import_cache,
+           type: :string,
+           desc: "Directory for import cache (default: ~/.fontist/import_cache)"
 
-      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
-
-      if catalogs.empty?
-        Fontist.ui.error("No macOS font catalogs found.")
-        Fontist.ui.say("Expected location: /System/Library/AssetsV2/")
-        return CLI::STATUS_UNKNOWN_ERROR
-      end
-
-      Fontist.ui.say("Available macOS Font Catalogs:")
-      catalogs.each do |catalog_path|
-        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
-        size = File.size(catalog_path)
-
-        Fontist.ui.say("  Font#{version}: #{catalog_path} (#{format_bytes(size)})")
-      end
-
-      CLI::STATUS_SUCCESS
-    end
-
-    desc "sil", "Import formulas from SIL"
     def sil
       handle_class_options(options)
+
       require "fontist/import/sil_import"
-      Fontist::Import::SilImport.new.call
+
+      importer = Fontist::Import::SilImport.new(
+        output_path: options[:output_path],
+        font_name: options[:font_name],
+        force: options[:force],
+        verbose: options[:verbose],
+        import_cache: options[:import_cache]
+      )
+
+      result = importer.call
+
+      # Report results only in non-verbose mode (verbose mode already has rich summary)
+      unless options[:verbose]
+        Fontist.ui.success("Import completed")
+        Fontist.ui.say("  Successful: #{result[:successful]}")
+        Fontist.ui.say("  Skipped: #{result[:skipped]}") if result[:skipped]&.positive?
+        Fontist.ui.say("  Overwritten: #{result[:overwritten]}") if result[:overwritten]&.positive?
+        Fontist.ui.say("  Failed: #{result[:failed]}") if result[:failed]&.positive?
+        Fontist.ui.say("  Duration: #{format_duration(result[:duration])}")
+      end
+
       CLI::STATUS_SUCCESS
+    rescue StandardError => e
+      Fontist.ui.error("Import error: #{e.message}")
+      Fontist.ui.error(e.backtrace.join("\n")) if options[:verbose]
+      Fontist::CLI::STATUS_UNKNOWN_ERROR
     end
 
     private
@@ -121,36 +179,16 @@ module Fontist
       "#{minutes}m #{remaining_seconds}s"
     end
 
-    def import_all_macos_versions
+    def detect_latest_catalog
       require_relative "macos/catalog/catalog_manager"
 
       catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
 
-      catalogs.each do |catalog_path|
-        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
-        Fontist.ui.say("Importing Font#{version}...")
-
-        Import::Macos.new(catalog_path).call
+      if catalogs.empty?
+        raise "No macOS font catalogs found. Please specify --plist path/to/catalog.xml"
       end
-    end
 
-    def import_specific_macos_version
-      catalog_path = options[:catalog_path] || find_catalog_by_version(options[:version])
-
-      Import::Macos.new(catalog_path).call
-    end
-
-    def find_catalog_by_version(version)
-      require_relative "macos/catalog/catalog_manager"
-
-      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
-
-      if version
-        catalogs.find { |path| path.include?("Font#{version}") } ||
-          raise("Font#{version} catalog not found")
-      else
-        catalogs.last || raise("No macOS font catalogs found")
-      end
+      catalogs.last # Return the latest version
     end
 
     def format_bytes(bytes)

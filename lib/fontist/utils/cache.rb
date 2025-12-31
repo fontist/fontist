@@ -56,6 +56,12 @@ module Fontist
 
       include Locking
 
+      attr_reader :cache_path
+
+      def initialize(cache_path: nil)
+        @cache_path = cache_path || Fontist.downloads_path
+      end
+
       def self.lock_path(path)
         "#{path}.lock"
       end
@@ -63,7 +69,7 @@ module Fontist
       def fetch(key)
         map = load_cache
         if Fontist.use_cache? && cache_exist?(map[key])
-          print(map[key])
+          print_cached(map[key])
 
           return downloaded_file(map[key])
         end
@@ -101,7 +107,7 @@ module Fontist
       private
 
       def cache_map_path
-        Fontist.downloads_path.join("map.yml")
+        @cache_path.join("map.yml")
       end
 
       def load_cache
@@ -117,11 +123,20 @@ module Fontist
       end
 
       def downloaded_path(path)
-        Fontist.downloads_path.join(path)
+        @cache_path.join(path)
       end
 
       def print(path)
         Fontist.ui.say("Fetched from cache: #{size(path)} MiB.")
+      end
+
+      def print_cached(path)
+        size_mb = size(path)
+        if size_mb > 0
+          Fontist.ui.say("Fetched from cache: #{size_mb} MiB.")
+        else
+          Fontist.ui.say("Using cached file.")
+        end
       end
 
       def size(path)
@@ -152,8 +167,8 @@ module Fontist
       end
 
       def create_downloads_directory
-        unless Fontist.downloads_path.exist?
-          FileUtils.mkdir_p(Fontist.downloads_path)
+        unless @cache_path.exist?
+          FileUtils.mkdir_p(@cache_path)
         end
       end
 
@@ -162,7 +177,7 @@ module Fontist
         # on `Dir.mktmpdir`, which occurs in ruby-3.4-preview2.
         # Double-check on stable ruby-3.4 and remove if no longer needed.
 
-        dir = Dir.mktmpdir(nil, Fontist.downloads_path.to_s)
+        dir = Dir.mktmpdir(nil, @cache_path.to_s)
         File.join(dir, filename(source))
       end
 
@@ -212,7 +227,7 @@ module Fontist
       end
 
       def relative_to_downloads(path)
-        Pathname.new(path).relative_path_from(Fontist.downloads_path).to_s
+        Pathname.new(path).relative_path_from(@cache_path).to_s
       end
     end
   end

@@ -9,7 +9,7 @@ RSpec.describe Fontist::Macos::Catalog::Font8Parser do
   end
 
   describe "#parse_assets with PlatformDelivery filtering" do
-    let(:parser) { described_class.new("dummy.xml") }
+    let(:parser) { described_class.new("com_apple_MobileAsset_Font8.xml") }
 
     let(:mock_assets) do
       [
@@ -41,7 +41,10 @@ RSpec.describe Fontist::Macos::Catalog::Font8Parser do
     end
 
     before do
-      allow(parser).to receive(:data).and_return({ "Assets" => mock_assets })
+      allow(parser).to receive(:data).and_return({
+        "Assets" => mock_assets,
+        "postedDate" => "2024-08-13T18:11:00Z"
+      })
     end
 
     it "includes assets with macOS-download in PlatformDelivery" do

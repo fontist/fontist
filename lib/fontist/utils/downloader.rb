@@ -14,14 +14,16 @@ module Fontist
                      file_size: nil,
                      sha: nil,
                      progress_bar: nil,
-                     use_content_length: true)
+                     use_content_length: true,
+                     cache_path: nil)
         # TODO: If the first mirror fails, try the second one
         @file = file
         @sha = [sha].flatten.compact
         @file_size = file_size.to_i if file_size
         @progress_bar = progress_bar
+        @verbose = progress_bar == :verbose
         @use_content_length = use_content_length
-        @cache = Cache.new
+        @cache = Cache.new(cache_path: cache_path)
       end
 
       def download
@@ -58,12 +60,20 @@ module Fontist
 
       def download_file
         tries = tries ? tries + 1 : 1
+        print_download_start if @verbose
         do_download_file
       rescue Down::Error => e
         retry if tries < 3
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
+      end
+
+      def print_download_start
+        Fontist.ui.say("Downloading from: #{Paint[url, :cyan]}")
+        if @verbose
+          Fontist.ui.say("  Cache location: #{Paint[@cache.cache_path, :black, :bright]}")
+        end
       end
 
       def do_download_file
@@ -74,7 +84,9 @@ module Fontist
       end
 
       def create_progress_bar
-        if @progress_bar
+        if @progress_bar && @progress_bar != :verbose
+          ProgressBar.new(@file_size)
+        elsif @verbose
           ProgressBar.new(@file_size)
         else
           NullProgressBar.new(@file_size)

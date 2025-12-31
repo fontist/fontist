@@ -794,4 +794,209 @@ RSpec.describe Fontist::Import::Google::FontDatabase do
       expect(db.github_data["ABeeZee"]).to eq(github_font)
     end
   end
+
+  describe "import_source integration" do
+    let(:temp_source_dir) { Dir.mktmpdir }
+    let(:temp_output_dir) { Dir.mktmpdir }
+
+    before do
+      # Create a mock git repository
+      Dir.chdir(temp_source_dir) do
+        `git init`
+        `git config user.email "test@example.com"`
+        `git config user.name "Test User"`
+        File.write("README.md", "Test repo")
+        `git add .`
+        `git commit -m "Initial commit"`
+      end
+    end
+
+    after do
+      FileUtils.rm_rf(temp_source_dir)
+      FileUtils.rm_rf(temp_output_dir)
+    end
+
+    describe "#current_commit_id" do
+      it "returns commit SHA when source_path is provided" do
+        db = described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+
+        commit_id = db.current_commit_id
+        expect(commit_id).to be_a(String)
+        expect(commit_id).to match(/^[a-f0-9]{40}$/)
+      end
+
+      it "returns nil when source_path is not provided" do
+        db = described_class.new(
+          ttf_data: ttf_data,
+          source_path: nil,
+        )
+
+        expect(db.current_commit_id).to be_nil
+      end
+
+      it "returns nil when source_path is not a directory" do
+        db = described_class.new(
+          ttf_data: ttf_data,
+          source_path: "/nonexistent/path",
+        )
+
+        expect(db.current_commit_id).to be_nil
+      end
+
+      it "caches the commit_id" do
+        db = described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+
+        first_call = db.current_commit_id
+        second_call = db.current_commit_id
+        expect(first_call).to eq(second_call)
+      end
+    end
+
+    describe "#last_modified_for" do
+      let(:db) do
+        described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+      end
+
+      it "returns last_modified from family if available" do
+        family = db.font_by_name("ABeeZee")
+        timestamp = db.last_modified_for(family)
+        expect(timestamp).to eq("2025-09-08")
+      end
+
+      it "returns current time if last_modified is not available" do
+        family_without_date = Fontist::Import::Google::Models::FontFamily.new(
+          family: "Test",
+          variants: ["regular"],
+          files: { "regular" => "https://example.com/font.ttf" },
+        )
+
+        db_test = described_class.new(
+          ttf_data: [family_without_date],
+          source_path: temp_source_dir,
+        )
+
+        timestamp = db_test.last_modified_for(family_without_date)
+        expect(timestamp).to match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
+      end
+    end
+
+    describe "#create_import_source" do
+      let(:db) do
+        described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+      end
+
+      it "creates GoogleImportSource with commit_id" do
+        family = db.font_by_name("ABeeZee")
+        import_source = db.create_import_source(family)
+
+        expect(import_source).to be_a(Fontist::GoogleImportSource)
+        expect(import_source.commit_id).to match(/^[a-f0-9]{40}$/)
+        expect(import_source.api_version).to eq("v1")
+        expect(import_source.family_id).to eq("abeezee")
+        expect(import_source.last_modified).to eq("2025-09-08")
+      end
+
+      it "returns nil when no commit_id available" do
+        db_no_source = described_class.new(
+          ttf_data: ttf_data,
+          source_path: nil,
+        )
+
+        family = db_no_source.font_by_name("ABeeZee")
+        import_source = db_no_source.create_import_source(family)
+
+        expect(import_source).to be_nil
+      end
+    end
+
+    describe "formula with import_source" do
+      let(:db) do
+        described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+      end
+
+      it "includes import_source in formula when source_path provided" do
+        formula = db.to_formula("ABeeZee")
+
+        expect(formula).to have_key(:import_source)
+        expect(formula[:import_source]).to be_a(Fontist::GoogleImportSource)
+      end
+
+      it "does not include import_source when no source_path" do
+        db_no_source = described_class.new(
+          ttf_data: ttf_data,
+          source_path: nil,
+        )
+
+        formula = db_no_source.to_formula("ABeeZee")
+        expect(formula).not_to have_key(:import_source)
+      end
+    end
+
+    describe "versioned filenames" do
+      let(:db) do
+        described_class.new(
+          ttf_data: ttf_data,
+          source_path: temp_source_dir,
+        )
+      end
+
+      it "generates versioned filename when commit_id available" do
+        paths = db.save_formulas(temp_output_dir, family_name: "ABeeZee")
+
+        expect(paths).not_to be_empty
+        filename = File.basename(paths.first)
+
+        # Google Fonts use simple filenames - no versioning in filename
+        # Even with commit_id, filename is plain (Google Fonts is a live service)
+        expect(filename).to eq("abeezee.yml")
+      end
+
+      it "uses plain filename when no commit_id" do
+        db_no_source = described_class.new(
+          ttf_data: ttf_data,
+          source_path: nil,
+        )
+
+        paths = db_no_source.save_formulas(temp_output_dir, family_name: "ABeeZee")
+
+        expect(paths).not_to be_empty
+        filename = File.basename(paths.first)
+
+        # Should be plain "abeezee.yml"
+        expect(filename).to eq("abeezee.yml")
+      end
+
+      it "includes import_source data in saved formula file" do
+        paths = db.save_formulas(temp_output_dir, family_name: "ABeeZee")
+
+        formula_content = YAML.unsafe_load(File.read(paths.first))
+        expect(formula_content).to have_key("import_source")
+
+        # After YAML serialization, import_source becomes a hash
+        import_source_data = formula_content["import_source"]
+        expect(import_source_data).to be_a(Hash)
+        expect(import_source_data["commit_id"]).to match(/^[a-f0-9]{40}$/)
+        expect(import_source_data["api_version"]).to eq("v1")
+        expect(import_source_data["family_id"]).to eq("abeezee")
+
+        # Filename is always simple for Google Fonts
+        expect(File.basename(paths.first)).to eq("abeezee.yml")
+      end
+    end
+  end
 end

@@ -32,12 +32,12 @@ module Fontist
         end
 
         def family_name
-          name = @metadata.family_name
+          name = @metadata.family_name || "Unknown"
           @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def type
-          @metadata.subfamily_name
+          @metadata.subfamily_name || "Regular"
         end
 
         def preferred_family_name
@@ -93,6 +93,13 @@ module Fontist
 
         def extract_metadata
           FontMetadataExtractor.new(@path).extract
+        rescue StandardError => e
+          # Return a minimal metadata object if extraction fails
+          Fontist.ui.error("WARN: Could not extract metadata from #{@path}: #{e.message}")
+          Models::FontMetadata.new(
+            family_name: File.basename(@path, ".*"),
+            subfamily_name: "Regular"
+          )
         end
 
         def detect_extension

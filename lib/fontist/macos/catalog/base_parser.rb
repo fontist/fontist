@@ -1,4 +1,5 @@
 require "plist"
+require_relative "asset"
 
 module Fontist
   module Macos
@@ -14,10 +15,36 @@ module Fontist
         end
 
         def assets
-          parse_assets.map { |asset_data| Asset.new(asset_data) }
+          posted_date_str = posted_date
+          framework_ver = framework_version
+          parse_assets.map { |asset_data|
+            Asset.new(asset_data, posted_date: posted_date_str, framework_version: framework_ver)
+          }
+        end
+
+        def posted_date
+          date_obj = data["postedDate"]
+          return nil unless date_obj
+
+          # Plist parser may return DateTime object directly
+          if date_obj.is_a?(String)
+            Time.parse(date_obj).utc.iso8601
+          elsif date_obj.respond_to?(:to_time)
+            date_obj.to_time.utc.iso8601
+          else
+            date_obj.to_s
+          end
+        rescue StandardError => e
+          Fontist.ui.error("Could not parse postedDate: #{e.message}")
+          nil
         end
 
         def catalog_version
+          # Extract from filename: com_apple_MobileAsset_Font7.xml -> 7
+          File.basename(@xml_path).match(/Font(\d+)/)[1].to_i
+        end
+
+        def framework_version
           # Extract from filename: com_apple_MobileAsset_Font7.xml -> 7
           File.basename(@xml_path).match(/Font(\d+)/)[1].to_i
         end

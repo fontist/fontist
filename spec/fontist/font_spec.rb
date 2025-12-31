@@ -268,7 +268,7 @@ RSpec.describe Fontist::Font do
         Fontist::Font.install(font, confirmation: "yes")
 
         expect(Fontist.ui)
-          .to receive(:say).with(/Fetched from cache: \d+ MiB\./)
+          .to receive(:say).with("Using cached file.")
         command
       end
     end

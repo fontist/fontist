@@ -6,6 +6,7 @@ require_relative "data_sources/woff2"
 require_relative "data_sources/github"
 require_relative "../font_metadata_extractor"
 require_relative "../../utils/downloader"
+require_relative "../../google_import_source"
 require "yaml"
 require "fileutils"
 
@@ -38,6 +39,7 @@ module Fontist
             ttf_data: ttf_data,
             github_data: github_data,
             version: 4,
+            source_path: source_path,
           )
         end
 
@@ -64,6 +66,7 @@ module Fontist
             woff2_data: woff2_data,
             github_data: github_data,
             version: 5,
+            source_path: source_path,
           )
         end
 
@@ -79,7 +82,7 @@ module Fontist
           else
             # Build without GitHub data
             ttf_data = DataSources::Ttf.new(api_key: api_key).fetch
-            new(ttf_data: ttf_data, version: 4)
+            new(ttf_data: ttf_data, version: 4, source_path: nil)
           end
         end
 
@@ -90,13 +93,15 @@ module Fontist
         # @param woff2_data [Array, nil] WOFF2 endpoint data (optional, for v5)
         # @param github_data [Array, nil] GitHub repository data (optional)
         # @param version [Integer] Formula version (4 or 5)
+        # @param source_path [String, nil] Path to google/fonts repository (optional)
         def initialize(ttf_data:, vf_data: nil, woff2_data: nil,
-github_data: nil, version: 4)
+github_data: nil, version: 4, source_path: nil)
           @ttf_data = Array(ttf_data)
           @vf_data = Array(vf_data)
           @woff2_data = Array(woff2_data)
           @github_data_raw = Array(github_data)
           @version = version
+          @source_path = source_path
           @ttf_files = {}
           @woff2_files = {}
           @github_index = index_github_data
@@ -223,7 +228,10 @@ github_data: nil, version: 4)
           # Use GitHub description if available
           description = github_family&.description || default_description(family)
 
-          {
+          # Create import_source if available
+          import_source = create_import_source(family)
+
+          formula = {
             name: formula_name(family),
             description: description,
             homepage: default_homepage(family),
@@ -234,7 +242,12 @@ github_data: nil, version: 4)
             license_url: license_url,
             license: license_text, # Changed from open_license
             open_license: license_text,
-          }.compact
+          }
+
+          # Add import_source if available
+          formula[:import_source] = import_source if import_source
+
+          formula.compact
         end
 
         # Build resources from API URLs (v4: TTF only, no WOFF2)
@@ -380,15 +393,78 @@ github_data: nil, version: 4)
         end
 
         # Save formula to disk
-        def save_formula(formula, family_name, output_dir)
+        def save_formula(formula_hash, family_name, output_dir)
           FileUtils.mkdir_p(output_dir)
-          filename = "#{family_name.downcase.gsub(/\s+/, '_')}.yml"
+
+          # Google Fonts formulas always use simple filenames
+          # (Google Fonts is a live service, always pointing to latest version)
+          base_name = family_name.downcase.gsub(/\s+/, '_')
+          filename = "#{base_name}.yml"
+
           path = File.join(output_dir, filename)
-          File.write(path, YAML.dump(formula))
+
+          # Use HashHelper to convert keys to strings (preserves import_source object)
+          require_relative "../helpers/hash_helper"
+          formula_with_string_keys = Helpers::HashHelper.stringify_keys(formula_hash)
+
+          File.write(path, YAML.dump(formula_with_string_keys))
+
           path
         end
 
+        # Get current git commit from google/fonts repository
+        #
+        # @return [String, nil] Git commit SHA or nil if not available
+        def current_commit_id
+          return @commit_id if defined?(@commit_id)
+
+          @commit_id = if @source_path && File.directory?(@source_path)
+                         get_git_commit(@source_path)
+                       end
+
+          @commit_id
+        end
+
+        # Get last modified timestamp for a font family
+        #
+        # @param family [Models::FontFamily] Font family object
+        # @return [String] ISO 8601 timestamp
+        def last_modified_for(family)
+          # Use last_modified from API metadata if available
+          family.last_modified || Time.now.utc.iso8601
+        end
+
+        # Create GoogleImportSource for a font family
+        #
+        # @param family [Models::FontFamily] Font family object
+        # @return [GoogleImportSource, nil] Import source or nil if no commit_id
+        def create_import_source(family)
+          # Only create import_source if we have a commit_id
+          commit = current_commit_id
+          return nil unless commit
+
+          Fontist::GoogleImportSource.new(
+            commit_id: commit,
+            api_version: "v1",
+            last_modified: last_modified_for(family),
+            family_id: family.family.downcase.tr(" ", "_"),
+          )
+        end
+
         private
+
+        # Get git commit SHA from repository path
+        #
+        # @param path [String] Path to git repository
+        # @return [String, nil] Commit SHA or nil on error
+        def get_git_commit(path)
+          Dir.chdir(path) do
+            `git rev-parse HEAD`.strip
+          rescue StandardError => e
+            Fontist.ui.error("Failed to get git commit: #{e.message}")
+            nil
+          end
+        end
 
         # Index GitHub data by family name for quick lookup
         def index_github_data

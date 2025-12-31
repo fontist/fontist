@@ -86,8 +86,11 @@ RSpec.describe "macOS On-Demand Fonts" do
 
         allow(Fontist::Utils::System).to receive(:user_os).and_return(:linux)
 
+        # Use FontInstaller directly to test platform validation
+        installer = Fontist::FontInstaller.new(formula, font_name: "Al Bayan")
+
         expect do
-          Fontist::Font.install("Al Bayan", confirmation: "yes")
+          installer.install(confirmation: "yes")
         end.to raise_error(Fontist::Errors::PlatformMismatchError) do |error|
           expect(error.message).to include("Al Bayan")
           expect(error.message).to include("only available for: macos")
@@ -212,7 +215,7 @@ RSpec.describe "macOS On-Demand Fonts" do
     describe "macos-catalogs command" do
       it "lists available catalogs without error", skip_unless_macos: true do
         expect do
-          Fontist::ImportCLI.new.invoke(:macos_catalogs)
+          Fontist::CLI.new.invoke(:macos_catalogs)
         end.not_to raise_error
       end
 
@@ -223,7 +226,7 @@ RSpec.describe "macOS On-Demand Fonts" do
 
         # Should not crash, just report no catalogs found
         expect do
-          Fontist::ImportCLI.new.invoke(:macos_catalogs)
+          Fontist::CLI.new.invoke(:macos_catalogs)
         end.not_to raise_error
       end
     end

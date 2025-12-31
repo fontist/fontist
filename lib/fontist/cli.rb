@@ -253,6 +253,36 @@ module Fontist
       STATUS_SUCCESS
     end
 
+    desc "macos-catalogs", "List available macOS font catalogs"
+    def macos_catalogs
+      handle_class_options(options)
+      require_relative "macos/catalog/catalog_manager"
+
+      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
+
+      if catalogs.empty?
+        Fontist.ui.error("No macOS font catalogs found.")
+        Fontist.ui.say("Expected location: /System/Library/AssetsV2/")
+        Fontist.ui.say("\nYou can specify a catalog manually with:")
+        Fontist.ui.say("  fontist import macos --plist path/to/com_apple_MobileAsset_FontX.xml")
+        return STATUS_UNKNOWN_ERROR
+      end
+
+      Fontist.ui.say("Available macOS Font Catalogs:")
+      catalogs.each do |catalog_path|
+        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
+        size = File.size(catalog_path)
+        size_str = format_bytes(size)
+
+        Fontist.ui.say("  Font#{version}: #{catalog_path} (#{size_str})")
+      end
+
+      Fontist.ui.say("\nTo import a catalog:")
+      Fontist.ui.say("  fontist import macos --plist <path>")
+
+      STATUS_SUCCESS
+    end
+
     desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
     subcommand "repo", Fontist::RepoCLI
 
@@ -295,6 +325,16 @@ module Fontist
     def error(message, status)
       Fontist.ui.error(message)
       status
+    end
+
+    def format_bytes(bytes)
+      if bytes < 1024
+        "#{bytes} B"
+      elsif bytes < 1024 * 1024
+        "#{(bytes / 1024.0).round(1)} KB"
+      else
+        "#{(bytes / (1024.0 * 1024)).round(1)} MB"
+      end
     end
 
     def print_yaml(object)

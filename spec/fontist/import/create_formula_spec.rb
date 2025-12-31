@@ -148,11 +148,10 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:options) { { keep_existing: true } }
     before do
       FileUtils.touch("euphemia_ucas.yml")
-      FileUtils.rm_f("euphemia_ucas2.yml")
     end
 
-    it "creates with numbered name", dev: true do
-      expect(formula_file).to eq "euphemia_ucas2.yml"
+    it "returns existing filename without overwriting", dev: true do
+      expect(formula_file).to eq "euphemia_ucas.yml"
     end
   end
 
@@ -161,7 +160,7 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     # File.write(example_file, YAML.dump(formula))
     varies_attributes = %w[copyright homepage license_url open_license
                            requires_license_agreement command resources name]
-    exclude = %w[fonts font_collections] + varies_attributes
+    exclude = %w[fonts font_collections font_version] + varies_attributes
     expect(except(formula, *exclude)).to eq(except(example, *exclude))
 
     if example["fonts"]

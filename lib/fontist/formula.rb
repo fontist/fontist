@@ -5,6 +5,10 @@ require_relative "extract"
 require_relative "index"
 require_relative "helpers"
 require_relative "update"
+require_relative "import_source"
+require_relative "macos_import_source"
+require_relative "google_import_source"
+require_relative "sil_import_source"
 require "git"
 
 module Fontist
@@ -71,6 +75,12 @@ module Fontist
     attribute :fonts, FontModel, collection: true, default: []
     attribute :extract, Extract, collection: true
     attribute :command, :string
+    attribute :import_source, ImportSource, polymorphic: [
+      "MacosImportSource",
+      "GoogleImportSource",
+      "SilImportSource",
+    ]
+    attribute :font_version, :string
 
     key_value do
       map "name", to: :name
@@ -95,6 +105,15 @@ module Fontist
       map "license_url", to: :license_url
       map "open_license", to: :open_license
       map "command", to: :command
+      map "import_source", to: :import_source, polymorphic: {
+        attribute: :type,
+        class_map: {
+          "macos" => "Fontist::MacosImportSource",
+          "google" => "Fontist::GoogleImportSource",
+          "sil" => "Fontist::SilImportSource",
+        },
+      }
+      map "font_version", to: :font_version
     end
 
     def self.update_formulas_repo
@@ -104,7 +123,7 @@ module Fontist
     def self.all
       formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
         Formula.from_file(path)
-      end
+      end.compact
 
       FormulaCollection.new(formulas)
     end
@@ -187,6 +206,10 @@ module Fontist
         formula.path = path
         formula.name = titleize(formula.key_from_path) if formula.name.nil?
       end
+    rescue Lutaml::Model::Error, TypeError, ArgumentError => e
+      # Handle schema mismatch errors (e.g., nil values in polymorphic attributes)
+      Fontist.ui.error("WARN: Could not load formula #{path}: #{e.message}")
+      nil
     end
 
     def self.titleize(str)
@@ -203,6 +226,32 @@ module Fontist
       !resources.nil? && !resources.empty?
     end
 
+    # Convenience methods for import source type checking
+    def macos_import?
+      import_source.is_a?(MacosImportSource)
+    end
+
+    def google_import?
+      import_source.is_a?(GoogleImportSource)
+    end
+
+    def sil_import?
+      import_source.is_a?(SilImportSource)
+    end
+
+    def manual_formula?
+      import_source.nil?
+    end
+
+    def compatible_with_current_platform?
+      return true unless macos_import?
+
+      current_macos = Utils::System.macos_version
+      return true unless current_macos
+
+      import_source.compatible_with_macos?(current_macos)
+    end
+
     def source
       return nil if resources.empty?
 
@@ -215,22 +264,59 @@ module Fontist
       # No platform restrictions = compatible with all
       return true if platforms.nil? || platforms.empty?
 
-      platforms.include?(target)
+      # Check if platform matches - support both exact matches and prefixed matches
+      # e.g., "macos" matches "macos", "macos-font7", "macos-font8"
+      platform_matches = platforms.any? do |p|
+        p == target || p.start_with?("#{target}-")
+      end
+
+      return false unless platform_matches
+
+      # For macOS, check version compatibility using import source
+      if target == "macos" && macos_import?
+        current_macos = Utils::System.macos_version
+        return true unless current_macos
+
+        return import_source.compatible_with_macos?(current_macos)
+      end
+
+      true
     end
 
     def platform_restriction_message
       return nil if compatible_with_platform?
 
       current = Utils::System.user_os
-      "Font '#{name}' is only available for: #{platforms.join(', ')}. " \
-      "Your current platform is: #{current}. " \
-      "This font cannot be installed on your system."
+
+      # Build base message
+      message = "Font '#{name}' is only available for: #{platforms.join(', ')}. "
+      message += "Your current platform is: #{current}."
+
+      # Add version information for macOS using import source
+      if current == :macos && macos_import?
+        current_version = Utils::System.macos_version
+        if current_version
+          message += " Your macOS version is: #{current_version}."
+        end
+
+        min_version = import_source.min_macos_version
+        max_version = import_source.max_macos_version
+
+        if min_version && max_version
+          message += " This font requires macOS #{min_version} to #{max_version}."
+        elsif min_version
+          message += " This font requires macOS #{min_version} or later."
+        elsif max_version
+          message += " This font requires macOS #{max_version} or earlier."
+        end
+      end
+
+      message += " This font cannot be installed on your system."
     end
 
     def requires_system_installation?
       source == "apple_cdn" && platforms&.include?("macos")
     end
-
     def key
       @key ||= key_from_path
     end

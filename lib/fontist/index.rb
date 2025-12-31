@@ -42,9 +42,12 @@ module Fontist
     end
 
     def self.rebuild
-      Fontist::Indexes::DefaultFamilyFontIndex.rebuild.to_file
-      Fontist::Indexes::PreferredFamilyFontIndex.rebuild.to_file
-      Fontist::Indexes::FilenameIndex.rebuild.to_file
+      # Load formulas once and share across all indexes
+      formulas = Formula.all
+
+      Fontist::Indexes::DefaultFamilyFontIndex.rebuild_with_formulas(formulas).to_file
+      Fontist::Indexes::PreferredFamilyFontIndex.rebuild_with_formulas(formulas).to_file
+      Fontist::Indexes::FilenameIndex.rebuild_with_formulas(formulas).to_file
 
       reset_cache
     end

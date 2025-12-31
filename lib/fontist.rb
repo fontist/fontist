@@ -62,6 +62,16 @@ module Fontist
     Fontist.fontist_path.join("downloads")
   end
 
+  def self.import_cache_path=(path)
+    @import_cache_path = Pathname.new(path) if path
+  end
+
+  def self.import_cache_path
+    @import_cache_path ||
+      (ENV["FONTIST_IMPORT_CACHE"] ? Pathname.new(ENV["FONTIST_IMPORT_CACHE"]) : nil) ||
+      Fontist.fontist_path.join("import_cache")
+  end
+
   def self.system_file_path
     Fontist.lib_path.join("fontist", "system.yml")
   end
@@ -184,3 +194,9 @@ require_relative "fontist/formula_suggestion"
 require_relative "fontist/extract"
 require_relative "fontist/font_style"
 require_relative "fontist/font_collection"
+require_relative "fontist/import"
+require_relative "fontist/import_source"
+require_relative "fontist/macos_import_source"
+require_relative "fontist/google_import_source"
+require_relative "fontist/sil_import_source"
+require_relative "fontist/macos_framework_metadata"

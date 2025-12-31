@@ -1,3 +1,5 @@
+require_relative "../../macos_import_source"
+
 module Fontist
   module Macos
     module Catalog
@@ -5,9 +7,10 @@ module Fontist
       # Each asset contains one or more fonts with their metadata
       class Asset
         attr_reader :base_url, :relative_path, :font_info, :build,
-                    :compatibility_version, :design_languages, :prerequisite
+                    :compatibility_version, :design_languages, :prerequisite,
+                    :posted_date, :framework_version
 
-        def initialize(data)
+        def initialize(data, posted_date: nil, framework_version: nil)
           @base_url = data["__BaseURL"]
           @relative_path = data["__RelativePath"]
           @font_info = data["FontInfo4"] || []
@@ -15,6 +18,8 @@ module Fontist
           @compatibility_version = data["_CompatibilityVersion"]
           @design_languages = data["FontDesignLanguages"] || []
           @prerequisite = data["Prerequisite"] || []
+          @posted_date = posted_date
+          @framework_version = framework_version
         end
 
         def download_url
@@ -35,6 +40,20 @@ module Fontist
 
         def primary_family_name
           font_families.first
+        end
+
+        def asset_id
+          build&.downcase
+        end
+
+        def to_import_source
+          return nil unless @framework_version && @posted_date && asset_id
+
+          MacosImportSource.new(
+            framework_version: @framework_version,
+            posted_date: @posted_date,
+            asset_id: asset_id
+          )
         end
       end
 
@@ -62,10 +81,10 @@ module Fontist
           # No platform delivery means compatible with all
           return true if @platform_delivery.empty?
 
-          # Check if any platform delivery includes macOS (but not invisible)
-          @platform_delivery.any? do |platform|
-            platform.include?("macOS") && platform != "macOS-invisible"
-          end
+            # Check if any platform delivery includes macOS (but not invisible)
+            @platform_delivery.any? do |platform|
+              platform.include?("macOS") && platform != "macOS-invisible"
+            end
         end
       end
     end

@@ -1,6 +1,9 @@
 require "shellwords"
 require_relative "text_helper"
 require_relative "helpers/hash_helper"
+require_relative "../macos_import_source"
+require_relative "../google_import_source"
+require_relative "../sil_import_source"
 
 module Fontist
   module Import
@@ -8,14 +11,17 @@ module Fontist
       FORMULA_ATTRIBUTES = %i[name platforms description homepage resources
                               font_collections fonts extract copyright
                               license_url requires_license_agreement
-                              open_license digest command].freeze
+                              open_license digest command
+                              import_source font_version].freeze
 
       attr_writer :resources,
                   :options,
                   :font_files,
                   :font_collection_files,
                   :license_text,
-                  :operations
+                  :operations,
+                  :font_version,
+                  :import_source
 
       def initialize
         @options = {}
@@ -28,10 +34,54 @@ module Fontist
       end
 
       def save
-        path = vacant_path
+        path = path_from_name
+
+        # Honor keep_existing option - don't overwrite if file exists and keep_existing is true
+        if @options[:keep_existing] && File.exist?(path)
+          return path
+        end
+
         yaml = YAML.dump(Helpers::HashHelper.stringify_keys(formula))
         File.write(path, yaml)
         path
+      end
+
+      def import_source
+        @import_source
+      end
+
+      def font_version
+        @font_version
+      end
+
+      # Convenience method to set macOS import source
+      def set_macos_import_source(framework_version:, posted_date:, asset_id:)
+        @import_source = MacosImportSource.new(
+          type: "macos",
+          framework_version: framework_version,
+          posted_date: posted_date,
+          asset_id: asset_id
+        )
+      end
+
+      # Convenience method to set Google import source
+      def set_google_import_source(commit_id:, api_version:, last_modified:, family_id:)
+        @import_source = GoogleImportSource.new(
+          type: "google",
+          commit_id: commit_id,
+          api_version: api_version,
+          last_modified: last_modified,
+          family_id: family_id
+        )
+      end
+
+      # Convenience method to set SIL import source
+      def set_sil_import_source(version:, release_date:)
+        @import_source = SilImportSource.new(
+          type: "sil",
+          version: version,
+          release_date: release_date
+        )
       end
 
       private
@@ -73,7 +123,13 @@ module Fontist
 
       def group_fonts
         files = (@font_files + @font_collection_files.map(&:fonts)).flatten
-        raise Errors::FontNotFoundError, "No font found" if files.empty?
+        if files.empty?
+          raise Errors::FontNotFoundError,
+                "No fonts found in archive. This may be due to:\n" \
+                "  - Archive contains only TTC files that fontisan cannot parse\n" \
+                "  - Archive is empty or corrupted\n" \
+                "  - Fonts are in unsupported format"
+        end
 
         files
       end
@@ -130,7 +186,22 @@ module Fontist
       end
 
       def styles_from_files(files, style_type)
-        files.map(&style_type).sort_by { |x| x[:type] }
+        files.map(&style_type).map { |style| deep_compact(style) }.sort_by { |x| x[:type] }
+      end
+
+      # Recursively remove nil values from hashes and arrays
+      def deep_compact(value)
+        case value
+        when Hash
+          value.each_with_object({}) do |(k, v), result|
+            compacted = deep_compact(v)
+            result[k] = compacted unless compacted.nil?
+          end
+        when Array
+          value.map { |item| deep_compact(item) }.compact
+        else
+          value
+        end
       end
 
       def extract
@@ -173,24 +244,29 @@ module Fontist
         Shellwords.shelljoin(ARGV)
       end
 
-      def vacant_path
-        path = path_from_name
-        return path unless @options[:keep_existing] && File.exist?(path)
-
-        2.upto(9) do |i|
-          candidate = path.sub(/\.yml$/, "#{i}.yml")
-          return candidate unless File.exist?(candidate)
-        end
-
-        raise Errors::GeneralError, "Formula #{path} already exists."
-      end
-
       def path_from_name
-        filename = Import.name_to_filename(name)
+        filename = generate_filename
         if @options[:formula_dir]
           File.join(@options[:formula_dir], filename)
         else
           filename
+        end
+      end
+
+      # Generate filename with versioning support
+      #
+      # For import sources with differentiation_key (like SIL with versions),
+      # generates versioned filenames: name_version.yml
+      # For others, generates simple filenames: name.yml
+      def generate_filename
+        base_name = Fontist::Import.normalize_filename(name)
+
+        # Add differentiation_key if import_source supports it
+        if @import_source&.respond_to?(:differentiation_key) &&
+           (key = @import_source.differentiation_key)
+          "#{base_name}_#{key}.yml"
+        else
+          "#{base_name}.yml"
         end
       end
     end

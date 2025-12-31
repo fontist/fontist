@@ -8,11 +8,12 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
-      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil)
+      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil, verbose: false)
         @archive = archive
         @subdir = subdir
         @file_pattern = file_pattern
         @name_prefix = name_prefix
+        @verbose = verbose
         @operations = {}
         @font_files = []
         @collection_files = []
@@ -57,13 +58,24 @@ module Fontist
       end
 
       def extract_data(archive)
+        extraction_dir_shown = false
         Excavate::Archive.new(path(archive)).files(recursive_packages: true) do |path|
-          Fontist.ui.debug(path)
+          # Show extraction directory once in verbose mode
+          if @verbose && !extraction_dir_shown && File.file?(path)
+            extraction_dir = File.dirname(path)
+            Fontist.ui.say("  Extracting to: #{Paint[extraction_dir, :black, :bright]}")
+            extraction_dir_shown = true
+          end
+
+          Fontist.ui.say("  #{Paint[path, :black, :bright]}") if @verbose
           next unless File.file?(path)
 
           match_license(path)
           match_font(path) if font_candidate?(path)
         end
+
+        # Notify when extraction cache is cleared (verbose mode only)
+        Fontist.ui.say("  Extraction cache cleared") if @verbose
       end
 
       def path(file)
@@ -84,9 +96,17 @@ module Fontist
           file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          @collection_files << Files::CollectionFile.new(path,
-                                                         name_prefix: @name_prefix)
+          collection = Files::CollectionFile.from_path(path, name_prefix: @name_prefix)
+          if collection
+            @collection_files << collection
+          else
+            # Collection could not be parsed - log and continue
+            Fontist.ui.debug("Skipping unparseable collection: #{File.basename(path)}")
+          end
         end
+      rescue StandardError => e
+        # Log error but continue processing other fonts
+        Fontist.ui.debug("Error processing font #{File.basename(path)}: #{e.message}")
       end
 
       def already_exist?(candidate)
