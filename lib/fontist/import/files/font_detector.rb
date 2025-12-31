@@ -1,48 +1,78 @@
-require_relative "file_requirement"
+require "fontisan"
 
 module Fontist
   module Import
     module Files
       class FontDetector
-        REQUIREMENTS = { file: FileRequirement.new }.freeze
-
-        FONT_LABELS = ["OpenType font data",
-                       "TrueType Font data"].freeze
-
-        COLLECTION_LABELS = ["OpenType font collection data",
-                             "TrueType font collection data"].freeze
-
+        # Font format to extension mapping
         FONT_EXTENSIONS = {
-          "OpenType font data" => "otf",
-          "TrueType Font data" => "ttf",
-          "OpenType font collection data" => "ttc",
-          "TrueType font collection data" => "ttc",
+          "truetype" => "ttf",
+          "cff" => "otf",
         }.freeze
 
-        def self.detect(path)
-          brief = file_brief(path)
+        class << self
+          def detect(path)
+            info = brief_info(path)
+            return :other unless info
 
-          if brief.start_with?(*FONT_LABELS)
-            :font
-          elsif brief.start_with?(*COLLECTION_LABELS)
-            :collection
-          else
-            :other
-          end
-        end
-
-        def self.standard_extension(path)
-          brief = file_brief(path)
-
-          FONT_EXTENSIONS.each do |label, extension|
-            return extension if brief.start_with?(label)
+            # Check if it's a collection based on the info type
+            if collection_info?(info)
+              :collection
+            elsif font_info?(info)
+              :font
+            else
+              :other
+            end
           end
 
-          raise Errors::UnknownFontTypeError.new(path)
-        end
+          def standard_extension(path)
+            info = brief_info(path)
+            return nil unless info
 
-        def self.file_brief(path)
-          REQUIREMENTS[:file].call(path)
+            # For collections, always use ttc
+            if collection_info?(info)
+              return "ttc"
+            end
+
+            # For single fonts, map format to extension
+            font_format = get_font_format(info)
+            extension = FONT_EXTENSIONS[font_format]
+            return extension if extension
+
+            # Fallback to file extension if format unknown
+            File.extname(path).sub(/^\./, "").downcase
+          rescue StandardError
+            raise Errors::UnknownFontTypeError.new(path)
+          end
+
+          private
+
+          def brief_info(path)
+            # Use Fontisan brief mode for fast font detection
+            Fontisan.info(path, brief: true)
+          rescue StandardError => e
+            # Not a valid font file
+            Fontist.ui.debug("Fontisan brief info failed for #{path}: #{e.message}")
+            nil
+          end
+
+          def collection_info?(info)
+            info.is_a?(Fontisan::Models::CollectionBriefInfo)
+          end
+
+          def font_info?(info)
+            info.is_a?(Fontisan::Models::FontInfo)
+          end
+
+          def get_font_format(info)
+            if collection_info?(info)
+              # For collections, get format from first font
+              info.fonts.first&.font_format
+            else
+              # For single fonts
+              info.font_format
+            end
+          end
         end
       end
     end

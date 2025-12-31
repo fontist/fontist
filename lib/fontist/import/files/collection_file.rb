@@ -9,7 +9,12 @@ module Fontist
         class << self
           def from_path(path, name_prefix: nil)
             collection = build_collection(path)
+            return nil unless collection
+
             new(collection, path, name_prefix)
+          rescue StandardError => e
+            Fontist.ui.debug("Failed to build collection from #{File.basename(path)}: #{e.message}")
+            nil
           end
 
           private
@@ -17,8 +22,8 @@ module Fontist
           def build_collection(path)
             Fontisan::TrueTypeCollection.from_file(path)
           rescue StandardError => e
-            raise Errors::FontFileError,
-                  "Font collection could not be parsed: #{e.inspect}"
+            Fontist.ui.debug("Fontisan brief info failed for #{File.basename(path)}: #{e.message}")
+            nil
           end
         end
 
