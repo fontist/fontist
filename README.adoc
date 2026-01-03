@@ -317,6 +317,7 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
+----
 
 If one or more of requested fonts are missing, the "3" error code would be
 returned, and a message printed:
@@ -358,6 +359,7 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
+----
 
 === Work with fontist config: `fontist config`
 
@@ -396,20 +398,21 @@ $ fontist config delete read_timeout
 
 === Work with Fontconfig: `fontist fontconfig`
 
-Fontconfig is a software designed to provide fonts to other programs. It is
-typically used on Linux, but also available on macOS and Windows. Fontconfig is
-used by LibreOffice, GIMP, and many other programs.
+`fontconfig` is a software designed to provide fonts to other programs. It is
+typically used on Linux, but also available on macOS and Windows. `fontconfig`
+is used by LibreOffice, GIMP, and many other programs.
 
-It order to find fontist fonts, Fontconfig should be updated to include fontist
-paths. It can be done with the `--update-fontconfig` option of the `install`
-command, or by calling a special one:
+It order to find Fontist fonts, `fontconfig` should be updated to include
+Fontist paths. It can be done with the `--update-fontconfig` option of the
+`install` command, or by calling the following command directly:
 
 [source,sh]
 ----
 $ fontist fontconfig update
 ----
 
-It would create a config in `~/.config/fontconfig/conf.d/10-fontist.conf`.
+This command will create a Fontist-specific `fontconfig` config file at
+`~/.config/fontconfig/conf.d/10-fontist.conf`.
 
 To remove it, please use:
 
@@ -418,14 +421,62 @@ To remove it, please use:
 $ fontist fontconfig remove
 ----
 
-=== Work with cache
+
+[[fontist-caches]]
+=== Working with caches
+
+==== General
+
+Fontist implements two types of caches to optimize performance and reduce
+redundant downloads:
+
+* *Download cache* (`~/.fontist/downloads`): Font files downloaded by end users
+via `fontist install`
+
+* *Import cache* (*maintainer-only*) (`~/.fontist/import_cache`): Font archives
+downloaded during formula imports
+
+These caches can be managed using the `fontist cache` command.
+
+==== Clear download cache
+
+The following commands will clear Fontist's caches.
+
+Clear download cache:
 
 [source,sh]
 ----
 $ fontist cache clear
+Cache has been successfully removed.
 ----
 
-The command above will clear fontist's download cache
+Clear import cache:
+
+[source,sh]
+----
+$ fontist cache clear-import
+Import cache cleared: 128.7 MB
+----
+
+
+==== View cache information
+
+[source,sh]
+----
+$ fontist cache info
+Font download cache:
+  Location: /Users/user/.fontist/downloads
+  Size: 45.3 MB
+  Files: 12
+
+Import cache:
+  Location: /Users/user/.fontist/import_cache
+  Size: 128.7 MB
+  Files: 8
+----
+
+
+
 
 === Manage system font index: `fontist index`
 
@@ -811,6 +862,113 @@ Apple Support site:
 WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
 platforms due to font license restrictions of those fonts.
 
+==== macOS Font Catalog Versioning
+
+macOS supplementary fonts are distributed through two different catalogs:
+
+* **Font7 Catalog**: For macOS 10.11 (El Capitan) through 15.7 (Sequoia)
+* **Font8 Catalog**: For macOS 26.0 and later
+
+These catalogs contain different versions of the same fonts, with Font8 providing
+updated versions optimized for newer macOS releases.
+
+===== Automatic Version Selection
+
+When you install a macOS add-on font, Fontist automatically detects your macOS
+version and installs the appropriate font version:
+
+[source,sh]
+----
+$ fontist install "Al Bayan"
+# On macOS 14.2: installs Font7 version
+# On macOS 26.0: installs Font8 version
+----
+
+This ensures you always get the font version compatible with your system.
+
+===== Platform Tags
+
+Formulas for Font7 and Font8 use distinct platform tags:
+
+* `macos-font7`: For Font7 catalog fonts (macOS 10.11-15.7)
+* `macos-font8`: For Font8 catalog fonts (macOS 26.0+)
+
+===== Manual Catalog Import
+
+For Fontist maintainers importing font catalogs manually:
+
+[source,sh]
+----
+# Import Font7 catalog (macOS 10.11-15.7)
+fontist import macos --plist com_apple_MobileAsset_Font7.xml
+
+# Import Font8 catalog (macOS 26.0+)
+fontist import macos --plist com_apple_MobileAsset_Font8.xml
+----
+
+Formulas are automatically saved to versioned directories:
+
+* Font7 formulas: `~/.fontist/versions/{version}/formulas/Formulas/macos/font7/`
+* Font8 formulas: `~/.fontist/versions/{version}/formulas/Formulas/macos/font8/`
+
+This directory structure prevents conflicts between different catalog versions
+of the same font.
+
+===== Version Compatibility
+
+When installing fonts, Fontist checks version compatibility:
+
+[example]
+====
+[source,sh]
+----
+# On macOS 14.2 (Sonoma), trying to install a Font8-only formula:
+$ fontist install "Font8OnlyFont"
+Error: Font 'Font8OnlyFont' is only available for: macos-font8.
+Your current platform is: macos. Your macOS version is: 14.2.1.
+This font requires macOS 26.0 or later.
+This font cannot be installed on your system.
+----
+====
+
+If you encounter version compatibility issues, ensure you're running a
+compatible macOS version for the requested font.
+
+===== Font Version Tracking
+
+Each macOS font formula includes a `font_version` attribute that stores the actual
+version of the font file itself. This version is automatically extracted from the
+font's metadata using the Fontisan library.
+
+The `font_version` is distinct from the catalog version (Font7/Font8):
+* `catalog_version`: Indicates which catalog the font belongs to (7 or 8)
+* `font_version`: The actual version string from the font file (e.g., "2.137", "1.0")
+
+This allows tracking of different font versions within the same catalog, as Apple
+may update fonts between macOS releases.
+
+[example]
+====
+[source,yaml]
+----
+name: Al Bayan
+catalog_version: 7
+min_macos_version: "10.11"
+max_macos_version: "15.7"
+font_version: "2.137"
+platforms:
+  - macos-font7
+resources:
+  # ... resources ...
+fonts:
+  # ... fonts ...
+----
+====
+
+The `font_version` is automatically extracted during formula creation and
+included in the generated formula YAML file.
+====
+
 === Known problematic fonts
 
 * NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
@@ -1102,8 +1260,7 @@ fontist create-formula https://example.com/fonts.zip \
   --mirror https://mirror2.example.com/fonts.zip
 ----
 
-
-==== Overriding font metadata in Fontist formulas
+=== Overriding font metadata in Fontist formulas
 
 The `fontist create-formula` command creates font formulas using information
 embedded in the OTF metadata section.
@@ -1172,55 +1329,6 @@ installation of all `Frutiger` fonts with a single command:
 $ fontist install "Frutiger" --preferred-family
 ----
 
-
-=== Upgrading Fontist
-
-[[preferred-family-change]]
-==== To v1.10+
-
-Fontist versions beyond v1.10 utilize a new formula format.
-After the upgrade, please run `fontist update` to fetch the latest formulas.
-
-Starting from v1.10, Fontist uses the "`default family`" instead of the
-"`preferred family`" when grouping styles.
-
-For example, a request for the "`Lato`" font prior to v1.10 will return all
-styles: "`Black`", "`Black Italic`", "`Bold`", and 15 other styles.
-
-From v1.10 onwards, Fontist will return _only_ the 4 default styles:
-"`Regular`", "`Italic`", "`Bold`" and "`Bold Italic`".
-
-In order to fetch other styles, you have to specify the exact font
-"`subfamily`", such as "`Lato Black`", or "`Lato Heavy`", or use
-the `--preferred-family` option with CLI and `Fontist.preferred_family = true`
-with the Ruby library.
-
-NOTE: Prior to v1.10 there was a bug with the "`Courier`" font formula, which
-allowed the font to be installed when requesting the font name "`Courier`", but
-its font location was only obtainable using the full "`Courier New`" font name.
-From v1.10 onwards the behavior has been made consistent -- only the proper
-"`Courier New`" name should be used.
-
-[[install-font-change]]
-==== To v1.16+
-
-Fontist versions beyond v1.16 treats the `font` argument of the `install`
-command differently.
-After the upgrade, please ensure all required fonts are specified when using
-`fontist install`, `fontist manifest install` (and their corresponding Ruby
-interface `Font.install` and `Manifest::Install`), or use the `-F, --formula`
-option.
-
-Starting from v1.16, Fontist installs only requested fonts instead of a whole
-formula, unless specified explicitly.
-changed now.
-
-For example, an installation request for the "`Arial`" font prior to v1.16 will
-setup all fonts found in the "`ms_truetype`" formula: "`Arial`", "`Trebuchet
-MS`", "`Verdana`" and "`Times New Roman`".
-
-From v1.16 onwards, Fontist will install _only_ the requested "`Arial`" font.
-
 To install all fonts from a formula, the `-F, --formula` option can be used:
 
 [source,sh]
@@ -1250,6 +1358,153 @@ https://github.com/fontist/fontist/blob/v1.16.0/lib/fontist.rb#L51[`Fontist.form
 NOTE: Using a new branch would require all users to re-download the entire
 formulas repo. Since this method has a significant overhead, the former one
 (`min_fontist`) should be used whenever possible.
+
+
+=== Import source architecture
+
+==== General
+
+Fontist imports font formulas from various external sources, and tracks the
+origin and metadata of these imported formulas using a polymorphic
+`import_source` attribute.
+
+The `import_source` attribute contains metadata about where and when a font
+formula was imported from, enabling formula versioning, update detection,
+platform compatibility checks, and audit trails.
+
+==== Import source types
+
+Fontist supports multiple import source types, each with specific metadata:
+
+macOS Supplementary Fonts::
+Uses multi-dimensional versioning with framework version, catalog posted date,
+and asset build ID.
+
+Google Fonts::
+Tracks commit ID from the Google Fonts repository, API version, last modified
+date, and family ID.
+
+SIL International Fonts::
+Records the version string and release date.
+
+==== macOS import source
+
+macOS supplementary fonts use multi-dimensional versioning:
+
+Framework Version:: Font7, Font8 - determines schema and parser
+Catalog PostedDate:: Version of catalog within framework
+Asset Build ID:: Individual package identifier
+
+.Example import_source for macOS fonts
+[example]
+====
+[source,yaml]
+----
+import_source:
+  type: macos
+  framework_version: 7
+  posted_date: "2024-08-13T18:11:00Z"
+  asset_id: "10m1360"
+----
+====
+
+Framework-specific metadata (min/max macOS versions, parser classes) is stored
+in link:lib/fontist/macos_framework_metadata.rb[`lib/fontist/macos_framework_metadata.rb`].
+
+==== Google Fonts import source
+
+.Example import_source for Google Fonts
+[example]
+====
+[source,yaml]
+----
+import_source:
+  type: google
+  commit_id: "abc123def456"
+  api_version: "v1"
+  last_modified: "2024-01-01T12:00:00Z"
+  family_id: "roboto"
+----
+====
+
+==== SIL import source
+
+.Example import_source for SIL International fonts
+[example]
+====
+[source,yaml]
+----
+import_source:
+  type: sil
+  version: "1.0.0"
+  release_date: "2024-01-01"
+----
+====
+
+==== Versioned filenames
+
+Formulas with import sources use differentiation keys for filename generation:
+
+.macOS formulas (versioned)
+[example]
+====
+[source]
+----
+macos/
+├── font7/
+│   ├── al_bayan_10m1360.yml
+│   ├── arial_unicode_ms_10m1361.yml
+│   └── ...
+└── font8/
+    ├── sf_pro_26m2001.yml
+    └── ...
+----
+====
+
+.Google Fonts formulas (simple, not versioned)
+[example]
+====
+[source]
+----
+google/
+├── roboto.yml
+├── open_sans.yml
+├── noto_sans.yml
+└── ...
+----
+
+Google Fonts formulas use simple filenames because Google Fonts is a live service
+that always points to the latest version. The `commit_id` in `import_source` is
+tracked for metadata and update detection purposes only, not for filename
+versioning.
+====
+
+.SIL formulas (versioned)
+[example]
+====
+[source]
+----
+sil/
+├── charis_sil_6.200.yml
+├── andika_6.101.yml
+└── ...
+----
+====
+
+The filename format depends on the import source type:
+
+* **macOS**: `{normalized_name}_{asset_id}.yml` (e.g., `al_bayan_10m1360.yml`)
+* **Google Fonts**: `{normalized_name}.yml` (e.g., `roboto.yml`) - simple, no versioning
+* **SIL**: `{normalized_name}_{version}.yml` (e.g., `charis_sil_6.200.yml`)
+
+This approach enables:
+
+* Multiple versions of the same font coexist (macOS, SIL)
+* Clear tracking of font updates (all sources)
+* Automatic update detection when catalogs refresh (all sources)
+* Platform-specific version selection (macOS)
+* Simple, consistent filenames for live services (Google Fonts)
+
 
 === Dynamically importing formulas from Google Fonts
 
@@ -1377,10 +1632,16 @@ https://github.com/google/fonts[google/fonts repository]:
 
 [source,sh]
 ----
+# GOOGLE_FONTS_API_KEY must be set in the environment
 fontist import google \
-  --source-path /path/to/google/fonts \
-  --output-path ~/.fontist/versions/{version}/formulas/Formulas/google \
-  --verbose
+  --source-path /path/to/google-fonts-github-repo \
+  --output-path Formulas/google \
+  --verbose \
+  --import-cache /tmp/fontist-google-fonts-cache
+
+git add Formulas/google
+git commit -m "Google Fonts update"
+git push
 ----
 
 To import a single font for testing:
@@ -1393,6 +1654,7 @@ fontist import google \
   --verbose
 ----
 
+
 ==== Automated updates
 
 Fontist uses a
@@ -1401,6 +1663,7 @@ to check for updated fonts on Google Fonts daily.
 
 New, updated, or removed fonts are automatically committed to the
 https://github.com/fontist/formulas[Fontist formula repository].
+
 
 
 === Dynamically importing formulas from SIL
@@ -1418,12 +1681,28 @@ They can be updated with:
 
 [source,sh]
 ----
-fontist import sil
-cd ~/.fontist/versions/{last_version}/formulas
+cd Formulas
+fontist import sil \
+  --output-path Formulas/sil \
+  --verbose \
+  --import-cache /tmp/sil_import_cache
+
 git add Formulas/sil
 git commit -m "SIL fonts update"
 git push
 ----
+
+Importing a single SIL font for testing:
+
+[source,sh]
+----
+fontist import sil \
+  --font-name "Andika" \
+  --output-path Formulas/sil \
+  --verbose \
+  --import-cache /tmp/sil_import_cache
+----
+
 
 
 === Dynamically importing formulas from macOS
@@ -1435,12 +1714,177 @@ To update macOS formulas:
 
 [source,sh]
 ----
-fontist import macos
-cd ~/.fontist/versions/{last_version}/formulas
-git add Formulas/macos
+# Font5 catalog (macOS 10.6)
+curl -o com_apple_MobileAsset_Font5.xml \
+  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font5/com_apple_MobileAsset_Font5.xml
+
+# Font6 catalog (macOS 10.7-10.10)
+curl -o com_apple_MobileAsset_Font6.xml \
+  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font6/com_apple_MobileAsset_Font6.xml
+
+# Font7 catalog (macOS 10.11-15.7)
+curl -o com_apple_MobileAsset_Font7.xml \
+  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font7/com_apple_MobileAsset_Font7.xml
+
+# Font8 catalog (macOS 26.0+)
+curl -o com_apple_MobileAsset_Font8.xml \
+  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font8/com_apple_MobileAsset_Font8.xml
+----
+
+[source,sh]
+----
+cd Formulas
+fontist import macos \
+  --plist com_apple_MobileAsset_Font7.xml \
+  --output-path Formulas/macos/font7 \
+  --verbose \
+  --import-cache /tmp/fontist-macos-cache \
+  --force
+
+git add Formulas/macos/font7
 git commit -m "Update macOS formulas"
 git push
 ----
+
+Importing a single macOS font for testing:
+
+[source,sh]
+----
+fontist import macos \
+  --plist com_apple_MobileAsset_Font7.xml \
+  --font-name "Hiragino" \
+  --output-path Formulas/macos/font7 \
+  --verbose \
+  --import-cache /tmp/fontist-macos-cache
+----
+
+
+=== Import cache management
+
+==== General
+
+During formula imports, Fontist is required to download font archives from
+various external sources for analysis to create accurate formulas.
+
+To optimize performance and avoid redundant downloads, Fontist implements an
+import cache for storing downloaded font files at:
+
+* *Import cache* (`~/.fontist/import_cache`): Font archives downloaded during
+formula building
+
+Cache management is managed through the <<fontist-caches,`fontist cache`>>
+command.
+
+
+==== Configuring import cache
+
+===== CLI option
+
+[source,sh]
+----
+fontist import macos --import-cache /custom/path ...
+fontist import google --import-cache /custom/path ...
+fontist import sil --import-cache /custom/path ...
+----
+
+===== Ruby API
+
+[source,ruby]
+----
+# Global setting
+Fontist.import_cache_path = "/custom/import/cache"
+
+# Per-import setting
+Fontist::Import::Macos.new(
+  plist_path,
+  import_cache: "/custom/cache"
+).call
+----
+
+===== Environment variable
+
+[source,sh]
+----
+export FONTIST_IMPORT_CACHE=/custom/import/cache
+fontist import macos ...
+----
+
+
+==== Verbose mode
+
+Use `--verbose` to see detailed cache operations:
+
+[source,sh]
+----
+$ fontist import macos --plist catalog.xml --verbose
+----
+
+OUTPUT includes:
+
+* Import cache location
+* Download URLs and cache status
+* Extraction directory locations
+* Cache cleanup notifications
+
+
+=== Import command UI features
+
+==== General
+
+All import commands (`macos`, `google`, `sil`) provide a unified, professional
+interface with colored output and progress tracking.
+
+==== Verbose mode
+
+Enable `--verbose` to see detailed import progress:
+
+[source,sh]
+----
+fontist import macos --plist catalog.xml --verbose
+fontist import google --source-path /path --verbose
+fontist import sil --font-name "Andika" --verbose
+----
+
+Verbose output includes:
+
+* Paint-colored headers with Unicode box characters
+* Import cache location
+* Download URLs and cache status
+* Extraction directory paths
+* Real-time progress with percentages
+* Per-font status indicators
+* Detailed summary statistics
+
+[example]
+====
+[source,sh]
+----
+$ fontist import macos --plist catalog.xml --font-name "Hiragino" --verbose
+
+════════════════════════════════════════════════════════════════════
+  📦 macOS Supplementary Fonts Import
+════════════════════════════════════════════════════════════════════
+
+📦 Import cache: /Users/user/.fontist/import_cache
+📁 Output path: /Users/user/.fontist/versions/v4/formulas/Formulas/macos/font7
+
+(1/3) 33.3% | Hiragino Sans (2 fonts)
+Downloading from: https://updates.cdn-apple.com/.../font.zip
+  Cache location: /Users/user/.fontist/import_cache
+  Extracting to: /var/folders/.../temp
+  Extraction cache cleared
+  ✓ Formula created: hiragino_sans_10m1044.yml (3.98s)
+
+════════════════════════════════════════════════════════════════════
+  📊 Import Summary
+════════════════════════════════════════════════════════════════════
+
+  Total packages:     3
+  ✓ Successful:     3 (100.0%)
+
+  🎉 Great success! 3 formulas created!
+----
+====
 
 
 == Development
