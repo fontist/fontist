@@ -6,7 +6,7 @@ module Fontist
   # Statistics tracking for index building (thread-safe)
   class IndexStats
     attr_reader :cache_hits, :cache_misses, :total_fonts, :start_time,
-                :parsed_fonts, :skipped_fonts, :errors
+                :parsed_fonts, :skipped_fonts, :errors, :validation_failures
 
     def initialize
       @cache_hits = 0
@@ -15,6 +15,7 @@ module Fontist
       @parsed_fonts = 0
       @skipped_fonts = 0
       @errors = 0
+      @validation_failures = 0
       @start_time = Time.now
       @mutex = Mutex.new
     end
@@ -41,6 +42,13 @@ module Fontist
       @mutex.synchronize { @errors += 1 }
     end
 
+    def record_validation_failure
+      @mutex.synchronize do
+        @validation_failures += 1
+        @errors += 1
+      end
+    end
+
     def elapsed_time
       Time.now - @start_time
     end
@@ -64,6 +72,7 @@ module Fontist
         parsed_fonts: @parsed_fonts,
         cached_fonts: @cache_hits,
         errors: @errors,
+        validation_failures: @validation_failures,
         cache_hit_rate: "#{cache_hit_rate}%",
         avg_time_per_font: avg_time_per_font.round(4),
       }
@@ -84,6 +93,8 @@ module Fontist
       puts "  Cache hit rate:      #{Paint[s[:cache_hit_rate], :green]}"
       puts "  Errors:              #{Paint[s[:errors],
                                            s[:errors].zero? ? :green : :red]}"
+      puts "  Validation failures: #{Paint[s[:validation_failures],
+                                           s[:validation_failures].zero? ? :green : :yellow]}"
       puts "  Avg time per font:   #{Paint[format('%.4f', s[:avg_time_per_font]),
                                            :green]} seconds"
       puts Paint["=" * 80, :cyan]
@@ -566,8 +577,14 @@ spinner_index = nil)
 
       gather_fonts(path)
     rescue Errors::FontFileError => e
-      stats&.record_error
-      print_recognition_error(e, path)
+      # Check if this is a validation failure
+      if e.message.include?("indexability validation")
+        stats&.record_validation_failure
+        print_validation_error(e, path)
+      else
+        stats&.record_error
+        print_recognition_error(e, path)
+      end
     end
 
     def excluded?(path)
@@ -587,6 +604,14 @@ spinner_index = nil)
       else
         print_recognition_error(Errors::UnknownFontTypeError.new(path), path)
       end
+    end
+
+    def print_validation_error(exception, path)
+      Fontist.ui.debug(<<~MSG.chomp)
+        Skipping corrupt/invalid font: #{File.basename(path)}
+        Validation failed: #{exception.message}
+      MSG
+      nil
     end
 
     def print_recognition_error(exception, path)

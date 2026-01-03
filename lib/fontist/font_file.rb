@@ -1,5 +1,6 @@
 require "fontisan"
 require "tempfile"
+require_relative "errors"
 
 module Fontist
   class FontFile
@@ -27,6 +28,14 @@ module Fontist
       private
 
       def extract_font_info_from_path(path)
+        # Validate font is indexable using Fontisan's fast validation
+        report = Fontisan.validate(path, profile: :indexability)
+        unless report.valid?
+          error_messages = report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+          raise Errors::FontFileError,
+                "Font file failed indexability validation: #{error_messages}"
+        end
+
         # Load font using Fontisan's metadata-only mode with lazy loading for
         # maximum performance during system font indexing. This combination:
         # - Metadata mode: Loads only 6 essential tables vs ~15-20 tables

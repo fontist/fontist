@@ -1,5 +1,6 @@
 require "fontisan"
 require "tempfile"
+require_relative "errors"
 
 module Fontist
   class CollectionFile
@@ -15,6 +16,14 @@ module Fontist
       private
 
       def build_collection(path)
+        # Validate font collection is indexable using Fontisan's fast validation
+        report = Fontisan.validate(path, profile: :indexability)
+        unless report.valid?
+          error_messages = report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+          raise Errors::FontFileError,
+                "Font collection failed indexability validation: #{error_messages}"
+        end
+
         Fontisan::TrueTypeCollection.from_file(path)
       rescue StandardError => e
         raise Errors::FontFileError,
@@ -59,10 +68,10 @@ module Fontist
       end
 
       tmpfile.close
-      
+
       # Keep tempfile alive to prevent GC issues on Windows
       @tempfiles << tmpfile
-      
+
       # Load and extract metadata using FontFile
       # Tempfile will be deleted when CollectionFile is GC'd
       FontFile.from_path(tmpfile.path)
