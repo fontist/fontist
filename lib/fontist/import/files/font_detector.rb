@@ -11,8 +11,8 @@ module Fontist
         }.freeze
 
         class << self
-          def detect(path)
-            info = brief_info(path)
+          def detect(path, error_collector: nil)
+            info = brief_info(path, error_collector: error_collector)
             return :other unless info
 
             # Check if it's a collection based on the info type
@@ -25,8 +25,8 @@ module Fontist
             end
           end
 
-          def standard_extension(path)
-            info = brief_info(path)
+          def standard_extension(path, error_collector: nil)
+            info = brief_info(path, error_collector: error_collector)
             return nil unless info
 
             # For collections, always use ttc
@@ -47,11 +47,12 @@ module Fontist
 
           private
 
-          def brief_info(path)
+          def brief_info(path, error_collector: nil)
             # Use Fontisan brief mode for fast font detection
             Fontisan.info(path, brief: true)
           rescue StandardError => e
-            # Not a valid font file
+            # Collect error if collector provided, otherwise just debug log
+            error_collector&.add(path, e.message, backtrace: e.backtrace)
             Fontist.ui.debug("Fontisan brief info failed for #{path}: #{e.message}")
             nil
           end

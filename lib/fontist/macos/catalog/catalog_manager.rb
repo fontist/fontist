@@ -1,3 +1,7 @@
+require_relative "font3_parser"
+require_relative "font4_parser"
+require_relative "font5_parser"
+require_relative "font6_parser"
 require_relative "font7_parser"
 require_relative "font8_parser"
 
@@ -19,6 +23,14 @@ module Fontist
             version = detect_version(catalog_path)
 
             case version
+            when 3
+              Font3Parser.new(catalog_path)
+            when 4
+              Font4Parser.new(catalog_path)
+            when 5
+              Font5Parser.new(catalog_path)
+            when 6
+              Font6Parser.new(catalog_path)
             when 7
               Font7Parser.new(catalog_path)
             when 8
@@ -26,7 +38,7 @@ module Fontist
             else
               raise ArgumentError,
                     "Unsupported Font catalog version: #{version}. " \
-                    "Supported versions: 7, 8"
+                    "Supported versions: 3, 4, 5, 6, 7, 8"
             end
           end
 

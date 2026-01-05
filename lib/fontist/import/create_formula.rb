@@ -81,6 +81,7 @@ module Fontist
         builder.font_files = extractor.font_files
         builder.font_collection_files = extractor.font_collection_files
         builder.license_text = extractor.license_text
+        builder.error_collector = extractor.error_collector
       end
 
       def resources

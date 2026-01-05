@@ -830,10 +830,16 @@ Fontist::Fontconfig.remove(force: true) # do not fail if no config exists
 
 == Platform-specific features
 
-=== macOS-specific add-on fonts
+=== macOS supplementary fonts
 
-Newer versions of macOS provide on-demand installations of a wide range of
-licensed fonts. These macOS-specific add-on fonts can be installed via Fontist.
+==== General
+
+macOS since 10.12 (Sierra) provides a "supplementary fonts"
+framework (shared with iOS) for dynamically downloading and installing
+a wide range of licensed fonts on demand.
+
+These macOS-specific supplementary fonts can be installed through Fontist
+formulas.
 
 A typical use for installing macOS add-on fonts is to allow CI jobs on
 macOS environments to use these specially-licensed fonts not available on other
@@ -855,24 +861,57 @@ $ fontist install Canela
 The full list of available fonts on various macOS versions can be found on the
 Apple Support site:
 
-* https://support.apple.com/en-us/HT213266[Fonts in macOS 13 Ventura]
-* https://support.apple.com/en-us/HT212587[Fonts in macOS 12 Monteray]
-* https://support.apple.com/en-in/HT211240[Fonts in macOS 11 Big Sur]
+.Apple supplementary fonts by macOS version
+|===
+| macOS Version | Apple support link
+
+| 26 | https://support.apple.com/en-us/122869[Fonts included with macOS Tahoe]
+| 15 | https://support.apple.com/en-us/120414[Fonts included with macOS Sequoia]
+| 14 | https://support.apple.com/en-us/108939[Fonts included with macOS Sonoma]
+| 13 | https://support.apple.com/en-us/108940[Fonts included with macOS Ventura]
+| 12 | https://support.apple.com/en-us/108941[Fonts included with macOS Monteray]
+| 11 | https://support.apple.com/en-us/108942[Fonts included with macOS Big Sur]
+| 10.15 | https://support.apple.com/en-us/101429[Fonts included with macOS Catalina]
+| 10.14 | https://support.apple.com/en-us/101177[Fonts included with macOS Mojave]
+| 10.13 | https://support.apple.com/en-us/101178[Fonts included with macOS High Sierra]
+| 10.12 | https://support.apple.com/en-us/101179[Fonts included with macOS Sierra]
+
+|===
 
 WARNING: Fontist does not allow installing macOS-specific fonts on non-macOS
 platforms due to font license restrictions of those fonts.
 
-==== macOS Font Catalog Versioning
+[NOTE]
+====
+On macOS a supplementary font can be installed in two ways:
 
-macOS supplementary fonts are distributed through two different catalogs:
+* user applications are allowed to trigger the installation of these fonts
+when needed, as described in Apple's
+https://developer.apple.com/library/archive/samplecode/DownloadFont/Introduction/Intro.html["DownloadFont" sample].
 
-* **Font7 Catalog**: For macOS 10.11 (El Capitan) through 15.7 (Sequoia)
-* **Font8 Catalog**: For macOS 26.0 and later
+* through searching within `Font Book.app`, locating the desired font, and
+clicking "download".
 
-These catalogs contain different versions of the same fonts, with Font8 providing
-updated versions optimized for newer macOS releases.
+Both ways will trigger a download from Apple's Mobile Asset Server.
+====
 
-===== Automatic Version Selection
+==== macOS supplementary font framework versioning
+
+The macOS supplementary font catalog for each macOS version is bound to a
+specific framework version. Different framework versions contain different sets
+of fonts, and often different versions of the same fonts.
+
+A macOS system is only able to download fonts from the catalog version
+corresponding to its framework version, and Fontist respects this limitation
+when installing these fonts.
+
+In Fontist Formulas, each supplementary font is backed by a formula specifying
+the font framework version it belongs to, using the `catalog_version` attribute.
+As a result, the same supplementary font will use different formulas for
+different macOS versions.
+
+NOTE: See <<formulas-macos-import>> for details on the mapping of
+framework versions to macOS versions.
 
 When you install a macOS add-on font, Fontist automatically detects your macOS
 version and installs the appropriate font version:
@@ -880,41 +919,17 @@ version and installs the appropriate font version:
 [source,sh]
 ----
 $ fontist install "Al Bayan"
-# On macOS 14.2: installs Font7 version
-# On macOS 26.0: installs Font8 version
+# On macOS 15: installs Font7 version formula
+# On macOS 26: installs Font8 version formula
 ----
 
 This ensures you always get the font version compatible with your system.
 
-===== Platform Tags
+Fontist controls the macOS supplementary font framework versioning via
+platform tags on formulas.
 
-Formulas for Font7 and Font8 use distinct platform tags:
-
-* `macos-font7`: For Font7 catalog fonts (macOS 10.11-15.7)
-* `macos-font8`: For Font8 catalog fonts (macOS 26.0+)
-
-===== Manual Catalog Import
-
-For Fontist maintainers importing font catalogs manually:
-
-[source,sh]
-----
-# Import Font7 catalog (macOS 10.11-15.7)
-fontist import macos --plist com_apple_MobileAsset_Font7.xml
-
-# Import Font8 catalog (macOS 26.0+)
-fontist import macos --plist com_apple_MobileAsset_Font8.xml
-----
-
-Formulas are automatically saved to versioned directories:
-
-* Font7 formulas: `~/.fontist/versions/{version}/formulas/Formulas/macos/font7/`
-* Font8 formulas: `~/.fontist/versions/{version}/formulas/Formulas/macos/font8/`
-
-This directory structure prevents conflicts between different catalog versions
-of the same font.
-
-===== Version Compatibility
+The platform tag for macOS supplementary fonts follows the pattern:
+* `macos-fontX`: where `X` is the catalog version number (e.g. `3` to `8`)
 
 When installing fonts, Fontist checks version compatibility:
 
@@ -934,40 +949,6 @@ This font cannot be installed on your system.
 If you encounter version compatibility issues, ensure you're running a
 compatible macOS version for the requested font.
 
-===== Font Version Tracking
-
-Each macOS font formula includes a `font_version` attribute that stores the actual
-version of the font file itself. This version is automatically extracted from the
-font's metadata using the Fontisan library.
-
-The `font_version` is distinct from the catalog version (Font7/Font8):
-* `catalog_version`: Indicates which catalog the font belongs to (7 or 8)
-* `font_version`: The actual version string from the font file (e.g., "2.137", "1.0")
-
-This allows tracking of different font versions within the same catalog, as Apple
-may update fonts between macOS releases.
-
-[example]
-====
-[source,yaml]
-----
-name: Al Bayan
-catalog_version: 7
-min_macos_version: "10.11"
-max_macos_version: "15.7"
-font_version: "2.137"
-platforms:
-  - macos-font7
-resources:
-  # ... resources ...
-fonts:
-  # ... fonts ...
-----
-====
-
-The `font_version` is automatically extracted during formula creation and
-included in the generated formula YAML file.
-====
 
 === Known problematic fonts
 
@@ -1704,49 +1685,95 @@ fontist import sil \
 ----
 
 
-
+[[formulas-macos-import]]
 === Dynamically importing formulas from macOS
 
-macOS provides https://support.apple.com/en-om/HT211240#download[fonts] which
-can be manually downloaded with `Font Book.app`.
+macOS since 10.12 (Sierra) provides a "supplementary fonts" framework (shared
+with iOS) for dynamically downloading and installing additional fonts on demand.
+
+There are two typical ways to install these supplementary fonts on macOS,
+both triggering a download from Apple's Mobile Asset Server:
+
+* user applications are allowed to trigger the installation of these fonts
+when needed, as described in Apple's
+https://developer.apple.com/library/archive/samplecode/DownloadFont/Introduction/Intro.html["DownloadFont" sample].
+
+* through searching within `Font Book.app`, locating the desired font, and
+clicking "download".
+
+In Fontist, these supplementary fonts can be installed non-interactively through
+Fontist formulas.
+
+macOS supplementary fonts use the bundle identifier
+`com.apple.MobileAsset.FontX`, where `X` is the framework version, and is based
+on a specific asset framework location used by Apple.
+
+[cols="1,1,1",options="header"]
+|===
+| OS version | Asset framework location | Font framework version | Platform tag
+
+| macOS 10.12 (Sierra) | `/System/Library/Assets/` | 3 | `macos-font3`
+| macOS 10.13 (High Sierra) | `/System/Library/Assets/` | 4 | `macos-font4`
+| macOS 10.14 (Mojave) | `/System/Library/AssetsV2/` | 5 | `macos-font5`
+| macOS 10.15 (Catalina) | `/System/Library/AssetsV2/` | 6 | `macos-font6`
+| macOS 11 (Big Sur) | `/System/Library/AssetsV2/` | 6 | `macos-font6`
+| macOS 12 (Monterey) | `/System/Library/AssetsV2/` | 7 | `macos-font7`
+| macOS 13 (Ventura) | `/System/Library/AssetsV2/` | 7 | `macos-font7`
+| macOS 14 (Sonoma) | `/System/Library/AssetsV2/` | 7 | `macos-font7`
+| macOS 15 (Sequoia) | `/System/Library/AssetsV2/` | 7 | `macos-font7`
+| macOS 26+ (Tahoe) | `/System/Library/AssetsV2/` | 8 | `macos-font8`
+
+|===
+
+The corresponding asset catalog XML files are located at the root of each font
+framework version's location in the OS:
+
+Version 3:: `/System/Library/Assets/com_apple_MobileAsset_Font3/com_apple_MobileAsset_Font3.xml`
+Version 4:: `/System/Library/Assets/com_apple_MobileAsset_Font4/com_apple_MobileAsset_Font4.xml`
+Version 5:: `/System/Library/AssetsV2/com_apple_MobileAsset_Font5/com_apple_MobileAsset_Font5.xml`
+Version 6:: `/System/Library/AssetsV2/com_apple_MobileAsset_Font6/com_apple_MobileAsset_Font6.xml`
+Version 7:: `/System/Library/AssetsV2/com_apple_MobileAsset_Font7/com_apple_MobileAsset_Font7.xml`
+Version 8:: `/System/Library/AssetsV2/com_apple_MobileAsset_Font8/com_apple_MobileAsset_Font8.xml`
+
+NOTE: The Assets and AssetsV2 frameworks use a slightly different Plist schema.
+
+In addition, these asset catalog XML files are also available for download from
+Apple's Mobile Asset Server:
+
+Version 3:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font3/com_apple_MobileAsset_Font3.xml`
+Version 4:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font4/com_apple_MobileAsset_Font4.xml`
+Version 5:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font5/com_apple_MobileAsset_Font5.xml`
+Version 6:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font6/com_apple_MobileAsset_Font6.xml`
+Version 7:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font7/com_apple_MobileAsset_Font7.xml`
+Version 8:: `https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font8/com_apple_MobileAsset_Font8.xml`
+
 
 To update macOS formulas:
 
 [source,sh]
 ----
-# Font5 catalog (macOS 10.6)
-curl -o com_apple_MobileAsset_Font5.xml \
-  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font5/com_apple_MobileAsset_Font5.xml
-
-# Font6 catalog (macOS 10.7-10.10)
-curl -o com_apple_MobileAsset_Font6.xml \
-  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font6/com_apple_MobileAsset_Font6.xml
-
-# Font7 catalog (macOS 10.11-15.7)
-curl -o com_apple_MobileAsset_Font7.xml \
-  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font7/com_apple_MobileAsset_Font7.xml
-
-# Font8 catalog (macOS 26.0+)
-curl -o com_apple_MobileAsset_Font8.xml \
-  https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font8/com_apple_MobileAsset_Font8.xml
-----
-
-[source,sh]
-----
 cd Formulas
-fontist import macos \
-  --plist com_apple_MobileAsset_Font7.xml \
-  --output-path Formulas/macos/font7 \
-  --verbose \
-  --import-cache /tmp/fontist-macos-cache \
-  --force
 
-git add Formulas/macos/font7
+# Download font catalogs
+for font_version in 3 4 5 6 7 8; do
+  curl -o com_apple_MobileAsset_Font${font_version}.xml \
+    https://mesu.apple.com/assets/macos/com_apple_MobileAsset_Font${font_version}/com_apple_MobileAsset_Font${font_version}.xml
+
+  fontist import macos \
+    --plist com_apple_MobileAsset_Font${font_version}.xml \
+    --output-path ./Formulas/macos/font${font_version} \
+    --verbose \
+    --import-cache /tmp/fontist-macos-cache \
+    --force
+
+  git add Formulas/macos/font${font_version}
+done
+
 git commit -m "Update macOS formulas"
 git push
 ----
 
-Importing a single macOS font for testing:
+Importing a single macOS font for testing from a specific catalog:
 
 [source,sh]
 ----

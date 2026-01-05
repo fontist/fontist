@@ -1,12 +1,15 @@
 require_relative "otf/font_file"
 require_relative "files/collection_file"
 require_relative "files/font_detector"
+require_relative "font_parsing_error_collector"
 
 module Fontist
   module Import
     class RecursiveExtraction
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
+
+      attr_reader :error_collector
 
       def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil, verbose: false)
         @archive = archive
@@ -17,6 +20,7 @@ module Fontist
         @operations = {}
         @font_files = []
         @collection_files = []
+        @error_collector = FontParsingErrorCollector.new
 
         save_operation_subdir
       end
@@ -39,6 +43,10 @@ module Fontist
       def operations
         ensure_extracted
         @operations
+      end
+
+      def error_collector
+        @error_collector
       end
 
       private
@@ -91,16 +99,16 @@ module Fontist
       end
 
       def match_font(path)
-        case Files::FontDetector.detect(path)
+        case Files::FontDetector.detect(path, error_collector: @error_collector)
         when :font
           file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          collection = Files::CollectionFile.from_path(path, name_prefix: @name_prefix)
+          collection = Files::CollectionFile.from_path(path, name_prefix: @name_prefix, error_collector: @error_collector)
           if collection
             @collection_files << collection
           else
-            # Collection could not be parsed - log and continue
+            # Collection could not be parsed - already logged by CollectionFile
             Fontist.ui.debug("Skipping unparseable collection: #{File.basename(path)}")
           end
         end

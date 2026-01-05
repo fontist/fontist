@@ -24,7 +24,18 @@ module Fontist
 
     class FontistVersionError < GeneralError; end
 
-    class FontNotFoundError < GeneralError; end
+    class FontNotFoundError < GeneralError
+      attr_reader :parsing_errors
+
+      def initialize(message, parsing_errors: [])
+        super(message)
+        @parsing_errors = Array(parsing_errors)
+      end
+
+      def has_parsing_errors?
+        @parsing_errors && @parsing_errors.any?
+      end
+    end
 
     # for backward compatibility with metanorma,
     # it depends on this exception to automatically download formulas

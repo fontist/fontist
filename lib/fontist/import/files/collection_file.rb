@@ -7,8 +7,8 @@ module Fontist
     module Files
       class CollectionFile
         class << self
-          def from_path(path, name_prefix: nil)
-            collection = build_collection(path)
+          def from_path(path, name_prefix: nil, error_collector: nil)
+            collection = build_collection(path, error_collector: error_collector)
             return nil unless collection
 
             new(collection, path, name_prefix)
@@ -19,9 +19,11 @@ module Fontist
 
           private
 
-          def build_collection(path)
+          def build_collection(path, error_collector: nil)
             Fontisan::TrueTypeCollection.from_file(path)
           rescue StandardError => e
+            # Collect error if collector provided, otherwise just debug log
+            error_collector&.add(path, e.message, backtrace: e.backtrace)
             Fontist.ui.debug("Fontisan brief info failed for #{File.basename(path)}: #{e.message}")
             nil
           end

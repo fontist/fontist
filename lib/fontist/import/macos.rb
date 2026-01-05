@@ -135,10 +135,28 @@ module Fontist
           Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped (already exists): #{Paint[formula_name, :black, :bright]}")
           Fontist.ui.say("    #{Paint['ℹ', :blue]} Use #{Paint['--force', :cyan]} to overwrite existing formulas")
         end
+      rescue Fontist::Errors::FontNotFoundError => e
+        @failure_count += 1
+        # Extract parsing errors if available
+        parsing_errors = e.has_parsing_errors? ? e.parsing_errors : []
+        @failures << {
+          name: family_name,
+          error: e.message,
+          parsing_errors: parsing_errors,
+          url: asset.download_url,
+          cache_path: find_cached_file(asset.download_url)
+        }
+        Fontist.ui.say("  #{Paint['✗', :red]} Failed: No fonts found in archive")
       rescue StandardError => e
         @failure_count += 1
         error_msg = e.message.length > 60 ? "#{e.message[0..60]}..." : e.message
-        @failures << { name: family_name, reason: error_msg }
+        @failures << {
+          name: family_name,
+          error: error_msg,
+          parsing_errors: [],
+          url: asset.download_url,
+          cache_path: find_cached_file(asset.download_url)
+        }
         Fontist.ui.say("  #{Paint['✗', :red]} Failed: #{Paint[error_msg, :red]}")
       end
 
@@ -231,13 +249,69 @@ module Fontist
         # Show failures if any
         if @failures.any?
           Fontist.ui.say("")
-          Fontist.ui.say(Paint["═" * 80, :cyan])
-          Fontist.ui.say(Paint["  ❌ Failed Imports", :red, :bright])
-          Fontist.ui.say(Paint["═" * 80, :cyan])
+          Fontist.ui.say(Paint["═" * 80, :red])
+          Fontist.ui.say(Paint["  Failure Report", :red, :bright])
+          Fontist.ui.say(Paint["═" * 80, :red])
           Fontist.ui.say("")
 
           @failures.each_with_index do |failure, index|
-            Fontist.ui.say("  #{index + 1}. #{Paint[failure[:name], :yellow]} - #{Paint[failure[:reason], :red]}")
+            Fontist.ui.say("  #{index + 1}) #{Paint[failure[:name], :yellow, :bright]}")
+            Fontist.ui.say("     #{Paint['FontNotFoundError:', :red]} #{failure[:error]}")
+            Fontist.ui.say("")
+
+            # Show source information for debugging
+            if failure[:url]
+              Fontist.ui.say("       #{Paint['Source URL:', :cyan]}")
+              Fontist.ui.say("         #{Paint[failure[:url], :white]}")
+            end
+
+            if failure[:cache_path]
+              Fontist.ui.say("       #{Paint['Cached file:', :cyan]}")
+              Fontist.ui.say("         #{Paint[failure[:cache_path], :white]}")
+            end
+
+            # Show parsing errors if available
+            if failure[:parsing_errors].any?
+              Fontist.ui.say("")
+              Fontist.ui.say("       #{Paint['Font parsing errors:', :cyan]}")
+
+              # Group errors by filename for cleaner display
+              grouped = failure[:parsing_errors].group_by { |e| File.basename(e[:path]) }
+
+              grouped.each do |filename, errors|
+                Fontist.ui.say("       #{Paint['•', :red]} #{Paint[filename, :white]}")
+                errors.each do |error|
+                  # Show error message
+                  message_lines = error[:message].scan(/.{1,70}(?:\s+|$)/)
+                  message_lines.each_with_index do |line, i|
+                    prefix = i == 0 ? "         " : "           "
+                    Fontist.ui.say("#{prefix}#{Paint[line.strip, :red]}")
+                  end
+
+                  # Show first few lines of backtrace if available
+                  if error[:backtrace] && error[:backtrace].any?
+                    Fontist.ui.say("")
+                    error[:backtrace].first(4).each do |trace_line|
+                      # Clean up the trace line - show only relevant parts
+                      clean_line = trace_line.sub(/^#{Regexp.escape(Dir.pwd)}\//, '')
+                      Fontist.ui.say("           #{Paint['#', :black, :bright]} #{Paint[clean_line, :black, :bright]}")
+                    end
+                  end
+                end
+                Fontist.ui.say("") unless grouped.keys.last == filename
+              end
+            else
+              # No parsing errors collected - provide helpful context
+              Fontist.ui.say("")
+              Fontist.ui.say("       #{Paint['Note:', :yellow]} No font files could be extracted or parsed from this archive.")
+              Fontist.ui.say("       This may indicate:")
+              Fontist.ui.say("         • Archive is empty or corrupted")
+              Fontist.ui.say("         • Fonts are in an unsupported format")
+              Fontist.ui.say("         • Download incomplete or failed")
+              Fontist.ui.say("         • Extraction process encountered an error")
+            end
+
+            Fontist.ui.say("") unless @failures.last == failure
           end
         end
 
@@ -246,6 +320,14 @@ module Fontist
 
       def platforms(framework_version)
         case framework_version
+        when 3
+          ["macos-font3"]
+        when 4
+          ["macos-font4"]
+        when 5
+          ["macos-font5"]
+        when 6
+          ["macos-font6"]
         when 7
           ["macos-font7"]
         when 8
@@ -273,6 +355,14 @@ module Fontist
                         else
                           # Use versioned directory based on framework version
                           version_dir = case framework_version
+                                      when 3
+                                        "font3"
+                                      when 4
+                                        "font4"
+                                      when 5
+                                        "font5"
+                                      when 6
+                                        "font6"
                                       when 7
                                         "font7"
                                       when 8
@@ -288,6 +378,19 @@ module Fontist
                             FileUtils.mkdir_p(path)
                           end
                         end
+      end
+
+      def find_cached_file(url)
+        cache_path = @import_cache || Fontist.import_cache_path
+        cache_path = Pathname.new(cache_path) if cache_path.is_a?(String)
+
+        # Try to find the cached file using the same naming logic as Downloader
+        filename = File.basename(URI.parse(url).path)
+        cached_file = cache_path.join(filename)
+
+        cached_file.exist? ? cached_file.to_s : nil
+      rescue StandardError
+        nil
       end
     end
   end

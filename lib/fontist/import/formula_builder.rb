@@ -21,7 +21,8 @@ module Fontist
                   :license_text,
                   :operations,
                   :font_version,
-                  :import_source
+                  :import_source,
+                  :error_collector
 
       def initialize
         @options = {}
@@ -124,11 +125,12 @@ module Fontist
       def group_fonts
         files = (@font_files + @font_collection_files.map(&:fonts)).flatten
         if files.empty?
-          raise Errors::FontNotFoundError,
-                "No fonts found in archive. This may be due to:\n" \
-                "  - Archive contains only TTC files that fontisan cannot parse\n" \
-                "  - Archive is empty or corrupted\n" \
-                "  - Fonts are in unsupported format"
+          # Include parsing errors if available
+          parsing_errors = @error_collector&.errors || []
+          raise Errors::FontNotFoundError.new(
+            "No fonts found in archive.",
+            parsing_errors: parsing_errors
+          )
         end
 
         files

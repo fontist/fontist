@@ -3,7 +3,7 @@ require_relative "../../macos_import_source"
 module Fontist
   module Macos
     module Catalog
-      # Represents a font asset from macOS Font7/Font8 catalog
+      # Represents a font asset from macOS Font5/Font6/Font7/Font8 catalog
       # Each asset contains one or more fonts with their metadata
       class Asset
         attr_reader :base_url, :relative_path, :font_info, :build,
@@ -43,7 +43,17 @@ module Fontist
         end
 
         def asset_id
-          build&.downcase
+          # Font7/8 have Build field
+          return build.downcase if build
+
+          # Font5/6 don't have Build, extract hash from __RelativePath
+          # e.g., "com_apple_MobileAsset_Font5/94af53b6dd43b085554e207f5cd282fde8367af6.zip"
+          if @relative_path
+            hash = @relative_path.split('/').last&.split('.')&.first
+            return hash.downcase if hash
+          end
+
+          nil
         end
 
         def to_import_source

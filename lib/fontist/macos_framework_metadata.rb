@@ -7,6 +7,30 @@ module Fontist
   # stored in individual formulas, enabling proper separation of concerns.
   class MacosFrameworkMetadata
     METADATA = {
+      3 => {
+        "min_macos_version" => "10.10",
+        "max_macos_version" => "10.12",
+        "parser_class" => "Fontist::Macos::Catalog::Font3Parser",
+        "description" => "Font3 framework (macOS Yosemite, El Capitan, Sierra)"
+      },
+      4 => {
+        "min_macos_version" => "10.12",
+        "max_macos_version" => "10.13",
+        "parser_class" => "Fontist::Macos::Catalog::Font4Parser",
+        "description" => "Font4 framework (macOS Sierra, High Sierra)"
+      },
+      5 => {
+        "min_macos_version" => "10.13",
+        "max_macos_version" => "10.15",
+        "parser_class" => "Fontist::Macos::Catalog::Font5Parser",
+        "description" => "Font5 framework (macOS High Sierra, Mojave, Catalina)"
+      },
+      6 => {
+        "min_macos_version" => "11.0",
+        "max_macos_version" => "11.7",
+        "parser_class" => "Fontist::Macos::Catalog::Font6Parser",
+        "description" => "Font6 framework (macOS Big Sur)"
+      },
       7 => {
         "min_macos_version" => "10.11",
         "max_macos_version" => "15.7",
