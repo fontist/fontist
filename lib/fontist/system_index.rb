@@ -156,7 +156,6 @@ module Fontist
         end
       end.compact
 
-      # Filter out fonts with incomplete metadata
       filter_valid_fonts(detected_fonts)
     end
 
@@ -223,13 +222,10 @@ module Fontist
     def filter_valid_fonts(fonts)
       fonts.select do |font|
         missing_keys = ALLOWED_KEYS.reject { |key| font.send(key) }
-        
-        if missing_keys.any?
-          warn_font_metadata_incomplete(font, missing_keys)
-          false
-        else
-          true
-        end
+
+        next true if missing_keys.empty?
+
+        warn_font_metadata_incomplete(font, missing_keys)
       end
     end
 

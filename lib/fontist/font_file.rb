@@ -83,11 +83,8 @@ module Fontist
     def english_name(name)
       return nil if name.nil? || name.empty?
 
-      # Try English first
-      english = find_english(name)
-      result = visible_characters(english)
-      
-      # If English name is empty, try to find any non-empty name
+      result = visible_characters(find_english(name))
+
       if result.nil? || result.empty?
         result = find_any_name(name)
       end
@@ -102,15 +99,12 @@ module Fontist
     end
 
     def find_any_name(name)
-      # Try to find any non-empty name from the font
-      name.each do |entry|
+      name.find do |entry|
         text = entry.to_s
-        next if text.nil? || text.empty?
-        
-        # Return the text as-is, preserving Unicode characters
-        return text unless text.strip.empty?
+        next if text.strip.empty?
+
+        return text
       end
-      nil
     end
 
     def microsoft_english?(string)
