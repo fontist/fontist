@@ -81,13 +81,30 @@ module Fontist
     end
 
     def english_name(name)
-      visible_characters(find_english(name))
+      return nil if name.nil? || name.empty?
+
+      result = visible_characters(find_english(name))
+
+      if result.nil? || result.empty?
+        result = find_any_name(name)
+      end
+
+      result
     end
 
     def find_english(name)
       name.find { |x| microsoft_english?(x) } ||
         name.find { |x| mac_english?(x) } ||
         name.last
+    end
+
+    def find_any_name(name)
+      name.find do |entry|
+        text = entry.to_s
+        next if text.strip.empty?
+
+        return text
+      end
     end
 
     def microsoft_english?(string)
