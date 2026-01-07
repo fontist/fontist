@@ -711,13 +711,10 @@ spinner_index = nil)
     def filter_valid_fonts(fonts)
       fonts.select do |font|
         missing_keys = ALLOWED_KEYS.reject { |key| font.send(key) }
-        
-        if missing_keys.any?
-          warn_font_metadata_incomplete(font, missing_keys)
-          false
-        else
-          true
-        end
+
+        next true if missing_keys.empty?
+
+        warn_font_metadata_incomplete(font, missing_keys)
       end
     end
 
