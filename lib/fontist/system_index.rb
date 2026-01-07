@@ -148,13 +148,16 @@ module Fontist
     def detect_paths(paths)
       existing_fonts_by_path = fonts&.group_by(&:path) || {}
 
-      paths.sort.uniq.flat_map do |path|
+      detected_fonts = paths.sort.uniq.flat_map do |path|
         if existing_fonts_by_path[path]&.any?
           existing_fonts_by_path[path]
         else
           detect_fonts(path)
         end
       end.compact
+
+      # Filter out fonts with incomplete metadata
+      filter_valid_fonts(detected_fonts)
     end
 
     def detect_fonts(path)
@@ -215,6 +218,27 @@ module Fontist
         preferred_family_name: font_file.preferred_family,
         preferred_subfamily_name: font_file.preferred_subfamily,
       )
+    end
+
+    def filter_valid_fonts(fonts)
+      fonts.select do |font|
+        missing_keys = ALLOWED_KEYS.reject { |key| font.send(key) }
+        
+        if missing_keys.any?
+          warn_font_metadata_incomplete(font, missing_keys)
+          false
+        else
+          true
+        end
+      end
+    end
+
+    def warn_font_metadata_incomplete(font, missing_keys)
+      Fontist.ui.error(<<~MSG.chomp)
+        Skipping font with incomplete metadata: #{font.path}
+        Missing attributes: #{missing_keys.join(', ')}.
+        This font will not be indexed, but Fontist will continue to work.
+      MSG
     end
 
     def raise_font_index_corrupted(font, missing_keys)
