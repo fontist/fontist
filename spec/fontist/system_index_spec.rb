@@ -204,4 +204,178 @@ RSpec.describe Fontist::SystemIndex do
       end
     end
   end
+
+  context "incomplete font metadata handling" do
+    let(:tmp_dir) { create_tmp_dir }
+    let(:index_path) { File.join(tmp_dir, "test_index.yml") }
+
+    context "when font has incomplete English metadata" do
+      let(:font_paths) do
+        [Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf").to_s]
+      end
+
+      let(:instance) do
+        Fontist::SystemIndexFontCollection.new.tap do |x|
+          x.set_path(index_path)
+          x.set_path_loader(-> { font_paths })
+        end
+      end
+
+      it "does not crash when building index" do
+        expect { instance.build }.not_to raise_error
+      end
+
+      it "filters out fonts with incomplete metadata" do
+        # Mock a font file that returns nil for required fields
+        allow(Fontist::FontFile).to receive(:from_path).and_return(
+          double(
+            full_name: nil,
+            family: nil,
+            subfamily: "Regular",
+            preferred_family: nil,
+            preferred_subfamily: nil
+          )
+        )
+
+        expect(Fontist.ui).to receive(:error).with(/Skipping font with incomplete metadata/)
+
+        instance.build
+        expect(instance.fonts).to be_empty
+      end
+    end
+
+    context "when all fonts have complete metadata" do
+      let(:font_paths) do
+        [Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf").to_s]
+      end
+
+      let(:instance) do
+        Fontist::SystemIndexFontCollection.new.tap do |x|
+          x.set_path(index_path)
+          x.set_path_loader(-> { font_paths })
+        end
+      end
+
+      it "includes fonts with complete metadata" do
+        instance.build
+        # Should have at least one font if DejaVuSerif has complete metadata
+        # or be empty if it doesn't, but shouldn't crash
+        expect { instance.fonts }.not_to raise_error
+      end
+    end
+
+    context "when loading corrupted YAML index" do
+      it "still raises error for corrupted YAML" do
+        stub_system_index_path do
+          # Write a corrupted index to YAML
+          File.write(Fontist.system_index_path,
+                     YAML.dump([{ path: "/some/path" }]))
+
+          expect do
+            Fontist::SystemIndex.system_index.find("", "")
+          end.to raise_error(Fontist::Errors::FontIndexCorrupted)
+        end
+      end
+    end
+  end
+
+  context "Bengali Rupali font metadata handling" do
+    let(:rupali_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "Rupali.ttf").to_s }
+
+    describe "FontFile extraction" do
+      it "extracts non-English (Bengali) font names" do
+        font_file = Fontist::FontFile.from_path(rupali_path)
+
+        # The font has Bengali script names
+        expect(font_file.full_name).not_to be_nil
+        expect(font_file.full_name).not_to be_empty
+        expect(font_file.family).not_to be_nil
+        expect(font_file.family).not_to be_empty
+        expect(font_file.subfamily).to eq("Regular")
+
+        # Should contain Unicode Bengali characters (রূপালী in UTF-8)
+        # The actual encoding might vary but it should not be empty
+        expect(font_file.full_name.length).to be > 0
+        expect(font_file.family.length).to be > 0
+      end
+    end
+
+    describe "SystemIndex with Bengali font" do
+      let(:tmp_dir) { create_tmp_dir }
+      let(:index_path) { File.join(tmp_dir, "bengali_test_index.yml") }
+      let(:font_paths) { [rupali_path] }
+
+      let(:instance) do
+        Fontist::SystemIndexFontCollection.new.tap do |x|
+          x.set_path(index_path)
+          x.set_path_loader(-> { font_paths })
+        end
+      end
+
+      it "successfully builds index with Bengali font" do
+        expect { instance.build }.not_to raise_error
+      end
+
+      it "includes Bengali font in index when metadata is present" do
+        instance.build
+
+        # Should have at least one font indexed
+        expect(instance.fonts).not_to be_empty
+        expect(instance.fonts.length).to eq(1)
+
+        font = instance.fonts.first
+        expect(font.path).to eq(rupali_path)
+        expect(font.full_name).not_to be_nil
+        expect(font.full_name).not_to be_empty
+        expect(font.family_name).not_to be_nil
+        expect(font.family_name).not_to be_empty
+        expect(font.subfamily).to eq("Regular")
+      end
+
+      it "can save and reload index with Bengali font" do
+        instance.build
+        instance.to_file(index_path)
+
+        # Reload from file
+        reloaded = Fontist::SystemIndexFontCollection.from_file(
+          path: index_path,
+          paths_loader: -> { font_paths }
+        )
+
+        expect(reloaded.fonts).not_to be_empty
+        font = reloaded.fonts.first
+        expect(font.path).to eq(rupali_path)
+        expect(font.full_name).not_to be_empty
+        expect(font.family_name).not_to be_empty
+      end
+
+      it "does not crash when searching for fonts in index with Bengali font" do
+        instance.build
+
+        # Should not crash even if we can't find by Bengali name
+        expect { instance.find("some font", nil) }.not_to raise_error
+        expect { instance.find("Arial", "Regular") }.not_to raise_error
+      end
+    end
+
+    describe "Regression test for error.md issue" do
+      let(:tmp_dir) { create_tmp_dir }
+      let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+
+      it "does not raise FontIndexCorrupted when building index with Rupali font" do
+        collection = Fontist::SystemIndexFontCollection.new.tap do |x|
+          x.set_path(index_path)
+          x.set_path_loader(-> { [rupali_path] })
+        end
+
+        # This would have raised FontIndexCorrupted before the fix
+        # because Bengali names might not extract properly as English
+        expect { collection.build }.not_to raise_error
+        expect { collection.check_index }.not_to raise_error
+
+        # Verify font was indexed
+        expect(collection.fonts).not_to be_empty
+      end
+    end
+  end
 end

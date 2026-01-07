@@ -708,6 +708,27 @@ spinner_index = nil)
       )
     end
 
+    def filter_valid_fonts(fonts)
+      fonts.select do |font|
+        missing_keys = ALLOWED_KEYS.reject { |key| font.send(key) }
+        
+        if missing_keys.any?
+          warn_font_metadata_incomplete(font, missing_keys)
+          false
+        else
+          true
+        end
+      end
+    end
+
+    def warn_font_metadata_incomplete(font, missing_keys)
+      Fontist.ui.error(<<~MSG.chomp)
+        Skipping font with incomplete metadata: #{font.path}
+        Missing attributes: #{missing_keys.join(', ')}.
+        This font will not be indexed, but Fontist will continue to work.
+      MSG
+    end
+
     def raise_font_index_corrupted(font, missing_keys)
       raise(Errors::FontIndexCorrupted, <<~MSG.chomp)
         Font index is corrupted.
