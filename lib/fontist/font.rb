@@ -414,7 +414,10 @@ module Fontist
     end
 
     def font_paths
-      @font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
+      # Use Dir.glob for fontist's own managed directory
+      # This allows immediate detection of newly installed fonts without requiring index rebuild
+      # The indexes are primarily for system/user locations
+      @font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}")).sort
     end
 
     def all_list

@@ -60,6 +60,13 @@ module Fontist
         @collection.find(font_name, style)
       end
 
+      # Returns all fonts in the index
+      #
+      # @return [Array<SystemIndexFont>] All indexed fonts
+      def fonts
+        @collection.fonts
+      end
+
       # Checks if a font exists at the given path
       #
       # @param path [String] Full path to font file
