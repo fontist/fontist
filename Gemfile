@@ -12,7 +12,7 @@ gem "rubocop"
 gem "rubocop-performance"
 gem "rubocop-rails"
 gem "rubocop-rake"
-gem "simplecov", require: false
+gem "simplecov"
 gem "vcr"
 gem "webmock"
 
