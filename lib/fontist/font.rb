@@ -417,9 +417,10 @@ module Fontist
       # Use Dir.glob for fontist's own managed directory
       # This allows immediate detection of newly installed fonts without requiring index rebuild
       # The indexes are primarily for system/user locations
-      # Uses lowercase extensions since font files are normalized to
-      # lowercase extensions during installation for cross-platform consistency
-      @font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}")).sort
+      # Uses case-insensitive glob patterns that work on all platforms,
+      # including Linux where File::FNM_CASEFOLD is ignored
+      patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+      @font_paths ||= patterns.flat_map { |pattern| Dir.glob(pattern) }.sort
     end
 
     def all_list

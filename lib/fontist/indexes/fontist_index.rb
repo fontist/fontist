@@ -118,12 +118,13 @@ module Fontist
 
       # Returns all font file paths in the fontist library
       #
-      # Uses lowercase extensions since font files are normalized to
-      # lowercase extensions during installation for cross-platform consistency
+      # Uses case-insensitive glob patterns that work on all platforms,
+      # including Linux where File::FNM_CASEFOLD is ignored
       #
       # @return [Array<String>] Array of font file paths
       def fontist_font_paths
-        Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
+        patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+        patterns.flat_map { |pattern| Dir.glob(pattern) }
       end
     end
   end

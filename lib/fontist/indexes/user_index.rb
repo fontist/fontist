@@ -136,9 +136,10 @@ module Fontist
         base = location.base_path
 
         # Scan for all font files under the user location
-        # Uses lowercase extensions since font files are normalized to
-        # lowercase extensions during installation for cross-platform consistency
-        Dir.glob(base.join("**", "*.{ttf,otf,ttc,otc}"))
+        # Uses case-insensitive glob patterns that work on all platforms,
+        # including Linux where File::FNM_CASEFOLD is ignored
+        patterns = Fontist::Utils.font_file_patterns(base.join("**").to_s)
+        patterns.flat_map { |pattern| Dir.glob(pattern) }
       rescue StandardError => e
         # If we can't determine user path, return empty array
         Fontist.ui.debug("Error scanning user font paths: #{e.message}")

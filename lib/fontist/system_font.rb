@@ -41,7 +41,8 @@ module Fontist
     end
 
     def self.fontist_font_paths
-      @fontist_font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
+      patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+      @fontist_font_paths ||= patterns.flat_map { |pattern| Dir.glob(pattern) }
     end
 
     def self.reset_fontist_font_paths_cache
