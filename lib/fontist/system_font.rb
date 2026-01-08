@@ -41,7 +41,7 @@ module Fontist
     end
 
     def self.fontist_font_paths
-      @fontist_font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"), File::FNM_CASEFOLD)
+      @fontist_font_paths ||= Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
     end
 
     def self.reset_fontist_font_paths_cache

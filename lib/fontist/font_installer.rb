@@ -141,6 +141,11 @@ module Fontist
       source_basename = File.basename(source)
       target_name = target_filename(source_basename) || source_basename
 
+      # Normalize extension to lowercase for cross-platform consistency
+      # This ensures fonts can be found with simple lowercase glob patterns
+      # on Linux (case-sensitive) and matches system.yml conventions
+      target_name = normalize_extension(target_name)
+
       # Use location object to handle installation
       # This handles all the logic for:
       # - Checking if font exists
@@ -185,6 +190,23 @@ module Fontist
           [source, target]
         end
       end.to_h
+    end
+
+    # Normalizes font file extension to lowercase for cross-platform consistency
+    #
+    # On Linux (case-sensitive filesystem), File::FNM_CASEFOLD is ignored,
+    # so we must ensure consistent lowercase extensions to enable simple
+    # glob patterns like "*.ttf" to work reliably.
+    #
+    # @param filename [String] Original filename (e.g., "AndaleMo.TTF")
+    # @return [String] Normalized filename (e.g., "AndaleMo.ttf")
+    def normalize_extension(filename)
+      # Split filename into base and extension
+      ext = File.extname(filename)
+      base = File.basename(filename, ext)
+
+      # Return with lowercase extension
+      "#{base}#{ext.downcase}"
     end
   end
 end

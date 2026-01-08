@@ -118,12 +118,12 @@ module Fontist
 
       # Returns all font file paths in the fontist library
       #
-      # Uses case-insensitive glob to match font files regardless of extension
-      # case (e.g., .ttf, .TTF, .TtF all match)
+      # Uses lowercase extensions since font files are normalized to
+      # lowercase extensions during installation for cross-platform consistency
       #
       # @return [Array<String>] Array of font file paths
       def fontist_font_paths
-        Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"), File::FNM_CASEFOLD)
+        Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
       end
     end
   end
