@@ -30,6 +30,19 @@ RSpec.shared_context "fresh home" do
     allow(Fontist).to receive(:default_fontist_path)
       .and_return(Pathname.new(temp_dir))
 
+    # Stub user and system font paths via ENV to temp directories
+    @orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
+    @orig_system_path = ENV["FONTIST_SYSTEM_FONTS_PATH"]
+
+    user_fonts_temp = File.join(temp_dir, "user_fonts")
+    system_fonts_temp = File.join(temp_dir, "system_fonts")
+
+    FileUtils.mkdir_p(user_fonts_temp)
+    FileUtils.mkdir_p(system_fonts_temp)
+
+    ENV["FONTIST_USER_FONTS_PATH"] = user_fonts_temp
+    ENV["FONTIST_SYSTEM_FONTS_PATH"] = system_fonts_temp
+
     stub_system_fonts
 
     FileUtils.mkdir_p(Fontist.fonts_path)
@@ -39,11 +52,21 @@ RSpec.shared_context "fresh home" do
     Fontist::Index.reset_cache
     Fontist::SystemIndex.reset_cache
     Fontist::SystemFont.reset_font_paths_cache
+    Fontist::Indexes::FontistIndex.reset_cache
+    Fontist::Indexes::UserIndex.reset_cache
+    Fontist::Indexes::SystemIndex.reset_cache
   end
 
   after do
+    # Restore original ENV values
+    ENV["FONTIST_USER_FONTS_PATH"] = @orig_user_path
+    ENV["FONTIST_SYSTEM_FONTS_PATH"] = @orig_system_path
+
     Fontist::Index.reset_cache
     Fontist::SystemIndex.reset_cache
     Fontist::SystemFont.reset_font_paths_cache
+    Fontist::Indexes::FontistIndex.reset_cache
+    Fontist::Indexes::UserIndex.reset_cache
+    Fontist::Indexes::SystemIndex.reset_cache
   end
 end

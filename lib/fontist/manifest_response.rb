@@ -21,7 +21,7 @@ module Fontist
       }
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
       styles.each do |style|
         if style.paths.nil?
           # If no paths are found, notify the user but continue with the
@@ -36,6 +36,7 @@ module Fontist
         confirmation: confirmation,
         hide_licenses: hide_licenses,
         no_progress: no_progress,
+        location: location,
       )
     end
   end

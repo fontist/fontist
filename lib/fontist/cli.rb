@@ -120,6 +120,10 @@ module Fontist
                  "(default is #{Fontist.formula_size_limit_in_megabytes} MB)"
     option :update_fontconfig, type: :boolean, aliases: :u,
                                desc: "Update fontconfig"
+    option :location,
+           type: :string, aliases: :l,
+           enum: ["fontist", "user", "system"],
+           desc: "Install location: fontist (default), user, system"
     def install(*fonts)
       handle_class_options(options)
 
@@ -131,15 +135,21 @@ module Fontist
       # For backward compatibility, use original behavior for single font
       if fonts.size == 1
         confirmation = options[:accept_all_licenses] ? "yes" : "no"
-        Fontist::Font.install(fonts.first,
-                              options.merge(confirmation: confirmation))
+        install_options = options.to_h.transform_keys(&:to_sym)
+        install_options[:confirmation] = confirmation
+        install_options[:location] = options[:location]&.to_sym if options[:location]
+
+        Fontist::Font.install(fonts.first, install_options)
         return success
       end
 
       # Multi-font installation
       confirmation = options[:accept_all_licenses] ? "yes" : "no"
-      result = Fontist::Font.install_many(fonts,
-                                          options.merge(confirmation: confirmation))
+      install_options = options.to_h.transform_keys(&:to_sym)
+      install_options[:confirmation] = confirmation
+      install_options[:location] = options[:location]&.to_sym if options[:location]
+
+      result = Fontist::Font.install_many(fonts, install_options)
 
       # Report results
       if result[:successes].any?

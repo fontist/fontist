@@ -28,9 +28,19 @@ module Fontist
 
         yield
 
+        # Comprehensive cleanup for test isolation
         Fontist::Index.reset_cache
         Fontist::SystemIndex.reset_cache
         Fontist::SystemFont.reset_font_paths_cache
+        Fontist::Config.reset  # Reset config singleton to ensure test isolation
+
+        # Reset new OOP index singletons
+        Fontist::Indexes::FontistIndex.reset_cache
+        Fontist::Indexes::UserIndex.reset_cache
+        Fontist::Indexes::SystemIndex.reset_cache
+
+        # Reset interactive mode to default
+        Fontist.interactive = false
       end
     end
 
@@ -42,8 +52,25 @@ module Fontist
           allow(Fontist).to receive(:default_fontist_path)
             .and_return(Pathname.new(dir))
 
+          # Stub user and system font paths via ENV to prevent accessing real directories
+          # This ensures UserIndex and SystemIndex scan only temp directories
+          user_fonts_temp = File.join(dir, "user_fonts")
+          system_fonts_temp = File.join(dir, "system_fonts")
+
+          FileUtils.mkdir_p(user_fonts_temp)
+          FileUtils.mkdir_p(system_fonts_temp)
+
+          orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
+          orig_system_path = ENV["FONTIST_SYSTEM_FONTS_PATH"]
+
+          ENV["FONTIST_USER_FONTS_PATH"] = user_fonts_temp
+          ENV["FONTIST_SYSTEM_FONTS_PATH"] = system_fonts_temp
+
           yield dir
 
+          # Restore original values
+          ENV["FONTIST_USER_FONTS_PATH"] = orig_user_path
+          ENV["FONTIST_SYSTEM_FONTS_PATH"] = orig_system_path
           allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
           reset_all_fontist_caches # Clean up after
 
@@ -222,16 +249,34 @@ module Fontist
     end
 
     def font_files
-      Dir.entries(Fontist.fonts_path) - %w[. ..]
+      # Search recursively for font files in formula subdirectories
+      Dir.glob(Fontist.fonts_path.join("**", "*"))
+        .select { |f| File.file?(f) }
+        .map { |f| File.basename(f) }
     end
 
     def font_file(filename)
+      # Search recursively to support formula-keyed structure
+      matches = Dir.glob(Fontist.fonts_path.join("**", filename))
+      return Pathname.new(matches.first) if matches.any?
+
+      # Fallback to flat path for backward compatibility
       Pathname.new(Fontist.fonts_path.join(filename))
     end
 
     def font_path(filename, dir = nil)
       dir ||= Fontist.fonts_path.to_s
+      # Search recursively to support both flat and formula-keyed structures
+      matches = Dir.glob(File.join(dir, "**", filename))
+      return matches.first if matches.any?
+
+      # Fallback to old flat path for backward compatibility
       File.join(dir, filename)
+    end
+
+    def formula_font_path(formula_key, filename, dir = nil)
+      dir ||= Fontist.fonts_path.to_s
+      File.join(dir, formula_key, filename)
     end
 
     def system_font_path(filename)
@@ -252,19 +297,43 @@ module Fontist
     end
 
     def example_font(filename)
-      example_font_to(filename, Fontist.fonts_path)
+      # Infer formula key from font filename
+      # e.g., "overpass-regular.otf" → "overpass"
+      # e.g., "texgyrechorus-mediumitalic.otf" → "tex_gyre_chorus"
+      # e.g., "AndaleMo.TTF" → "andale" (needs special handling)
+      # e.g., "Roboto-Regular.ttf" → "roboto"
+      formula_key = infer_formula_key_from_filename(filename)
+
+      # Create formula-keyed subdirectory
+      target_dir = Fontist.fonts_path.join(formula_key)
+      FileUtils.mkdir_p(target_dir)
+
+      # Copy font to formula subdirectory
+      example_font_to(filename, target_dir)
+
+      # Rebuild fontist index so fonts are findable by new OOP architecture
+      Fontist::Indexes::FontistIndex.instance.rebuild
     end
 
     def example_font_to_system(filename)
       raise("System dir is not stubbed") unless @system_dir
 
       example_font_to(filename, @system_dir)
+      # Rebuild system index so fonts are findable
+      Fontist::Indexes::SystemIndex.instance.rebuild
     end
 
     def example_font_to_fontist(filename)
       raise("Fontist dir is not stubbed") unless @fontist_dir
 
-      example_font_to(filename, @fontist_dir)
+      # For fontist_dir (used in tests), also use formula-keyed structure
+      formula_key = infer_formula_key_from_filename(filename)
+      target_dir = File.join(@fontist_dir, formula_key)
+      FileUtils.mkdir_p(target_dir)
+
+      example_font_to(filename, target_dir)
+      # Rebuild fontist index so fonts are findable
+      Fontist::Indexes::FontistIndex.instance.rebuild
     end
 
     def example_font_to(filename, dir)
@@ -412,6 +481,38 @@ module Fontist
 
     def restore_default_settings
       Fontist.interactive = false
+    end
+
+    private
+
+    # Infers formula key from font filename
+    #
+    # Examples:
+    #   "overpass-regular.otf" → "overpass"
+    #   "texgyrechorus-mediumitalic.otf" → "tex_gyre_chorus"
+    #   "AndaleMo.TTF" → "andale"
+    #   "Roboto-Regular.ttf" → "roboto"
+    #
+    # @param filename [String] Font filename
+    # @return [String] Formula key
+    def infer_formula_key_from_filename(filename)
+      base = File.basename(filename, ".*").downcase
+
+      # Common patterns to extract formula key
+      # Remove common suffixes: -regular, -bold, -italic, etc.
+      key = base.gsub(/-?(regular|bold|italic|light|medium|thin|black|oblique|mono)/, "")
+
+      # Handle special cases
+      key = "andale" if key =~ /^andalemo/
+      key = "tex_gyre_chorus" if key =~ /^texgyrechorus/
+      key = "work_sans" if key =~ /^worksans/
+      key = "cambria" if key =~ /^cambria/
+      key = "fira_code" if key =~ /^firacode/
+      key = "lato" if key =~ /^lato/
+      key = "source" if key =~ /^source/
+
+      # Remove trailing hyphens and underscores
+      key.gsub(/[-_]+$/, "")
     end
   end
 end

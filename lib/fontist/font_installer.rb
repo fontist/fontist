@@ -3,13 +3,17 @@ require "excavate"
 require_relative "resources/archive_resource"
 require_relative "resources/google_resource"
 require_relative "resources/apple_cdn_resource"
+require_relative "install_location"
 
 module Fontist
   class FontInstaller
-    def initialize(formula, font_name: nil, no_progress: false)
+    attr_reader :location
+
+    def initialize(formula, font_name: nil, no_progress: false, location: nil)
       @formula = formula
       @font_name = font_name
       @no_progress = no_progress
+      @location = InstallLocation.create(formula, location_type: location)
     end
 
     def install(confirmation:)
@@ -73,7 +77,10 @@ module Fontist
 
       Array.new.tap do |fonts_paths|
         resource.files(source_files) do |path|
-          fonts_paths << install_font_file(path) if font_file?(path)
+          if font_file?(path)
+            installed_path = install_font_file(path)
+            fonts_paths << installed_path if installed_path
+          end
         end
       end
     end
@@ -131,33 +138,20 @@ module Fontist
     end
 
     def install_font_file(source)
-      if @formula.source == "apple_cdn"
-        install_to_system_directory(source)
-      else
-        install_to_fontist_directory(source)
-      end
-    end
+      source_basename = File.basename(source)
+      target_name = target_filename(source_basename) || source_basename
 
-    def install_to_system_directory(source)
-      target_dir = macos_asset_directory
-      FileUtils.mkdir_p(target_dir)
+      # Use location object to handle installation
+      # This handles all the logic for:
+      # - Checking if font exists
+      # - Managed vs non-managed location handling
+      # - Unique filename generation
+      # - Index updates
+      # - Warning messages
+      installed_path = @location.install_font(source, target_name)
 
-      target = target_dir.join(File.basename(source))
-      FileUtils.cp(source, target)
-
-      Fontist.ui.say("Installed to system directory: #{target}")
-
-      # Rebuild system index to recognize newly installed font
-      Fontist::SystemIndex.rebuild
-
-      target.to_s
-    end
-
-    def install_to_fontist_directory(source)
-      target = Fontist.fonts_path.join(target_filename(File.basename(source))).to_s
-      FileUtils.mv(source, target)
-
-      target
+      # Return path if installed, nil if skipped
+      installed_path
     end
 
     def macos_asset_directory

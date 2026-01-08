@@ -2,6 +2,18 @@ require "spec_helper"
 require "fontist/cli"
 
 RSpec.describe Fontist::CLI do
+  # Ensure complete isolation between tests to prevent pollution
+  before(:each) do
+    # Reset all singleton caches
+    Fontist::Config.reset rescue nil
+    Fontist::Index.reset_cache rescue nil
+    Fontist::SystemIndex.reset_cache rescue nil
+    Fontist::SystemFont.reset_font_paths_cache rescue nil
+    Fontist::Indexes::FontistIndex.reset_cache rescue nil
+    Fontist::Indexes::UserIndex.reset_cache rescue nil
+    Fontist::Indexes::SystemIndex.reset_cache rescue nil
+  end
+
   after(:context) do
     restore_default_settings
   end
@@ -58,16 +70,26 @@ RSpec.describe Fontist::CLI do
 
     context "font index is corrupted" do
       it "tells the index is corrupted and proposes to remove it" do
-        stub_system_index_path do
-          File.write(Fontist.system_index_path,
-                     YAML.dump([{ path: "/some/path" }]))
-          expect(Fontist.ui).to receive(:error) do |msg|
-            expect(msg).to start_with("Font index is corrupted.")
-            expect(msg).to include("misses required attributes:")
-            expect(msg).to end_with("You can remove the index file (#{Fontist.system_index_path}) and try again.")
-            true
+        fresh_fonts_and_formulas do
+          # Add a real formula so font lookup proceeds and tries to use the corrupted index
+          example_formula("andale.yml")
+          stub_license_agreement_prompt_with("yes")
+
+          stub_system_index_path do
+            File.write(Fontist.system_index_path,
+                       YAML.dump([{ path: "/some/path" }]))
+
+            # Reset SystemIndex so it loads the corrupted file
+            Fontist::Indexes::SystemIndex.reset_cache
+
+            expect(Fontist.ui).to receive(:error) do |msg|
+              expect(msg).to start_with("Font index is corrupted.")
+              expect(msg).to include("misses required attributes:")
+              expect(msg).to end_with("You can remove the index file (#{Fontist.system_index_path}) and try again.")
+              true
+            end
+            described_class.start(["install", "andale mono"])
           end
-          described_class.start(["install", "some"])
         end
       end
     end
@@ -375,6 +397,63 @@ RSpec.describe Fontist::CLI do
       end
     end
 
+    context "with --location option" do
+      include_context "fresh home"
+      before { example_formula("tex_gyre_chorus.yml") }
+
+      context "valid locations" do
+        it "accepts --location=fontist" do
+          expect(Fontist::Font).to receive(:install)
+            .with(anything, hash_including(location: :fontist))
+            .and_return([])
+
+          status = described_class.start(["install", "--location=fontist", "texgyrechorus"])
+          expect(status).to be 0
+        end
+
+        it "accepts --location=user" do
+          expect(Fontist::Font).to receive(:install)
+            .with(anything, hash_including(location: :user))
+            .and_return([])
+
+          status = described_class.start(["install", "--location=user", "texgyrechorus"])
+          expect(status).to be 0
+        end
+
+        it "accepts --location=system" do
+          expect(Fontist::Font).to receive(:install)
+            .with(anything, hash_including(location: :system))
+            .and_return([])
+
+          status = described_class.start(["install", "--location=system", "texgyrechorus"])
+          expect(status).to be 0
+        end
+
+        it "accepts -l alias for --location" do
+          expect(Fontist::Font).to receive(:install)
+            .with(anything, hash_including(location: :user))
+            .and_return([])
+
+          status = described_class.start(["install", "-l", "user", "texgyrechorus"])
+          expect(status).to be 0
+        end
+      end
+
+      context "with multiple fonts" do
+        it "applies location to all fonts" do
+          allow(Fontist::Font).to receive(:install)
+            .with("font1", hash_including(location: :user))
+            .and_return([])
+          allow(Fontist::Font).to receive(:install)
+            .with("font2", hash_including(location: :user))
+            .and_return([])
+
+          described_class.start(["install", "--location=user", "--accept-all-licenses",
+                                 "font1", "font2"])
+        end
+      end
+    end
+
     context "--no-cache used" do
       include_context "fresh home"
 
@@ -482,8 +561,9 @@ RSpec.describe Fontist::CLI do
 
     context "supported and installed font" do
       it "prints `installed`" do
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_font("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:success).with(include("(installed)"))
           status = described_class.start(["list", "andale mono"])
@@ -492,8 +572,9 @@ RSpec.describe Fontist::CLI do
       end
 
       it "shows formula and font names" do
-        stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_font("AndaleMo.TTF")
 
           expect(Fontist.ui).to receive(:say)
             .with("andale")
@@ -588,14 +669,12 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_index_path do
-          stub_system_fonts
-          stub_fonts_path_to_new_path do
-            example_font_to_fontist("AndaleMo.TTF")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_font("AndaleMo.TTF")
 
-            expect(Fontist.ui).to receive(:say).with(output)
-            expect(command).to be 0
-          end
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
         end
       end
     end
@@ -609,14 +688,12 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_index_path do
-          stub_system_fonts
-          stub_fonts_path_to_new_path do
-            example_font_to_fontist("courbd.ttf")
+        fresh_fonts_and_formulas do
+          example_formula("courier.yml")
+          example_font("courbd.ttf")
 
-            expect(Fontist.ui).to receive(:say).with(output)
-            expect(command).to be 0
-          end
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
         end
       end
     end
@@ -637,15 +714,14 @@ RSpec.describe Fontist::CLI do
       end
 
       it "returns font location" do
-        stub_system_index_path do
-          stub_system_fonts
-          stub_fonts_path_to_new_path do
-            example_font_to_fontist("AndaleMo.TTF")
-            example_font_to_fontist("courbd.ttf")
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          example_formula("courier.yml")
+          example_font("AndaleMo.TTF")
+          example_font("courbd.ttf")
 
-            expect(Fontist.ui).to receive(:say).with(output)
-            expect(command).to be 0
-          end
+          expect(Fontist.ui).to receive(:say).with(output)
+          expect(command).to be 0
         end
       end
     end
@@ -693,14 +769,14 @@ RSpec.describe Fontist::CLI do
       let(:manifest) { { "Andale Mono" => "Regular" } }
 
       it "returns error code and tells it could not find it" do
-        stub_system_index_path do
-          stub_system_fonts
-          stub_fonts_path_to_new_path do
-            expect(Fontist.ui).to receive(:error)
-              .with("'Andale Mono' 'Regular' font is missing, " \
-                    "please run `fontist install 'Andale Mono'` to download the font.")
-            expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
-          end
+        fresh_fonts_and_formulas do
+          example_formula("andale.yml")
+          # Don't install font - test that manifest properly reports missing font
+
+          expect(Fontist.ui).to receive(:error)
+            .with("'Andale Mono' 'Regular' font is missing, " \
+                  "please run `fontist install 'Andale Mono'` to download the font.")
+          expect(command).to eq Fontist::CLI::STATUS_MISSING_FONT_ERROR
         end
       end
     end
@@ -867,7 +943,7 @@ RSpec.describe Fontist::CLI do
                            "paths" => include(/AndaleMo\.TTF/i) } },
           "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [font_path("courbd.ttf")] } },
+                        "paths" => [formula_font_path("courier", "courbd.ttf")] } },
         )
       end
     end
@@ -920,13 +996,13 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Courier New" => {
             "Regular" => { "full_name" => "Courier New",
-                           "paths" => [font_path("cour.ttf")] },
+                           "paths" => [formula_font_path("courier", "cour.ttf")] },
             "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [font_path("courbd.ttf")] },
+                        "paths" => [formula_font_path("courier", "courbd.ttf")] },
             "Italic" => { "full_name" => "Courier New Italic",
-                          "paths" => [font_path("couri.ttf")] },
+                          "paths" => [formula_font_path("courier", "couri.ttf")] },
             "Bold Italic" => { "full_name" => "Courier New Bold Italic",
-                               "paths" => [font_path("courbi.ttf")] },
+                               "paths" => [formula_font_path("courier", "courbi.ttf")] },
           },
         )
       end
@@ -1006,6 +1082,43 @@ RSpec.describe Fontist::CLI do
         expect(Fontist.ui).not_to receive(:say).with(/FONT LICENSE ACCEPTANCE/)
 
         command
+      end
+    end
+
+    context "with --location option" do
+      let(:manifest) { { "Andale Mono" => "Regular" } }
+      before { example_formula("andale.yml") }
+
+      context "valid locations" do
+        let(:options) { ["--accept-all-licenses"] }
+
+        it "accepts --location=fontist" do
+          location_options = options + ["--location=fontist"]
+          command = described_class.start(["manifest", "install", *location_options, path])
+          expect(command).to be 0
+        end
+
+        it "accepts --location=user" do
+          allow(FileUtils).to receive(:cp).and_return(true)
+          location_options = options + ["--location=user"]
+          command = described_class.start(["manifest", "install", *location_options, path])
+          expect(command).to be 0
+        end
+
+        it "accepts --location=system" do
+          allow(Fontist.ui).to receive(:say)
+          allow(FileUtils).to receive(:cp).and_return(true)
+          location_options = options + ["--location=system"]
+          command = described_class.start(["manifest", "install", *location_options, path])
+          expect(command).to be 0
+        end
+
+        it "accepts -l alias for --location" do
+          allow(FileUtils).to receive(:cp).and_return(true)
+          location_options = options + ["-l", "user"]
+          command = described_class.start(["manifest", "install", *location_options, path])
+          expect(command).to be 0
+        end
       end
     end
   end

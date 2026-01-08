@@ -28,7 +28,8 @@ module Fontist
       Fontist::SystemFont.find_styles(font, style)
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+      validate_location_parameter!(location)
       validate_platform_compatibility!
 
       Fontist::Font.install(
@@ -37,6 +38,7 @@ module Fontist
         confirmation: confirmation,
         hide_licenses: hide_licenses,
         no_progress: no_progress,
+        location: location,
       )
     rescue Fontist::Errors::PlatformMismatchError => e
       # Re-raise with clear context for manifest users
@@ -66,6 +68,14 @@ module Fontist
     end
 
     private
+
+    def validate_location_parameter!(location)
+      return unless location
+      return if location.is_a?(Symbol)
+
+      raise ArgumentError,
+        "location must be a Symbol (e.g., :fontist, :user, :system), got #{location.class}"
+    end
 
     def validate_platform_compatibility!
       formula = Fontist::Formula.find(name)
@@ -135,13 +145,15 @@ module Fontist
       end
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
       installed_any = false
       fonts_casted.each do |font|
         paths = font.group_paths
         if paths.empty?
           font.install(confirmation: confirmation,
-                       hide_licenses: hide_licenses, no_progress: no_progress)
+                       hide_licenses: hide_licenses,
+                       no_progress: no_progress,
+                       location: location)
           installed_any = true
         end
       end

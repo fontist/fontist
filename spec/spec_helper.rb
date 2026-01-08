@@ -32,6 +32,58 @@ Dir["./spec/support/**/*.rb"].sort.each do |file|
 end
 
 RSpec.configure do |config|
+  # Disable interactive prompts during tests
+  config.before(:suite) do
+    Fontist.interactive = false
+  end
+
+  # Reset all Fontist state after each test for proper isolation
+  config.after(:each) do
+    # Reset all caches via isolation manager if available
+    begin
+      Fontist::Test::IsolationManager.instance.reset_all
+    rescue StandardError
+      # Fallback to individual resets if isolation manager not available
+      Fontist::Config.reset rescue nil
+      Fontist::Index.reset_cache rescue nil
+      Fontist::SystemIndex.reset_cache rescue nil
+      Fontist::SystemFont.reset_font_paths_cache rescue nil
+
+      # Reset new OOP index singletons
+      Fontist::Indexes::FontistIndex.reset_cache rescue nil
+      Fontist::Indexes::UserIndex.reset_cache rescue nil
+      Fontist::Indexes::SystemIndex.reset_cache rescue nil
+    end
+
+    # Clean up any fonts installed to real user/system directories during tests
+    # This prevents test pollution where one test installs a font and affects others
+    begin
+      # Clean up user location fonts
+      user_location = Fontist::InstallLocations::UserLocation.new(nil)
+      user_fontist_path = user_location.base_path
+      if user_fontist_path.exist? && user_fontist_path.to_s.include?("fontist")
+        FileUtils.rm_rf(user_fontist_path) rescue nil
+      end
+    rescue StandardError
+      # Ignore cleanup errors - location classes might not be loaded yet
+    end
+
+    begin
+      # Clean up system location fonts (only if writable - not in system directories)
+      system_location = Fontist::InstallLocations::SystemLocation.new(
+nil)
+      system_fontist_path = system_location.base_path
+      if system_fontist_path.to_s.include?("fontist") && File.writable?(system_fontist_path.dirname)
+        FileUtils.rm_rf(system_fontist_path) rescue nil
+      end
+    rescue StandardError
+      # Ignore cleanup errors - location classes might not be loaded yet
+    end
+
+    # Always reset interactive mode
+    Fontist.interactive = false
+  end
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
   config.include Fontist::Helper

@@ -1,7 +1,8 @@
 require "plist"
 require "nokogiri"
 require "paint"
-require "fontist/import/create_formula"
+require_relative "create_formula"
+require_relative "recursive_extraction"
 require_relative "../macos/catalog/catalog_manager"
 require_relative "../macos_import_source"
 require_relative "../google_import_source"
@@ -82,6 +83,8 @@ module Fontist
         if @verbose
           Fontist.ui.say("📦 Import cache: #{Paint[Fontist.import_cache_path, :white]}")
           Fontist.ui.say("📁 Formula output: #{Paint[Fontist.formulas_path, :white]}")
+          extensions = RecursiveExtraction::SUPPORTED_FONT_EXTENSIONS.join(", ")
+          Fontist.ui.say("🔍 Matching files with extensions: #{Paint[extensions, :cyan]}")
           Fontist.ui.say("")
         end
       end
@@ -307,6 +310,8 @@ module Fontist
               Fontist.ui.say("       This may indicate:")
               Fontist.ui.say("         • Archive is empty or corrupted")
               Fontist.ui.say("         • Fonts are in an unsupported format")
+              extensions = RecursiveExtraction::SUPPORTED_FONT_EXTENSIONS.join(", ")
+              Fontist.ui.say("         • Font files don't match supported extensions: #{extensions}")
               Fontist.ui.say("         • Download incomplete or failed")
               Fontist.ui.say("         • Extraction process encountered an error")
             end
