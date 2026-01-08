@@ -38,23 +38,43 @@ module Fontist
 
     # Returns array of case-insensitive glob patterns for font file extensions
     #
-    # Generates patterns that match font files regardless of extension case
-    # (e.g., .ttf, .TTF, .TtF all match)
+    # Generates patterns that match font files regardless of extension case.
+    # On case-insensitive filesystems (Windows, macOS), uses simple lowercase patterns.
+    # On case-sensitive filesystems (Linux), uses character class patterns like [tT][tT][fF].
     #
     # @param prefix [String] Path prefix (e.g., "/fonts/**")
     # @return [Array<String>] Array of patterns for each font extension
     #
-    # @example
+    # @example Linux (case-sensitive)
     #   font_file_patterns("/fonts/**")
     #   # => [
     #   #   "/fonts/**/*.[tT][tT][fF]",
     #   #   "/fonts/**/*.[oO][tT][fF]",
     #   #   "/fonts/**/*.[tT][tT][cC]",
-    #   #   "/fonts/**/*.[oO][tT][cC]"
+    #   #   "/fonts/**/*.[o O][tT][cC]"
+    #   # ]
+    #
+    # @example Windows/macOS (case-insensitive)
+    #   font_file_patterns("/fonts/**")
+    #   # => [
+    #   #   "/fonts/**/*.ttf",
+    #   #   "/fonts/**/*.otf",
+    #   #   "/fonts/**/*.ttc",
+    #   #   "/fonts/**/*.otc"
     #   # ]
     def self.font_file_patterns(prefix)
-      %w[ttf otf ttc otc].map do |ext|
-        File.join(prefix, "*#{case_insensitive_glob(".#{ext}")}")
+      extensions = %w[ttf otf ttc otc]
+
+      # On case-insensitive filesystems (Windows, macOS), use simple patterns
+      # On case-sensitive filesystems (Linux), use character class patterns
+      if [:windows, :macosx].include?(Fontist::Utils::System.user_os)
+        # Case-insensitive filesystem - simple patterns work fine
+        extensions.map { |ext| File.join(prefix, "*.#{ext}") }
+      else
+        # Case-sensitive filesystem (Linux) - use character classes
+        extensions.map do |ext|
+          File.join(prefix, "*#{case_insensitive_glob(".#{ext}")}")
+        end
       end
     end
   end
