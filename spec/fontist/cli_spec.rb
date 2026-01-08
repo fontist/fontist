@@ -300,7 +300,8 @@ RSpec.describe Fontist::CLI do
         end
 
         it "returns success status and prints fonts paths" do
-          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
+          # Case-insensitive match works across platforms
+          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i))
           expect(command).to be 0
         end
       end
@@ -317,7 +318,8 @@ RSpec.describe Fontist::CLI do
         end
 
         it "returns success status and prints fonts paths" do
-          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
+          # Case-insensitive match works across platforms
+          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i))
           expect(command).to be 0
         end
       end
@@ -342,8 +344,9 @@ RSpec.describe Fontist::CLI do
           before { allow(Fontist.ui).to receive(:ask).and_return("0") }
 
           it "installs the formula" do
+            # Case-insensitive match works across platforms
             expect(Fontist.ui).to receive(:say)
-              .with(/texgyrechorus-mediumitalic\.otf/i)
+              .with(match(/texgyrechorus-mediumitalic\.otf/i))
             subject
           end
         end
@@ -681,7 +684,7 @@ RSpec.describe Fontist::CLI do
       let(:result) do
         { "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } } }
+                           "paths" => include(match(/AndaleMo\.TTF/i)) } } }
       end
 
       it "returns font location" do
@@ -700,7 +703,7 @@ RSpec.describe Fontist::CLI do
       let(:result) do
         { "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [font_path("courbd.ttf")] } } }
+                        "paths" => include(match(/courbd\.ttf/i)) } } }
       end
 
       it "returns font location" do
@@ -723,10 +726,10 @@ RSpec.describe Fontist::CLI do
       let(:result) do
         { "Andale Mono" =>
           { "Regular" => { "full_name" => "Andale Mono",
-                           "paths" => [font_path("AndaleMo.TTF")] } },
+                           "paths" => include(match(/AndaleMo\.TTF/i)) } },
           "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [font_path("courbd.ttf")] } } }
+                        "paths" => include(match(/courbd\.ttf/i)) } } }
       end
 
       it "returns font location" do

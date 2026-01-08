@@ -653,8 +653,16 @@ RSpec.describe Fontist::Font do
         before { set_size_limit(1000) }
 
         it "installs both" do
+          # Mock FontInstaller to avoid network calls to broken AU university URLs
+          # while still testing that FormulaPicker selects both formulas
+          mock_location = double("location",
+                                 base_path: Fontist.fonts_path,
+                                 permission_warning: nil)
+          mock_installer = instance_double(Fontist::FontInstaller,
+                                           install: ["/fake/path.ttf"],
+                                           location: mock_location)
           expect(Fontist::FontInstaller).to receive(:new).twice
-            .and_call_original
+            .and_return(mock_installer)
           command
         end
       end
