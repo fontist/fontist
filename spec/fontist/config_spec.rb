@@ -42,7 +42,7 @@ RSpec.describe Fontist::Config do
         it "installs fonts in that dir" do
           example_formula("andale.yml")
 
-          Dir.mktmpdir do |dir|
+          safe_mktmpdir do |dir|
             Fontist::Config.instance.set(:fonts_path, dir)
 
             command = Fontist::Font.install("andale mono", confirmation: "yes")

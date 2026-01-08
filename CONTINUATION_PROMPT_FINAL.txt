@@ -1,0 +1,234 @@
+# Fontist Dependency Migration - Final Continuation Prompt
+
+## Quick Start
+
+You are continuing work on Fontist to achieve 100% test pass rate after migrating from legacy dependencies (extract_ttc, ttfunk, mime-types) to modern alternatives (fontisan, marcel).
+
+**Current Status:** 627/633 tests passing (99.1%)  
+**Remaining Work:** Fix 6 failing tests + finalize documentation
+
+## Read These Files First
+
+1. `old-docs/CONTINUATION_PLAN.md` - High-level plan
+2. `old-docs/IMPLEMENTATION_STATUS.md` - Detailed implementation status
+3. `docs/DEPENDENCY_MIGRATION_2025.md` - Migration documentation
+
+## What's Been Completed ✅
+
+### Code Migration (100% Complete)
+- ✅ All 3 legacy dependencies removed from gemspec
+- ✅ Marcel and fontisan integrated
+- ✅ All 5 code files migrated to use Fontisan's direct Ruby API
+- ✅ Zero references to old gems in codebase
+- ✅ Bundle install successful
+- ✅ Core functionality verified working
+
+### Files Modified
+1. `fontist.gemspec` - Dependencies updated
+2. `lib/fontist/utils/cache.rb` - Marcel integration
+3. `lib/fontist/font_file.rb` - Fontisan direct API  
+4. `lib/fontist/collection_file.rb` - Collection handling
+5. `lib/fontist/import/files/collection_file.rb` - TTC extraction
+6. `lib/fontist/system_index.rb` - Bug fix (typo)
+
+### Documentation Created
+1. `docs/DEPENDENCY_MIGRATION_2025.md` - Official migration doc
+2. `old-docs/CONTINUATION_PLAN.md` - Continuation plan
+3. `old-docs/IMPLEMENTATION_STATUS.md` - Implementation tracker
+4. `README.adoc` - Dependencies section updated
+
+## What Needs To Be Done 🔴
+
+### CRITICAL: Fix 6 Failing Tests
+
+All failures are system font collection related. Debug approach:
+
+**Step 1: Test TTC enumeration directly**
+```bash
+bin/console
+```
+
+Then run:
+```ruby
+require 'fontisan'
+
+# Test with CAMBRIA.TTC
+path = "spec/examples/fonts/CAMBRIA.TTC"  
+collection = Fontisan::FontLoader.load_collection(path)
+puts "Fonts: #{collection.num_fonts}"
+
+File.open(path, "rb") do |io|
+  collection.num_fonts.times do |index|
+    font = collection.font(index, io)
+    
+    # Test tempfile approach  
+    require 'tempfile'
+    Tempfile.create(['font', '.ttf']) do |tmp|
+      tmp.binmode
+      tmp.write(font.to_binary_s)
+      tmp.flush
+      
+      # Test loading
+      loaded = Fontisan::FontLoader.load(tmp.path)
+      name_table = loaded.table(Fontisan::Constants::NAME_TAG)
+      
+      # Check metadata
+      family = name_table.english_name(Fontisan::Tables::Name::FAMILY)
+      puts "Font #{index}: #{family}"
+    end
+  end
+end
+```
+
+**Step 2: Fix issues found**
+- If tempfile approach doesn't work, find alternative
+- If metadata extraction fails, check name table handling
+- If fonts array is empty, check CollectionFile logic
+
+**Step 3: Re-run tests**
+```bash
+bundle exec rspec spec/fontist/system_font_spec.rb
+```
+
+**Step 4: Repeat for each failing test**
+
+### Failing Test List
+
+```bash
+rspec ./spec/fontist/system_font_spec.rb:17  # TTC detection (CRITICAL)
+rspec ./spec/fontist/system_font_spec.rb:50  # Collection styles (CRITICAL)
+rspec ./spec/fontist/system_index_font_collection_spec.rb:8  # YAML round-trip
+rspec ./spec/fontist/font_spec.rb:305  # Skip download  
+rspec ./spec/fontist/cli_spec.rb:684  # System font install
+rspec ./spec/fontist/cli_spec.rb:582  # Font paths with spaces
+```
+
+### Documentation Tasks
+
+1. **Update CHANGELOG.md:**
+```markdown
+## [Unreleased]
+
+### Changed
+- Migrated from `extract_ttc`, `ttfunk`, and `mime-types` to `fontisan` and `marcel`
+- Now using Fontisan's direct Ruby API for all font processing
+- Improved cross-platform compatibility by eliminating external binary dependencies
+
+### Added
+- `marcel` gem (~> 1.0) for MIME type detection
+
+### Removed
+- `extract_ttc` gem (replaced by fontisan)
+- `ttfunk` gem (replaced by fontisan)
+- `mime-types` gem (replaced by marcel)
+
+### Technical
+- Font metadata extraction now uses Fontisan's name table API
+- Collection handling uses Fontisan::FontLoader.load_collection
+- Pure Ruby implementation throughout
+```
+
+2. **Verify README.adoc:**
+- Dependencies section updated ✅
+- No other changes needed for user-facing docs
+
+3. **Clean up old docs:**
+- Continuation files moved to old-docs/ ✅
+- Keep for historical reference
+
+## Fontisan API Quick Reference
+
+### Load Individual Font
+```ruby
+font = Fontisan::FontLoader.load(path)
+name_table = font.table(Fontisan::Constants::NAME_TAG)
+family = name_table.english_name(Fontisan::Tables::Name::FAMILY)
+```
+
+### Load Collection
+```ruby
+collection = Fontisan::FontLoader.load_collection(path)
+File.open(path, "rb") do |io|
+  font = collection.font(0, io)  # Get first font
+  font.to_binary_s  # Get binary data
+end
+```
+
+### Name Table IDs
+```ruby
+Fontisan::Tables::Name::FAMILY               # Family name
+Fontisan::Tables::Name::SUBFAMILY            # Style (Regular, Bold, etc.)
+Fontisan::Tables::Name::FULL_NAME            # Full name
+Fontisan::Tables::Name::POSTSCRIPT_NAME      # PostScript name
+Fontisan::Tables::Name::PREFERRED_FAMILY     # Preferred family (or nil)
+Fontisan::Tables::Name::PREFERRED_SUBFAMILY  # Preferred subfamily (or nil)
+```
+
+## Success Criteria
+
+✅ **Must Complete:**
+- [ ] 633/633 tests passing (100%)
+- [x] README.adoc updated
+- [ ] CHANGELOG.md updated
+- [ ] Rubocop clean
+
+✅ **Already Completed:**
+- [x] All old dependencies removed
+- [x] Using Fontisan direct API
+- [x] Bundle install works
+- [x] Core functionality verified
+- [x] 99.1% tests passing
+
+## Quick Commands
+
+```bash
+# Run specific test
+bundle exec rspec spec/fontist/system_font_spec.rb:17
+
+# Run all system font tests
+bundle exec rspec spec/fontist/system_font_spec.rb
+
+# Run full suite
+bundle exec rspec
+
+# Check test status
+bundle exec rspec | tail -20
+
+# Console for debugging
+bin/console
+
+# Check dependencies
+bundle list | grep -E "(fontisan|marcel|ttfunk|extract_ttc|mime)"
+
+# Rubocop
+bundle exec rubocop
+```
+
+## Expected Timeline
+
+- **Test Fixes:** 2-4 hours (depending on root cause)
+- **Documentation:** 30-60 minutes (mostly done)
+- **Code Quality:** 30 minutes
+- **Final Verification:** 30 minutes
+
+**Total:** 3.5-6 hours to 100% completion
+
+## Important Notes
+
+1. **Fontisan API is correct** - We're using direct Ruby API as intended
+2. **Migration is complete** - Just test fixes remaining
+3. **No public API changes** - Users won't need code changes
+4. **99.1% is production-ready** - But we want 100% for quality
+
+## Start Here
+
+1. Run the TTC enumeration debug script in bin/console
+2. Identify why tempfile approach fails in tests
+3. Fix CollectionFile if needed
+4. Run tests iteratively
+5. Update CHANGELOG.md
+6. Run rubocop
+7. Final verification
+8. Done!
+
+The migration work is solid. You just need to debug the 6 test issues and finalize documentation.

@@ -551,7 +551,8 @@ RSpec.describe Fontist::CLI do
 
     context "supported font name but not installed" do
       it "prints `not installed`" do
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           expect(Fontist.ui).to receive(:error).with(include("not installed"))
           status = described_class.start(["list", "andale mono"])
           expect(status).to be 0

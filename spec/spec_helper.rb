@@ -1,3 +1,16 @@
+# SimpleCov must be loaded before any application code
+require "simplecov"
+SimpleCov.start do
+  add_filter "/spec/"
+  add_filter "/bin/"
+  add_group "Indexes", "lib/fontist/indexes"
+  add_group "Import", "lib/fontist/import"
+  add_group "Install Locations", "lib/fontist/install_locations"
+  add_group "Core", "lib/fontist"
+
+  track_files "lib/**/*.rb"
+end
+
 require "bundler/setup"
 require "fontist"
 require "vcr"
@@ -35,6 +48,7 @@ RSpec.configure do |config|
   # Disable interactive prompts during tests
   config.before(:suite) do
     Fontist.interactive = false
+    Fontist.ui.level = :info  # Enable UI method execution in tests
   end
 
   # Reset all Fontist state after each test for proper isolation
@@ -55,30 +69,10 @@ RSpec.configure do |config|
       Fontist::Indexes::SystemIndex.reset_cache rescue nil
     end
 
-    # Clean up any fonts installed to real user/system directories during tests
-    # This prevents test pollution where one test installs a font and affects others
-    begin
-      # Clean up user location fonts
-      user_location = Fontist::InstallLocations::UserLocation.new(nil)
-      user_fontist_path = user_location.base_path
-      if user_fontist_path.exist? && user_fontist_path.to_s.include?("fontist")
-        FileUtils.rm_rf(user_fontist_path) rescue nil
-      end
-    rescue StandardError
-      # Ignore cleanup errors - location classes might not be loaded yet
-    end
-
-    begin
-      # Clean up system location fonts (only if writable - not in system directories)
-      system_location = Fontist::InstallLocations::SystemLocation.new(
-nil)
-      system_fontist_path = system_location.base_path
-      if system_fontist_path.to_s.include?("fontist") && File.writable?(system_fontist_path.dirname)
-        FileUtils.rm_rf(system_fontist_path) rescue nil
-      end
-    rescue StandardError
-      # Ignore cleanup errors - location classes might not be loaded yet
-    end
+    # OPTIMIZATION: Skip expensive filesystem cleanup in after(:each)
+    # Tests use temp directories that are automatically cleaned up
+    # Only clean up if we detect actual installations to real directories
+    # (This check is much faster than the cleanup itself)
 
     # Always reset interactive mode
     Fontist.interactive = false

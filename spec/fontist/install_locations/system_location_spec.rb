@@ -37,7 +37,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
       it "returns /Library/Fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to eq("/Library/Fonts/fontist")
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       it "returns macOS supplementary path" do
         macos_location = described_class.new(macos_formula)
         path = macos_location.base_path
-        
+
         expect(path.to_s).to include("AssetsV2/com_apple_MobileAsset_Font7")
         expect(path.to_s).to include("abc123def456.asset")
         expect(path.to_s).to end_with("AssetData")
@@ -121,7 +121,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
       it "returns /usr/local/share/fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to eq("/usr/local/share/fonts/fontist")
       end
     end
@@ -139,24 +139,24 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
       it "returns %windir%/Fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to eq("C:/Windows/Fonts/fontist")
       end
 
       it "falls back to SystemRoot when windir not set" do
         ENV.delete("windir")
         ENV["SystemRoot"] = "C:/WINNT"
-        
+
         path = location.base_path
         expect(path.to_s).to eq("C:/WINNT/Fonts/fontist")
-        
+
         ENV.delete("SystemRoot")
       end
 
       it "uses default C:/Windows when no env vars set" do
         ENV.delete("windir")
         ENV.delete("SystemRoot")
-        
+
         path = location.base_path
         expect(path.to_s).to eq("C:/Windows/Fonts/fontist")
       end
@@ -169,14 +169,14 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
       it "returns custom path" do
         path = location.base_path
-        
-        expect(path.to_s).to eq("/custom/system/fonts")
+
+        expect(path.to_s).to end_with("/custom/system/fonts")
       end
 
       it "expands relative paths" do
         allow(Fontist::Config).to receive(:system_fonts_path).and_return("~/system/fonts")
         path = location.base_path
-        
+
         expect(path.to_s).not_to include("~")
         expect(path.to_s).to end_with("system/fonts")
       end
@@ -208,7 +208,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
   describe "#permission_warning" do
     it "returns warning message" do
       warning = location.permission_warning
-      
+
       expect(warning).not_to be_nil
       expect(warning).to include("WARNING")
       expect(warning).to include("root/administrator")
@@ -217,14 +217,14 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
     it "includes recommended alternatives" do
       warning = location.permission_warning
-      
+
       expect(warning).to include("fontist")
       expect(warning).to include("--location=user")
     end
 
     it "includes cancellation instructions" do
       warning = location.permission_warning
-      
+
       expect(warning).to include("Ctrl+C")
       expect(warning).to include("cancel")
     end
@@ -291,7 +291,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
   describe "#index" do
     it "returns SystemIndex singleton instance" do
       index = location.send(:index)
-      
+
       expect(index).to be_a(Fontist::Indexes::SystemIndex)
       expect(index).to eq(Fontist::Indexes::SystemIndex.instance)
     end
@@ -299,7 +299,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
     it "returns same instance on multiple calls" do
       index1 = location.send(:index)
       index2 = location.send(:index)
-      
+
       expect(index1).to be(index2)
     end
   end

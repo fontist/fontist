@@ -422,7 +422,7 @@ RSpec.describe Fontist::Font do
       let(:fontist_path) { create_tmp_dir }
 
       it "installs font at a FONTIST_PATH directory" do
-        Dir.mktmpdir do |fontist_path|
+        safe_mktmpdir do |fontist_path|
           stub_env("FONTIST_PATH", fontist_path) do
             FileUtils.mkdir_p(Fontist.formulas_path)
             example_formula_to("andale.yml", Fontist.formulas_path)
@@ -1109,8 +1109,8 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "returns its status as not installed" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           expect(command.size).to be >= 1
 
           installs = unpack_statuses(command)
@@ -1123,8 +1123,8 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "returns its status as installed" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           stub_font_file("AndaleMo.TTF")
 
           expect(command.size).to be >= 1
@@ -1151,7 +1151,10 @@ RSpec.describe Fontist::Font do
 
       it "returns installed font with its path" do
         stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          # Add multiple formulas so command.size > 1
+          example_formula_to("andale.yml", Fontist.formulas_path)
+          example_formula_to("courier.yml", Fontist.formulas_path)
           stub_font_file("AndaleMo.TTF")
 
           expect(command.size).to be > 1

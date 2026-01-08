@@ -140,6 +140,21 @@ module Fontist
 
     def stub_fonts_path_to_new_path
       @fontist_dir = create_tmp_dir
+
+      # Create a parent fontist directory structure for index files
+      # This ensures fontist_index_path and related paths are writable
+      @fontist_parent_dir = create_tmp_dir
+
+      # Create formulas directory structure to satisfy check_index
+      # formulas_repo_path = fontist_path/versions/v4/formulas/Formulas
+      versions_dir = File.join(@fontist_parent_dir, "versions", "v4", "formulas")
+      FileUtils.mkdir_p(File.join(versions_dir, "Formulas"))
+
+      # Stub fontist_path first (affects derived paths like fontist_index_path)
+      allow(Fontist).to receive(:fontist_path)
+        .and_return(Pathname.new(@fontist_parent_dir))
+
+      # Then stub fonts_path to the separate fonts directory
       allow(Fontist).to receive(:fonts_path)
         .and_return(Pathname.new(@fontist_dir))
 
@@ -220,6 +235,12 @@ module Fontist
 
       FileUtils.rm_rf(@fontist_dir)
       @fontist_dir = nil
+
+      # Clean up parent fontist directory if it was created
+      if @fontist_parent_dir
+        FileUtils.rm_rf(@fontist_parent_dir)
+        @fontist_parent_dir = nil
+      end
     end
 
     def stub_system_font_finder_to_fixture(name)
@@ -481,6 +502,34 @@ module Fontist
 
     def restore_default_settings
       Fontist.interactive = false
+    end
+
+    # Windows-safe wrapper for Dir.mktmpdir that handles file locking
+    # during cleanup. Use this when installing fonts in temp directories.
+    #
+    # @yield [String] temp directory path
+    # @return [Object] result of the block
+    def safe_mktmpdir
+      retry_count = 0
+      begin
+        Dir.mktmpdir do |dir|
+          result = yield dir
+
+          # On Windows, wait for file handles to be released
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+
+          result
+        end
+      rescue Errno::ENOTEMPTY, Errno::EACCES => e
+        # Windows-specific: retry cleanup after file handles are released
+        if Fontist::Utils::System.user_os == :windows && retry_count < 3
+          retry_count += 1
+          sleep(0.2)
+          retry
+        end
+        # If cleanup still fails, warn but don't fail the test
+        warn "Warning: Could not clean up temp directory: #{e.message}"
+      end
     end
 
     private

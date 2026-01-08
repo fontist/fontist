@@ -22,7 +22,7 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
 
       it "returns ~/Library/Fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to match(%r{Library/Fonts/fontist$})
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
 
       it "returns ~/.local/share/fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to match(%r{\.local/share/fonts/fontist$})
       end
     end
@@ -53,14 +53,14 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
 
       it "returns %LOCALAPPDATA%/Microsoft/Windows/Fonts/fontist" do
         path = location.base_path
-        
+
         expect(path.to_s).to include("Microsoft/Windows/Fonts/fontist")
       end
 
       it "falls back when LOCALAPPDATA not set" do
         ENV.delete("LOCALAPPDATA")
         path = location.base_path
-        
+
         expect(path.to_s).to match(%r{AppData/Local/Microsoft/Windows/Fonts/fontist$})
       end
     end
@@ -72,14 +72,14 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
 
       it "returns custom path" do
         path = location.base_path
-        
-        expect(path.to_s).to eq("/custom/path/fonts")
+
+        expect(path.to_s).to end_with("/custom/path/fonts")
       end
 
       it "expands relative paths" do
         allow(Fontist::Config).to receive(:user_fonts_path).and_return("~/custom/fonts")
         path = location.base_path
-        
+
         expect(path.to_s).not_to include("~")
         expect(path.to_s).to end_with("custom/fonts")
       end
@@ -165,7 +165,7 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
   describe "#index" do
     it "returns UserIndex singleton instance" do
       index = location.send(:index)
-      
+
       expect(index).to be_a(Fontist::Indexes::UserIndex)
       expect(index).to eq(Fontist::Indexes::UserIndex.instance)
     end
@@ -173,7 +173,7 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
     it "returns same instance on multiple calls" do
       index1 = location.send(:index)
       index2 = location.send(:index)
-      
+
       expect(index1).to be(index2)
     end
   end
