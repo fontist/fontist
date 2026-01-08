@@ -120,7 +120,7 @@ module Fontist
       #
       # @return [Array<String>] Array of font file paths
       def fontist_font_paths
-        Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,otf,ttc,otc}"))
+        Dir.glob(Fontist.fonts_path.join("**", "*.{ttf,TTF,otf,OTF,ttc,TTC,otc,OTC}"))
       end
     end
   end

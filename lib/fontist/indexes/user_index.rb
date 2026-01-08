@@ -136,7 +136,7 @@ module Fontist
         base = location.base_path
 
         # Scan for all font files under the user location
-        Dir.glob(base.join("**", "*.{ttf,otf,ttc,otc}"))
+        Dir.glob(base.join("**", "*.{ttf,TTF,otf,OTF,ttc,TTC,otc,OTC}"))
       rescue StandardError => e
         # If we can't determine user path, return empty array
         Fontist.ui.debug("Error scanning user font paths: #{e.message}")
