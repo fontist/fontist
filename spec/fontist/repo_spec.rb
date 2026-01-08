@@ -191,6 +191,10 @@ RSpec.describe Fontist::Repo do
       it "returns a list of repo names" do
         fresh_fontist_home do
           formula_repo_with("tex_gyre_chorus.yml") do |repo_dir|
+            # Stub UI interactions to prevent prompts during Windows CI
+            allow(Fontist.ui).to receive(:yes?).and_return(false)
+            allow(Fontist.ui).to receive(:say)
+
             Fontist::Repo.setup("acme", repo_dir)
 
             expect(described_class.list).to eq %w[acme]

@@ -493,11 +493,18 @@ RSpec.describe Fontist::CLI do
     context "supported and installed font" do
       it "returns success status and prints path" do
         stub_fonts_path_to_new_path do
-          example_font_to_fontist("AndaleMo.TTF")
+          # Add formula so font can be looked up
+          fresh_fontist_home do
+            FileUtils.mkdir_p(Fontist.formulas_path)
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            Fontist::Index.rebuild
 
-          expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
-          status = described_class.start(["status", "andale mono"])
-          expect(status).to be 0
+            example_font_to_fontist("AndaleMo.TTF")
+
+            expect(Fontist.ui).to receive(:say).with(include("AndaleMo.TTF"))
+            status = described_class.start(["status", "andale mono"])
+            expect(status).to be 0
+          end
         end
       end
 
@@ -592,10 +599,18 @@ RSpec.describe Fontist::CLI do
       it "returns success status and prints list with no installed status",
          slow: true do
         stub_fonts_path_to_new_path do
-          expect(Fontist.ui).to receive(:error).at_least(1).times
-          expect(Fontist.ui).to receive(:success).exactly(0).times
-          status = described_class.start(["list"])
-          expect(status).to be 0
+          # Add example formulas so the list command has fonts to display
+          fresh_fontist_home do
+            FileUtils.mkdir_p(Fontist.formulas_path)
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            example_formula_to("courier.yml", Fontist.formulas_path)
+            Fontist::Index.rebuild
+
+            expect(Fontist.ui).to receive(:error).at_least(1).times
+            expect(Fontist.ui).to receive(:success).exactly(0).times
+            status = described_class.start(["list"])
+            expect(status).to be 0
+          end
         end
       end
     end

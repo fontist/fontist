@@ -1139,9 +1139,17 @@ RSpec.describe Fontist::Font do
 
       it "returns all fonts", slow: true do
         stub_fonts_path_to_new_path do
-          expect(command.size).to be > 1
-          _, _, _, installed = unpack_status(command)
-          expect(installed).to be false
+          # Add example formulas so Formula.all returns fonts
+          fresh_fontist_home do
+            FileUtils.mkdir_p(Fontist.formulas_path)
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            example_formula_to("courier.yml", Fontist.formulas_path)
+            Fontist::Index.rebuild
+
+            expect(command.size).to be > 1
+            _, _, _, installed = unpack_status(command)
+            expect(installed).to be false
+          end
         end
       end
     end
