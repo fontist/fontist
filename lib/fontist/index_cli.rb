@@ -53,14 +53,18 @@ module Fontist
       end
 
       # Actually glob to find all font files (system fonts)
+      # Uses case-insensitive glob to match font files regardless of
+      # extension case (e.g., .ttf, .TTF, .TtF all match)
       expanded_paths.each do |pattern|
-        all_fonts.concat(Dir.glob(pattern).select { |f| File.file?(f) })
+        all_fonts.concat(Dir.glob(pattern, File::FNM_CASEFOLD).select { |f| File.file?(f) })
       end
 
       # Add fontist-managed fonts
+      # Uses case-insensitive glob to match font files regardless of
+      # extension case (e.g., .ttf, .TTF, .TtF all match)
       fontist_pattern = File.join(Fontist.fonts_path.to_s, "**",
-                                  "*.{ttf,ttc,otf,otc}")
-      fontist_fonts = Dir.glob(fontist_pattern).select { |f| File.file?(f) }
+                                   "*.{ttf,ttc,otf,otc}")
+      fontist_fonts = Dir.glob(fontist_pattern, File::FNM_CASEFOLD).select { |f| File.file?(f) }
       all_fonts.concat(fontist_fonts)
 
       spinner_thread.kill
