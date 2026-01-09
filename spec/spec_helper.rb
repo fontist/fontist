@@ -63,6 +63,26 @@ RSpec.configure do |config|
     Fontist.ui.level = :info  # Enable UI method execution in tests
   end
 
+  # Reset all Fontist state before each test to ensure clean state for stubs
+  config.before(:each) do
+    # Reset all caches via isolation manager if available
+    begin
+      Fontist::Test::IsolationManager.instance.reset_all
+    rescue StandardError
+      # Fallback to individual resets if isolation manager not available
+      Fontist::Config.reset rescue nil
+      Fontist::Index.reset_cache rescue nil
+      Fontist::SystemIndex.reset_cache rescue nil
+      Fontist::SystemFont.reset_font_paths_cache rescue nil
+      Fontist::Utils::System.reset_cache rescue nil
+
+      # Reset new OOP index singletons
+      Fontist::Indexes::FontistIndex.reset_cache rescue nil
+      Fontist::Indexes::UserIndex.reset_cache rescue nil
+      Fontist::Indexes::SystemIndex.reset_cache rescue nil
+    end
+  end
+
   # Reset all Fontist state after each test for proper isolation
   config.after(:each) do
     # Reset all caches via isolation manager if available
