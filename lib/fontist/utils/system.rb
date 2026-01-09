@@ -58,6 +58,13 @@ module Fontist
         end
       end
 
+      # Reset cached values for testing
+      # @api private
+      def self.reset_cache
+        @user_os = nil
+        @macos_version = nil
+      end
+
       def self.windows?
         user_os == :windows
       end
