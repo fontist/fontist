@@ -95,10 +95,11 @@ module Fontist
 
     class TempDirectoryComponent
       def reset
-        # Clean up any fontist temp directories that might be left behind
+        # Clean up any fontist temp directories and caches that might be left behind
         # This helps prevent test pollution on Windows where temp directories
-        # might not be cleaned up properly by Dir.mktmpdir
+        # and downloaded files might not be cleaned up properly
         cleanup_fontist_temp_dirs
+        cleanup_downloads_cache
       end
 
       private
@@ -115,6 +116,25 @@ module Fontist
             # Log but don't fail - cleanup is best effort
             warn "Warning: Could not remove temp directory #{dir}: #{e.message}"
           end
+        end
+      end
+
+      def cleanup_downloads_cache
+        # Clean up downloads cache which may contain font files with open handles on Windows
+        downloads_path = Fontist.downloads_path
+        return unless File.exist?(downloads_path)
+
+        begin
+          # Remove all files in the downloads directory
+          Dir.glob(File.join(downloads_path, "*")).each do |file|
+            begin
+              FileUtils.remove_entry(file)
+            rescue => e
+              warn "Warning: Could not remove downloads cache file #{file}: #{e.message}"
+            end
+          end
+        rescue => e
+          warn "Warning: Could not clean downloads cache: #{e.message}"
         end
       end
     end
