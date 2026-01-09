@@ -12,6 +12,12 @@ module Fontist
       map "full_name", to: :full_name
       map "paths", to: :paths
     end
+
+    def to_hash
+      result = super
+      $stderr.puts "[DEBUG] ManifestResponseFontStyle#to_hash: keys=#{result.keys.inspect} (#{result.keys.first.class}) content=#{result.inspect}"
+      result
+    end
   end
 
   class ManifestResponseFont < ManifestFont
