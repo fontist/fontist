@@ -99,6 +99,7 @@ module Fontist
         # This helps prevent test pollution on Windows where temp directories
         # might not be cleaned up properly by Dir.mktmpdir
         cleanup_fontist_temp_dirs
+        cleanup_fontist_lock_files if windows?
       end
 
       private
@@ -116,6 +117,30 @@ module Fontist
             warn "Warning: Could not remove temp directory #{dir}: #{e.message}"
           end
         end
+      end
+
+      def cleanup_fontist_lock_files
+        # On Windows, also clean up potential lock files in temp directory
+        # that might prevent directory removal
+        temp_base = Dir.tmpdir
+        lock_files = Dir.glob(File.join(temp_base, "*lock*")) +
+                    Dir.glob(File.join(temp_base, "*fontist*.tmp"))
+
+        lock_files.each do |file|
+          begin
+            FileUtils.remove_entry(file) if File.exist?(file)
+          rescue => e
+            # Log but don't fail - cleanup is best effort
+            warn "Warning: Could not remove lock file #{file}: #{e.message}"
+          end
+        end
+      end
+
+      def windows?
+        # Check if we're on Windows without caching the result
+        # UseRbConfig::CONFIG to avoid caching
+        host_os = RbConfig::CONFIG["host_os"]
+        host_os =~ /mswin|msys|mingw|cygwin|bccwin|wince|emc/
       end
     end
   end
