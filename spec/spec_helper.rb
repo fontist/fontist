@@ -81,6 +81,22 @@ RSpec.configure do |config|
       Fontist::Indexes::UserIndex.reset_cache rescue nil
       Fontist::Indexes::SystemIndex.reset_cache rescue nil
     end
+
+    # Set up a pass-through stub for user_os that returns the actual OS
+    # This ensures the method is stubbed from the start, preventing caching
+    # of the real value before test-specific stubs can be applied
+    # Individual tests can override this with their own stubs
+    actual_os = case RbConfig::CONFIG["host_os"]
+                when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+                  :windows
+                when /darwin|mac os/
+                  :macos
+                when /linux/
+                  :linux
+                else
+                  :unix
+                end
+    allow(Fontist::Utils::System).to receive(:user_os).and_return(actual_os)
   end
 
   # Reset all Fontist state after each test for proper isolation
