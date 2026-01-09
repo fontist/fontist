@@ -19,7 +19,7 @@ jobs:
     runs-on: macos-${{ matrix.version }}
     strategy:
       matrix:
-        version: [13, 14, 15, 26]
+        version: [14, 15, 26]
       fail-fast: false
     steps:
       - name: List ALL Core System Fonts
@@ -62,8 +62,12 @@ jobs:
           if-no-files-found: warn
 
   discover-windows:
-    name: Windows fonts
-    runs-on: windows-latest
+    name: Windows ${{ matrix.version }} fonts
+    runs-on: windows-${{ matrix.version }}
+    strategy:
+      matrix:
+        version: [2022, 2025]
+      fail-fast: false
     steps:
       - name: List ALL Windows Fonts
         shell: pwsh
