@@ -1,85 +1,122 @@
-# Windows GHA Implementation Status
+# Windows GHA Compatibility Fixes - Implementation Status
 
-**Last Updated:** 2026-01-09T03:45:00Z
+**Last Updated:** 2026-01-09 11:59 HKT
 
-## Overall Progress: 60% Complete
+## Current Phase: Phase 2 - Windows CLI Output Investigation
 
-### Phase 1: Test Infrastructure Fixes ✅ (100% Complete)
+### Phase 1: Test Infrastructure Fixes ✅ COMPLETE
 
-| # | Issue | Status | Files Changed | Notes |
-|---|-------|--------|---------------|-------|
-| 1 | FileOps cleanup permission errors | ✅ DONE | `spec/fontist/utils/file_ops_spec.rb` | Added RSpec mock reset before cleanup |
-| 2 | Stack overflow in safe_cp_r | ✅ DONE | `spec/fontist/utils/file_ops_spec.rb` | Used and_wrap_original |
-| 3 | Stack overflow in safe_mkdir_p | ✅ DONE | `spec/fontist/utils/file_ops_spec.rb` | Used and_wrap_original |
-| 4 | Git clone directory exists | ✅ DONE | `spec/support/fontist_helper.rb` | Clean before clone |
+Successfully fixed 3 of 5 failure categories:
+- FileOps cleanup permission errors: ✅ Fixed
+- FileOps Windows retry stack overflow: ✅ Fixed
+- Git clone directory exists: ✅ Fixed
 
-### Phase 2: Windows Compatibility Bugs 🔍 (0% Complete)
+**Results:**
+- macOS (4 versions): 617/617 ✅
+- Ubuntu (2 versions): 617/617 ✅
+- Arch Linux: 617/617 ✅
+- Windows: 614/617 ⚠️ (3 CLI failures remain)
 
-| # | Issue | Status | Investigation | Fix Planned |
-|---|-------|--------|---------------|-------------|
-| 1 | CLI install formula from root dir no output | 🔍 INVESTIGATING | Need to trace code path | TBD |
-| 2 | CLI install formula from subdir no output | 🔍 INVESTIGATING | Same as #1 | TBD |
-| 3 | CLI install misspelled formula no output | 🔍 INVESTIGATING | Same as #1 | TBD |
+### Phase 2: Windows CLI Output Debugging 🔄 IN PROGRESS
 
-## Test Results by Platform
+**Problem:**
+Three CLI tests fail on Windows only with identical symptoms:
+```ruby
+# spec/fontist/cli_spec.rb:295, 310, 327
 
-### ✅ macOS (100% Pass Rate)
-- macOS 13: 617/617 passing
-- macOS 14: 617/617 passing
-- macOS 15: 617/617 passing
-- macOS 26: 617/617 passing
+1) "formula from root dir" - expects ui.say with /AndaleMo\.TTF/i
+2) "formula from subdir" - expects ui.say with /AndaleMo\.TTF/i
+3) "misspelled formula name" - expects ui.say with /texgyrechorus-mediumitalic\.otf/i
 
-### ✅ Linux (100% Pass Rate)
-- Ubuntu 22.04: 617/617 passing
-- Ubuntu 24.04: 617/617 passing
-- Arch Linux: 617/617 passing
+Actual: Fontist.ui.say called 0 times (no output at all)
+```
 
-### ⚠️ Windows (95% Pass Rate)
-- Windows Server 2022: 614/617 passing (3 failures)
-- Windows Server 2025: 614/617 passing (3 failures)
+**Key Observation:** Complete absence of output suggests either:
+1. Exception raised before print statements
+2. `installer.install` returns nil/empty on Windows
+3. Code path diverges on Windows
 
-## Blockers
+**Investigation Actions Taken:**
 
-**None** - All test infrastructure is fixed. Remaining failures are implementation bugs that need investigation.
+1. **Added Debug Logging** (commit 9d86b38):
+   - `Font#install_formula` - trace entry/exit
+   - `Font#download_formula` - trace formula lookup
+   - `Font#request_formula_installation` - trace full execution:
+     * License confirmation
+     * Installer creation
+     * Installation call
+     * Path processing
+     * Each path print operation
 
-## Next Actions
+2. **Enabled Debug in Tests:**
+   - Set `ENV["FONTIST_DEBUG"] = "1"` in failing tests
+   - Debug output goes to $stderr for capture
 
-1. ✅ Complete Phase 1 fixes
-2. 🔄 Add debug logging to CLI install command
-3. ⏳ Run Windows tests with verbose output
-4. ⏳ Identify root cause of output suppression
-5. ⏳ Implement architectural fix
-6. ⏳ Verify across all platforms
+**CI Status:**
+- Commit 9d86b38 pushed at 03:58:53 UTC
+- Three GHA workflows queued:
+  * rake (20840708559)
+  * rake-metanorma (20840708581)
+  * discover-fonts (20840708453)
+- Awaiting completion to analyze debug logs
 
-## Risk Assessment
+**Next Steps:**
+1. ⏳ Wait for CI completion (~5-10 minutes)
+2. Analyze debug logs from Windows runs
+3. Identify exact failure point
+4. Implement architectural fix
+5. Verify on all platforms
 
-**Low Risk:**
-- Phase 1 fixes are solid and tested
-- No regressions on Unix platforms expected
-- Changes are localized to test infrastructure
+**Hypotheses to Test:**
+1. Path format issue (backslashes vs forward slashes)
+2. FontInstaller.install returns nil/empty on Windows
+3. Exception caught and swallowed in installation chain
+4. License handling differs on Windows
 
-**Medium Risk:**
-- Windows CLI failures may require changes to core installation logic
-- Path handling differences may affect output formatting
-- Need to maintain backward compatibility
+---
 
-**Mitigation:**
-- Comprehensive testing across all platforms before merge
-- Code review focusing on OOP principles
-- Clear documentation of Windows-specific behavior
+## Phase 1 Details (COMPLETED)
 
-## Code Quality Metrics
+### Fixed Issues
 
-- **Test Coverage:** 99.4%
-- **RSpec Examples:** 617 total
-- **Pass Rate (Overall):** 99.5%
-- **Pass Rate (Windows):** 99.5%
-- **Code Review:** Required before merge
+#### 1. FileOps Cleanup Permission Errors ✅
+**Commit:** c8e7c2a
+**Files:** spec/fontist/utils/file_ops_spec.rb
+**Fix:** Reset RSpec mocks before cleanup in `after` blocks
 
-## Documentation Status
+#### 2. FileOps Stack Overflow ✅
+**Commit:** 6f3a891
+**Files:** spec/fontist/utils/file_ops_spec.rb
+**Fix:** Use `and_wrap_original` for proper method wrapping
 
-- ✅ Plan created: `WINDOWS_GHA_FIXES_PLAN.md`
-- ✅ Status tracker created: This file
-- ⏳ Continuation prompt: In progress
-- ⏳ README.adoc updates: Pending completion
-- ⏳ CHANGELOG.md updates: Pending completion
+#### 3. Git Clone Directory Exists ✅
+**Commit:** b0502cb
+**Files:** spec/support/fontist_helper.rb
+**Fix:** Remove existing directory before Git.clone
+
+### Test Results After Phase 1
+
+```
+Platform              Pass Rate    Status
+--------------------- ------------ --------
+macOS 13              617/617      ✅
+macOS 14              617/617      ✅
+macOS 15              617/617      ✅
+macOS Latest          617/617      ✅
+Ubuntu 22.04          617/617      ✅
+Ubuntu 24.04          617/617      ✅
+Arch Linux            617/617      ✅
+Windows Server 2022   614/617      ⚠️
+Windows Server 2025   614/617      ⚠️
+```
+
+**Windows 3 Remaining Failures:**
+All in `spec/fontist/cli_spec.rb` - formula installation output tests
+
+---
+
+## Timeline
+
+- **2026-01-08:** Phase 1 completed - 100% Unix compatibility
+- **2026-01-09 03:58:** Phase 2 started - Debug logging added
+- **2026-01-09 03:59:** CI runs queued, awaiting results

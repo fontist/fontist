@@ -135,20 +135,14 @@ module Fontist
     end
 
     def install_formula
-      $stderr.puts "DEBUG[Font#install_formula]: Entry - name=#{@name}" if ENV["FONTIST_DEBUG"]
-      result = download_formula || make_suggestions || raise_formula_not_found
-      $stderr.puts "DEBUG[Font#install_formula]: Exit - result=#{result.inspect}" if ENV["FONTIST_DEBUG"]
-      result
+      download_formula || make_suggestions || raise_formula_not_found
     end
 
     def download_formula
-      $stderr.puts "DEBUG[Font#download_formula]: Entry - looking for formula: #{@name}" if ENV["FONTIST_DEBUG"]
       formula = Formula.find_by_key_or_name(@name)
-      $stderr.puts "DEBUG[Font#download_formula]: Formula found: #{formula ? formula.name : 'nil'}" if ENV["FONTIST_DEBUG"]
       return unless formula
       return unless formula.downloadable?
 
-      $stderr.puts "DEBUG[Font#download_formula]: About to request installation" if ENV["FONTIST_DEBUG"]
       request_formula_installation(formula)
     end
 
@@ -250,34 +244,23 @@ module Fontist
     end
 
     def request_formula_installation(formula)
-      $stderr.puts "DEBUG[Font#request_formula_installation]: Entry - formula=#{formula.name}" if ENV["FONTIST_DEBUG"]
-
       confirmation = check_and_confirm_required_license(formula)
-      $stderr.puts "DEBUG[Font#request_formula_installation]: License confirmed - confirmation=#{confirmation}" if ENV["FONTIST_DEBUG"]
 
       # Check and warn about system installation permissions
       installer = font_installer(formula)
-      $stderr.puts "DEBUG[Font#request_formula_installation]: Installer created - class=#{installer.class}, location=#{installer.location}" if ENV["FONTIST_DEBUG"]
-
       check_permission_warning(installer.location)
 
-      $stderr.puts "DEBUG[Font#request_formula_installation]: About to call installer.install" if ENV["FONTIST_DEBUG"]
       paths = installer.install(confirmation: confirmation)
-      $stderr.puts "DEBUG[Font#request_formula_installation]: installer.install returned - paths=#{paths.inspect}, class=#{paths.class}" if ENV["FONTIST_DEBUG"]
 
       if paths.nil? || paths.empty?
-        $stderr.puts "DEBUG[Font#request_formula_installation]: Paths nil or empty - returning early" if ENV["FONTIST_DEBUG"]
         Fontist.ui.error("Fonts not found in formula #{formula}")
         return
       end
 
-      $stderr.puts "DEBUG[Font#request_formula_installation]: About to print #{paths.size} paths" if ENV["FONTIST_DEBUG"]
       Fontist.ui.say("Fonts installed at:")
       paths.each do |path|
-        $stderr.puts "DEBUG[Font#request_formula_installation]: Printing path: #{path}" if ENV["FONTIST_DEBUG"]
         Fontist.ui.say("- #{path}")
       end
-      $stderr.puts "DEBUG[Font#request_formula_installation]: Exit - printed all paths" if ENV["FONTIST_DEBUG"]
     end
 
     def check_and_confirm_required_license(formula)

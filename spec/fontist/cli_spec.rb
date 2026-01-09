@@ -295,13 +295,8 @@ RSpec.describe Fontist::CLI do
       context "formula from root dir" do
         let(:formula) { "andale" }
         before do
-          ENV["FONTIST_DEBUG"] = "1"
-          allow(Fontist.ui).to receive(:ask).and_return("yes").once
+          allow(Fontist.ui).to receive(:ask).and_return("yes")
           example_formula("andale.yml")
-        end
-
-        after do
-          ENV.delete("FONTIST_DEBUG")
         end
 
         it "returns success status and prints fonts paths" do
@@ -315,16 +310,11 @@ RSpec.describe Fontist::CLI do
         let(:formula) { "subdir/andale" }
 
         before do
-          ENV["FONTIST_DEBUG"] = "1"
-          allow(Fontist.ui).to receive(:ask).and_return("yes").once
+          allow(Fontist.ui).to receive(:ask).and_return("yes")
 
           subdir_path = Fontist.formulas_path.join("subdir")
           FileUtils.mkdir_p(subdir_path)
           example_formula_to("andale.yml", subdir_path)
-        end
-
-        after do
-          ENV.delete("FONTIST_DEBUG")
         end
 
         it "returns success status and prints fonts paths" do
@@ -338,12 +328,7 @@ RSpec.describe Fontist::CLI do
         let(:formula) { "TX Gyre Chorus" }
 
         before do
-          ENV["FONTIST_DEBUG"] = "1"
           example_formula("tex_gyre_chorus.yml")
-        end
-
-        after do
-          ENV.delete("FONTIST_DEBUG")
         end
 
         it "suggests to install 'tex_gyre_chorus'" do
