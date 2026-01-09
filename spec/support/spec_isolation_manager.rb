@@ -43,6 +43,7 @@ module Fontist
         register_component(FormulaIndexComponent.new)
         register_component(ConfigComponent.new)
         register_component(SystemComponent.new)
+        register_component(TempDirectoryComponent.new)
       end
     end
 
@@ -89,6 +90,32 @@ module Fontist
     class SystemComponent
       def reset
         Fontist::Utils::System.reset_cache
+      end
+    end
+
+    class TempDirectoryComponent
+      def reset
+        # Clean up any fontist temp directories that might be left behind
+        # This helps prevent test pollution on Windows where temp directories
+        # might not be cleaned up properly by Dir.mktmpdir
+        cleanup_fontist_temp_dirs
+      end
+
+      private
+
+      def cleanup_fontist_temp_dirs
+        # Find and remove any fontist temp directories
+        temp_base = Dir.tmpdir
+        fontist_dirs = Dir.glob(File.join(temp_base, "fontist*"))
+
+        fontist_dirs.each do |dir|
+          begin
+            FileUtils.remove_entry(dir) if File.directory?(dir)
+          rescue => e
+            # Log but don't fail - cleanup is best effort
+            warn "Warning: Could not remove temp directory #{dir}: #{e.message}"
+          end
+        end
       end
     end
   end
