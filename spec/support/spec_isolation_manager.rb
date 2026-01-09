@@ -43,6 +43,7 @@ module Fontist
         register_component(FormulaIndexComponent.new)
         register_component(ConfigComponent.new)
         register_component(SystemComponent.new)
+        register_component(IndexSingletonsComponent.new)
         register_component(TempDirectoryComponent.new)
       end
     end
@@ -90,6 +91,16 @@ module Fontist
     class SystemComponent
       def reset
         Fontist::Utils::System.reset_cache
+      end
+    end
+
+    class IndexSingletonsComponent
+      def reset
+        # Reset Fontist index singletons to prevent test pollution
+        # These classes cache font collections and need to be cleared between tests
+        Fontist::Indexes::FontistIndex.reset_cache rescue nil
+        Fontist::Indexes::UserIndex.reset_cache rescue nil
+        Fontist::Indexes::SystemIndex.reset_cache rescue nil
       end
     end
 
