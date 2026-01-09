@@ -4,6 +4,7 @@ require_relative "utils/locking"
 require_relative "utils/downloader"
 require_relative "utils/cache"
 require_relative "utils/ui"
+require_relative "utils/file_ops"
 
 module Fontist
   module Utils

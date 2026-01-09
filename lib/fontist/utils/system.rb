@@ -60,6 +60,30 @@ module Fontist
         end
       end
 
+      def self.windows?
+        user_os == :windows
+      end
+
+      def self.macos?
+        user_os == :macos
+      end
+
+      def self.linux?
+        user_os == :linux
+      end
+
+      def self.unix?
+        user_os == :unix
+      end
+
+      def self.path_separator
+        windows? ? "\\" : "/"
+      end
+
+      def self.case_sensitive_filesystem?
+        ![:windows, :macos].include?(user_os)
+      end
+
       def self.user_os_with_version
         "#{user_os}-#{Sys::Uname.release}"
       end

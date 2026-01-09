@@ -83,7 +83,7 @@ module Fontist
             return false
           end
           Fontist.ui.say(Paint["Removing existing repository...", :yellow])
-          FileUtils.rm_rf(path)
+          Fontist::Utils::FileOps.safe_rm_rf(path)
         end
 
         validate_and_fetch_repo(name, url)

@@ -39,12 +39,24 @@ end
 # that other support files depend on
 require_relative "support/spec_isolation_manager"
 
+# Load cross-platform test helpers
+require_relative "support/path_helper"
+require_relative "support/windows_test_helper"
+
 # Load remaining support files (excluding spec_isolation_manager.rb)
 Dir["./spec/support/**/*.rb"].sort.each do |file|
   require file unless file.end_with?("spec_isolation_manager.rb")
 end
 
 RSpec.configure do |config|
+  # Include PathHelper in all specs for cross-platform path assertions
+  config.include PathHelper
+
+  # Setup Windows-specific configuration before test suite
+  config.before(:suite) do
+    WindowsTestHelper.setup if WindowsTestHelper.windows?
+  end
+
   # Disable interactive prompts during tests
   config.before(:suite) do
     Fontist.interactive = false

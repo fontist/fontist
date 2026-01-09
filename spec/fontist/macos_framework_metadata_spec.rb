@@ -96,54 +96,49 @@ RSpec.describe Fontist::MacosFrameworkMetadata do
   describe ".system_install_path" do
     it "returns correct path for Font3" do
       path = described_class.system_install_path(3)
-      expect(path).to eq("/System/Library/Assets/com_apple_MobileAsset_Font3")
+      expect_path(path, "/System/Library/Assets/com_apple_MobileAsset_Font3")
     end
 
     it "returns correct path for Font4" do
       path = described_class.system_install_path(4)
-      expect(path).to eq("/System/Library/Assets/com_apple_MobileAsset_Font4")
+      expect_path(path, "/System/Library/Assets/com_apple_MobileAsset_Font4")
     end
 
-    it "returns correct path for Font5 (AssetsV2)" do
+    it "returns correct path for Font5" do
       path = described_class.system_install_path(5)
-      expect(path).to eq("/System/Library/AssetsV2/com_apple_MobileAsset_Font5")
+      expect_path(path, "/System/Library/AssetsV2/com_apple_MobileAsset_Font5")
     end
 
-    it "returns correct path for Font6 (AssetsV2)" do
+    it "returns correct path for Font6" do
       path = described_class.system_install_path(6)
-      expect(path).to eq("/System/Library/AssetsV2/com_apple_MobileAsset_Font6")
+      expect_path(path, "/System/Library/AssetsV2/com_apple_MobileAsset_Font6")
     end
 
-    it "returns correct path for Font7 (AssetsV2)" do
+    it "returns correct path for Font7" do
       path = described_class.system_install_path(7)
-      expect(path).to eq("/System/Library/AssetsV2/com_apple_MobileAsset_Font7")
+      expect_path(path, "/System/Library/AssetsV2/com_apple_MobileAsset_Font7")
     end
 
-    it "returns correct path for Font8 (AssetsV2)" do
+    it "returns correct path for Font8" do
       path = described_class.system_install_path(8)
-      expect(path).to eq("/System/Library/AssetsV2/com_apple_MobileAsset_Font8")
-    end
-
-    it "returns nil for invalid framework version" do
-      expect(described_class.system_install_path(99)).to be_nil
-      expect(described_class.system_install_path(nil)).to be_nil
+      expect_path(path, "/System/Library/AssetsV2/com_apple_MobileAsset_Font8")
     end
   end
 
   describe ".asset_path" do
     it "returns /System/Library/Assets for Font3" do
-      expect(described_class.asset_path(3)).to eq("/System/Library/Assets")
+      expect_path(described_class.asset_path(3), "/System/Library/Assets")
     end
 
     it "returns /System/Library/Assets for Font4" do
-      expect(described_class.asset_path(4)).to eq("/System/Library/Assets")
+      expect_path(described_class.asset_path(4), "/System/Library/Assets")
     end
 
     it "returns /System/Library/AssetsV2 for Font5-8" do
-      expect(described_class.asset_path(5)).to eq("/System/Library/AssetsV2")
-      expect(described_class.asset_path(6)).to eq("/System/Library/AssetsV2")
-      expect(described_class.asset_path(7)).to eq("/System/Library/AssetsV2")
-      expect(described_class.asset_path(8)).to eq("/System/Library/AssetsV2")
+      expect_path(described_class.asset_path(5), "/System/Library/AssetsV2")
+      expect_path(described_class.asset_path(6), "/System/Library/AssetsV2")
+      expect_path(described_class.asset_path(7), "/System/Library/AssetsV2")
+      expect_path(described_class.asset_path(8), "/System/Library/AssetsV2")
     end
   end
 

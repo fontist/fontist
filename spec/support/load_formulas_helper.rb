@@ -57,7 +57,7 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    FileUtils.rm_rf(Fontist.temp_fontist_path)
+    Fontist::Utils::FileOps.safe_rm_rf(Fontist.temp_fontist_path)
     Fontist::Index.reset_cache
   end
 end

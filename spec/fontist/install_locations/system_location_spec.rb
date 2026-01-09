@@ -38,7 +38,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       it "returns /Library/Fonts/fontist" do
         path = location.base_path
 
-        expect(path.to_s).to eq("/Library/Fonts/fontist")
+        expect_path(path, "/Library/Fonts/fontist")
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       it "returns /usr/local/share/fonts/fontist" do
         path = location.base_path
 
-        expect(path.to_s).to eq("/usr/local/share/fonts/fontist")
+        expect_path(path, "/usr/local/share/fonts/fontist")
       end
     end
 
@@ -140,7 +140,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       it "returns %windir%/Fonts/fontist" do
         path = location.base_path
 
-        expect(path.to_s).to eq("C:/Windows/Fonts/fontist")
+        expect_path(path, "C:/Windows/Fonts/fontist")
       end
 
       it "falls back to SystemRoot when windir not set" do
@@ -148,7 +148,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
         ENV["SystemRoot"] = "C:/WINNT"
 
         path = location.base_path
-        expect(path.to_s).to eq("C:/WINNT/Fonts/fontist")
+        expect_path(path, "C:/WINNT/Fonts/fontist")
 
         ENV.delete("SystemRoot")
       end
@@ -158,7 +158,7 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
         ENV.delete("SystemRoot")
 
         path = location.base_path
-        expect(path.to_s).to eq("C:/Windows/Fonts/fontist")
+        expect_path(path, "C:/Windows/Fonts/fontist")
       end
     end
 

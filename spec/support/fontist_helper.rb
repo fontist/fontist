@@ -226,19 +226,19 @@ module Fontist
     def cleanup_system_fonts
       raise("System dir is not stubbed") unless @system_dir
 
-      FileUtils.rm_rf(@system_dir)
+      Fontist::Utils::FileOps.safe_rm_rf(@system_dir)
       @system_dir = nil
     end
 
     def cleanup_fontist_fonts
       raise("Fontist dir is not stubbed") unless @fontist_dir
 
-      FileUtils.rm_rf(@fontist_dir)
+      Fontist::Utils::FileOps.safe_rm_rf(@fontist_dir)
       @fontist_dir = nil
 
       # Clean up parent fontist directory if it was created
       if @fontist_parent_dir
-        FileUtils.rm_rf(@fontist_parent_dir)
+        Fontist::Utils::FileOps.safe_rm_rf(@fontist_parent_dir)
         @fontist_parent_dir = nil
       end
     end

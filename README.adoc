@@ -761,25 +761,6 @@ Fontist::Font.find(name: "segoe ui", location_alternative: :fontist)
 * Otherwise, it will either raise an unsupported font error, or trigger display
 of installation instructions for that specific font.
 
-==== Install a font
-
-The `Fontist::Font.install` interface can be used to install any supported font.
-
-This interface first checks if you already have that font installed or not and
-if you do then it will return the paths.
-
-If you don't have a font but that font is supported by Fontist, then it will
-download the font and copy it to `~/.fontist` directory and also return the
-paths.
-
-[source,ruby]
-----
-Fontist::Font.install(name, confirmation: "no")
-----
-
-If there are issues detected with the provided font, such as the font is not
-supported, those errors would be raised.
-
 .Various methods of using `Fontist::Font.install`
 [example]
 ====
@@ -904,7 +885,8 @@ Font name is useful to choose a specific font in a font collection file (TTC).
 
 [source,ruby]
 ----
-Fontist::Manifest.from_hash(manifest, locations: true)
+manifest = Fontist::Manifest.from_hash(manifest)
+manifest.locations
 ----
 
 [source,ruby]
@@ -937,7 +919,8 @@ from the manifest:
 
 [source,ruby]
 ----
-manifest.install(confirmation: "yes")
+user_manifest = Fontist::Manifest.from_file("manifest.yml")
+user_manifest.install(confirmation: "yes")
 ----
 
 It will install fonts and return their locations:
@@ -983,8 +966,8 @@ Then the following calls would return font names and paths, as from the
 
 [source,ruby]
 ----
-manifest = Fontist::Manifest.from_file("manifest.yml")
-manifest.install(confirmation: "yes")
+user_manifest = Fontist::Manifest.from_file("manifest.yml")
+user_manifest.install(confirmation: "yes")
 ----
 
 === `Fontist::Fontconfig`
@@ -1121,6 +1104,102 @@ If you encounter version compatibility issues, ensure you're running a
 compatible macOS version for the requested font.
 
 
+=== Windows platform
+
+==== General
+
+Fontist provides comprehensive Windows platform support, allowing installation and
+management of fonts on Windows 7 and later.
+
+Windows font management differs from Unix systems in several key ways:
+
+* Uses backslash (`\`) as the path separator
+
+* Stores fonts in registry-based and directory-based locations
+* Requires different handling for file locking and permissions
+* Uses case-insensitive (but case-preserving) file system
+
+==== Windows font locations
+
+Fontist supports the following Windows font locations:
+
+System fonts::
+* `C:\Windows\Fonts` - Primary system font directory
+* Requires administrator privileges for installation
+
+User fonts::
+* `%LOCALAPPDATA%\Microsoft\Windows\Fonts` - Per-user font directory (Windows 10+)
+* No administrator privileges required
+* Fontist creates a `fontist` subdirectory to avoid cluttering the main directory
+
+Fontist library::
+* `%USERPROFILE%\.fontist\fonts` - Fontist-managed fonts
+* Default installation location
+* No administrator privileges required
+
+==== Known Windows considerations
+
+File locking::
+Windows uses stricter file locking than Unix systems. Fontist handles this with
+automatic retry logic when encountering locked files during cleanup operations.
+
+Path handling::
+Fontist automatically handles Windows path separators and drive letters. Font
+paths are returned in Windows-native format (e.g., `C:\Users\user\.fontist\fonts\font.ttf`).
+
+Registry integration::
+While Windows historically used registry-based font registration, modern Windows
+(10+) supports directory-based fonts. Fontist uses directory-based installation
+for maximum compatibility and ease of management.
+
+Administrator privileges::
+Installation to the `system` location requires administrator privileges. Use the
+`user` or `fontist` locations for installations without administrative access.
+
+.Installing fonts on Windows
+[example]
+====
+[source,sh]
+----
+# Install to Fontist library (default, no admin required)
+fontist install "Roboto"
+
+# Install to user fonts directory (no admin required, Windows 10+)
+fontist install "Roboto" --location=user
+
+# Install to system fonts directory (requires administrator)
+# Run as Administrator
+fontist install "Roboto" --location=system
+----
+====
+
+==== Platform compatibility status
+
+[cols="1,1,1",options="header"]
+|===
+| Windows Version | Support Status | Notes
+
+| Windows 11 | ✅ Fully Supported | All features available
+| Windows 10 | ✅ Fully Supported | User font directory available
+| Windows 8/8.1 | ✅ Supported | System and fontist locations only
+| Windows 7 | ⚠️ Limited Support | System and fontist locations only, extended support ended
+
+|===
+
+NOTE: Fontist is tested on Windows 10 and later. Earlier versions may work but
+are not actively tested.
+
+
+=== Known problematic fonts
+
+* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
+https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
+
+The full list of known problematic fonts:
+
+* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage>
+
+
 === Known problematic fonts
 
 * NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
@@ -1129,6 +1208,92 @@ https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
 The full list of known problematic fonts:
 
 * https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage]
+
+
+=== Windows platform
+
+==== General
+
+Fontist provides comprehensive Windows platform support, allowing installation and
+management of fonts on Windows 7 and later.
+
+Windows font management differs from Unix systems in several key ways:
+
+* Uses backslash (`\`) as the path separator
+
+* Stores fonts in registry-based and directory-based locations
+* Requires different handling for file locking and permissions
+* Uses case-insensitive (but case-preserving) file system
+
+==== Windows font locations
+
+Fontist supports the following Windows font locations:
+
+System fonts::
+* `C:\Windows\Fonts` - Primary system font directory
+* Requires administrator privileges for installation
+
+User fonts::
+* `%LOCALAPPDATA%\Microsoft\Windows\Fonts` - Per-user font directory (Windows 10+)
+* No administrator privileges required
+* Fontist creates a `fontist` subdirectory to avoid cluttering the main directory
+
+Fontist library::
+* `%USERPROFILE%\.fontist\fonts` - Fontist-managed fonts
+* Default installation location
+* No administrator privileges required
+
+==== Known Windows considerations
+
+File locking::
+Windows uses stricter file locking than Unix systems. Fontist handles this with
+automatic retry logic when encountering locked files during cleanup operations.
+
+Path handling::
+Fontist automatically handles Windows path separators and drive letters. Font
+paths are returned in Windows-native format (e.g., `C:\Users\user\.fontist\fonts\font.ttf`).
+
+Registry integration::
+While Windows historically used registry-based font registration, modern Windows
+(10+) supports directory-based fonts. Fontist uses directory-based installation
+for maximum compatibility and ease of management.
+
+Administrator privileges::
+Installation to the `system` location requires administrator privileges. Use the
+`user` or `fontist` locations for installations without administrative access.
+
+.Installing fonts on Windows
+[example]
+====
+[source,sh]
+----
+# Install to Fontist library (default, no admin required)
+fontist install "Roboto"
+
+# Install to user fonts directory (no admin required, Windows 10+)
+fontist install "Roboto" --location=user
+
+# Install to system fonts directory (requires administrator)
+# Run as Administrator
+fontist install "Roboto" --location=system
+----
+====
+
+==== Platform compatibility status
+
+[cols="1,1,1",options="header"]
+|===
+| Windows Version | Support Status | Notes
+
+| Windows 11 | ✅ Fully Supported | All features available
+| Windows 10 | ✅ Fully Supported | User font directory available
+| Windows 8/8.1 | ✅ Supported | System and fontist locations only
+| Windows 7 | ⚠️ Limited Support | System and fontist locations only, extended support ended
+
+|===
+
+NOTE: Fontist is tested on Windows 10 and later. Earlier versions may work but
+are not actively tested.
 
 
 == Advanced usage
@@ -1472,7 +1637,6 @@ fonts:
       preferred_family_name: Frutiger
   - ...
 ----
-
 This fragment above will allow Fontist to generate correct indexes and allow
 installation of all `Frutiger` fonts with a single command:
 
@@ -2161,6 +2325,6 @@ Here are a few technical guidelines to follow:
 . https://github.com/thoughtbot/guides/tree/master/protocol/git#write-a-feature[Squash your commits] after receiving feedback.
 . Party!
 
-== Credit
+== Credits
 
 This gem is developed, maintained and funded by https://www.ribose.com[Ribose].
