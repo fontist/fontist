@@ -65,7 +65,11 @@ RSpec.configure do |config|
 
   # Reset all Fontist state before each test to ensure clean state for stubs
   config.before(:each) do
-    # Reset all caches via isolation manager if available
+    # CRITICAL: Reset System cache FIRST, before any stubs, to prevent
+    # caching of the real OS value from interfering with platform-specific stubs
+    Fontist::Utils::System.reset_cache
+
+    # Reset all other caches via isolation manager if available
     begin
       Fontist::Test::IsolationManager.instance.reset_all
     rescue StandardError
@@ -74,7 +78,6 @@ RSpec.configure do |config|
       Fontist::Index.reset_cache rescue nil
       Fontist::SystemIndex.reset_cache rescue nil
       Fontist::SystemFont.reset_font_paths_cache rescue nil
-      Fontist::Utils::System.reset_cache rescue nil
 
       # Reset new OOP index singletons
       Fontist::Indexes::FontistIndex.reset_cache rescue nil
