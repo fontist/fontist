@@ -6,6 +6,12 @@ module Fontist
     attribute :type, :string
     attribute :full_name, :string
     attribute :paths, :string, collection: true
+
+    key_value do
+      map "type", to: :type
+      map "full_name", to: :full_name
+      map "paths", to: :paths
+    end
   end
 
   class ManifestResponseFont < ManifestFont
