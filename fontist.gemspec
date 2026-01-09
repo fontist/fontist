@@ -42,7 +42,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "parallel", "~> 1.24"
   spec.add_dependency "plist", "~> 3.0"
   spec.add_dependency "socksify", "~> 1.7"
-  spec.add_dependency "sys-uname", "~> 1.2"
   spec.add_dependency "thor", "~> 1.4"
   spec.add_dependency "unibuf", "~> 0.1"
 end

@@ -1,5 +1,3 @@
-require "sys/uname"
-
 module Fontist
   module Utils
     module System
@@ -85,7 +83,20 @@ module Fontist
       end
 
       def self.user_os_with_version
-        "#{user_os}-#{Sys::Uname.release}"
+        release = if windows?
+          # Windows doesn't have uname command
+          # Try to extract version from RbConfig or use a placeholder
+          RbConfig::CONFIG["host_os"].match(/\d+/)[0] rescue "unknown"
+        else
+          # Unix-like systems (macOS, Linux, etc.) have uname command
+          begin
+            `uname -r`.strip
+          rescue Errno::ENOENT
+            "unknown"
+          end
+        end
+
+        "#{user_os}-#{release}"
       end
 
       def self.match?(platform)
