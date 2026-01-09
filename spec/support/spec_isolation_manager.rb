@@ -41,6 +41,8 @@ module Fontist
         register_component(SystemIndexComponent.new)
         register_component(SystemFontComponent.new)
         register_component(FormulaIndexComponent.new)
+        register_component(ConfigComponent.new)
+        register_component(RepoComponent.new)
         register_component(SystemComponent.new)
       end
     end
@@ -76,6 +78,18 @@ module Fontist
     class FormulaIndexComponent
       def reset
         Fontist::Index.reset_cache
+      end
+    end
+
+    class ConfigComponent
+      def reset
+        Fontist::Config.reset
+      end
+    end
+
+    class RepoComponent
+      def reset
+        Fontist::Repo.reset
       end
     end
 
