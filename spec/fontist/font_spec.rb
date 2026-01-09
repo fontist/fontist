@@ -87,7 +87,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with windows system fonts", windows: true do
+    context "with windows system fonts", windows: true, slow: true do
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
       # Fonts confirmed to exist on vanilla GHA Windows runners
@@ -305,7 +305,7 @@ RSpec.describe Fontist::Font do
       let(:file) { "SourceHanSans-Bold.ttc" }
       before { example_formula("source.yml") }
 
-      it "returns path of collection file" do
+      it "returns path of collection file", slow: true do
         expect(command).to include(include(file))
       end
     end
@@ -350,7 +350,7 @@ RSpec.describe Fontist::Font do
     context "with 7z archive" do
       before { example_formula("adobe_reader_20.yml") }
 
-      it "installs and returns paths for fonts" do
+      it "installs and returns paths for fonts", slow: true do
         font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
         font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
@@ -883,7 +883,7 @@ RSpec.describe Fontist::Font do
       let(:font) { "any font" }
       before { stub_system_fonts(Fontist.orig_system_file_path) }
 
-      it "throws MainRepoNotFoundError" do
+      it "throws MainRepoNotFoundError", slow: true do
         expect { command }
           .to raise_error(Fontist::Errors::MainRepoNotFoundError)
       end

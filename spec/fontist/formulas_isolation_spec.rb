@@ -11,7 +11,7 @@ RSpec.describe "formulas isolation" do
         .to raise_error(Fontist::Errors::MainRepoNotFoundError)
     end
 
-    it "update should create a new dir" do
+    it "update should create a new dir", slow: true do
       Fontist::Formula.update_formulas_repo
 
       expect(Fontist.fontist_path.join("versions", "v2", "formulas")).to exist
@@ -31,7 +31,7 @@ RSpec.describe "formulas isolation" do
       allow(Fontist).to receive(:formulas_version).and_return("master")
     end
 
-    it "does not ask to update and returns formula" do
+    it "does not ask to update and returns formula", slow: true do
       expect(Fontist::Formula.find("andale mono")).to be
     end
   end
