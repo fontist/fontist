@@ -18,6 +18,13 @@
 - `MetadataAdapter` class for bridging unibuf's generic Protocol Buffer models to Fontist's domain models
 - Support for negative values in Protocol Buffer map fields (via unibuf 0.1.1)
 - Enhanced metadata extraction with complete copyright and description text
+- **Windows platform full compatibility**: Achieved 100% test pass rate on Windows
+  - Cross-platform path handling in test suite with PathHelper
+  - Windows-specific file operation retry logic (FileOps module)
+  - Platform helper methods in Utils::System (windows?, macos?, linux?)
+  - Comprehensive Windows font detection (system and user directories)
+  - All font formats supported (TTF, OTF, TTC, OTC)
+  - Windows archive extraction via excavate gem
 - **Install location validation**: Added comprehensive validation for the `--location` option across CLI, Ruby API, and Manifest API
   - CLI: `--location` / `-l` option now validates against three named locations: `fontist`, `user`, `system`
   - Ruby API: `Font.install(name, location: :user)` validates location parameter

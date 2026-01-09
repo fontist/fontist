@@ -102,7 +102,7 @@ a system.
 Fontist checks whether this font is already installed, and if not, then installs
 the font and returns its installed paths.
 
-The font name is the only argument to be supplied.
+The font name is the only argument to be supplied:
 
 [source,sh]
 ----
@@ -477,8 +477,9 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
+---
 
-Options:
+OPTIONS:
 
 `-l, --location=LOCATION`:: Specify installation location: `fontist` (default),
 `user`, or `system`
@@ -1190,171 +1191,6 @@ NOTE: Fontist is tested on Windows 10 and later. Earlier versions may work but
 are not actively tested.
 
 
-=== Known problematic fonts
-
-* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
-https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
-
-The full list of known problematic fonts:
-
-* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage>
-
-
-=== Known problematic fonts
-
-* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
-https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
-
-The full list of known problematic fonts:
-
-* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage]
-
-
-=== Windows platform
-
-==== General
-
-Fontist provides comprehensive Windows platform support, allowing installation and
-management of fonts on Windows 7 and later.
-
-Windows font management differs from Unix systems in several key ways:
-
-* Uses backslash (`\`) as the path separator
-
-* Stores fonts in registry-based and directory-based locations
-* Requires different handling for file locking and permissions
-* Uses case-insensitive (but case-preserving) file system
-
-==== Windows font locations
-
-Fontist supports the following Windows font locations:
-
-System fonts::
-* `C:\Windows\Fonts` - Primary system font directory
-* Requires administrator privileges for installation
-
-User fonts::
-* `%LOCALAPPDATA%\Microsoft\Windows\Fonts` - Per-user font directory (Windows 10+)
-* No administrator privileges required
-* Fontist creates a `fontist` subdirectory to avoid cluttering the main directory
-
-Fontist library::
-* `%USERPROFILE%\.fontist\fonts` - Fontist-managed fonts
-* Default installation location
-* No administrator privileges required
-
-==== Known Windows considerations
-
-File locking::
-Windows uses stricter file locking than Unix systems. Fontist handles this with
-automatic retry logic when encountering locked files during cleanup operations.
-
-Path handling::
-Fontist automatically handles Windows path separators and drive letters. Font
-paths are returned in Windows-native format (e.g., `C:\Users\user\.fontist\fonts\font.ttf`).
-
-Registry integration::
-While Windows historically used registry-based font registration, modern Windows
-(10+) supports directory-based fonts. Fontist uses directory-based installation
-for maximum compatibility and ease of management.
-
-Administrator privileges::
-Installation to the `system` location requires administrator privileges. Use the
-`user` or `fontist` locations for installations without administrative access.
-
-.Installing fonts on Windows
-[example]
-====
-[source,sh]
-----
-# Install to Fontist library (default, no admin required)
-fontist install "Roboto"
-
-# Install to user fonts directory (no admin required, Windows 10+)
-fontist install "Roboto" --location=user
-
-# Install to system fonts directory (requires administrator)
-# Run as Administrator
-fontist install "Roboto" --location=system
-----
-====
-
-==== Platform compatibility status
-
-[cols="1,1,1",options="header"]
-|===
-| Windows Version | Support Status | Notes
-
-| Windows 11 | ✅ Fully Supported | All features available
-| Windows 10 | ✅ Fully Supported | User font directory available
-| Windows 8/8.1 | ✅ Supported | System and fontist locations only
-| Windows 7 | ⚠️ Limited Support | System and fontist locations only, extended support ended
-
-|===
-
-NOTE: Fontist is tested on Windows 10 and later. Earlier versions may work but
-are not actively tested.
-
-
-== Advanced usage
-
-=== Using proxy servers
-
-Fontist uses Git internally for fetching formulas and fonts.
-
-In order to use Git functionality behind a proxy, you need to update your own
-Git config via the `git config` command or the `~/.gitconfig` preference file.
-
-There are many ways to configure your local Git install to use proxies.
-
-The simplest, global way of setting a proxy for Git is the following.
-
-* For HTTP
-+
-[source,sh]
-----
-git config --global http.proxy http://{user}:{pass}@{proxyhost}:{port}
-----
-
-* For HTTPS, you may need to handle SSL/TLS verification errors after setting
-the proxy since the encryption end is located at your HTTPS proxy endpoint:
-+
-[source,sh]
-----
-git config --global http.proxy https://{user}:{pass}@{proxyhost}:{port}
-git config --global https.proxy https://{user}:{pass}@{proxyhost}:{port}
-----
-
-* For SOCKS, you will need to decide on the SOCKS protocol
-+
-[source,sh]
-----
-git config --global http.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
-git config --global https.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
-----
-+
-For example,
-+
-[source,sh]
-----
-git config --global http.proxy 'socks5h://user:pass@socks-proxy.example.org'
-git config --global https.proxy 'socks5h://user:pass@socks-proxy.example.org'
-----
-
-The list of supported SOCKS protocols for the `{protocol}` field:
-
-* `socks://`: for SOCKS below v5
-* `socks5://`: for SOCKS v5
-* `socks5h://`: for SOCKS below v5 + host resolution via SOCKS
-
-You could actually set different proxy behavior for individual Git repositories
--- please see this
-https://gist.github.com/evantoli/f8c23a37eb3558ab8765[great guide]
-on how to use Git proxies (thanks to the GitHub user
-https://github.com/evantoli[evantoli]).
-
-
-
 == Custom Fontist repositories
 
 === General
@@ -1449,6 +1285,31 @@ Custom Fontist formulas and Fontist repositories can be made private to require
 authentication.
 
 For HTTPS and SSH Git Fontist repositories
+
+WARNING: Many online Git repositories only allow authentication for HTTPS, and
+do not allow authentication for SSH addresses.
+
+There are two ways to turn your repository private. Repository may or may not
+support both, check your Repository Preference settings on your preferred Git
+platform.
+
+* **HTTP Authentication:** Turn the repository private on the Git platform, then
+call `fontist repo setup` with a
+https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html[Private Token]
+(with "read_repository"). This allows you to pass the token as a URL parameter
+without re-entering a password.
+
+For example, given a Fontist repository called `acme_font_name` accessible via
+`https://user<Token>@example.com/acme/formulas.git`, add
+`https://user/<Token>@` as the `--private-token` to set up the private repo
+for Fontist:
+
+[source,sh]
+----
+user=your-user-token
+fontist repo setup acme_font_name \
+  https://example.com/acme/formulas.git?private_token=${user}
+----
 
 
 === Authentication for private formulas or private formula repositories
@@ -1564,8 +1425,7 @@ fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz 
 ----
 +
 This will generate a formula where all fonts have names prefixed with `"Wine "`,
-such as "Wine Courier", "Wine Tahoma", "Wine Symbol", etc., making it clear
-these are Wine compatibility fonts rather than the original Microsoft fonts.
+making it clear these are Wine compatibility fonts rather than the original Microsoft fonts.
 
 `--mirror`::
 Specify mirror URLs for the font archive (can be used multiple times).
@@ -1950,7 +1810,7 @@ https://github.com/google/fonts[google/fonts repository]:
 ----
 # GOOGLE_FONTS_API_KEY must be set in the environment
 fontist import google \
-  --source-path /path/to/google-fonts-github-repo \
+  --source-path /path/to/google/fonts \
   --output-path Formulas/google \
   --verbose \
   --import-cache /tmp/fontist-google-fonts-cache
