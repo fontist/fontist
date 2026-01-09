@@ -5,6 +5,8 @@ RSpec.describe Fontist::Utils::FileOps do
     let(:test_dir) { Dir.mktmpdir }
 
     after do
+      # Unstub FileUtils to allow real cleanup
+      RSpec::Mocks.space.proxy_for(FileUtils).reset
       FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
     end
 
@@ -165,6 +167,8 @@ RSpec.describe Fontist::Utils::FileOps do
     end
 
     after do
+      # Unstub FileUtils to allow real cleanup
+      RSpec::Mocks.space.proxy_for(FileUtils).reset
       FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
     end
 
@@ -177,11 +181,13 @@ RSpec.describe Fontist::Utils::FileOps do
     context "on Windows", if: Fontist::Utils::System.windows? do
       it "retries on EACCES error" do
         call_count = 0
-        allow(FileUtils).to receive(:cp_r) do |src, dest, **opts|
+        allow(FileUtils).to receive(:cp_r).and_wrap_original do |original_method, *args, **kwargs|
           call_count += 1
-          raise Errno::EACCES if call_count == 1
-          # Second call uses real implementation
-          FileUtils.cp_r(src, dest, **opts)
+          if call_count == 1
+            raise Errno::EACCES
+          else
+            original_method.call(*args, **kwargs)
+          end
         end
 
         expect { described_class.safe_cp_r(src_dir, dest_dir) }.not_to raise_error
@@ -195,6 +201,8 @@ RSpec.describe Fontist::Utils::FileOps do
     let(:new_dir) { File.join(test_dir, "new", "nested", "dir") }
 
     after do
+      # Unstub FileUtils to allow real cleanup
+      RSpec::Mocks.space.proxy_for(FileUtils).reset
       FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
     end
 
@@ -206,11 +214,13 @@ RSpec.describe Fontist::Utils::FileOps do
     context "on Windows", if: Fontist::Utils::System.windows? do
       it "retries on EACCES error" do
         call_count = 0
-        allow(FileUtils).to receive(:mkdir_p) do |path, **opts|
+        allow(FileUtils).to receive(:mkdir_p).and_wrap_original do |original_method, *args, **kwargs|
           call_count += 1
-          raise Errno::EACCES if call_count == 1
-          # Second call uses real implementation
-          FileUtils.mkdir_p(path, **opts)
+          if call_count == 1
+            raise Errno::EACCES
+          else
+            original_method.call(*args, **kwargs)
+          end
         end
 
         expect { described_class.safe_mkdir_p(new_dir) }.not_to raise_error

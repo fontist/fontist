@@ -91,6 +91,11 @@ module Fontist
 
     def fresh_main_repo(branch = "main")
       remote_main_repo(branch) do |dir|
+        # Remove existing formulas directory if it exists to avoid Git clone errors
+        if Dir.exist?(Fontist.formulas_repo_path)
+          Fontist::Utils::FileOps.safe_rm_rf(Fontist.formulas_repo_path)
+        end
+
         Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
 
         yield dir
