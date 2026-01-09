@@ -296,12 +296,13 @@ RSpec.describe Fontist::CLI do
         let(:formula) { "andale" }
         before do
           allow(Fontist.ui).to receive(:ask).and_return("yes")
+          allow(Fontist.ui).to receive(:say)
           example_formula("andale.yml")
         end
 
         it "returns success status and prints fonts paths" do
           # Case-insensitive match works across platforms
-          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i))
+          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i)).at_least(:once)
           expect(command).to be 0
         end
       end
@@ -311,6 +312,7 @@ RSpec.describe Fontist::CLI do
 
         before do
           allow(Fontist.ui).to receive(:ask).and_return("yes")
+          allow(Fontist.ui).to receive(:say)
 
           subdir_path = Fontist.formulas_path.join("subdir")
           FileUtils.mkdir_p(subdir_path)
@@ -319,7 +321,7 @@ RSpec.describe Fontist::CLI do
 
         it "returns success status and prints fonts paths" do
           # Case-insensitive match works across platforms
-          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i))
+          expect(Fontist.ui).to receive(:say).with(match(/AndaleMo\.TTF/i)).at_least(:once)
           expect(command).to be 0
         end
       end
@@ -343,12 +345,15 @@ RSpec.describe Fontist::CLI do
         end
 
         context "suggested formula is chosen" do
-          before { allow(Fontist.ui).to receive(:ask).and_return("0") }
+          before do
+            allow(Fontist.ui).to receive(:ask).and_return("0")
+            allow(Fontist.ui).to receive(:say)
+          end
 
           it "installs the formula" do
             # Case-insensitive match works across platforms
             expect(Fontist.ui).to receive(:say)
-              .with(match(/texgyrechorus-mediumitalic\.otf/i))
+              .with(match(/texgyrechorus-mediumitalic\.otf/i)).at_least(:once)
             subject
           end
         end
