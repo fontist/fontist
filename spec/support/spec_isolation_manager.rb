@@ -43,7 +43,10 @@ module Fontist
         register_component(FormulaIndexComponent.new)
         register_component(ConfigComponent.new)
         register_component(SystemComponent.new)
-        register_component(TempDirectoryComponent.new)
+        # NOTE: TempDirectoryComponent removed - aggressive cleanup before tests
+        # causes issues on Windows where tempfiles need to be kept alive
+        # to prevent GC/EACCES errors. Tests use temp directories that are
+        # automatically cleaned up by Ruby's tempfile lifecycle.
       end
     end
 
