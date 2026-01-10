@@ -27,6 +27,10 @@ RSpec.shared_context "fresh home" do
   end
 
   before do
+    # Reset formulas_path to ensure isolation per test
+    @orig_formulas_path = Fontist.formulas_path
+    Fontist.formulas_path = nil
+
     allow(Fontist).to receive(:default_fontist_path)
       .and_return(Pathname.new(temp_dir))
 
@@ -54,10 +58,12 @@ RSpec.shared_context "fresh home" do
     Fontist::SystemFont.reset_font_paths_cache
     Fontist::Indexes::FontistIndex.reset_cache
     Fontist::Indexes::UserIndex.reset_cache
-    Fontist::Indexes::SystemIndex.reset_cache
   end
 
   after do
+    # Restore original formulas_path
+    Fontist.formulas_path = @orig_formulas_path
+
     # Restore original ENV values
     ENV["FONTIST_USER_FONTS_PATH"] = @orig_user_path
     ENV["FONTIST_SYSTEM_FONTS_PATH"] = @orig_system_path
