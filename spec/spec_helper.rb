@@ -69,21 +69,8 @@ RSpec.configure do |config|
     # caching of the real OS value from interfering with platform-specific stubs
     Fontist::Utils::System.reset_cache
 
-    # Reset all other caches via isolation manager if available
-    begin
-      Fontist::Test::IsolationManager.instance.reset_all
-    rescue StandardError
-      # Fallback to individual resets if isolation manager not available
-      Fontist::Config.reset rescue nil
-      Fontist::Index.reset_cache rescue nil
-      Fontist::SystemIndex.reset_cache rescue nil
-      Fontist::SystemFont.reset_font_paths_cache rescue nil
-
-      # Reset new OOP index singletons
-      Fontist::Indexes::FontistIndex.reset_cache rescue nil
-      Fontist::Indexes::UserIndex.reset_cache rescue nil
-      Fontist::Indexes::SystemIndex.reset_cache rescue nil
-    end
+    # Reset caches via isolation manager
+    Fontist::Test::IsolationManager.instance.reset_all
 
     # Set up a pass-through stub for user_os that calls the original method
     # This ensures the method is stubbed from the start, preventing caching
