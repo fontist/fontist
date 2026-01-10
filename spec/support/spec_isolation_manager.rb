@@ -37,16 +37,12 @@ module Fontist
       attr_reader :managed_components
 
       def register_default_components
-        # Register all stateful components that need cleanup
+        # Register only the most essential components for minimal interference on Windows
+        # Aggressive component cleanup has been causing issues
         register_component(SystemIndexComponent.new)
-        register_component(SystemFontComponent.new)
-        register_component(FormulaIndexComponent.new)
-        register_component(ConfigComponent.new)
-        register_component(SystemComponent.new)
-        # NOTE: TempDirectoryComponent removed - aggressive cleanup before tests
-        # causes issues on Windows where tempfiles need to be kept alive
-        # to prevent GC/EACCES errors. Tests use temp directories that are
-        # automatically cleaned up by Ruby's tempfile lifecycle.
+        # Removed: ConfigComponent, SystemComponent, FormulaIndexComponent, SystemFontComponent
+        # These were causing too much interference with test execution on Windows
+        # Tests should handle their own cleanup via before/after hooks
       end
     end
 
