@@ -49,6 +49,9 @@ module Fontist
       begin
         Dir.mktmpdir do |dir|
           orig_home = Fontist.default_fontist_path
+          orig_formulas_path = Fontist.formulas_path
+          Fontist.formulas_path = nil
+
           allow(Fontist).to receive(:default_fontist_path)
             .and_return(Pathname.new(dir))
 
@@ -69,6 +72,7 @@ module Fontist
           yield dir
 
           # Restore original values
+          Fontist.formulas_path = orig_formulas_path
           ENV["FONTIST_USER_FONTS_PATH"] = orig_user_path
           ENV["FONTIST_SYSTEM_FONTS_PATH"] = orig_system_path
           allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
