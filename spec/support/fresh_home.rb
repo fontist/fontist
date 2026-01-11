@@ -27,12 +27,16 @@ RSpec.shared_context "fresh home" do
   end
 
   before do
-    # Reset formulas_path to ensure isolation per test
+    # Preserve the original formulas_path to access shared formula files
+    # Also preserve formulas_repo_path for the repo existence check
     @orig_formulas_path = Fontist.formulas_path
-    Fontist.formulas_path = nil
+    @orig_formulas_repo_path = Fontist.formulas_repo_path
 
     allow(Fontist).to receive(:default_fontist_path)
       .and_return(Pathname.new(temp_dir))
+    # Stub formulas_repo_path to point to the shared location
+    allow(Fontist).to receive(:formulas_repo_path)
+      .and_return(@orig_formulas_repo_path)
 
     # Stub user and system font paths via ENV to temp directories
     @orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
@@ -64,9 +68,10 @@ RSpec.shared_context "fresh home" do
     # Restore original formulas_path
     Fontist.formulas_path = @orig_formulas_path
 
-    # CRITICAL: Remove the stub completely to avoid side effects
-    # This allows default_fontist_path to work normally in subsequent tests
+    # CRITICAL: Remove the stubs completely to avoid side effects
+    # This allows default_fontist_path and formulas_repo_path to work normally
     allow(Fontist).to receive(:default_fontist_path).and_call_original
+    allow(Fontist).to receive(:formulas_repo_path).and_call_original
 
     # Restore original ENV values
     ENV["FONTIST_USER_FONTS_PATH"] = @orig_user_path
