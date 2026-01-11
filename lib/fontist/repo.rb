@@ -77,8 +77,19 @@ module Fontist
         if Dir.exist?(path)
           Fontist.ui.say(Paint["Repository '#{name}' already exists at #{path}",
                                :yellow])
-          unless Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]",
-                                       :yellow, :bright])
+          # Determine whether to proceed with overwrite:
+          # - If auto_overwrite is explicitly set, use that value
+          # - If interactive, prompt the user
+          # - Otherwise (non-interactive without explicit setting), proceed automatically
+          proceed = if !Fontist.auto_overwrite.nil?
+                      Fontist.auto_overwrite
+                    elsif Fontist.interactive?
+                      Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]",
+                                           :yellow, :bright])
+                    else
+                      true
+                    end
+          unless proceed
             Fontist.ui.say(Paint["Setup cancelled.", :red])
             return false
           end

@@ -168,6 +168,15 @@ module Fontist
     @interactive = bool
   end
 
+  def self.auto_overwrite
+    return @auto_overwrite if defined?(@auto_overwrite)
+    nil
+  end
+
+  def self.auto_overwrite=(value)
+    @auto_overwrite = value
+  end
+
   def self.google_fonts_key
     ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end

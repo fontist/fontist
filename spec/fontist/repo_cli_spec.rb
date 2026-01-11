@@ -22,8 +22,13 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user cancels" do
       before do
-        # Stub yes? on Thor class to prevent CI from hanging on user input
-        allow_any_instance_of(Thor).to receive(:yes?).and_return(false)
+        # Set auto_overwrite to false to simulate user cancelling
+        @original_auto_overwrite = Fontist.auto_overwrite
+        Fontist.auto_overwrite = false
+      end
+
+      after do
+        Fontist.auto_overwrite = @original_auto_overwrite
       end
 
       it "does not show success message and returns success status" do
@@ -45,8 +50,13 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user confirms overwrite" do
       before do
-        # Stub yes? on Thor class to prevent CI from hanging on user input
-        allow_any_instance_of(Thor).to receive(:yes?).and_return(true)
+        # Set auto_overwrite to true to simulate user confirming
+        @original_auto_overwrite = Fontist.auto_overwrite
+        Fontist.auto_overwrite = true
+      end
+
+      after do
+        Fontist.auto_overwrite = @original_auto_overwrite
       end
 
       it "shows success message and returns success status" do

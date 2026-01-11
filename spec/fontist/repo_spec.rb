@@ -51,8 +51,13 @@ RSpec.describe Fontist::Repo do
     context "repo already exists" do
       context "when user says no" do
         before do
-          # Stub yes? on Thor class to prevent CI from hanging on user input
-          allow_any_instance_of(Thor).to receive(:yes?).and_return(false)
+          # Set auto_overwrite to false to simulate user cancelling
+          @original_auto_overwrite = Fontist.auto_overwrite
+          Fontist.auto_overwrite = false
+        end
+
+        after do
+          Fontist.auto_overwrite = @original_auto_overwrite
         end
 
         it "prompts for overwrite and cancels" do
@@ -73,8 +78,13 @@ RSpec.describe Fontist::Repo do
 
       context "when user says yes" do
         before do
-          # Stub yes? on Thor class to prevent CI from hanging on user input
-          allow_any_instance_of(Thor).to receive(:yes?).and_return(true)
+          # Set auto_overwrite to true to simulate user confirming
+          @original_auto_overwrite = Fontist.auto_overwrite
+          Fontist.auto_overwrite = true
+        end
+
+        after do
+          Fontist.auto_overwrite = @original_auto_overwrite
         end
 
         it "prompts for overwrite and proceeds" do
@@ -117,8 +127,13 @@ RSpec.describe Fontist::Repo do
 
       context "allows same name with same URL (overwrite scenario)" do
         before do
-          # Stub yes? on Thor class to prevent CI from hanging on user input
-          allow_any_instance_of(Thor).to receive(:yes?).and_return(true)
+          # Set auto_overwrite to true to simulate user confirming
+          @original_auto_overwrite = Fontist.auto_overwrite
+          Fontist.auto_overwrite = true
+        end
+
+        after do
+          Fontist.auto_overwrite = @original_auto_overwrite
         end
 
         it "prompts for overwrite and proceeds" do
