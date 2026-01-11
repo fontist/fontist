@@ -196,7 +196,7 @@ module Fontist
 
     def self.from_file(path)
       unless File.exist?(path)
-        raise Fontist::Errors::FormulaCouldNotBeFoundError,
+        raise Fontist::Errors::FormulaNotFoundError,
               "Formula file not found: #{path}"
       end
 
