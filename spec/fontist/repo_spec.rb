@@ -49,36 +49,54 @@ RSpec.describe Fontist::Repo do
     end
 
     context "repo already exists" do
-      it "prompts for overwrite and cancels when user says no" do
-        no_fonts_and_formulas do
-          formula_repo_with("tex_gyre_chorus.yml") do |dir|
-            Fontist::Repo.setup("acme", dir)
+      context "when user says no" do
+        before do
+          allow(Fontist.ui).to receive(:yes?).and_return(false)
+        end
 
-            # Try to setup again
-            allow(Fontist.ui).to receive(:yes?).and_return(false)
-            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
+        after do
+          allow(Fontist.ui).to receive(:yes?).and_call_original
+        end
 
-            result = Fontist::Repo.setup("acme", dir)
-            expect(result).to be false
+        it "prompts for overwrite and cancels" do
+          no_fonts_and_formulas do
+            formula_repo_with("tex_gyre_chorus.yml") do |dir|
+              Fontist::Repo.setup("acme", dir)
+
+              # Try to setup again
+              expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+              expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
+
+              result = Fontist::Repo.setup("acme", dir)
+              expect(result).to be false
+            end
           end
         end
       end
 
-      it "prompts for overwrite and proceeds when user says yes" do
-        no_fonts_and_formulas do
-          formula_repo_with("tex_gyre_chorus.yml") do |dir|
-            Fontist::Repo.setup("acme", dir)
+      context "when user says yes" do
+        before do
+          allow(Fontist.ui).to receive(:yes?).and_return(true)
+        end
 
-            # Try to setup again with different formula
-            formula_repo_with("andale.yml") do |new_dir|
-              allow(Fontist.ui).to receive(:yes?).and_return(true)
-              expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-              expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+        after do
+          allow(Fontist.ui).to receive(:yes?).and_call_original
+        end
 
-              result = Fontist::Repo.setup("acme", new_dir)
-              expect(result).to be true
-              expect(Fontist::Formula.find("Andale Mono")).to be
+        it "prompts for overwrite and proceeds" do
+          no_fonts_and_formulas do
+            formula_repo_with("tex_gyre_chorus.yml") do |dir|
+              Fontist::Repo.setup("acme", dir)
+
+              # Try to setup again with different formula
+              formula_repo_with("andale.yml") do |new_dir|
+                expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+                expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+
+                result = Fontist::Repo.setup("acme", new_dir)
+                expect(result).to be true
+                expect(Fontist::Formula.find("Andale Mono")).to be
+              end
             end
           end
         end
@@ -103,19 +121,28 @@ RSpec.describe Fontist::Repo do
         end
       end
 
-      it "allows same name with same URL (overwrite scenario)" do
-        no_fonts_and_formulas do
-          formula_repo_with("tex_gyre_chorus.yml") do |dir|
-            # Setup first repo
-            Fontist::Repo.setup("acme", dir)
+      context "allows same name with same URL (overwrite scenario)" do
+        before do
+          allow(Fontist.ui).to receive(:yes?).and_return(true)
+        end
 
-            # Setup same name with same URL should prompt for overwrite
-            allow(Fontist.ui).to receive(:yes?).and_return(true)
-            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+        after do
+          allow(Fontist.ui).to receive(:yes?).and_call_original
+        end
 
-            result = Fontist::Repo.setup("acme", dir)
-            expect(result).to be true
+        it "prompts for overwrite and proceeds" do
+          no_fonts_and_formulas do
+            formula_repo_with("tex_gyre_chorus.yml") do |dir|
+              # Setup first repo
+              Fontist::Repo.setup("acme", dir)
+
+              # Setup same name with same URL should prompt for overwrite
+              expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
+              expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+
+              result = Fontist::Repo.setup("acme", dir)
+              expect(result).to be true
+            end
           end
         end
       end

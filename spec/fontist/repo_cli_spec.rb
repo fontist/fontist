@@ -21,15 +21,22 @@ RSpec.describe Fontist::RepoCLI do
     end
 
     context "repo already exists and user cancels" do
+      before do
+        allow(Fontist.ui).to receive(:yes?).and_return(false)
+      end
+
+      after do
+        allow(Fontist.ui).to receive(:yes?).and_call_original
+      end
+
       it "does not show success message and returns success status" do
         no_fonts_and_formulas do
           formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
 
             # Setup again but cancel
-            allow(Fontist.ui).to receive(:yes?).and_return(false)
-            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
+            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists")).ordered
+            expect(Fontist.ui).to receive(:say).with(include("Setup cancelled")).ordered
             expect(Fontist.ui).not_to receive(:success)
 
             status = described_class.start(["setup", "acme", dir])
@@ -40,15 +47,22 @@ RSpec.describe Fontist::RepoCLI do
     end
 
     context "repo already exists and user confirms overwrite" do
+      before do
+        allow(Fontist.ui).to receive(:yes?).and_return(true)
+      end
+
+      after do
+        allow(Fontist.ui).to receive(:yes?).and_call_original
+      end
+
       it "shows success message and returns success status" do
         no_fonts_and_formulas do
           formula_repo_with("tex_gyre_chorus.yml") do |dir|
             Fontist::Repo.setup("acme", dir)
 
             # Setup again with confirmation
-            allow(Fontist.ui).to receive(:yes?).and_return(true)
-            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
+            expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists")).ordered
+            expect(Fontist.ui).to receive(:say).with(include("Removing existing repository")).ordered
             expect(Fontist.ui).to receive(:success).with(
               "Fontist repo 'acme' from '#{dir}' has been successfully set up.",
             )
