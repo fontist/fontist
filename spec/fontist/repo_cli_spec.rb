@@ -22,7 +22,8 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user cancels" do
       before do
-        allow(Fontist::Utils::UI).to receive(:yes?).and_return(false)
+        # Stub yes? on Thor class to prevent CI from hanging on user input
+        allow_any_instance_of(Thor).to receive(:yes?).and_return(false)
       end
 
       it "does not show success message and returns success status" do
@@ -44,7 +45,8 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user confirms overwrite" do
       before do
-        allow(Fontist::Utils::UI).to receive(:yes?).and_return(true)
+        # Stub yes? on Thor class to prevent CI from hanging on user input
+        allow_any_instance_of(Thor).to receive(:yes?).and_return(true)
       end
 
       it "shows success message and returns success status" do
