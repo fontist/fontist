@@ -15,6 +15,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".find" do
+    before { Fontist::Index.reset_cache }
     context "by font name" do
       it "returns the font formulas" do
         clear_type = Fontist::Formula.find("Calibri")
@@ -36,6 +37,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".find_fonts" do
+    before { Fontist::Index.reset_cache }
     it "returns the exact font names" do
       name = "Andale Mono"
       fonts = Fontist::Formula.find_fonts(name)
@@ -53,6 +55,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".all" do
+    before { Fontist::Index.reset_cache }
     it "returns all registered formulas" do
       formulas = Fontist::Formula.all
 
@@ -63,6 +66,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe "#from_hash" do
+    before { Fontist::Index.reset_cache }
     let(:formula) { described_class.from_file(path) }
     let(:path) { Fontist.formulas_path.join("lato.yml").to_s }
 
@@ -86,6 +90,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".find_by_font_file" do
+    before { Fontist::Index.reset_cache }
     it "existing font file" do
       font_path = examples_font_path("ariali.ttf")
       formula = described_class.find_by_font_file(font_path)
@@ -98,6 +103,7 @@ RSpec.describe Fontist::Formula do
   end
 
   describe ".style_override" do
+    before { Fontist::Index.reset_cache }
     it "never nil" do
       formula = described_class.find("Calibri")
       expect(formula.style_override("Calibri")).not_to be_nil

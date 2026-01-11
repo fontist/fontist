@@ -147,7 +147,7 @@ RSpec.describe Fontist::Indexes::UserIndex do
       allow(Fontist.ui).to receive(:debug)
 
       # Should not raise, should return empty array
-      paths = index.send(:user_font_paths)
+      paths = index.send(:font_paths)
       expect(paths).to eq([])
     end
   end

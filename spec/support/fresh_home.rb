@@ -64,6 +64,10 @@ RSpec.shared_context "fresh home" do
     # Restore original formulas_path
     Fontist.formulas_path = @orig_formulas_path
 
+    # CRITICAL: Remove the stub completely to avoid side effects
+    # This allows default_fontist_path to work normally in subsequent tests
+    allow(Fontist).to receive(:default_fontist_path).and_call_original
+
     # Restore original ENV values
     ENV["FONTIST_USER_FONTS_PATH"] = @orig_user_path
     ENV["FONTIST_SYSTEM_FONTS_PATH"] = @orig_system_path

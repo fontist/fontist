@@ -54,7 +54,10 @@ RSpec.describe Fontist::Font do
 
     context "with macos system fonts", slow: true, macos: true do
       before do
-        stub_system_fonts(Fontist.orig_system_file_path)
+        # Use minimal fixture that only includes the specific fonts being tested
+        # This avoids scanning thousands of system fonts and speeds up tests dramatically
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_macos_minimal.yml")
+        stub_system_fonts(minimal_system_file)
         # Rebuild system index to detect actual macOS fonts
         Fontist::SystemIndex.system_index.rebuild
       end
@@ -88,7 +91,11 @@ RSpec.describe Fontist::Font do
     end
 
     context "with windows system fonts", windows: true, slow: true do
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+      before do
+        # Use minimal fixture that only includes the specific fonts being tested
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        stub_system_fonts(minimal_system_file)
+      end
 
       # Fonts confirmed to exist on vanilla GHA Windows runners
       fonts = [
@@ -118,7 +125,9 @@ RSpec.describe Fontist::Font do
       before do
         FileUtils.mkdir_p(File.dirname(absolute_user_path))
         FileUtils.cp(fixture_path, absolute_user_path)
-        stub_system_fonts(Fontist.orig_system_file_path)
+        # Use minimal fixture for Windows user font tests
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        stub_system_fonts(minimal_system_file)
       end
 
       after do
@@ -881,7 +890,10 @@ RSpec.describe Fontist::Font do
 
     context "no main repo" do
       let(:font) { "any font" }
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+      before do
+        # Use empty system.yml fixture - no need to scan any system fonts for this test
+        stub_system_fonts(Fontist.root_path.join("spec", "fixtures", "system.yml"))
+      end
 
       it "throws MainRepoNotFoundError", slow: true do
         expect { command }

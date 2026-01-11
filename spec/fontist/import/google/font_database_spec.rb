@@ -3,7 +3,7 @@ require "fontist/import/google/font_database"
 require "fontist/import/google/models/font_family"
 require "fontist/import/google/models/axis"
 
-RSpec.describe Fontist::Import::Google::FontDatabase do
+RSpec.describe Fontist::Import::Google::FontDatabase, :vcr do
   let(:ttf_font1) do
     Fontist::Import::Google::Models::FontFamily.new(
       family: "ABeeZee",

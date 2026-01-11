@@ -145,7 +145,7 @@ RSpec.describe Fontist::Indexes::SystemIndex do
     it "uses SystemFont.load_system_font_paths" do
       expect(Fontist::SystemFont).to receive(:load_system_font_paths).and_return([])
 
-      index.send(:system_font_paths)
+      index.send(:font_paths)
     end
   end
 end
