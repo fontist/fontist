@@ -82,11 +82,13 @@ RSpec.describe Fontist::RepoCLI do
   describe "#update" do
     context "no such repo" do
       it "prints error message and returns not-found status" do
-        expect(Fontist.ui).to receive(:error)
-          .with("Fontist repo 'acme' is not found.")
+        fresh_fontist_home do
+          expect(Fontist.ui).to receive(:error)
+            .with("Fontist repo 'acme' is not found.")
 
-        status = described_class.start(["update", "acme"])
-        expect(status).to be Fontist::CLI::STATUS_REPO_NOT_FOUND
+          status = described_class.start(["update", "acme"])
+          expect(status).to be Fontist::CLI::STATUS_REPO_NOT_FOUND
+        end
       end
     end
 
@@ -130,11 +132,13 @@ RSpec.describe Fontist::RepoCLI do
   describe "#remove" do
     context "no such repo" do
       it "prints error message and returns not-found status" do
-        expect(Fontist.ui).to receive(:error)
-          .with("Fontist repo 'acme' is not found.")
+        fresh_fontist_home do
+          expect(Fontist.ui).to receive(:error)
+            .with("Fontist repo 'acme' is not found.")
 
-        status = described_class.start(["remove", "acme"])
-        expect(status).to be Fontist::CLI::STATUS_REPO_NOT_FOUND
+          status = described_class.start(["remove", "acme"])
+          expect(status).to be Fontist::CLI::STATUS_REPO_NOT_FOUND
+        end
       end
     end
 
