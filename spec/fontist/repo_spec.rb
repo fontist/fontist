@@ -51,11 +51,11 @@ RSpec.describe Fontist::Repo do
     context "repo already exists" do
       context "when user says no" do
         before do
-          allow(Fontist.ui).to receive(:yes?).and_return(false)
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_return(false)
         end
 
         after do
-          allow(Fontist.ui).to receive(:yes?).and_call_original
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_call_original
         end
 
         it "prompts for overwrite and cancels" do
@@ -76,11 +76,11 @@ RSpec.describe Fontist::Repo do
 
       context "when user says yes" do
         before do
-          allow(Fontist.ui).to receive(:yes?).and_return(true)
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_return(true)
         end
 
         after do
-          allow(Fontist.ui).to receive(:yes?).and_call_original
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_call_original
         end
 
         it "prompts for overwrite and proceeds" do
@@ -123,11 +123,11 @@ RSpec.describe Fontist::Repo do
 
       context "allows same name with same URL (overwrite scenario)" do
         before do
-          allow(Fontist.ui).to receive(:yes?).and_return(true)
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_return(true)
         end
 
         after do
-          allow(Fontist.ui).to receive(:yes?).and_call_original
+          allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_call_original
         end
 
         it "prompts for overwrite and proceeds" do

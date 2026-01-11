@@ -22,11 +22,11 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user cancels" do
       before do
-        allow(Fontist.ui).to receive(:yes?).and_return(false)
+        allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_return(false)
       end
 
       after do
-        allow(Fontist.ui).to receive(:yes?).and_call_original
+        allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_call_original
       end
 
       it "does not show success message and returns success status" do
@@ -48,11 +48,11 @@ RSpec.describe Fontist::RepoCLI do
 
     context "repo already exists and user confirms overwrite" do
       before do
-        allow(Fontist.ui).to receive(:yes?).and_return(true)
+        allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_return(true)
       end
 
       after do
-        allow(Fontist.ui).to receive(:yes?).and_call_original
+        allow_any_instance_of(Fontist::Utils::UI).to receive(:yes?).and_call_original
       end
 
       it "shows success message and returns success status" do
