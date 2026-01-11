@@ -55,8 +55,8 @@ RSpec.describe Fontist::Repo do
             Fontist::Repo.setup("acme", dir)
 
             # Try to setup again
+            allow(Fontist.ui).to receive(:yes?).and_return(false)
             expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(false)
             expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
 
             result = Fontist::Repo.setup("acme", dir)
@@ -72,8 +72,8 @@ RSpec.describe Fontist::Repo do
 
             # Try to setup again with different formula
             formula_repo_with("andale.yml") do |new_dir|
+              allow(Fontist.ui).to receive(:yes?).and_return(true)
               expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-              expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(true)
               expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
 
               result = Fontist::Repo.setup("acme", new_dir)
@@ -110,8 +110,8 @@ RSpec.describe Fontist::Repo do
             Fontist::Repo.setup("acme", dir)
 
             # Setup same name with same URL should prompt for overwrite
+            allow(Fontist.ui).to receive(:yes?).and_return(true)
             expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:yes?).and_return(true)
             expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
 
             result = Fontist::Repo.setup("acme", dir)

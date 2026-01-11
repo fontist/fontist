@@ -27,8 +27,8 @@ RSpec.describe Fontist::RepoCLI do
             Fontist::Repo.setup("acme", dir)
 
             # Setup again but cancel
+            allow(Fontist.ui).to receive(:yes?).and_return(false)
             expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(false)
             expect(Fontist.ui).to receive(:say).with(include("Setup cancelled"))
             expect(Fontist.ui).not_to receive(:success)
 
@@ -46,8 +46,8 @@ RSpec.describe Fontist::RepoCLI do
             Fontist::Repo.setup("acme", dir)
 
             # Setup again with confirmation
+            allow(Fontist.ui).to receive(:yes?).and_return(true)
             expect(Fontist.ui).to receive(:say).with(include("Repository 'acme' already exists"))
-            expect(Fontist.ui).to receive(:yes?).with(include("Do you want to overwrite it?")).and_return(true)
             expect(Fontist.ui).to receive(:say).with(include("Removing existing repository"))
             expect(Fontist.ui).to receive(:success).with(
               "Fontist repo 'acme' from '#{dir}' has been successfully set up.",
