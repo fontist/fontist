@@ -82,7 +82,12 @@ RSpec.describe Fontist::RepoCLI do
   describe "#update" do
     context "no such repo" do
       it "prints error message and returns not-found status" do
-        fresh_fontist_home do
+        fresh_fontist_home do |dir|
+          # Stub formulas_repo_path to prevent CLI from finding global main repo
+          # This ensures complete isolation for the "no such repo" test
+          allow(Fontist).to receive(:formulas_repo_path)
+            .and_return(Pathname.new(dir).join("formulas"))
+
           expect(Fontist.ui).to receive(:error)
             .with("Fontist repo 'acme' is not found.")
 
@@ -132,7 +137,12 @@ RSpec.describe Fontist::RepoCLI do
   describe "#remove" do
     context "no such repo" do
       it "prints error message and returns not-found status" do
-        fresh_fontist_home do
+        fresh_fontist_home do |dir|
+          # Stub formulas_repo_path to prevent CLI from finding global main repo
+          # This ensures complete isolation for the "no such repo" test
+          allow(Fontist).to receive(:formulas_repo_path)
+            .and_return(Pathname.new(dir).join("formulas"))
+
           expect(Fontist.ui).to receive(:error)
             .with("Fontist repo 'acme' is not found.")
 
