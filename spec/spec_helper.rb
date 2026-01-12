@@ -61,6 +61,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     Fontist.interactive = false
     Fontist.ui.level = :info  # Enable UI method execution in tests
+    Fontist.auto_overwrite = true  # Auto-overwrite repos to prevent yes? prompts blocking CI
   end
 
   # Reset all Fontist state before each test to ensure clean state for stubs
