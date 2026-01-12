@@ -1,5 +1,18 @@
 module Fontist
   module Helper
+    # Reset all Fontist caches to ensure test isolation
+    # Delegates to IsolationManager for proper encapsulation
+    def reset_all_fontist_caches
+      Fontist::Test::IsolationManager.instance.reset_all
+    end
+
+    # Reset verification flags on cached index instances
+    # This is now handled by IsolationManager components
+    def reset_index_verification_flags
+      # Deprecated - handled by IsolationManager
+      reset_all_fontist_caches
+    end
+
     def stub_fontist_path_to_temp_path
       allow(Fontist).to receive(:fontist_path).and_return(
         Fontist.root_path.join("spec", "fixtures"),
@@ -15,24 +28,78 @@ module Fontist
 
         yield
 
+        # Comprehensive cleanup for test isolation
         Fontist::Index.reset_cache
+        Fontist::SystemIndex.reset_cache
+        Fontist::SystemFont.reset_font_paths_cache
+        Fontist::Config.reset  # Reset config singleton to ensure test isolation
+
+        # Reset new OOP index singletons
+        Fontist::Indexes::FontistIndex.reset_cache
+        Fontist::Indexes::UserIndex.reset_cache
+        Fontist::Indexes::SystemIndex.reset_cache
+
+        # Reset interactive mode to default
+        Fontist.interactive = false
       end
     end
 
     def fresh_fontist_home
-      Dir.mktmpdir do |dir|
-        orig_home = Fontist.default_fontist_path
-        allow(Fontist).to receive(:default_fontist_path)
-          .and_return(Pathname.new(dir))
+      retry_count = 0
+      begin
+        Dir.mktmpdir do |dir|
+          orig_home = Fontist.default_fontist_path
+          orig_formulas_path = Fontist.formulas_path
+          Fontist.formulas_path = nil
 
-        yield dir
+          allow(Fontist).to receive(:default_fontist_path)
+            .and_return(Pathname.new(dir))
 
-        allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+          # Stub user and system font paths via ENV to prevent accessing real directories
+          # This ensures UserIndex and SystemIndex scan only temp directories
+          user_fonts_temp = File.join(dir, "user_fonts")
+          system_fonts_temp = File.join(dir, "system_fonts")
+
+          FileUtils.mkdir_p(user_fonts_temp)
+          FileUtils.mkdir_p(system_fonts_temp)
+
+          orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
+          orig_system_path = ENV["FONTIST_SYSTEM_FONTS_PATH"]
+
+          ENV["FONTIST_USER_FONTS_PATH"] = user_fonts_temp
+          ENV["FONTIST_SYSTEM_FONTS_PATH"] = system_fonts_temp
+
+          yield dir
+
+          # Restore original values
+          Fontist.formulas_path = orig_formulas_path
+          ENV["FONTIST_USER_FONTS_PATH"] = orig_user_path
+          ENV["FONTIST_SYSTEM_FONTS_PATH"] = orig_system_path
+          allow(Fontist).to receive(:default_fontist_path).and_return(orig_home)
+          reset_all_fontist_caches # Clean up after
+
+          # On Windows, wait a bit for file handles to be released
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+        end
+      rescue Errno::ENOTEMPTY, Errno::EACCES => e
+        # Windows-specific: retry cleanup after file handles are released
+        if Fontist::Utils::System.user_os == :windows && retry_count < 3
+          retry_count += 1
+          sleep(0.2)
+          retry
+        end
+        # If cleanup still fails, warn but don't fail the test
+        warn "Warning: Could not clean up temp directory: #{e.message}"
       end
     end
 
     def fresh_main_repo(branch = "main")
       remote_main_repo(branch) do |dir|
+        # Remove existing formulas directory if it exists to avoid Git clone errors
+        if Dir.exist?(Fontist.formulas_repo_path)
+          Fontist::Utils::FileOps.safe_rm_rf(Fontist.formulas_repo_path)
+        end
+
         Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
 
         yield dir
@@ -82,27 +149,59 @@ module Fontist
 
     def stub_fonts_path_to_new_path
       @fontist_dir = create_tmp_dir
+
+      # Create a parent fontist directory structure for index files
+      # This ensures fontist_index_path and related paths are writable
+      @fontist_parent_dir = create_tmp_dir
+
+      # Create formulas directory structure to satisfy check_index
+      # formulas_repo_path = fontist_path/versions/v4/formulas/Formulas
+      versions_dir = File.join(@fontist_parent_dir, "versions", "v4", "formulas")
+      FileUtils.mkdir_p(File.join(versions_dir, "Formulas"))
+
+      # Stub fontist_path first (affects derived paths like fontist_index_path)
+      allow(Fontist).to receive(:fontist_path)
+        .and_return(Pathname.new(@fontist_parent_dir))
+
+      # Then stub fonts_path to the separate fonts directory
       allow(Fontist).to receive(:fonts_path)
         .and_return(Pathname.new(@fontist_dir))
+
       return @fontist_dir unless block_given?
 
       result = yield @fontist_dir
       cleanup_fontist_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
       result
     end
 
     def stub_system_fonts_path_to_new_path
       @system_dir = create_tmp_dir
 
-      system_file = Tempfile.new
-      system_file.write(YAML.dump(system_paths(@system_dir)))
-      system_file.close
+      @system_file_tempfile = Tempfile.new
+      @system_file_tempfile.write(YAML.dump(system_paths(@system_dir)))
+      @system_file_tempfile.close
 
-      stub_system_fonts(system_file)
+      stub_system_fonts(@system_file_tempfile)
+
       return @system_dir unless block_given?
 
       result = yield @system_dir
       cleanup_system_fonts
+      Fontist::SystemIndex.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+
+      # Explicitly unlink tempfile on Windows to avoid permission errors
+      if Fontist::Utils::System.user_os == :windows && @system_file_tempfile
+        begin
+          @system_file_tempfile.unlink
+        rescue StandardError
+          # Ignore cleanup errors
+        end
+        @system_file_tempfile = nil
+      end
+
       result
     end
 
@@ -136,15 +235,21 @@ module Fontist
     def cleanup_system_fonts
       raise("System dir is not stubbed") unless @system_dir
 
-      FileUtils.rm_rf(@system_dir)
+      Fontist::Utils::FileOps.safe_rm_rf(@system_dir)
       @system_dir = nil
     end
 
     def cleanup_fontist_fonts
       raise("Fontist dir is not stubbed") unless @fontist_dir
 
-      FileUtils.rm_rf(@fontist_dir)
+      Fontist::Utils::FileOps.safe_rm_rf(@fontist_dir)
       @fontist_dir = nil
+
+      # Clean up parent fontist directory if it was created
+      if @fontist_parent_dir
+        Fontist::Utils::FileOps.safe_rm_rf(@fontist_parent_dir)
+        @fontist_parent_dir = nil
+      end
     end
 
     def stub_system_font_finder_to_fixture(name)
@@ -174,16 +279,34 @@ module Fontist
     end
 
     def font_files
-      Dir.entries(Fontist.fonts_path) - %w[. ..]
+      # Search recursively for font files in formula subdirectories
+      Dir.glob(Fontist.fonts_path.join("**", "*"))
+        .select { |f| File.file?(f) }
+        .map { |f| File.basename(f) }
     end
 
     def font_file(filename)
+      # Search recursively to support formula-keyed structure
+      matches = Dir.glob(Fontist.fonts_path.join("**", filename))
+      return Pathname.new(matches.first) if matches.any?
+
+      # Fallback to flat path for backward compatibility
       Pathname.new(Fontist.fonts_path.join(filename))
     end
 
     def font_path(filename, dir = nil)
       dir ||= Fontist.fonts_path.to_s
+      # Search recursively to support both flat and formula-keyed structures
+      matches = Dir.glob(File.join(dir, "**", filename))
+      return matches.first if matches.any?
+
+      # Fallback to old flat path for backward compatibility
       File.join(dir, filename)
+    end
+
+    def formula_font_path(formula_key, filename, dir = nil)
+      dir ||= Fontist.fonts_path.to_s
+      File.join(dir, formula_key, filename)
     end
 
     def system_font_path(filename)
@@ -204,19 +327,43 @@ module Fontist
     end
 
     def example_font(filename)
-      example_font_to(filename, Fontist.fonts_path)
+      # Infer formula key from font filename
+      # e.g., "overpass-regular.otf" → "overpass"
+      # e.g., "texgyrechorus-mediumitalic.otf" → "tex_gyre_chorus"
+      # e.g., "AndaleMo.TTF" → "andale" (needs special handling)
+      # e.g., "Roboto-Regular.ttf" → "roboto"
+      formula_key = infer_formula_key_from_filename(filename)
+
+      # Create formula-keyed subdirectory
+      target_dir = Fontist.fonts_path.join(formula_key)
+      FileUtils.mkdir_p(target_dir)
+
+      # Copy font to formula subdirectory
+      example_font_to(filename, target_dir)
+
+      # Rebuild fontist index so fonts are findable by new OOP architecture
+      Fontist::Indexes::FontistIndex.instance.rebuild
     end
 
     def example_font_to_system(filename)
       raise("System dir is not stubbed") unless @system_dir
 
       example_font_to(filename, @system_dir)
+      # Rebuild system index so fonts are findable
+      Fontist::Indexes::SystemIndex.instance.rebuild
     end
 
     def example_font_to_fontist(filename)
       raise("Fontist dir is not stubbed") unless @fontist_dir
 
-      example_font_to(filename, @fontist_dir)
+      # For fontist_dir (used in tests), also use formula-keyed structure
+      formula_key = infer_formula_key_from_filename(filename)
+      target_dir = File.join(@fontist_dir, formula_key)
+      FileUtils.mkdir_p(target_dir)
+
+      example_font_to(filename, target_dir)
+      # Rebuild fontist index so fonts are findable
+      Fontist::Indexes::FontistIndex.instance.rebuild
     end
 
     def example_font_to(filename, dir)
@@ -364,6 +511,66 @@ module Fontist
 
     def restore_default_settings
       Fontist.interactive = false
+    end
+
+    # Windows-safe wrapper for Dir.mktmpdir that handles file locking
+    # during cleanup. Use this when installing fonts in temp directories.
+    #
+    # @yield [String] temp directory path
+    # @return [Object] result of the block
+    def safe_mktmpdir
+      retry_count = 0
+      begin
+        Dir.mktmpdir do |dir|
+          result = yield dir
+
+          # On Windows, wait for file handles to be released
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+
+          result
+        end
+      rescue Errno::ENOTEMPTY, Errno::EACCES => e
+        # Windows-specific: retry cleanup after file handles are released
+        if Fontist::Utils::System.user_os == :windows && retry_count < 3
+          retry_count += 1
+          sleep(0.2)
+          retry
+        end
+        # If cleanup still fails, warn but don't fail the test
+        warn "Warning: Could not clean up temp directory: #{e.message}"
+      end
+    end
+
+    private
+
+    # Infers formula key from font filename
+    #
+    # Examples:
+    #   "overpass-regular.otf" → "overpass"
+    #   "texgyrechorus-mediumitalic.otf" → "tex_gyre_chorus"
+    #   "AndaleMo.TTF" → "andale"
+    #   "Roboto-Regular.ttf" → "roboto"
+    #
+    # @param filename [String] Font filename
+    # @return [String] Formula key
+    def infer_formula_key_from_filename(filename)
+      base = File.basename(filename, ".*").downcase
+
+      # Common patterns to extract formula key
+      # Remove common suffixes: -regular, -bold, -italic, etc.
+      key = base.gsub(/-?(regular|bold|italic|light|medium|thin|black|oblique|mono)/, "")
+
+      # Handle special cases
+      key = "andale" if key =~ /^andalemo/
+      key = "tex_gyre_chorus" if key =~ /^texgyrechorus/
+      key = "work_sans" if key =~ /^worksans/
+      key = "cambria" if key =~ /^cambria/
+      key = "fira_code" if key =~ /^firacode/
+      key = "lato" if key =~ /^lato/
+      key = "source" if key =~ /^source/
+
+      # Remove trailing hyphens and underscores
+      key.gsub(/[-_]+$/, "")
     end
   end
 end

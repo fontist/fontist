@@ -35,7 +35,7 @@ Courier New:
 Then run:
 
 ```sh
-fontist manifest-install manifest.yml
+fontist manifest install manifest.yml
 ```
 
 ```
@@ -49,10 +49,10 @@ Arial:
     ...
 ```
 
-💡 You can use `fontist manifest-locations` to get the installation paths of **only the fonts listed in the manifest file**.
+💡 You can use `fontist manifest locations` to get the installation paths of **only the fonts listed in the manifest file**.
 
 ```sh
-fontist manifest-locations manifest.yml
+fontist manifest locations manifest.yml
 ```
 
 ```

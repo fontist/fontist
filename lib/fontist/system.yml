@@ -5,8 +5,16 @@ system:
 
   windows:
     paths:
-      - C:/Windows/Fonts/**/**.{ttc,ttf}
-      - C:/Users/{username}/AppData/Local/Microsoft/Windows/Fonts/**/**.{ttc,ttf}
+      # System fonts (standard and uppercase variants)
+      - C:/Windows/Fonts/**/**.{ttf,otf,ttc,otc}
+      - C:/WINDOWS/Fonts/**/**.{ttf,otf,ttc,otc}
+
+      # User fonts
+      - C:/Users/{username}/AppData/Local/Microsoft/Windows/Fonts/**/**.{ttf,otf,ttc,otc}
+
+      # Program Files fonts (Microsoft Office, etc.)
+      - C:/Program Files/Common Files/Microsoft/**/*.{ttf,otf,ttc,otc}
+      - C:/Program Files (x86)/Common Files/Microsoft/**/*.{ttf,otf,ttc,otc}
 
   macos:
     paths:
@@ -14,7 +22,9 @@ system:
       - /System/Library/Fonts/**/**.{ttf,ttc}
       - /Users/{username}/Library/Fonts/**.{ttf,ttc}
       - /Applications/Microsoft**/Contents/Resources/**/**.{ttf,ttc}
-      - /System/Library/AssetsV2/com_apple_MobileAsset_Font6/**/**.{ttf,ttc}
+      - /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.asset/AssetData/**.{ttf,ttc,otf,otc}
+      - /System/Library/PrivateFrameworks/FontServices.framework/Resources/Fonts/Subsets/**/**.{ttf,ttc,otf}
+      - /System/Library/PrivateFrameworks/FontServices.framework/Resources/Fonts/ApplicationSupport/**/**.{ttf,ttc,otf}
 
   unix:
     paths:

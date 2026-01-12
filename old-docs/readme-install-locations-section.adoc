@@ -1,0 +1,69 @@
+=== Installation locations
+
+Fontist supports installing fonts to three types of named locations:
+
+==== Location types
+
+`fontist` (default):: Fontist's font library at `~/.fontist/fonts/{formula-key}/`
+* No administrative permissions required
+* Fonts organized by formula to prevent naming conflicts  
+* Can be customized via `FONTIST_PATH` environment variable
+
+`user`:: Platform-specific user font directory
+* No administrative permissions required
+* Available to current user only
+* **macOS**: `~/Library/Fonts`
+* **Linux**: `~/.local/share/fonts`  
+* **Windows**: `%LOCALAPPDATA%\Microsoft\Windows\Fonts`
+
+`system`:: Platform-specific system font directory  
+* **Requires administrative/sudo permissions**
+* Available to all users on the system
+* **macOS**: `/Library/Fonts`
+* **Linux**: `/usr/local/share/fonts`
+* **Windows**: `%windir%\Fonts`
+
+==== Usage examples
+
+[source,sh]
+----
+# Install to Fontist library (default)
+fontist install "Roboto"
+
+# Install to user font directory
+fontist install "Roboto" --location=user
+
+# Install to system font directory (may require sudo)
+fontist install "Roboto" --location=system
+sudo fontist install "Roboto" --location=system  # Linux/macOS
+----
+
+==== Configuration
+
+The default installation location can be configured:
+
+[source,sh]
+----
+# Via config file
+fontist config set install_location user
+
+# Via environment variable  
+export FONTIST_INSTALL_LOCATION=user
+fontist install "Roboto"
+
+# Fontist library location can be customized
+export FONTIST_PATH=/custom/fontist/directory
+fontist install "Roboto"  # Installs to /custom/fontist/directory/fonts/roboto/
+----
+
+==== Font discovery
+
+Fontist always searches for fonts in ALL locations regardless of where they were installed:
+
+* System font directories (platform-specific)
+* User font directories (platform-specific)  
+* Fontist library directory
+
+This means fonts installed by other applications or the operating system are automatically discovered and can be used by Fontist.
+
+NOTE: Fonts installed via formulas are organized in subdirectories by formula key (e.g., `roboto/`, `lato/`) to prevent filename conflicts between different font packages.

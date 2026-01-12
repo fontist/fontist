@@ -148,11 +148,10 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     let(:options) { { keep_existing: true } }
     before do
       FileUtils.touch("euphemia_ucas.yml")
-      FileUtils.rm_f("euphemia_ucas2.yml")
     end
 
-    it "creates with numbered name", dev: true do
-      expect(formula_file).to eq "euphemia_ucas2.yml"
+    it "returns existing filename without overwriting", dev: true do
+      expect(formula_file).to eq "euphemia_ucas.yml"
     end
   end
 
@@ -161,11 +160,24 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     # File.write(example_file, YAML.dump(formula))
     varies_attributes = %w[copyright homepage license_url open_license
                            requires_license_agreement command resources name]
-    exclude = %w[fonts font_collections] + varies_attributes
+    exclude = %w[fonts font_collections font_version] + varies_attributes
     expect(except(formula, *exclude)).to eq(except(example, *exclude))
 
     if example["fonts"]
-      expect(formula["fonts"]).to contain_exactly(
+      # Filter out preferred_* fields from actual formula since they're new metadata
+      # that Fontisan extracts but weren't in legacy examples
+      normalized_formula_fonts = formula["fonts"].map do |font|
+        {
+          "name" => font["name"],
+          "styles" => font["styles"].map do |style|
+            style.reject do |k, _v|
+              ["preferred_type", "preferred_family_name"].include?(k)
+            end
+          end,
+        }
+      end
+
+      expect(normalized_formula_fonts).to contain_exactly(
         *example["fonts"].map do |font|
           { "name" => font["name"],
             "styles" => contain_exactly(*font["styles"]) }
@@ -174,7 +186,23 @@ RSpec.describe "Fontist::Import::CreateFormula" do
     end
 
     if example["font_collections"]
-      expect(formula["font_collections"]).to contain_exactly(
+      # Filter out preferred_* fields from actual formula collections
+      normalized_formula_collections = formula["font_collections"].map do |collection|
+        collection.merge(
+          "fonts" => collection["fonts"].map do |font|
+            {
+              "name" => font["name"],
+              "styles" => font["styles"].map do |style|
+                style.reject do |k, _v|
+                  ["preferred_type", "preferred_family_name"].include?(k)
+                end
+              end,
+            }
+          end,
+        )
+      end
+
+      expect(normalized_formula_collections).to contain_exactly(
         *example["font_collections"].map do |collection|
           include(
             only(collection, "filename", "source_filename").merge(

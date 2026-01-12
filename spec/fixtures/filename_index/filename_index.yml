@@ -1,0 +1,6220 @@
+---
+SourceHanSans-Bold.ttc:
+- source.yml
+SourceHanSans-ExtraLight.ttc:
+- source.yml
+SourceHanSans-Heavy.ttc:
+- source.yml
+SourceHanSans-Light.ttc:
+- source.yml
+SourceHanSans-Medium.ttc:
+- source.yml
+SourceHanSans-Normal.ttc:
+- source.yml
+SourceHanSans-Regular.ttc:
+- source.yml
+SourceCodePro-Regular.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceCodePro-MediumIt.ttf:
+- source.yml
+SourceCodePro-It.ttf:
+- source.yml
+SourceCodePro-ExtraLightIt.ttf:
+- source.yml
+SourceCodePro-ExtraLight.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceCodePro-BlackIt.ttf:
+- source.yml
+SourceCodePro-BoldIt.ttf:
+- source.yml
+SourceCodePro-SemiboldIt.ttf:
+- source.yml
+SourceCodePro-Black.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceCodePro-Bold.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceCodePro-Semibold.ttf:
+- source.yml
+SourceCodePro-LightIt.ttf:
+- source.yml
+SourceCodePro-Medium.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceCodePro-Light.ttf:
+- source.yml
+- google/source_code_pro.yml
+SourceSansPro-BlackIt.ttf:
+- source.yml
+SourceSansPro-It.ttf:
+- source.yml
+SourceSansPro-Light.ttf:
+- source.yml
+- google/source_sans_pro.yml
+SourceSansPro-ExtraLight.ttf:
+- source.yml
+- google/source_sans_pro.yml
+SourceSansPro-ExtraLightIt.ttf:
+- source.yml
+SourceSansPro-BoldIt.ttf:
+- source.yml
+SourceSansPro-Black.ttf:
+- source.yml
+- google/source_sans_pro.yml
+SourceSansPro-LightIt.ttf:
+- source.yml
+SourceSansPro-Regular.ttf:
+- source.yml
+- google/source_sans_pro.yml
+SourceSansPro-Semibold.ttf:
+- source.yml
+SourceSansPro-Bold.ttf:
+- source.yml
+- google/source_sans_pro.yml
+SourceSansPro-SemiboldIt.ttf:
+- source.yml
+SourceSerifPro-Black.ttf:
+- source.yml
+- google/source_serif_pro.yml
+SourceSerifPro-Bold.ttf:
+- source.yml
+- google/source_serif_pro.yml
+SourceSerifPro-BoldIt.ttf:
+- source.yml
+SourceSerifPro-Regular.ttf:
+- source.yml
+- google/source_serif_pro.yml
+SourceSerifPro-ExtraLight.ttf:
+- source.yml
+- google/source_serif_pro.yml
+SourceSerifPro-SemiboldIt.ttf:
+- source.yml
+SourceSerifPro-BlackIt.ttf:
+- source.yml
+SourceSerifPro-Semibold.ttf:
+- source.yml
+SourceSerifPro-Light.ttf:
+- source.yml
+- google/source_serif_pro.yml
+SourceSerifPro-LightIt.ttf:
+- source.yml
+SourceSerifPro-ExtraLightIt.ttf:
+- source.yml
+SourceSerifPro-It.ttf:
+- source.yml
+FZSTK.ttf:
+- chinese_simplified.yml
+FZYTK.ttf:
+- chinese_simplified.yml
+SIMLI.ttf:
+- chinese_simplified.yml
+MTEXTRA.ttf:
+- chinese_simplified.yml
+- korean.yml
+- guttman.yml
+- chinese_traditional.yml
+- arabic.yml
+- japanese.yml
+MSYH.ttf:
+- chinese_simplified.yml
+MSYHBD.ttf:
+- chinese_simplified.yml
+STCAIYUN.ttf:
+- chinese_simplified.yml
+STFANGSO.ttf:
+- chinese_simplified.yml
+STHUPO.ttf:
+- chinese_simplified.yml
+STKAITI.ttf:
+- chinese_simplified.yml
+STLITI.ttf:
+- chinese_simplified.yml
+STSONG.ttf:
+- chinese_simplified.yml
+STXIHEI.ttf:
+- chinese_simplified.yml
+STXINGKA.ttf:
+- chinese_simplified.yml
+STXINWEI.ttf:
+- chinese_simplified.yml
+STZHONGS.ttf:
+- chinese_simplified.yml
+SIMYOU.ttf:
+- chinese_simplified.yml
+FiraCode-Bold.ttf:
+- fira_code.yml
+FiraCode-Light.ttf:
+- fira_code.yml
+FiraCode-Medium.ttf:
+- fira_code.yml
+FiraCode-Regular.ttf:
+- fira_code.yml
+FiraCode-Retina.ttf:
+- fira_code.yml
+FiraCode-SemiBold.ttf:
+- fira_code.yml
+FiraCode-VF.ttf:
+- fira_code.yml
+malgun.ttf:
+- malgun_gothic.yml
+malgunbd.ttf:
+- malgun_gothic.yml
+Arial.ttf:
+- ms_truetype.yml
+ArialBd.ttf:
+- ms_truetype.yml
+ArialBI.ttf:
+- ms_truetype.yml
+ArialI.ttf:
+- ms_truetype.yml
+trebucit.ttf:
+- ms_truetype.yml
+- webcore.yml
+trebuc.ttf:
+- ms_truetype.yml
+- webcore.yml
+trebucbd.ttf:
+- ms_truetype.yml
+- webcore.yml
+trebucbi.ttf:
+- ms_truetype.yml
+- webcore.yml
+Verdana.ttf:
+- ms_truetype.yml
+Verdanab.ttf:
+- ms_truetype.yml
+Verdanai.ttf:
+- ms_truetype.yml
+Verdanaz.ttf:
+- ms_truetype.yml
+Times.ttf:
+- ms_truetype.yml
+TimesBd.ttf:
+- ms_truetype.yml
+TimesBI.ttf:
+- ms_truetype.yml
+TimesI.ttf:
+- ms_truetype.yml
+Georgia.TTF:
+- georgia.yml
+Georgiai.TTF:
+- georgia.yml
+Georgiab.TTF:
+- georgia.yml
+Georgiaz.TTF:
+- georgia.yml
+msjh.ttf:
+- microsoft_jhenghei.yml
+msjhbd.ttf:
+- microsoft_jhenghei.yml
+MINGLIU.TTC:
+- mingliu.yml
+MINGLIUB.TTC:
+- mingliu.yml
+meiryo.ttc:
+- meiryo.yml
+meiryob.ttc:
+- meiryo.yml
+DENG.TTF:
+- dengxian.yml
+DENGB.TTF:
+- dengxian.yml
+DENGL.TTF:
+- dengxian.yml
+AUPass_BoldOblique.ttf:
+- au_passata_oblique.yml
+AUPass_RgOblique.ttf:
+- au_passata_oblique.yml
+AUPassLight_BoldOblique.ttf:
+- au_passata_oblique.yml
+AUPassLight_Oblique.ttf:
+- au_passata_oblique.yml
+Comicbd.TTF:
+- comic.yml
+Comic.TTF:
+- comic.yml
+Euphemia UCAS Italic 2.6.6.ttf:
+- euphemia.yml
+Euphemia UCAS Regular 2.6.6.ttf:
+- euphemia.yml
+Euphemia UCAS Bold 2.6.6.ttf:
+- euphemia.yml
+STIXTwoMath-Regular.otf:
+- stix.yml
+STIXTwoText-Bold.otf:
+- stix.yml
+STIXTwoText-BoldItalic.otf:
+- stix.yml
+STIXTwoText-Italic.otf:
+- stix.yml
+STIXTwoText-Medium.otf:
+- stix.yml
+STIXTwoText-MediumItalic.otf:
+- stix.yml
+STIXTwoText-Regular.otf:
+- stix.yml
+STIXTwoText-Semibold.otf:
+- stix.yml
+STIXTwoText-SemiboldItalic.otf:
+- stix.yml
+Geo-Regular.ttf:
+- google/geo.yml
+Geo-Oblique.ttf:
+- google/geo.yml
+Rochester-Regular.ttf:
+- google/rochester.yml
+KeaniaOne-Regular.ttf:
+- google/keania_one.yml
+LibreBarcode39Extended-Regular.ttf:
+- google/libre_barcode_39_extended.yml
+Unlock-Regular.ttf:
+- google/unlock.yml
+NovaSquare.ttf:
+- google/nova_square.yml
+ScopeOne-Regular.ttf:
+- google/scope_one.yml
+DarkerGrotesque-Light.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-Regular.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-Medium.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-SemiBold.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-Bold.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-ExtraBold.ttf:
+- google/darker_grotesque.yml
+DarkerGrotesque-Black.ttf:
+- google/darker_grotesque.yml
+Overlock-Regular.ttf:
+- google/overlock.yml
+Overlock-Italic.ttf:
+- google/overlock.yml
+Overlock-Bold.ttf:
+- google/overlock.yml
+Overlock-BoldItalic.ttf:
+- google/overlock.yml
+Overlock-Black.ttf:
+- google/overlock.yml
+Overlock-BlackItalic.ttf:
+- google/overlock.yml
+Oregano-Regular.ttf:
+- google/oregano.yml
+Oregano-Italic.ttf:
+- google/oregano.yml
+SedgwickAveDisplay-Regular.ttf:
+- google/sedgwick_ave_display.yml
+BungeeShade-Regular.ttf:
+- google/bungee_shade.yml
+Chivo-Light.ttf:
+- google/chivo.yml
+Chivo-LightItalic.ttf:
+- google/chivo.yml
+Chivo-Regular.ttf:
+- google/chivo.yml
+Chivo-Italic.ttf:
+- google/chivo.yml
+Chivo-Bold.ttf:
+- google/chivo.yml
+Chivo-BoldItalic.ttf:
+- google/chivo.yml
+Chivo-Black.ttf:
+- google/chivo.yml
+Chivo-BlackItalic.ttf:
+- google/chivo.yml
+Yantramanav-Thin.ttf:
+- google/yantramanav.yml
+Yantramanav-Light.ttf:
+- google/yantramanav.yml
+Yantramanav-Regular.ttf:
+- google/yantramanav.yml
+Yantramanav-Medium.ttf:
+- google/yantramanav.yml
+Yantramanav-Bold.ttf:
+- google/yantramanav.yml
+Yantramanav-Black.ttf:
+- google/yantramanav.yml
+CourierPrime-Regular.ttf:
+- google/courier_prime.yml
+CourierPrime-Italic.ttf:
+- google/courier_prime.yml
+CourierPrime-Bold.ttf:
+- google/courier_prime.yml
+CourierPrime-BoldItalic.ttf:
+- google/courier_prime.yml
+Allerta-Regular.ttf:
+- google/allerta.yml
+Tillana-Regular.ttf:
+- google/tillana.yml
+Tillana-Medium.ttf:
+- google/tillana.yml
+Tillana-SemiBold.ttf:
+- google/tillana.yml
+Tillana-Bold.ttf:
+- google/tillana.yml
+Tillana-ExtraBold.ttf:
+- google/tillana.yml
+FugazOne-Regular.ttf:
+- google/fugaz_one.yml
+Freehand.ttf:
+- google/freehand.yml
+RuslanDisplay.ttf:
+- google/ruslan_display.yml
+Sintony-Regular.ttf:
+- google/sintony.yml
+Sintony-Bold.ttf:
+- google/sintony.yml
+PermanentMarker-Regular.ttf:
+- google/permanent_marker.yml
+Fahkwang-ExtraLight.ttf:
+- google/fahkwang.yml
+Fahkwang-ExtraLightItalic.ttf:
+- google/fahkwang.yml
+Fahkwang-Light.ttf:
+- google/fahkwang.yml
+Fahkwang-LightItalic.ttf:
+- google/fahkwang.yml
+Fahkwang-Regular.ttf:
+- google/fahkwang.yml
+Fahkwang-Italic.ttf:
+- google/fahkwang.yml
+Fahkwang-Medium.ttf:
+- google/fahkwang.yml
+Fahkwang-MediumItalic.ttf:
+- google/fahkwang.yml
+Fahkwang-SemiBold.ttf:
+- google/fahkwang.yml
+Fahkwang-SemiBoldItalic.ttf:
+- google/fahkwang.yml
+Fahkwang-Bold.ttf:
+- google/fahkwang.yml
+Fahkwang-BoldItalic.ttf:
+- google/fahkwang.yml
+Habibi-Regular.ttf:
+- google/habibi.yml
+LindenHill-Regular.ttf:
+- google/linden_hill.yml
+LindenHill-Italic.ttf:
+- google/linden_hill.yml
+StalinistOne-Regular.ttf:
+- google/stalinist_one.yml
+LiuJianMaoCao-Regular.ttf:
+- google/liu_jian_mao_cao.yml
+StardosStencil-Regular.ttf:
+- google/stardos_stencil.yml
+StardosStencil-Bold.ttf:
+- google/stardos_stencil.yml
+FasterOne-Regular.ttf:
+- google/faster_one.yml
+Athiti-ExtraLight.ttf:
+- google/athiti.yml
+Athiti-Light.ttf:
+- google/athiti.yml
+Athiti-Regular.ttf:
+- google/athiti.yml
+Athiti-Medium.ttf:
+- google/athiti.yml
+Athiti-SemiBold.ttf:
+- google/athiti.yml
+Athiti-Bold.ttf:
+- google/athiti.yml
+Grenze-Thin.ttf:
+- google/grenze.yml
+Grenze-ThinItalic.ttf:
+- google/grenze.yml
+Grenze-ExtraLight.ttf:
+- google/grenze.yml
+Grenze-ExtraLightItalic.ttf:
+- google/grenze.yml
+Grenze-Light.ttf:
+- google/grenze.yml
+Grenze-LightItalic.ttf:
+- google/grenze.yml
+Grenze-Regular.ttf:
+- google/grenze.yml
+Grenze-Italic.ttf:
+- google/grenze.yml
+Grenze-Medium.ttf:
+- google/grenze.yml
+Grenze-MediumItalic.ttf:
+- google/grenze.yml
+Grenze-SemiBold.ttf:
+- google/grenze.yml
+Grenze-SemiBoldItalic.ttf:
+- google/grenze.yml
+Grenze-Bold.ttf:
+- google/grenze.yml
+Grenze-BoldItalic.ttf:
+- google/grenze.yml
+Grenze-ExtraBold.ttf:
+- google/grenze.yml
+Grenze-ExtraBoldItalic.ttf:
+- google/grenze.yml
+Grenze-Black.ttf:
+- google/grenze.yml
+Grenze-BlackItalic.ttf:
+- google/grenze.yml
+Elsie-Regular.ttf:
+- google/elsie.yml
+Elsie-Black.ttf:
+- google/elsie.yml
+PressStart2P-Regular.ttf:
+- google/press_start_2p.yml
+NovaSlim.ttf:
+- google/nova_slim.yml
+AverageSans-Regular.ttf:
+- google/average_sans.yml
+PalanquinDark-Regular.ttf:
+- google/palanquin_dark.yml
+PalanquinDark-Medium.ttf:
+- google/palanquin_dark.yml
+PalanquinDark-SemiBold.ttf:
+- google/palanquin_dark.yml
+PalanquinDark-Bold.ttf:
+- google/palanquin_dark.yml
+Katibeh-Regular.ttf:
+- google/katibeh.yml
+Baskervville-Regular.ttf:
+- google/baskervville.yml
+Baskervville-Italic.ttf:
+- google/baskervville.yml
+Kameron-Regular.ttf:
+- google/kameron.yml
+Kameron-Bold.ttf:
+- google/kameron.yml
+ArchivoBlack-Regular.ttf:
+- google/archivo_black.yml
+MetalMania-Regular.ttf:
+- google/metal_mania.yml
+MaShanZheng-Regular.ttf:
+- google/ma_shan_zheng.yml
+Ruluko-Regular.ttf:
+- google/ruluko.yml
+Lacquer-Regular.ttf:
+- google/lacquer.yml
+Anton-Regular.ttf:
+- google/anton.yml
+CuteFont-Regular.ttf:
+- google/cute_font.yml
+Kurale-Regular.ttf:
+- google/kurale.yml
+KiteOne-Regular.ttf:
+- google/kite_one.yml
+Lemon-Regular.ttf:
+- google/lemon.yml
+Julee-Regular.ttf:
+- google/julee.yml
+Syncopate-Regular.ttf:
+- google/syncopate.yml
+Syncopate-Bold.ttf:
+- google/syncopate.yml
+Rakkas-Regular.ttf:
+- google/rakkas.yml
+Courgette-Regular.ttf:
+- google/courgette.yml
+SairaCondensed-Thin.ttf:
+- google/saira_condensed.yml
+SairaCondensed-ExtraLight.ttf:
+- google/saira_condensed.yml
+SairaCondensed-Light.ttf:
+- google/saira_condensed.yml
+SairaCondensed-Regular.ttf:
+- google/saira_condensed.yml
+SairaCondensed-Medium.ttf:
+- google/saira_condensed.yml
+SairaCondensed-SemiBold.ttf:
+- google/saira_condensed.yml
+SairaCondensed-Bold.ttf:
+- google/saira_condensed.yml
+SairaCondensed-ExtraBold.ttf:
+- google/saira_condensed.yml
+SairaCondensed-Black.ttf:
+- google/saira_condensed.yml
+Niconne-Regular.ttf:
+- google/niconne.yml
+GeostarFill-Regular.ttf:
+- google/geostar_fill.yml
+Sacramento-Regular.ttf:
+- google/sacramento.yml
+Artifika-Regular.ttf:
+- google/artifika.yml
+Notable-Regular.ttf:
+- google/notable.yml
+Fresca-Regular.ttf:
+- google/fresca.yml
+Questrial-Regular.ttf:
+- google/questrial.yml
+PlayfairDisplay-VariableFont_wght.ttf:
+- google/playfair_display.yml
+PlayfairDisplay-Italic-VariableFont_wght.ttf:
+- google/playfair_display.yml
+SwankyandMooMoo.ttf:
+- google/swanky_and_moo_moo.yml
+Bonbon-Regular.ttf:
+- google/bonbon.yml
+KellySlab-Regular.ttf:
+- google/kelly_slab.yml
+BerkshireSwash-Regular.ttf:
+- google/berkshire_swash.yml
+PT_Serif-Caption-Web-Regular.ttf:
+- google/pt_serif_caption.yml
+PT_Serif-Caption-Web-Italic.ttf:
+- google/pt_serif_caption.yml
+Amiko-Regular.ttf:
+- google/amiko.yml
+Amiko-SemiBold.ttf:
+- google/amiko.yml
+Amiko-Bold.ttf:
+- google/amiko.yml
+Metamorphous-Regular.ttf:
+- google/metamorphous.yml
+Pattaya-Regular.ttf:
+- google/pattaya.yml
+SonsieOne-Regular.ttf:
+- google/sonsie_one.yml
+Dorsa-Regular.ttf:
+- google/dorsa.yml
+Hanuman-Regular.ttf:
+- google/hanuman.yml
+Hanuman-Bold.ttf:
+- google/hanuman.yml
+KulimPark-ExtraLight.ttf:
+- google/kulim_park.yml
+KulimPark-ExtraLightItalic.ttf:
+- google/kulim_park.yml
+KulimPark-Light.ttf:
+- google/kulim_park.yml
+KulimPark-LightItalic.ttf:
+- google/kulim_park.yml
+KulimPark-Regular.ttf:
+- google/kulim_park.yml
+KulimPark-Italic.ttf:
+- google/kulim_park.yml
+KulimPark-SemiBold.ttf:
+- google/kulim_park.yml
+KulimPark-SemiBoldItalic.ttf:
+- google/kulim_park.yml
+KulimPark-Bold.ttf:
+- google/kulim_park.yml
+KulimPark-BoldItalic.ttf:
+- google/kulim_park.yml
+Bellefair-Regular.ttf:
+- google/bellefair.yml
+QuattrocentoSans-Regular.ttf:
+- google/quattrocento_sans.yml
+QuattrocentoSans-Italic.ttf:
+- google/quattrocento_sans.yml
+QuattrocentoSans-Bold.ttf:
+- google/quattrocento_sans.yml
+QuattrocentoSans-BoldItalic.ttf:
+- google/quattrocento_sans.yml
+DeliusUnicase-Regular.ttf:
+- google/delius_unicase.yml
+DeliusUnicase-Bold.ttf:
+- google/delius_unicase.yml
+GildaDisplay-Regular.ttf:
+- google/gilda_display.yml
+OdibeeSans-Regular.ttf:
+- google/odibee_sans.yml
+KirangHaerang-Regular.ttf:
+- google/kirang_haerang.yml
+Quantico-Regular.ttf:
+- google/quantico.yml
+Quantico-Italic.ttf:
+- google/quantico.yml
+Quantico-Bold.ttf:
+- google/quantico.yml
+Quantico-BoldItalic.ttf:
+- google/quantico.yml
+Chilanka-Regular.ttf:
+- google/chilanka.yml
+Siemreap.ttf:
+- google/siamreap.yml
+- google/siemreap.yml
+AveriaSerifLibre-Light.ttf:
+- google/averia_serif_libre.yml
+AveriaSerifLibre-LightItalic.ttf:
+- google/averia_serif_libre.yml
+AveriaSerifLibre-Regular.ttf:
+- google/averia_serif_libre.yml
+AveriaSerifLibre-Italic.ttf:
+- google/averia_serif_libre.yml
+AveriaSerifLibre-Bold.ttf:
+- google/averia_serif_libre.yml
+AveriaSerifLibre-BoldItalic.ttf:
+- google/averia_serif_libre.yml
+NanumMyeongjo-Regular.ttf:
+- google/nanum_myeongjo.yml
+NanumMyeongjo-Bold.ttf:
+- google/nanum_myeongjo.yml
+NanumMyeongjo-ExtraBold.ttf:
+- google/nanum_myeongjo.yml
+DellaRespira-Regular.ttf:
+- google/della_respira.yml
+BigelowRules-Regular.ttf:
+- google/bigelow_rules.yml
+Thabit.ttf:
+- google/thabit.yml
+Thabit-Oblique.ttf:
+- google/thabit.yml
+Thabit-Bold.ttf:
+- google/thabit.yml
+Thabit-BoldOblique.ttf:
+- google/thabit.yml
+Taviraj-Thin.ttf:
+- google/taviraj.yml
+Taviraj-ThinItalic.ttf:
+- google/taviraj.yml
+Taviraj-ExtraLight.ttf:
+- google/taviraj.yml
+Taviraj-ExtraLightItalic.ttf:
+- google/taviraj.yml
+Taviraj-Light.ttf:
+- google/taviraj.yml
+Taviraj-LightItalic.ttf:
+- google/taviraj.yml
+Taviraj-Regular.ttf:
+- google/taviraj.yml
+Taviraj-Italic.ttf:
+- google/taviraj.yml
+Taviraj-Medium.ttf:
+- google/taviraj.yml
+Taviraj-MediumItalic.ttf:
+- google/taviraj.yml
+Taviraj-SemiBold.ttf:
+- google/taviraj.yml
+Taviraj-SemiBoldItalic.ttf:
+- google/taviraj.yml
+Taviraj-Bold.ttf:
+- google/taviraj.yml
+Taviraj-BoldItalic.ttf:
+- google/taviraj.yml
+Taviraj-ExtraBold.ttf:
+- google/taviraj.yml
+Taviraj-ExtraBoldItalic.ttf:
+- google/taviraj.yml
+Taviraj-Black.ttf:
+- google/taviraj.yml
+Taviraj-BlackItalic.ttf:
+- google/taviraj.yml
+Spinnaker-Regular.ttf:
+- google/spinnaker.yml
+Ribeye-Regular.ttf:
+- google/ribeye.yml
+Kanit-Thin.ttf:
+- google/kanit.yml
+Kanit-ThinItalic.ttf:
+- google/kanit.yml
+Kanit-ExtraLight.ttf:
+- google/kanit.yml
+Kanit-ExtraLightItalic.ttf:
+- google/kanit.yml
+Kanit-Light.ttf:
+- google/kanit.yml
+Kanit-LightItalic.ttf:
+- google/kanit.yml
+Kanit-Regular.ttf:
+- google/kanit.yml
+Kanit-Italic.ttf:
+- google/kanit.yml
+Kanit-Medium.ttf:
+- google/kanit.yml
+Kanit-MediumItalic.ttf:
+- google/kanit.yml
+Kanit-SemiBold.ttf:
+- google/kanit.yml
+Kanit-SemiBoldItalic.ttf:
+- google/kanit.yml
+Kanit-Bold.ttf:
+- google/kanit.yml
+Kanit-BoldItalic.ttf:
+- google/kanit.yml
+Kanit-ExtraBold.ttf:
+- google/kanit.yml
+Kanit-ExtraBoldItalic.ttf:
+- google/kanit.yml
+Kanit-Black.ttf:
+- google/kanit.yml
+Kanit-BlackItalic.ttf:
+- google/kanit.yml
+SulphurPoint-Light.ttf:
+- google/sulphur_point.yml
+SulphurPoint-Regular.ttf:
+- google/sulphur_point.yml
+SulphurPoint-Bold.ttf:
+- google/sulphur_point.yml
+FascinateInline-Regular.ttf:
+- google/fascinate_inline.yml
+PathwayGothicOne-Regular.ttf:
+- google/pathway_gothic_one.yml
+MedulaOne-Regular.ttf:
+- google/medula_one.yml
+Andada-Regular.ttf:
+- google/andada.yml
+FreckleFace-Regular.ttf:
+- google/freckle_face.yml
+Amarante-Regular.ttf:
+- google/amarante.yml
+Sanchez-Regular.ttf:
+- google/sanchez.yml
+Sanchez-Italic.ttf:
+- google/sanchez.yml
+PortLligatSlab-Regular.ttf:
+- google/port_lligat_slab.yml
+BungeeHairline-Regular.ttf:
+- google/bungee_hairline.yml
+Molle-Regular.ttf:
+- google/molle.yml
+IMFELLDoublePica-Regular.ttf:
+- google/im_fell_double_pica.yml
+IMFELLDoublePica-Italic.ttf:
+- google/im_fell_double_pica.yml
+GamjaFlower-Regular.ttf:
+- google/gamja_flower.yml
+Satisfy-Regular.ttf:
+- google/satisfy.yml
+DoppioOne-Regular.ttf:
+- google/doppio_one.yml
+Flamenco-Light.ttf:
+- google/flamenco.yml
+Flamenco-Regular.ttf:
+- google/flamenco.yml
+Gupter-Regular.ttf:
+- google/gupter.yml
+Gupter-Medium.ttf:
+- google/gupter.yml
+Gupter-Bold.ttf:
+- google/gupter.yml
+Faustina-VariableFont_wght.ttf:
+- google/faustina.yml
+Faustina-Italic-VariableFont_wght.ttf:
+- google/faustina.yml
+Italiana-Regular.ttf:
+- google/italiana.yml
+Modak-Regular.ttf:
+- google/modak.yml
+HindMadurai-Light.ttf:
+- google/hind_madurai.yml
+HindMadurai-Regular.ttf:
+- google/hind_madurai.yml
+HindMadurai-Medium.ttf:
+- google/hind_madurai.yml
+HindMadurai-SemiBold.ttf:
+- google/hind_madurai.yml
+HindMadurai-Bold.ttf:
+- google/hind_madurai.yml
+BethEllen-Regular.ttf:
+- google/beth_ellen.yml
+Miltonian-Regular.ttf:
+- google/miltonian.yml
+PatrickHand-Regular.ttf:
+- google/patrick_hand.yml
+jsMath-cmr10.ttf:
+- google/jsmath_cmr10.yml
+TradeWinds-Regular.ttf:
+- google/trade_winds.yml
+PassionOne-Regular.ttf:
+- google/passion_one.yml
+PassionOne-Bold.ttf:
+- google/passion_one.yml
+PassionOne-Black.ttf:
+- google/passion_one.yml
+Khand-Light.ttf:
+- google/khand.yml
+Khand-Regular.ttf:
+- google/khand.yml
+Khand-Medium.ttf:
+- google/khand.yml
+Khand-SemiBold.ttf:
+- google/khand.yml
+Khand-Bold.ttf:
+- google/khand.yml
+AnticDidone-Regular.ttf:
+- google/antic_didone.yml
+AllertaStencil-Regular.ttf:
+- google/allerta_stencil.yml
+RalewayDots-Regular.ttf:
+- google/raleway_dots.yml
+Esteban-Regular.ttf:
+- google/esteban.yml
+IMFeDPsc28P.ttf:
+- google/im_fell_double_pica_sc.yml
+IBMPlexSerif-Thin.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-ThinItalic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-ExtraLight.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-ExtraLightItalic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-Light.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-LightItalic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-Regular.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-Italic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-Medium.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-MediumItalic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-SemiBold.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-SemiBoldItalic.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-Bold.ttf:
+- google/ibm_plex_serif.yml
+IBMPlexSerif-BoldItalic.ttf:
+- google/ibm_plex_serif.yml
+BubblerOne-Regular.ttf:
+- google/bubbler_one.yml
+Sura-Regular.ttf:
+- google/sura.yml
+Sura-Bold.ttf:
+- google/sura.yml
+MartelSans-ExtraLight.ttf:
+- google/martel_sans.yml
+MartelSans-Light.ttf:
+- google/martel_sans.yml
+MartelSans-Regular.ttf:
+- google/martel_sans.yml
+MartelSans-SemiBold.ttf:
+- google/martel_sans.yml
+MartelSans-Bold.ttf:
+- google/martel_sans.yml
+MartelSans-ExtraBold.ttf:
+- google/martel_sans.yml
+MartelSans-Black.ttf:
+- google/martel_sans.yml
+MarckScript-Regular.ttf:
+- google/marck_script.yml
+Heebo-VariableFont_wght.ttf:
+- google/heebo.yml
+Federo-Regular.ttf:
+- google/federo.yml
+Baumans-Regular.ttf:
+- google/baumans.yml
+Tajawal-ExtraLight.ttf:
+- google/tajawal.yml
+Tajawal-Light.ttf:
+- google/tajawal.yml
+Tajawal-Regular.ttf:
+- google/tajawal.yml
+Tajawal-Medium.ttf:
+- google/tajawal.yml
+Tajawal-Bold.ttf:
+- google/tajawal.yml
+Tajawal-ExtraBold.ttf:
+- google/tajawal.yml
+Tajawal-Black.ttf:
+- google/tajawal.yml
+Dokdo-Regular.ttf:
+- google/dokdo.yml
+Bokor-Regular.ttf:
+- google/bokor.yml
+Buda-Light.ttf:
+- google/buda.yml
+LondrinaSketch-Regular.ttf:
+- google/londrina_sketch.yml
+LexendDeca-Regular.ttf:
+- google/lexend_deca.yml
+Rokkitt-VariableFont_wght.ttf:
+- google/rokkitt.yml
+Krub-ExtraLight.ttf:
+- google/krub.yml
+Krub-ExtraLightItalic.ttf:
+- google/krub.yml
+Krub-Light.ttf:
+- google/krub.yml
+Krub-LightItalic.ttf:
+- google/krub.yml
+Krub-Regular.ttf:
+- google/krub.yml
+Krub-Italic.ttf:
+- google/krub.yml
+Krub-Medium.ttf:
+- google/krub.yml
+Krub-MediumItalic.ttf:
+- google/krub.yml
+Krub-SemiBold.ttf:
+- google/krub.yml
+Krub-SemiBoldItalic.ttf:
+- google/krub.yml
+Krub-Bold.ttf:
+- google/krub.yml
+Krub-BoldItalic.ttf:
+- google/krub.yml
+JosefinSlab-Thin.ttf:
+- google/josefin_slab.yml
+JosefinSlab-ThinItalic.ttf:
+- google/josefin_slab.yml
+JosefinSlab-Light.ttf:
+- google/josefin_slab.yml
+JosefinSlab-LightItalic.ttf:
+- google/josefin_slab.yml
+JosefinSlab-Regular.ttf:
+- google/josefin_slab.yml
+JosefinSlab-Italic.ttf:
+- google/josefin_slab.yml
+JosefinSlab-SemiBold.ttf:
+- google/josefin_slab.yml
+JosefinSlab-SemiBoldItalic.ttf:
+- google/josefin_slab.yml
+JosefinSlab-Bold.ttf:
+- google/josefin_slab.yml
+JosefinSlab-BoldItalic.ttf:
+- google/josefin_slab.yml
+ArchivoNarrow-VariableFont_wght.ttf:
+- google/archivo_narrow.yml
+ArchivoNarrow-Italic-VariableFont_wght.ttf:
+- google/archivo_narrow.yml
+InknutAntiqua-Light.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-Regular.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-Medium.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-SemiBold.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-Bold.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-ExtraBold.ttf:
+- google/inknut_antiqua.yml
+InknutAntiqua-Black.ttf:
+- google/inknut_antiqua.yml
+Oranienbaum-Regular.ttf:
+- google/oranienbaum.yml
+Lusitana-Regular.ttf:
+- google/lusitana.yml
+Lusitana-Bold.ttf:
+- google/lusitana.yml
+Lemonada-VariableFont_wght.ttf:
+- google/lemonada.yml
+Jomolhari-Regular.ttf:
+- google/jomolhari.yml
+Rowdies-Light.ttf:
+- google/rowdies.yml
+Rowdies-Regular.ttf:
+- google/rowdies.yml
+Rowdies-Bold.ttf:
+- google/rowdies.yml
+LobsterTwo-Regular.ttf:
+- google/lobster_two.yml
+LobsterTwo-Italic.ttf:
+- google/lobster_two.yml
+LobsterTwo-Bold.ttf:
+- google/lobster_two.yml
+LobsterTwo-BoldItalic.ttf:
+- google/lobster_two.yml
+TenaliRamakrishna-Regular.ttf:
+- google/tenali_ramakrishna.yml
+Catamaran-VariableFont_wght.ttf:
+- google/catamaran.yml
+Oxanium-ExtraLight.ttf:
+- google/oxanium.yml
+Oxanium-Light.ttf:
+- google/oxanium.yml
+Oxanium-Regular.ttf:
+- google/oxanium.yml
+Oxanium-Medium.ttf:
+- google/oxanium.yml
+Oxanium-SemiBold.ttf:
+- google/oxanium.yml
+Oxanium-Bold.ttf:
+- google/oxanium.yml
+Oxanium-ExtraBold.ttf:
+- google/oxanium.yml
+TheGirlNextDoor.ttf:
+- google/the_girl_next_door.yml
+CraftyGirls-Regular.ttf:
+- google/crafty_girls.yml
+VastShadow-Regular.ttf:
+- google/vast_shadow.yml
+Offside-Regular.ttf:
+- google/offside.yml
+Paprika-Regular.ttf:
+- google/paprika.yml
+EaterCaps-Regular.ttf:
+- google/eater_caps.yml
+Limelight-Regular.ttf:
+- google/limelight.yml
+Molengo-Regular.ttf:
+- google/molengo.yml
+EncodeSans[wdth,wght].ttf:
+- google/encode_sans.yml
+Bahianita-Regular.ttf:
+- google/bahianita.yml
+SpectralSC-ExtraLight.ttf:
+- google/spectral_sc.yml
+SpectralSC-ExtraLightItalic.ttf:
+- google/spectral_sc.yml
+SpectralSC-Light.ttf:
+- google/spectral_sc.yml
+SpectralSC-LightItalic.ttf:
+- google/spectral_sc.yml
+SpectralSC-Regular.ttf:
+- google/spectral_sc.yml
+SpectralSC-Italic.ttf:
+- google/spectral_sc.yml
+SpectralSC-Medium.ttf:
+- google/spectral_sc.yml
+SpectralSC-MediumItalic.ttf:
+- google/spectral_sc.yml
+SpectralSC-SemiBold.ttf:
+- google/spectral_sc.yml
+SpectralSC-SemiBoldItalic.ttf:
+- google/spectral_sc.yml
+SpectralSC-Bold.ttf:
+- google/spectral_sc.yml
+SpectralSC-BoldItalic.ttf:
+- google/spectral_sc.yml
+SpectralSC-ExtraBold.ttf:
+- google/spectral_sc.yml
+SpectralSC-ExtraBoldItalic.ttf:
+- google/spectral_sc.yml
+Barrio-Regular.ttf:
+- google/barrio.yml
+Righteous-Regular.ttf:
+- google/righteous.yml
+Basic-Regular.ttf:
+- google/basic.yml
+SigmarOne-Regular.ttf:
+- google/sigmar_one.yml
+WireOne.ttf:
+- google/wire_one.yml
+Gudea-Regular.ttf:
+- google/gudea.yml
+Gudea-Italic.ttf:
+- google/gudea.yml
+Gudea-Bold.ttf:
+- google/gudea.yml
+EncodeSansCondensed-Thin.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-ExtraLight.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-Light.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-Regular.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-Medium.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-SemiBold.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-Bold.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-ExtraBold.ttf:
+- google/encode_sans_condensed.yml
+EncodeSansCondensed-Black.ttf:
+- google/encode_sans_condensed.yml
+LoversQuarrel-Regular.ttf:
+- google/lovers_quarrel.yml
+Asap-Regular.ttf:
+- google/asap.yml
+Asap-Italic.ttf:
+- google/asap.yml
+Asap-Medium.ttf:
+- google/asap.yml
+Asap-MediumItalic.ttf:
+- google/asap.yml
+Asap-SemiBold.ttf:
+- google/asap.yml
+Asap-SemiBoldItalic.ttf:
+- google/asap.yml
+Asap-Bold.ttf:
+- google/asap.yml
+Asap-BoldItalic.ttf:
+- google/asap.yml
+Aladin-Regular.ttf:
+- google/aladin.yml
+Sofia-Regular.ttf:
+- google/sofia.yml
+BebasNeue-Regular.ttf:
+- google/bebas_neue.yml
+Angkor-Regular.ttf:
+- google/angkor.yml
+VampiroOne-Regular.ttf:
+- google/vampiro_one.yml
+Farsan-Regular.ttf:
+- google/farsan.yml
+Montez-Regular.ttf:
+- google/montez.yml
+Salsa-Regular.ttf:
+- google/salsa.yml
+Neuton-ExtraLight.ttf:
+- google/neuton.yml
+Neuton-Light.ttf:
+- google/neuton.yml
+Neuton-Regular.ttf:
+- google/neuton.yml
+Neuton-Italic.ttf:
+- google/neuton.yml
+Neuton-Bold.ttf:
+- google/neuton.yml
+Neuton-ExtraBold.ttf:
+- google/neuton.yml
+Mallanna-Regular.ttf:
+- google/mallanna.yml
+ComingSoon-Regular.ttf:
+- google/coming_soon.yml
+Snippet.ttf:
+- google/snippet.yml
+MedievalSharp.ttf:
+- google/medievalsharp.yml
+UnifrakturCook-Bold.ttf:
+- google/unifrakturcook.yml
+WendyOne-Regular.ttf:
+- google/wendy_one.yml
+Play-Regular.ttf:
+- google/play.yml
+Play-Bold.ttf:
+- google/play.yml
+Amiri-Regular.ttf:
+- google/amiri.yml
+Amiri-Italic.ttf:
+- google/amiri.yml
+Amiri-Bold.ttf:
+- google/amiri.yml
+Amiri-BoldItalic.ttf:
+- google/amiri.yml
+Ubuntu-Light.ttf:
+- google/ubuntu.yml
+Ubuntu-LightItalic.ttf:
+- google/ubuntu.yml
+Ubuntu-Regular.ttf:
+- google/ubuntu.yml
+Ubuntu-Italic.ttf:
+- google/ubuntu.yml
+Ubuntu-Medium.ttf:
+- google/ubuntu.yml
+Ubuntu-MediumItalic.ttf:
+- google/ubuntu.yml
+Ubuntu-Bold.ttf:
+- google/ubuntu.yml
+Ubuntu-BoldItalic.ttf:
+- google/ubuntu.yml
+Mako-Regular.ttf:
+- google/mako.yml
+LaBelleAurore.ttf:
+- google/la_belle_aurore.yml
+PetitFormalScript-Regular.ttf:
+- google/petit_formal_script.yml
+Rasa-Light.ttf:
+- google/rasa.yml
+Rasa-Regular.ttf:
+- google/rasa.yml
+Rasa-Medium.ttf:
+- google/rasa.yml
+Rasa-SemiBold.ttf:
+- google/rasa.yml
+Rasa-Bold.ttf:
+- google/rasa.yml
+AveriaLibre-Light.ttf:
+- google/averia_libre.yml
+AveriaLibre-LightItalic.ttf:
+- google/averia_libre.yml
+AveriaLibre-Regular.ttf:
+- google/averia_libre.yml
+AveriaLibre-Italic.ttf:
+- google/averia_libre.yml
+AveriaLibre-Bold.ttf:
+- google/averia_libre.yml
+AveriaLibre-BoldItalic.ttf:
+- google/averia_libre.yml
+GreatVibes-Regular.ttf:
+- google/great_vibes.yml
+Corben-Regular.ttf:
+- google/corben.yml
+Corben-Bold.ttf:
+- google/corben.yml
+Ranga-Regular.ttf:
+- google/ranga.yml
+Ranga-Bold.ttf:
+- google/ranga.yml
+Vibur-Regular.ttf:
+- google/vibur.yml
+Glegoo-Regular.ttf:
+- google/glegoo.yml
+Glegoo-Bold.ttf:
+- google/glegoo.yml
+Belgrano-Regular.ttf:
+- google/belgrano.yml
+IbarraRealNova-Regular.ttf:
+- google/ibarra_real_nova.yml
+IbarraRealNova-Italic.ttf:
+- google/ibarra_real_nova.yml
+IbarraRealNova-SemiBold.ttf:
+- google/ibarra_real_nova.yml
+IbarraRealNova-SemiBoldItalic.ttf:
+- google/ibarra_real_nova.yml
+IbarraRealNova-Bold.ttf:
+- google/ibarra_real_nova.yml
+IbarraRealNova-BoldItalic.ttf:
+- google/ibarra_real_nova.yml
+EastSeaDokdo-Regular.ttf:
+- google/east_sea_dokdo.yml
+Yrsa-Light.ttf:
+- google/yrsa.yml
+Yrsa-Regular.ttf:
+- google/yrsa.yml
+Yrsa-Medium.ttf:
+- google/yrsa.yml
+Yrsa-SemiBold.ttf:
+- google/yrsa.yml
+Yrsa-Bold.ttf:
+- google/yrsa.yml
+UbuntuCondensed-Regular.ttf:
+- google/ubuntu_condensed.yml
+K2D-Thin.ttf:
+- google/k2d.yml
+K2D-ThinItalic.ttf:
+- google/k2d.yml
+K2D-ExtraLight.ttf:
+- google/k2d.yml
+K2D-ExtraLightItalic.ttf:
+- google/k2d.yml
+K2D-Light.ttf:
+- google/k2d.yml
+K2D-LightItalic.ttf:
+- google/k2d.yml
+K2D-Regular.ttf:
+- google/k2d.yml
+K2D-Italic.ttf:
+- google/k2d.yml
+K2D-Medium.ttf:
+- google/k2d.yml
+K2D-MediumItalic.ttf:
+- google/k2d.yml
+K2D-SemiBold.ttf:
+- google/k2d.yml
+K2D-SemiBoldItalic.ttf:
+- google/k2d.yml
+K2D-Bold.ttf:
+- google/k2d.yml
+K2D-BoldItalic.ttf:
+- google/k2d.yml
+K2D-ExtraBold.ttf:
+- google/k2d.yml
+K2D-ExtraBoldItalic.ttf:
+- google/k2d.yml
+ArimaMadurai-Thin.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-ExtraLight.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-Light.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-Regular.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-Medium.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-Bold.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-ExtraBold.ttf:
+- google/arima_madurai.yml
+ArimaMadurai-Black.ttf:
+- google/arima_madurai.yml
+BalooPaaji2-Regular.ttf:
+- google/baloo_paaji_2.yml
+BalooPaaji2-Medium.ttf:
+- google/baloo_paaji_2.yml
+BalooPaaji2-SemiBold.ttf:
+- google/baloo_paaji_2.yml
+BalooPaaji2-Bold.ttf:
+- google/baloo_paaji_2.yml
+BalooPaaji2-ExtraBold.ttf:
+- google/baloo_paaji_2.yml
+DMSerifDisplay-Regular.ttf:
+- google/dm_serif_display.yml
+DMSerifDisplay-Italic.ttf:
+- google/dm_serif_display.yml
+Halant-Light.ttf:
+- google/halant.yml
+Halant-Regular.ttf:
+- google/halant.yml
+Halant-Medium.ttf:
+- google/halant.yml
+Halant-SemiBold.ttf:
+- google/halant.yml
+Halant-Bold.ttf:
+- google/halant.yml
+MonsieurLaDoulaise-Regular.ttf:
+- google/monsieur_la_doulaise.yml
+Spirax-Regular.ttf:
+- google/spirax.yml
+SourceSansPro-ExtraLightItalic.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-LightItalic.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-Italic.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-SemiBold.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-SemiBoldItalic.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-BoldItalic.ttf:
+- google/source_sans_pro.yml
+SourceSansPro-BlackItalic.ttf:
+- google/source_sans_pro.yml
+Chicle-Regular.ttf:
+- google/chicle.yml
+HammersmithOne-Regular.ttf:
+- google/hammersmith_one.yml
+Yellowtail-Regular.ttf:
+- google/yellowtail.yml
+Asar-Regular.ttf:
+- google/asar.yml
+VarelaRound-Regular.ttf:
+- google/varela_round.yml
+OverlockSC-Regular.ttf:
+- google/overlock_sc.yml
+Smythe-Regular.ttf:
+- google/smythe.yml
+Astloch-Regular.ttf:
+- google/astloch.yml
+Astloch-Bold.ttf:
+- google/astloch.yml
+LondrinaSolid-Thin.ttf:
+- google/londrina_solid.yml
+LondrinaSolid-Light.ttf:
+- google/londrina_solid.yml
+LondrinaSolid-Regular.ttf:
+- google/londrina_solid.yml
+LondrinaSolid-Black.ttf:
+- google/londrina_solid.yml
+Prociono-Regular.ttf:
+- google/prociono.yml
+Suwannaphum-Regular.ttf:
+- google/suwannaphum.yml
+HanaleiFill-Regular.ttf:
+- google/hanalei_fill.yml
+Ledger-Regular.ttf:
+- google/ledger.yml
+PragatiNarrow-Regular.ttf:
+- google/pragati_narrow.yml
+PragatiNarrow-Bold.ttf:
+- google/pragati_narrow.yml
+GravitasOne.ttf:
+- google/gravitas_one.yml
+BalooChettan2-Regular.ttf:
+- google/baloo_chettan_2.yml
+BalooChettan2-Medium.ttf:
+- google/baloo_chettan_2.yml
+BalooChettan2-SemiBold.ttf:
+- google/baloo_chettan_2.yml
+BalooChettan2-Bold.ttf:
+- google/baloo_chettan_2.yml
+BalooChettan2-ExtraBold.ttf:
+- google/baloo_chettan_2.yml
+MrsSaintDelafield-Regular.ttf:
+- google/mrs_saint_delafield.yml
+- google/miss_saint_delafield.yml
+LilyScriptOne-Regular.ttf:
+- google/lily_script_one.yml
+AveriaSansLibre-Light.ttf:
+- google/averia_sans_libre.yml
+AveriaSansLibre-LightItalic.ttf:
+- google/averia_sans_libre.yml
+AveriaSansLibre-Regular.ttf:
+- google/averia_sans_libre.yml
+AveriaSansLibre-Italic.ttf:
+- google/averia_sans_libre.yml
+AveriaSansLibre-Bold.ttf:
+- google/averia_sans_libre.yml
+AveriaSansLibre-BoldItalic.ttf:
+- google/averia_sans_libre.yml
+jsMath-cmsy10.ttf:
+- google/jsmath_cmsy10.yml
+NanumGothicCoding-Regular.ttf:
+- google/nanum_gothic_coding.yml
+NanumGothicCoding-Bold.ttf:
+- google/nanum_gothic_coding.yml
+Epilogue-VariableFont_wght.ttf:
+- google/epilogue.yml
+Epilogue-Italic-VariableFont_wght.ttf:
+- google/epilogue.yml
+AlegreyaSans-Thin.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-ThinItalic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Light.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-LightItalic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Regular.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Italic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Medium.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-MediumItalic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Bold.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-BoldItalic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-ExtraBold.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-ExtraBoldItalic.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-Black.ttf:
+- google/alegreya_sans.yml
+AlegreyaSans-BlackItalic.ttf:
+- google/alegreya_sans.yml
+PT_Sans-Caption-Web-Regular.ttf:
+- google/pt_sans_caption.yml
+PT_Sans-Caption-Web-Bold.ttf:
+- google/pt_sans_caption.yml
+ComicNeue-Light.ttf:
+- google/comic_neue.yml
+ComicNeue-LightItalic.ttf:
+- google/comic_neue.yml
+ComicNeue-Regular.ttf:
+- google/comic_neue.yml
+ComicNeue-Italic.ttf:
+- google/comic_neue.yml
+ComicNeue-Bold.ttf:
+- google/comic_neue.yml
+ComicNeue-BoldItalic.ttf:
+- google/comic_neue.yml
+Flavors-Regular.ttf:
+- google/flavors.yml
+Simonetta-Regular.ttf:
+- google/simonetta.yml
+Simonetta-Italic.ttf:
+- google/simonetta.yml
+Simonetta-Black.ttf:
+- google/simonetta.yml
+Simonetta-BlackItalic.ttf:
+- google/simonetta.yml
+MateSC-Regular.ttf:
+- google/mate_sc.yml
+Cabin[wdth,wght].ttf:
+- google/cabin.yml
+Cabin-Italic[wdth,wght].ttf:
+- google/cabin.yml
+Inder-Regular.ttf:
+- google/inder.yml
+Ruthie-Regular.ttf:
+- google/ruthie.yml
+Butcherman-Regular.ttf:
+- google/butcherman.yml
+AmaticaSC-Regular.ttf:
+- google/amatica_sc.yml
+AmaticaSC-Bold.ttf:
+- google/amatica_sc.yml
+BalooPaaji-Regular.ttf:
+- google/baloo_paaji.yml
+ConcertOne-Regular.ttf:
+- google/concert_one.yml
+OleoScriptSwashCaps-Regular.ttf:
+- google/oleo_script_swash_caps.yml
+OleoScriptSwashCaps-Bold.ttf:
+- google/oleo_script_swash_caps.yml
+Mada-ExtraLight.ttf:
+- google/mada.yml
+Mada-Light.ttf:
+- google/mada.yml
+Mada-Regular.ttf:
+- google/mada.yml
+Mada-Medium.ttf:
+- google/mada.yml
+Mada-SemiBold.ttf:
+- google/mada.yml
+Mada-Bold.ttf:
+- google/mada.yml
+Mada-Black.ttf:
+- google/mada.yml
+Frijole-Regular.ttf:
+- google/frijole.yml
+Oldenburg-Regular.ttf:
+- google/oldenburg.yml
+Archivo-Regular.ttf:
+- google/archivo.yml
+Archivo-Italic.ttf:
+- google/archivo.yml
+Archivo-Medium.ttf:
+- google/archivo.yml
+Archivo-MediumItalic.ttf:
+- google/archivo.yml
+Archivo-SemiBold.ttf:
+- google/archivo.yml
+Archivo-SemiBoldItalic.ttf:
+- google/archivo.yml
+Archivo-Bold.ttf:
+- google/archivo.yml
+Archivo-BoldItalic.ttf:
+- google/archivo.yml
+Gotu-Regular.ttf:
+- google/gotu.yml
+GFSDidot-Regular.ttf:
+- google/gfs_didot.yml
+Cousine-Regular.ttf:
+- google/cousine.yml
+Cousine-Italic.ttf:
+- google/cousine.yml
+Cousine-Bold.ttf:
+- google/cousine.yml
+Cousine-BoldItalic.ttf:
+- google/cousine.yml
+PinyonScript-Regular.ttf:
+- google/pinyon_script.yml
+ShareTechMono-Regular.ttf:
+- google/share_tech_mono.yml
+Asset-Regular.ttf:
+- google/asset.yml
+CormorantSC-Light.ttf:
+- google/cormorant_sc.yml
+CormorantSC-Regular.ttf:
+- google/cormorant_sc.yml
+CormorantSC-Medium.ttf:
+- google/cormorant_sc.yml
+CormorantSC-SemiBold.ttf:
+- google/cormorant_sc.yml
+CormorantSC-Bold.ttf:
+- google/cormorant_sc.yml
+CreteRound-Regular.ttf:
+- google/crete_round.yml
+CreteRound-Italic.ttf:
+- google/crete_round.yml
+UbuntuMono-Regular.ttf:
+- google/ubuntu_mono.yml
+UbuntuMono-Italic.ttf:
+- google/ubuntu_mono.yml
+UbuntuMono-Bold.ttf:
+- google/ubuntu_mono.yml
+UbuntuMono-BoldItalic.ttf:
+- google/ubuntu_mono.yml
+NotoSans-Regular.ttf:
+- google/noto_sans.yml
+NotoSans-Italic.ttf:
+- google/noto_sans.yml
+NotoSans-Bold.ttf:
+- google/noto_sans.yml
+NotoSans-BoldItalic.ttf:
+- google/noto_sans.yml
+Quintessential-Regular.ttf:
+- google/quintessential.yml
+MajorMonoDisplay-Regular.ttf:
+- google/major_mono_display.yml
+BlackAndWhitePicture-Regular.ttf:
+- google/black_and_white_picture.yml
+SquadaOne-Regular.ttf:
+- google/squada_one.yml
+DMSerifText-Regular.ttf:
+- google/dm_serif_text.yml
+DMSerifText-Italic.ttf:
+- google/dm_serif_text.yml
+Aleo-Light.ttf:
+- google/aleo.yml
+Aleo-LightItalic.ttf:
+- google/aleo.yml
+Aleo-Regular.ttf:
+- google/aleo.yml
+Aleo-Italic.ttf:
+- google/aleo.yml
+Aleo-Bold.ttf:
+- google/aleo.yml
+Aleo-BoldItalic.ttf:
+- google/aleo.yml
+AdventPro-Thin.ttf:
+- google/advent_pro.yml
+AdventPro-ExtraLight.ttf:
+- google/advent_pro.yml
+AdventPro-Light.ttf:
+- google/advent_pro.yml
+AdventPro-Regular.ttf:
+- google/advent_pro.yml
+AdventPro-Medium.ttf:
+- google/advent_pro.yml
+AdventPro-SemiBold.ttf:
+- google/advent_pro.yml
+AdventPro-Bold.ttf:
+- google/advent_pro.yml
+SnowburstOne-Regular.ttf:
+- google/snowburst_one.yml
+BenchNine-Light.ttf:
+- google/benchnine.yml
+BenchNine-Regular.ttf:
+- google/benchnine.yml
+BenchNine-Bold.ttf:
+- google/benchnine.yml
+Charmonman-Regular.ttf:
+- google/charmonman.yml
+Charmonman-Bold.ttf:
+- google/charmonman.yml
+Blinker-Thin.ttf:
+- google/blinker.yml
+Blinker-ExtraLight.ttf:
+- google/blinker.yml
+Blinker-Light.ttf:
+- google/blinker.yml
+Blinker-Regular.ttf:
+- google/blinker.yml
+Blinker-SemiBold.ttf:
+- google/blinker.yml
+Blinker-Bold.ttf:
+- google/blinker.yml
+Blinker-ExtraBold.ttf:
+- google/blinker.yml
+Blinker-Black.ttf:
+- google/blinker.yml
+Charm-Regular.ttf:
+- google/charm.yml
+Charm-Bold.ttf:
+- google/charm.yml
+HennyPenny-Regular.ttf:
+- google/henny_penny.yml
+Poppins-Thin.ttf:
+- google/poppins.yml
+Poppins-ThinItalic.ttf:
+- google/poppins.yml
+Poppins-ExtraLight.ttf:
+- google/poppins.yml
+Poppins-ExtraLightItalic.ttf:
+- google/poppins.yml
+Poppins-Light.ttf:
+- google/poppins.yml
+Poppins-LightItalic.ttf:
+- google/poppins.yml
+Poppins-Regular.ttf:
+- google/poppins.yml
+Poppins-Italic.ttf:
+- google/poppins.yml
+Poppins-Medium.ttf:
+- google/poppins.yml
+Poppins-MediumItalic.ttf:
+- google/poppins.yml
+Poppins-SemiBold.ttf:
+- google/poppins.yml
+Poppins-SemiBoldItalic.ttf:
+- google/poppins.yml
+Poppins-Bold.ttf:
+- google/poppins.yml
+Poppins-BoldItalic.ttf:
+- google/poppins.yml
+Poppins-ExtraBold.ttf:
+- google/poppins.yml
+Poppins-ExtraBoldItalic.ttf:
+- google/poppins.yml
+Poppins-Black.ttf:
+- google/poppins.yml
+Poppins-BlackItalic.ttf:
+- google/poppins.yml
+JosefinSansStd-Light.ttf:
+- google/josefin_sans_std_light.yml
+JockeyOne-Regular.ttf:
+- google/jockey_one.yml
+BarlowCondensed-Thin.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-ThinItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-ExtraLight.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-ExtraLightItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Light.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-LightItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Regular.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Italic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Medium.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-MediumItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-SemiBold.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-SemiBoldItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Bold.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-BoldItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-ExtraBold.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-ExtraBoldItalic.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-Black.ttf:
+- google/barlow_condensed.yml
+BarlowCondensed-BlackItalic.ttf:
+- google/barlow_condensed.yml
+CodaCaption-ExtraBold.ttf:
+- google/coda_caption.yml
+CarterOne.ttf:
+- google/carter_one.yml
+BalooChettan-Regular.ttf:
+- google/baloo_chettan.yml
+ButterflyKids-Regular.ttf:
+- google/butterfly_kids.yml
+GrandHotel-Regular.ttf:
+- google/grand_hotel.yml
+Ruda-VariableFont_wght.ttf:
+- google/ruda.yml
+Orbitron-VariableFont_wght.ttf:
+- google/orbitron.yml
+AlikeAngular-Regular.ttf:
+- google/alike_angular.yml
+Actor-Regular.ttf:
+- google/actor.yml
+Puritan-Regular.ttf:
+- google/puritan.yml
+Puritan-Italic.ttf:
+- google/puritan.yml
+Puritan-Bold.ttf:
+- google/puritan.yml
+Puritan-BoldItalic.ttf:
+- google/puritan.yml
+EmblemaOne-Regular.ttf:
+- google/emblema_one.yml
+RedHatText-Regular.ttf:
+- google/red_hat_text.yml
+RedHatText-Italic.ttf:
+- google/red_hat_text.yml
+RedHatText-Medium.ttf:
+- google/red_hat_text.yml
+RedHatText-MediumItalic.ttf:
+- google/red_hat_text.yml
+RedHatText-Bold.ttf:
+- google/red_hat_text.yml
+RedHatText-BoldItalic.ttf:
+- google/red_hat_text.yml
+Trochut-Regular.ttf:
+- google/trochut.yml
+Trochut-Italic.ttf:
+- google/trochut.yml
+Trochut-Bold.ttf:
+- google/trochut.yml
+MrDeHaviland-Regular.ttf:
+- google/mr_de_haviland.yml
+LondrinaShadow-Regular.ttf:
+- google/londrina_shadow.yml
+JosefinSans-VariableFont_wght.ttf:
+- google/josefin_sans.yml
+JosefinSans-Italic-VariableFont_wght.ttf:
+- google/josefin_sans.yml
+Akronim-Regular.ttf:
+- google/akronim.yml
+Sansita-Regular.ttf:
+- google/sansita.yml
+Sansita-Italic.ttf:
+- google/sansita.yml
+Sansita-Bold.ttf:
+- google/sansita.yml
+Sansita-BoldItalic.ttf:
+- google/sansita.yml
+Sansita-ExtraBold.ttf:
+- google/sansita.yml
+Sansita-ExtraBoldItalic.ttf:
+- google/sansita.yml
+Sansita-Black.ttf:
+- google/sansita.yml
+Sansita-BlackItalic.ttf:
+- google/sansita.yml
+Rajdhani-Light.ttf:
+- google/rajdhani.yml
+Rajdhani-Regular.ttf:
+- google/rajdhani.yml
+Rajdhani-Medium.ttf:
+- google/rajdhani.yml
+Rajdhani-SemiBold.ttf:
+- google/rajdhani.yml
+Rajdhani-Bold.ttf:
+- google/rajdhani.yml
+Tinos-Regular.ttf:
+- google/tinos.yml
+Tinos-Italic.ttf:
+- google/tinos.yml
+Tinos-Bold.ttf:
+- google/tinos.yml
+Tinos-BoldItalic.ttf:
+- google/tinos.yml
+Poly-Regular.ttf:
+- google/poly.yml
+Poly-Italic.ttf:
+- google/poly.yml
+JacquesFrancoisShadow-Regular.ttf:
+- google/jacques_francois_shadow.yml
+Balthazar-Regular.ttf:
+- google/balthazar.yml
+AnonymousPro-Regular.ttf:
+- google/anonymous_pro.yml
+AnonymousPro-Italic.ttf:
+- google/anonymous_pro.yml
+AnonymousPro-Bold.ttf:
+- google/anonymous_pro.yml
+AnonymousPro-BoldItalic.ttf:
+- google/anonymous_pro.yml
+Laila-Light.ttf:
+- google/laila.yml
+Laila-Regular.ttf:
+- google/laila.yml
+Laila-Medium.ttf:
+- google/laila.yml
+Laila-SemiBold.ttf:
+- google/laila.yml
+Laila-Bold.ttf:
+- google/laila.yml
+GoudyBookletter1911.ttf:
+- google/goudy_bookletter_1911.yml
+ClickerScript-Regular.ttf:
+- google/clicker_script.yml
+LibreBarcode39Text-Regular.ttf:
+- google/libre_barcode_39_text.yml
+ButchermanCaps-Regular.ttf:
+- google/butcherman_caps.yml
+BalooThambi2-Regular.ttf:
+- google/baloo_thambi_2.yml
+BalooThambi2-Medium.ttf:
+- google/baloo_thambi_2.yml
+BalooThambi2-SemiBold.ttf:
+- google/baloo_thambi_2.yml
+BalooThambi2-Bold.ttf:
+- google/baloo_thambi_2.yml
+BalooThambi2-ExtraBold.ttf:
+- google/baloo_thambi_2.yml
+LexendMega-Regular.ttf:
+- google/lexend_mega.yml
+SreeKrushnadevaraya-Regular.ttf:
+- google/sree_krushnadevaraya.yml
+RubikMonoOne-Regular.ttf:
+- google/rubik_mono_one.yml
+Mukta-ExtraLight.ttf:
+- google/mukta.yml
+Mukta-Light.ttf:
+- google/mukta.yml
+Mukta-Regular.ttf:
+- google/mukta.yml
+Mukta-Medium.ttf:
+- google/mukta.yml
+Mukta-SemiBold.ttf:
+- google/mukta.yml
+Mukta-Bold.ttf:
+- google/mukta.yml
+Mukta-ExtraBold.ttf:
+- google/mukta.yml
+Signika-VariableFont_wght.ttf:
+- google/signika.yml
+Mulish-VariableFont_wght.ttf:
+- google/mulish.yml
+Mulish-Italic-VariableFont_wght.ttf:
+- google/mulish.yml
+BalooBhaijaan-Regular.ttf:
+- google/baloo_bhaijaan.yml
+FaunaOne-Regular.ttf:
+- google/fauna_one.yml
+Risque-Regular.ttf:
+- google/risque.yml
+SeaweedScript-Regular.ttf:
+- google/seaweed_script.yml
+DidactGothic-Regular.ttf:
+- google/didact_gothic.yml
+PlayfairDisplaySC-Regular.ttf:
+- google/playfair_display_sc.yml
+PlayfairDisplaySC-Italic.ttf:
+- google/playfair_display_sc.yml
+PlayfairDisplaySC-Bold.ttf:
+- google/playfair_display_sc.yml
+PlayfairDisplaySC-BoldItalic.ttf:
+- google/playfair_display_sc.yml
+PlayfairDisplaySC-Black.ttf:
+- google/playfair_display_sc.yml
+PlayfairDisplaySC-BlackItalic.ttf:
+- google/playfair_display_sc.yml
+Fondamento-Regular.ttf:
+- google/fondamento.yml
+Fondamento-Italic.ttf:
+- google/fondamento.yml
+MuktaMahee-ExtraLight.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-Light.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-Regular.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-Medium.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-SemiBold.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-Bold.ttf:
+- google/mukta_mahee.yml
+MuktaMahee-ExtraBold.ttf:
+- google/mukta_mahee.yml
+Caudex-Regular.ttf:
+- google/caudex.yml
+Caudex-Italic.ttf:
+- google/caudex.yml
+Caudex-Bold.ttf:
+- google/caudex.yml
+Caudex-BoldItalic.ttf:
+- google/caudex.yml
+LifeSavers-Regular.ttf:
+- google/life_savers.yml
+LifeSavers-Bold.ttf:
+- google/life_savers.yml
+LifeSavers-ExtraBold.ttf:
+- google/life_savers.yml
+RaviPrakash-Regular.ttf:
+- google/ravi_prakash.yml
+jsMath-cmex10.ttf:
+- google/jsmath_cmex10.yml
+SeymourOne-Regular.ttf:
+- google/seymour_one.yml
+HomemadeApple-Regular.ttf:
+- google/homemade_apple.yml
+Creepster-Regular.ttf:
+- google/creepster.yml
+CutiveMono-Regular.ttf:
+- google/cutive_mono.yml
+Rancho-Regular.ttf:
+- google/rancho.yml
+ArefRuqaa-Regular.ttf:
+- google/aref_ruqaa.yml
+ArefRuqaa-Bold.ttf:
+- google/aref_ruqaa.yml
+AbrilFatface-Regular.ttf:
+- google/abril_fatface.yml
+ContrailOne-Regular.ttf:
+- google/contrail_one.yml
+ChelseaMarket-Regular.ttf:
+- google/chelsea_market.yml
+RopaSans-Regular.ttf:
+- google/ropa_sans.yml
+RopaSans-Italic.ttf:
+- google/ropa_sans.yml
+Jomhuria-Regular.ttf:
+- google/jomhuria.yml
+MerriweatherSans-VariableFont_wght.ttf:
+- google/merriweather_sans.yml
+MerriweatherSans-Italic-VariableFont_wght.ttf:
+- google/merriweather_sans.yml
+Cedarville-Cursive.ttf:
+- google/cedarville_cursive.yml
+Barriecito-Regular.ttf:
+- google/barriecito.yml
+Slabo13px-Regular.ttf:
+- google/slabo_13px.yml
+Khula-Light.ttf:
+- google/khula.yml
+Khula-Regular.ttf:
+- google/khula.yml
+Khula-SemiBold.ttf:
+- google/khula.yml
+Khula-Bold.ttf:
+- google/khula.yml
+Khula-ExtraBold.ttf:
+- google/khula.yml
+GrenzeGotisch-VariableFont_wght.ttf:
+- google/grenze_gotisch.yml
+MountainsofChristmas-Regular.ttf:
+- google/mountains_of_christmas.yml
+MountainsofChristmas-Bold.ttf:
+- google/mountains_of_christmas.yml
+Almendra-Regular.ttf:
+- google/almendra.yml
+Almendra-Italic.ttf:
+- google/almendra.yml
+Almendra-Bold.ttf:
+- google/almendra.yml
+Almendra-BoldItalic.ttf:
+- google/almendra.yml
+GlassAntiqua-Regular.ttf:
+- google/glass_antiqua.yml
+Galdeano-Regular.ttf:
+- google/galdeano.yml
+RibeyeMarrow-Regular.ttf:
+- google/ribeye_marrow.yml
+CherryCreamSoda-Regular.ttf:
+- google/cherry_cream_soda.yml
+PaytoneOne-Regular.ttf:
+- google/paytone_one.yml
+Armata-Regular.ttf:
+- google/armata.yml
+Sarina-Regular.ttf:
+- google/sarina.yml
+ChauPhilomeneOne-Regular.ttf:
+- google/chau_philomene_one.yml
+ChauPhilomeneOne-Italic.ttf:
+- google/chau_philomene_one.yml
+RedHatDisplay-Regular.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-Italic.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-Medium.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-MediumItalic.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-Bold.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-BoldItalic.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-Black.ttf:
+- google/red_hat_display.yml
+RedHatDisplay-BlackItalic.ttf:
+- google/red_hat_display.yml
+RubikOne-Regular.ttf:
+- google/rubik_one.yml
+MrBedfort-Regular.ttf:
+- google/mr_bedford.yml
+- google/mr_bedfort.yml
+ShadowsIntoLight.ttf:
+- google/shadows_into_light.yml
+CaveatBrush-Regular.ttf:
+- google/caveat_brush.yml
+Graduate-Regular.ttf:
+- google/graduate.yml
+Bevan-Regular.ttf:
+- google/bevan.yml
+Gafata-Regular.ttf:
+- google/gafata.yml
+CrimsonText-Regular.ttf:
+- google/crimson_text.yml
+CrimsonText-Italic.ttf:
+- google/crimson_text.yml
+CrimsonText-SemiBold.ttf:
+- google/crimson_text.yml
+CrimsonText-SemiBoldItalic.ttf:
+- google/crimson_text.yml
+CrimsonText-Bold.ttf:
+- google/crimson_text.yml
+CrimsonText-BoldItalic.ttf:
+- google/crimson_text.yml
+WaitingfortheSunrise.ttf:
+- google/waiting_for_the_sunrise.yml
+RhodiumLibre-Regular.ttf:
+- google/rhodium_libre.yml
+SecularOne-Regular.ttf:
+- google/secular_one.yml
+Battambang-Regular.ttf:
+- google/battambang.yml
+Battambang-Bold.ttf:
+- google/battambang.yml
+Bentham-Regular.ttf:
+- google/bentham.yml
+Alike-Regular.ttf:
+- google/alike.yml
+KronaOne-Regular.ttf:
+- google/krona_one.yml
+FrankRuhlLibre-Light.ttf:
+- google/frank_ruhl_libre.yml
+FrankRuhlLibre-Regular.ttf:
+- google/frank_ruhl_libre.yml
+FrankRuhlLibre-Medium.ttf:
+- google/frank_ruhl_libre.yml
+FrankRuhlLibre-Bold.ttf:
+- google/frank_ruhl_libre.yml
+FrankRuhlLibre-Black.ttf:
+- google/frank_ruhl_libre.yml
+Nokora-Regular.ttf:
+- google/nokora.yml
+Nokora-Bold.ttf:
+- google/nokora.yml
+Fenix-Regular.ttf:
+- google/fenix.yml
+Chango-Regular.ttf:
+- google/chango.yml
+SedgwickAve-Regular.ttf:
+- google/sedgwick_ave.yml
+SourceCodePro-ExtraLightItalic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-LightItalic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-Italic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-MediumItalic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-SemiBold.ttf:
+- google/source_code_pro.yml
+SourceCodePro-SemiBoldItalic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-BoldItalic.ttf:
+- google/source_code_pro.yml
+SourceCodePro-BlackItalic.ttf:
+- google/source_code_pro.yml
+Sarabun-Thin.ttf:
+- google/sarabun.yml
+Sarabun-ThinItalic.ttf:
+- google/sarabun.yml
+Sarabun-ExtraLight.ttf:
+- google/sarabun.yml
+Sarabun-ExtraLightItalic.ttf:
+- google/sarabun.yml
+Sarabun-Light.ttf:
+- google/sarabun.yml
+Sarabun-LightItalic.ttf:
+- google/sarabun.yml
+Sarabun-Regular.ttf:
+- google/sarabun.yml
+Sarabun-Italic.ttf:
+- google/sarabun.yml
+Sarabun-Medium.ttf:
+- google/sarabun.yml
+Sarabun-MediumItalic.ttf:
+- google/sarabun.yml
+Sarabun-SemiBold.ttf:
+- google/sarabun.yml
+Sarabun-SemiBoldItalic.ttf:
+- google/sarabun.yml
+Sarabun-Bold.ttf:
+- google/sarabun.yml
+Sarabun-BoldItalic.ttf:
+- google/sarabun.yml
+Sarabun-ExtraBold.ttf:
+- google/sarabun.yml
+Sarabun-ExtraBoldItalic.ttf:
+- google/sarabun.yml
+FiraSansExtraCondensed-Thin.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-ThinItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-ExtraLight.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-ExtraLightItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Light.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-LightItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Regular.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Italic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Medium.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-MediumItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-SemiBold.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-SemiBoldItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Bold.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-BoldItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-ExtraBold.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-ExtraBoldItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-Black.ttf:
+- google/fira_sans_extra_condensed.yml
+FiraSansExtraCondensed-BlackItalic.ttf:
+- google/fira_sans_extra_condensed.yml
+Spartan-VariableFont_wght.ttf:
+- google/spartan.yml
+Bayon-Regular.ttf:
+- google/bayon.yml
+Imprima-Regular.ttf:
+- google/imprima.yml
+Tomorrow-Thin.ttf:
+- google/tomorrow.yml
+Tomorrow-ThinItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-ExtraLight.ttf:
+- google/tomorrow.yml
+Tomorrow-ExtraLightItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-Light.ttf:
+- google/tomorrow.yml
+Tomorrow-LightItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-Regular.ttf:
+- google/tomorrow.yml
+Tomorrow-Italic.ttf:
+- google/tomorrow.yml
+Tomorrow-Medium.ttf:
+- google/tomorrow.yml
+Tomorrow-MediumItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-SemiBold.ttf:
+- google/tomorrow.yml
+Tomorrow-SemiBoldItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-Bold.ttf:
+- google/tomorrow.yml
+Tomorrow-BoldItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-ExtraBold.ttf:
+- google/tomorrow.yml
+Tomorrow-ExtraBoldItalic.ttf:
+- google/tomorrow.yml
+Tomorrow-Black.ttf:
+- google/tomorrow.yml
+Tomorrow-BlackItalic.ttf:
+- google/tomorrow.yml
+Kranky-Regular.ttf:
+- google/kranky.yml
+Allura-Regular.ttf:
+- google/allura.yml
+BowlbyOneSC-Regular.ttf:
+- google/bowlby_one_sc.yml
+NotoSerif-Regular.ttf:
+- google/noto_serif.yml
+NotoSerif-Italic.ttf:
+- google/noto_serif.yml
+NotoSerif-Bold.ttf:
+- google/noto_serif.yml
+NotoSerif-BoldItalic.ttf:
+- google/noto_serif.yml
+BungeeInline-Regular.ttf:
+- google/bungee_inline.yml
+Bungee-Regular.ttf:
+- google/bungee.yml
+PoiretOne-Regular.ttf:
+- google/poiret_one.yml
+Neucha.ttf:
+- google/neucha.yml
+YanoneKaffeesatz-VariableFont_wght.ttf:
+- google/yanone_kaffeesatz.yml
+KdamThmor-Regular.ttf:
+- google/kdam_thmor.yml
+Bahiana-Regular.ttf:
+- google/bahiana.yml
+Tauri-Regular.ttf:
+- google/tauri.yml
+CabinCondensed-Regular.ttf:
+- google/cabin_condensed.yml
+CabinCondensed-Medium.ttf:
+- google/cabin_condensed.yml
+CabinCondensed-SemiBold.ttf:
+- google/cabin_condensed.yml
+CabinCondensed-Bold.ttf:
+- google/cabin_condensed.yml
+PrincessSofia-Regular.ttf:
+- google/princess_sofia.yml
+Sarala-Regular.ttf:
+- google/sarala.yml
+Sarala-Bold.ttf:
+- google/sarala.yml
+KaushanScript-Regular.ttf:
+- google/kaushan_script.yml
+Sriracha-Regular.ttf:
+- google/sriracha.yml
+PoorStory-Regular.ttf:
+- google/poor_story.yml
+Merienda-Regular.ttf:
+- google/merienda.yml
+Merienda-Bold.ttf:
+- google/merienda.yml
+EncodeSansExpanded-Thin.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-ExtraLight.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-Light.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-Regular.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-Medium.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-SemiBold.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-Bold.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-ExtraBold.ttf:
+- google/encode_sans_expanded.yml
+EncodeSansExpanded-Black.ttf:
+- google/encode_sans_expanded.yml
+DawningofaNewDay.ttf:
+- google/dawning_of_a_new_day.yml
+BalooBhai-Regular.ttf:
+- google/baloo_bhai.yml
+CrimsonPro-VariableFont_wght.ttf:
+- google/crimson_pro.yml
+CrimsonPro-Italic-VariableFont_wght.ttf:
+- google/crimson_pro.yml
+LibreBaskerville-Regular.ttf:
+- google/libre_baskerville.yml
+LibreBaskerville-Italic.ttf:
+- google/libre_baskerville.yml
+LibreBaskerville-Bold.ttf:
+- google/libre_baskerville.yml
+FjordOne-Regular.ttf:
+- google/fjord_one.yml
+Arizonia-Regular.ttf:
+- google/arizonia.yml
+SupermercadoOne-Regular.ttf:
+- google/supermercado_one.yml
+Kalam-Light.ttf:
+- google/kalam.yml
+Kalam-Regular.ttf:
+- google/kalam.yml
+Kalam-Bold.ttf:
+- google/kalam.yml
+Baloo2-Regular.ttf:
+- google/baloo_2.yml
+Baloo2-Medium.ttf:
+- google/baloo_2.yml
+Baloo2-SemiBold.ttf:
+- google/baloo_2.yml
+Baloo2-Bold.ttf:
+- google/baloo_2.yml
+Baloo2-ExtraBold.ttf:
+- google/baloo_2.yml
+IMFeGPsc28P.ttf:
+- google/im_fell_great_primer_sc.yml
+ZhiMangXing-Regular.ttf:
+- google/zhi_mang_xing.yml
+AbhayaLibre-Regular.ttf:
+- google/abhaya_libre.yml
+AbhayaLibre-Medium.ttf:
+- google/abhaya_libre.yml
+AbhayaLibre-SemiBold.ttf:
+- google/abhaya_libre.yml
+AbhayaLibre-Bold.ttf:
+- google/abhaya_libre.yml
+AbhayaLibre-ExtraBold.ttf:
+- google/abhaya_libre.yml
+Stylish-Regular.ttf:
+- google/stylish.yml
+Manrope-VariableFont_wght.ttf:
+- google/manrope.yml
+DenkOne-Regular.ttf:
+- google/denk_one.yml
+NovaMono.ttf:
+- google/nova_mono.yml
+EagleLake-Regular.ttf:
+- google/eagle_lake.yml
+Pompiere-Regular.ttf:
+- google/pompiere.yml
+AnticSlab-Regular.ttf:
+- google/antic_slab.yml
+Alatsi-Regular.ttf:
+- google/alatsi.yml
+BadScript-Regular.ttf:
+- google/bad_script.yml
+RammettoOne-Regular.ttf:
+- google/rammetto_one.yml
+Dhurjati-Regular.ttf:
+- google/dhurjati.yml
+NovaCut.ttf:
+- google/nova_cut.yml
+SpaceMono-Regular.ttf:
+- google/space_mono.yml
+SpaceMono-Italic.ttf:
+- google/space_mono.yml
+SpaceMono-Bold.ttf:
+- google/space_mono.yml
+SpaceMono-BoldItalic.ttf:
+- google/space_mono.yml
+Dynalight-Regular.ttf:
+- google/dynalight.yml
+BalooBhaina2-Regular.ttf:
+- google/baloo_bhaina_2.yml
+BalooBhaina2-Medium.ttf:
+- google/baloo_bhaina_2.yml
+BalooBhaina2-SemiBold.ttf:
+- google/baloo_bhaina_2.yml
+BalooBhaina2-Bold.ttf:
+- google/baloo_bhaina_2.yml
+BalooBhaina2-ExtraBold.ttf:
+- google/baloo_bhaina_2.yml
+OldStandard-Regular.ttf:
+- google/old_standard_tt.yml
+OldStandard-Italic.ttf:
+- google/old_standard_tt.yml
+OldStandard-Bold.ttf:
+- google/old_standard_tt.yml
+Convergence-Regular.ttf:
+- google/convergence.yml
+Ultra-Regular.ttf:
+- google/ultra.yml
+Gorditas-Regular.ttf:
+- google/gorditas.yml
+Gorditas-Bold.ttf:
+- google/gorditas.yml
+CinzelDecorative-Regular.ttf:
+- google/cinzel_decorative.yml
+CinzelDecorative-Bold.ttf:
+- google/cinzel_decorative.yml
+CinzelDecorative-Black.ttf:
+- google/cinzel_decorative.yml
+UncialAntiqua-Regular.ttf:
+- google/uncial_antiqua.yml
+Galindo-Regular.ttf:
+- google/galindo.yml
+BlackOpsOne-Regular.ttf:
+- google/black_ops_one.yml
+Spectral-ExtraLight.ttf:
+- google/spectral.yml
+Spectral-ExtraLightItalic.ttf:
+- google/spectral.yml
+Spectral-Light.ttf:
+- google/spectral.yml
+Spectral-LightItalic.ttf:
+- google/spectral.yml
+Spectral-Regular.ttf:
+- google/spectral.yml
+Spectral-Italic.ttf:
+- google/spectral.yml
+Spectral-Medium.ttf:
+- google/spectral.yml
+Spectral-MediumItalic.ttf:
+- google/spectral.yml
+Spectral-SemiBold.ttf:
+- google/spectral.yml
+Spectral-SemiBoldItalic.ttf:
+- google/spectral.yml
+Spectral-Bold.ttf:
+- google/spectral.yml
+Spectral-BoldItalic.ttf:
+- google/spectral.yml
+Spectral-ExtraBold.ttf:
+- google/spectral.yml
+Spectral-ExtraBoldItalic.ttf:
+- google/spectral.yml
+Kenia-Regular.ttf:
+- google/kenia.yml
+Iceberg-Regular.ttf:
+- google/iceberg.yml
+Mitr-ExtraLight.ttf:
+- google/mitr.yml
+Mitr-Light.ttf:
+- google/mitr.yml
+Mitr-Regular.ttf:
+- google/mitr.yml
+Mitr-Medium.ttf:
+- google/mitr.yml
+Mitr-SemiBold.ttf:
+- google/mitr.yml
+Mitr-Bold.ttf:
+- google/mitr.yml
+HappyMonkey-Regular.ttf:
+- google/happy_monkey.yml
+Sumana-Regular.ttf:
+- google/sumana.yml
+Sumana-Bold.ttf:
+- google/sumana.yml
+Exo2-VariableFont_wght.ttf:
+- google/exo_2.yml
+Exo2-Italic-VariableFont_wght.ttf:
+- google/exo_2.yml
+Diplomata-Regular.ttf:
+- google/diplomata.yml
+Rufina-Regular.ttf:
+- google/rufina.yml
+Rufina-Bold.ttf:
+- google/rufina.yml
+SixCaps.ttf:
+- google/six_caps.yml
+Marcellus-Regular.ttf:
+- google/marcellus.yml
+Atma-Light.ttf:
+- google/atma.yml
+Atma-Regular.ttf:
+- google/atma.yml
+Atma-Medium.ttf:
+- google/atma.yml
+Atma-SemiBold.ttf:
+- google/atma.yml
+Atma-Bold.ttf:
+- google/atma.yml
+Orienta-Regular.ttf:
+- google/orienta.yml
+Cairo-ExtraLight.ttf:
+- google/cairo.yml
+Cairo-Light.ttf:
+- google/cairo.yml
+Cairo-Regular.ttf:
+- google/cairo.yml
+Cairo-SemiBold.ttf:
+- google/cairo.yml
+Cairo-Bold.ttf:
+- google/cairo.yml
+Cairo-Black.ttf:
+- google/cairo.yml
+LibreCaslonDisplay-Regular.ttf:
+- google/libre_caslon_display.yml
+InriaSerif-Light.ttf:
+- google/inria_serif.yml
+InriaSerif-LightItalic.ttf:
+- google/inria_serif.yml
+InriaSerif-Regular.ttf:
+- google/inria_serif.yml
+InriaSerif-Italic.ttf:
+- google/inria_serif.yml
+InriaSerif-Bold.ttf:
+- google/inria_serif.yml
+InriaSerif-BoldItalic.ttf:
+- google/inria_serif.yml
+Norican-Regular.ttf:
+- google/norican.yml
+BungeeOutline-Regular.ttf:
+- google/bungee_outline.yml
+Livvic-Thin.ttf:
+- google/livvic.yml
+Livvic-ThinItalic.ttf:
+- google/livvic.yml
+Livvic-ExtraLight.ttf:
+- google/livvic.yml
+Livvic-ExtraLightItalic.ttf:
+- google/livvic.yml
+Livvic-Light.ttf:
+- google/livvic.yml
+Livvic-LightItalic.ttf:
+- google/livvic.yml
+Livvic-Regular.ttf:
+- google/livvic.yml
+Livvic-Italic.ttf:
+- google/livvic.yml
+Livvic-Medium.ttf:
+- google/livvic.yml
+Livvic-MediumItalic.ttf:
+- google/livvic.yml
+Livvic-SemiBold.ttf:
+- google/livvic.yml
+Livvic-SemiBoldItalic.ttf:
+- google/livvic.yml
+Livvic-Bold.ttf:
+- google/livvic.yml
+Livvic-BoldItalic.ttf:
+- google/livvic.yml
+Livvic-Black.ttf:
+- google/livvic.yml
+Livvic-BlackItalic.ttf:
+- google/livvic.yml
+Chonburi-Regular.ttf:
+- google/chonburi.yml
+Homenaje-Regular.ttf:
+- google/homenaje.yml
+JotiOne-Regular.ttf:
+- google/joti_one.yml
+CormorantInfant-Light.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-LightItalic.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-Regular.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-Italic.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-Medium.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-MediumItalic.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-SemiBold.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-SemiBoldItalic.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-Bold.ttf:
+- google/cormorant_infant.yml
+CormorantInfant-BoldItalic.ttf:
+- google/cormorant_infant.yml
+LibreBarcode128Text-Regular.ttf:
+- google/libre_barcode_128_text.yml
+Itim-Regular.ttf:
+- google/itim.yml
+NovaScript-Regular.ttf:
+- google/nova_script.yml
+Inconsolata[wdth,wght].ttf:
+- google/inconsolata.yml
+Kristi-Regular.ttf:
+- google/kristi.yml
+Thasadith-Regular.ttf:
+- google/thasadith.yml
+Thasadith-Italic.ttf:
+- google/thasadith.yml
+Thasadith-Bold.ttf:
+- google/thasadith.yml
+Thasadith-BoldItalic.ttf:
+- google/thasadith.yml
+Codystar-Light.ttf:
+- google/codystar.yml
+Codystar-Regular.ttf:
+- google/codystar.yml
+Gayathri-Thin.ttf:
+- google/gayathri.yml
+Gayathri-Regular.ttf:
+- google/gayathri.yml
+Gayathri-Bold.ttf:
+- google/gayathri.yml
+Arvo-Regular.ttf:
+- google/arvo.yml
+Arvo-Italic.ttf:
+- google/arvo.yml
+Arvo-Bold.ttf:
+- google/arvo.yml
+Arvo-BoldItalic.ttf:
+- google/arvo.yml
+Cantarell-Regular.ttf:
+- google/cantarell.yml
+Cantarell-Oblique.ttf:
+- google/cantarell.yml
+Cantarell-Bold.ttf:
+- google/cantarell.yml
+Cantarell-BoldOblique.ttf:
+- google/cantarell.yml
+Lustria-Regular.ttf:
+- google/lustria.yml
+Miniver-Regular.ttf:
+- google/miniver.yml
+PortLligatSans-Regular.ttf:
+- google/port_lligat_sans.yml
+Piedra-Regular.ttf:
+- google/piedra.yml
+Nosifer-Regular.ttf:
+- google/nosifer.yml
+CherrySwash-Regular.ttf:
+- google/cherry_swash.yml
+CherrySwash-Bold.ttf:
+- google/cherry_swash.yml
+Scada-Regular.ttf:
+- google/scada.yml
+Scada-Italic.ttf:
+- google/scada.yml
+Scada-Bold.ttf:
+- google/scada.yml
+Scada-BoldItalic.ttf:
+- google/scada.yml
+AlegreyaSansSC-Thin.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-ThinItalic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Light.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-LightItalic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Regular.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Italic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Medium.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-MediumItalic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Bold.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-BoldItalic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-ExtraBold.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-ExtraBoldItalic.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-Black.ttf:
+- google/alegreya_sans_sc.yml
+AlegreyaSansSC-BlackItalic.ttf:
+- google/alegreya_sans_sc.yml
+LeagueScript-Regular.ttf:
+- google/league_script.yml
+DuruSans-Regular.ttf:
+- google/duru_sans.yml
+Schoolbell-Regular.ttf:
+- google/schoolbell.yml
+Wellfleet-Regular.ttf:
+- google/wellfleet.yml
+AlfaSlabOne-Regular.ttf:
+- google/alfa_slab_one.yml
+Srisakdi-Regular.ttf:
+- google/srisakdi.yml
+Srisakdi-Bold.ttf:
+- google/srisakdi.yml
+Prata-Regular.ttf:
+- google/prata.yml
+jsMath-cmti10.ttf:
+- google/jsmath_cmti10.yml
+AlexBrush-Regular.ttf:
+- google/alex_brush.yml
+Fasthand-Regular.ttf:
+- google/fasthand.yml
+Sora-VariableFont_wght.ttf:
+- google/sora.yml
+BalooTammudu2-Regular.ttf:
+- google/baloo_tammudu_2.yml
+BalooTammudu2-Medium.ttf:
+- google/baloo_tammudu_2.yml
+BalooTammudu2-SemiBold.ttf:
+- google/baloo_tammudu_2.yml
+BalooTammudu2-Bold.ttf:
+- google/baloo_tammudu_2.yml
+BalooTammudu2-ExtraBold.ttf:
+- google/baloo_tammudu_2.yml
+Philosopher-Regular.ttf:
+- google/philosopher.yml
+Philosopher-Italic.ttf:
+- google/philosopher.yml
+Philosopher-Bold.ttf:
+- google/philosopher.yml
+Philosopher-BoldItalic.ttf:
+- google/philosopher.yml
+Electrolize-Regular.ttf:
+- google/electrolize.yml
+Inika-Regular.ttf:
+- google/inika.yml
+Inika-Bold.ttf:
+- google/inika.yml
+SingleDay-Regular.ttf:
+- google/single_day.yml
+OriginalSurfer-Regular.ttf:
+- google/original_surfer.yml
+Bangers-Regular.ttf:
+- google/bangers.yml
+Share-Regular.ttf:
+- google/share.yml
+Share-Italic.ttf:
+- google/share.yml
+Share-Bold.ttf:
+- google/share.yml
+Share-BoldItalic.ttf:
+- google/share.yml
+IMFeFCsc28P.ttf:
+- google/im_fell_french_canon_sc.yml
+Metrophobic-Regular.ttf:
+- google/metrophobic.yml
+AdobeBlank-Regular.ttf:
+- google/adobe_blank.yml
+HiMelody-Regular.ttf:
+- google/hi_melody.yml
+NanumPenScript-Regular.ttf:
+- google/nanum_pen_script.yml
+Wallpoet-Regular.ttf:
+- google/wallpoet.yml
+SairaExtraCondensed-Thin.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-ExtraLight.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-Light.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-Regular.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-Medium.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-SemiBold.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-Bold.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-ExtraBold.ttf:
+- google/saira_extra_condensed.yml
+SairaExtraCondensed-Black.ttf:
+- google/saira_extra_condensed.yml
+Zeyada.ttf:
+- google/zeyada.yml
+KoHo-ExtraLight.ttf:
+- google/koho.yml
+KoHo-ExtraLightItalic.ttf:
+- google/koho.yml
+KoHo-Light.ttf:
+- google/koho.yml
+KoHo-LightItalic.ttf:
+- google/koho.yml
+KoHo-Regular.ttf:
+- google/koho.yml
+KoHo-Italic.ttf:
+- google/koho.yml
+KoHo-Medium.ttf:
+- google/koho.yml
+KoHo-MediumItalic.ttf:
+- google/koho.yml
+KoHo-SemiBold.ttf:
+- google/koho.yml
+KoHo-SemiBoldItalic.ttf:
+- google/koho.yml
+KoHo-Bold.ttf:
+- google/koho.yml
+KoHo-BoldItalic.ttf:
+- google/koho.yml
+FjallaOne-Regular.ttf:
+- google/fjalla_one.yml
+CantoraOne-Regular.ttf:
+- google/cantora_one.yml
+BalooTamma2-Regular.ttf:
+- google/baloo_tamma_2.yml
+BalooTamma2-Medium.ttf:
+- google/baloo_tamma_2.yml
+BalooTamma2-SemiBold.ttf:
+- google/baloo_tamma_2.yml
+BalooTamma2-Bold.ttf:
+- google/baloo_tamma_2.yml
+BalooTamma2-ExtraBold.ttf:
+- google/baloo_tamma_2.yml
+EmilysCandy-Regular.ttf:
+- google/emilys_candy.yml
+TerminalDosis-Light.ttf:
+- google/terminal_dosis_light.yml
+- google/terminal_dosis.yml
+ShareTech-Regular.ttf:
+- google/share_tech.yml
+Peralta-Regular.ttf:
+- google/peralta.yml
+MiriamLibre-Regular.ttf:
+- google/miriam_libre.yml
+MiriamLibre-Bold.ttf:
+- google/miriam_libre.yml
+Economica-Regular.ttf:
+- google/economica.yml
+Economica-Italic.ttf:
+- google/economica.yml
+Economica-Bold.ttf:
+- google/economica.yml
+Economica-BoldItalic.ttf:
+- google/economica.yml
+GothicA1-Thin.ttf:
+- google/gothic_a1.yml
+GothicA1-ExtraLight.ttf:
+- google/gothic_a1.yml
+GothicA1-Light.ttf:
+- google/gothic_a1.yml
+GothicA1-Regular.ttf:
+- google/gothic_a1.yml
+GothicA1-Medium.ttf:
+- google/gothic_a1.yml
+GothicA1-SemiBold.ttf:
+- google/gothic_a1.yml
+GothicA1-Bold.ttf:
+- google/gothic_a1.yml
+GothicA1-ExtraBold.ttf:
+- google/gothic_a1.yml
+GothicA1-Black.ttf:
+- google/gothic_a1.yml
+Ranchers-Regular.ttf:
+- google/ranchers.yml
+NixieOne-Regular.ttf:
+- google/nixie_one.yml
+Anaheim-Regular.ttf:
+- google/anaheim.yml
+Candal.ttf:
+- google/candal.yml
+Hind-Light.ttf:
+- google/hind.yml
+Hind-Regular.ttf:
+- google/hind.yml
+Hind-Medium.ttf:
+- google/hind.yml
+Hind-SemiBold.ttf:
+- google/hind.yml
+Hind-Bold.ttf:
+- google/hind.yml
+Smokum-Regular.ttf:
+- google/smokum.yml
+Merriweather-Light.ttf:
+- google/merriweather.yml
+Merriweather-LightItalic.ttf:
+- google/merriweather.yml
+Merriweather-Regular.ttf:
+- google/merriweather.yml
+Merriweather-Italic.ttf:
+- google/merriweather.yml
+Merriweather-Bold.ttf:
+- google/merriweather.yml
+Merriweather-BoldItalic.ttf:
+- google/merriweather.yml
+Merriweather-Black.ttf:
+- google/merriweather.yml
+Merriweather-BlackItalic.ttf:
+- google/merriweather.yml
+FiraSansCondensed-Thin.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-ThinItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-ExtraLight.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-ExtraLightItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Light.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-LightItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Regular.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Italic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Medium.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-MediumItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-SemiBold.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-SemiBoldItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Bold.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-BoldItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-ExtraBold.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-ExtraBoldItalic.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-Black.ttf:
+- google/fira_sans_condensed.yml
+FiraSansCondensed-BlackItalic.ttf:
+- google/fira_sans_condensed.yml
+Arya-Regular.ttf:
+- google/arya.yml
+Arya-Bold.ttf:
+- google/arya.yml
+PatrickHandSC-Regular.ttf:
+- google/patrick_hand_sc.yml
+ProstoOne-Regular.ttf:
+- google/prosto_one.yml
+Mali-ExtraLight.ttf:
+- google/mali.yml
+Mali-ExtraLightItalic.ttf:
+- google/mali.yml
+Mali-Light.ttf:
+- google/mali.yml
+Mali-LightItalic.ttf:
+- google/mali.yml
+Mali-Regular.ttf:
+- google/mali.yml
+Mali-Italic.ttf:
+- google/mali.yml
+Mali-Medium.ttf:
+- google/mali.yml
+Mali-MediumItalic.ttf:
+- google/mali.yml
+Mali-SemiBold.ttf:
+- google/mali.yml
+Mali-SemiBoldItalic.ttf:
+- google/mali.yml
+Mali-Bold.ttf:
+- google/mali.yml
+Mali-BoldItalic.ttf:
+- google/mali.yml
+LondrinaOutline-Regular.ttf:
+- google/londrina_outline.yml
+Saira-Thin.ttf:
+- google/saira.yml
+Saira-ExtraLight.ttf:
+- google/saira.yml
+Saira-Light.ttf:
+- google/saira.yml
+Saira-Regular.ttf:
+- google/saira.yml
+Saira-Medium.ttf:
+- google/saira.yml
+Saira-SemiBold.ttf:
+- google/saira.yml
+Saira-Bold.ttf:
+- google/saira.yml
+Saira-ExtraBold.ttf:
+- google/saira.yml
+Saira-Black.ttf:
+- google/saira.yml
+Yesteryear-Regular.ttf:
+- google/yesteryear.yml
+Dangrek.ttf:
+- google/dangrek.yml
+Pacifico-Regular.ttf:
+- google/pacifico.yml
+Kavivanar-Regular.ttf:
+- google/kavivanar.yml
+Alef-Regular.ttf:
+- google/alef.yml
+Alef-Bold.ttf:
+- google/alef.yml
+NewRocker-Regular.ttf:
+- google/new_rocker.yml
+Pavanam-Regular.ttf:
+- google/pavanam.yml
+DaysOne-Regular.ttf:
+- google/days_one.yml
+DiplomataSC-Regular.ttf:
+- google/diplomata_sc.yml
+Aldrich-Regular.ttf:
+- google/aldrich.yml
+Marmelad-Regular.ttf:
+- google/marmelad.yml
+RockSalt-Regular.ttf:
+- google/rock_salt.yml
+Playball-Regular.ttf:
+- google/playball.yml
+HindVadodara-Light.ttf:
+- google/hind_vadodara.yml
+HindVadodara-Regular.ttf:
+- google/hind_vadodara.yml
+HindVadodara-Medium.ttf:
+- google/hind_vadodara.yml
+HindVadodara-SemiBold.ttf:
+- google/hind_vadodara.yml
+HindVadodara-Bold.ttf:
+- google/hind_vadodara.yml
+BigshotOne-Regular.ttf:
+- google/bigshot_one.yml
+JuliusSansOne-Regular.ttf:
+- google/julius_sans_one.yml
+IMFeGPrm28P.ttf:
+- google/im_fell_great_primer.yml
+IMFeGPit28P.ttf:
+- google/im_fell_great_primer.yml
+MiltonianTattoo-Regular.ttf:
+- google/miltonian_tattoo.yml
+Kodchasan-ExtraLight.ttf:
+- google/kodchasan.yml
+Kodchasan-ExtraLightItalic.ttf:
+- google/kodchasan.yml
+Kodchasan-Light.ttf:
+- google/kodchasan.yml
+Kodchasan-LightItalic.ttf:
+- google/kodchasan.yml
+Kodchasan-Regular.ttf:
+- google/kodchasan.yml
+Kodchasan-Italic.ttf:
+- google/kodchasan.yml
+Kodchasan-Medium.ttf:
+- google/kodchasan.yml
+Kodchasan-MediumItalic.ttf:
+- google/kodchasan.yml
+Kodchasan-SemiBold.ttf:
+- google/kodchasan.yml
+Kodchasan-SemiBoldItalic.ttf:
+- google/kodchasan.yml
+Kodchasan-Bold.ttf:
+- google/kodchasan.yml
+Kodchasan-BoldItalic.ttf:
+- google/kodchasan.yml
+OleoScript-Regular.ttf:
+- google/oleo_script.yml
+OleoScript-Bold.ttf:
+- google/oleo_script.yml
+BlackHanSans-Regular.ttf:
+- google/black_han_sans.yml
+KottaOne-Regular.ttf:
+- google/kotta_one.yml
+Volkhov-Regular.ttf:
+- google/volkhov.yml
+Volkhov-Italic.ttf:
+- google/volkhov.yml
+Volkhov-Bold.ttf:
+- google/volkhov.yml
+Volkhov-BoldItalic.ttf:
+- google/volkhov.yml
+Shojumaru-Regular.ttf:
+- google/shojumaru.yml
+OpenSansCondensed-Light.ttf:
+- google/open_sans_condensed.yml
+OpenSansCondensed-LightItalic.ttf:
+- google/open_sans_condensed.yml
+OpenSansCondensed-Bold.ttf:
+- google/open_sans_condensed.yml
+JustMeAgainDownHere.ttf:
+- google/just_me_again_down_here.yml
+Trirong-Thin.ttf:
+- google/trirong.yml
+Trirong-ThinItalic.ttf:
+- google/trirong.yml
+Trirong-ExtraLight.ttf:
+- google/trirong.yml
+Trirong-ExtraLightItalic.ttf:
+- google/trirong.yml
+Trirong-Light.ttf:
+- google/trirong.yml
+Trirong-LightItalic.ttf:
+- google/trirong.yml
+Trirong-Regular.ttf:
+- google/trirong.yml
+Trirong-Italic.ttf:
+- google/trirong.yml
+Trirong-Medium.ttf:
+- google/trirong.yml
+Trirong-MediumItalic.ttf:
+- google/trirong.yml
+Trirong-SemiBold.ttf:
+- google/trirong.yml
+Trirong-SemiBoldItalic.ttf:
+- google/trirong.yml
+Trirong-Bold.ttf:
+- google/trirong.yml
+Trirong-BoldItalic.ttf:
+- google/trirong.yml
+Trirong-ExtraBold.ttf:
+- google/trirong.yml
+Trirong-ExtraBoldItalic.ttf:
+- google/trirong.yml
+Trirong-Black.ttf:
+- google/trirong.yml
+Trirong-BlackItalic.ttf:
+- google/trirong.yml
+GiveYouGlory.ttf:
+- google/give_you_glory.yml
+OFLGoudyStMTT.ttf:
+- google/ofl_sorts_mill_goudy_tt.yml
+OFLGoudyStMTT-Italic.ttf:
+- google/ofl_sorts_mill_goudy_tt.yml
+PT_Sans-Web-Regular.ttf:
+- google/pt_sans.yml
+PT_Sans-Web-Italic.ttf:
+- google/pt_sans.yml
+PT_Sans-Web-Bold.ttf:
+- google/pt_sans.yml
+PT_Sans-Web-BoldItalic.ttf:
+- google/pt_sans.yml
+Chathura-Thin.ttf:
+- google/chathura.yml
+Chathura-Light.ttf:
+- google/chathura.yml
+Chathura-Regular.ttf:
+- google/chathura.yml
+Chathura-Bold.ttf:
+- google/chathura.yml
+Chathura-ExtraBold.ttf:
+- google/chathura.yml
+Oswald-VariableFont_wght.ttf:
+- google/oswald.yml
+MacondoSwashCaps-Regular.ttf:
+- google/macondo_swash_caps.yml
+IBMPlexSans-Thin.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-ThinItalic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-ExtraLight.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-ExtraLightItalic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-Light.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-LightItalic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-Regular.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-Italic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-Medium.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-MediumItalic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-SemiBold.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-SemiBoldItalic.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-Bold.ttf:
+- google/ibm_plex_sans.yml
+IBMPlexSans-BoldItalic.ttf:
+- google/ibm_plex_sans.yml
+SignikaNegative-Light.ttf:
+- google/signika_negative.yml
+SignikaNegative-Regular.ttf:
+- google/signika_negative.yml
+SignikaNegative-SemiBold.ttf:
+- google/signika_negative.yml
+SignikaNegative-Bold.ttf:
+- google/signika_negative.yml
+BarlowSemiCondensed-Thin.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-ThinItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-ExtraLight.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-ExtraLightItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Light.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-LightItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Regular.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Italic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Medium.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-MediumItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-SemiBold.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-SemiBoldItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Bold.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-BoldItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-ExtraBold.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-ExtraBoldItalic.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-Black.ttf:
+- google/barlow_semi_condensed.yml
+BarlowSemiCondensed-BlackItalic.ttf:
+- google/barlow_semi_condensed.yml
+Nunito-ExtraLight.ttf:
+- google/nunito.yml
+Nunito-ExtraLightItalic.ttf:
+- google/nunito.yml
+Nunito-Light.ttf:
+- google/nunito.yml
+Nunito-LightItalic.ttf:
+- google/nunito.yml
+Nunito-Regular.ttf:
+- google/nunito.yml
+Nunito-Italic.ttf:
+- google/nunito.yml
+Nunito-SemiBold.ttf:
+- google/nunito.yml
+Nunito-SemiBoldItalic.ttf:
+- google/nunito.yml
+Nunito-Bold.ttf:
+- google/nunito.yml
+Nunito-BoldItalic.ttf:
+- google/nunito.yml
+Nunito-ExtraBold.ttf:
+- google/nunito.yml
+Nunito-ExtraBoldItalic.ttf:
+- google/nunito.yml
+Nunito-Black.ttf:
+- google/nunito.yml
+Nunito-BlackItalic.ttf:
+- google/nunito.yml
+Cuprum-Regular.ttf:
+- google/cuprum.yml
+Cuprum-Italic.ttf:
+- google/cuprum.yml
+Cuprum-Bold.ttf:
+- google/cuprum.yml
+Cuprum-BoldItalic.ttf:
+- google/cuprum.yml
+Comfortaa-VariableFont_wght.ttf:
+- google/comfortaa.yml
+YatraOne-Regular.ttf:
+- google/yatra_one.yml
+Maitree-ExtraLight.ttf:
+- google/maitree.yml
+Maitree-Light.ttf:
+- google/maitree.yml
+Maitree-Regular.ttf:
+- google/maitree.yml
+Maitree-Medium.ttf:
+- google/maitree.yml
+Maitree-SemiBold.ttf:
+- google/maitree.yml
+Maitree-Bold.ttf:
+- google/maitree.yml
+B612Mono-Regular.ttf:
+- google/b612_mono.yml
+B612Mono-Italic.ttf:
+- google/b612_mono.yml
+B612Mono-Bold.ttf:
+- google/b612_mono.yml
+B612Mono-BoldItalic.ttf:
+- google/b612_mono.yml
+NothingYouCouldDo.ttf:
+- google/nothing_you_could_do.yml
+Judson-Regular.ttf:
+- google/judson.yml
+Judson-Italic.ttf:
+- google/judson.yml
+Judson-Bold.ttf:
+- google/judson.yml
+McLaren-Regular.ttf:
+- google/mclaren.yml
+PurplePurse-Regular.ttf:
+- google/purple_purse.yml
+SairaStencilOne-Regular.ttf:
+- google/saira_stencil_one.yml
+Slackey-Regular.ttf:
+- google/slackey.yml
+Oxygen-Light.ttf:
+- google/oxygen.yml
+Oxygen-Regular.ttf:
+- google/oxygen.yml
+Oxygen-Bold.ttf:
+- google/oxygen.yml
+AutourOne-Regular.ttf:
+- google/autour_one.yml
+Arimo-Regular.ttf:
+- google/arimo.yml
+Arimo-Italic.ttf:
+- google/arimo.yml
+Arimo-Bold.ttf:
+- google/arimo.yml
+Arimo-BoldItalic.ttf:
+- google/arimo.yml
+ReemKufi-Regular.ttf:
+- google/reem_kufi.yml
+Rye-Regular.ttf:
+- google/rye.yml
+Lohit-Tamil.ttf:
+- google/lohit_tamil.yml
+FingerPaint-Regular.ttf:
+- google/finger_paint.yml
+GenBkBasR.ttf:
+- google/gentium_book_basic.yml
+GenBkBasI.ttf:
+- google/gentium_book_basic.yml
+GenBkBasB.ttf:
+- google/gentium_book_basic.yml
+GenBkBasBI.ttf:
+- google/gentium_book_basic.yml
+Redressed-Regular.ttf:
+- google/redressed.yml
+BalooDa-Regular.ttf:
+- google/baloo_da.yml
+Crushed-Regular.ttf:
+- google/crushed.yml
+LakkiReddy-Regular.ttf:
+- google/lakki_reddy.yml
+Gruppo-Regular.ttf:
+- google/gruppo.yml
+jsMath-cmbx10.ttf:
+- google/jsmath_cmbx10.yml
+VT323-Regular.ttf:
+- google/vt323.yml
+Vibes-Regular.ttf:
+- google/vibes.yml
+RozhaOne-Regular.ttf:
+- google/rozha_one.yml
+NewsCycle-Regular.ttf:
+- google/news_cycle.yml
+NewsCycle-Bold.ttf:
+- google/news_cycle.yml
+GenBasR.ttf:
+- google/gentium_basic.yml
+GenBasI.ttf:
+- google/gentium_basic.yml
+GenBasB.ttf:
+- google/gentium_basic.yml
+GenBasBI.ttf:
+- google/gentium_basic.yml
+Rationale-Regular.ttf:
+- google/rationale.yml
+LibreCaslonText-VariableFont_wght.ttf:
+- google/libre_caslon_text.yml
+LibreCaslonText-Italic-VariableFont_wght.ttf:
+- google/libre_caslon_text.yml
+DMSans-Regular.ttf:
+- google/dm_sans.yml
+DMSans-Italic.ttf:
+- google/dm_sans.yml
+DMSans-Medium.ttf:
+- google/dm_sans.yml
+DMSans-MediumItalic.ttf:
+- google/dm_sans.yml
+DMSans-Bold.ttf:
+- google/dm_sans.yml
+DMSans-BoldItalic.ttf:
+- google/dm_sans.yml
+AtomicAge-Regular.ttf:
+- google/atomic_age.yml
+Khmer.ttf:
+- google/khmer.yml
+Federant-Regular.ttf:
+- google/federant.yml
+Cardo-Regular.ttf:
+- google/cardo.yml
+Cardo-Italic.ttf:
+- google/cardo.yml
+Cardo-Bold.ttf:
+- google/cardo.yml
+Quicksand-VariableFont_wght.ttf:
+- google/quicksand.yml
+Lalezar-Regular.ttf:
+- google/lalezar.yml
+DancingScript-VariableFont_wght.ttf:
+- google/dancing_script.yml
+LibreBarcode128-Regular.ttf:
+- google/libre_barcode_128.yml
+ZCOOLQingKeHuangYou-Regular.ttf:
+- google/zcool_qingke_huangyou.yml
+Cookie-Regular.ttf:
+- google/cookie.yml
+Margarine-Regular.ttf:
+- google/margarine.yml
+RougeScript-Regular.ttf:
+- google/rouge_script.yml
+Farro-Light.ttf:
+- google/farro.yml
+Farro-Regular.ttf:
+- google/farro.yml
+Farro-Medium.ttf:
+- google/farro.yml
+Farro-Bold.ttf:
+- google/farro.yml
+Felipa-Regular.ttf:
+- google/felipa.yml
+PontanoSans-Regular.ttf:
+- google/pontano_sans.yml
+MarcellusSC-Regular.ttf:
+- google/marcellus_sc.yml
+Trocchi-Regular.ttf:
+- google/trocchi.yml
+LateefRegOT.ttf:
+- google/lateef.yml
+Dosis-VariableFont_wght.ttf:
+- google/dosis.yml
+Peddana-Regular.ttf:
+- google/peddana.yml
+HindSiliguri-Light.ttf:
+- google/hind_siliguri.yml
+HindSiliguri-Regular.ttf:
+- google/hind_siliguri.yml
+HindSiliguri-Medium.ttf:
+- google/hind_siliguri.yml
+HindSiliguri-SemiBold.ttf:
+- google/hind_siliguri.yml
+HindSiliguri-Bold.ttf:
+- google/hind_siliguri.yml
+Kavoon-Regular.ttf:
+- google/kavoon.yml
+AlmendraSC-Regular.ttf:
+- google/almendra_sc.yml
+Radley-Regular.ttf:
+- google/radley.yml
+Radley-Italic.ttf:
+- google/radley.yml
+ElsieSwashCaps-Regular.ttf:
+- google/elsie_swash_caps.yml
+ElsieSwashCaps-Black.ttf:
+- google/elsie_swash_caps.yml
+Amethysta-Regular.ttf:
+- google/amethysta.yml
+Ovo-Regular.ttf:
+- google/ovo.yml
+ZillaSlabHighlight-Regular.ttf:
+- google/zilla_slab_highlight.yml
+ZillaSlabHighlight-Bold.ttf:
+- google/zilla_slab_highlight.yml
+LibreBarcode39ExtendedText-Regular.ttf:
+- google/libre_barcode_39_extended_text.yml
+FanwoodText-Regular.ttf:
+- google/fanwood_text.yml
+FanwoodText-Italic.ttf:
+- google/fanwood_text.yml
+Lobster-Regular.ttf:
+- google/lobster.yml
+Preahvihear.ttf:
+- google/preahvihear.yml
+JustAnotherHand-Regular.ttf:
+- google/just_another_hand.yml
+GFSNeohellenic.ttf:
+- google/gfs_neohellenic.yml
+GFSNeohellenicItalic.ttf:
+- google/gfs_neohellenic.yml
+GFSNeohellenicBold.ttf:
+- google/gfs_neohellenic.yml
+GFSNeohellenicBoldItalic.ttf:
+- google/gfs_neohellenic.yml
+Dekko-Regular.ttf:
+- google/dekko.yml
+Vollkorn-VariableFont_wght.ttf:
+- google/vollkorn.yml
+Vollkorn-Italic-VariableFont_wght.ttf:
+- google/vollkorn.yml
+Teko-Light.ttf:
+- google/teko.yml
+Teko-Regular.ttf:
+- google/teko.yml
+Teko-Medium.ttf:
+- google/teko.yml
+Teko-SemiBold.ttf:
+- google/teko.yml
+Teko-Bold.ttf:
+- google/teko.yml
+Roboto[wdth,wght].ttf:
+- google/roboto.yml
+Roboto-Italic[wdth,wght].ttf:
+- google/roboto.yml
+BalooBhaina-Regular.ttf:
+- google/baloo_bhaina.yml
+Quattrocento-Regular.ttf:
+- google/quattrocento.yml
+Quattrocento-Bold.ttf:
+- google/quattrocento.yml
+Almarai-Light.ttf:
+- google/almarai.yml
+Almarai-Regular.ttf:
+- google/almarai.yml
+Almarai-Bold.ttf:
+- google/almarai.yml
+Almarai-ExtraBold.ttf:
+- google/almarai.yml
+Voces-Regular.ttf:
+- google/voces.yml
+RugeBoogie-Regular.ttf:
+- google/ruge_boogie.yml
+Exo-VariableFont_wght.ttf:
+- google/exo.yml
+Exo-Italic-VariableFont_wght.ttf:
+- google/exo.yml
+LibreBarcode39-Regular.ttf:
+- google/libre_barcode_39.yml
+AmaticSC-Regular.ttf:
+- google/amatic_sc.yml
+AmaticSC-Bold.ttf:
+- google/amatic_sc.yml
+MeieScript-Regular.ttf:
+- google/meie_script.yml
+Italianno-Regular.ttf:
+- google/italianno.yml
+Sevillana-Regular.ttf:
+- google/sevillana.yml
+UnifrakturMaguntia-Book.ttf:
+- google/unifrakturmaguntia.yml
+Boogaloo-Regular.ttf:
+- google/boogaloo.yml
+StintUltraCondensed-Regular.ttf:
+- google/stint_ultra_condensed.yml
+BigShouldersDisplay-Thin.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-Light.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-Regular.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-Medium.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-SemiBold.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-Bold.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-ExtraBold.ttf:
+- google/big_shoulders_display.yml
+BigShouldersDisplay-Black.ttf:
+- google/big_shoulders_display.yml
+Literata[opsz,wght].ttf:
+- google/literata.yml
+Literata-Italic[opsz,wght].ttf:
+- google/literata.yml
+BubblegumSans-Regular.ttf:
+- google/bubblegum_sans.yml
+ChelaOne-Regular.ttf:
+- google/chela_one.yml
+DrSugiyama-Regular.ttf:
+- google/dr_sugiyama.yml
+FredokaOne-Regular.ttf:
+- google/fredoka_one.yml
+MaidenOrange-Regular.ttf:
+- google/maiden_orange.yml
+MeriendaOne-Regular.ttf:
+- google/merienda_one.yml
+ArbutusSlab-Regular.ttf:
+- google/arbutus_slab.yml
+Suravaram-Regular.ttf:
+- google/suravaram.yml
+Staatliches-Regular.ttf:
+- google/staatliches.yml
+HoltwoodOneSC.ttf:
+- google/holtwood_one_sc.yml
+BigShouldersText-Thin.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-Light.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-Regular.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-Medium.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-SemiBold.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-Bold.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-ExtraBold.ttf:
+- google/big_shoulders_text.yml
+BigShouldersText-Black.ttf:
+- google/big_shoulders_text.yml
+Antic-Regular.ttf:
+- google/antic.yml
+Tangerine-Regular.ttf:
+- google/tangerine.yml
+Tangerine-Bold.ttf:
+- google/tangerine.yml
+NanumGothic-Regular.ttf:
+- google/nanum_gothic.yml
+NanumGothic-Bold.ttf:
+- google/nanum_gothic.yml
+NanumGothic-ExtraBold.ttf:
+- google/nanum_gothic.yml
+NovaRound.ttf:
+- google/nova_round.yml
+Chenla.ttf:
+- google/chenla.yml
+Gaegu-Light.ttf:
+- google/gaegu.yml
+Gaegu-Regular.ttf:
+- google/gaegu.yml
+Gaegu-Bold.ttf:
+- google/gaegu.yml
+FrederickatheGreat-Regular.ttf:
+- google/fredericka_the_great.yml
+Caladea-Regular.ttf:
+- google/caladea.yml
+Caladea-Italic.ttf:
+- google/caladea.yml
+Caladea-Bold.ttf:
+- google/caladea.yml
+Caladea-BoldItalic.ttf:
+- google/caladea.yml
+Megrim.ttf:
+- google/megrim.yml
+BalooTamma-Regular.ttf:
+- google/baloo_tamma.yml
+Viga-Regular.ttf:
+- google/viga.yml
+Galada-Regular.ttf:
+- google/galada.yml
+Cinzel-VariableFont_wght.ttf:
+- google/cinzel.yml
+Fruktur-Regular.ttf:
+- google/fruktur.yml
+Timmana-Regular.ttf:
+- google/timmana.yml
+Assistant-ExtraLight.ttf:
+- google/assistant.yml
+Assistant-Light.ttf:
+- google/assistant.yml
+Assistant-Regular.ttf:
+- google/assistant.yml
+Assistant-SemiBold.ttf:
+- google/assistant.yml
+Assistant-Bold.ttf:
+- google/assistant.yml
+Assistant-ExtraBold.ttf:
+- google/assistant.yml
+TerminalDosis-ExtraLight.ttf:
+- google/terminal_dosis.yml
+TerminalDosis-Regular.ttf:
+- google/terminal_dosis.yml
+TerminalDosis-Medium.ttf:
+- google/terminal_dosis.yml
+TerminalDosis-SemiBold.ttf:
+- google/terminal_dosis.yml
+TerminalDosis-Bold.ttf:
+- google/terminal_dosis.yml
+TerminalDosis-ExtraBold.ttf:
+- google/terminal_dosis.yml
+Monofett.ttf:
+- google/monofett.yml
+Allan-Regular.ttf:
+- google/allan.yml
+Allan-Bold.ttf:
+- google/allan.yml
+MuseoModerno-VariableFont_wght.ttf:
+- google/museomoderno.yml
+Acme-Regular.ttf:
+- google/acme.yml
+Griffy-Regular.ttf:
+- google/griffy.yml
+Pangolin-Regular.ttf:
+- google/pangolin.yml
+Copse-Regular.ttf:
+- google/copse.yml
+Mate-Regular.ttf:
+- google/mate.yml
+Mate-Italic.ttf:
+- google/mate.yml
+ChakraPetch-Light.ttf:
+- google/chakra_petch.yml
+ChakraPetch-LightItalic.ttf:
+- google/chakra_petch.yml
+ChakraPetch-Regular.ttf:
+- google/chakra_petch.yml
+ChakraPetch-Italic.ttf:
+- google/chakra_petch.yml
+ChakraPetch-Medium.ttf:
+- google/chakra_petch.yml
+ChakraPetch-MediumItalic.ttf:
+- google/chakra_petch.yml
+ChakraPetch-SemiBold.ttf:
+- google/chakra_petch.yml
+ChakraPetch-SemiBoldItalic.ttf:
+- google/chakra_petch.yml
+ChakraPetch-Bold.ttf:
+- google/chakra_petch.yml
+ChakraPetch-BoldItalic.ttf:
+- google/chakra_petch.yml
+Content-Regular.ttf:
+- google/content.yml
+Content-Bold.ttf:
+- google/content.yml
+TextMeOne-Regular.ttf:
+- google/text_me_one.yml
+MavenPro-VariableFont_wght.ttf:
+- google/maven_pro.yml
+MarkoOne-Regular.ttf:
+- google/marko_one.yml
+TulpenOne-Regular.ttf:
+- google/tulpen_one.yml
+BellotaText-Light.ttf:
+- google/bellota_text.yml
+BellotaText-LightItalic.ttf:
+- google/bellota_text.yml
+BellotaText-Regular.ttf:
+- google/bellota_text.yml
+BellotaText-Italic.ttf:
+- google/bellota_text.yml
+BellotaText-Bold.ttf:
+- google/bellota_text.yml
+BellotaText-BoldItalic.ttf:
+- google/bellota_text.yml
+Kadwa-Regular.ttf:
+- google/kadwa.yml
+Kadwa-Bold.ttf:
+- google/kadwa.yml
+CoveredByYourGrace.ttf:
+- google/covered_by_your_grace.yml
+Amita-Regular.ttf:
+- google/amita.yml
+Amita-Bold.ttf:
+- google/amita.yml
+Gidugu-Regular.ttf:
+- google/gidugu.yml
+AlegreyaSC-Regular.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-Italic.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-Medium.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-MediumItalic.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-Bold.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-BoldItalic.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-ExtraBold.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-ExtraBoldItalic.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-Black.ttf:
+- google/alegreya_sc.yml
+AlegreyaSC-BlackItalic.ttf:
+- google/alegreya_sc.yml
+Baloo-Regular.ttf:
+- google/baloo.yml
+Englebert-Regular.ttf:
+- google/englebert.yml
+Calligraffitti-Regular.ttf:
+- google/calligraffitti.yml
+Domine-VariableFont_wght.ttf:
+- google/domine.yml
+BowlbyOne-Regular.ttf:
+- google/bowlby_one.yml
+Scheherazade-Regular.ttf:
+- google/scheherazade.yml
+Scheherazade-Bold.ttf:
+- google/scheherazade.yml
+Inter[slnt,wght].ttf:
+- google/inter.yml
+Sunshiney-Regular.ttf:
+- google/sunshiney.yml
+Moul.ttf:
+- google/moul.yml
+Bitter-VariableFont_wght.ttf:
+- google/bitter.yml
+Bitter-Italic-VariableFont_wght.ttf:
+- google/bitter.yml
+GermaniaOne-Regular.ttf:
+- google/germania_one.yml
+Abel-Regular.ttf:
+- google/abel.yml
+SansitaOne-Regular.ttf:
+- google/sansita_one.yml
+Condiment-Regular.ttf:
+- google/condiment.yml
+Changa-VariableFont_wght.ttf:
+- google/changa.yml
+Enriqueta-Regular.ttf:
+- google/enriqueta.yml
+Enriqueta-Medium.ttf:
+- google/enriqueta.yml
+Enriqueta-SemiBold.ttf:
+- google/enriqueta.yml
+Enriqueta-Bold.ttf:
+- google/enriqueta.yml
+Manjari-Thin.ttf:
+- google/manjari.yml
+Manjari-Regular.ttf:
+- google/manjari.yml
+Manjari-Bold.ttf:
+- google/manjari.yml
+Jura-VariableFont_wght.ttf:
+- google/jura.yml
+Koulen.ttf:
+- google/koulen.yml
+Trykker-Regular.ttf:
+- google/trykker.yml
+Monda-Regular.ttf:
+- google/monda.yml
+Monda-Bold.ttf:
+- google/monda.yml
+Varela-Regular.ttf:
+- google/varela.yml
+IstokWeb-Regular.ttf:
+- google/istok_web.yml
+IstokWeb-Italic.ttf:
+- google/istok_web.yml
+IstokWeb-Bold.ttf:
+- google/istok_web.yml
+IstokWeb-BoldItalic.ttf:
+- google/istok_web.yml
+MontserratSubrayada-Regular.ttf:
+- google/montserrat_subrayada.yml
+MontserratSubrayada-Bold.ttf:
+- google/montserrat_subrayada.yml
+FiraMono-Regular.ttf:
+- google/fira_mono.yml
+FiraMono-Medium.ttf:
+- google/fira_mono.yml
+FiraMono-Bold.ttf:
+- google/fira_mono.yml
+ZCOOLKuaiLe-Regular.ttf:
+- google/zcool_kuaile.yml
+VesperLibre-Regular.ttf:
+- google/vesper_libre.yml
+VesperLibre-Medium.ttf:
+- google/vesper_libre.yml
+VesperLibre-Bold.ttf:
+- google/vesper_libre.yml
+VesperLibre-Heavy.ttf:
+- google/vesper_libre.yml
+Aclonica-Regular.ttf:
+- google/aclonica.yml
+Delius-Regular.ttf:
+- google/delius.yml
+Lora-VariableFont_wght.ttf:
+- google/lora.yml
+Lora-Italic-VariableFont_wght.ttf:
+- google/lora.yml
+ABeeZee-Regular.ttf:
+- google/abeezee.yml
+ABeeZee-Italic.ttf:
+- google/abeezee.yml
+Petrona-VariableFont_wght.ttf:
+- google/petrona.yml
+Petrona-Italic-VariableFont_wght.ttf:
+- google/petrona.yml
+Mina-Regular.ttf:
+- google/mina.yml
+Mina-Bold.ttf:
+- google/mina.yml
+OdorMeanChey.ttf:
+- google/odor_mean_chey.yml
+Belleza-Regular.ttf:
+- google/belleza.yml
+Sail-Regular.ttf:
+- google/sail.yml
+ShortStack-Regular.ttf:
+- google/short_stack.yml
+Michroma.ttf:
+- google/michroma.yml
+Brawler-Regular.ttf:
+- google/brawler.yml
+Warnes-Regular.ttf:
+- google/warnes.yml
+WalterTurncoat-Regular.ttf:
+- google/walter_turncoat.yml
+Ramaraja-Regular.ttf:
+- google/ramaraja.yml
+Suranna-Regular.ttf:
+- google/suranna.yml
+IMFePIsc28P.ttf:
+- google/im_fell_dw_pica_sc.yml
+Sen-Regular.ttf:
+- google/sen.yml
+Sen-Bold.ttf:
+- google/sen.yml
+Sen-ExtraBold.ttf:
+- google/sen.yml
+B612-Regular.ttf:
+- google/b612.yml
+B612-Italic.ttf:
+- google/b612.yml
+B612-Bold.ttf:
+- google/b612.yml
+B612-BoldItalic.ttf:
+- google/b612.yml
+Fascinate-Regular.ttf:
+- google/fascinate.yml
+Revalia-Regular.ttf:
+- google/revalia.yml
+Eczar-Regular.ttf:
+- google/eczar.yml
+Eczar-Medium.ttf:
+- google/eczar.yml
+Eczar-SemiBold.ttf:
+- google/eczar.yml
+Eczar-Bold.ttf:
+- google/eczar.yml
+Eczar-ExtraBold.ttf:
+- google/eczar.yml
+NovaOval.ttf:
+- google/nova_oval.yml
+BaiJamjuree-ExtraLight.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-ExtraLightItalic.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-Light.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-LightItalic.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-Regular.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-Italic.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-Medium.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-MediumItalic.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-SemiBold.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-SemiBoldItalic.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-Bold.ttf:
+- google/bai_jamjuree.yml
+BaiJamjuree-BoldItalic.ttf:
+- google/bai_jamjuree.yml
+JollyLodger-Regular.ttf:
+- google/jolly_lodger.yml
+Knewave-Regular.ttf:
+- google/knewave.yml
+Bellota-Light.ttf:
+- google/bellota.yml
+Bellota-LightItalic.ttf:
+- google/bellota.yml
+Bellota-Regular.ttf:
+- google/bellota.yml
+Bellota-Italic.ttf:
+- google/bellota.yml
+Bellota-Bold.ttf:
+- google/bellota.yml
+Bellota-BoldItalic.ttf:
+- google/bellota.yml
+SortsMillGoudy-Regular.ttf:
+- google/sorts_mill_goudy.yml
+SortsMillGoudy-Italic.ttf:
+- google/sorts_mill_goudy.yml
+Ramabhadra-Regular.ttf:
+- google/ramabhadra.yml
+Coustard-Regular.ttf:
+- google/coustard.yml
+Coustard-Black.ttf:
+- google/coustard.yml
+DonegalOne-Regular.ttf:
+- google/donegal_one.yml
+Sancreek-Regular.ttf:
+- google/sancreek.yml
+Nobile-Regular.ttf:
+- google/nobile.yml
+Nobile-Italic.ttf:
+- google/nobile.yml
+Nobile-Medium.ttf:
+- google/nobile.yml
+Nobile-MediumItalic.ttf:
+- google/nobile.yml
+Nobile-Bold.ttf:
+- google/nobile.yml
+Nobile-BoldItalic.ttf:
+- google/nobile.yml
+CaesarDressing-Regular.ttf:
+- google/caesar_dressing.yml
+TitanOne-Regular.ttf:
+- google/titan_one.yml
+Slabo27px-Regular.ttf:
+- google/slabo_27px.yml
+KumarOne-Regular.ttf:
+- google/kumar_one.yml
+CormorantGaramond-Light.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-LightItalic.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-Regular.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-Italic.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-Medium.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-MediumItalic.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-SemiBold.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-SemiBoldItalic.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-Bold.ttf:
+- google/cormorant_garamond.yml
+CormorantGaramond-BoldItalic.ttf:
+- google/cormorant_garamond.yml
+Plaster-Regular.ttf:
+- google/plaster.yml
+MuktaVaani-ExtraLight.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-Light.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-Regular.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-Medium.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-SemiBold.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-Bold.ttf:
+- google/mukta_vaani.yml
+MuktaVaani-ExtraBold.ttf:
+- google/mukta_vaani.yml
+Jost-VariableFont_wght.ttf:
+- google/jost.yml
+Jost-Italic-VariableFont_wght.ttf:
+- google/jost.yml
+SongMyung-Regular.ttf:
+- google/song_myung.yml
+OvertheRainbow.ttf:
+- google/over_the_rainbow.yml
+AveriaGruesaLibre-Regular.ttf:
+- google/averia_gruesa_libre.yml
+CantataOne-Regular.ttf:
+- google/cantata_one.yml
+NanumBrushScript-Regular.ttf:
+- google/nanum_brush_script.yml
+Quando-Regular.ttf:
+- google/quando.yml
+LongCang-Regular.ttf:
+- google/long_cang.yml
+Caveat-Regular.ttf:
+- google/caveat.yml
+Caveat-Bold.ttf:
+- google/caveat.yml
+Unna-Regular.ttf:
+- google/unna.yml
+Unna-Italic.ttf:
+- google/unna.yml
+Unna-Bold.ttf:
+- google/unna.yml
+Unna-BoldItalic.ttf:
+- google/unna.yml
+LeckerliOne-Regular.ttf:
+- google/leckerli_one.yml
+Asul-Regular.ttf:
+- google/asul.yml
+Asul-Bold.ttf:
+- google/asul.yml
+Romanesco-Regular.ttf:
+- google/romanesco.yml
+RumRaisin-Regular.ttf:
+- google/rum_raisin.yml
+LoveYaLikeASister.ttf:
+- google/love_ya_like_a_sister.yml
+ChangaOne-Regular.ttf:
+- google/changa_one.yml
+ChangaOne-Italic.ttf:
+- google/changa_one.yml
+EncodeSansSemiExpanded-Thin.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-ExtraLight.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-Light.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-Regular.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-Medium.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-SemiBold.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-Bold.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-ExtraBold.ttf:
+- google/encode_sans_semi_expanded.yml
+EncodeSansSemiExpanded-Black.ttf:
+- google/encode_sans_semi_expanded.yml
+ElMessiri-VariableFont_wght.ttf:
+- google/el_messiri.yml
+LibreFranklin-Thin.ttf:
+- google/libre_franklin.yml
+LibreFranklin-ThinItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-ExtraLight.ttf:
+- google/libre_franklin.yml
+LibreFranklin-ExtraLightItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Light.ttf:
+- google/libre_franklin.yml
+LibreFranklin-LightItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Regular.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Italic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Medium.ttf:
+- google/libre_franklin.yml
+LibreFranklin-MediumItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-SemiBold.ttf:
+- google/libre_franklin.yml
+LibreFranklin-SemiBoldItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Bold.ttf:
+- google/libre_franklin.yml
+LibreFranklin-BoldItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-ExtraBold.ttf:
+- google/libre_franklin.yml
+LibreFranklin-ExtraBoldItalic.ttf:
+- google/libre_franklin.yml
+LibreFranklin-Black.ttf:
+- google/libre_franklin.yml
+LibreFranklin-BlackItalic.ttf:
+- google/libre_franklin.yml
+ModernAntiqua-Regular.ttf:
+- google/modern_antiqua.yml
+FontdinerSwanky-Regular.ttf:
+- google/fontdiner_swanky.yml
+Rubik-VariableFont_wght.ttf:
+- google/rubik.yml
+Rubik-Italic-VariableFont_wght.ttf:
+- google/rubik.yml
+Lekton-Regular.ttf:
+- google/lekton.yml
+Lekton-Italic.ttf:
+- google/lekton.yml
+Lekton-Bold.ttf:
+- google/lekton.yml
+Jaldi-Regular.ttf:
+- google/jaldi.yml
+Jaldi-Bold.ttf:
+- google/jaldi.yml
+Martel-UltraLight.ttf:
+- google/martel.yml
+Martel-Light.ttf:
+- google/martel.yml
+Martel-Regular.ttf:
+- google/martel.yml
+Martel-DemiBold.ttf:
+- google/martel.yml
+Martel-Bold.ttf:
+- google/martel.yml
+Martel-ExtraBold.ttf:
+- google/martel.yml
+Martel-Heavy.ttf:
+- google/martel.yml
+RacingSansOne-Regular.ttf:
+- google/racing_sans_one.yml
+LexendExa-Regular.ttf:
+- google/lexend_exa.yml
+Rosarivo-Regular.ttf:
+- google/rosarivo.yml
+Rosarivo-Italic.ttf:
+- google/rosarivo.yml
+TurretRoad-ExtraLight.ttf:
+- google/turret_road.yml
+TurretRoad-Light.ttf:
+- google/turret_road.yml
+TurretRoad-Regular.ttf:
+- google/turret_road.yml
+TurretRoad-Medium.ttf:
+- google/turret_road.yml
+TurretRoad-Bold.ttf:
+- google/turret_road.yml
+TurretRoad-ExtraBold.ttf:
+- google/turret_road.yml
+Monoton-Regular.ttf:
+- google/monoton.yml
+Combo-Regular.ttf:
+- google/combo.yml
+IMFeFCrm28P.ttf:
+- google/im_fell_french_canon.yml
+IMFeFCit28P.ttf:
+- google/im_fell_french_canon.yml
+Sunflower-Light.ttf:
+- google/sunflower.yml
+Sunflower-Medium.ttf:
+- google/sunflower.yml
+Sunflower-Bold.ttf:
+- google/sunflower.yml
+EkMukta-ExtraLight.ttf:
+- google/ek_mukta.yml
+EkMukta-Light.ttf:
+- google/ek_mukta.yml
+EkMukta-Regular.ttf:
+- google/ek_mukta.yml
+EkMukta-Medium.ttf:
+- google/ek_mukta.yml
+EkMukta-SemiBold.ttf:
+- google/ek_mukta.yml
+EkMukta-Bold.ttf:
+- google/ek_mukta.yml
+EkMukta-ExtraBold.ttf:
+- google/ek_mukta.yml
+LexendZetta-Regular.ttf:
+- google/lexend_zetta.yml
+SofadiOne-Regular.ttf:
+- google/sofadi_one.yml
+Iceland-Regular.ttf:
+- google/iceland.yml
+MeeraInimai-Regular.ttf:
+- google/meera_inimai.yml
+StalinOne-Regular.ttf:
+- google/stalin_one.yml
+MysteryQuest-Regular.ttf:
+- google/mystery_quest.yml
+PublicSans-VariableFont_wght.ttf:
+- google/public_sans.yml
+PublicSans-Italic-VariableFont_wght.ttf:
+- google/public_sans.yml
+ZillaSlab-Light.ttf:
+- google/zilla_slab.yml
+ZillaSlab-LightItalic.ttf:
+- google/zilla_slab.yml
+ZillaSlab-Regular.ttf:
+- google/zilla_slab.yml
+ZillaSlab-Italic.ttf:
+- google/zilla_slab.yml
+ZillaSlab-Medium.ttf:
+- google/zilla_slab.yml
+ZillaSlab-MediumItalic.ttf:
+- google/zilla_slab.yml
+ZillaSlab-SemiBold.ttf:
+- google/zilla_slab.yml
+ZillaSlab-SemiBoldItalic.ttf:
+- google/zilla_slab.yml
+ZillaSlab-Bold.ttf:
+- google/zilla_slab.yml
+ZillaSlab-BoldItalic.ttf:
+- google/zilla_slab.yml
+Chewy-Regular.ttf:
+- google/chewy.yml
+Telex-Regular.ttf:
+- google/telex.yml
+Taprom.ttf:
+- google/taprom.yml
+EBGaramond-VariableFont_wght.ttf:
+- google/eb_garamond.yml
+EBGaramond-Italic-VariableFont_wght.ttf:
+- google/eb_garamond.yml
+BalooDa2-Regular.ttf:
+- google/baloo_da_2.yml
+BalooDa2-Medium.ttf:
+- google/baloo_da_2.yml
+BalooDa2-SemiBold.ttf:
+- google/baloo_da_2.yml
+BalooDa2-Bold.ttf:
+- google/baloo_da_2.yml
+BalooDa2-ExtraBold.ttf:
+- google/baloo_da_2.yml
+Pridi-ExtraLight.ttf:
+- google/pridi.yml
+Pridi-Light.ttf:
+- google/pridi.yml
+Pridi-Regular.ttf:
+- google/pridi.yml
+Pridi-Medium.ttf:
+- google/pridi.yml
+Pridi-SemiBold.ttf:
+- google/pridi.yml
+Pridi-Bold.ttf:
+- google/pridi.yml
+AlmendraDisplay-Regular.ttf:
+- google/almendra_display.yml
+GloriaHallelujah.ttf:
+- google/gloria_hallelujah.yml
+Lohit-Bengali.ttf:
+- google/lohit_bengali.yml
+ArchitectsDaughter-Regular.ttf:
+- google/architects_daughter.yml
+Lancelot-Regular.ttf:
+- google/lancelot.yml
+Skranji-Regular.ttf:
+- google/skranji.yml
+Skranji-Bold.ttf:
+- google/skranji.yml
+Numans-Regular.ttf:
+- google/numans.yml
+NTR-Regular.ttf:
+- google/ntr.yml
+YesevaOne-Regular.ttf:
+- google/yeseva_one.yml
+BalooBhai2-Regular.ttf:
+- google/baloo_bhai_2.yml
+BalooBhai2-Medium.ttf:
+- google/baloo_bhai_2.yml
+BalooBhai2-SemiBold.ttf:
+- google/baloo_bhai_2.yml
+BalooBhai2-Bold.ttf:
+- google/baloo_bhai_2.yml
+BalooBhai2-ExtraBold.ttf:
+- google/baloo_bhai_2.yml
+IMFePIrm28P.ttf:
+- google/im_fell_dw_pica.yml
+IMFePIit28P.ttf:
+- google/im_fell_dw_pica.yml
+EuphoriaScript-Regular.ttf:
+- google/euphoria_script.yml
+OxygenMono-Regular.ttf:
+- google/oxygen_mono.yml
+Shrikhand-Regular.ttf:
+- google/shrikhand.yml
+Rosario-VariableFont_wght.ttf:
+- google/rosario.yml
+Rosario-Italic-VariableFont_wght.ttf:
+- google/rosario.yml
+Karla-VariableFont_wght.ttf:
+- google/karla.yml
+Karla-Italic-VariableFont_wght.ttf:
+- google/karla.yml
+Varta-VariableFont_wght.ttf:
+- google/varta.yml
+EncodeSansSemiCondensed-Thin.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-ExtraLight.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-Light.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-Regular.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-Medium.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-SemiBold.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-Bold.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-ExtraBold.ttf:
+- google/encode_sans_semi_condensed.yml
+EncodeSansSemiCondensed-Black.ttf:
+- google/encode_sans_semi_condensed.yml
+BalooTammudu-Regular.ttf:
+- google/baloo_tammudu.yml
+LilitaOne-Regular.ttf:
+- google/lilita_one.yml
+Forum-Regular.ttf:
+- google/forum.yml
+Qwigley-Regular.ttf:
+- google/qwigley.yml
+Aubrey-Regular.ttf:
+- google/aubrey.yml
+Marvel-Regular.ttf:
+- google/marvel.yml
+Marvel-Italic.ttf:
+- google/marvel.yml
+Marvel-Bold.ttf:
+- google/marvel.yml
+Marvel-BoldItalic.ttf:
+- google/marvel.yml
+Alice-Regular.ttf:
+- google/alice.yml
+LexendTera-Regular.ttf:
+- google/lexend_tera.yml
+Sahitya-Regular.ttf:
+- google/sahitya.yml
+Sahitya-Bold.ttf:
+- google/sahitya.yml
+Raleway-VariableFont_wght.ttf:
+- google/raleway.yml
+Raleway-Italic-VariableFont_wght.ttf:
+- google/raleway.yml
+Unkempt-Regular.ttf:
+- google/unkempt.yml
+Unkempt-Bold.ttf:
+- google/unkempt.yml
+CevicheOne-Regular.ttf:
+- google/ceviche_one.yml
+LuckiestGuy-Regular.ttf:
+- google/luckiest_guy.yml
+SpicyRice-Regular.ttf:
+- google/spicy_rice.yml
+NunitoSans-ExtraLight.ttf:
+- google/nunito_sans.yml
+NunitoSans-ExtraLightItalic.ttf:
+- google/nunito_sans.yml
+NunitoSans-Light.ttf:
+- google/nunito_sans.yml
+NunitoSans-LightItalic.ttf:
+- google/nunito_sans.yml
+NunitoSans-Regular.ttf:
+- google/nunito_sans.yml
+NunitoSans-Italic.ttf:
+- google/nunito_sans.yml
+NunitoSans-SemiBold.ttf:
+- google/nunito_sans.yml
+NunitoSans-SemiBoldItalic.ttf:
+- google/nunito_sans.yml
+NunitoSans-Bold.ttf:
+- google/nunito_sans.yml
+NunitoSans-BoldItalic.ttf:
+- google/nunito_sans.yml
+NunitoSans-ExtraBold.ttf:
+- google/nunito_sans.yml
+NunitoSans-ExtraBoldItalic.ttf:
+- google/nunito_sans.yml
+NunitoSans-Black.ttf:
+- google/nunito_sans.yml
+NunitoSans-BlackItalic.ttf:
+- google/nunito_sans.yml
+Gelasio-Regular.ttf:
+- google/gelasio.yml
+Gelasio-Italic.ttf:
+- google/gelasio.yml
+Gelasio-Medium.ttf:
+- google/gelasio.yml
+Gelasio-MediumItalic.ttf:
+- google/gelasio.yml
+Gelasio-SemiBold.ttf:
+- google/gelasio.yml
+Gelasio-SemiBoldItalic.ttf:
+- google/gelasio.yml
+Gelasio-Bold.ttf:
+- google/gelasio.yml
+Gelasio-BoldItalic.ttf:
+- google/gelasio.yml
+Rambla-Regular.ttf:
+- google/rambla.yml
+Rambla-Italic.ttf:
+- google/rambla.yml
+Rambla-Bold.ttf:
+- google/rambla.yml
+Rambla-BoldItalic.ttf:
+- google/rambla.yml
+HeptaSlab-VariableFont_wght.ttf:
+- google/hepta_slab.yml
+Shanti-Regular.ttf:
+- google/shanti.yml
+Damion-Regular.ttf:
+- google/damion.yml
+ProzaLibre-Regular.ttf:
+- google/proza_libre.yml
+ProzaLibre-Italic.ttf:
+- google/proza_libre.yml
+ProzaLibre-Medium.ttf:
+- google/proza_libre.yml
+ProzaLibre-MediumItalic.ttf:
+- google/proza_libre.yml
+ProzaLibre-SemiBold.ttf:
+- google/proza_libre.yml
+ProzaLibre-SemiBoldItalic.ttf:
+- google/proza_libre.yml
+ProzaLibre-Bold.ttf:
+- google/proza_libre.yml
+ProzaLibre-BoldItalic.ttf:
+- google/proza_libre.yml
+ProzaLibre-ExtraBold.ttf:
+- google/proza_libre.yml
+ProzaLibre-ExtraBoldItalic.ttf:
+- google/proza_libre.yml
+Mogra-Regular.ttf:
+- google/mogra.yml
+Capriola-Regular.ttf:
+- google/capriola.yml
+SuezOne-Regular.ttf:
+- google/suez_one.yml
+PT_Serif-Web-Regular.ttf:
+- google/pt_serif.yml
+PT_Serif-Web-Italic.ttf:
+- google/pt_serif.yml
+PT_Serif-Web-Bold.ttf:
+- google/pt_serif.yml
+PT_Serif-Web-BoldItalic.ttf:
+- google/pt_serif.yml
+IrishGrover-Regular.ttf:
+- google/irish_grover.yml
+Cutive-Regular.ttf:
+- google/cutive.yml
+Gabriela-Regular.ttf:
+- google/gabriela.yml
+Palanquin-Thin.ttf:
+- google/palanquin.yml
+Palanquin-ExtraLight.ttf:
+- google/palanquin.yml
+Palanquin-Light.ttf:
+- google/palanquin.yml
+Palanquin-Regular.ttf:
+- google/palanquin.yml
+Palanquin-Medium.ttf:
+- google/palanquin.yml
+Palanquin-SemiBold.ttf:
+- google/palanquin.yml
+Palanquin-Bold.ttf:
+- google/palanquin.yml
+Cagliostro-Regular.ttf:
+- google/cagliostro.yml
+Dhyana-Regular.ttf:
+- google/dhyana.yml
+Dhyana-Bold.ttf:
+- google/dhyana.yml
+Gurajada-Regular.ttf:
+- google/gurajada.yml
+CormorantUpright-Light.ttf:
+- google/cormorant_upright.yml
+CormorantUpright-Regular.ttf:
+- google/cormorant_upright.yml
+CormorantUpright-Medium.ttf:
+- google/cormorant_upright.yml
+CormorantUpright-SemiBold.ttf:
+- google/cormorant_upright.yml
+CormorantUpright-Bold.ttf:
+- google/cormorant_upright.yml
+Alegreya-Regular.ttf:
+- google/alegreya.yml
+Alegreya-Italic.ttf:
+- google/alegreya.yml
+Alegreya-Medium.ttf:
+- google/alegreya.yml
+Alegreya-MediumItalic.ttf:
+- google/alegreya.yml
+Alegreya-Bold.ttf:
+- google/alegreya.yml
+Alegreya-BoldItalic.ttf:
+- google/alegreya.yml
+Alegreya-ExtraBold.ttf:
+- google/alegreya.yml
+Alegreya-ExtraBoldItalic.ttf:
+- google/alegreya.yml
+Alegreya-Black.ttf:
+- google/alegreya.yml
+Alegreya-BlackItalic.ttf:
+- google/alegreya.yml
+HerrVonMuellerhoff-Regular.ttf:
+- google/herr_von_muellerhoff.yml
+Junge-Regular.ttf:
+- google/junge.yml
+Kantumruy-Light.ttf:
+- google/kantumruy.yml
+Kantumruy-Regular.ttf:
+- google/kantumruy.yml
+Kantumruy-Bold.ttf:
+- google/kantumruy.yml
+RussoOne-Regular.ttf:
+- google/russo_one.yml
+Underdog-Regular.ttf:
+- google/underdog.yml
+FiraSans-Thin.ttf:
+- google/fira_sans.yml
+FiraSans-ThinItalic.ttf:
+- google/fira_sans.yml
+FiraSans-ExtraLight.ttf:
+- google/fira_sans.yml
+FiraSans-ExtraLightItalic.ttf:
+- google/fira_sans.yml
+FiraSans-Light.ttf:
+- google/fira_sans.yml
+FiraSans-LightItalic.ttf:
+- google/fira_sans.yml
+FiraSans-Regular.ttf:
+- google/fira_sans.yml
+FiraSans-Italic.ttf:
+- google/fira_sans.yml
+FiraSans-Medium.ttf:
+- google/fira_sans.yml
+FiraSans-MediumItalic.ttf:
+- google/fira_sans.yml
+FiraSans-SemiBold.ttf:
+- google/fira_sans.yml
+FiraSans-SemiBoldItalic.ttf:
+- google/fira_sans.yml
+FiraSans-Bold.ttf:
+- google/fira_sans.yml
+FiraSans-BoldItalic.ttf:
+- google/fira_sans.yml
+FiraSans-ExtraBold.ttf:
+- google/fira_sans.yml
+FiraSans-ExtraBoldItalic.ttf:
+- google/fira_sans.yml
+FiraSans-Black.ttf:
+- google/fira_sans.yml
+FiraSans-BlackItalic.ttf:
+- google/fira_sans.yml
+Girassol-Regular.ttf:
+- google/girassol.yml
+FrancoisOne-Regular.ttf:
+- google/francois_one.yml
+Prompt-Thin.ttf:
+- google/prompt.yml
+Prompt-ThinItalic.ttf:
+- google/prompt.yml
+Prompt-ExtraLight.ttf:
+- google/prompt.yml
+Prompt-ExtraLightItalic.ttf:
+- google/prompt.yml
+Prompt-Light.ttf:
+- google/prompt.yml
+Prompt-LightItalic.ttf:
+- google/prompt.yml
+Prompt-Regular.ttf:
+- google/prompt.yml
+Prompt-Italic.ttf:
+- google/prompt.yml
+Prompt-Medium.ttf:
+- google/prompt.yml
+Prompt-MediumItalic.ttf:
+- google/prompt.yml
+Prompt-SemiBold.ttf:
+- google/prompt.yml
+Prompt-SemiBoldItalic.ttf:
+- google/prompt.yml
+Prompt-Bold.ttf:
+- google/prompt.yml
+Prompt-BoldItalic.ttf:
+- google/prompt.yml
+Prompt-ExtraBold.ttf:
+- google/prompt.yml
+Prompt-ExtraBoldItalic.ttf:
+- google/prompt.yml
+Prompt-Black.ttf:
+- google/prompt.yml
+Prompt-BlackItalic.ttf:
+- google/prompt.yml
+Metal.ttf:
+- google/metal.yml
+JacquesFrancois-Regular.ttf:
+- google/jacques_francois.yml
+DeliusSwashCaps-Regular.ttf:
+- google/delius_swash_caps.yml
+IBMPlexMono-Thin.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-ThinItalic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-ExtraLight.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-ExtraLightItalic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-Light.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-LightItalic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-Regular.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-Italic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-Medium.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-MediumItalic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-SemiBold.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-SemiBoldItalic.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-Bold.ttf:
+- google/ibm_plex_mono.yml
+IBMPlexMono-BoldItalic.ttf:
+- google/ibm_plex_mono.yml
+CreepsterCaps-Regular.ttf:
+- google/creepster_caps.yml
+CroissantOne-Regular.ttf:
+- google/croissant_one.yml
+CormorantUnicase-Light.ttf:
+- google/cormorant_unicase.yml
+CormorantUnicase-Regular.ttf:
+- google/cormorant_unicase.yml
+CormorantUnicase-Medium.ttf:
+- google/cormorant_unicase.yml
+CormorantUnicase-SemiBold.ttf:
+- google/cormorant_unicase.yml
+CormorantUnicase-Bold.ttf:
+- google/cormorant_unicase.yml
+Voltaire-Regular.ttf:
+- google/voltaire.yml
+PT_Sans-Narrow-Web-Regular.ttf:
+- google/pt_sans_narrow.yml
+PT_Sans-Narrow-Web-Bold.ttf:
+- google/pt_sans_narrow.yml
+Moulpali.ttf:
+- google/moulpali.yml
+GoblinOne.ttf:
+- google/goblin_one.yml
+jsMath-cmmi10.ttf:
+- google/jsmath_cmmi10.yml
+Buenard-Regular.ttf:
+- google/buenard.yml
+Buenard-Bold.ttf:
+- google/buenard.yml
+Sarpanch-Regular.ttf:
+- google/sarpanch.yml
+Sarpanch-Medium.ttf:
+- google/sarpanch.yml
+Sarpanch-SemiBold.ttf:
+- google/sarpanch.yml
+Sarpanch-Bold.ttf:
+- google/sarpanch.yml
+Sarpanch-ExtraBold.ttf:
+- google/sarpanch.yml
+Sarpanch-Black.ttf:
+- google/sarpanch.yml
+EricaOne-Regular.ttf:
+- google/erica_one.yml
+BalooThambi-Regular.ttf:
+- google/baloo_thambi.yml
+IMFeENrm28P.ttf:
+- google/im_fell_english.yml
+IMFeENit28P.ttf:
+- google/im_fell_english.yml
+ZCOOLXiaoWei-Regular.ttf:
+- google/zcool_xiaowei.yml
+Strait-Regular.ttf:
+- google/strait.yml
+MrsSheppards-Regular.ttf:
+- google/mrs_sheppards.yml
+Amaranth-Regular.ttf:
+- google/amaranth.yml
+Amaranth-Italic.ttf:
+- google/amaranth.yml
+Amaranth-Bold.ttf:
+- google/amaranth.yml
+Amaranth-BoldItalic.ttf:
+- google/amaranth.yml
+Solway-Light.ttf:
+- google/solway.yml
+Solway-Regular.ttf:
+- google/solway.yml
+Solway-Medium.ttf:
+- google/solway.yml
+Solway-Bold.ttf:
+- google/solway.yml
+Solway-ExtraBold.ttf:
+- google/solway.yml
+GochiHand-Regular.ttf:
+- google/gochi_hand.yml
+AguafinaScript-Regular.ttf:
+- google/aguafina_script.yml
+Mansalva-Regular.ttf:
+- google/mansalva.yml
+DoHyeon-Regular.ttf:
+- google/do_hyeon.yml
+Montaga-Regular.ttf:
+- google/montaga.yml
+Podkova-VariableFont_wght.ttf:
+- google/podkova.yml
+Gugi-Regular.ttf:
+- google/gugi.yml
+MrDafoe-Regular.ttf:
+- google/mr_dafoe.yml
+Calistoga-Regular.ttf:
+- google/calistoga.yml
+Jua-Regular.ttf:
+- google/jua.yml
+ReenieBeanie.ttf:
+- google/reenie_beanie.yml
+NoticiaText-Regular.ttf:
+- google/noticia_text.yml
+NoticiaText-Italic.ttf:
+- google/noticia_text.yml
+NoticiaText-Bold.ttf:
+- google/noticia_text.yml
+NoticiaText-BoldItalic.ttf:
+- google/noticia_text.yml
+MissFajardose-Regular.ttf:
+- google/miss_fajardose.yml
+StintUltraExpanded-Regular.ttf:
+- google/stint_ultra_expanded.yml
+LexendPeta-Regular.ttf:
+- google/lexend_peta.yml
+Devonshire-Regular.ttf:
+- google/devonshire.yml
+Audiowide-Regular.ttf:
+- google/audiowide.yml
+Cambay-Regular.ttf:
+- google/cambay.yml
+Cambay-Italic.ttf:
+- google/cambay.yml
+Cambay-Bold.ttf:
+- google/cambay.yml
+Cambay-BoldItalic.ttf:
+- google/cambay.yml
+AsapCondensed-Regular.ttf:
+- google/asap_condensed.yml
+AsapCondensed-Italic.ttf:
+- google/asap_condensed.yml
+AsapCondensed-Medium.ttf:
+- google/asap_condensed.yml
+AsapCondensed-MediumItalic.ttf:
+- google/asap_condensed.yml
+AsapCondensed-SemiBold.ttf:
+- google/asap_condensed.yml
+AsapCondensed-SemiBoldItalic.ttf:
+- google/asap_condensed.yml
+AsapCondensed-Bold.ttf:
+- google/asap_condensed.yml
+AsapCondensed-BoldItalic.ttf:
+- google/asap_condensed.yml
+Magra-Regular.ttf:
+- google/magra.yml
+Magra-Bold.ttf:
+- google/magra.yml
+Karma-Light.ttf:
+- google/karma.yml
+Karma-Regular.ttf:
+- google/karma.yml
+Karma-Medium.ttf:
+- google/karma.yml
+Karma-SemiBold.ttf:
+- google/karma.yml
+Karma-Bold.ttf:
+- google/karma.yml
+Stoke-Light.ttf:
+- google/stoke.yml
+Stoke-Regular.ttf:
+- google/stoke.yml
+LovedbytheKing.ttf:
+- google/loved_by_the_king.yml
+LexendGiga-Regular.ttf:
+- google/lexend_giga.yml
+Alata-Regular.ttf:
+- google/alata.yml
+TitilliumWeb-ExtraLight.ttf:
+- google/titillium_web.yml
+TitilliumWeb-ExtraLightItalic.ttf:
+- google/titillium_web.yml
+TitilliumWeb-Light.ttf:
+- google/titillium_web.yml
+TitilliumWeb-LightItalic.ttf:
+- google/titillium_web.yml
+TitilliumWeb-Regular.ttf:
+- google/titillium_web.yml
+TitilliumWeb-Italic.ttf:
+- google/titillium_web.yml
+TitilliumWeb-SemiBold.ttf:
+- google/titillium_web.yml
+TitilliumWeb-SemiBoldItalic.ttf:
+- google/titillium_web.yml
+TitilliumWeb-Bold.ttf:
+- google/titillium_web.yml
+TitilliumWeb-BoldItalic.ttf:
+- google/titillium_web.yml
+TitilliumWeb-Black.ttf:
+- google/titillium_web.yml
+BalsamiqSans-Regular.ttf:
+- google/balsamiq_sans.yml
+BalsamiqSans-Italic.ttf:
+- google/balsamiq_sans.yml
+BalsamiqSans-Bold.ttf:
+- google/balsamiq_sans.yml
+BalsamiqSans-BoldItalic.ttf:
+- google/balsamiq_sans.yml
+Mirza-Regular.ttf:
+- google/mirza.yml
+Mirza-Medium.ttf:
+- google/mirza.yml
+Mirza-SemiBold.ttf:
+- google/mirza.yml
+Mirza-Bold.ttf:
+- google/mirza.yml
+BreeSerif-Regular.ttf:
+- google/bree_serif.yml
+RobotoSlab-VariableFont_wght.ttf:
+- google/roboto_slab.yml
+HeadlandOne-Regular.ttf:
+- google/headland_one.yml
+Meddon.ttf:
+- google/meddon.yml
+JimNightshade-Regular.ttf:
+- google/jim_nightshade.yml
+AnnieUseYourTelescope-Regular.ttf:
+- google/annie_use_your_telescope.yml
+IMFeENsc28P.ttf:
+- google/im_fell_english_sc.yml
+RobotoMono-VariableFont_wght.ttf:
+- google/roboto_mono.yml
+RobotoMono-Italic-VariableFont_wght.ttf:
+- google/roboto_mono.yml
+Coiny-Regular.ttf:
+- google/coiny.yml
+PTM55FT.ttf:
+- google/pt_mono.yml
+Coda-Regular.ttf:
+- google/coda.yml
+Coda-ExtraBold.ttf:
+- google/coda.yml
+Biryani-ExtraLight.ttf:
+- google/biryani.yml
+Biryani-Light.ttf:
+- google/biryani.yml
+Biryani-Regular.ttf:
+- google/biryani.yml
+Biryani-SemiBold.ttf:
+- google/biryani.yml
+Biryani-Bold.ttf:
+- google/biryani.yml
+Biryani-ExtraBold.ttf:
+- google/biryani.yml
+Biryani-Black.ttf:
+- google/biryani.yml
+UnicaOne-Regular.ttf:
+- google/unica_one.yml
+Geostar-Regular.ttf:
+- google/geostar.yml
+Kreon-VariableFont_wght.ttf:
+- google/kreon.yml
+PasseroOne-Regular.ttf:
+- google/passero_one.yml
+RedRose-Light.ttf:
+- google/red_rose.yml
+RedRose-Regular.ttf:
+- google/red_rose.yml
+RedRose-Bold.ttf:
+- google/red_rose.yml
+Carme-Regular.ttf:
+- google/carme.yml
+CabinSketch-Regular.ttf:
+- google/cabin_sketch.yml
+CabinSketch-Bold.ttf:
+- google/cabin_sketch.yml
+Ewert-Regular.ttf:
+- google/ewert.yml
+Vidaloka-Regular.ttf:
+- google/vidaloka.yml
+Macondo-Regular.ttf:
+- google/macondo.yml
+MarkaziText-VariableFont_wght.ttf:
+- google/markazi_text.yml
+Bilbo-Regular.ttf:
+- google/bilbo.yml
+Niramit-ExtraLight.ttf:
+- google/niramit.yml
+Niramit-ExtraLightItalic.ttf:
+- google/niramit.yml
+Niramit-Light.ttf:
+- google/niramit.yml
+Niramit-LightItalic.ttf:
+- google/niramit.yml
+Niramit-Regular.ttf:
+- google/niramit.yml
+Niramit-Italic.ttf:
+- google/niramit.yml
+Niramit-Medium.ttf:
+- google/niramit.yml
+Niramit-MediumItalic.ttf:
+- google/niramit.yml
+Niramit-SemiBold.ttf:
+- google/niramit.yml
+Niramit-SemiBoldItalic.ttf:
+- google/niramit.yml
+Niramit-Bold.ttf:
+- google/niramit.yml
+Niramit-BoldItalic.ttf:
+- google/niramit.yml
+Mandali-Regular.ttf:
+- google/mandali.yml
+BeVietnam-Thin.ttf:
+- google/be_vietnam.yml
+BeVietnam-ThinItalic.ttf:
+- google/be_vietnam.yml
+BeVietnam-Light.ttf:
+- google/be_vietnam.yml
+BeVietnam-LightItalic.ttf:
+- google/be_vietnam.yml
+BeVietnam-Regular.ttf:
+- google/be_vietnam.yml
+BeVietnam-Italic.ttf:
+- google/be_vietnam.yml
+BeVietnam-Medium.ttf:
+- google/be_vietnam.yml
+BeVietnam-MediumItalic.ttf:
+- google/be_vietnam.yml
+BeVietnam-SemiBold.ttf:
+- google/be_vietnam.yml
+BeVietnam-SemiBoldItalic.ttf:
+- google/be_vietnam.yml
+BeVietnam-Bold.ttf:
+- google/be_vietnam.yml
+BeVietnam-BoldItalic.ttf:
+- google/be_vietnam.yml
+BeVietnam-ExtraBold.ttf:
+- google/be_vietnam.yml
+BeVietnam-ExtraBoldItalic.ttf:
+- google/be_vietnam.yml
+Eater-Regular.ttf:
+- google/eater.yml
+CarroisGothicSC-Regular.ttf:
+- google/carrois_gothic_sc.yml
+MuktaMalar-ExtraLight.ttf:
+- google/mukta_malar.yml
+MuktaMalar-Light.ttf:
+- google/mukta_malar.yml
+MuktaMalar-Regular.ttf:
+- google/mukta_malar.yml
+MuktaMalar-Medium.ttf:
+- google/mukta_malar.yml
+MuktaMalar-SemiBold.ttf:
+- google/mukta_malar.yml
+MuktaMalar-Bold.ttf:
+- google/mukta_malar.yml
+MuktaMalar-ExtraBold.ttf:
+- google/mukta_malar.yml
+Cormorant-Light.ttf:
+- google/cormorant.yml
+Cormorant-LightItalic.ttf:
+- google/cormorant.yml
+Cormorant-Regular.ttf:
+- google/cormorant.yml
+Cormorant-Italic.ttf:
+- google/cormorant.yml
+Cormorant-Medium.ttf:
+- google/cormorant.yml
+Cormorant-MediumItalic.ttf:
+- google/cormorant.yml
+Cormorant-SemiBold.ttf:
+- google/cormorant.yml
+Cormorant-SemiBoldItalic.ttf:
+- google/cormorant.yml
+Cormorant-Bold.ttf:
+- google/cormorant.yml
+Cormorant-BoldItalic.ttf:
+- google/cormorant.yml
+PirataOne-Regular.ttf:
+- google/pirata_one.yml
+Milonga-Regular.ttf:
+- google/milonga.yml
+BilboSwashCaps-Regular.ttf:
+- google/bilbo_swash_caps.yml
+Barlow-Thin.ttf:
+- google/barlow.yml
+Barlow-ThinItalic.ttf:
+- google/barlow.yml
+Barlow-ExtraLight.ttf:
+- google/barlow.yml
+Barlow-ExtraLightItalic.ttf:
+- google/barlow.yml
+Barlow-Light.ttf:
+- google/barlow.yml
+Barlow-LightItalic.ttf:
+- google/barlow.yml
+Barlow-Regular.ttf:
+- google/barlow.yml
+Barlow-Italic.ttf:
+- google/barlow.yml
+Barlow-Medium.ttf:
+- google/barlow.yml
+Barlow-MediumItalic.ttf:
+- google/barlow.yml
+Barlow-SemiBold.ttf:
+- google/barlow.yml
+Barlow-SemiBoldItalic.ttf:
+- google/barlow.yml
+Barlow-Bold.ttf:
+- google/barlow.yml
+Barlow-BoldItalic.ttf:
+- google/barlow.yml
+Barlow-ExtraBold.ttf:
+- google/barlow.yml
+Barlow-ExtraBoldItalic.ttf:
+- google/barlow.yml
+Barlow-Black.ttf:
+- google/barlow.yml
+Barlow-BlackItalic.ttf:
+- google/barlow.yml
+VollkornSC-Regular.ttf:
+- google/vollkorn_sc.yml
+VollkornSC-SemiBold.ttf:
+- google/vollkorn_sc.yml
+VollkornSC-Bold.ttf:
+- google/vollkorn_sc.yml
+VollkornSC-Black.ttf:
+- google/vollkorn_sc.yml
+PollerOne.ttf:
+- google/poller_one.yml
+Handlee-Regular.ttf:
+- google/handlee.yml
+YeonSung-Regular.ttf:
+- google/yeon_sung.yml
+ViaodaLibre-Regular.ttf:
+- google/viaoda_libre.yml
+InriaSans-Light.ttf:
+- google/inria_sans.yml
+InriaSans-LightItalic.ttf:
+- google/inria_sans.yml
+InriaSans-Regular.ttf:
+- google/inria_sans.yml
+InriaSans-Italic.ttf:
+- google/inria_sans.yml
+InriaSans-Bold.ttf:
+- google/inria_sans.yml
+InriaSans-BoldItalic.ttf:
+- google/inria_sans.yml
+SpecialElite-Regular.ttf:
+- google/special_elite.yml
+IBMPlexSansCondensed-Thin.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-ThinItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-ExtraLight.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-ExtraLightItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-Light.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-LightItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-Regular.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-Italic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-Medium.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-MediumItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-SemiBold.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-SemiBoldItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-Bold.ttf:
+- google/ibm_plex_sans_condensed.yml
+IBMPlexSansCondensed-BoldItalic.ttf:
+- google/ibm_plex_sans_condensed.yml
+NovaFlat.ttf:
+- google/nova_flat.yml
+Engagement-Regular.ttf:
+- google/engagement.yml
+SourceSerifPro-ExtraLightItalic.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-LightItalic.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-Italic.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-SemiBold.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-SemiBoldItalic.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-BoldItalic.ttf:
+- google/source_serif_pro.yml
+SourceSerifPro-BlackItalic.ttf:
+- google/source_serif_pro.yml
+Manuale-VariableFont_wght.ttf:
+- google/manuale.yml
+Manuale-Italic-VariableFont_wght.ttf:
+- google/manuale.yml
+IndieFlower-Regular.ttf:
+- google/indie_flower.yml
+ShadowsIntoLightTwo-Regular.ttf:
+- google/shadows_into_light_two.yml
+DMMono-Light.ttf:
+- google/dm_mono.yml
+DMMono-LightItalic.ttf:
+- google/dm_mono.yml
+DMMono-Regular.ttf:
+- google/dm_mono.yml
+DMMono-Italic.ttf:
+- google/dm_mono.yml
+DMMono-Medium.ttf:
+- google/dm_mono.yml
+DMMono-MediumItalic.ttf:
+- google/dm_mono.yml
+Tienne-Regular.ttf:
+- google/tienne.yml
+Tienne-Bold.ttf:
+- google/tienne.yml
+Tienne-Black.ttf:
+- google/tienne.yml
+Recursive[CASL,CRSV,MONO,slnt,wght].ttf:
+- google/recursive.yml
+PatuaOne-Regular.ttf:
+- google/patua_one.yml
+HindGuntur-Light.ttf:
+- google/hind_guntur.yml
+HindGuntur-Regular.ttf:
+- google/hind_guntur.yml
+HindGuntur-Medium.ttf:
+- google/hind_guntur.yml
+HindGuntur-SemiBold.ttf:
+- google/hind_guntur.yml
+HindGuntur-Bold.ttf:
+- google/hind_guntur.yml
+Sniglet-Regular.ttf:
+- google/sniglet.yml
+Sniglet-ExtraBold.ttf:
+- google/sniglet.yml
+Cambo-Regular.ttf:
+- google/cambo.yml
+ExpletusSans-Regular.ttf:
+- google/expletus_sans.yml
+ExpletusSans-Italic.ttf:
+- google/expletus_sans.yml
+ExpletusSans-Medium.ttf:
+- google/expletus_sans.yml
+ExpletusSans-MediumItalic.ttf:
+- google/expletus_sans.yml
+ExpletusSans-SemiBold.ttf:
+- google/expletus_sans.yml
+ExpletusSans-SemiBoldItalic.ttf:
+- google/expletus_sans.yml
+ExpletusSans-Bold.ttf:
+- google/expletus_sans.yml
+ExpletusSans-BoldItalic.ttf:
+- google/expletus_sans.yml
+NosiferCaps-Regular.ttf:
+- google/nosifer_caps.yml
+Arapey-Regular.ttf:
+- google/arapey.yml
+Arapey-Italic.ttf:
+- google/arapey.yml
+SirinStencil-Regular.ttf:
+- google/sirin_stencil.yml
+Arsenal-Regular.ttf:
+- google/arsenal.yml
+Arsenal-Italic.ttf:
+- google/arsenal.yml
+Arsenal-Bold.ttf:
+- google/arsenal.yml
+Arsenal-BoldItalic.ttf:
+- google/arsenal.yml
+CarroisGothic-Regular.ttf:
+- google/carrois_gothic.yml
+Parisienne-Regular.ttf:
+- google/parisienne.yml
+MouseMemoirs-Regular.ttf:
+- google/mouse_memoirs.yml
+SueEllenFrancisco-Regular.ttf:
+- google/sue_ellen_francisco.yml
+Average-Regular.ttf:
+- google/average.yml
+Arbutus-Regular.ttf:
+- google/arbutus.yml
+CherryBomb-Regular.ttf:
+- google/cherry_bomb.yml
+Hanalei-Regular.ttf:
+- google/hanalei.yml
+TenorSans-Regular.ttf:
+- google/tenor_sans.yml
+SairaSemiCondensed-Thin.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-ExtraLight.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-Light.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-Regular.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-Medium.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-SemiBold.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-Bold.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-ExtraBold.ttf:
+- google/saira_semi_condensed.yml
+SairaSemiCondensed-Black.ttf:
+- google/saira_semi_condensed.yml
+Adamina-Regular.ttf:
+- google/adamina.yml
+Stalemate-Regular.ttf:
+- google/stalemate.yml
+SEGOEUI.TTF:
+- segoe_ui.yml
+SEGOEUIB.TTF:
+- segoe_ui.yml
+SEGOEUII.TTF:
+- segoe_ui.yml
+SEGOEUIZ.TTF:
+- segoe_ui.yml
+HMFMMUEX.ttc:
+- korean.yml
+HMKMAMI.ttf:
+- korean.yml
+H2GTRE.ttf:
+- korean.yml
+H2GTRM.ttf:
+- korean.yml
+H2GPRM.ttf:
+- korean.yml
+H2GSRB.ttf:
+- korean.yml
+H2HDRM.ttf:
+- korean.yml
+H2MJRE.ttf:
+- korean.yml
+H2MKPB.ttf:
+- korean.yml
+H2PORL.ttf:
+- korean.yml
+H2PORM.ttf:
+- korean.yml
+H2SA1M.ttf:
+- korean.yml
+H2MJSM.ttf:
+- korean.yml
+HMKMRHD.ttf:
+- korean.yml
+HMKMMAG.ttf:
+- korean.yml
+MALGUN.ttf:
+- korean.yml
+MALGUNBD.ttf:
+- korean.yml
+NGULIM.ttf:
+- korean.yml
+HMFMPYUN.ttf:
+- korean.yml
+HMFMOLD.ttf:
+- korean.yml
+msyh.ttf:
+- microsoft_yahei.yml
+msyhbd.ttf:
+- microsoft_yahei.yml
+GAHROM.ttf:
+- guttman.yml
+DROGB.ttf:
+- guttman.yml
+DROGM.ttf:
+- guttman.yml
+FRANKB.ttf:
+- guttman.yml
+GFRANK.ttf:
+- guttman.yml
+FRNEW.ttf:
+- guttman.yml
+GHAIM.ttf:
+- guttman.yml
+GHAIMC.ttf:
+- guttman.yml
+TZVIB.ttf:
+- guttman.yml
+TZVIM.ttf:
+- guttman.yml
+GKAVBLD.ttf:
+- guttman.yml
+GKAVMED.ttf:
+- guttman.yml
+GKAVLIT.ttf:
+- guttman.yml
+LOGO1.ttf:
+- guttman.yml
+MANTB.ttf:
+- guttman.yml
+MANTM.ttf:
+- guttman.yml
+MANTDEC.ttf:
+- guttman.yml
+MIRB.ttf:
+- guttman.yml
+MIRL.ttf:
+- guttman.yml
+GMYAMFIX.ttf:
+- guttman.yml
+RASHI.ttf:
+- guttman.yml
+RASHIB.ttf:
+- guttman.yml
+RASHIXB.ttf:
+- guttman.yml
+STAM.ttf:
+- guttman.yml
+STAM1.ttf:
+- guttman.yml
+VILNA.ttf:
+- guttman.yml
+VILNAB.ttf:
+- guttman.yml
+GYADL.ttf:
+- guttman.yml
+GYADBR.ttf:
+- guttman.yml
+GYADXL.ttf:
+- guttman.yml
+AHROB.ttf:
+- guttman.yml
+ARAM.ttf:
+- guttman.yml
+MIRFX.ttf:
+- guttman.yml
+HDAS.ttf:
+- guttman.yml
+HDASBD.ttf:
+- guttman.yml
+MSJH.ttf:
+- chinese_traditional.yml
+MSJHBD.ttf:
+- chinese_traditional.yml
+ARABSQ.ttf:
+- arabic.yml
+ARBSQDTP.ttf:
+- arabic.yml
+AKHBR.ttf:
+- arabic.yml
+AKHBRBD.ttf:
+- arabic.yml
+ARABTYPE.ttf:
+- arabic.yml
+BLDITLAR.ttf:
+- arabic.yml
+DTNASKH0.ttf:
+- arabic.yml
+DTNASKH3.ttf:
+- arabic.yml
+DTNASKH1.ttf:
+- arabic.yml
+DTNASKH4.ttf:
+- arabic.yml
+DTNASKH2.ttf:
+- arabic.yml
+DTHULUTH.ttf:
+- arabic.yml
+DIWANBNT.ttf:
+- arabic.yml
+DIWANLTR.ttf:
+- arabic.yml
+DWNOUTSH.ttf:
+- arabic.yml
+DWNSPOUT.ttf:
+- arabic.yml
+DWNSH2.ttf:
+- arabic.yml
+DWNSPSTR.ttf:
+- arabic.yml
+FRSSPBL.ttf:
+- arabic.yml
+FRSSPOUT.ttf:
+- arabic.yml
+ITLOUTAR.ttf:
+- arabic.yml
+KFEXTOUT.ttf:
+- arabic.yml
+KFOUTSHD.ttf:
+- arabic.yml
+LEDITFNT.ttf:
+- arabic.yml
+KOUFIBD.ttf:
+- arabic.yml
+MUDIR.ttf:
+- arabic.yml
+OLDANBLD.ttf:
+- arabic.yml
+OLDANDEC.ttf:
+- arabic.yml
+OLDANOUT.ttf:
+- arabic.yml
+OLDOUTSH.ttf:
+- arabic.yml
+PTBLDARC.ttf:
+- arabic.yml
+PTBLDBRK.ttf:
+- arabic.yml
+PTBLDDSK.ttf:
+- arabic.yml
+PTBLDHAD.ttf:
+- arabic.yml
+PTBLDMRR.ttf:
+- arabic.yml
+PTBLSSTR.ttf:
+- arabic.yml
+PTSEPBAL.ttf:
+- arabic.yml
+SPBLDRUL.ttf:
+- arabic.yml
+SPBLDJUT.ttf:
+- arabic.yml
+SPINDOUT.ttf:
+- arabic.yml
+SPINDSHD.ttf:
+- arabic.yml
+SPOUTPAT.ttf:
+- arabic.yml
+CAMBRIA.TTC:
+- cleartype.yml
+MEIRYO.TTC:
+- cleartype.yml
+MEIRYOB.TTC:
+- cleartype.yml
+CAMBRIAB.TTF:
+- cleartype.yml
+CAMBRIAI.TTF:
+- cleartype.yml
+CAMBRIAZ.TTF:
+- cleartype.yml
+CALIBRI.TTF:
+- cleartype.yml
+CALIBRIB.TTF:
+- cleartype.yml
+CALIBRII.TTF:
+- cleartype.yml
+CALIBRIZ.TTF:
+- cleartype.yml
+CANDARA.TTF:
+- cleartype.yml
+CANDARAB.TTF:
+- cleartype.yml
+CANDARAI.TTF:
+- cleartype.yml
+CANDARAZ.TTF:
+- cleartype.yml
+CONSOLA.TTF:
+- cleartype.yml
+CONSOLAB.TTF:
+- cleartype.yml
+CONSOLAI.TTF:
+- cleartype.yml
+CONSOLAZ.TTF:
+- cleartype.yml
+CONSTAN.TTF:
+- cleartype.yml
+CONSTANB.TTF:
+- cleartype.yml
+CONSTANI.TTF:
+- cleartype.yml
+CONSTANZ.TTF:
+- cleartype.yml
+CORBEL.TTF:
+- cleartype.yml
+CORBELB.TTF:
+- cleartype.yml
+CORBELI.TTF:
+- cleartype.yml
+CORBELZ.TTF:
+- cleartype.yml
+Impact.TTF:
+- impact.yml
+selawk.ttf:
+- selawik.yml
+selawkb.ttf:
+- selawik.yml
+selawkl.ttf:
+- selawik.yml
+selawksb.ttf:
+- selawik.yml
+selawksl.ttf:
+- selawik.yml
+BSIGesta-Bold.otf:
+- private/metanorma/bsi_gesta.yml
+BSIGesta-Italic.otf:
+- private/metanorma/bsi_gesta.yml
+BSIGesta.otf:
+- private/metanorma/bsi_gesta.yml
+BSIGesta-Medium.otf:
+- private/metanorma/bsi_gesta.yml
+BSIGesta-Light.otf:
+- private/metanorma/bsi_gesta.yml
+HGRGE.ttc:
+- japanese.yml
+HGRGM.ttc:
+- japanese.yml
+HGRGY.ttc:
+- japanese.yml
+HGRKK.ttc:
+- japanese.yml
+HGRMB.ttc:
+- japanese.yml
+HGRME.ttc:
+- japanese.yml
+HGRPP1.ttc:
+- japanese.yml
+HGRPRE.ttc:
+- japanese.yml
+HGRSGU.ttc:
+- japanese.yml
+HGRSMP.ttf:
+- japanese.yml
+HGRSKP.ttf:
+- japanese.yml
+OCRB.ttf:
+- japanese.yml
+AndaleMo.TTF:
+- andale.yml
+Montserrat-Thin.otf:
+- montserrat.yml
+Montserrat-ThinItalic.otf:
+- montserrat.yml
+Montserrat-ExtraLight.otf:
+- montserrat.yml
+Montserrat-ExtraLightItalic.otf:
+- montserrat.yml
+Montserrat-Light.otf:
+- montserrat.yml
+Montserrat-LightItalic.otf:
+- montserrat.yml
+Montserrat-Regular.otf:
+- montserrat.yml
+Montserrat-Italic.otf:
+- montserrat.yml
+Montserrat-Medium.otf:
+- montserrat.yml
+Montserrat-MediumItalic.otf:
+- montserrat.yml
+Montserrat-SemiBold.otf:
+- montserrat.yml
+Montserrat-SemiBoldItalic.otf:
+- montserrat.yml
+Montserrat-Bold.otf:
+- montserrat.yml
+Montserrat-BoldItalic.otf:
+- montserrat.yml
+Montserrat-ExtraBold.otf:
+- montserrat.yml
+Montserrat-ExtraBoldItalic.otf:
+- montserrat.yml
+Montserrat-Black.otf:
+- montserrat.yml
+Montserrat-BlackItalic.otf:
+- montserrat.yml
+MontserratAlternates-Thin.otf:
+- montserrat.yml
+MontserratAlternates-ThinItalic.otf:
+- montserrat.yml
+MontserratAlternates-ExtraLight.otf:
+- montserrat.yml
+MontserratAlternates-ExtraLightItalic.otf:
+- montserrat.yml
+MontserratAlternates-Light.otf:
+- montserrat.yml
+MontserratAlternates-LightItalic.otf:
+- montserrat.yml
+MontserratAlternates-Regular.otf:
+- montserrat.yml
+MontserratAlternates-Italic.otf:
+- montserrat.yml
+MontserratAlternates-Medium.otf:
+- montserrat.yml
+MontserratAlternates-MediumItalic.otf:
+- montserrat.yml
+MontserratAlternates-SemiBold.otf:
+- montserrat.yml
+MontserratAlternates-SemiBoldItalic.otf:
+- montserrat.yml
+MontserratAlternates-Bold.otf:
+- montserrat.yml
+MontserratAlternates-BoldItalic.otf:
+- montserrat.yml
+MontserratAlternates-ExtraBold.otf:
+- montserrat.yml
+MontserratAlternates-ExtraBoldItalic.otf:
+- montserrat.yml
+MontserratAlternates-Black.otf:
+- montserrat.yml
+MontserratAlternates-BlackItalic.otf:
+- montserrat.yml
+AUPassLight_Bold.ttf:
+- au_passata_light_bold.yml
+texgyrechorus-mediumitalic.otf:
+- tex_gyre_chorus.yml
+Webdings.TTF:
+- webding.yml
+Mingzat-Regular.ttf:
+- sil/mingzat.yml
+AppSILB.ttf:
+- sil/apparatus_sil.yml
+AppSILBI.ttf:
+- sil/apparatus_sil.yml
+AppSILI.ttf:
+- sil/apparatus_sil.yml
+AppSILR.ttf:
+- sil/apparatus_sil.yml
+Tagmukay-Bold.ttf:
+- sil/tagmukay.yml
+Tagmukay-Regular.ttf:
+- sil/tagmukay.yml
+Padauk-Bold.ttf:
+- sil/padauk.yml
+Padauk-Regular.ttf:
+- sil/padauk.yml
+PadaukBook-Bold.ttf:
+- sil/padauk.yml
+PadaukBook-Regular.ttf:
+- sil/padauk.yml
+Alkalami-Regular.ttf:
+- sil/alkalami.yml
+Alkalami-Light.ttf:
+- sil/alkalami.yml
+DoulosSIL-R.ttf:
+- sil/doulos_sil.yml
+UnicodeBMPFallback.ttf:
+- sil/unicode_bmp_fallback_sil.yml
+Andika-R.ttf:
+- sil/andika.yml
+AbyssinicaSIL-Regular.ttf:
+- sil/abyssinica_sil.yml
+Akatab-Regular.ttf:
+- sil/akatab.yml
+SNB.ttf:
+- sil/sophia_nubian.yml
+SNBI.ttf:
+- sil/sophia_nubian.yml
+SNI.ttf:
+- sil/sophia_nubian.yml
+SNR.ttf:
+- sil/sophia_nubian.yml
+Nokyung-Bold.ttf:
+- sil/nokyung.yml
+Nokyung-Regular.ttf:
+- sil/nokyung.yml
+NuosuSIL-Regular.ttf:
+- sil/nuosu_sil.yml
+DoulosSILCipher-R.ttf:
+- sil/doulos_sil_cipher.yml
+Busra-B.ttf:
+- sil/khmer.yml
+Busra-BI.ttf:
+- sil/khmer.yml
+Busra-I.ttf:
+- sil/khmer.yml
+Busra-R.ttf:
+- sil/khmer.yml
+Mondulkiri-B.ttf:
+- sil/khmer.yml
+Mondulkiri-BI.ttf:
+- sil/khmer.yml
+Mondulkiri-I.ttf:
+- sil/khmer.yml
+Mondulkiri-R.ttf:
+- sil/khmer.yml
+GalSILB.ttf:
+- sil/galatia_sil.yml
+GalSILR.ttf:
+- sil/galatia_sil.yml
+Narnoor-Regular.ttf:
+- sil/narnoor.yml
+SILEOT.ttf:
+- sil/ezra_sil.yml
+SILEOTSR.ttf:
+- sil/ezra_sil.yml
+ShiShan-HMD.ttf:
+- sil/shishan_hmd.yml
+ShiShan-HMDD.ttf:
+- sil/shishan_hmd.yml
+ShiShan-HMDN.ttf:
+- sil/shishan_hmd.yml
+NamdhinggoSIL-R.ttf:
+- sil/namdhinggo_sil.yml
+ScheherazadeNew-Bold.ttf:
+- sil/scheherazade_new.yml
+ScheherazadeNew-Regular.ttf:
+- sil/scheherazade_new.yml
+GentiumPlus-I.ttf:
+- sil/gentium_plus.yml
+GentiumPlus-R.ttf:
+- sil/gentium_plus.yml
+TaiHeritagePro-Bold.ttf:
+- sil/tai_heritage_pro.yml
+TaiHeritagePro-Regular.ttf:
+- sil/tai_heritage_pro.yml
+LateefGR-Regular.ttf:
+- sil/lateefgr.yml
+AwamiNastaliq-Regular.ttf:
+- sil/awami_nastaliq.yml
+Shimenkan-Bold.ttf:
+- sil/shimenkan.yml
+Shimenkan-Regular.ttf:
+- sil/shimenkan.yml
+ShimenkanBook-Bold.ttf:
+- sil/shimenkan.yml
+ShimenkanBook-Regular.ttf:
+- sil/shimenkan.yml
+ShimenkanExtraLight-Bold.ttf:
+- sil/shimenkan.yml
+ShimenkanExtraLight-Regular.ttf:
+- sil/shimenkan.yml
+ShimenkanLight-Bold.ttf:
+- sil/shimenkan.yml
+ShimenkanLight-Regular.ttf:
+- sil/shimenkan.yml
+Harmattan-Bold.ttf:
+- sil/harmattan.yml
+Harmattan-Regular.ttf:
+- sil/harmattan.yml
+AnnapurnaSIL-Bold.ttf:
+- sil/annapurna_sil.yml
+AnnapurnaSIL-Regular.ttf:
+- sil/annapurna_sil.yml
+DBSILBB.ttf:
+- sil/dai_banna_sil.yml
+DBSILBC.ttf:
+- sil/dai_banna_sil.yml
+DBSILBO.ttf:
+- sil/dai_banna_sil.yml
+DBSILBR.ttf:
+- sil/dai_banna_sil.yml
+DBSILLB.ttf:
+- sil/dai_banna_sil.yml
+DBSILLC.ttf:
+- sil/dai_banna_sil.yml
+DBSILLO.ttf:
+- sil/dai_banna_sil.yml
+DBSILLR.ttf:
+- sil/dai_banna_sil.yml
+CharisSIL-B.ttf:
+- sil/charis_sil.yml
+CharisSIL-BI.ttf:
+- sil/charis_sil.yml
+CharisSIL-I.ttf:
+- sil/charis_sil.yml
+CharisSIL-R.ttf:
+- sil/charis_sil.yml
+AdobeArabic_Bold.otf:
+- adobe_reader_19.yml
+AdobeArabic_BoldItalic.otf:
+- adobe_reader_19.yml
+AdobeArabic_Italic.otf:
+- adobe_reader_19.yml
+AdobeArabic_Regular.otf:
+- adobe_reader_19.yml
+adobedevanagari_regular.otf:
+- adobe_reader_19.yml
+adobedevanagari_bold.otf:
+- adobe_reader_19.yml
+adobedevanagari_bolditalic.otf:
+- adobe_reader_19.yml
+adobedevanagari_italic.otf:
+- adobe_reader_19.yml
+adobefanheitistd_bold.otf:
+- adobe_reader_19.yml
+adobegothicstd_bold.otf:
+- adobe_reader_19.yml
+adobegothicstd_light.otf:
+- adobe_reader_19.yml
+AdobeHebrew_Bold.otf:
+- adobe_reader_19.yml
+AdobeHebrew_BoldItalic.otf:
+- adobe_reader_19.yml
+AdobeHebrew_Italic.otf:
+- adobe_reader_19.yml
+AdobeHebrew_Regular.otf:
+- adobe_reader_19.yml
+AdobeHeitiStd_Regular.otf:
+- adobe_reader_19.yml
+AdobeMingStd_Light.otf:
+- adobe_reader_19.yml
+AdobeMyungjoStd_Medium.otf:
+- adobe_reader_19.yml
+AdobeSongStd_Light.otf:
+- adobe_reader_19.yml
+AdobeThai_Bold.otf:
+- adobe_reader_19.yml
+AdobeThai_BoldItalic.otf:
+- adobe_reader_19.yml
+AdobeThai_Italic.otf:
+- adobe_reader_19.yml
+AdobeThai_Regular.otf:
+- adobe_reader_19.yml
+kozgopr6n_medium.otf:
+- adobe_reader_19.yml
+kozminpr6n_regular.otf:
+- adobe_reader_19.yml
+myriadarabic_bold.otf:
+- adobe_reader_19.yml
+myriadarabic_boldit.otf:
+- adobe_reader_19.yml
+myriadarabic_it.otf:
+- adobe_reader_19.yml
+myriadarabic_regular.otf:
+- adobe_reader_19.yml
+myriadhebrew_bold.otf:
+- adobe_reader_19.yml
+myriadhebrew_boldit.otf:
+- adobe_reader_19.yml
+myriadhebrew_it.otf:
+- adobe_reader_19.yml
+myriadhebrew_regular.otf:
+- adobe_reader_19.yml
+overpass-bold-italic.otf:
+- overpass.yml
+overpass-bold.otf:
+- overpass.yml
+overpass-extrabold-italic.otf:
+- overpass.yml
+overpass-extrabold.otf:
+- overpass.yml
+overpass-extralight.otf:
+- overpass.yml
+overpass-extralight-italic.otf:
+- overpass.yml
+overpass-heavy-italic.otf:
+- overpass.yml
+overpass-heavy.otf:
+- overpass.yml
+overpass-italic.otf:
+- overpass.yml
+overpass-light-italic.otf:
+- overpass.yml
+overpass-light.otf:
+- overpass.yml
+overpass-regular.otf:
+- overpass.yml
+overpass-semibold-italic.otf:
+- overpass.yml
+overpass-semibold.otf:
+- overpass.yml
+overpass-thin-italic.otf:
+- overpass.yml
+overpass-thin.otf:
+- overpass.yml
+overpass-mono-bold.otf:
+- overpass.yml
+overpass-mono-regular.otf:
+- overpass.yml
+overpass-mono-light.otf:
+- overpass.yml
+overpass-mono-semibold.otf:
+- overpass.yml
+EBGaramond08-Italic.otf:
+- eb_garamond.yml
+EBGaramond08-Regular.otf:
+- eb_garamond.yml
+EBGaramond12-Italic.otf:
+- eb_garamond.yml
+EBGaramond12-Regular.otf:
+- eb_garamond.yml
+EBGaramond08-Italic.ttf:
+- eb_garamond.yml
+EBGaramond08-Regular.ttf:
+- eb_garamond.yml
+EBGaramond12-Italic.ttf:
+- eb_garamond.yml
+EBGaramond12-Regular.ttf:
+- eb_garamond.yml
+EBGaramond12-AllSC.otf:
+- eb_garamond.yml
+EBGaramond12-AllSC.ttf:
+- eb_garamond.yml
+EBGaramond-Initials.otf:
+- eb_garamond.yml
+EBGaramond-Initials.ttf:
+- eb_garamond.yml
+EBGaramond-InitialsF1.otf:
+- eb_garamond.yml
+EBGaramond-InitialsF1.ttf:
+- eb_garamond.yml
+EBGaramond-InitialsF2.otf:
+- eb_garamond.yml
+EBGaramond-InitialsF2.ttf:
+- eb_garamond.yml
+EBGaramondSC08-Regular.otf:
+- eb_garamond.yml
+EBGaramondSC12-Regular.otf:
+- eb_garamond.yml
+EBGaramondSC08-Regular.ttf:
+- eb_garamond.yml
+EBGaramondSC12-Regular.ttf:
+- eb_garamond.yml
+tahoma.ttf:
+- tahoma.yml
+- webcore.yml
+tahomabd.ttf:
+- tahoma.yml
+- webcore.yml
+cour.ttf:
+- courier.yml
+- webcore.yml
+courbd.ttf:
+- courier.yml
+- webcore.yml
+courbi.ttf:
+- courier.yml
+- webcore.yml
+couri.ttf:
+- courier.yml
+- webcore.yml
+YUGOTHB.TTC:
+- yu.yml
+YUGOTHL.TTC:
+- yu.yml
+YUGOTHM.TTC:
+- yu.yml
+YUGOTHR.TTC:
+- yu.yml
+YUMIN.TTF:
+- yu.yml
+YUMINDB.TTF:
+- yu.yml
+YUMINL.TTF:
+- yu.yml
+AriBlk.TTF:
+- arial_black.yml
+Lato-Black.ttf:
+- lato.yml
+Lato-BlackItalic.ttf:
+- lato.yml
+Lato-Bold.ttf:
+- lato.yml
+Lato-BoldItalic.ttf:
+- lato.yml
+Lato-Hairline.ttf:
+- lato.yml
+Lato-HairlineItalic.ttf:
+- lato.yml
+Lato-Heavy.ttf:
+- lato.yml
+Lato-HeavyItalic.ttf:
+- lato.yml
+Lato-Italic.ttf:
+- lato.yml
+Lato-Light.ttf:
+- lato.yml
+Lato-LightItalic.ttf:
+- lato.yml
+Lato-Medium.ttf:
+- lato.yml
+Lato-MediumItalic.ttf:
+- lato.yml
+Lato-Regular.ttf:
+- lato.yml
+Lato-Semibold.ttf:
+- lato.yml
+Lato-SemiboldItalic.ttf:
+- lato.yml
+Lato-Thin.ttf:
+- lato.yml
+Lato-ThinItalic.ttf:
+- lato.yml
+AULogoBold.ttf:
+- au.yml
+AULogoReg.ttf:
+- au.yml
+AUPassata_Bold.ttf:
+- au.yml
+AUPassata_Rg.ttf:
+- au.yml
+AUPassata_Light.ttf:
+- au.yml
+AU_Peto.ttf:
+- au.yml
+WorkSans-Black.ttf:
+- work_sans.yml
+WorkSans-BlackItalic.ttf:
+- work_sans.yml
+WorkSans-Bold.ttf:
+- work_sans.yml
+WorkSans-BoldItalic.ttf:
+- work_sans.yml
+WorkSans-ExtraBold.ttf:
+- work_sans.yml
+WorkSans-ExtraBoldItalic.ttf:
+- work_sans.yml
+WorkSans-ExtraLight.ttf:
+- work_sans.yml
+WorkSans-ExtraLightItalic.ttf:
+- work_sans.yml
+WorkSans-Italic.ttf:
+- work_sans.yml
+WorkSans-Light.ttf:
+- work_sans.yml
+WorkSans-LightItalic.ttf:
+- work_sans.yml
+WorkSans-Medium.ttf:
+- work_sans.yml
+WorkSans-MediumItalic.ttf:
+- work_sans.yml
+WorkSans-Regular.ttf:
+- work_sans.yml
+WorkSans-SemiBold.ttf:
+- work_sans.yml
+WorkSans-SemiBoldItalic.ttf:
+- work_sans.yml
+WorkSans-Thin.ttf:
+- work_sans.yml
+WorkSans-ThinItalic.ttf:
+- work_sans.yml
+OpenSans-Light.ttf:
+- open_sans.yml
+OpenSans-LightItalic.ttf:
+- open_sans.yml
+OpenSans-Regular.ttf:
+- open_sans.yml
+OpenSans-Italic.ttf:
+- open_sans.yml
+OpenSans-Semibold.ttf:
+- open_sans.yml
+OpenSans-SemiboldItalic.ttf:
+- open_sans.yml
+OpenSans-Bold.ttf:
+- open_sans.yml
+OpenSans-BoldItalic.ttf:
+- open_sans.yml
+OpenSans-ExtraBold.ttf:
+- open_sans.yml
+OpenSans-ExtraBoldItalic.ttf:
+- open_sans.yml
+CAMBRIA.ttc:
+- webcore.yml
+andalemo.ttf:
+- webcore.yml
+arial.ttf:
+- webcore.yml
+arialbd.ttf:
+- webcore.yml
+arialbi.ttf:
+- webcore.yml
+ariali.ttf:
+- webcore.yml
+ariblk.ttf:
+- webcore.yml
+CALIBRI.ttf:
+- webcore.yml
+CALIBRIB.ttf:
+- webcore.yml
+CALIBRII.ttf:
+- webcore.yml
+CALIBRIZ.ttf:
+- webcore.yml
+CAMBRIAB.ttf:
+- webcore.yml
+CAMBRIAI.ttf:
+- webcore.yml
+CAMBRIAZ.ttf:
+- webcore.yml
+CANDARA.ttf:
+- webcore.yml
+CANDARAB.ttf:
+- webcore.yml
+CANDARAI.ttf:
+- webcore.yml
+CANDARAZ.ttf:
+- webcore.yml
+comic.ttf:
+- webcore.yml
+comicbd.ttf:
+- webcore.yml
+CONSOLA.ttf:
+- webcore.yml
+CONSOLAB.ttf:
+- webcore.yml
+CONSOLAI.ttf:
+- webcore.yml
+CONSOLAZ.ttf:
+- webcore.yml
+CONSTAN.ttf:
+- webcore.yml
+CONSTANB.ttf:
+- webcore.yml
+CONSTANI.ttf:
+- webcore.yml
+CONSTANZ.ttf:
+- webcore.yml
+CORBEL.ttf:
+- webcore.yml
+CORBELB.ttf:
+- webcore.yml
+CORBELI.ttf:
+- webcore.yml
+CORBELZ.ttf:
+- webcore.yml
+georgia.ttf:
+- webcore.yml
+georgiab.ttf:
+- webcore.yml
+georgiai.ttf:
+- webcore.yml
+georgiaz.ttf:
+- webcore.yml
+impact.ttf:
+- webcore.yml
+lucon.ttf:
+- webcore.yml
+l_10646.ttf:
+- webcore.yml
+micross.ttf:
+- webcore.yml
+symbol.ttf:
+- webcore.yml
+times.ttf:
+- webcore.yml
+timesbd.ttf:
+- webcore.yml
+timesbi.ttf:
+- webcore.yml
+timesi.ttf:
+- webcore.yml
+verdana.ttf:
+- webcore.yml
+verdanab.ttf:
+- webcore.yml
+verdanai.ttf:
+- webcore.yml
+verdanaz.ttf:
+- webcore.yml
+webdings.ttf:
+- webcore.yml
+wingding.ttf:
+- webcore.yml
+WINGDNG2.ttf:
+- webcore.yml
+WINGDNG3.ttf:
+- webcore.yml
+AdobePiStd.otf:
+- adobe_reader_20.yml
+CourierStd.otf:
+- adobe_reader_20.yml
+CourierStd_Bold.otf:
+- adobe_reader_20.yml
+CourierStd_BoldOblique.otf:
+- adobe_reader_20.yml
+CourierStd_Oblique.otf:
+- adobe_reader_20.yml
+MinionPro_Bold.otf:
+- adobe_reader_20.yml
+MinionPro_BoldIt.otf:
+- adobe_reader_20.yml
+MinionPro_It.otf:
+- adobe_reader_20.yml
+MinionPro_Regular.otf:
+- adobe_reader_20.yml
+MyriadCAD.otf:
+- adobe_reader_20.yml
+MyriadPro_Bold.otf:
+- adobe_reader_20.yml
+MyriadPro_BoldIt.otf:
+- adobe_reader_20.yml
+MyriadPro_It.otf:
+- adobe_reader_20.yml
+MyriadPro_Regular.otf:
+- adobe_reader_20.yml

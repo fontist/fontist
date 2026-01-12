@@ -1,0 +1,29 @@
+---
+name: Overpass
+description: Overpass test formula
+homepage: http://overpassfont.org
+resources:
+  overpass.zip:
+    urls:
+    - https://github.com/RedHatOfficial/Overpass/archive/refs/tags/v3.0.5.zip
+    sha256: test123
+    file_size: 1000000
+fonts:
+- name: Overpass
+  styles:
+  - family_name: Overpass
+    type: Regular
+    full_name: Overpass Regular
+    post_script_name: Overpass-Regular
+    version: '3.0'
+    font: overpass-regular.otf
+- name: Overpass Mono
+  styles:
+  - family_name: Overpass Mono
+    type: Regular
+    full_name: Overpass Mono Regular
+    post_script_name: OverpassMono-Regular
+    version: '3.0'
+    font: overpass-mono-regular.otf
+extract:
+open_license: OFL-1.1

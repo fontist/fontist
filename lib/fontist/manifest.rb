@@ -28,14 +28,22 @@ module Fontist
       Fontist::SystemFont.find_styles(font, style)
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+      validate_location_parameter!(location)
+      validate_platform_compatibility!
+
       Fontist::Font.install(
         name,
         force: true,
         confirmation: confirmation,
         hide_licenses: hide_licenses,
         no_progress: no_progress,
+        location: location,
       )
+    rescue Fontist::Errors::PlatformMismatchError => e
+      # Re-raise with clear context for manifest users
+      Fontist.ui.error(e.message)
+      raise
     end
 
     def to_response(locations: false)
@@ -57,6 +65,28 @@ module Fontist
 
     def group_paths_empty?
       group_paths.compact.empty?
+    end
+
+    private
+
+    def validate_location_parameter!(location)
+      return unless location
+      return if location.is_a?(Symbol)
+
+      raise ArgumentError,
+        "location must be a Symbol (e.g., :fontist, :user, :system), got #{location.class}"
+    end
+
+    def validate_platform_compatibility!
+      formula = Fontist::Formula.find(name)
+      return if formula.nil?
+      return if formula.compatible_with_platform?
+
+      raise Fontist::Errors::PlatformMismatchError.new(
+        name,
+        formula.platforms,
+        Fontist::Utils::System.user_os,
+      )
     end
   end
 
@@ -115,13 +145,22 @@ module Fontist
       end
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+      installed_any = false
       fonts_casted.each do |font|
         paths = font.group_paths
-        if paths.length < fonts_casted.length
+        if paths.empty?
           font.install(confirmation: confirmation,
-                       hide_licenses: hide_licenses, no_progress: no_progress)
+                       hide_licenses: hide_licenses,
+                       no_progress: no_progress,
+                       location: location)
+          installed_any = true
         end
+      end
+      # Only reset fontist index (not system index) if we actually installed fonts
+      if installed_any
+        # Reset only the fontist font cache, not system fonts
+        Fontist::SystemFont.reset_fontist_font_paths_cache
       end
       to_response
     end

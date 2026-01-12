@@ -7,7 +7,8 @@ RSpec.describe Fontist::FontInstaller do
   describe "#install" do
     context "with confirmation" do
       it "installs font" do
-        no_fonts do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           formula = Fontist::Formula.find("andale mono")
           paths = described_class.new(formula).install(confirmation: "yes")
           expect(paths).to include(
@@ -20,7 +21,8 @@ RSpec.describe Fontist::FontInstaller do
 
     context "with no confirmation" do
       it "raises an licensing error" do
-        no_fonts do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           formula = Fontist::Formula.find("andale mono")
           expect { described_class.new(formula).install(confirmation: "no") }
             .to raise_error(Fontist::Errors::LicensingError)

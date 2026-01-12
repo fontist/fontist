@@ -1,0 +1,960 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.googleapis.com/webfonts/v1/webfonts?key=<GOOGLE_FONTS_API_KEY>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.googleapis.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Cache-Control:
+      - public, max-age=3600
+      Content-Length:
+      - '27693'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "kind": "webfonts#webfontList",
+          "items": [
+            {
+              "family": "ABeeZee",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v23",
+              "lastModified": "2025-09-08",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/abeezee/v23/esDR31xSG-6AGleN6tKukbcHCpE.ttf",
+                "italic": "https://fonts.gstatic.com/s/abeezee/v23/esDT31xSG-6AGleN2tCklZUCGpG-GQ.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/abeezee/v23/esDR31xSG-6AGleN2tOklQ.ttf"
+            },
+            {
+              "family": "ADLaM Display",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "adlam",
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v1",
+              "lastModified": "2025-05-30",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/adlamdisplay/v1/KFOhCnGXkPOLlhx6jD8_b1ZECsHYkYBPY3o.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/adlamdisplay/v1/KFOhCnGXkPOLlhx6jD8_b1ZEOsDSlQ.ttf"
+            },
+            {
+              "family": "AR One Sans",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v6",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aronesans/v6/TUZ0zwhrmbFp0Srr_tH6fuSaU5EP1H3r.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aronesans/v6/TUZezwhrmbFp0Srr_tH6fv6RcUejHO_u7GF5aXfv-U2QzBLF6gslWn_9PWw9mg.ttf",
+              "axes": [
+                {
+                  "tag": "ARRR",
+                  "start": 10,
+                  "end": 60
+                },
+                {
+                  "tag": "wght",
+                  "start": 400,
+                  "end": 700
+                }
+              ]
+            },
+            {
+              "family": "Abel",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin"
+              ],
+              "version": "v18",
+              "lastModified": "2025-05-30",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/abel/v18/MwQ5bhbm2POE6VhLPJp6qGI.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/abel/v18/MwQ5bhbm2POE2VlBOA.ttf"
+            },
+            {
+              "family": "Abhaya Libre",
+              "variants": [
+                "regular",
+                "500",
+                "600",
+                "700",
+                "800"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "sinhala"
+              ],
+              "version": "v18",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/abhayalibre/v18/e3tmeuGtX-Co5MNzeAOqinEge0PWovdU4w.ttf",
+                "500": "https://fonts.gstatic.com/s/abhayalibre/v18/e3t5euGtX-Co5MNzeAOqinEYj2ryqtxI6oYtBA.ttf",
+                "600": "https://fonts.gstatic.com/s/abhayalibre/v18/e3t5euGtX-Co5MNzeAOqinEYo23yqtxI6oYtBA.ttf",
+                "700": "https://fonts.gstatic.com/s/abhayalibre/v18/e3t5euGtX-Co5MNzeAOqinEYx2zyqtxI6oYtBA.ttf",
+                "800": "https://fonts.gstatic.com/s/abhayalibre/v18/e3t5euGtX-Co5MNzeAOqinEY22_yqtxI6oYtBA.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/abhayalibre/v18/e3tmeuGtX-Co5MNzeAOqinEQeknS.ttf"
+            },
+            {
+              "family": "Aboreto",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v2",
+              "lastModified": "2025-05-30",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aboreto/v2/5DCXAKLhwDDQ4N8blKTeA2yuxSY.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aboreto/v2/5DCXAKLhwDDQ4N8bpKXUBw.ttf"
+            },
+            {
+              "family": "Abril Fatface",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v25",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/abrilfatface/v25/zOL64pLDlL1D99S8g8PtiKchm-BsjOLhZBY.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/abrilfatface/v25/zOL64pLDlL1D99S8g8PtiKchq-FmiA.ttf"
+            },
+            {
+              "family": "Abyssinica SIL",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "ethiopic",
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v9",
+              "lastModified": "2025-09-10",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/abyssinicasil/v9/oY1H8ezOqK7iI3rK_45WKoc8J6UZBFOVAXuI.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/abyssinicasil/v9/oY1H8ezOqK7iI3rK_45WKoc8J5UYDlc.ttf"
+            },
+            {
+              "family": "Aclonica",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v25",
+              "lastModified": "2025-09-08",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aclonica/v25/K2FyfZJVlfNNSEBXGb7TCI6oBjLz.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aclonica/v25/K2FyfZJVlfNNSEBXGY7SAoo.ttf"
+            },
+            {
+              "family": "Acme",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin"
+              ],
+              "version": "v27",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/acme/v27/RrQfboBx-C5_bx3Lb23lzLk.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/acme/v27/RrQfboBx-C5_XxzBaw.ttf"
+            },
+            {
+              "family": "Actor",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin"
+              ],
+              "version": "v18",
+              "lastModified": "2025-09-10",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/actor/v18/wEOzEBbCkc5cO3ekXygtUMIO.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/actor/v18/wEOzEBbCkc5cO0elVSw.ttf"
+            },
+            {
+              "family": "Adamina",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin"
+              ],
+              "version": "v22",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/adamina/v22/j8_r6-DH1bjoc-dwu-reETl4Bno.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/adamina/v22/j8_r6-DH1bjoc-dwi-vUFQ.ttf"
+            },
+            {
+              "family": "Advent Pro",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v33",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/adventpro/v33/V8mAoQfxVT4Dvddr_yOwtT2nKb5ZFtI.ttf",
+                "italic": "https://fonts.gstatic.com/s/adventpro/v33/V8mCoQfxVT4Dvddr_yOwhT-tLZxcBtItFw.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/adventpro/v33/V8mqoQfxVT4Dvddr_yOwrzaFxV7JtdQgFqXdUAQrGp_zgX5sWCpLQyN_TZAs.ttf",
+              "axes": [
+                {
+                  "tag": "wdth",
+                  "start": 100,
+                  "end": 200
+                },
+                {
+                  "tag": "wght",
+                  "start": 100,
+                  "end": 900
+                }
+              ]
+            },
+            {
+              "family": "Afacad",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "cyrillic-ext",
+                "latin",
+                "latin-ext",
+                "math",
+                "symbols",
+                "vietnamese"
+              ],
+              "version": "v3",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/afacad/v3/6NUX8FKMIQOGaw6qhqYLvO0cyA.ttf",
+                "italic": "https://fonts.gstatic.com/s/afacad/v3/6NUV8FKMIQOGaw6ahKwPnugMyM1A.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/afacad/v3/6NUK8FKMIQOGaw6wjYT7ZHG_zsBBfhXtamE-9g.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 400,
+                  "end": 700
+                }
+              ]
+            },
+            {
+              "family": "Afacad Flux",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v4",
+              "lastModified": "2025-09-08",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/afacadflux/v4/9oRKNYYQryMlneUPykRmTvvzM83LHq0O.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/afacadflux/v4/9oRgNYYQryMlneUPykRmTuH4ET0fri4I5rJVT_CWHKDZnskVK5edsUwXVaVgRg.ttf",
+              "axes": [
+                {
+                  "tag": "slnt",
+                  "start": -14,
+                  "end": 14
+                },
+                {
+                  "tag": "wght",
+                  "start": 100,
+                  "end": 1000
+                }
+              ]
+            },
+            {
+              "family": "Agbalumo",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "cyrillic-ext",
+                "ethiopic",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v6",
+              "lastModified": "2025-06-25",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/agbalumo/v6/55xvey5uMdT2N37KZcMFirl08KDJ.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/agbalumo/v6/55xvey5uMdT2N37KZfMEgL0.ttf"
+            },
+            {
+              "family": "Agdasima",
+              "variants": [
+                "regular",
+                "700"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v5",
+              "lastModified": "2025-06-02",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/agdasima/v5/PN_zRfyxp2f1fUCgAMg6rzjb_-Da.ttf",
+                "700": "https://fonts.gstatic.com/s/agdasima/v5/PN_0Rfyxp2f1fUCgAPCGgBzT1PzTz2Mi.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/agdasima/v5/PN_zRfyxp2f1fUCgAPg7pTw.ttf"
+            },
+            {
+              "family": "Agu Display",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v3",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/agudisplay/v3/iJWABXKbbi6BeMC1_RX7qEXexox2ztOU.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/agudisplay/v3/iJWXBXKbbi6BeMC1_RX7qF_V5E7aciGRRWUwX4fdkKVP.ttf",
+              "axes": [
+                {
+                  "tag": "MORF",
+                  "start": 0,
+                  "end": 60
+                }
+              ]
+            },
+            {
+              "family": "Aguafina Script",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v24",
+              "lastModified": "2025-09-02",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aguafinascript/v24/If2QXTv_ZzSxGIO30LemWEOmt1bHqs4pgicOrg.ttf"
+              },
+              "category": "handwriting",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aguafinascript/v24/If2QXTv_ZzSxGIO30LemWEOmt1b3q8Qt.ttf"
+            },
+            {
+              "family": "Akatab",
+              "variants": [
+                "regular",
+                "500",
+                "600",
+                "700",
+                "800",
+                "900"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "tifinagh"
+              ],
+              "version": "v9",
+              "lastModified": "2025-09-10",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/akatab/v9/VuJwdNrK3Z7gqJEPWIz5NIh-YA.ttf",
+                "500": "https://fonts.gstatic.com/s/akatab/v9/VuJzdNrK3Z7gqJE3rKXdPKNiaRpFvg.ttf",
+                "600": "https://fonts.gstatic.com/s/akatab/v9/VuJzdNrK3Z7gqJE3gKLdPKNiaRpFvg.ttf",
+                "700": "https://fonts.gstatic.com/s/akatab/v9/VuJzdNrK3Z7gqJE35KPdPKNiaRpFvg.ttf",
+                "800": "https://fonts.gstatic.com/s/akatab/v9/VuJzdNrK3Z7gqJE3-KDdPKNiaRpFvg.ttf",
+                "900": "https://fonts.gstatic.com/s/akatab/v9/VuJzdNrK3Z7gqJE33KHdPKNiaRpFvg.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/akatab/v9/VuJwdNrK3Z7gqJE_WYb9.ttf"
+            },
+            {
+              "family": "Akaya Kanadaka",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "kannada",
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v18",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/akayakanadaka/v18/N0bM2S5CPO5oOQqvazoRRb-8-PfRS5VBBSSF.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/akayakanadaka/v18/N0bM2S5CPO5oOQqvazoRRb-8-MfQQZE.ttf"
+            },
+            {
+              "family": "Akaya Telivigala",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "telugu"
+              ],
+              "version": "v28",
+              "lastModified": "2025-09-02",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/akayatelivigala/v28/lJwc-oo_iG9wXqU3rCTD395tp0uifdLdsIH0YH8.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/akayatelivigala/v28/lJwc-oo_iG9wXqU3rCTD395tp0uiTdPXtA.ttf"
+            },
+            {
+              "family": "Akronim",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v23",
+              "lastModified": "2025-05-30",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/akronim/v23/fdN-9sqWtWZZlHRp-gBxkFYN-a8.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/akronim/v23/fdN-9sqWtWZZlHRpygF7lA.ttf"
+            },
+            {
+              "family": "Akshar",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "devanagari",
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v17",
+              "lastModified": "2025-09-08",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/akshar/v17/Yq6V-LyHWTfz9rGyoxRktOdClg.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/akshar/v17/Yq6I-LyHWTfz9rGoqDaUbHvhkAUsSXYF-9GS8w.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 300,
+                  "end": 700
+                }
+              ]
+            },
+            {
+              "family": "Aladin",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v26",
+              "lastModified": "2025-09-11",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aladin/v26/ZgNSjPJFPrvJV5f16Sf4pGT2Ng.ttf"
+              },
+              "category": "display",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aladin/v26/ZgNSjPJFPrvJV5fF6C38.ttf"
+            },
+            {
+              "family": "Alan Sans",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v1",
+              "lastModified": "2025-09-18",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alansans/v1/zOL-4pbDmq5Eu6ebjMSr6e5As-FeiQ.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alansans/v1/zOLt4pbDmq5Eu6ebjMSx4sywa339j__gfN_o9yF_iA.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 300,
+                  "end": 900
+                }
+              ]
+            },
+            {
+              "family": "Alata",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v12",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alata/v12/PbytFmztEwbIofe6xKcRQEOX.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alata/v12/PbytFmztEwbIoce7zqM.ttf"
+            },
+            {
+              "family": "Alatsi",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "cyrillic-ext",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v14",
+              "lastModified": "2025-09-10",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alatsi/v14/TK3iWkUJAxQ2nLNGHjUHte5fKg.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alatsi/v14/TK3iWkUJAxQ2nLN2Hz8D.ttf"
+            },
+            {
+              "family": "Albert Sans",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext"
+              ],
+              "version": "v4",
+              "lastModified": "2025-09-11",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/albertsans/v4/i7dOIFdwYjGaAMFtZd_QA2ZcalayGhyV.ttf",
+                "italic": "https://fonts.gstatic.com/s/albertsans/v4/i7dMIFdwYjGaAMFtZd_QA1ZeYFKQHwyVd3U.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/albertsans/v4/i7dZIFdwYjGaAMFtZd_QA3xXSKZqhr-TenSHq5PPrYfy.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 100,
+                  "end": 900
+                }
+              ]
+            },
+            {
+              "family": "Aldrich",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin"
+              ],
+              "version": "v22",
+              "lastModified": "2025-06-02",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aldrich/v22/MCoTzAn-1s3IGyJMZaAS3pP5H_E.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aldrich/v22/MCoTzAn-1s3IGyJMVaEY2g.ttf"
+            },
+            {
+              "family": "Alef",
+              "variants": [
+                "regular",
+                "700"
+              ],
+              "subsets": [
+                "hebrew",
+                "latin"
+              ],
+              "version": "v24",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alef/v24/FeVfS0NQpLYgrjJbC5FxxbU.ttf",
+                "700": "https://fonts.gstatic.com/s/alef/v24/FeVQS0NQpLYglo50L5la2bxii28.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alef/v24/FeVfS0NQpLYgnjNRDw.ttf"
+            },
+            {
+              "family": "Alegreya",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "greek-ext",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v39",
+              "lastModified": "2025-09-08",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alegreya/v39/4UaBrEBBsBhlBjvfkRLmzanB44N1.ttf",
+                "italic": "https://fonts.gstatic.com/s/alegreya/v39/4UaHrEBBsBhlBjvfkSLkx63j5pN1MwI.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alegreya/v39/4UacrEBBsBhlBjvfkQjt71kZfyBzPgNG9hU4_aqm.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 400,
+                  "end": 900
+                }
+              ]
+            },
+            {
+              "family": "Alegreya SC",
+              "variants": [
+                "regular",
+                "italic",
+                "500",
+                "500italic",
+                "700",
+                "700italic",
+                "800",
+                "800italic",
+                "900",
+                "900italic"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "greek-ext",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v26",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alegreyasc/v26/taiOGmRtCJ62-O0HhNEa-a6o05E5abe_.ttf",
+                "italic": "https://fonts.gstatic.com/s/alegreyasc/v26/taiMGmRtCJ62-O0HhNEa-Z6q2ZUbbKe_DGs.ttf",
+                "500": "https://fonts.gstatic.com/s/alegreyasc/v26/taiTGmRtCJ62-O0HhNEa-ZZc-rUxQqu2FXKD.ttf",
+                "500italic": "https://fonts.gstatic.com/s/alegreyasc/v26/taiRGmRtCJ62-O0HhNEa-Z6q4WEySK-UEGKDBz4.ttf",
+                "700": "https://fonts.gstatic.com/s/alegreyasc/v26/taiTGmRtCJ62-O0HhNEa-ZYU_LUxQqu2FXKD.ttf",
+                "700italic": "https://fonts.gstatic.com/s/alegreyasc/v26/taiRGmRtCJ62-O0HhNEa-Z6q4Sk0SK-UEGKDBz4.ttf",
+                "800": "https://fonts.gstatic.com/s/alegreyasc/v26/taiTGmRtCJ62-O0HhNEa-ZYI_7UxQqu2FXKD.ttf",
+                "800italic": "https://fonts.gstatic.com/s/alegreyasc/v26/taiRGmRtCJ62-O0HhNEa-Z6q4TU3SK-UEGKDBz4.ttf",
+                "900": "https://fonts.gstatic.com/s/alegreyasc/v26/taiTGmRtCJ62-O0HhNEa-ZYs_rUxQqu2FXKD.ttf",
+                "900italic": "https://fonts.gstatic.com/s/alegreyasc/v26/taiRGmRtCJ62-O0HhNEa-Z6q4RE2SK-UEGKDBz4.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alegreyasc/v26/taiOGmRtCJ62-O0HhNEa-Z6p2ZU.ttf"
+            },
+            {
+              "family": "Alegreya Sans",
+              "variants": [
+                "100",
+                "100italic",
+                "300",
+                "300italic",
+                "regular",
+                "italic",
+                "500",
+                "500italic",
+                "700",
+                "700italic",
+                "800",
+                "800italic",
+                "900",
+                "900italic"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "greek-ext",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v26",
+              "lastModified": "2025-09-10",
+              "files": {
+                "100": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUt9_-1phKLFgshYDvh6Vwt5TltuGdShm5bsg.ttf",
+                "100italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUv9_-1phKLFgshYDvh6Vwt7V9V3G1WpGtLsgu7.ttf",
+                "300": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUu9_-1phKLFgshYDvh6Vwt5fFPmE18imdCqxI.ttf",
+                "300italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUo9_-1phKLFgshYDvh6Vwt7V9VFE92jkVHuxKiBA.ttf",
+                "regular": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUz9_-1phKLFgshYDvh6Vwt3V1nvEVXlm4.ttf",
+                "italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUt9_-1phKLFgshYDvh6Vwt7V9tuGdShm5bsg.ttf",
+                "500": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUu9_-1phKLFgshYDvh6Vwt5alOmE18imdCqxI.ttf",
+                "500italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUo9_-1phKLFgshYDvh6Vwt7V9VTE52jkVHuxKiBA.ttf",
+                "700": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUu9_-1phKLFgshYDvh6Vwt5eFImE18imdCqxI.ttf",
+                "700italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUo9_-1phKLFgshYDvh6Vwt7V9VBEh2jkVHuxKiBA.ttf",
+                "800": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUu9_-1phKLFgshYDvh6Vwt5f1LmE18imdCqxI.ttf",
+                "800italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUo9_-1phKLFgshYDvh6Vwt7V9VGEt2jkVHuxKiBA.ttf",
+                "900": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUu9_-1phKLFgshYDvh6Vwt5dlKmE18imdCqxI.ttf",
+                "900italic": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUo9_-1phKLFgshYDvh6Vwt7V9VPEp2jkVHuxKiBA.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alegreyasans/v26/5aUz9_-1phKLFgshYDvh6Vwt7VxtuA.ttf"
+            },
+            {
+              "family": "Alegreya Sans SC",
+              "variants": [
+                "100",
+                "100italic",
+                "300",
+                "300italic",
+                "regular",
+                "italic",
+                "500",
+                "500italic",
+                "700",
+                "700italic",
+                "800",
+                "800italic",
+                "900",
+                "900italic"
+              ],
+              "subsets": [
+                "cyrillic",
+                "cyrillic-ext",
+                "greek",
+                "greek-ext",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v24",
+              "lastModified": "2025-09-16",
+              "files": {
+                "100": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGn4-RGJqfMvt7P8FUr0Q1j-Hf1Dipl8g5FPYtmMg.ttf",
+                "100italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGl4-RGJqfMvt7P8FUr0Q1j-Hf1BkxdlgRBH452Mvds.ttf",
+                "300": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGm4-RGJqfMvt7P8FUr0Q1j-Hf1DuJH0iRrMYJ_K-4.ttf",
+                "300italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGk4-RGJqfMvt7P8FUr0Q1j-Hf1BkxdXiZhNaB6O-51OA.ttf",
+                "regular": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGh4-RGJqfMvt7P8FUr0Q1j-Hf1Nk5v9ixALYs.ttf",
+                "italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGn4-RGJqfMvt7P8FUr0Q1j-Hf1Bkxl8g5FPYtmMg.ttf",
+                "500": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGm4-RGJqfMvt7P8FUr0Q1j-Hf1DrpG0iRrMYJ_K-4.ttf",
+                "500italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGk4-RGJqfMvt7P8FUr0Q1j-Hf1BkxdBidhNaB6O-51OA.ttf",
+                "700": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGm4-RGJqfMvt7P8FUr0Q1j-Hf1DvJA0iRrMYJ_K-4.ttf",
+                "700italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGk4-RGJqfMvt7P8FUr0Q1j-Hf1BkxdTiFhNaB6O-51OA.ttf",
+                "800": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGm4-RGJqfMvt7P8FUr0Q1j-Hf1Du5D0iRrMYJ_K-4.ttf",
+                "800italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGk4-RGJqfMvt7P8FUr0Q1j-Hf1BkxdUiJhNaB6O-51OA.ttf",
+                "900": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGm4-RGJqfMvt7P8FUr0Q1j-Hf1DspC0iRrMYJ_K-4.ttf",
+                "900italic": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGk4-RGJqfMvt7P8FUr0Q1j-Hf1BkxddiNhNaB6O-51OA.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alegreyasanssc/v24/mtGh4-RGJqfMvt7P8FUr0Q1j-Hf1Bk9l8g.ttf"
+            },
+            {
+              "family": "Aleo",
+              "variants": [
+                "regular",
+                "italic"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v16",
+              "lastModified": "2025-09-16",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/aleo/v16/c4mv1nF8G8_s8ArD0D1ogoY.ttf",
+                "italic": "https://fonts.gstatic.com/s/aleo/v16/c4mh1nF8G8_swAjJ1B9tkoZl_Q.ttf"
+              },
+              "category": "serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/aleo/v16/c4m61nF8G8_s6gHhIOX0IYBo_KJ3GlP8Foo.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 100,
+                  "end": 900
+                }
+              ]
+            },
+            {
+              "family": "Alex Brush",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v23",
+              "lastModified": "2025-09-11",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alexbrush/v23/SZc83FzrJKuqFbwMKk6EtUL57DtOmCc.ttf"
+              },
+              "category": "handwriting",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alexbrush/v23/SZc83FzrJKuqFbwMKk6EhUPz6A.ttf"
+            },
+            {
+              "family": "Alexandria",
+              "variants": [
+                "regular"
+              ],
+              "subsets": [
+                "arabic",
+                "latin",
+                "latin-ext",
+                "vietnamese"
+              ],
+              "version": "v6",
+              "lastModified": "2025-09-05",
+              "files": {
+                "regular": "https://fonts.gstatic.com/s/alexandria/v6/UMBXrPdDqW66y0Y2usFeWirXArM58BY.ttf"
+              },
+              "category": "sans-serif",
+              "kind": "webfonts#webfont",
+              "menu": "https://fonts.gstatic.com/s/alexandria/v6/UMBCrPdDqW66y0Y2usFeQCH18mulUxBvI9r7TpbGFps.ttf",
+              "axes": [
+                {
+                  "tag": "wght",
+                  "start": 100,
+                  "end": 900
+                }
+              ]
+            }
+          ]
+        }
+  recorded_at: Sun, 10 Nov 2025 12:00:00 GMT
+recorded_with: VCR 6.0.0

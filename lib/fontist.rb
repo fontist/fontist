@@ -62,6 +62,16 @@ module Fontist
     Fontist.fontist_path.join("downloads")
   end
 
+  def self.import_cache_path=(path)
+    @import_cache_path = Pathname.new(path) if path
+  end
+
+  def self.import_cache_path
+    @import_cache_path ||
+      (ENV["FONTIST_IMPORT_CACHE"] ? Pathname.new(ENV["FONTIST_IMPORT_CACHE"]) : nil) ||
+      Fontist.fontist_path.join("import_cache")
+  end
+
   def self.system_file_path
     Fontist.lib_path.join("fontist", "system.yml")
   end
@@ -84,6 +94,14 @@ module Fontist
 
   def self.fontist_preferred_family_index_path
     Fontist.fontist_path.join("fontist_index.preferred_family.yml")
+  end
+
+  def self.user_index_path
+    Fontist.fontist_path.join("user_index.default_family.yml")
+  end
+
+  def self.user_preferred_family_index_path
+    Fontist.fontist_path.join("user_index.preferred_family.yml")
   end
 
   def self.formula_index_path
@@ -150,6 +168,15 @@ module Fontist
     @interactive = bool
   end
 
+  def self.auto_overwrite
+    return @auto_overwrite if defined?(@auto_overwrite)
+    nil
+  end
+
+  def self.auto_overwrite=(value)
+    @auto_overwrite = value
+  end
+
   def self.google_fonts_key
     ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end
@@ -176,6 +203,9 @@ require_relative "fontist/update"
 require_relative "fontist/index"
 require_relative "fontist/indexes/font_index"
 require_relative "fontist/indexes/filename_index"
+require_relative "fontist/indexes/fontist_index"
+require_relative "fontist/indexes/user_index"
+require_relative "fontist/indexes/system_index"
 require_relative "fontist/cli"
 require_relative "fontist/font_installer"
 require_relative "fontist/fontconfig"
@@ -184,3 +214,9 @@ require_relative "fontist/formula_suggestion"
 require_relative "fontist/extract"
 require_relative "fontist/font_style"
 require_relative "fontist/font_collection"
+require_relative "fontist/import"
+require_relative "fontist/import_source"
+require_relative "fontist/macos_import_source"
+require_relative "fontist/google_import_source"
+require_relative "fontist/sil_import_source"
+require_relative "fontist/macos_framework_metadata"
