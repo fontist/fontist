@@ -69,6 +69,122 @@ legacy `ttfunk` and `extract_ttc` gems), and `marcel` for MIME type detection
 (replacing `mime-types`). These changes improve cross-platform compatibility
 and eliminate external binary dependencies.
 
+=== Prerequisites
+
+Some of Fontist's dependencies require native compilation during installation.
+The following build tools are required depending on your platform.
+
+==== Ubuntu/Debian
+
+[source,sh]
+----
+sudo apt-get install build-essential ruby-dev git
+----
+
+* `build-essential` provides `gcc` and `g++` compilers needed for native gem extensions
+* `ruby-dev` provides Ruby headers required for gem compilation
+* `git` is required for `fontist update` and `fontist repo` commands
+
+==== Fedora/RHEL/CentOS
+
+[source,sh]
+----
+sudo dnf install gcc gcc-c++ make ruby-devel git
+----
+
+For RHEL/CentOS 7 or earlier, use `yum` instead of `dnf`.
+
+==== macOS
+
+[source,sh]
+----
+xcode-select --install
+----
+
+This installs the Xcode Command Line Tools which include:
+
+* `clang` compiler (compatible with gcc/g++)
+* `git` command-line tool
+* Required headers and libraries for native gem compilation
+
+==== Windows
+
+1. Install Ruby using https://rubyinstaller.org/downloads/[RubyInstaller] *with DevKit*
+   (select the "Ruby+Devkit" version)
+
+2. After installation, run the following in a command prompt to set up MSYS2:
++
+[source,cmd]
+----
+ridk install
+----
++
+Select option 3 (MSYS2 and MINGW development toolchain) when prompted.
+
+3. Install https://git-scm.com/download/win[Git for Windows]
+
+==== Optional: Fontconfig (Linux)
+
+On Linux systems, if you want to use `fontist fontconfig update` to make Fontist
+fonts available to other applications, install fontconfig:
+
+[source,sh]
+----
+# Ubuntu/Debian
+sudo apt-get install fontconfig
+
+# Fedora/RHEL/CentOS
+sudo dnf install fontconfig
+----
+
+==== Why are build tools needed?
+
+Fontist depends on several gems that include native C/C++ extensions:
+
+[cols="1,1,2"]
+|===
+|Gem |Compiler |Purpose
+
+|`bigdecimal` (via ttfunk)
+|gcc
+|Decimal arithmetic for font metrics
+
+|`json`
+|gcc
+|JSON processing
+
+|`seven-zip` (via excavate)
+|g++
+|7z archive extraction
+
+|`libmspack` (via excavate)
+|gcc
+|CAB/CHM archive extraction
+|===
+
+NOTE: Some gems like `nokogiri` and `ffi` provide prebuilt binaries for common
+platforms, so they typically don't require compilation.
+
+==== Troubleshooting installation errors
+
+*"make: not found" or "gcc: not found"*::
+Install build tools for your platform (see sections above).
+
+*"Cannot find header files for ruby"* or *"ruby.h not found"*::
+Install Ruby development headers:
++
+* Ubuntu/Debian: `sudo apt-get install ruby-dev`
+* Fedora/RHEL: `sudo dnf install ruby-devel`
+
+*"g++: not found"* (when installing seven-zip gem)::
+Install C++ compiler:
++
+* Ubuntu/Debian: `sudo apt-get install g++`
+* macOS: `xcode-select --install`
+
+*"git: command not found"* (when running `fontist update`)::
+Install git for your platform (see sections above).
+
 
 == Using the command-line interface (CLI)
 
