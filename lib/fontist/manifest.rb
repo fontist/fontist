@@ -124,7 +124,10 @@ module Fontist
               "Manifest file could not be read: #{e.message}"
       end
 
-      manifest_model.to_response(locations: locations)
+      # Use performance optimizations for faster manifest compilation
+      with_performance_optimizations do
+        manifest_model.to_response(locations: locations)
+      end
     end
 
     def self.from_hash(data, options = {})
@@ -132,7 +135,29 @@ module Fontist
 
       model = super
 
-      model.to_response(locations: locations)
+      # Use performance optimizations for faster manifest compilation
+      with_performance_optimizations do
+        model.to_response(locations: locations)
+      end
+    end
+
+    # Enable performance optimizations for manifest compilation
+    # This includes:
+    # - Read-only mode for indexes (skip index_changed? checks)
+    # - Caching of find_styles results to avoid repeated lookups
+    def self.with_performance_optimizations
+      # Enable read-only mode on all indexes to skip index_changed? checks
+      Fontist::Indexes::FontistIndex.instance.read_only_mode
+      Fontist::Indexes::UserIndex.instance.read_only_mode
+      Fontist::Indexes::SystemIndex.instance.read_only_mode
+
+      # Enable caching for find_styles lookups
+      Fontist::SystemFont.enable_find_styles_cache
+
+      yield
+    ensure
+      # Always disable caching after the operation
+      Fontist::SystemFont.disable_find_styles_cache
     end
 
     def self.font_class
@@ -168,9 +193,12 @@ module Fontist
     def to_response(locations: false)
       return self if fonts_casted.any?(&:group_paths_empty?) && !locations
 
-      ManifestResponse.new.tap do |response|
-        response.fonts = fonts_casted.map do |font|
-          font.to_response(locations: locations)
+      # Use performance optimizations for faster manifest compilation
+      self.class.with_performance_optimizations do
+        ManifestResponse.new.tap do |response|
+          response.fonts = fonts_casted.map do |font|
+            font.to_response(locations: locations)
+          end
         end
       end
     end

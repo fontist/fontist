@@ -52,6 +52,26 @@ module Fontist
     def self.reset_font_paths_cache
       reset_system_font_paths_cache
       reset_fontist_font_paths_cache
+      reset_find_styles_cache
+    end
+
+    # Enable caching mode for find_styles lookups
+    # This caches results during a single operation (e.g., manifest compilation)
+    # to avoid repeated index lookups
+    def self.enable_find_styles_cache
+      @find_styles_cache ||= {}
+      @find_styles_cache_enabled = true
+    end
+
+    # Disable caching mode and clear the cache
+    def self.disable_find_styles_cache
+      @find_styles_cache = nil
+      @find_styles_cache_enabled = false
+    end
+
+    # Reset the find styles cache
+    def self.reset_find_styles_cache
+      @find_styles_cache = nil
     end
 
     def self.find(font)
@@ -63,6 +83,13 @@ module Fontist
 
     # This returns a SystemIndexEntry
     def self.find_styles(font, style = nil)
+      # Check cache first if enabled
+      if @find_styles_cache_enabled
+        cache_key = "#{font}:#{style}"
+        cached = @find_styles_cache[cache_key]
+        return cached.dup if cached
+      end
+
       # Search across all three indexes
       results = []
 
@@ -81,7 +108,14 @@ module Fontist
       # Remove duplicates by path and return
       return nil if results.empty?
 
-      results.uniq { |f| f.path }
+      results = results.uniq { |f| f.path }
+
+      # Cache the result if caching is enabled
+      if @find_styles_cache_enabled
+        @find_styles_cache["#{font}:#{style}"] = results.dup
+      end
+
+      results
     end
   end
 end

@@ -14,6 +14,9 @@ module Fontist
     def rebuild
       handle_class_options(options)
 
+      # Track overall timing
+      start_time = Time.now
+
       # Always create stats for progress display
       stats = Fontist::IndexStats.new
 
@@ -30,6 +33,9 @@ module Fontist
                 end
       puts Paint["Platform: ", :white] + Paint[os_name, :yellow, :bright]
       puts
+
+      # Track directory scanning time
+      scan_start = Time.now
 
       # Show directories being scanned with spinner and counts
       puts Paint["Scanning directories:", :cyan]
@@ -70,6 +76,8 @@ module Fontist
       spinner_thread.kill
       print "\r#{' ' * 80}\r"
 
+      scan_time = Time.now - scan_start
+
       # Group fonts by their parent directory
       fonts_by_dir = {}
       all_fonts.each do |font_path|
@@ -107,9 +115,14 @@ module Fontist
       puts Paint["-" * 80, :cyan]
       puts
 
+      # Track indexing time
+      indexing_start = Time.now
+
       # Always show progress during indexing
       index = Fontist::SystemIndex.system_index
       index.rebuild(verbose: true, stats: stats)
+
+      indexing_time = Time.now - indexing_start
 
       if options[:verbose]
         stats.print_summary(verbose: true)
@@ -120,7 +133,10 @@ module Fontist
         Fontist.ui.success("Index saved to: #{options[:output]}")
       end
 
-      # Show final summary with collection info
+      # Calculate total time
+      total_time = Time.now - start_time
+
+      # Show final summary with collection info and timing
       total_indexed = index.fonts.size
       collection_fonts = total_indexed - total_font_files
 
@@ -138,6 +154,14 @@ module Fontist
                                    :cyan] + Paint[" (.ttc/.otc files)", :black,
                                                   :bright]
       end
+      puts Paint["-" * 80, :cyan]
+      puts Paint["⏱ Timing:", :cyan, :bright]
+      puts Paint["  Directory scanning: ",
+                 :white] + Paint["#{scan_time.round(2)}s", :yellow]
+      puts Paint["  Font indexing:       ",
+                 :white] + Paint["#{indexing_time.round(2)}s", :yellow]
+      puts Paint["  Total time:          ",
+                 :white] + Paint["#{total_time.round(2)}s", :green, :bright]
 
       CLI::STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
@@ -208,6 +232,91 @@ module Fontist
         Fontist.ui.success("System font index cleared: #{index_path}")
       else
         Fontist.ui.say("System font index does not exist")
+      end
+
+      CLI::STATUS_SUCCESS
+    rescue Fontist::Errors::GeneralError => e
+      Fontist.ui.error(e.message)
+      CLI::STATUS_UNKNOWN_ERROR
+    end
+
+    desc "update", "Update system font index incrementally (checks for changes)"
+    option :verbose, type: :boolean, aliases: :v,
+                     desc: "Show detailed progress and statistics"
+    def update
+      handle_class_options(options)
+
+      start_time = Time.now
+
+      puts Paint["Updating system font index incrementally...", :cyan, :bright]
+      puts Paint["-" * 80, :cyan]
+
+      # Get the system index
+      index = Fontist::SystemIndex.system_index
+
+      # Check if index exists
+      unless File.exist?(Fontist.system_index_path)
+        Fontist.ui.say("System font index does not exist")
+        Fontist.ui.say("Run 'fontist index rebuild' to create it")
+        return CLI::STATUS_UNKNOWN_ERROR
+      end
+
+      # Get initial stats
+      initial_font_count = index.fonts&.size || 0
+      index_mtime_before = File.mtime(Fontist.system_index_path)
+
+      puts Paint["Initial font count: ", :white] + Paint[initial_font_count.to_s, :yellow]
+      puts Paint["Last updated: ", :white] + Paint[index_mtime_before.strftime("%Y-%m-%d %H:%M:%S"), :green]
+      puts
+
+      # Track the update operation
+      update_start = Time.now
+
+      # Force a rebuild to see what has changed
+      # This will trigger index_changed? checks and show if it needs a full scan
+      stats = Fontist::IndexStats.new if options[:verbose]
+
+      # Reset verification to force re-check
+      index.reset_verification!
+
+      # Access the index to trigger update if needed
+      updated_index = index.index
+
+      update_time = Time.now - update_start
+
+      # Get final stats
+      final_font_count = updated_index.size
+      index_mtime_after = File.exist?(Fontist.system_index_path) ? File.mtime(Fontist.system_index_path) : index_mtime_before
+      was_updated = index_mtime_after > index_mtime_before
+
+      total_time = Time.now - start_time
+
+      # Show results
+      puts
+      if was_updated
+        puts Paint["✓ System font index updated", :green, :bright]
+      else
+        puts Paint["No changes detected", :yellow]
+      end
+
+      puts Paint["-" * 80, :cyan]
+      puts Paint["⏱ Timing:", :cyan, :bright]
+      puts Paint["  Update check: ", :white] + Paint["#{update_time.round(2)}s", :yellow]
+      puts Paint["  Total time:   ", :white] + Paint["#{total_time.round(2)}s", :green, :bright]
+      puts Paint["-" * 80, :cyan]
+      puts Paint["Fonts:", :cyan, :bright]
+      puts Paint["  Before: ", :white] + Paint[initial_font_count.to_s, :yellow]
+      puts Paint["  After:  ", :white] + Paint[final_font_count.to_s, :yellow]
+      if final_font_count != initial_font_count
+        diff = final_font_count - initial_font_count
+        diff_str = diff > 0 ? "+#{diff}" : "#{diff}"
+        diff_color = diff > 0 ? :green : (diff < 0 ? :red : :yellow)
+        puts Paint["  Change: ", :white] + Paint[diff_str, diff_color]
+      end
+
+      if options[:verbose] && stats
+        puts
+        stats.print_summary(verbose: true)
       end
 
       CLI::STATUS_SUCCESS

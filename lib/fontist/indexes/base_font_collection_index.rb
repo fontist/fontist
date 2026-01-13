@@ -42,6 +42,15 @@ module Fontist
         @collection.find(font_name, style)
       end
 
+      # Enable read-only mode for operations that don't need index rebuilding
+      # This is used during manifest compilation to avoid expensive index checks
+      #
+      # @return [self] Returns self for chaining
+      def read_only_mode
+        @collection.read_only_mode
+        self
+      end
+
       # Returns all fonts in the index
       #
       # @return [Array<SystemIndexFont>] All indexed fonts

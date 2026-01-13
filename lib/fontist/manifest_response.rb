@@ -14,9 +14,7 @@ module Fontist
     end
 
     def to_hash
-      result = super
-      $stderr.puts "[DEBUG] ManifestResponseFontStyle#to_hash: keys=#{result.keys.inspect} (#{result.keys.first.class}) content=#{result.inspect}"
-      result
+      super
     end
   end
 

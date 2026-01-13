@@ -214,12 +214,28 @@ module Fontist
     end
 
     def index
+      # Fast path: if read_only mode is set, skip index_changed? check entirely
+      return fonts if @read_only_mode
+
       return fonts unless index_changed?
+
+      # Notify user about index rebuild for large collections
+      paths = @paths_loader&.call || []
+      if paths.size > 100
+        Fontist.ui.say("Building font index (#{paths.size} fonts found, this may take a while...)") unless @verbose
+      end
 
       build
       check_index
 
       fonts
+    end
+
+    # Enable read-only mode for operations that don't need index rebuilding
+    # This is used during manifest compilation to avoid expensive index checks
+    def read_only_mode
+      @read_only_mode = true
+      self
     end
 
     def index_changed?
@@ -314,6 +330,7 @@ module Fontist
     def rebuild_with_lock(verbose: false, stats: nil)
       # Use file locking to prevent concurrent rebuilds across processes
       lock_path = index_lock_path
+      start_time = Time.now
 
       lock(lock_path) do
         # Re-check if another process already rebuilt while we waited for lock
@@ -345,6 +362,13 @@ module Fontist
         self.last_scan_time = Time.now.to_i
         self.directory_mtimes = scan_directory_mtimes.map { |k, v| "#{k}:#{v}" }
         to_file(@path)
+
+        # Show completion message for large collections
+        elapsed = Time.now - start_time
+        font_count = fonts&.size || 0
+        if font_count > 100
+          Fontist.ui.say("Font index built: #{font_count} fonts indexed in #{elapsed.round(1)}s")
+        end
       end
 
       self
@@ -484,16 +508,23 @@ stats:)
       processed_count = 0
       spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
 
+      # Show minimal progress for large collections even in non-verbose mode
+      show_minimal_progress = !verbose && sorted_paths.size > 100
+      progress_interval = sorted_paths.size > 1000 ? 100 : 50
+
       results = Parallel.map(sorted_paths, in_threads: num_cores) do |path|
         cached = existing_fonts_by_path[path]
         result = detect_font_with_cache(path, cached, stats: stats)
 
         # Update progress (thread-safe)
-        if verbose && stats
-          progress_mutex.synchronize do
-            processed_count += 1
+        progress_mutex.synchronize do
+          processed_count += 1
+          if verbose && stats
             display_progress(processed_count, sorted_paths.size, path,
                              spinner_chars)
+          elsif show_minimal_progress && (processed_count % progress_interval == 0 || processed_count == sorted_paths.size)
+            # Show minimal progress every N fonts or at the end
+            Fontist.ui.say("Scanning fonts: #{processed_count}/#{sorted_paths.size}...")
           end
         end
 
@@ -509,10 +540,17 @@ verbose:, stats:)
       spinner_chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
       spinner_index = 0
 
+      # Show minimal progress for large collections even in non-verbose mode
+      show_minimal_progress = !verbose && sorted_paths.size > 100
+      progress_interval = sorted_paths.size > 1000 ? 100 : 50
+
       results = sorted_paths.flat_map.with_index do |path, index|
         if verbose && stats
           display_progress(index + 1, sorted_paths.size, path, spinner_chars,
                            spinner_index)
+        elsif show_minimal_progress && ((index + 1) % progress_interval == 0 || index == sorted_paths.size - 1)
+          # Show minimal progress every N fonts or at the end
+          Fontist.ui.say("Scanning fonts: #{index + 1}/#{sorted_paths.size}...")
         end
         spinner_index += 1
 

@@ -28,10 +28,26 @@ module Fontist
     end
 
     desc "locations MANIFEST", "Get locations of fonts from MANIFEST (yaml)"
+    option :show_timing, type: :boolean, aliases: :t,
+                         desc: "Show timing information for manifest resolution"
     def locations(manifest)
       handle_class_options(options)
+
+      start_time = Time.now
+
       paths = Fontist::Manifest.from_file(manifest, locations: true)
+
+      resolve_time = Time.now - start_time
+
       print_yaml(paths.to_hash)
+
+      if options[:show_timing]
+        puts
+        puts Paint["⏱ Timing:", :cyan, :bright]
+        puts Paint["  Manifest resolution time: ", :white] + Paint["#{resolve_time.round(3)}s", :yellow, :bright]
+        puts Paint["  Fonts in manifest:         ", :white] + Paint[paths.fonts.size.to_s, :yellow]
+      end
+
       CLI::STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)

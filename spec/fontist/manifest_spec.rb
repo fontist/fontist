@@ -184,4 +184,86 @@ RSpec.describe Fontist::Manifest do
       end
     end
   end
+
+  describe "performance optimizations" do
+    include_context "fresh home"
+    before { example_formula("andale.yml") }
+
+    describe ".with_performance_optimizations" do
+      it "enables read-only mode on all indexes" do
+        expect(Fontist::Indexes::FontistIndex.instance).to receive(:read_only_mode).and_call_original
+        expect(Fontist::Indexes::UserIndex.instance).to receive(:read_only_mode).and_call_original
+        expect(Fontist::Indexes::SystemIndex.instance).to receive(:read_only_mode).and_call_original
+
+        described_class.with_performance_optimizations do
+          # Just verify the mode was enabled
+        end
+      end
+
+      it "enables caching for find_styles lookups" do
+        expect(Fontist::SystemFont).to receive(:enable_find_styles_cache).and_call_original
+        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).and_call_original
+
+        described_class.with_performance_optimizations do
+          # Just verify caching was enabled
+        end
+      end
+
+      it "disables caching after execution even if error occurs" do
+        # Enable caching before the test
+        Fontist::SystemFont.enable_find_styles_cache
+        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).and_call_original
+
+        begin
+          described_class.with_performance_optimizations do
+            raise "Test error"
+          end
+        rescue RuntimeError => e
+          expect(e.message).to eq("Test error")
+        end
+
+        # Verify caching was disabled despite the error
+        expect(Fontist::SystemFont.instance_variable_get(:@find_styles_cache_enabled)).to be false
+      end
+    end
+
+    describe "manifest compilation with optimizations" do
+      it "uses performance optimizations during from_file" do
+        manifest_path = File.join("spec", "examples", "manifests", "mscorefonts.yml")
+
+        expect(described_class).to receive(:with_performance_optimizations).and_call_original
+
+        described_class.from_file(manifest_path)
+      end
+
+      it "uses performance optimizations during from_hash" do
+        manifest = { "Andale Mono" => "Regular" }
+
+        expect(described_class).to receive(:with_performance_optimizations).and_call_original
+
+        described_class.from_hash(manifest)
+      end
+
+      it "uses performance optimizations during to_response" do
+        no_fonts do
+          # Create a manifest object without going through from_hash
+          # to avoid consuming the optimization in from_hash
+          manifest = described_class.from_yaml({ "Andale Mono" => "Regular" }.to_yaml)
+
+          # Install the font first so that to_response doesn't short-circuit
+          # (to_response returns early if fonts aren't installed)
+          example_font_to_fontist("AndaleMo.TTF")
+
+          # Now test that to_response also uses optimizations
+          # We verify this by checking that read_only_mode is enabled on the index
+          # which is set by with_performance_optimizations
+          expect(Fontist::Indexes::FontistIndex.instance).to receive(:read_only_mode).and_call_original
+          expect(Fontist::Indexes::UserIndex.instance).to receive(:read_only_mode).and_call_original
+          expect(Fontist::Indexes::SystemIndex.instance).to receive(:read_only_mode).and_call_original
+
+          manifest.to_response
+        end
+      end
+    end
+  end
 end
