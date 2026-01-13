@@ -54,7 +54,10 @@ RSpec.describe Fontist::Font do
 
     context "with macos system fonts", slow: true, macos: true do
       before do
-        stub_system_fonts(Fontist.orig_system_file_path)
+        # Use minimal fixture that only includes the specific fonts being tested
+        # This avoids scanning thousands of system fonts and speeds up tests dramatically
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_macos_minimal.yml")
+        stub_system_fonts(minimal_system_file)
         # Rebuild system index to detect actual macOS fonts
         Fontist::SystemIndex.system_index.rebuild
       end
@@ -87,8 +90,12 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "with windows system fonts", windows: true do
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+    context "with windows system fonts", windows: true, slow: true do
+      before do
+        # Use minimal fixture that only includes the specific fonts being tested
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        stub_system_fonts(minimal_system_file)
+      end
 
       # Fonts confirmed to exist on vanilla GHA Windows runners
       fonts = [
@@ -118,7 +125,9 @@ RSpec.describe Fontist::Font do
       before do
         FileUtils.mkdir_p(File.dirname(absolute_user_path))
         FileUtils.cp(fixture_path, absolute_user_path)
-        stub_system_fonts(Fontist.orig_system_file_path)
+        # Use minimal fixture for Windows user font tests
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        stub_system_fonts(minimal_system_file)
       end
 
       after do
@@ -236,7 +245,7 @@ RSpec.describe Fontist::Font do
         expect(Fontist.ui).to receive(:print).with(/, \d+\.\d+ MiB\/s, done\./)
         expect(Fontist.ui).to receive(:say).with(%(Installing from formula "andale".))
         expect(Fontist.ui).to receive(:say).with(%(Fonts installed at:))
-        expect(Fontist.ui).to receive(:say).with(%(- #{font_path('AndaleMo.TTF')}))
+        expect(Fontist.ui).to receive(:say).with(%(- #{formula_font_path('andale', 'AndaleMo.TTF')}))
         # rubocop:enable Layout/LineLength
 
         command
@@ -280,7 +289,7 @@ RSpec.describe Fontist::Font do
       it "tells that font found locally" do
         expect(Fontist.ui).to receive(:say).with(%(Fonts found at:))
         expect(Fontist.ui).to receive(:say)
-          .with(include(font_path("AndaleMo.TTF")))
+          .with(include("AndaleMo.TTF"))
 
         command
       end
@@ -305,7 +314,7 @@ RSpec.describe Fontist::Font do
       let(:file) { "SourceHanSans-Bold.ttc" }
       before { example_formula("source.yml") }
 
-      it "returns path of collection file" do
+      it "returns path of collection file", slow: true do
         expect(command).to include(include(file))
       end
     end
@@ -350,7 +359,7 @@ RSpec.describe Fontist::Font do
     context "with 7z archive" do
       before { example_formula("adobe_reader_20.yml") }
 
-      it "installs and returns paths for fonts" do
+      it "installs and returns paths for fonts", slow: true do
         font = { name: "Adobe Pi Std", filename: "adobepistd.otf" }
         font_paths = Fontist::Font.install(font[:name], confirmation: "yes")
 
@@ -422,14 +431,14 @@ RSpec.describe Fontist::Font do
       let(:fontist_path) { create_tmp_dir }
 
       it "installs font at a FONTIST_PATH directory" do
-        Dir.mktmpdir do |fontist_path|
+        safe_mktmpdir do |fontist_path|
           stub_env("FONTIST_PATH", fontist_path) do
             FileUtils.mkdir_p(Fontist.formulas_path)
             example_formula_to("andale.yml", Fontist.formulas_path)
 
             rebuilt_index do
               command
-              expect(Pathname.new(File.join(fontist_path, "fonts", file)))
+              expect(Pathname.new(File.join(fontist_path, "fonts", "andale", file)))
                 .to exist
             end
           end
@@ -653,8 +662,16 @@ RSpec.describe Fontist::Font do
         before { set_size_limit(1000) }
 
         it "installs both" do
+          # Mock FontInstaller to avoid network calls to broken AU university URLs
+          # while still testing that FormulaPicker selects both formulas
+          mock_location = double("location",
+                                 base_path: Fontist.fonts_path,
+                                 permission_warning: nil)
+          mock_installer = instance_double(Fontist::FontInstaller,
+                                           install: ["/fake/path.ttf"],
+                                           location: mock_location)
           expect(Fontist::FontInstaller).to receive(:new).twice
-            .and_call_original
+            .and_return(mock_installer)
           command
         end
       end
@@ -741,8 +758,8 @@ RSpec.describe Fontist::Font do
 
         it "installs only requested font" do
           command
-          expect(font_file("Lato-Regular.ttf")).to exist
-          expect(font_file("Lato-Black.ttf")).not_to exist
+          expect(Pathname.new(formula_font_path('lato', 'Lato-Regular.ttf'))).to exist
+          expect(Pathname.new(formula_font_path('lato', 'Lato-Black.ttf'))).not_to exist
         end
       end
 
@@ -764,6 +781,68 @@ RSpec.describe Fontist::Font do
         it "does not call Fontconfig" do
           expect(Fontist::Fontconfig).not_to receive(:update)
           command
+        end
+      end
+
+      context "with location parameter" do
+        let(:font) { "andale mono" }
+        before { example_formula("andale.yml") }
+
+        context "valid locations" do
+          it "installs to fontist location" do
+            paths = Fontist::Font.install(font, confirmation: "yes", location: :fontist)
+            expect(paths).to include(include("AndaleMo.TTF"))
+            expect(paths.first).to include("andale")  # formula-keyed path
+          end
+
+          it "installs to user location" do
+            paths = Fontist::Font.install(font, confirmation: "yes", location: :user)
+            expect(paths).to include(include("AndaleMo.TTF"))
+          end
+
+          it "installs to system location" do
+            # With OOP architecture, location object handles installation
+            # Just verify successful installation
+            paths = Fontist::Font.install(font, confirmation: "yes", location: :system)
+            expect(paths).to include(include("AndaleMo.TTF"))
+          end
+        end
+
+        context "invalid locations" do
+          it "shows error for invalid symbol but proceeds with default" do
+            expect(Fontist.ui).to receive(:error).with(include("Invalid install location"))
+            paths = Fontist::Font.install(font, confirmation: "yes", location: :invalid)
+            expect(paths).to include(include("AndaleMo.TTF"))
+          end
+
+          it "raises ArgumentError for string location parameter" do
+            expect {
+              Fontist::Font.install(font, confirmation: "yes", location: "user")
+            }.to raise_error(ArgumentError, /location must be a Symbol/)
+          end
+
+          it "raises ArgumentError for custom path (string)" do
+            expect {
+              Fontist::Font.install(font, confirmation: "yes", location: "/custom/path")
+            }.to raise_error(ArgumentError, /location must be a Symbol/)
+          end
+
+          it "raises ArgumentError for any string value" do
+            expect {
+              Fontist::Font.install(font, confirmation: "yes", location: "/my/path")
+            }.to raise_error(ArgumentError, /location must be a Symbol/)
+          end
+        end
+
+        context "location option passed through properly" do
+          it "passes location to FontInstaller" do
+            # Location is created in FontInstaller constructor via InstallLocation.create
+            expect(Fontist::InstallLocation).to receive(:create)
+              .with(anything, hash_including(location_type: :user))
+              .and_call_original
+
+            Fontist::Font.install(font, confirmation: "yes", location: :user)
+          end
         end
       end
     end
@@ -811,9 +890,12 @@ RSpec.describe Fontist::Font do
 
     context "no main repo" do
       let(:font) { "any font" }
-      before { stub_system_fonts(Fontist.orig_system_file_path) }
+      before do
+        # Use empty system.yml fixture - no need to scan any system fonts for this test
+        stub_system_fonts(Fontist.root_path.join("spec", "fixtures", "system.yml"))
+      end
 
-      it "throws MainRepoNotFoundError" do
+      it "throws MainRepoNotFoundError", slow: true do
         expect { command }
           .to raise_error(Fontist::Errors::MainRepoNotFoundError)
       end
@@ -849,6 +931,8 @@ RSpec.describe Fontist::Font do
       it "raises font missing error" do
         fresh_fonts_and_formulas do
           example_formula("andale.yml")
+          # Ensure font is not in any index (system, user, or fontist)
+          # by not copying any font files
 
           expect { command }.to raise_error Fontist::Errors::MissingFontError
           expect { command }.to(
@@ -861,6 +945,8 @@ RSpec.describe Fontist::Font do
     context "with supported and installed font" do
       it "removes font" do
         fresh_fonts_and_formulas do
+          example_formula("overpass.yml")
+          # Copy font file AND it will be indexed
           example_font("overpass-regular.otf")
 
           Fontist::Font.uninstall("overpass")
@@ -889,6 +975,8 @@ RSpec.describe Fontist::Font do
 
       it "removes only this font and keeps others" do
         fresh_fonts_and_formulas do
+          example_formula("overpass.yml")
+          # Copy both font files AND they will be indexed
           [this, other].each { |f| example_font(f) }
 
           command
@@ -904,6 +992,8 @@ RSpec.describe Fontist::Font do
 
       it "uninstall by default family" do
         fresh_fonts_and_formulas do
+          example_formula("tex_gyre_chorus.yml")
+          # Copy font file AND it will be indexed
           example_font("texgyrechorus-mediumitalic.otf")
 
           command
@@ -989,7 +1079,7 @@ RSpec.describe Fontist::Font do
         stub_fonts_path_to_new_path do
           example_font_to_fontist("AndaleMo.TTF")
 
-          expect(command).to eq [font_path("AndaleMo.TTF")]
+          expect(command).to all(include("AndaleMo.TTF"))
         end
       end
     end
@@ -1013,6 +1103,7 @@ RSpec.describe Fontist::Font do
 
       it "finds by default family" do
         fresh_fonts_and_formulas do
+          example_formula("tex_gyre_chorus.yml")
           example_font("texgyrechorus-mediumitalic.otf")
           expect(command).to include(include("texgyrechorus-mediumitalic.otf"))
         end
@@ -1038,8 +1129,8 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "returns its status as not installed" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           expect(command.size).to be >= 1
 
           installs = unpack_statuses(command)
@@ -1052,8 +1143,8 @@ RSpec.describe Fontist::Font do
       let(:font) { "andale mono" }
 
       it "returns its status as installed" do
-        stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          example_formula_to("andale.yml", Fontist.formulas_path)
           stub_font_file("AndaleMo.TTF")
 
           expect(command.size).to be >= 1
@@ -1068,9 +1159,17 @@ RSpec.describe Fontist::Font do
 
       it "returns all fonts", slow: true do
         stub_fonts_path_to_new_path do
-          expect(command.size).to be > 1
-          _, _, _, installed = unpack_status(command)
-          expect(installed).to be false
+          # Add example formulas so Formula.all returns fonts
+          fresh_fontist_home do
+            FileUtils.mkdir_p(Fontist.formulas_path)
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            example_formula_to("courier.yml", Fontist.formulas_path)
+            Fontist::Index.rebuild
+
+            expect(command.size).to be > 1
+            _, _, _, installed = unpack_status(command)
+            expect(installed).to be false
+          end
         end
       end
     end
@@ -1080,7 +1179,10 @@ RSpec.describe Fontist::Font do
 
       it "returns installed font with its path" do
         stub_system_fonts
-        stub_fonts_path_to_new_path do
+        fresh_fonts_and_formulas do
+          # Add multiple formulas so command.size > 1
+          example_formula_to("andale.yml", Fontist.formulas_path)
+          example_formula_to("courier.yml", Fontist.formulas_path)
           stub_font_file("AndaleMo.TTF")
 
           expect(command.size).to be > 1

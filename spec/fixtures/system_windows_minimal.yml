@@ -1,0 +1,17 @@
+system:
+  linux:
+    paths: []
+
+  windows:
+    paths:
+      # Minimal test set - only the specific fonts being tested
+      - C:/Windows/Fonts/arial.ttf
+      - C:/Windows/Fonts/cambria.ttc
+      - C:/Windows/Fonts/calibri.ttf
+      - C:/Windows/Fonts/segoeui.ttf
+
+  macos:
+    paths: []
+
+  unix:
+    paths: []

@@ -17,7 +17,7 @@ VCR.configure do |config|
     ENV["GOOGLE_FONTS_API_KEY"]
   end
 
-  # Additional filtering for URL-encoded API keys
+  # Additional filtering for URL-encoded API keys and Windows path normalization
   config.before_record do |interaction|
     if ENV["GOOGLE_FONTS_API_KEY"]
       key = ENV["GOOGLE_FONTS_API_KEY"]
@@ -28,6 +28,17 @@ VCR.configure do |config|
       encoded_key = CGI.escape(key)
       interaction.request.uri.gsub!(/key=#{Regexp.escape(encoded_key)}/,
                                     "key=<GOOGLE_FONTS_API_KEY>")
+    end
+
+    # Normalize Windows paths to forward slashes for cross-platform cassettes
+    if Fontist::Utils::System.user_os == :windows
+      # Normalize request URI paths
+      interaction.request.uri.gsub!('\\', '/') if interaction.request.uri
+
+      # Normalize response body paths if it's a string
+      if interaction.response.body.is_a?(String)
+        interaction.response.body.gsub!('\\', '/')
+      end
     end
   end
 end

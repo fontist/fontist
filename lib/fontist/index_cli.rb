@@ -53,14 +53,18 @@ module Fontist
       end
 
       # Actually glob to find all font files (system fonts)
+      # Uses lowercase extensions since font files are normalized to
+      # lowercase extensions during installation for cross-platform consistency
       expanded_paths.each do |pattern|
         all_fonts.concat(Dir.glob(pattern).select { |f| File.file?(f) })
       end
 
       # Add fontist-managed fonts
-      fontist_pattern = File.join(Fontist.fonts_path.to_s, "**",
-                                  "*.{ttf,ttc,otf,otc}")
-      fontist_fonts = Dir.glob(fontist_pattern).select { |f| File.file?(f) }
+      # Uses case-insensitive glob patterns that work on all platforms,
+      # including Linux where File::FNM_CASEFOLD is ignored
+      fontist_patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+      fontist_fonts = fontist_patterns.flat_map { |pattern| Dir.glob(pattern) }
+                                      .select { |f| File.file?(f) }
       all_fonts.concat(fontist_fonts)
 
       spinner_thread.kill

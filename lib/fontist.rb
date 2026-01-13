@@ -96,6 +96,14 @@ module Fontist
     Fontist.fontist_path.join("fontist_index.preferred_family.yml")
   end
 
+  def self.user_index_path
+    Fontist.fontist_path.join("user_index.default_family.yml")
+  end
+
+  def self.user_preferred_family_index_path
+    Fontist.fontist_path.join("user_index.preferred_family.yml")
+  end
+
   def self.formula_index_path
     Fontist.formula_index_dir.join("formula_index.default_family.yml")
   end
@@ -160,6 +168,15 @@ module Fontist
     @interactive = bool
   end
 
+  def self.auto_overwrite
+    return @auto_overwrite if defined?(@auto_overwrite)
+    nil
+  end
+
+  def self.auto_overwrite=(value)
+    @auto_overwrite = value
+  end
+
   def self.google_fonts_key
     ENV["GOOGLE_FONTS_API_KEY"] || config[:google_fonts_key]
   end
@@ -186,6 +203,9 @@ require_relative "fontist/update"
 require_relative "fontist/index"
 require_relative "fontist/indexes/font_index"
 require_relative "fontist/indexes/filename_index"
+require_relative "fontist/indexes/fontist_index"
+require_relative "fontist/indexes/user_index"
+require_relative "fontist/indexes/system_index"
 require_relative "fontist/cli"
 require_relative "fontist/font_installer"
 require_relative "fontist/fontconfig"

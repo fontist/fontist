@@ -31,6 +31,12 @@ module Fontist
         def rebuild_with_formulas(formulas)
           new.build_with_formulas(formulas)
         end
+
+        def reset_cache
+          # Delete the index file to force rebuild on next access
+          # This is important for tests to ensure clean state
+          File.delete(path) if File.exist?(path)
+        end
       end
 
       def build

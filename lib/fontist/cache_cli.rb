@@ -20,7 +20,7 @@ module Fontist
 
       if Dir.exist?(cache_path)
         size = calculate_size(cache_path)
-        FileUtils.rm_rf(cache_path)
+        Fontist::Utils::FileOps.safe_rm_rf(cache_path)
         Fontist.ui.success("Import cache cleared: #{format_size(size)}")
       else
         Fontist.ui.say("Import cache is already empty")

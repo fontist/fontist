@@ -24,3 +24,5 @@ Gemfile.lock
 
 # VS Code
 .vscode
+.kilocode
+.claude

@@ -1,0 +1,18 @@
+system:
+  linux:
+    paths: []
+
+  windows:
+    paths: []
+
+  macos:
+    paths:
+      # Minimal test set - only the specific fonts being tested
+      - /System/Library/Fonts/Apple Braille Outline 6 Dot.ttf
+      - /System/Library/Fonts/Apple Symbols.ttf
+      - /System/Library/Fonts/Courier.ttc
+      - /System/Library/Fonts/Helvetica.ttc
+      - /System/Library/Fonts/Times.ttc
+
+  unix:
+    paths: []

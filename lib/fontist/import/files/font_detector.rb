@@ -5,10 +5,15 @@ module Fontist
     module Files
       class FontDetector
         # Font format to extension mapping
+        # Only used when file extension is not a recognized platform-specific format
         FONT_EXTENSIONS = {
           "truetype" => "ttf",
           "cff" => "otf",
         }.freeze
+
+        # Platform-specific font extensions that should be preserved as-is
+        # These are valid font containers that don't need conversion
+        PLATFORM_SPECIFIC_EXTENSIONS = %w[dfont otc].freeze
 
         class << self
           def detect(path, error_collector: nil)
@@ -26,10 +31,14 @@ module Fontist
           end
 
           def standard_extension(path, error_collector: nil)
+            # Check if file has a platform-specific extension that should be preserved
+            file_ext = File.extname(path).sub(/^\./, "").downcase
+            return file_ext if PLATFORM_SPECIFIC_EXTENSIONS.include?(file_ext)
+
             info = brief_info(path, error_collector: error_collector)
             return nil unless info
 
-            # For collections, always use ttc
+            # For collections, always use ttc unless it has a platform-specific extension
             if collection_info?(info)
               return "ttc"
             end
@@ -40,7 +49,7 @@ module Fontist
             return extension if extension
 
             # Fallback to file extension if format unknown
-            File.extname(path).sub(/^\./, "").downcase
+            file_ext
           rescue StandardError
             raise Errors::UnknownFontTypeError.new(path)
           end

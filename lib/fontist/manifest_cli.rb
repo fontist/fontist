@@ -9,12 +9,17 @@ module Fontist
     option :hide_licenses, type: :boolean,
                            aliases: :h,
                            desc: "Hide license texts"
+    option :location,
+           type: :string, aliases: :l,
+           enum: ["fontist", "user", "system"],
+           desc: "Install location: fontist (default), user, system"
     def install(manifest)
       handle_class_options(options)
       instance = Fontist::Manifest.from_file(manifest)
       paths = instance.install(
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
         hide_licenses: options[:hide_licenses],
+        location: options[:location]&.to_sym,
       )
       print_yaml(paths.to_hash)
       CLI::STATUS_SUCCESS

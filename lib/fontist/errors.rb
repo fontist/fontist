@@ -157,5 +157,45 @@ module Fontist
         "cannot be installed on your system."
       end
     end
+
+    class UnsupportedMacOSVersionError < GeneralError
+      def initialize(detected_version, available_frameworks)
+        super(build_message(detected_version, available_frameworks))
+      end
+
+      private
+
+      def build_message(version, frameworks)
+        <<~MSG
+          Unsupported macOS version: #{version}
+
+          Your macOS version is not supported by any font framework.
+
+          Supported frameworks:
+          #{format_frameworks(frameworks)}
+
+          Options:
+
+          1. Override platform (if you know your framework):
+             export FONTIST_PLATFORM_OVERRIDE="macos-font<N>"
+             Example: export FONTIST_PLATFORM_OVERRIDE="macos-font7"
+
+          2. Install to Fontist library (works with any override):
+             fontist install "Font Name" --macos-fonts-location=fontist-library
+
+          Note: Non-macOS-platform-tagged fonts work normally.
+
+          Report issues: https://github.com/fontist/fontist/issues
+        MSG
+      end
+
+      def format_frameworks(frameworks)
+        frameworks.map do |num, meta|
+          min = meta["min_macos_version"]
+          max = meta["max_macos_version"] || "+"
+          "  Font#{num}: #{min}-#{max} (#{meta['description']})"
+        end.join("\n")
+      end
+    end
   end
 end

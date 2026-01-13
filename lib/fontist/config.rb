@@ -11,6 +11,9 @@ module Fontist
     attribute :preferred_family, :boolean
     attribute :update_fontconfig, :boolean
     attribute :no_progress, :boolean
+    attribute :fonts_install_location, :string
+    attribute :user_fonts_path, :string
+    attribute :system_fonts_path, :string
 
     key_value do
       map "fonts_path", to: :fonts_path
@@ -22,6 +25,9 @@ module Fontist
       map "preferred_family", to: :preferred_family
       map "update_fontconfig", to: :update_fontconfig
       map "no_progress", to: :no_progress
+      map "fonts_install_location", to: :fonts_install_location
+      map "user_fonts_path", to: :user_fonts_path
+      map "system_fonts_path", to: :system_fonts_path
     end
 
     class << self
@@ -58,6 +64,74 @@ module Fontist
 
         content = File.read(path)
         from_yaml(content)
+      end
+
+      # Gets fonts installation location
+      # Priority: ENV > config file > default ("fontist")
+      #
+      # @return [Symbol] :fontist, :user, or :system
+      def fonts_install_location
+        value = ENV["FONTIST_INSTALL_LOCATION"] ||
+                instance.custom_values[:fonts_install_location] ||
+                "fontist"
+
+        parse_location_value(value)
+      end
+
+      # Sets fonts installation location in config file
+      #
+      # @param location [String, Symbol] "fontist", "user", "system", or symbols
+      def set_fonts_install_location(location)
+        normalized = normalize_location_value(location)
+        instance.set(:fonts_install_location, normalized)
+      end
+
+      # Gets user fonts path
+      # Priority: ENV > config file > nil (use default in InstallLocation)
+      #
+      # @return [String, nil] User fonts path or nil for default
+      def user_fonts_path
+        ENV["FONTIST_USER_FONTS_PATH"] ||
+          instance.custom_values[:user_fonts_path]
+      end
+
+      # Gets system fonts path
+      # Priority: ENV > config file > nil (use default in InstallLocation)
+      #
+      # @return [String, nil] System fonts path or nil for default
+      def system_fonts_path
+        ENV["FONTIST_SYSTEM_FONTS_PATH"] ||
+          instance.custom_values[:system_fonts_path]
+      end
+
+      private
+
+      def parse_location_value(value)
+        case value.to_s.downcase.tr("_", "-")
+        when "fontist", "fontist-library"
+          :fontist
+        when "user"
+          :user
+        when "system"
+          :system
+        else
+          Fontist.ui.error("Invalid install location: #{value}, using 'fontist'")
+          :fontist
+        end
+      end
+
+      def normalize_location_value(value)
+        case value.to_s.downcase.tr("_", "-")
+        when "fontist", "fontist-library"
+          "fontist"
+        when "user"
+          "user"
+        when "system"
+          "system"
+        else
+          raise Errors::InvalidConfigAttributeError,
+                "Invalid location: #{value}. Use 'fontist', 'user', or 'system'"
+        end
       end
     end
 
@@ -105,7 +179,8 @@ module Fontist
       { fonts_path: Fontist.fontist_path.join("fonts"),
         open_timeout: 60,
         read_timeout: 60,
-        google_fonts_key: nil }
+        google_fonts_key: nil,
+        fonts_install_location: nil }
     end
 
     def persist

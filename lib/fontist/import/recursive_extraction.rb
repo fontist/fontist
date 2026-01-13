@@ -9,6 +9,11 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
+      # Font extensions that are recognized during extraction
+      # This is displayed to users so they understand what files are being matched
+      SUPPORTED_FONT_EXTENSIONS = %w[ttf otf ttc otc woff woff2 dfont].freeze
+      FONT_EXTENSIONS_PATTERN = /\.(#{SUPPORTED_FONT_EXTENSIONS.join('|')})$/i.freeze
+
       attr_reader :error_collector
 
       def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil, verbose: false)
@@ -131,7 +136,7 @@ module Fontist
       end
 
       def has_font_extension?(path)
-        path.match?(/\.(ttf|otf|ttc|woff|woff2)$/i)
+        path.match?(FONT_EXTENSIONS_PATTERN)
       end
 
       def font_directory?(path)

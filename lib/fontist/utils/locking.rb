@@ -6,12 +6,14 @@ module Fontist
           FileUtils.mkdir_p(dir)
         end
 
-        f = File.open(lock_path, File::CREAT)
+        f = File.open(lock_path, File::CREAT | File::WRONLY)
+        raise "Failed to open lock file: #{lock_path}" unless f
+
         f.flock(File::LOCK_EX)
         yield
       ensure
-        f.flock(File::LOCK_UN)
-        f.close
+        f&.flock(File::LOCK_UN)
+        f&.close
       end
     end
   end

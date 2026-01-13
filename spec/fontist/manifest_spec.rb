@@ -102,6 +102,86 @@ RSpec.describe Fontist::Manifest do
           expect { instance }.not_to raise_error
         end
       end
+
+      context "with location parameter" do
+        let(:manifest) { { "Andale Mono" => "Regular" } }
+        before { example_formula("andale.yml") }
+
+        context "valid locations" do
+          it "installs all fonts to user location" do
+            # Mock file copy to avoid writing to actual user directory
+            # Note: We don't mock mkdir_p because it's needed for lock file creation
+            allow(FileUtils).to receive(:cp).and_return(true)
+
+            expect {
+              described_class.from_hash(manifest)
+                .install(confirmation: "yes", location: :user)
+            }.not_to raise_error
+          end
+
+          it "installs all fonts to system location" do
+            # Mock file operations to avoid permission errors
+            # Note: We don't mock mkdir_p because it's needed for lock file creation
+            allow(Fontist.ui).to receive(:say)  # Suppress warnings
+            allow(FileUtils).to receive(:cp).and_return(true)
+
+            expect {
+              described_class.from_hash(manifest)
+                .install(confirmation: "yes", location: :system)
+            }.not_to raise_error
+          end
+
+          it "installs all fonts to fontist location" do
+            expect {
+              described_class.from_hash(manifest)
+                .install(confirmation: "yes", location: :fontist)
+            }.not_to raise_error
+          end
+        end
+
+        context "invalid locations" do
+          it "shows error for invalid location but proceeds" do
+            expect(Fontist.ui).to receive(:error).with(include("Invalid install location"))
+            result = described_class.from_hash(manifest)
+              .install(confirmation: "yes", location: :invalid)
+            expect(result).to be_a(Fontist::ManifestResponse)
+          end
+
+          it "raises ArgumentError for string location parameter" do
+            expect {
+              described_class.from_hash(manifest)
+                .install(confirmation: "yes", location: "user")
+            }.to raise_error(ArgumentError, /location must be a Symbol/)
+          end
+
+          it "raises ArgumentError for custom path (string)" do
+            expect {
+              described_class.from_hash(manifest)
+                .install(confirmation: "yes", location: "/custom/path")
+            }.to raise_error(ArgumentError, /location must be a Symbol/)
+          end
+        end
+
+        context "location applied to all fonts" do
+          let(:manifest) do
+            { "Andale Mono" => "Regular",
+              "Courier New" => "Bold" }
+          end
+          before { example_formula("courier.yml") }
+
+          it "passes location to each font installation" do
+            expect(Fontist::Font).to receive(:install)
+              .with("Andale Mono", hash_including(location: :user))
+              .and_call_original
+            expect(Fontist::Font).to receive(:install)
+              .with("Courier New", hash_including(location: :user))
+              .and_call_original
+
+            described_class.from_hash(manifest)
+              .install(confirmation: "yes", location: :user)
+          end
+        end
+      end
     end
   end
 end

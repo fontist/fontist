@@ -57,7 +57,16 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    FileUtils.rm_rf(Fontist.temp_fontist_path)
+    Fontist::Utils::FileOps.safe_rm_rf(Fontist.temp_fontist_path)
     Fontist::Index.reset_cache
+
+    # CRITICAL: Restore the original default_fontist_path method
+    # The monkey-patch above affects ALL tests, so we must restore it
+    class << Fontist
+      if method_defined?(:default_fontist_path)
+        remove_method :default_fontist_path
+      end
+      alias_method :default_fontist_path, :orig_default_fontist_path
+    end
   end
 end

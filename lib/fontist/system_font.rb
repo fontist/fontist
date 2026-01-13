@@ -41,7 +41,8 @@ module Fontist
     end
 
     def self.fontist_font_paths
-      @fontist_font_paths ||= Dir.glob(Fontist.fonts_path.join("**"))
+      patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+      @fontist_font_paths ||= patterns.flat_map { |pattern| Dir.glob(pattern) }
     end
 
     def self.reset_fontist_font_paths_cache
@@ -62,7 +63,25 @@ module Fontist
 
     # This returns a SystemIndexEntry
     def self.find_styles(font, style = nil)
-      SystemIndex.system_index.find(font, style)
+      # Search across all three indexes
+      results = []
+
+      # Search fontist-managed fonts
+      fontist_fonts = Fontist::Indexes::FontistIndex.instance.find(font, style)
+      results.concat(fontist_fonts) if fontist_fonts
+
+      # Search user location fonts
+      user_fonts = Fontist::Indexes::UserIndex.instance.find(font, style)
+      results.concat(user_fonts) if user_fonts
+
+      # Search system fonts
+      system_fonts = Fontist::Indexes::SystemIndex.instance.find(font, style)
+      results.concat(system_fonts) if system_fonts
+
+      # Remove duplicates by path and return
+      return nil if results.empty?
+
+      results.uniq { |f| f.path }
     end
   end
 end

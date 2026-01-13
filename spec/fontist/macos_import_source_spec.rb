@@ -103,7 +103,7 @@ RSpec.describe Fontist::MacosImportSource do
   describe "#min_macos_version" do
     it "returns correct version for Font7" do
       source = described_class.new(framework_version: 7)
-      expect(source.min_macos_version).to eq("10.11")
+      expect(source.min_macos_version).to eq("12.0")
     end
 
     it "returns correct version for Font8" do
@@ -115,7 +115,7 @@ RSpec.describe Fontist::MacosImportSource do
   describe "#max_macos_version" do
     it "returns correct version for Font7" do
       source = described_class.new(framework_version: 7)
-      expect(source.max_macos_version).to eq("15.7")
+      expect(source.max_macos_version).to eq("15.99")
     end
 
     it "returns nil for Font8 (no upper limit)" do
@@ -173,7 +173,7 @@ RSpec.describe Fontist::MacosImportSource do
   describe "#description" do
     it "returns correct description for Font7" do
       source = described_class.new(framework_version: 7)
-      expect(source.description).to eq("Font7 framework (macOS Monterey, Ventura, Sonoma)")
+      expect(source.description).to eq("Font7 framework (macOS Monterey, Ventura, Sonoma, Sequoia)")
     end
   end
 

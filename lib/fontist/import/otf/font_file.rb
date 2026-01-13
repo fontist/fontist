@@ -1,5 +1,4 @@
 require_relative "../font_metadata_extractor"
-require_relative "../files/font_detector"
 
 module Fontist
   module Import
@@ -19,7 +18,6 @@ module Fontist
         def initialize(path, name_prefix: nil)
           @path = path
           @name_prefix = name_prefix
-          @extension = detect_extension
           @metadata = extract_metadata
         end
 
@@ -68,13 +66,14 @@ module Fontist
         end
 
         def font
-          basename = File.basename(@path, ".*").chomp(".#{@extension}")
-
-          "#{basename}.#{@extension}"
+          # Use the exact filename from the archive - do NOT modify or standardize it
+          File.basename(@path)
         end
 
         def source_font
-          File.basename(@path) unless font == File.basename(@path)
+          # source_font is only used when font != original filename
+          # Since we now use exact filename, this should always be nil
+          nil
         end
 
         def copyright
@@ -100,14 +99,6 @@ module Fontist
             family_name: File.basename(@path, ".*"),
             subfamily_name: "Regular"
           )
-        end
-
-        def detect_extension
-          detected = Files::FontDetector.standard_extension(@path)
-          file_extension = File.extname(File.basename(@path)).sub(/^\./, "")
-          return file_extension if file_extension.casecmp?(detected)
-
-          detected
         end
       end
     end

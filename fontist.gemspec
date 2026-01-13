@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "down", "~> 5.0"
   spec.add_dependency "excavate", "~> 0.3", ">= 0.3.8"
-  spec.add_dependency "fontisan", "~> 0.2", ">= 0.2.5"
+  spec.add_dependency "fontisan", "~> 0.2", ">= 0.2.7"
   spec.add_dependency "fuzzy_match", "~> 2.1"
   spec.add_dependency "git", "> 1.0"
   spec.add_dependency "json", "~> 2.0"
@@ -42,7 +42,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "parallel", "~> 1.24"
   spec.add_dependency "plist", "~> 3.0"
   spec.add_dependency "socksify", "~> 1.7"
-  spec.add_dependency "sys-uname", "~> 1.2"
   spec.add_dependency "thor", "~> 1.4"
   spec.add_dependency "unibuf", "~> 0.1"
 end

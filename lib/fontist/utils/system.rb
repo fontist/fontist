@@ -1,9 +1,46 @@
-require "sys/uname"
-
 module Fontist
   module Utils
     module System
+      # Platform override from environment (ONLY platform tags supported)
+      def self.platform_override
+        ENV["FONTIST_PLATFORM_OVERRIDE"]
+      end
+
+      def self.platform_override?
+        !platform_override.nil?
+      end
+
+      # Parse platform override (ONLY platform tag format)
+      # Returns: { os: Symbol, framework: Integer } or { os: Symbol } or nil
+      def self.parse_platform_override
+        override = platform_override
+        return nil unless override
+
+        # "macos-font7" => { os: :macos, framework: 7 }
+        if match = override.match(/^(macos|linux|windows)-font(\d+)$/)
+          return { os: match[1].to_sym, framework: match[2].to_i }
+        end
+
+        # "linux" or "windows" => { os: Symbol }
+        if override.match?(/^(macos|linux|windows)$/)
+          return { os: override.to_sym, framework: nil }
+        end
+
+        # Invalid format
+        Fontist.ui.error(
+          "Invalid FONTIST_PLATFORM_OVERRIDE: #{override}\n" \
+          "Supported: 'macos-font<N>', 'linux', 'windows'"
+        )
+        nil
+      end
+
       def self.user_os # rubocop:disable Metrics/MethodLength
+        # Check for platform override first
+        if platform_override?
+          parsed = parse_platform_override
+          return parsed[:os] if parsed
+        end
+
         @user_os ||= begin
           host_os = RbConfig::CONFIG["host_os"]
           case host_os
@@ -21,8 +58,52 @@ module Fontist
         end
       end
 
+      # Reset cached values for testing
+      # @api private
+      def self.reset_cache
+        @user_os = nil
+        @macos_version = nil
+      end
+
+      def self.windows?
+        user_os == :windows
+      end
+
+      def self.macos?
+        user_os == :macos
+      end
+
+      def self.linux?
+        user_os == :linux
+      end
+
+      def self.unix?
+        user_os == :unix
+      end
+
+      def self.path_separator
+        windows? ? "\\" : "/"
+      end
+
+      def self.case_sensitive_filesystem?
+        ![:windows, :macos].include?(user_os)
+      end
+
       def self.user_os_with_version
-        "#{user_os}-#{Sys::Uname.release}"
+        release = if windows?
+          # Windows doesn't have uname command
+          # Try to extract version from RbConfig or use a placeholder
+          RbConfig::CONFIG["host_os"].match(/\d+/)[0] rescue "unknown"
+        else
+          # Unix-like systems (macOS, Linux, etc.) have uname command
+          begin
+            `uname -r`.strip
+          rescue Errno::ENOENT
+            "unknown"
+          end
+        end
+
+        "#{user_os}-#{release}"
       end
 
       def self.match?(platform)
@@ -38,6 +119,15 @@ module Fontist
       end
 
       def self.macos_version
+        # Check for platform override first
+        if platform_override?
+          parsed = parse_platform_override
+          if parsed && parsed[:framework]
+            require_relative "../macos_framework_metadata"
+            return MacosFrameworkMetadata.min_macos_version(parsed[:framework])
+          end
+        end
+
         return nil unless user_os == :macos
 
         @macos_version ||= begin
@@ -86,20 +176,18 @@ module Fontist
       end
 
       def self.catalog_version_for_macos
+        # Check for platform override first
+        if platform_override?
+          parsed = parse_platform_override
+          return parsed[:framework] if parsed && parsed[:framework]
+        end
+
         version = macos_version
         return nil unless version
 
-        parsed = parse_macos_version(version)
-        return nil unless parsed
-
-        # Font8 is for macOS 26.0+
-        return 8 if parsed >= 260000
-
-        # Font7 is for macOS 10.11-15.7
-        return 7 if parsed >= 101100 && parsed <= 150700
-
-        # Unknown version range
-        nil
+        # Use MacosFrameworkMetadata as single source of truth
+        require_relative "../macos_framework_metadata"
+        MacosFrameworkMetadata.framework_for_macos(version)
       end
     end
   end

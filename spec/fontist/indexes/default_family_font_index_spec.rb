@@ -3,10 +3,14 @@ require "spec_helper"
 RSpec.describe Fontist::Indexes::DefaultFamilyFontIndex do
   describe "#from_yaml" do
     context "round-trips" do
-      filename = File.join(Fontist.fontist_version_path,
-                           "formula_index.default_family.yml")
+      let(:filename) do
+        File.join(Fontist.fontist_version_path,
+                  "formula_index.default_family.yml")
+      end
 
-      it filename.to_s do
+      it "round-trips correctly" do
+        # Ensure index file exists (will rebuild if missing)
+        index = described_class.from_file(filename)
         content = File.read(filename)
         expect(described_class.from_yaml(content).to_yaml).to eq(content)
       end

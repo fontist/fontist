@@ -102,7 +102,7 @@ a system.
 Fontist checks whether this font is already installed, and if not, then installs
 the font and returns its installed paths.
 
-The font name is the only argument to be supplied.
+The font name is the only argument to be supplied:
 
 [source,sh]
 ----
@@ -197,6 +197,9 @@ specified.
 
 Supported options:
 
+`-l, --location=LOCATION`:: Specify installation location: `fontist` (default),
+`user`, or `system`
+
 `-f, [--force]`:: Install even if already installed in system
 `-F, [--formula]`:: Install whole formula instead of a font
 `-a, [--accept-all-licenses]`:: Accept all license agreements
@@ -211,6 +214,122 @@ Supported options:
 
 
 NOTE: The `install` command is similar to the `Font.install` library call.
+
+
+=== Install locations
+
+==== General
+
+Fontist supports installing fonts to different named locations on a system.
+
+==== Named locations
+
+There are three types of named locations:
+
+`fontist` (default):: the Fontist font library, a per-user directory managed by
+Fontist
+** By default located at `~/.fontist/fonts/{formula-key}/`
+** No administrative permissions required
+** Fonts organized by formula to prevent naming conflicts
+** Can be customized via `FONTIST_FONTIST_FONTS_PATH` environment variable or the
+`fontist_fonts_path` configuration option
+
+`user`:: the platform-specific user font directory used by the system
+** No administrative permissions required
+** Available to current user only
+** **macOS**: `~/Library/Fonts/fontist`
+** **Linux**: `~/.local/share/fonts/fontist`
+** **Windows**: `%LOCALAPPDATA%\Microsoft\Windows\Fonts\fontist`
+** By default, Fontist uses a subdirectory `fontist` within the user font
+  directory to avoid cluttering the main font directory.
+** Can be customized via `FONTIST_USER_FONTS_PATH` environment variable or the
+  `user_fonts_path` configuration option
+
+`system`:: the platform-specific system font directory used by the system
+** Requires administrative/sudo permissions
+** Available to all users on the system
+** **macOS**: `/Library/Fonts/fontist`
+** **Linux**: `/usr/local/share/fonts/fontist`
+** **Windows**: `%windir%\Fonts\fontist`
+** The `system` location on macOS for supplementary fonts cannot be changed and
+  is managed by the OS.
+** By default, Fontist uses a subdirectory `fontist` within the system font
+  directory to avoid cluttering the main font directory.
+** Can be customized via `FONTIST_SYSTEM_FONTS_PATH` environment variable or the
+  `system_fonts_path` configuration option
+
+
+
+.Installing fonts to different locations
+[example]
+====
+[source,sh]
+----
+# Install to Fontist library (default)
+fontist install "Roboto"
+
+# Install to user font directory
+fontist install "Roboto" --location=user
+fontist install "Roboto" -l user  # Short form
+
+# Install to system font directory (may require sudo)
+fontist install "Roboto" --location=system
+sudo fontist install "Roboto" --location=system  # Linux/macOS
+----
+====
+
+The default installation location can be configured:
+
+.Configuring a different default named installation location
+[example]
+====
+[source,sh]
+----
+# Via config file
+fontist config set install_location user
+
+# Via environment variable
+export FONTIST_INSTALL_LOCATION=user
+fontist install "Roboto"  # Installs to /custom/fontist/directory/fonts/roboto/
+----
+====
+
+==== Installed font location
+
+The exact path where a font is installed depends on the chosen named location:
+
+* For the `fontist` location, fonts are installed to the Fontist font library,
+  which is by default at `~/.fontist/fonts/{formula-key}/`, where
+  `{formula-key}` is the unique key of the formula used to install the font
+  (e.g., `roboto/`, `lato/`) to prevent filename conflicts between different
+  font packages.
+
+* For the `user` and `system` locations, fonts are installed to the standard
+  font directories used by the operating system directly at the
+  platform-specific user or system font directory as individual font files.
+  Fontist will create a subdirectory named `fontist` within these directories to
+  avoid cluttering the main font directory. macOS, Windows and Linux all support
+  installing fonts in a subdirectory.
+
+* For `system` location on macOS for supplementary fonts, the fonts are
+  installed to
+  to the proper OS-version-specific supplementary fonts directory (e.g.
+  `/System/Library/AssetsV2/com_apple_MobileAsset_Font{n}/`). This is not
+  configurable.
+
+
+==== Font discovery
+
+Fontist always searches for fonts in ALL locations regardless of where they were
+installed:
+
+* System font directories (platform-specific)
+* User font directories (platform-specific)
+* Fontist font library directory
+
+This means fonts installed by other applications or the operating system are
+automatically discovered and can be used by Fontist on font reindexing.
+
 
 
 === Uninstall fonts: `fontist uninstall`
@@ -317,7 +436,6 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
-----
 
 If one or more of requested fonts are missing, the "3" error code would be
 returned, and a message printed:
@@ -359,13 +477,24 @@ Roboto Mono:
     paths:
     - "/Users/user/.fontist/fonts/RobotoMono-VariableFont_wght.ttf"
 ----
-----
+---
+
+OPTIONS:
+
+`-l, --location=LOCATION`:: Specify installation location: `fontist` (default),
+`user`, or `system`
+`--confirm-license`:: Accept all license agreements in the manifest
+
 
 === Work with fontist config: `fontist config`
 
 Fontist supports system-wide settings for the following parameters:
 
-`fonts_path`:: Sets path where to install fonts (default: `~/.fontist/fonts`)
+`install_location`:: Sets installation location (`fontist`, `user`, `system`)
+(default: `fontist`)
+
+`fonts_path`:: Sets path to the Fontist font library that fonts are installed to
+with the `fontist` kind of `install_location` (default: `~/.fontist/fonts`)
 
 `open_timeout`:: Sets timeout for opening a connection during download
 (default: `60`)
@@ -611,6 +740,21 @@ fontist specific `~/.fontist` directory.
 [source,ruby]
 ----
 Fontist::Font.find(name)
+
+# With location parameter (must be a Symbol)
+Fontist::Font.find(name: "chrono", location: :user)
+Fontist::Font.find(name: "chrono", location: :system)
+Fontist::Font.find(name: "chrono", location: :fontist)
+
+# Also supports parameterized name by providing a hash map `:name => alternative_name`
+Fontist::Font.find(name: "dosis", name_alternative: "iceberg")
+Fontist::Font.find(name: "segoe ui", name_alternative: "blackberry")
+Fontist::Font.find(name: "segoe ui", name_alternative: "아이유")
+
+# Also supports parameterized location by providing a hash map `:location => alternative_location`
+Fontist::Font.find(name: "segoe ui", location_alternative: :user)
+Fontist::Font.find(name: "segoe ui", location_alternative: :system)
+Fontist::Font.find(name: "segoe ui", location_alternative: :fontist)
 ----
 
 * If Fontist finds a font, then it will return the paths.
@@ -618,24 +762,33 @@ Fontist::Font.find(name)
 * Otherwise, it will either raise an unsupported font error, or trigger display
 of installation instructions for that specific font.
 
-==== Install a font
-
-The `Fontist::Font.install` interface can be used to install any supported font.
-
-This interface first checks if you already have that font installed or not and
-if you do then it will return the paths.
-
-If you don't have a font but that font is supported by Fontist, then it will
-download the font and copy it to `~/.fontist` directory and also return the
-paths.
-
+.Various methods of using `Fontist::Font.install`
+[example]
+====
 [source,ruby]
 ----
-Fontist::Font.install(name, confirmation: "no")
-----
+Fontist::Font.install(name)
+Fontist::Font.install("Roboto")
 
-If there are issues detected with the provided font, such as the font is not
-supported, those errors would be raised.
+# With location parameter (must be a Symbol)
+Fontist::Font.install(name: "Roboto", location: :user)
+Fontist::Font.install(name: "Roboto", location: :system)
+Fontist::Font.install(name: "Roboto", location: :fontist)
+
+# With confirmation to accept licenses (for non-bsd fonts)
+# Default for 'confirmation' is 'no'
+Fontist::Font.install(name: "SampleMapfont", confirmation: "yes")
+
+# With location and confirmation parameter
+Fontist::Font.install(name: "SampleMapfont", location: :user, confirmation: "yes")
+
+# With custom license acceptance action
+# Passes font object to a proc for potential prompt
+Fontist::Font.install(name: name, license_accept_action: proc)
+----
+====
+
+
 
 ==== List all fonts
 
@@ -733,7 +886,8 @@ Font name is useful to choose a specific font in a font collection file (TTC).
 
 [source,ruby]
 ----
-Fontist::Manifest.from_hash(manifest, locations: true)
+manifest = Fontist::Manifest.from_hash(manifest)
+manifest.locations
 ----
 
 [source,ruby]
@@ -766,7 +920,8 @@ from the manifest:
 
 [source,ruby]
 ----
-manifest.install(confirmation: "yes")
+user_manifest = Fontist::Manifest.from_file("manifest.yml")
+user_manifest.install(confirmation: "yes")
 ----
 
 It will install fonts and return their locations:
@@ -812,8 +967,8 @@ Then the following calls would return font names and paths, as from the
 
 [source,ruby]
 ----
-manifest = Fontist::Manifest.from_file("manifest.yml")
-manifest.install(confirmation: "yes")
+user_manifest = Fontist::Manifest.from_file("manifest.yml")
+user_manifest.install(confirmation: "yes")
 ----
 
 === `Fontist::Fontconfig`
@@ -950,73 +1105,90 @@ If you encounter version compatibility issues, ensure you're running a
 compatible macOS version for the requested font.
 
 
-=== Known problematic fonts
+=== Windows platform
 
-* NISC18030.ttf (GB18030 Bitmap) - macOS, more info in
-https://github.com/fontist/fontist/issues/344[the NISC18030 issue]
+==== General
 
-The full list of known problematic fonts:
+Fontist provides comprehensive Windows platform support, allowing installation and
+management of fonts on Windows 7 and later.
 
-* https://github.com/fontist/fontist/blob/main/lib/fontist/exclude.yml[List of fonts excluded from usage]
+Windows font management differs from Unix systems in several key ways:
 
+* Uses backslash (`\`) as the path separator
 
-== Advanced usage
+* Stores fonts in registry-based and directory-based locations
+* Requires different handling for file locking and permissions
+* Uses case-insensitive (but case-preserving) file system
 
-=== Using proxy servers
+==== Windows font locations
 
-Fontist uses Git internally for fetching formulas and fonts.
+Fontist supports the following Windows font locations:
 
-In order to use Git functionality behind a proxy, you need to update your own
-Git config via the `git config` command or the `~/.gitconfig` preference file.
+System fonts::
+* `C:\Windows\Fonts` - Primary system font directory
+* Requires administrator privileges for installation
 
-There are many ways to configure your local Git install to use proxies.
+User fonts::
+* `%LOCALAPPDATA%\Microsoft\Windows\Fonts` - Per-user font directory (Windows 10+)
+* No administrator privileges required
+* Fontist creates a `fontist` subdirectory to avoid cluttering the main directory
 
-The simplest, global way of setting a proxy for Git is the following.
+Fontist library::
+* `%USERPROFILE%\.fontist\fonts` - Fontist-managed fonts
+* Default installation location
+* No administrator privileges required
 
-* For HTTP
-+
+==== Known Windows considerations
+
+File locking::
+Windows uses stricter file locking than Unix systems. Fontist handles this with
+automatic retry logic when encountering locked files during cleanup operations.
+
+Path handling::
+Fontist automatically handles Windows path separators and drive letters. Font
+paths are returned in Windows-native format (e.g., `C:\Users\user\.fontist\fonts\font.ttf`).
+
+Registry integration::
+While Windows historically used registry-based font registration, modern Windows
+(10+) supports directory-based fonts. Fontist uses directory-based installation
+for maximum compatibility and ease of management.
+
+Administrator privileges::
+Installation to the `system` location requires administrator privileges. Use the
+`user` or `fontist` locations for installations without administrative access.
+
+.Installing fonts on Windows
+[example]
+====
 [source,sh]
 ----
-git config --global http.proxy http://{user}:{pass}@{proxyhost}:{port}
-----
+# Install to Fontist library (default, no admin required)
+fontist install "Roboto"
 
-* For HTTPS, you may need to handle SSL/TLS verification errors after setting
-the proxy since the encryption end is located at your HTTPS proxy endpoint:
-+
-[source,sh]
-----
-git config --global http.proxy https://{user}:{pass}@{proxyhost}:{port}
-git config --global https.proxy https://{user}:{pass}@{proxyhost}:{port}
-----
+# Install to user fonts directory (no admin required, Windows 10+)
+fontist install "Roboto" --location=user
 
-* For SOCKS, you will need to decide on the SOCKS protocol
-+
-[source,sh]
+# Install to system fonts directory (requires administrator)
+# Run as Administrator
+fontist install "Roboto" --location=system
 ----
-git config --global http.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
-git config --global https.proxy '{protocol}://{user}:{pass}@{proxyhost}:{port}'
-----
-+
-For example,
-+
-[source,sh]
-----
-git config --global http.proxy 'socks5h://user:pass@socks-proxy.example.org'
-git config --global https.proxy 'socks5h://user:pass@socks-proxy.example.org'
-----
+====
 
-The list of supported SOCKS protocols for the `{protocol}` field:
+==== Platform compatibility status
 
-* `socks://`: for SOCKS below v5
-* `socks5://`: for SOCKS v5
-* `socks5h://`: for SOCKS below v5 + host resolution via SOCKS
+[cols="1,1,1",options="header"]
+|===
+| Windows Version | Support Status | Notes
 
-You could actually set different proxy behavior for individual Git repositories
--- please see this
-https://gist.github.com/evantoli/f8c23a37eb3558ab8765[great guide]
-on how to use Git proxies (thanks to the GitHub user
-https://github.com/evantoli[evantoli]).
+| Windows 11 | ✅ Fully Supported | All features available
+| Windows 10 | ✅ Fully Supported | User font directory available
+| Windows 8/8.1 | ✅ Supported | System and fontist locations only
+| Windows 7 | ⚠️ Limited Support | System and fontist locations only, extended support ended
 
+|===
+
+NOTE: Fontist is tested on Windows 10 and later. Earlier versions may work but
+are not actively tested.
 
 
 == Custom Fontist repositories
@@ -1113,6 +1285,31 @@ Custom Fontist formulas and Fontist repositories can be made private to require
 authentication.
 
 For HTTPS and SSH Git Fontist repositories
+
+WARNING: Many online Git repositories only allow authentication for HTTPS, and
+do not allow authentication for SSH addresses.
+
+There are two ways to turn your repository private. Repository may or may not
+support both, check your Repository Preference settings on your preferred Git
+platform.
+
+* **HTTP Authentication:** Turn the repository private on the Git platform, then
+call `fontist repo setup` with a
+https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html[Private Token]
+(with "read_repository"). This allows you to pass the token as a URL parameter
+without re-entering a password.
+
+For example, given a Fontist repository called `acme_font_name` accessible via
+`https://user<Token>@example.com/acme/formulas.git`, add
+`https://user/<Token>@` as the `--private-token` to set up the private repo
+for Fontist:
+
+[source,sh]
+----
+user=your-user-token
+fontist repo setup acme_font_name \
+  https://example.com/acme/formulas.git?private_token=${user}
+----
 
 
 === Authentication for private formulas or private formula repositories
@@ -1228,8 +1425,7 @@ fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz 
 ----
 +
 This will generate a formula where all fonts have names prefixed with `"Wine "`,
-such as "Wine Courier", "Wine Tahoma", "Wine Symbol", etc., making it clear
-these are Wine compatibility fonts rather than the original Microsoft fonts.
+making it clear these are Wine compatibility fonts rather than the original Microsoft fonts.
 
 `--mirror`::
 Specify mirror URLs for the font archive (can be used multiple times).
@@ -1301,7 +1497,6 @@ fonts:
       preferred_family_name: Frutiger
   - ...
 ----
-
 This fragment above will allow Fontist to generate correct indexes and allow
 installation of all `Frutiger` fonts with a single command:
 
@@ -1615,7 +1810,7 @@ https://github.com/google/fonts[google/fonts repository]:
 ----
 # GOOGLE_FONTS_API_KEY must be set in the environment
 fontist import google \
-  --source-path /path/to/google-fonts-github-repo \
+  --source-path /path/to/google/fonts \
   --output-path Formulas/google \
   --verbose \
   --import-cache /tmp/fontist-google-fonts-cache
@@ -1990,6 +2185,6 @@ Here are a few technical guidelines to follow:
 . https://github.com/thoughtbot/guides/tree/master/protocol/git#write-a-feature[Squash your commits] after receiving feedback.
 . Party!
 
-== Credit
+== Credits
 
 This gem is developed, maintained and funded by https://www.ribose.com[Ribose].

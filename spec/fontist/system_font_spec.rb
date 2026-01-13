@@ -19,6 +19,10 @@ RSpec.describe Fontist::SystemFont do
           no_fonts do
             example_font_to_fontist("CAMBRIA.TTC")
 
+            # Rebuild indexes to ensure font is findable
+            Fontist::Indexes::FontistIndex.instance.rebuild
+            Fontist::Indexes::SystemIndex.instance.rebuild
+
             paths = Fontist::SystemFont.find("Cambria")
             expect(paths).to include(include("CAMBRIA.TTC"))
           end

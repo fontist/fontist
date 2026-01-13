@@ -39,11 +39,14 @@ module Fontist
         end
 
         def filename
-          "#{File.basename(@path, '.*')}.#{extension}"
+          # Use the exact filename from the archive - do NOT modify or standardize it
+          File.basename(@path)
         end
 
         def source_filename
-          File.basename(@path) unless filename == File.basename(@path)
+          # source_filename is only used when filename != original filename
+          # Since we now use exact filename, this should always be nil
+          nil
         end
 
         private
@@ -69,16 +72,6 @@ module Fontist
 
         def hidden?(font_file)
           font_file.family_name.start_with?(".")
-        end
-
-        def extension
-          @extension ||= detect_extension
-        end
-
-        def detect_extension
-          base = "ttc"
-          file_ext = File.extname(File.basename(@path)).sub(/^\./, "")
-          file_ext.casecmp?(base) ? file_ext : base
         end
       end
     end

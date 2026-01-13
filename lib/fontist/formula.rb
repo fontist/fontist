@@ -196,7 +196,7 @@ module Fontist
 
     def self.from_file(path)
       unless File.exist?(path)
-        raise Fontist::Errors::FormulaCouldNotBeFoundError,
+        raise Fontist::Errors::FormulaNotFoundError,
               "Formula file not found: #{path}"
       end
 
@@ -272,10 +272,20 @@ module Fontist
 
       return false unless platform_matches
 
-      # For macOS, check version compatibility using import source
+      # For macOS platform-tagged formulas, check framework support
       if target == "macos" && macos_import?
         current_macos = Utils::System.macos_version
         return true unless current_macos
+
+        # Check if framework exists for this macOS version
+        framework = Utils::System.catalog_version_for_macos
+        if framework.nil?
+          require_relative "macos_framework_metadata"
+          raise Errors::UnsupportedMacOSVersionError.new(
+            current_macos,
+            MacosFrameworkMetadata.metadata
+          )
+        end
 
         return import_source.compatible_with_macos?(current_macos)
       end

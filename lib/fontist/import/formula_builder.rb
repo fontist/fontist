@@ -1,6 +1,7 @@
 require "shellwords"
 require_relative "text_helper"
 require_relative "helpers/hash_helper"
+require_relative "recursive_extraction"
 require_relative "../macos_import_source"
 require_relative "../google_import_source"
 require_relative "../sil_import_source"
@@ -127,8 +128,9 @@ module Fontist
         if files.empty?
           # Include parsing errors if available
           parsing_errors = @error_collector&.errors || []
+          extensions = RecursiveExtraction::SUPPORTED_FONT_EXTENSIONS.join(", ")
           raise Errors::FontNotFoundError.new(
-            "No fonts found in archive.",
+            "No fonts found in archive. Only files with these extensions are processed: #{extensions}",
             parsing_errors: parsing_errors
           )
         end
