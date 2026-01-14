@@ -786,9 +786,10 @@ RSpec.describe Fontist::Import::Google::FontDatabase, :vcr do
       expect(formula[:description]).to eq(
         "ABeeZee is a children's learning font.",
       )
-      # Note: When real GitHub data is fetched via API, it overrides the fixture
-      # The actual copyright from GitHub's ABeeZee repository
-      expect(formula[:copyright]).to match(/Copyright.*ABeeZee/)
+      # Copyright comes from the font file's metadata, extracted from TTF
+      # The actual copyright contains the designer's name and year
+      expect(formula[:copyright]).to match(/Copyright/i)
+      expect(formula[:copyright]).to match(/2011|Anja Meiners/)
     end
 
     it "exposes github_data" do
