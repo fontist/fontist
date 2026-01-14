@@ -56,6 +56,11 @@ module Fontist
         # Reset SystemIndex class-level caches
         Fontist::SystemIndex.reset_cache
 
+        # Reset new OOP index singletons (FontistIndex, UserIndex, SystemIndex)
+        Fontist::Indexes::FontistIndex.reset_cache
+        Fontist::Indexes::UserIndex.reset_cache
+        Fontist::Indexes::SystemIndex.reset_cache
+
         # Reset verification flags on any cached instances
         reset_cached_instances
       end
@@ -75,6 +80,8 @@ module Fontist
     class SystemFontComponent
       def reset
         Fontist::SystemFont.reset_font_paths_cache
+        # Reset find_styles cache added for performance optimizations
+        Fontist::SystemFont.disable_find_styles_cache
       end
     end
 

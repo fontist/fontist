@@ -2,7 +2,7 @@ require "spec_helper"
 require_relative "../../../../lib/fontist/macos/catalog/base_parser"
 
 RSpec.describe Fontist::Macos::Catalog::BaseParser do
-  let(:xml_path) { "spec/examples/com_apple_MobileAsset_Font6.xml" }
+  let(:xml_path) { "spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font6.xml" }
 
   subject(:parser) { described_class.new(xml_path) }
 
@@ -37,19 +37,17 @@ RSpec.describe Fontist::Macos::Catalog::BaseParser do
     end
 
     context "with Font7 catalog" do
-      let(:xml_path) { "com_apple_MobileAsset_Font7.xml" }
+      let(:xml_path) { "spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font7.xml" }
 
       it "extracts version 7" do
-        skip "Font7 catalog not available in test fixtures"
         expect(parser.catalog_version).to eq(7)
       end
     end
 
     context "with Font8 catalog" do
-      let(:xml_path) { "com_apple_MobileAsset_Font8.xml" }
+      let(:xml_path) { "spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font8.xml" }
 
       it "extracts version 8" do
-        skip "Font8 catalog not available in test fixtures"
         expect(parser.catalog_version).to eq(8)
       end
     end

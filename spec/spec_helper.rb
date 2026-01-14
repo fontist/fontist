@@ -113,6 +113,9 @@ RSpec.configure do |config|
 
     # Reset Config to prevent state pollution from tests that modify it
     Fontist::Config.reset
+
+    # Reset find_styles cache to prevent test pollution from performance optimizations
+    Fontist::SystemFont.disable_find_styles_cache
   end
 
   # Enable flags like --only-failures and --next-failure

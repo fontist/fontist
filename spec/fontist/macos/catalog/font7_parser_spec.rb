@@ -2,7 +2,7 @@ require "spec_helper"
 require_relative "../../../../lib/fontist/macos/catalog/font7_parser"
 
 RSpec.describe Fontist::Macos::Catalog::Font7Parser do
-  let(:xml_path) { "spec/examples/com_apple_MobileAsset_Font6.xml" }
+  let(:xml_path) { "spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font7.xml" }
 
   subject(:parser) { described_class.new(xml_path) }
 

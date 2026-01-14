@@ -202,7 +202,7 @@ RSpec.describe Fontist::Manifest do
 
       it "enables caching for find_styles lookups" do
         expect(Fontist::SystemFont).to receive(:enable_find_styles_cache).and_call_original
-        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).and_call_original
+        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).at_least(:once).and_call_original
 
         described_class.with_performance_optimizations do
           # Just verify caching was enabled
@@ -212,7 +212,7 @@ RSpec.describe Fontist::Manifest do
       it "disables caching after execution even if error occurs" do
         # Enable caching before the test
         Fontist::SystemFont.enable_find_styles_cache
-        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).and_call_original
+        expect(Fontist::SystemFont).to receive(:disable_find_styles_cache).at_least(:once).and_call_original
 
         begin
           described_class.with_performance_optimizations do

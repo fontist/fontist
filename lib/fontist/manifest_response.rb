@@ -32,14 +32,6 @@ module Fontist
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
-      styles.each do |style|
-        if style.paths.nil?
-          # If no paths are found, notify the user but continue with the
-          # installation
-          Fontist.ui.error("Font #{name} with style #{style} not found, skipping installation.")
-        end
-      end
-
       Fontist::Font.install(
         name,
         force: false,

@@ -3,6 +3,10 @@ require "spec_helper"
 RSpec.describe Fontist::Indexes::UserIndex do
   subject(:index) { described_class.instance }
 
+  # Initialize the collection before each test to ensure @collection exists
+  # This is needed because the collection is lazily initialized
+  before { index.collection }
+
   describe "singleton behavior" do
     it "returns the same instance" do
       expect(described_class.instance).to be(index)

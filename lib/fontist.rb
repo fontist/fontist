@@ -4,6 +4,9 @@ require "singleton"
 
 require_relative "fontist/errors"
 require_relative "fontist/version"
+require_relative "fontist/cache/manager"
+require_relative "fontist/memoizable"
+require_relative "fontist/path_scanning"
 
 module Fontist
   def self.ui
@@ -201,6 +204,10 @@ require_relative "fontist/helpers"
 require_relative "fontist/config"
 require_relative "fontist/update"
 require_relative "fontist/index"
+require_relative "fontist/indexes/incremental_scanner"
+require_relative "fontist/indexes/directory_snapshot"
+require_relative "fontist/indexes/directory_change"
+require_relative "fontist/indexes/incremental_index_updater"
 require_relative "fontist/indexes/font_index"
 require_relative "fontist/indexes/filename_index"
 require_relative "fontist/indexes/fontist_index"

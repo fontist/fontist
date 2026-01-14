@@ -1,5 +1,6 @@
 require "spec_helper"
 require_relative "../../../../lib/fontist/macos/catalog/catalog_manager"
+require_relative "../../../support/macos_catalog_helper"
 
 RSpec.describe Fontist::Macos::Catalog::CatalogManager do
   # Clean up the class-level cache path instance variable between tests
@@ -10,6 +11,11 @@ RSpec.describe Fontist::Macos::Catalog::CatalogManager do
 
     # Clean up downloaded catalog files to avoid polluting other tests
     FileUtils.rm_rf(cache_path) if cache_path && cache_path.exist?
+  end
+
+  # Skip all tests if catalogs are not available
+  before(:each) do
+    skip "Catalogs not available. Run: rake download_macos_catalogs" unless MacosCatalogHelper.catalogs_available?
   end
 
   describe ".available_catalogs" do
@@ -79,9 +85,12 @@ RSpec.describe Fontist::Macos::Catalog::CatalogManager do
   end
 
   describe ".all_assets", skip_unless_macos: true do
-    it "aggregates assets from all available catalogs" do
-      skip "No catalogs available" if described_class.available_catalogs.empty?
+    before do
+      # Set up catalogs in the Fontist home directory for this test
+      MacosCatalogHelper.setup_catalogs(Fontist.fontist_version_path.to_s)
+    end
 
+    it "aggregates assets from all available catalogs" do
       assets = described_class.all_assets
 
       expect(assets).to be_an(Array)

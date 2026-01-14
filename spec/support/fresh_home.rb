@@ -46,6 +46,13 @@ RSpec.shared_context "fresh home" do
     ENV["FONTIST_USER_FONTS_PATH"] = user_fonts_temp
     ENV["FONTIST_SYSTEM_FONTS_PATH"] = system_fonts_temp
 
+    # CRITICAL: Explicitly reset any stubs that might have been set by previous tests
+    # This ensures "fresh home" always starts with a clean slate, even after
+    # "system fonts" or other contexts that modify Fontist::SystemFont behavior
+    allow(Fontist::SystemFont).to receive(:system_config).and_call_original
+    allow(Fontist::SystemFont).to receive(:system_font_paths).and_call_original
+    allow(Fontist).to receive(:system_file_path).and_call_original
+
     stub_system_fonts
 
     FileUtils.mkdir_p(Fontist.fonts_path)
@@ -53,6 +60,11 @@ RSpec.shared_context "fresh home" do
 
     # Remove config file to prevent state pollution from previous tests
     File.delete(Fontist.config_path) if File.exist?(Fontist.config_path)
+
+    # CRITICAL: Delete system index file to prevent state pollution from
+    # previous tests that might have installed fonts to the system location
+    system_index_path = Fontist.system_index_path
+    File.delete(system_index_path) if File.exist?(system_index_path)
 
     # CRITICAL: Save the formula index paths NOW while the stub is active.
     # We need to delete these specific files in the after hook, because
@@ -66,6 +78,7 @@ RSpec.shared_context "fresh home" do
     Fontist::Index.reset_cache
     Fontist::SystemIndex.reset_cache
     Fontist::SystemFont.reset_font_paths_cache
+    Fontist::SystemFont.disable_find_styles_cache # Reset find_styles cache
     Fontist::Indexes::FontistIndex.reset_cache
     Fontist::Indexes::UserIndex.reset_cache
   end
@@ -84,6 +97,7 @@ RSpec.shared_context "fresh home" do
     Fontist::Index.reset_cache
     Fontist::SystemIndex.reset_cache
     Fontist::SystemFont.reset_font_paths_cache
+    Fontist::SystemFont.disable_find_styles_cache # Reset find_styles cache
     Fontist::Indexes::FontistIndex.reset_cache
     Fontist::Indexes::UserIndex.reset_cache
     Fontist::Indexes::SystemIndex.reset_cache

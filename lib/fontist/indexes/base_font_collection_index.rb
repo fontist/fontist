@@ -27,10 +27,7 @@ module Fontist
       end
 
       def initialize
-        @collection = SystemIndexFontCollection.from_file(
-          path: index_path,
-          paths_loader: -> { font_paths },
-        )
+        # Don't initialize collection here - use lazy initialization via collection method
       end
 
       # Finds fonts by name and optional style
@@ -39,7 +36,20 @@ module Fontist
       # @param style [String, nil] Optional style (e.g., "Regular", "Bold")
       # @return [Array<SystemIndexFont>, nil] Found fonts or nil
       def find(font_name, style = nil)
-        @collection.find(font_name, style)
+        collection.find(font_name, style)
+      end
+
+      # Get the collection, initializing it lazily if nil
+      #
+      # Uses lazy initialization so that the collection is created with fresh
+      # font_paths each time it's accessed after reset_cache
+      #
+      # @return [SystemIndexFontCollection] The collection object
+      def collection
+        @collection ||= SystemIndexFontCollection.from_file(
+          path: index_path,
+          paths_loader: -> { font_paths },
+        )
       end
 
       # Enable read-only mode for operations that don't need index rebuilding
@@ -47,7 +57,7 @@ module Fontist
       #
       # @return [self] Returns self for chaining
       def read_only_mode
-        @collection.read_only_mode
+        collection.read_only_mode
         self
       end
 
@@ -55,7 +65,7 @@ module Fontist
       #
       # @return [Array<SystemIndexFont>] All indexed fonts
       def fonts
-        @collection.fonts
+        collection.fonts
       end
 
       # Checks if a font exists at the given path
@@ -63,7 +73,7 @@ module Fontist
       # @param path [String] Full path to font file
       # @return [Boolean] true if font exists in index
       def font_exists?(path)
-        @collection.fonts.any? { |f| f.path == path }
+        collection.fonts.any? { |f| f.path == path }
       end
 
       # Adds a font to the index
@@ -74,10 +84,10 @@ module Fontist
       # @return [void]
       def add_font(path)
         # Reset verification flag to force re-check
-        @collection.reset_verification!
+        collection.reset_verification!
 
         # Force rebuild to include new font
-        @collection.build(forced: true, verbose: false)
+        collection.build(forced: true, verbose: false)
       end
 
       # Removes a font from the index
@@ -87,8 +97,8 @@ module Fontist
       # @param path [String] Full path to font file to remove
       # @return [void]
       def remove_font(path)
-        @collection.fonts.delete_if { |f| f.path == path }
-        @collection.to_file(index_path)
+        collection.fonts.delete_if { |f| f.path == path }
+        collection.to_file(index_path)
       end
 
       # Rebuilds the entire index
@@ -98,20 +108,17 @@ module Fontist
       # @param verbose [Boolean] Show detailed progress information
       # @return [void]
       def rebuild(verbose: false)
-        @collection.rebuild(verbose: verbose)
+        collection.rebuild(verbose: verbose)
       end
 
-      # Resets the singleton instance
+      # Resets the singleton instance cache
       #
-      # Forces a new instance to be created on next access
-      # Used primarily for testing to ensure clean state
+      # Sets @collection to nil so that it will be re-initialized with fresh
+      # font_paths on next access via the collection method
       #
       # @return [void]
       def reset_cache
-        @collection = SystemIndexFontCollection.from_file(
-          path: index_path,
-          paths_loader: -> { font_paths },
-        )
+        @collection = nil
       end
 
       private

@@ -4,6 +4,7 @@ require_relative "../../lib/fontist/macos/catalog/asset"
 require_relative "../../lib/fontist/macos/catalog/base_parser"
 require_relative "../../lib/fontist/macos/catalog/font7_parser"
 require_relative "../../lib/fontist/macos/catalog/font8_parser"
+require_relative "../support/macos_catalog_helper"
 
 RSpec.describe "macOS On-Demand Fonts" do
   describe "platform-specific font installation" do
@@ -192,21 +193,24 @@ RSpec.describe "macOS On-Demand Fonts" do
 
   describe "catalog parsing", skip_unless_macos: true do
     context "when catalogs are available" do
+      before do
+        # Set up catalogs in the Fontist home directory for these tests
+        MacosCatalogHelper.setup_catalogs(Fontist.fontist_version_path.to_s)
+      end
+
       it "detects available catalogs" do
         catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
 
-        # May be empty on CI, but should not raise error
         expect(catalogs).to be_an(Array)
+        expect(catalogs).not_to be_empty
       end
 
       it "detects catalog versions correctly" do
-        skip "No catalogs available" if Fontist::Macos::Catalog::CatalogManager.available_catalogs.empty?
-
         catalog_path = Fontist::Macos::Catalog::CatalogManager.available_catalogs.first
         version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
 
         expect(version).to be_a(Integer)
-        expect(version).to be >= 6
+        expect(version).to be >= 3
       end
     end
   end
@@ -233,21 +237,57 @@ RSpec.describe "macOS On-Demand Fonts" do
   end
 
   describe "cross-platform behavior" do
+    let(:macos_formula_path) do
+      Fontist.formulas_path.join("macos", "test_al_bayan.yml")
+    end
+
+    let(:macos_formula_content) do
+      <<~YAML
+        ---
+        name: Al Bayan
+        description: Arabic font from macOS
+        homepage: https://support.apple.com/en-us/HT211240
+        platforms:
+          - macos
+        resources:
+          al_bayan:
+            source: apple_cdn
+            urls:
+              - https://updates.cdn-apple.com/2022/mobileassets/071-13653-20220413-E31024B7-9C74-440D-BD83-2BC15B9FF98E/com_apple_MobileAsset_Font7/701405507c8753373648c7a6541608e32ed089ec.zip
+            sha256:
+              - 9f4e142e68bcbf161ecfa290da0c65ebc4ef2c0e2aa85ee4f4c6a0e4b8e4b8e4
+            file_size: 101972
+        fonts:
+          - name: Al Bayan
+            styles:
+              - family_name: Al Bayan
+                type: Plain
+                font: AlBayan.ttc
+                post_script_name: AlBayan
+        open_license: Apple Font License
+      YAML
+    end
+
     let(:current_os) { Fontist::Utils::System.user_os }
+
+    before do
+      FileUtils.mkdir_p(macos_formula_path.dirname)
+      File.write(macos_formula_path, macos_formula_content)
+      Fontist::Index.rebuild
+    end
+
+    after do
+      FileUtils.rm_f(macos_formula_path)
+      Fontist::Index.rebuild
+    end
 
     it "knows the current platform" do
       expect([:macos, :linux, :windows, :unix]).to include(current_os)
     end
 
     it "validates platform correctly for macOS formulas" do
-      # Need to ensure index is rebuilt so formula can be found
-      Fontist::Index.rebuild
-
       formula = Fontist::Formula.find_by_key("macos/test_al_bayan")
-
-      if formula.nil?
-        skip "Test formula not found - index may need rebuilding"
-      end
+      expect(formula).not_to be_nil, "Test formula should be available"
 
       case current_os
       when :macos

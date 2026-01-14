@@ -32,4 +32,25 @@ RSpec.shared_context "system fonts" do
 
     disable_system_font_paths_caching
   end
+
+  after do
+    # Reset the system_config stub to prevent test pollution
+    allow(Fontist::SystemFont).to receive(:system_config).and_call_original
+
+    # Reset the system_font_paths stub set by disable_system_font_paths_caching
+    allow(Fontist::SystemFont).to receive(:system_font_paths).and_call_original
+
+    # Reset the system_file_path stub set by stub_system_fonts
+    allow(Fontist).to receive(:system_file_path).and_call_original
+
+    # Delete the system index file that was created during the test
+    # This prevents the next test from finding fonts that were installed to the temp system dir
+    system_index_path = Fontist.system_index_path
+    File.delete(system_index_path) if File.exist?(system_index_path)
+
+    # Reset indexes to clear any cached system font data
+    Fontist::Indexes::SystemIndex.reset_cache
+    Fontist::SystemFont.reset_font_paths_cache
+    Fontist::SystemFont.disable_find_styles_cache
+  end
 end
