@@ -5,6 +5,7 @@ gemspec
 
 gem "bundler"
 gem "pry"
+gem "openssl", "~> 3.0"
 gem "rake"
 gem "rspec"
 gem "rspec-benchmark"
