@@ -165,26 +165,6 @@ Fontist depends on several gems that include native C/C++ extensions:
 NOTE: Some gems like `nokogiri` and `ffi` provide prebuilt binaries for common
 platforms, so they typically don't require compilation.
 
-==== Troubleshooting installation errors
-
-*"make: not found" or "gcc: not found"*::
-Install build tools for your platform (see sections above).
-
-*"Cannot find header files for ruby"* or *"ruby.h not found"*::
-Install Ruby development headers:
-+
-* Ubuntu/Debian: `sudo apt-get install ruby-dev`
-* Fedora/RHEL: `sudo dnf install ruby-devel`
-
-*"g++: not found"* (when installing seven-zip gem)::
-Install C++ compiler:
-+
-* Ubuntu/Debian: `sudo apt-get install g++`
-* macOS: `xcode-select --install`
-
-*"git: command not found"* (when running `fontist update`)::
-Install git for your platform (see sections above).
-
 
 == Using the command-line interface (CLI)
 
