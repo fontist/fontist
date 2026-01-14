@@ -8,7 +8,32 @@ require "fileutils"
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new
 
-task default: %i[spec]
+# Ensure catalogs are downloaded before running tests
+task :ensure_catalogs do
+  catalogs_dir = "spec/fixtures/macos_catalogs"
+  required_catalogs = %w[
+    com_apple_MobileAsset_Font3.xml
+    com_apple_MobileAsset_Font4.xml
+    com_apple_MobileAsset_Font5.xml
+    com_apple_MobileAsset_Font6.xml
+    com_apple_MobileAsset_Font7.xml
+    com_apple_MobileAsset_Font8.xml
+  ]
+
+  missing_catalogs = required_catalogs.reject do |catalog|
+    File.exist?(File.join(catalogs_dir, catalog))
+  end
+
+  if missing_catalogs.any?
+    puts "Missing macOS catalog files: #{missing_catalogs.join(', ')}"
+    puts "Downloading catalogs..."
+    Rake::Task[:download_macos_catalogs].invoke
+  else
+    puts "macOS catalogs are present"
+  end
+end
+
+task default: %i[ensure_catalogs spec]
 
 desc "Download macOS font catalog XML files from Apple"
 task :download_macos_catalogs do
