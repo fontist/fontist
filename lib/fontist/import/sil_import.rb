@@ -19,7 +19,7 @@ module Fontist
         @failure_count = 0
         @skipped_count = 0
         @overwritten_count = 0
-        @failures = []  # Track {name, reason} for each failure
+        @failures = [] # Track {name, reason} for each failure
       end
 
       def call
@@ -53,7 +53,8 @@ module Fontist
         details[:font_filter] = @font_name if @font_name
 
         if @verbose
-          ImportDisplay.header("SIL International Fonts", details, import_cache: cache_path)
+          ImportDisplay.header("SIL International Fonts", details,
+                               import_cache: cache_path)
         end
       end
 
@@ -66,16 +67,18 @@ module Fontist
         links = font_links
 
         if @verbose
-          Fontist.ui.say("📦 Found #{Paint[links.size, :yellow, :bright]} fonts on SIL website")
+          Fontist.ui.say("📦 Found #{Paint[links.size, :yellow,
+                                           :bright]} fonts on SIL website")
         end
 
         # Filter by font_name if specified
         if @font_name
-          original_count = links.size
+          links.size
           links = filter_by_name(links)
           if @verbose
             Fontist.ui.say("🔍 Filter: #{Paint[@font_name, :cyan, :bright]}")
-            Fontist.ui.say("📦 Filtered to #{Paint[links.size, :yellow, :bright]} fonts matching filter")
+            Fontist.ui.say("📦 Filtered to #{Paint[links.size, :yellow,
+                                                   :bright]} fonts matching filter")
           end
 
           if links.empty?
@@ -124,15 +127,22 @@ module Fontist
             @success_count += 1
             formula_name = File.basename(path)
             if @verbose
-              Fontist.ui.say("  #{Paint['✓', :green]} Formula created: #{Paint[formula_name, :white]} #{Paint["(#{elapsed.round(2)}s)", :black, :bright]}")
+              Fontist.ui.say("  #{Paint['✓',
+                                        :green]} Formula created: #{Paint[formula_name,
+                                                                          :white]} #{Paint["(#{elapsed.round(2)}s)",
+                                                                                           :black, :bright]}")
             end
           else
             # File already existed and was skipped by keep_existing check
             @skipped_count += 1
             formula_name = File.basename(path)
             if @verbose
-              Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped (already exists): #{Paint[formula_name, :black, :bright]}")
-              Fontist.ui.say("    #{Paint['ℹ', :blue]} Use #{Paint['--force', :cyan]} to overwrite existing formulas")
+              Fontist.ui.say("  #{Paint['⊝',
+                                        :yellow]} Skipped (already exists): #{Paint[formula_name,
+                                                                                    :black, :bright]}")
+              Fontist.ui.say("    #{Paint['ℹ',
+                                          :blue]} Use #{Paint['--force',
+                                                              :cyan]} to overwrite existing formulas")
             end
           end
         else
@@ -146,10 +156,14 @@ module Fontist
         @failure_count += 1
         error_msg = e.message.length > 60 ? "#{e.message[0..60]}..." : e.message
         @failures << { name: family_name, reason: error_msg }
-        Fontist.ui.say("  #{Paint['✗', :red]} Failed: #{Paint[error_msg, :red]}") if @verbose
+        if @verbose
+          Fontist.ui.say("  #{Paint['✗',
+                                    :red]} Failed: #{Paint[error_msg,
+                                                           :red]}")
+        end
       end
 
-      def display_summary(total, duration)
+      def display_summary(total, _duration)
         return unless @verbose
 
         Fontist.ui.say("")
@@ -161,34 +175,50 @@ module Fontist
         success_rate = (@success_count.to_f / total * 100).round(1)
 
         Fontist.ui.say("  Total fonts:        #{Paint[total.to_s, :white]}")
-        Fontist.ui.say("  #{Paint['✓', :green]} Successful:     #{Paint[@success_count.to_s, :green, :bright]} #{Paint["(#{success_rate}%)", :green]}")
+        Fontist.ui.say("  #{Paint['✓',
+                                  :green]} Successful:     #{Paint[@success_count.to_s, :green,
+                                                                   :bright]} #{Paint["(#{success_rate}%)",
+                                                                                     :green]}")
 
-        if @skipped_count > 0
+        if @skipped_count.positive?
           skip_rate = (@skipped_count.to_f / total * 100).round(1)
-          Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped:        #{Paint[@skipped_count.to_s, :yellow]} #{Paint["(#{skip_rate}%)", :yellow]} #{Paint['(already exists)', :black, :bright]}")
+          Fontist.ui.say("  #{Paint['⊝',
+                                    :yellow]} Skipped:        #{Paint[@skipped_count.to_s,
+                                                                      :yellow]} #{Paint["(#{skip_rate}%)",
+                                                                                        :yellow]} #{Paint['(already exists)',
+                                                                                                          :black, :bright]}")
         end
 
-        if @overwritten_count > 0
-          Fontist.ui.say("  #{Paint['⚠', :yellow]} Overwritten:    #{Paint[@overwritten_count.to_s, :yellow]}")
+        if @overwritten_count.positive?
+          Fontist.ui.say("  #{Paint['⚠',
+                                    :yellow]} Overwritten:    #{Paint[@overwritten_count.to_s,
+                                                                      :yellow]}")
         end
 
-        if @failure_count > 0
+        if @failure_count.positive?
           fail_rate = (@failure_count.to_f / total * 100).round(1)
-          Fontist.ui.say("  #{Paint['✗', :red]} Failed:         #{Paint[@failure_count.to_s, :red]} #{Paint["(#{fail_rate}%)", :red]}")
+          Fontist.ui.say("  #{Paint['✗',
+                                    :red]} Failed:         #{Paint[@failure_count.to_s,
+                                                                   :red]} #{Paint["(#{fail_rate}%)",
+                                                                                  :red]}")
         end
 
-        if @skipped_count > 0 && !@force
+        if @skipped_count.positive? && !@force
           Fontist.ui.say("")
-          Fontist.ui.say("  #{Paint['💡 Tip:', :cyan]} Use #{Paint['--force', :cyan, :bright]} to overwrite existing formulas:")
+          Fontist.ui.say("  #{Paint['💡 Tip:',
+                                    :cyan]} Use #{Paint['--force', :cyan,
+                                                        :bright]} to overwrite existing formulas:")
           Fontist.ui.say("    fontist import sil --output-path=<path> --force")
         end
 
         Fontist.ui.say("")
 
         if @success_count > (total * 0.5)
-          Fontist.ui.say(Paint["  🎉 Great success! #{@success_count} formulas created!", :green, :bright])
-        elsif @success_count > 0
-          Fontist.ui.say(Paint["  👍 Keep going! #{@success_count} formulas created.", :yellow, :bright])
+          Fontist.ui.say(Paint["  🎉 Great success! #{@success_count} formulas created!",
+                               :green, :bright])
+        elsif @success_count.positive?
+          Fontist.ui.say(Paint["  👍 Keep going! #{@success_count} formulas created.",
+                               :yellow, :bright])
         end
 
         # Show failures if any
@@ -200,7 +230,9 @@ module Fontist
           Fontist.ui.say("")
 
           @failures.each_with_index do |failure, index|
-            Fontist.ui.say("  #{index + 1}. #{Paint[failure[:name], :yellow]} - #{Paint[failure[:reason], :red]}")
+            Fontist.ui.say("  #{index + 1}. #{Paint[failure[:name],
+                                                    :yellow]} - #{Paint[failure[:reason],
+                                                                        :red]}")
           end
         end
 
@@ -217,7 +249,10 @@ module Fontist
         Fontist.ui.say("")
 
         @failures.each do |failure|
-          Fontist.ui.say("  #{Paint['✗', :red]} #{Paint[ failure[:name], :white]}: #{Paint[ failure[:reason], :red]}")
+          Fontist.ui.say("  #{Paint['✗',
+                                    :red]} #{Paint[failure[:name],
+                                                   :white]}: #{Paint[failure[:reason],
+                                                                     :red]}")
         end
 
         Fontist.ui.say("")
@@ -234,7 +269,7 @@ module Fontist
           skipped: @skipped_count,
           overwritten: @overwritten_count,
           errors: [],
-          duration: duration
+          duration: duration,
         }
       end
 
@@ -272,9 +307,7 @@ module Fontist
         # All SIL fonts use the SIL Open Font License
         options[:open_license] = "OFL-1.1"
 
-        path = Fontist::Import::CreateFormula.new(url, options).call
-
-        path
+        Fontist::Import::CreateFormula.new(url, options).call
       end
 
       # Extract version from URL
@@ -305,7 +338,7 @@ module Fontist
 
         Fontist::SilImportSource.new(
           version: version,
-          release_date: Time.now.utc.iso8601
+          release_date: Time.now.utc.iso8601,
         )
       end
 
@@ -315,7 +348,9 @@ module Fontist
         # Skip known index pages that just link to other fonts
         if index_page?(family_name)
           if @verbose
-            Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped (index page): #{Paint[family_name, :black, :bright]}")
+            Fontist.ui.say("  #{Paint['⊝',
+                                      :yellow]} Skipped (index page): #{Paint[family_name,
+                                                                              :black, :bright]}")
           end
           return nil
         end
@@ -352,7 +387,7 @@ module Fontist
           "Arabic Fonts",
           "Latin, Greek, and Cyrillic Fonts",
           "African Latin Fonts",
-          "Asian Latin Fonts"
+          "Asian Latin Fonts",
         ]
         index_pages.any? { |page| name.strip.casecmp?(page) }
       end
@@ -388,7 +423,7 @@ module Fontist
         # Try 1: Look for direct download link with btn-download class pointing to .zip
         links = document.css("a.btn-download")
         download_links = links.select do |tag|
-          tag[:href] && tag[:href].end_with?(".zip")
+          tag[:href]&.end_with?(".zip")
         end
         return download_links.first if download_links.any?
 
@@ -401,7 +436,7 @@ module Fontist
         # Try 3: Look for links with class "getfile" that point to .zip files
         links = document.css("a.getfile")
         download_links = links.select do |tag|
-          tag[:href] && tag[:href].end_with?(".zip")
+          tag[:href]&.end_with?(".zip")
         end
         return download_links.first if download_links.any?
 
@@ -416,7 +451,9 @@ module Fontist
       def find_download_page(document)
         links = document.css("a.btn-download")
         # Try both old "DOWNLOADS" and new "Downloads" text
-        page_links = links.select { |tag| tag.content.strip.match?(/^DOWNLOADS?$/i) }
+        page_links = links.select do |tag|
+          tag.content.strip.match?(/^DOWNLOADS?$/i)
+        end
         page_links.first
       end
 
@@ -441,13 +478,15 @@ module Fontist
       end
 
       def formula_dir
-        @formula_dir ||= begin
-          if @output_path
-            Pathname.new(@output_path).tap { |path| FileUtils.mkdir_p(path) }
-          else
-            Fontist.formulas_path.join("sil").tap { |path| FileUtils.mkdir_p(path) }
-          end
-        end
+        @formula_dir ||= if @output_path
+                           Pathname.new(@output_path).tap do |path|
+                             FileUtils.mkdir_p(path)
+                           end
+                         else
+                           Fontist.formulas_path.join("sil").tap do |path|
+                             FileUtils.mkdir_p(path)
+                           end
+                         end
       end
     end
   end

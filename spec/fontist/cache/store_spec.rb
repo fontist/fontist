@@ -16,7 +16,7 @@ RSpec.describe Fontist::Cache::Store do
 
   describe "#initialize" do
     it "creates cache directory if it doesn't exist" do
-      store  # Reference subject to trigger initialization
+      store # Reference subject to trigger initialization
       expect(Dir.exist?(cache_dir)).to be true
     end
 
@@ -237,7 +237,7 @@ RSpec.describe Fontist::Cache::Store do
     end
 
     it "handles concurrent writes" do
-      threads = 5.times.map do |i|
+      threads = Array.new(5) do |i|
         Thread.new { store.set("concurrent_#{i}", i) }
       end
 
@@ -289,7 +289,7 @@ RSpec.describe Fontist::Cache::Store do
   end
 
   def sanitize_key(key)
-    key.to_s.gsub(/[^\w\-]/, '_')
+    key.to_s.gsub(/[^\w-]/, "_")
   end
 
   def read_raw_entry(key)

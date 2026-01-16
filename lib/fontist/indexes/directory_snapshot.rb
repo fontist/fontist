@@ -20,7 +20,7 @@ module Fontist
         new(
           hash[:directory_path].to_s,
           hash[:files],
-          hash[:scanned_at]
+          hash[:scanned_at],
         )
       end
 
@@ -50,7 +50,7 @@ module Fontist
         {
           directory_path: @directory_path,
           files: @files,
-          scanned_at: @scanned_at
+          scanned_at: @scanned_at,
         }
       end
 
@@ -59,7 +59,9 @@ module Fontist
       def initialize(directory_path, files, scanned_at)
         @directory_path = directory_path
         @files = files.freeze # Immutable
-        @files_by_filename = files.each_with_object({}) { |f, h| h[f[:filename]] = f }.freeze
+        @files_by_filename = files.each_with_object({}) do |f, h|
+          h[f[:filename]] = f
+        end.freeze
         @scanned_at = scanned_at
       end
     end

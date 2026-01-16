@@ -8,18 +8,18 @@ RSpec.describe Fontist::Errors do
         3 => {
           "min_macos_version" => "10.12",
           "max_macos_version" => "10.12",
-          "description" => "Font3 framework (macOS Sierra)"
+          "description" => "Font3 framework (macOS Sierra)",
         },
         7 => {
           "min_macos_version" => "12.0",
           "max_macos_version" => "15.99",
-          "description" => "Font7 framework (macOS Monterey, Ventura, Sonoma, Sequoia)"
+          "description" => "Font7 framework (macOS Monterey, Ventura, Sonoma, Sequoia)",
         },
         8 => {
           "min_macos_version" => "26.0",
           "max_macos_version" => nil,
-          "description" => "Font8 framework (macOS Tahoe+)"
-        }
+          "description" => "Font8 framework (macOS Tahoe+)",
+        },
       }
     end
 

@@ -38,7 +38,8 @@ module Fontist
         end
 
         def set_directory_fonts(directory_path, fonts)
-          set("directory:#{directory_path}", fonts, ttl: 3600, namespace: :indexes)
+          set("directory:#{directory_path}", fonts, ttl: 3600,
+                                                    namespace: :indexes)
         end
 
         private
@@ -50,8 +51,13 @@ module Fontist
 
         def clear_all
           Dir.glob(cache_dir.join("*")).each do |path|
-            next if path == "." || path == ".."
-            FileUtils.rm_rf(path) rescue nil
+            next if [".", ".."].include?(path)
+
+            begin
+              FileUtils.rm_rf(path)
+            rescue StandardError
+              nil
+            end
           end
         end
       end

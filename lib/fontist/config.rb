@@ -72,8 +72,8 @@ module Fontist
       # @return [Symbol] :fontist, :user, or :system
       def fonts_install_location
         value = ENV["FONTIST_INSTALL_LOCATION"] ||
-                instance.custom_values[:fonts_install_location] ||
-                "fontist"
+          instance.custom_values[:fonts_install_location] ||
+          "fontist"
 
         parse_location_value(value)
       end

@@ -88,8 +88,12 @@ RSpec.describe Fontist::Indexes::SystemIndex do
   end
 
   describe "#remove_font" do
-    let(:mock_font1) { double("font1", path: "/System/Library/Fonts/font1.ttf") }
-    let(:mock_font2) { double("font2", path: "/System/Library/Fonts/font2.ttf") }
+    let(:mock_font1) do
+      double("font1", path: "/System/Library/Fonts/font1.ttf")
+    end
+    let(:mock_font2) do
+      double("font2", path: "/System/Library/Fonts/font2.ttf")
+    end
     let(:fonts) { [mock_font1, mock_font2] }
 
     before do

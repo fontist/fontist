@@ -11,7 +11,7 @@ module Fontist
       # @param name [String] Font family name
       # @return [String] Normalized base filename (no extension)
       def normalize_filename(name)
-        name.downcase.gsub(' ', '_')
+        name.downcase.gsub(" ", "_")
       end
     end
   end

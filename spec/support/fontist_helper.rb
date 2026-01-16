@@ -32,7 +32,7 @@ module Fontist
         Fontist::Index.reset_cache
         Fontist::SystemIndex.reset_cache
         Fontist::SystemFont.reset_font_paths_cache
-        Fontist::Config.reset  # Reset config singleton to ensure test isolation
+        Fontist::Config.reset # Reset config singleton to ensure test isolation
 
         # Reset new OOP index singletons
         Fontist::Indexes::FontistIndex.reset_cache
@@ -48,8 +48,8 @@ module Fontist
       retry_count = 0
       begin
         Dir.mktmpdir do |dir|
-          orig_home = Fontist.default_fontist_path
-          orig_formulas_path = Fontist.formulas_path
+          Fontist.default_fontist_path
+          Fontist.formulas_path
           Fontist.formulas_path = nil
 
           allow(Fontist).to receive(:default_fontist_path)
@@ -173,7 +173,8 @@ module Fontist
 
       # Create formulas directory structure to satisfy check_index
       # formulas_repo_path = fontist_path/versions/v4/formulas/Formulas
-      versions_dir = File.join(@fontist_parent_dir, "versions", "v4", "formulas")
+      versions_dir = File.join(@fontist_parent_dir, "versions", "v4",
+                               "formulas")
       FileUtils.mkdir_p(File.join(versions_dir, "Formulas"))
 
       # Stub fontist_path first (affects derived paths like fontist_index_path)
@@ -575,16 +576,18 @@ module Fontist
 
       # Common patterns to extract formula key
       # Remove common suffixes: -regular, -bold, -italic, etc.
-      key = base.gsub(/-?(regular|bold|italic|light|medium|thin|black|oblique|mono)/, "")
+      key = base.gsub(
+        /-?(regular|bold|italic|light|medium|thin|black|oblique|mono)/, ""
+      )
 
       # Handle special cases
-      key = "andale" if key =~ /^andalemo/
-      key = "tex_gyre_chorus" if key =~ /^texgyrechorus/
-      key = "work_sans" if key =~ /^worksans/
-      key = "cambria" if key =~ /^cambria/
-      key = "fira_code" if key =~ /^firacode/
-      key = "lato" if key =~ /^lato/
-      key = "source" if key =~ /^source/
+      key = "andale" if /^andalemo/.match?(key)
+      key = "tex_gyre_chorus" if /^texgyrechorus/.match?(key)
+      key = "work_sans" if /^worksans/.match?(key)
+      key = "cambria" if /^cambria/.match?(key)
+      key = "fira_code" if /^firacode/.match?(key)
+      key = "lato" if /^lato/.match?(key)
+      key = "source" if /^source/.match?(key)
 
       # Remove trailing hyphens and underscores
       key.gsub(/[-_]+$/, "")

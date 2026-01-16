@@ -4,10 +4,10 @@ RSpec.describe Fontist::InstallLocations::BaseLocation do
   # Create a concrete test class since BaseLocation is abstract
   let(:mock_index) do
     instance_double("TestIndex",
-                   find: nil,
-                   font_exists?: false,
-                   add_font: nil,
-                   remove_font: nil)
+                    find: nil,
+                    font_exists?: false,
+                    add_font: nil,
+                    remove_font: nil)
   end
 
   let(:test_location_class) do
@@ -159,7 +159,8 @@ RSpec.describe Fontist::InstallLocations::BaseLocation do
 
       it "performs simple installation" do
         expect(FileUtils).to receive(:mkdir_p).with(Pathname.new("/tmp/test"))
-        expect(FileUtils).to receive(:cp).with(source_path, Pathname.new("/tmp/test/Roboto-Regular.ttf"))
+        expect(FileUtils).to receive(:cp).with(source_path,
+                                               Pathname.new("/tmp/test/Roboto-Regular.ttf"))
 
         location.install_font(source_path, target_filename)
       end
@@ -184,7 +185,8 @@ RSpec.describe Fontist::InstallLocations::BaseLocation do
       end
 
       it "replaces existing font" do
-        expect(FileUtils).to receive(:cp).with(source_path, Pathname.new("/tmp/test/Roboto-Regular.ttf"))
+        expect(FileUtils).to receive(:cp).with(source_path,
+                                               Pathname.new("/tmp/test/Roboto-Regular.ttf"))
 
         location.install_font(source_path, target_filename)
       end
@@ -212,7 +214,8 @@ RSpec.describe Fontist::InstallLocations::BaseLocation do
       end
 
       it "installs with unique name" do
-        expect(FileUtils).to receive(:cp).with(source_path, Pathname.new("/tmp/test/Roboto-Regular-fontist.ttf"))
+        expect(FileUtils).to receive(:cp).with(source_path,
+                                               Pathname.new("/tmp/test/Roboto-Regular-fontist.ttf"))
 
         location.install_font(source_path, target_filename)
       end

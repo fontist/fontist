@@ -150,7 +150,7 @@ RSpec.describe Fontist::Memoizable do
 
     it "checks disk cache before computing" do
       expect(Fontist::Cache::Manager).to receive(:get)
-        .with("calc:input")  # Key proc generates "calc:#{input}"
+        .with("calc:input") # Key proc generates "calc:#{input}"
         .and_return(nil)
 
       instance.expensive_calculation("input")
@@ -158,14 +158,14 @@ RSpec.describe Fontist::Memoizable do
 
     it "stores result in disk cache when TTL is set" do
       expect(Fontist::Cache::Manager).to receive(:set)
-        .with("calc:input", "result:input", ttl: 60)  # Key is "calc:#{input}"
+        .with("calc:input", "result:input", ttl: 60) # Key is "calc:#{input}"
 
       instance.expensive_calculation("input")
     end
 
     it "uses cached value from disk cache" do
       expect(Fontist::Cache::Manager).to receive(:get)
-        .with("calc:input")  # Key proc generates "calc:#{input}"
+        .with("calc:input") # Key proc generates "calc:#{input}"
         .and_return("cached_result")
 
       expect(Fontist::Cache::Manager).not_to receive(:set)
@@ -218,10 +218,10 @@ RSpec.describe Fontist::Memoizable do
     end
 
     it "works for class methods" do
-      result1 = class_with_memoizable.class_method("test")
+      class_with_memoizable.class_method("test")
       expect(class_with_memoizable.class_call_count).to eq 1
 
-      result2 = class_with_memoizable.class_method("test")
+      class_with_memoizable.class_method("test")
       expect(class_with_memoizable.class_call_count).to eq 1 # Not incremented
     end
   end

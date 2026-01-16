@@ -15,8 +15,9 @@ module Fontist
 
       private
 
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def build_collection(path)
-        # Validate collection by checking it can be loaded and fonts can be extracted
+        # Validate collection by checking it can be loaded
         # This uses fontisan's collection validation infrastructure
         require "fontisan"
 
@@ -35,13 +36,20 @@ module Fontist
         # Validate at least the first font is indexable
         # This provides a basic sanity check that the collection is valid
         validator = Fontisan::Validators::ProfileLoader.load(:indexability)
-        first_font = Fontisan::FontLoader.load(path, font_index: 0, mode: :metadata, lazy: true)
+        first_font = Fontisan::FontLoader.load(path,
+                                                 font_index: 0,
+                                                 mode: :metadata,
+                                                 lazy: true)
         validation_report = validator.validate(first_font)
 
         unless validation_report.valid?
-          error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+          error_messages = validation_report.errors.map do |e|
+            "#{e.category}: #{e.message}"
+          end.join("; ")
+          # rubocop:disable Layout/LineLength
           raise Errors::FontFileError,
                 "Font collection failed indexability validation (first font): #{error_messages}"
+          # rubocop:enable Layout/LineLength
         end
 
         collection
@@ -49,7 +57,9 @@ module Fontist
         raise Errors::FontFileError,
               "Font collection could not be loaded: #{e.inspect}."
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength
       def check_extension_warning(path)
         expected_ext = File.extname(path).downcase.sub(/^\./, "")
 
@@ -58,15 +68,18 @@ module Fontist
 
         unless collection_extensions.include?(expected_ext)
           Fontist.ui.warn(
+            # rubocop:disable Layout/LineLength
             "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
             "but appears to be a font collection (.ttc/.otc/.dfont). " \
-            "The file will be indexed, but consider renaming for clarity."
+            "The file will be indexed, but consider renaming for clarity.",
+            # rubocop:enable Layout/LineLength
           )
         end
       rescue StandardError => e
         # Don't fail indexing just because we can't detect the format
         Fontist.ui.debug("Could not check extension for warning: #{e.message}")
       end
+      # rubocop:enable Metrics/MethodLength
     end
 
     def initialize(fontisan_collection, path)
@@ -75,7 +88,9 @@ module Fontist
       # Keep tempfiles alive during font extraction to prevent Windows GC issues
       # On Windows, GC finalizers trying to delete files can fail with EACCES
       # if files are still being accessed. By keeping references, we let Ruby's
+      # rubocop:disable Layout/LineLength
       # normal GC handle cleanup when the CollectionFile is no longer referenced.
+      # rubocop:enable Layout/LineLength
       @tempfiles = []
     end
 
@@ -91,6 +106,7 @@ module Fontist
       self
     end
 
+    # rubocop:disable Metrics/MethodLength
     def [](index)
       # Extract font from collection to temporary file,
       # then load and extract metadata
@@ -114,6 +130,7 @@ module Fontist
       # Tempfile will be deleted when CollectionFile is GC'd
       FontFile.from_path(tmpfile.path)
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Removed extract_font_info method - now using FontFile.from_path
   end

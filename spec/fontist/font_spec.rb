@@ -56,7 +56,8 @@ RSpec.describe Fontist::Font do
       before do
         # Use minimal fixture that only includes the specific fonts being tested
         # This avoids scanning thousands of system fonts and speeds up tests dramatically
-        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_macos_minimal.yml")
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures",
+                                                     "system_macos_minimal.yml")
         stub_system_fonts(minimal_system_file)
         # Rebuild system index to detect actual macOS fonts
         Fontist::SystemIndex.system_index.rebuild
@@ -93,7 +94,8 @@ RSpec.describe Fontist::Font do
     context "with windows system fonts", windows: true, slow: true do
       before do
         # Use minimal fixture that only includes the specific fonts being tested
-        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures",
+                                                     "system_windows_minimal.yml")
         stub_system_fonts(minimal_system_file)
       end
 
@@ -126,7 +128,8 @@ RSpec.describe Fontist::Font do
         FileUtils.mkdir_p(File.dirname(absolute_user_path))
         FileUtils.cp(fixture_path, absolute_user_path)
         # Use minimal fixture for Windows user font tests
-        minimal_system_file = Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
+        minimal_system_file = Fontist.root_path.join("spec", "fixtures",
+                                                     "system_windows_minimal.yml")
         stub_system_fonts(minimal_system_file)
       end
 
@@ -438,7 +441,8 @@ RSpec.describe Fontist::Font do
 
             rebuilt_index do
               command
-              expect(Pathname.new(File.join(fontist_path, "fonts", "andale", file)))
+              expect(Pathname.new(File.join(fontist_path, "fonts", "andale",
+                                            file)))
                 .to exist
             end
           end
@@ -758,8 +762,10 @@ RSpec.describe Fontist::Font do
 
         it "installs only requested font" do
           command
-          expect(Pathname.new(formula_font_path('lato', 'Lato-Regular.ttf'))).to exist
-          expect(Pathname.new(formula_font_path('lato', 'Lato-Black.ttf'))).not_to exist
+          expect(Pathname.new(formula_font_path("lato",
+                                                "Lato-Regular.ttf"))).to exist
+          expect(Pathname.new(formula_font_path("lato",
+                                                "Lato-Black.ttf"))).not_to exist
         end
       end
 
@@ -790,20 +796,23 @@ RSpec.describe Fontist::Font do
 
         context "valid locations" do
           it "installs to fontist location" do
-            paths = Fontist::Font.install(font, confirmation: "yes", location: :fontist)
+            paths = Fontist::Font.install(font, confirmation: "yes",
+                                                location: :fontist)
             expect(paths).to include(include("AndaleMo.TTF"))
-            expect(paths.first).to include("andale")  # formula-keyed path
+            expect(paths.first).to include("andale") # formula-keyed path
           end
 
           it "installs to user location" do
-            paths = Fontist::Font.install(font, confirmation: "yes", location: :user)
+            paths = Fontist::Font.install(font, confirmation: "yes",
+                                                location: :user)
             expect(paths).to include(include("AndaleMo.TTF"))
           end
 
           it "installs to system location" do
             # With OOP architecture, location object handles installation
             # Just verify successful installation
-            paths = Fontist::Font.install(font, confirmation: "yes", location: :system)
+            paths = Fontist::Font.install(font, confirmation: "yes",
+                                                location: :system)
             expect(paths).to include(include("AndaleMo.TTF"))
           end
         end
@@ -811,26 +820,29 @@ RSpec.describe Fontist::Font do
         context "invalid locations" do
           it "shows error for invalid symbol but proceeds with default" do
             expect(Fontist.ui).to receive(:error).with(include("Invalid install location"))
-            paths = Fontist::Font.install(font, confirmation: "yes", location: :invalid)
+            paths = Fontist::Font.install(font, confirmation: "yes",
+                                                location: :invalid)
             expect(paths).to include(include("AndaleMo.TTF"))
           end
 
           it "raises ArgumentError for string location parameter" do
-            expect {
+            expect do
               Fontist::Font.install(font, confirmation: "yes", location: "user")
-            }.to raise_error(ArgumentError, /location must be a Symbol/)
+            end.to raise_error(ArgumentError, /location must be a Symbol/)
           end
 
           it "raises ArgumentError for custom path (string)" do
-            expect {
-              Fontist::Font.install(font, confirmation: "yes", location: "/custom/path")
-            }.to raise_error(ArgumentError, /location must be a Symbol/)
+            expect do
+              Fontist::Font.install(font, confirmation: "yes",
+                                          location: "/custom/path")
+            end.to raise_error(ArgumentError, /location must be a Symbol/)
           end
 
           it "raises ArgumentError for any string value" do
-            expect {
-              Fontist::Font.install(font, confirmation: "yes", location: "/my/path")
-            }.to raise_error(ArgumentError, /location must be a Symbol/)
+            expect do
+              Fontist::Font.install(font, confirmation: "yes",
+                                          location: "/my/path")
+            end.to raise_error(ArgumentError, /location must be a Symbol/)
           end
         end
 
@@ -892,7 +904,8 @@ RSpec.describe Fontist::Font do
       let(:font) { "any font" }
       before do
         # Use empty system.yml fixture - no need to scan any system fonts for this test
-        stub_system_fonts(Fontist.root_path.join("spec", "fixtures", "system.yml"))
+        stub_system_fonts(Fontist.root_path.join("spec", "fixtures",
+                                                 "system.yml"))
       end
 
       it "throws MainRepoNotFoundError", slow: true do

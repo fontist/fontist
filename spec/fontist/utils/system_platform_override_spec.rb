@@ -187,7 +187,7 @@ RSpec.describe Fontist::Utils::System do
 
         # Should fall back to actual detection
         actual_os = described_class.user_os
-        expect([:macos, :linux, :windows, :unix]).to include(actual_os)
+        expect(%i[macos linux windows unix]).to include(actual_os)
       end
 
       it "uses actual OS when no override" do
@@ -195,7 +195,7 @@ RSpec.describe Fontist::Utils::System do
         described_class.instance_variable_set(:@user_os, nil)
 
         actual_os = described_class.user_os
-        expect([:macos, :linux, :windows, :unix]).to include(actual_os)
+        expect(%i[macos linux windows unix]).to include(actual_os)
       end
     end
 

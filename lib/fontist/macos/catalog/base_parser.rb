@@ -17,9 +17,10 @@ module Fontist
         def assets
           posted_date_str = posted_date
           framework_ver = framework_version
-          parse_assets.map { |asset_data|
-            Asset.new(asset_data, posted_date: posted_date_str, framework_version: framework_ver)
-          }
+          parse_assets.map do |asset_data|
+            Asset.new(asset_data, posted_date: posted_date_str,
+                                  framework_version: framework_ver)
+          end
         end
 
         def posted_date

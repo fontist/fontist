@@ -23,7 +23,8 @@ module Fontist
     # @abstract Subclasses must implement this
     # @return [String] A unique key for this import source
     def differentiation_key
-      raise NotImplementedError, "#{self.class} must implement #differentiation_key"
+      raise NotImplementedError,
+            "#{self.class} must implement #differentiation_key"
     end
 
     # Checks if this source is older than the provided new source

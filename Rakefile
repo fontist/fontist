@@ -73,6 +73,3 @@ task :download_macos_catalogs do
 
   puts "\nDownloaded all macOS font catalogs to #{catalogs_dir}/"
 end
-
-
-

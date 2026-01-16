@@ -28,7 +28,8 @@ module Fontist
       Fontist::SystemFont.find_styles(font, style)
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false,
+location: nil)
       validate_location_parameter!(location)
       validate_platform_compatibility!
 
@@ -74,7 +75,7 @@ module Fontist
       return if location.is_a?(Symbol)
 
       raise ArgumentError,
-        "location must be a Symbol (e.g., :fontist, :user, :system), got #{location.class}"
+            "location must be a Symbol (e.g., :fontist, :user, :system), got #{location.class}"
     end
 
     def validate_platform_compatibility!
@@ -170,7 +171,8 @@ module Fontist
       end
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false,
+location: nil)
       installed_any = false
       fonts_casted.each do |font|
         paths = font.group_paths

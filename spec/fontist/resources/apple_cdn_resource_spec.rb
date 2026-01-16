@@ -46,7 +46,7 @@ RSpec.describe Fontist::Resources::AppleCDNResource do
       expect(Fontist::Utils::Downloader).to receive(:download)
         .with(
           "https://updates.cdn-apple.com/test/font.zip",
-          hash_including(sha: "abc123", file_size: 12345)
+          hash_including(sha: "abc123", file_size: 12345),
         )
         .and_return(mock_cache_path)
 

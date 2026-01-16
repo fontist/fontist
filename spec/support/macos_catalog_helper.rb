@@ -5,7 +5,8 @@
 # This helper provides methods to copy catalogs from spec/fixtures/macos_catalogs to test directories
 module MacosCatalogHelper
   # Path to the directory containing downloaded catalogs
-  CATALOGS_SOURCE_DIR = File.expand_path("../fixtures/macos_catalogs", __dir__).freeze
+  CATALOGS_SOURCE_DIR = File.expand_path("../fixtures/macos_catalogs",
+                                         __dir__).freeze
 
   # Copy catalogs to a test directory
   #
@@ -16,12 +17,14 @@ module MacosCatalogHelper
     FileUtils.mkdir_p(catalogs_dir)
 
     # Copy each catalog to its version subdirectory
-    Dir.glob(File.join(CATALOGS_SOURCE_DIR, "com_apple_MobileAsset_Font*.xml")).each do |catalog_file|
+    Dir.glob(File.join(CATALOGS_SOURCE_DIR,
+                       "com_apple_MobileAsset_Font*.xml")).each do |catalog_file|
       # Extract version number from filename
       version = catalog_file.match(/Font(\d+)\.xml/)[1]
 
       # Create version subdirectory
-      version_dir = File.join(catalogs_dir, "com_apple_MobileAsset_Font#{version}")
+      version_dir = File.join(catalogs_dir,
+                              "com_apple_MobileAsset_Font#{version}")
       FileUtils.mkdir_p(version_dir)
 
       # Copy catalog file
@@ -36,7 +39,8 @@ module MacosCatalogHelper
   #
   # @return [Boolean] true if catalogs are available
   def self.catalogs_available?
-    Dir.glob(File.join(CATALOGS_SOURCE_DIR, "com_apple_MobileAsset_Font*.xml")).any?
+    Dir.glob(File.join(CATALOGS_SOURCE_DIR,
+                       "com_apple_MobileAsset_Font*.xml")).any?
   end
 
   # Get path to a specific catalog in the source directory
@@ -44,6 +48,7 @@ module MacosCatalogHelper
   # @param version [Integer] The catalog version (3-8)
   # @return [String, nil] The path to the catalog or nil if not found
   def self.catalog_path(version)
-    Dir.glob(File.join(CATALOGS_SOURCE_DIR, "com_apple_MobileAsset_Font#{version}.xml")).first
+    Dir.glob(File.join(CATALOGS_SOURCE_DIR,
+                       "com_apple_MobileAsset_Font#{version}.xml")).first
   end
 end

@@ -221,8 +221,8 @@ module Fontist
 
       # Notify user about index rebuild for large collections
       paths = @paths_loader&.call || []
-      if paths.size > 100
-        Fontist.ui.say("Building font index (#{paths.size} fonts found, this may take a while...)") unless @verbose
+      if (paths.size > 100) && !@verbose
+        Fontist.ui.say("Building font index (#{paths.size} fonts found, this may take a while...)")
       end
 
       build
@@ -522,7 +522,7 @@ stats:)
           if verbose && stats
             display_progress(processed_count, sorted_paths.size, path,
                              spinner_chars)
-          elsif show_minimal_progress && (processed_count % progress_interval == 0 || processed_count == sorted_paths.size)
+          elsif show_minimal_progress && ((processed_count % progress_interval).zero? || processed_count == sorted_paths.size)
             # Show minimal progress every N fonts or at the end
             Fontist.ui.say("Scanning fonts: #{processed_count}/#{sorted_paths.size}...")
           end
@@ -548,7 +548,7 @@ verbose:, stats:)
         if verbose && stats
           display_progress(index + 1, sorted_paths.size, path, spinner_chars,
                            spinner_index)
-        elsif show_minimal_progress && ((index + 1) % progress_interval == 0 || index == sorted_paths.size - 1)
+        elsif show_minimal_progress && (((index + 1) % progress_interval).zero? || index == sorted_paths.size - 1)
           # Show minimal progress every N fonts or at the end
           Fontist.ui.say("Scanning fonts: #{index + 1}/#{sorted_paths.size}...")
         end

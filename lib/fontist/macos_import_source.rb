@@ -57,7 +57,8 @@ module Fontist
     # @param macos_version [String] The macOS version to check
     # @return [Boolean] true if compatible
     def compatible_with_macos?(macos_version)
-      MacosFrameworkMetadata.compatible_with_macos?(framework_version, macos_version)
+      MacosFrameworkMetadata.compatible_with_macos?(framework_version,
+                                                    macos_version)
     end
 
     # Returns a human-readable string representation

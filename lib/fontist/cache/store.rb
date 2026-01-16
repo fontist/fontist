@@ -29,12 +29,16 @@ module Fontist
       end
 
       def delete(key)
-        File.delete(cache_path(key)) rescue nil
+        File.delete(cache_path(key))
+      rescue StandardError
+        nil
       end
 
       def clear
         Dir.glob(File.join(@cache_dir, "*.marshal")).each do |f|
-          File.delete(f) rescue nil
+          File.delete(f)
+        rescue StandardError
+          nil
         end
       end
 
@@ -51,7 +55,7 @@ module Fontist
       end
 
       def sanitize_key(key)
-        key_str = key.to_s.gsub(/[^\w\-]/, '_')
+        key_str = key.to_s.gsub(/[^\w-]/, "_")
         # If key is too long for filesystem, hash it
         # Most filesystems have filename limits around 255 characters
         if key_str.length > 200
@@ -63,6 +67,7 @@ module Fontist
 
       def read_entry(key)
         return nil unless File.exist?(cache_path(key))
+
         Marshal.load(File.read(cache_path(key)))
       end
 

@@ -37,19 +37,19 @@ module Fontist
             builder.set_macos_import_source(
               framework_version: @options[:import_source].framework_version,
               posted_date: @options[:import_source].posted_date,
-              asset_id: @options[:import_source].asset_id
+              asset_id: @options[:import_source].asset_id,
             )
           when GoogleImportSource
             builder.set_google_import_source(
               commit_id: @options[:import_source].commit_id,
               api_version: @options[:import_source].api_version,
               last_modified: @options[:import_source].last_modified,
-              family_id: @options[:import_source].family_id
+              family_id: @options[:import_source].family_id,
             )
           when SilImportSource
             builder.set_sil_import_source(
               version: @options[:import_source].version,
-              release_date: @options[:import_source].release_date
+              release_date: @options[:import_source].release_date,
             )
           end
         else
@@ -139,7 +139,8 @@ module Fontist
       def download_mirror(url)
         cache_path = @options[:import_cache] || Fontist.import_cache_path
         cache_path = Pathname.new(cache_path) if cache_path.is_a?(String)
-        Fontist::Utils::Downloader.download(url, progress_bar: true, cache_path: cache_path).path
+        Fontist::Utils::Downloader.download(url, progress_bar: true,
+                                                 cache_path: cache_path).path
       rescue Errors::InvalidResourceError
         Fontist.ui.error("WARN: a mirror is not found '#{url}'")
         nil
@@ -177,7 +178,8 @@ module Fontist
         progress_bar = @options.fetch(:verbose, false) ? :verbose : true
         cache_path = @options[:import_cache] || Fontist.import_cache_path
         cache_path = Pathname.new(cache_path) if cache_path.is_a?(String)
-        Fontist::Utils::Downloader.download(url, progress_bar: progress_bar, cache_path: cache_path).path
+        Fontist::Utils::Downloader.download(url, progress_bar: progress_bar,
+                                                 cache_path: cache_path).path
       end
     end
   end

@@ -31,9 +31,8 @@ module PathHelper
   #   # => "/Users/user/.fontist/fonts/courier.ttf"
   def normalize_test_path(path)
     path.to_s
-        .tr('\\', '/')           # Windows backslashes to forward slashes
-        .sub(/^[A-Z]:/, '')      # Remove drive letters (C:, D:, etc.)
-        .gsub(/\/+/, '/')        # Normalize multiple slashes to single
+      .tr("\\", "/") # Windows backslashes to forward slashes
+      .sub(/^[A-Z]:/, "").squeeze("/") # Normalize multiple slashes to single
   end
 
   # Cross-platform path expectation
@@ -83,6 +82,7 @@ module PathHelper
   #   normalize_hash_path(result, :path)
   def normalize_hash_path(hash, key)
     return hash unless hash[key]
+
     hash.merge(key => normalize_test_path(hash[key]))
   end
 end

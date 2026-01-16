@@ -49,7 +49,7 @@ module Fontist
           # Font5/6 don't have Build, extract hash from __RelativePath
           # e.g., "com_apple_MobileAsset_Font5/94af53b6dd43b085554e207f5cd282fde8367af6.zip"
           if @relative_path
-            hash = @relative_path.split('/').last&.split('.')&.first
+            hash = @relative_path.split("/").last&.split(".")&.first
             return hash.downcase if hash
           end
 
@@ -62,7 +62,7 @@ module Fontist
           MacosImportSource.new(
             framework_version: @framework_version,
             posted_date: @posted_date,
-            asset_id: asset_id
+            asset_id: asset_id,
           )
         end
       end
@@ -91,10 +91,10 @@ module Fontist
           # No platform delivery means compatible with all
           return true if @platform_delivery.empty?
 
-            # Check if any platform delivery includes macOS (but not invisible)
-            @platform_delivery.any? do |platform|
-              platform.include?("macOS") && platform != "macOS-invisible"
-            end
+          # Check if any platform delivery includes macOS (but not invisible)
+          @platform_delivery.any? do |platform|
+            platform.include?("macOS") && platform != "macOS-invisible"
+          end
         end
       end
     end

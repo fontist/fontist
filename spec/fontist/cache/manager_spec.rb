@@ -29,7 +29,7 @@ RSpec.describe Fontist::Cache::Manager do
     it "handles complex Ruby objects" do
       complex_value = {
         "fonts" => ["Arial.ttf", "Times.ttf"],
-        "metadata" => { count: 2, scanned_at: Time.now }
+        "metadata" => { count: 2, scanned_at: Time.now },
       }
 
       described_class.set("complex", complex_value)
@@ -95,7 +95,8 @@ RSpec.describe Fontist::Cache::Manager do
       described_class.clear(namespace: :namespace1)
 
       expect(described_class.get("ns1_key", namespace: :namespace1)).to be_nil
-      expect(described_class.get("ns2_key", namespace: :namespace2)).to eq "value2"
+      expect(described_class.get("ns2_key",
+                                 namespace: :namespace2)).to eq "value2"
     end
   end
 
@@ -113,7 +114,8 @@ RSpec.describe Fontist::Cache::Manager do
       described_class.set("key", "namespaced_value", namespace: :custom)
 
       expect(described_class.get("key")).to eq "default_value"
-      expect(described_class.get("key", namespace: :custom)).to eq "namespaced_value"
+      expect(described_class.get("key",
+                                 namespace: :custom)).to eq "namespaced_value"
     end
   end
 
@@ -134,7 +136,8 @@ RSpec.describe Fontist::Cache::Manager do
 
       # Should be retrievable via indexes namespace
       expect(
-        described_class.get("directory:/System/Library/Fonts", namespace: :indexes)
+        described_class.get("directory:/System/Library/Fonts",
+                            namespace: :indexes),
       ).to eq fonts
     end
 
@@ -170,7 +173,7 @@ RSpec.describe Fontist::Cache::Manager do
         "path-with-dashes",
         "path.with.dots",
         "path:with:colons",
-        "path with spaces"
+        "path with spaces",
       ]
 
       special_keys.each do |key|
@@ -184,7 +187,7 @@ RSpec.describe Fontist::Cache::Manager do
     it "handles concurrent reads safely" do
       described_class.set("concurrent", [1, 2, 3, 4, 5])
 
-      threads = 10.times.map do
+      threads = Array.new(10) do
         Thread.new { described_class.get("concurrent") }
       end
 
@@ -193,7 +196,7 @@ RSpec.describe Fontist::Cache::Manager do
     end
 
     it "handles concurrent writes safely" do
-      threads = 10.times.map do |i|
+      threads = Array.new(10) do |i|
         Thread.new { described_class.set("concurrent_write_#{i}", i) }
       end
 

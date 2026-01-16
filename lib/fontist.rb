@@ -173,6 +173,7 @@ module Fontist
 
   def self.auto_overwrite
     return @auto_overwrite if defined?(@auto_overwrite)
+
     nil
   end
 

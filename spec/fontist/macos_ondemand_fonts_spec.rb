@@ -156,7 +156,8 @@ RSpec.describe "macOS On-Demand Fonts" do
         FileUtils.rm_f(manifest_path)
       end
 
-      it "validates platform before installation on Linux", skip_on_macos: true do
+      it "validates platform before installation on Linux",
+         skip_on_macos: true do
         allow(Fontist::Utils::System).to receive(:user_os).and_return(:linux)
 
         # Check if formula exists first
@@ -164,7 +165,8 @@ RSpec.describe "macOS On-Demand Fonts" do
         skip "Test formula not available" if formula.nil?
 
         # Test at ManifestFont level
-        manifest_font = Fontist::ManifestFont.new(name: "Al Bayan", styles: ["Plain"])
+        manifest_font = Fontist::ManifestFont.new(name: "Al Bayan",
+                                                  styles: ["Plain"])
 
         expect do
           manifest_font.install(confirmation: "yes")
@@ -179,7 +181,8 @@ RSpec.describe "macOS On-Demand Fonts" do
         skip "Test formula not available" if formula.nil?
 
         # Test at ManifestFont level
-        manifest_font = Fontist::ManifestFont.new(name: "Al Bayan", styles: ["Plain"])
+        manifest_font = Fontist::ManifestFont.new(name: "Al Bayan",
+                                                  styles: ["Plain"])
 
         expect do
           manifest_font.install(confirmation: "yes")
@@ -282,7 +285,7 @@ RSpec.describe "macOS On-Demand Fonts" do
     end
 
     it "knows the current platform" do
-      expect([:macos, :linux, :windows, :unix]).to include(current_os)
+      expect(%i[macos linux windows unix]).to include(current_os)
     end
 
     it "validates platform correctly for macOS formulas" do

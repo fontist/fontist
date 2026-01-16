@@ -8,7 +8,7 @@ RSpec.describe Fontist::GoogleImportSource do
         commit_id: "abc123def456789",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       # Google Fonts is a live service, filenames are NOT versioned
@@ -22,14 +22,14 @@ RSpec.describe Fontist::GoogleImportSource do
         commit_id: "abc123",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       new_source = described_class.new(
         commit_id: "def456",
         api_version: "v1",
         last_modified: "2024-01-02T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       expect(old_source.outdated?(new_source)).to be true
@@ -40,14 +40,14 @@ RSpec.describe Fontist::GoogleImportSource do
         commit_id: "abc123",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       source2 = described_class.new(
         commit_id: "abc123",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       expect(source1.outdated?(source2)).to be false
@@ -58,13 +58,13 @@ RSpec.describe Fontist::GoogleImportSource do
         commit_id: "abc123",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       other_source = Fontist::MacosImportSource.new(
         framework_version: 7,
         posted_date: "2024-01-01T12:00:00Z",
-        asset_id: "test123"
+        asset_id: "test123",
       )
 
       expect(google_source.outdated?(other_source)).to be false
@@ -77,12 +77,12 @@ RSpec.describe Fontist::GoogleImportSource do
         commit_id: "abc123def456789",
         api_version: "v1",
         last_modified: "2024-01-01T12:00:00Z",
-        family_id: "roboto"
+        family_id: "roboto",
       )
 
       result = source.to_s
       expect(result).to include("Google Fonts")
-      expect(result).to include("abc123d")  # Short commit (7 chars)
+      expect(result).to include("abc123d") # Short commit (7 chars)
       expect(result).to include("roboto")
       expect(result).to include("v1")
     end

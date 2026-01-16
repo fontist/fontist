@@ -51,7 +51,8 @@ module Fontist
     #
     # @return [String] String representation for debugging/logging
     def to_s
-      "Google Fonts (commit: #{commit_id&.slice(0, 7)}, family: #{family_id}, API: #{api_version})"
+      "Google Fonts (commit: #{commit_id&.slice(0,
+                                                7)}, family: #{family_id}, API: #{api_version})"
     end
 
     # Equality check based on commit ID
@@ -60,6 +61,7 @@ module Fontist
     # @return [Boolean] true if objects are equal
     def ==(other)
       return false unless other.is_a?(GoogleImportSource)
+
       commit_id == other.commit_id
     end
 

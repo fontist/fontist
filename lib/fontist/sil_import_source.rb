@@ -48,6 +48,7 @@ module Fontist
     # @return [Boolean] true if objects are equal
     def ==(other)
       return false unless other.is_a?(SilImportSource)
+
       version == other.version
     end
 

@@ -7,7 +7,7 @@ RSpec.describe Fontist::MacosImportSource do
       source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10M1360"
+        asset_id: "10M1360",
       )
 
       expect(source.differentiation_key).to eq("10m1360")
@@ -17,7 +17,7 @@ RSpec.describe Fontist::MacosImportSource do
       source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: nil
+        asset_id: nil,
       )
 
       expect(source.differentiation_key).to be_nil
@@ -29,13 +29,13 @@ RSpec.describe Fontist::MacosImportSource do
       old_source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       new_source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-14T18:11:00Z",
-        asset_id: "10m1361"
+        asset_id: "10m1361",
       )
 
       expect(old_source.outdated?(new_source)).to be true
@@ -45,13 +45,13 @@ RSpec.describe Fontist::MacosImportSource do
       old_source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-14T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       new_source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1361"
+        asset_id: "10m1361",
       )
 
       expect(old_source.outdated?(new_source)).to be false
@@ -61,13 +61,13 @@ RSpec.describe Fontist::MacosImportSource do
       source1 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       source2 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1361"
+        asset_id: "10m1361",
       )
 
       expect(source1.outdated?(source2)).to be false
@@ -77,7 +77,7 @@ RSpec.describe Fontist::MacosImportSource do
       source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       expect(source.outdated?(double)).to be false
@@ -87,13 +87,13 @@ RSpec.describe Fontist::MacosImportSource do
       source1 = described_class.new(
         framework_version: 7,
         posted_date: nil,
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       source2 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1361"
+        asset_id: "10m1361",
       )
 
       expect(source1.outdated?(source2)).to be false
@@ -151,7 +151,7 @@ RSpec.describe Fontist::MacosImportSource do
       source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       expect(source.to_s).to eq("macOS Font7 (posted: 2024-08-13T18:11:00Z, asset: 10m1360)")
@@ -182,7 +182,7 @@ RSpec.describe Fontist::MacosImportSource do
       source = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       yaml = source.to_yaml
@@ -212,13 +212,13 @@ RSpec.describe Fontist::MacosImportSource do
       source1 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       source2 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       expect(source1).to eq(source2)
@@ -228,13 +228,13 @@ RSpec.describe Fontist::MacosImportSource do
       source1 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1360"
+        asset_id: "10m1360",
       )
 
       source2 = described_class.new(
         framework_version: 7,
         posted_date: "2024-08-13T18:11:00Z",
-        asset_id: "10m1361"
+        asset_id: "10m1361",
       )
 
       expect(source1).not_to eq(source2)

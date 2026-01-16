@@ -33,7 +33,7 @@ module Fontist
       end
 
       def has_parsing_errors?
-        @parsing_errors && @parsing_errors.any?
+        @parsing_errors&.any?
       end
     end
 

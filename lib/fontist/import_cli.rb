@@ -12,7 +12,7 @@ module Fontist
            type: :string,
            desc: "Output path for generated formulas (default: ./Formulas/google)"
     option :font_name,
-           type: :string, aliases: [:f, :font_family],
+           type: :string, aliases: %i[f font_family],
            desc: "Import specific font family by name"
     option :force,
            type: :boolean,
@@ -106,7 +106,7 @@ module Fontist
         font_name: font_name,
         force: force,
         verbose: verbose,
-        import_cache: options[:import_cache]
+        import_cache: options[:import_cache],
       ).call
 
       CLI::STATUS_SUCCESS
@@ -143,7 +143,7 @@ module Fontist
         font_name: options[:font_name],
         force: options[:force],
         verbose: options[:verbose],
-        import_cache: options[:import_cache]
+        import_cache: options[:import_cache],
       )
 
       result = importer.call

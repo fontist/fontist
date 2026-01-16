@@ -49,7 +49,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
         # Verify snapshot was cached
         cached = Fontist::Cache::Manager.get(
           "snapshot:#{test_dir}",
-          namespace: :indexes
+          namespace: :indexes,
         )
         expect(cached).not_to be_nil
         expect(cached[:files].size).to eq 1
@@ -130,7 +130,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
         # Modify file
         sleep(1.1) # Ensure mtime changes
         test_path = File.join(test_dir, "test.ttf")
-        File.write(test_path, "\x00\x01\x00\x00" + "X" * 100)
+        File.write(test_path, "\u0000\u0001\u0000\u0000#{'X' * 100}")
 
         updater2 = described_class.new(test_dir.to_s)
         changes = updater2.update
@@ -150,7 +150,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
 
         # Modify B, remove C, add E
         sleep(1.1)
-        File.write(File.join(test_dir, "B.ttf"), "modified" + "\x00" * 94)
+        File.write(File.join(test_dir, "B.ttf"), "modified#{"\x00" * 94}")
         File.delete(File.join(test_dir, "C.ttf"))
         create_test_fonts(test_dir, ["E.ttf"])
 
@@ -186,7 +186,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
       updater1.update
 
       sleep(1.1)
-      File.write(File.join(test_dir, "test.ttf"), "modified" + "\x00" * 94)
+      File.write(File.join(test_dir, "test.ttf"), "modified#{"\x00" * 94}")
 
       updater2 = described_class.new(test_dir.to_s)
       updater2.update
@@ -223,7 +223,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
       updater1.update
 
       sleep(1.1)
-      File.write(File.join(test_dir, "B.ttf"), "modified" + "\x00" * 94)
+      File.write(File.join(test_dir, "B.ttf"), "modified#{"\x00" * 94}")
       File.delete(File.join(test_dir, "C.ttf"))
       create_test_fonts(test_dir, ["D.ttf"])
 
@@ -269,9 +269,9 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
 
     content = case File.extname(filename)
               when ".ttf", ".TTF"
-                "\x00\x01\x00\x00" + "\x00" * 100
+                "\u0000\u0001\u0000\u0000#{"\x00" * 100}"
               when ".otf", ".OTF"
-                "OTTO" + "\x00" * 100
+                "OTTO#{"\x00" * 100}"
               else
                 "\x00" * 104
               end

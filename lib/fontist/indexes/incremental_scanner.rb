@@ -26,7 +26,7 @@ module Fontist
           file_size: stat.size,
           file_mtime: stat.mtime.to_i,
           signature: compute_signature(path),
-          format: detect_format(path)
+          format: detect_format(path),
         }
       end
 
@@ -39,8 +39,8 @@ module Fontist
 
         # Check if file changed
         if cached_version &&
-           cached_version[:file_size] == current_stat.size &&
-           cached_version[:file_mtime] == current_stat.mtime.to_i
+            cached_version[:file_size] == current_stat.size &&
+            cached_version[:file_mtime] == current_stat.mtime.to_i
           # Could also check signature here for extra certainty
           return cached_version
         end
@@ -71,8 +71,6 @@ module Fontist
         header = File.read(path, 1024)
         Digest::SHA256.hexdigest(header)
       end
-
-      private
 
       # Detect font format from file header
       def self.detect_format(path)

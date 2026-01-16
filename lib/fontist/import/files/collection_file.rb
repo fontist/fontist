@@ -8,12 +8,15 @@ module Fontist
       class CollectionFile
         class << self
           def from_path(path, name_prefix: nil, error_collector: nil)
-            collection = build_collection(path, error_collector: error_collector)
+            collection = build_collection(path,
+                                          error_collector: error_collector)
             return nil unless collection
 
             new(collection, path, name_prefix)
           rescue StandardError => e
+            # rubocop:disable Layout/LineLength
             Fontist.ui.debug("Failed to build collection from #{File.basename(path)}: #{e.message}")
+            # rubocop:enable Layout/LineLength
             nil
           end
 
@@ -26,7 +29,9 @@ module Fontist
           rescue StandardError => e
             # Collect error if collector provided, otherwise just debug log
             error_collector&.add(path, e.message, backtrace: e.backtrace)
+            # rubocop:disable Layout/LineLength
             Fontist.ui.debug("Fontisan collection load failed for #{File.basename(path)}: #{e.message}")
+            # rubocop:enable Layout/LineLength
             nil
           end
         end
@@ -41,7 +46,9 @@ module Fontist
         end
 
         def filename
+          # rubocop:disable Layout/LineLength
           # Use the exact filename from the archive - do NOT modify or standardize it
+          # rubocop:enable Layout/LineLength
           File.basename(@path)
         end
 

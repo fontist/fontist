@@ -13,7 +13,8 @@ module Fontist
     class Macos
       HOMEPAGE = "https://support.apple.com/en-om/HT211240#document".freeze
 
-      def initialize(catalog_path, formulas_dir: nil, font_name: nil, force: false, verbose: false, import_cache: nil)
+      def initialize(catalog_path, formulas_dir: nil, font_name: nil,
+force: false, verbose: false, import_cache: nil)
         @catalog_path = catalog_path
         @custom_formulas_dir = formulas_dir
         @font_name_filter = font_name
@@ -25,7 +26,7 @@ module Fontist
         @skipped_count = 0
         @overwritten_count = 0
         @total_bytes = 0
-        @failures = []  # Track {name, reason} for each failure
+        @failures = [] # Track {name, reason} for each failure
         @parser = Fontist::Macos::Catalog::CatalogManager.parser_for(@catalog_path)
       end
 
@@ -42,11 +43,20 @@ module Fontist
         end
 
         if @font_name_filter
-          Fontist.ui.say("🔍 Filter: #{Paint[@font_name_filter, :cyan, :bright]}")
+          Fontist.ui.say("🔍 Filter: #{Paint[@font_name_filter, :cyan,
+                                             :bright]}")
         end
-        Fontist.ui.say("📦 Found #{Paint[assets.size, :yellow, :bright]} font packages in catalog")
-        Fontist.ui.say("📁 Saving formulas to: #{Paint[formula_dir(@parser.framework_version), :cyan]}")
-        Fontist.ui.say("🔄 Mode: #{@force ? Paint['Force (overwrite existing)', :red, :bright] : Paint['Normal (skip existing)', :green]}")
+        Fontist.ui.say("📦 Found #{Paint[assets.size, :yellow,
+                                         :bright]} font packages in catalog")
+        Fontist.ui.say("📁 Saving formulas to: #{Paint[formula_dir(@parser.framework_version),
+                                                       :cyan]}")
+        Fontist.ui.say("🔄 Mode: #{if @force
+                                    Paint['Force (overwrite existing)',
+                                          :red, :bright]
+                                  else
+                                    Paint['Normal (skip existing)',
+                                          :green]
+                                  end}")
         Fontist.ui.say("")
 
         assets.each_with_index do |asset, index|
@@ -76,15 +86,19 @@ module Fontist
       def print_header
         Fontist.ui.say("")
         Fontist.ui.say(Paint["═" * 80, :cyan])
-        Fontist.ui.say(Paint["  🍎 macOS Supplementary Fonts Import", :cyan, :bright])
+        Fontist.ui.say(Paint["  🍎 macOS Supplementary Fonts Import", :cyan,
+                             :bright])
         Fontist.ui.say(Paint["═" * 80, :cyan])
         Fontist.ui.say("")
 
         if @verbose
-          Fontist.ui.say("📦 Import cache: #{Paint[Fontist.import_cache_path, :white]}")
-          Fontist.ui.say("📁 Formula output: #{Paint[Fontist.formulas_path, :white]}")
+          Fontist.ui.say("📦 Import cache: #{Paint[Fontist.import_cache_path,
+                                                   :white]}")
+          Fontist.ui.say("📁 Formula output: #{Paint[Fontist.formulas_path,
+                                                     :white]}")
           extensions = RecursiveExtraction::SUPPORTED_FONT_EXTENSIONS.join(", ")
-          Fontist.ui.say("🔍 Matching files with extensions: #{Paint[extensions, :cyan]}")
+          Fontist.ui.say("🔍 Matching files with extensions: #{Paint[extensions,
+                                                                     :cyan]}")
           Fontist.ui.say("")
         end
       end
@@ -99,7 +113,11 @@ module Fontist
         progress = "(#{current}/#{total})"
         percentage = ((current.to_f / total) * 100).round(1)
 
-        Fontist.ui.say("#{Paint[progress, :white]} #{Paint["#{percentage}%", :yellow]} | #{Paint[family_name, :cyan, :bright]} #{Paint["(#{fonts_count} font#{fonts_count > 1 ? 's' : ''})", :black, :bright]}")
+        Fontist.ui.say("#{Paint[progress,
+                                :white]} #{Paint["#{percentage}%",
+                                                 :yellow]} | #{Paint[family_name, :cyan,
+                                                                     :bright]} #{Paint["(#{fonts_count} font#{fonts_count > 1 ? 's' : ''})", :black,
+                                                                                       :bright]}")
 
         start_time = Time.now
 
@@ -131,12 +149,19 @@ module Fontist
           show_formula_fonts(path)
 
           @success_count += 1
-          Fontist.ui.say("  #{Paint['✓', :green]} Formula created: #{Paint[formula_name, :white]} #{Paint["(#{elapsed.round(2)}s)", :black, :bright]}")
+          Fontist.ui.say("  #{Paint['✓',
+                                    :green]} Formula created: #{Paint[formula_name,
+                                                                      :white]} #{Paint["(#{elapsed.round(2)}s)",
+                                                                                       :black, :bright]}")
         else
           # File already existed and was skipped by keep_existing check
           @skipped_count += 1
-          Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped (already exists): #{Paint[formula_name, :black, :bright]}")
-          Fontist.ui.say("    #{Paint['ℹ', :blue]} Use #{Paint['--force', :cyan]} to overwrite existing formulas")
+          Fontist.ui.say("  #{Paint['⊝',
+                                    :yellow]} Skipped (already exists): #{Paint[formula_name,
+                                                                                :black, :bright]}")
+          Fontist.ui.say("    #{Paint['ℹ',
+                                      :blue]} Use #{Paint['--force',
+                                                          :cyan]} to overwrite existing formulas")
         end
       rescue Fontist::Errors::FontNotFoundError => e
         @failure_count += 1
@@ -147,9 +172,10 @@ module Fontist
           error: e.message,
           parsing_errors: parsing_errors,
           url: asset.download_url,
-          cache_path: find_cached_file(asset.download_url)
+          cache_path: find_cached_file(asset.download_url),
         }
-        Fontist.ui.say("  #{Paint['✗', :red]} Failed: No fonts found in archive")
+        Fontist.ui.say("  #{Paint['✗',
+                                  :red]} Failed: No fonts found in archive")
       rescue StandardError => e
         @failure_count += 1
         error_msg = e.message.length > 60 ? "#{e.message[0..60]}..." : e.message
@@ -158,9 +184,10 @@ module Fontist
           error: error_msg,
           parsing_errors: [],
           url: asset.download_url,
-          cache_path: find_cached_file(asset.download_url)
+          cache_path: find_cached_file(asset.download_url),
         }
-        Fontist.ui.say("  #{Paint['✗', :red]} Failed: #{Paint[error_msg, :red]}")
+        Fontist.ui.say("  #{Paint['✗',
+                                  :red]} Failed: #{Paint[error_msg, :red]}")
       end
 
       def versioned_formula_path(asset, family_name)
@@ -175,7 +202,7 @@ module Fontist
 
       def show_formula_fonts(formula_path)
         formula = Fontist::Formula.from_file(formula_path)
-        return unless formula && formula.fonts
+        return unless formula&.fonts
 
         formula.fonts.each do |font|
           next unless font.styles && !font.styles.empty?
@@ -194,7 +221,10 @@ module Fontist
           styles_display += ", ..." if styles.size > 3
 
           font_name = font.respond_to?(:name) && font.name ? font.name : "Unknown"
-          Fontist.ui.say("    #{Paint['→', :blue]} #{Paint[font_name, :white]}: #{Paint[styles_display, :black, :bright]}")
+          Fontist.ui.say("    #{Paint['→',
+                                      :blue]} #{Paint[font_name,
+                                                      :white]}: #{Paint[styles_display,
+                                                                        :black, :bright]}")
         end
       rescue TypeError, NoMethodError, ArgumentError => e
         # These errors happen when YAML contains nil values in string fields
@@ -213,40 +243,56 @@ module Fontist
         Fontist.ui.say("")
 
         success_rate = (@success_count.to_f / total * 100).round(1)
-        skip_rate = (@skipped_count.to_f / total * 100).round(1) if @skipped_count > 0
+        skip_rate = (@skipped_count.to_f / total * 100).round(1) if @skipped_count.positive?
 
         Fontist.ui.say("  Total packages:     #{Paint[total.to_s, :white]}")
-        Fontist.ui.say("  #{Paint['✓', :green]} Successful:     #{Paint[@success_count.to_s, :green, :bright]} #{Paint["(#{success_rate}%)", :green]}")
+        Fontist.ui.say("  #{Paint['✓',
+                                  :green]} Successful:     #{Paint[@success_count.to_s, :green,
+                                                                   :bright]} #{Paint["(#{success_rate}%)",
+                                                                                     :green]}")
 
-        if @skipped_count > 0
-          Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped:        #{Paint[@skipped_count.to_s, :yellow]} #{Paint["(#{skip_rate}%)", :yellow]} #{Paint['(already exists)', :black, :bright]}")
+        if @skipped_count.positive?
+          Fontist.ui.say("  #{Paint['⊝',
+                                    :yellow]} Skipped:        #{Paint[@skipped_count.to_s,
+                                                                      :yellow]} #{Paint["(#{skip_rate}%)",
+                                                                                        :yellow]} #{Paint['(already exists)',
+                                                                                                          :black, :bright]}")
         end
 
-        if @overwritten_count > 0
-          Fontist.ui.say("  #{Paint['⚠', :yellow]} Overwritten:    #{Paint[@overwritten_count.to_s, :yellow]}")
+        if @overwritten_count.positive?
+          Fontist.ui.say("  #{Paint['⚠',
+                                    :yellow]} Overwritten:    #{Paint[@overwritten_count.to_s,
+                                                                      :yellow]}")
         end
 
-        if @failure_count > 0
-          Fontist.ui.say("  #{Paint['✗', :red]} Failed:         #{Paint[@failure_count.to_s, :red]}")
+        if @failure_count.positive?
+          Fontist.ui.say("  #{Paint['✗',
+                                    :red]} Failed:         #{Paint[@failure_count.to_s,
+                                                                   :red]}")
         end
 
-        if @failure_count > 0
+        if @failure_count.positive?
           Fontist.ui.say("")
-          Fontist.ui.say("  #{Paint['ℹ', :blue]}  Note: Failures may be due to download issues or unsupported font formats.")
+          Fontist.ui.say("  #{Paint['ℹ',
+                                    :blue]}  Note: Failures may be due to download issues or unsupported font formats.")
         end
 
-        if @skipped_count > 0 && !@force
+        if @skipped_count.positive? && !@force
           Fontist.ui.say("")
-          Fontist.ui.say("  #{Paint['💡 Tip:', :cyan]} Use #{Paint['--force', :cyan, :bright]} to overwrite existing formulas:")
+          Fontist.ui.say("  #{Paint['💡 Tip:',
+                                    :cyan]} Use #{Paint['--force', :cyan,
+                                                        :bright]} to overwrite existing formulas:")
           Fontist.ui.say("    fontist import macos --plist=<path> --force")
         end
 
         Fontist.ui.say("")
 
         if @success_count > (total * 0.5)
-          Fontist.ui.say(Paint["  🎉 Great success! #{@success_count} formulas created!", :green, :bright])
-        elsif @success_count > 0
-          Fontist.ui.say(Paint["  👍 Keep going! #{@success_count} formulas created.", :yellow, :bright])
+          Fontist.ui.say(Paint["  🎉 Great success! #{@success_count} formulas created!",
+                               :green, :bright])
+        elsif @success_count.positive?
+          Fontist.ui.say(Paint["  👍 Keep going! #{@success_count} formulas created.",
+                               :yellow, :bright])
         end
 
         # Show failures if any
@@ -258,8 +304,10 @@ module Fontist
           Fontist.ui.say("")
 
           @failures.each_with_index do |failure, index|
-            Fontist.ui.say("  #{index + 1}) #{Paint[failure[:name], :yellow, :bright]}")
-            Fontist.ui.say("     #{Paint['FontNotFoundError:', :red]} #{failure[:error]}")
+            Fontist.ui.say("  #{index + 1}) #{Paint[failure[:name], :yellow,
+                                                    :bright]}")
+            Fontist.ui.say("     #{Paint['FontNotFoundError:',
+                                         :red]} #{failure[:error]}")
             Fontist.ui.say("")
 
             # Show source information for debugging
@@ -274,30 +322,39 @@ module Fontist
             end
 
             # Show parsing errors if available
+            Fontist.ui.say("")
             if failure[:parsing_errors].any?
-              Fontist.ui.say("")
               Fontist.ui.say("       #{Paint['Font parsing errors:', :cyan]}")
 
               # Group errors by filename for cleaner display
-              grouped = failure[:parsing_errors].group_by { |e| File.basename(e[:path]) }
+              grouped = failure[:parsing_errors].group_by do |e|
+                File.basename(e[:path])
+              end
 
               grouped.each do |filename, errors|
-                Fontist.ui.say("       #{Paint['•', :red]} #{Paint[filename, :white]}")
+                Fontist.ui.say("       #{Paint['•',
+                                               :red]} #{Paint[filename,
+                                                              :white]}")
                 errors.each do |error|
                   # Show error message
                   message_lines = error[:message].scan(/.{1,70}(?:\s+|$)/)
                   message_lines.each_with_index do |line, i|
-                    prefix = i == 0 ? "         " : "           "
-                    Fontist.ui.say("#{prefix}#{Paint[line.strip, :red]}")
+                    prefix = i.zero? ? "         " : "           "
+                    Fontist.ui.say("#{prefix}#{Paint[line.strip,
+                                                     :red]}")
                   end
 
                   # Show first few lines of backtrace if available
-                  if error[:backtrace] && error[:backtrace].any?
+                  if error[:backtrace]&.any?
                     Fontist.ui.say("")
                     error[:backtrace].first(4).each do |trace_line|
                       # Clean up the trace line - show only relevant parts
-                      clean_line = trace_line.sub(/^#{Regexp.escape(Dir.pwd)}\//, '')
-                      Fontist.ui.say("           #{Paint['#', :black, :bright]} #{Paint[clean_line, :black, :bright]}")
+                      clean_line = trace_line.sub(
+                        /^#{Regexp.escape(Dir.pwd)}\//, ""
+                      )
+                      Fontist.ui.say("           #{Paint['#', :black,
+                                                         :bright]} #{Paint[clean_line,
+                                                                           :black, :bright]}")
                     end
                   end
                 end
@@ -305,8 +362,8 @@ module Fontist
               end
             else
               # No parsing errors collected - provide helpful context
-              Fontist.ui.say("")
-              Fontist.ui.say("       #{Paint['Note:', :yellow]} No font files could be extracted or parsed from this archive.")
+              Fontist.ui.say("       #{Paint['Note:',
+                                             :yellow]} No font files could be extracted or parsed from this archive.")
               Fontist.ui.say("       This may indicate:")
               Fontist.ui.say("         • Archive is empty or corrupted")
               Fontist.ui.say("         • Fonts are in an unsupported format")
@@ -354,35 +411,35 @@ module Fontist
       def formula_dir(framework_version)
         @formula_dirs ||= {}
         @formula_dirs[framework_version] ||= if @custom_formulas_dir
-                          Pathname.new(@custom_formulas_dir).tap do |path|
-                            FileUtils.mkdir_p(path)
-                          end
-                        else
-                          # Use versioned directory based on framework version
-                          version_dir = case framework_version
-                                      when 3
-                                        "font3"
-                                      when 4
-                                        "font4"
-                                      when 5
-                                        "font5"
-                                      when 6
-                                        "font6"
-                                      when 7
-                                        "font7"
-                                      when 8
-                                        "font8"
-                                      else
-                                        ""
-                                      end
+                                               Pathname.new(@custom_formulas_dir).tap do |path|
+                                                 FileUtils.mkdir_p(path)
+                                               end
+                                             else
+                                               # Use versioned directory based on framework version
+                                               version_dir = case framework_version
+                                                             when 3
+                                                               "font3"
+                                                             when 4
+                                                               "font4"
+                                                             when 5
+                                                               "font5"
+                                                             when 6
+                                                               "font6"
+                                                             when 7
+                                                               "font7"
+                                                             when 8
+                                                               "font8"
+                                                             else
+                                                               ""
+                                                             end
 
-                          base_dir = Fontist.formulas_path.join("macos")
-                          base_dir = base_dir.join(version_dir) unless version_dir.empty?
+                                               base_dir = Fontist.formulas_path.join("macos")
+                                               base_dir = base_dir.join(version_dir) unless version_dir.empty?
 
-                          base_dir.tap do |path|
-                            FileUtils.mkdir_p(path)
-                          end
-                        end
+                                               base_dir.tap do |path|
+                                                 FileUtils.mkdir_p(path)
+                                               end
+                                             end
       end
 
       def find_cached_file(url)

@@ -46,16 +46,22 @@ module Fontist
 
             # Download the catalog
             url = CATALOG_URLS[version]
-            raise ArgumentError, "Unsupported Font catalog version: #{version}. Supported versions: 3, 4, 5, 6, 7, 8" unless url
+            unless url
+              raise ArgumentError,
+                    "Unsupported Font catalog version: #{version}. Supported versions: 3, 4, 5, 6, 7, 8"
+            end
 
-            version_dir = File.join(cache_dir, "com_apple_MobileAsset_Font#{version}")
+            version_dir = File.join(cache_dir,
+                                    "com_apple_MobileAsset_Font#{version}")
             FileUtils.mkdir_p(version_dir)
 
-            catalog_file = File.join(version_dir, File.basename(URI.parse(url).path))
+            catalog_file = File.join(version_dir,
+                                     File.basename(URI.parse(url).path))
 
             Fontist.ui.say("Downloading Font#{version} catalog from #{url}...") if Fontist.ui.respond_to?(:say)
 
-            URI.open(url, "User-Agent" => "Fontist/#{Fontist::VERSION}") do |response|
+            URI.open(url,
+                     "User-Agent" => "Fontist/#{Fontist::VERSION}") do |response|
               File.write(catalog_file, response.read)
             end
 
@@ -126,9 +132,7 @@ module Fontist
             end
 
             # If catalog not found locally or in cache, download it
-            unless catalog
-              catalog = download_catalog(version)
-            end
+            catalog ||= download_catalog(version)
 
             catalog
           end

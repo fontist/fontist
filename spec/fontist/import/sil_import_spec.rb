@@ -72,7 +72,7 @@ RSpec.describe Fontist::Import::SilImport do
       [
         double("Link", content: "Charis SIL"),
         double("Link", content: "Andika"),
-        double("Link", content: "Apparatus SIL")
+        double("Link", content: "Apparatus SIL"),
       ]
     end
 

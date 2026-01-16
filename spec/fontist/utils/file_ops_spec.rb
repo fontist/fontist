@@ -43,7 +43,7 @@ RSpec.describe Fontist::Utils::FileOps do
 
         # Simulate file locking by stubbing FileUtils
         call_count = 0
-        allow(FileUtils).to receive(:rm_rf) do |path|
+        allow(FileUtils).to receive(:rm_rf) do |_path|
           call_count += 1
           raise Errno::EACCES if call_count == 1
           # Second call succeeds
@@ -58,7 +58,7 @@ RSpec.describe Fontist::Utils::FileOps do
         FileUtils.mkdir_p(dir_path)
 
         call_count = 0
-        allow(FileUtils).to receive(:rm_rf) do |path|
+        allow(FileUtils).to receive(:rm_rf) do |_path|
           call_count += 1
           raise Errno::ENOTEMPTY if call_count == 1
           # Second call succeeds
@@ -74,9 +74,9 @@ RSpec.describe Fontist::Utils::FileOps do
 
         allow(FileUtils).to receive(:rm_rf).and_raise(Errno::EACCES)
 
-        expect {
+        expect do
           described_class.safe_rm_rf(file_path, retries: 3)
-        }.to raise_error(Errno::EACCES)
+        end.to raise_error(Errno::EACCES)
       end
 
       it "forces GC between retries" do
@@ -84,7 +84,7 @@ RSpec.describe Fontist::Utils::FileOps do
         File.write(file_path, "test")
 
         call_count = 0
-        allow(FileUtils).to receive(:rm_rf) do |path|
+        allow(FileUtils).to receive(:rm_rf) do |_path|
           call_count += 1
           raise Errno::EACCES if call_count == 1
         end
@@ -101,9 +101,9 @@ RSpec.describe Fontist::Utils::FileOps do
 
         allow(FileUtils).to receive(:rm_rf).and_raise(Errno::EACCES)
 
-        expect {
+        expect do
           described_class.safe_rm_rf(file_path)
-        }.to raise_error(Errno::EACCES)
+        end.to raise_error(Errno::EACCES)
       end
 
       it "does not force GC" do
@@ -134,24 +134,24 @@ RSpec.describe Fontist::Utils::FileOps do
     context "on Windows", if: Fontist::Utils::System.windows? do
       it "forces GC after block execution" do
         expect(GC).to receive(:start)
-        described_class.with_file_cleanup(test_dir) { }
+        described_class.with_file_cleanup(test_dir) {}
       end
 
       it "pauses briefly after block execution" do
         expect_any_instance_of(Object).to receive(:sleep).with(0.05)
-        described_class.with_file_cleanup(test_dir) { }
+        described_class.with_file_cleanup(test_dir) {}
       end
     end
 
     context "on Unix", unless: Fontist::Utils::System.windows? do
       it "does not force GC" do
         expect(GC).not_to receive(:start)
-        described_class.with_file_cleanup(test_dir) { }
+        described_class.with_file_cleanup(test_dir) {}
       end
 
       it "does not pause" do
         expect_any_instance_of(Object).not_to receive(:sleep)
-        described_class.with_file_cleanup(test_dir) { }
+        described_class.with_file_cleanup(test_dir) {}
       end
     end
   end
@@ -190,7 +190,9 @@ RSpec.describe Fontist::Utils::FileOps do
           end
         end
 
-        expect { described_class.safe_cp_r(src_dir, dest_dir) }.not_to raise_error
+        expect do
+          described_class.safe_cp_r(src_dir, dest_dir)
+        end.not_to raise_error
         expect(call_count).to eq(2)
       end
     end

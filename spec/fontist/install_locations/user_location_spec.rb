@@ -92,7 +92,10 @@ RSpec.describe Fontist::InstallLocations::UserLocation do
       end
 
       it "raises error" do
-        expect { location.base_path }.to raise_error(Fontist::Errors::GeneralError, /Unsupported platform/)
+        expect do
+          location.base_path
+        end.to raise_error(Fontist::Errors::GeneralError,
+                           /Unsupported platform/)
       end
     end
   end

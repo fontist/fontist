@@ -24,15 +24,15 @@ module Fontist
         old_snapshot = load_snapshot
         new_snapshot = create_snapshot
 
-        if old_snapshot.nil?
-          # First scan - all files are new
-          @changes = new_snapshot.files.map do |file|
-            DirectoryChange.added(file[:filename], file)
-          end
-        else
-          # Detect changes
-          @changes = DirectoryChange.diff(old_snapshot, new_snapshot)
-        end
+        @changes = if old_snapshot.nil?
+                     # First scan - all files are new
+                     new_snapshot.files.map do |file|
+                       DirectoryChange.added(file[:filename], file)
+                     end
+                   else
+                     # Detect changes
+                     DirectoryChange.diff(old_snapshot, new_snapshot)
+                   end
 
         # Save new snapshot for next time
         save_snapshot(new_snapshot)
@@ -66,7 +66,7 @@ module Fontist
           total_changes: @changes.size,
           added: added_files.size,
           modified: modified_files.size,
-          removed: removed_files.size
+          removed: removed_files.size,
         }
       end
 
@@ -76,7 +76,7 @@ module Fontist
       def load_snapshot
         cached = Fontist::Cache::Manager.get(
           snapshot_cache_key,
-          namespace: :indexes
+          namespace: :indexes,
         )
         return nil unless cached
 
@@ -94,7 +94,7 @@ module Fontist
           snapshot_cache_key,
           snapshot.to_h,
           ttl: SNAPSHOT_TTL,
-          namespace: :indexes
+          namespace: :indexes,
         )
       end
 

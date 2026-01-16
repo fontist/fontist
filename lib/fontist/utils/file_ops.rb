@@ -18,18 +18,16 @@ module Fontist
 
         # Windows file locking retry with exponential backoff
         retries.times do |attempt|
-          begin
-            FileUtils.rm_rf(path)
-            return true
-          rescue Errno::EACCES, Errno::ENOTEMPTY => e
-            if attempt < retries - 1
-              # Exponential backoff: 0.1s, 0.2s, 0.3s
-              sleep(0.1 * (attempt + 1))
-              GC.start  # Force garbage collection to release file handles
-              next
-            end
-            raise
+          FileUtils.rm_rf(path)
+          return true
+        rescue Errno::EACCES, Errno::ENOTEMPTY
+          if attempt < retries - 1
+            # Exponential backoff: 0.1s, 0.2s, 0.3s
+            sleep(0.1 * (attempt + 1))
+            GC.start # Force garbage collection to release file handles
+            next
           end
+          raise
         end
       end
 
@@ -40,12 +38,12 @@ module Fontist
       #
       # @param path [String] Path to file or directory
       # @yield Block to execute before cleanup
-      def self.with_file_cleanup(path)
+      def self.with_file_cleanup(_path)
         yield
       ensure
         if System.windows?
           GC.start
-          sleep(0.05)  # Brief pause to allow handle release
+          sleep(0.05) # Brief pause to allow handle release
         end
       end
 
@@ -56,7 +54,7 @@ module Fontist
       # @param options [Hash] Options passed to FileUtils.cp_r
       def self.safe_cp_r(src, dest, **options)
         FileUtils.cp_r(src, dest, **options)
-      rescue Errno::EACCES => e
+      rescue Errno::EACCES
         if System.windows?
           # Retry once after brief pause on Windows
           sleep(0.1)
@@ -73,7 +71,7 @@ module Fontist
       # @param options [Hash] Options passed to FileUtils.mkdir_p
       def self.safe_mkdir_p(path, **options)
         FileUtils.mkdir_p(path, **options)
-      rescue Errno::EACCES => e
+      rescue Errno::EACCES
         if System.windows?
           # Retry once after brief pause on Windows
           sleep(0.1)

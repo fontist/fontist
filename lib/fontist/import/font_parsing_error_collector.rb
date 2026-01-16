@@ -12,7 +12,7 @@ module Fontist
         @errors << {
           path: file_path,
           message: error_message,
-          backtrace: backtrace
+          backtrace: backtrace,
         }
       end
 

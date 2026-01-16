@@ -85,7 +85,7 @@ module Fontist
                       Fontist.auto_overwrite
                     elsif Fontist.interactive?
                       Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]",
-                                           :yellow, :bright])
+                                            :yellow, :bright])
                     else
                       true
                     end

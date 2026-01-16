@@ -70,7 +70,7 @@ module Fontist
       # including Linux where File::FNM_CASEFOLD is ignored
       fontist_patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
       fontist_fonts = fontist_patterns.flat_map { |pattern| Dir.glob(pattern) }
-                                      .select { |f| File.file?(f) }
+        .select { |f| File.file?(f) }
       all_fonts.concat(fontist_fonts)
 
       spinner_thread.kill
@@ -265,8 +265,11 @@ module Fontist
       initial_font_count = index.fonts&.size || 0
       index_mtime_before = File.mtime(Fontist.system_index_path)
 
-      puts Paint["Initial font count: ", :white] + Paint[initial_font_count.to_s, :yellow]
-      puts Paint["Last updated: ", :white] + Paint[index_mtime_before.strftime("%Y-%m-%d %H:%M:%S"), :green]
+      puts Paint["Initial font count: ",
+                 :white] + Paint[initial_font_count.to_s, :yellow]
+      puts Paint["Last updated: ",
+                 :white] + Paint[index_mtime_before.strftime("%Y-%m-%d %H:%M:%S"),
+                                 :green]
       puts
 
       # Track the update operation
@@ -301,16 +304,22 @@ module Fontist
 
       puts Paint["-" * 80, :cyan]
       puts Paint["⏱ Timing:", :cyan, :bright]
-      puts Paint["  Update check: ", :white] + Paint["#{update_time.round(2)}s", :yellow]
-      puts Paint["  Total time:   ", :white] + Paint["#{total_time.round(2)}s", :green, :bright]
+      puts Paint["  Update check: ",
+                 :white] + Paint["#{update_time.round(2)}s", :yellow]
+      puts Paint["  Total time:   ",
+                 :white] + Paint["#{total_time.round(2)}s", :green, :bright]
       puts Paint["-" * 80, :cyan]
       puts Paint["Fonts:", :cyan, :bright]
       puts Paint["  Before: ", :white] + Paint[initial_font_count.to_s, :yellow]
       puts Paint["  After:  ", :white] + Paint[final_font_count.to_s, :yellow]
       if final_font_count != initial_font_count
         diff = final_font_count - initial_font_count
-        diff_str = diff > 0 ? "+#{diff}" : "#{diff}"
-        diff_color = diff > 0 ? :green : (diff < 0 ? :red : :yellow)
+        diff_str = diff.positive? ? "+#{diff}" : diff.to_s
+        diff_color = if diff.positive?
+                       :green
+                     else
+                       (diff.negative? ? :red : :yellow)
+                     end
         puts Paint["  Change: ", :white] + Paint[diff_str, diff_color]
       end
 

@@ -24,15 +24,15 @@ module Fontist
     #   case_insensitive_glob("*.{ttf,otf}")
     #   # => "*.[tT][tT][fF]" (note: doesn't handle braces, use multiple calls)
     def self.case_insensitive_glob(pattern)
-      result = String.new
+      result = +""
       pattern.each_char do |char|
-        if char.downcase != char.upcase
-          # Alphabetic character - create character class
-          result << "[#{char.downcase}#{char.upcase}]"
-        else
-          # Non-alphabetic (numbers, punctuation) - keep as-is
-          result << char
-        end
+        result << if char.downcase == char.upcase
+                    # Non-alphabetic (numbers, punctuation) - keep as-is
+                    char
+                  else
+                    # Alphabetic character - create character class
+                    "[#{char.downcase}#{char.upcase}]"
+                  end
       end
       result
     end
@@ -68,7 +68,7 @@ module Fontist
 
       # On case-insensitive filesystems (Windows, macOS), use simple patterns
       # On case-sensitive filesystems (Linux), use character class patterns
-      if [:windows, :macosx].include?(Fontist::Utils::System.user_os)
+      if %i[windows macosx].include?(Fontist::Utils::System.user_os)
         # Case-insensitive filesystem - simple patterns work fine
         extensions.map { |ext| File.join(prefix, "*.#{ext}") }
       else

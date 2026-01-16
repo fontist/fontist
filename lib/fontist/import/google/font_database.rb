@@ -398,7 +398,7 @@ github_data: nil, version: 4, source_path: nil)
 
           # Google Fonts formulas always use simple filenames
           # (Google Fonts is a live service, always pointing to latest version)
-          base_name = family_name.downcase.gsub(/\s+/, '_')
+          base_name = family_name.downcase.gsub(/\s+/, "_")
           filename = "#{base_name}.yml"
 
           path = File.join(output_dir, filename)

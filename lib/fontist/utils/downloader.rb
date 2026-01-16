@@ -72,7 +72,8 @@ module Fontist
       def print_download_start
         Fontist.ui.say("Downloading from: #{Paint[url, :cyan]}")
         if @verbose
-          Fontist.ui.say("  Cache location: #{Paint[@cache.cache_path, :black, :bright]}")
+          Fontist.ui.say("  Cache location: #{Paint[@cache.cache_path, :black,
+                                                    :bright]}")
         end
       end
 

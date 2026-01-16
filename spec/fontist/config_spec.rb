@@ -210,9 +210,10 @@ RSpec.describe Fontist::Config do
     end
 
     it "raises error for invalid values" do
-      expect {
+      expect do
         described_class.set_fonts_install_location("invalid")
-      }.to raise_error(Fontist::Errors::InvalidConfigAttributeError, /Invalid location/)
+      end.to raise_error(Fontist::Errors::InvalidConfigAttributeError,
+                         /Invalid location/)
     end
 
     it "persists the value" do

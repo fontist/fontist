@@ -132,7 +132,7 @@ module Fontist
 
       def print_cached(path)
         size_mb = size(path)
-        if size_mb > 0
+        if size_mb.positive?
           Fontist.ui.say("Fetched from cache: #{size_mb} MiB.")
         else
           Fontist.ui.say("Using cached file.")

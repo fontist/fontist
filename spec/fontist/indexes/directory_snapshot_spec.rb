@@ -21,7 +21,9 @@ RSpec.describe Fontist::Indexes::DirectorySnapshot do
 
       expect(snapshot.directory_path).to eq test_dir.to_s
       expect(snapshot.file_count).to eq 2
-      expect(snapshot.files.map { |f| f[:filename] }).to contain_exactly("A.ttf", "B.ttf")
+      expect(snapshot.files.map do |f|
+        f[:filename]
+      end).to contain_exactly("A.ttf", "B.ttf")
     end
 
     it "records scan timestamp" do
@@ -50,9 +52,10 @@ RSpec.describe Fontist::Indexes::DirectorySnapshot do
       hash = {
         directory_path: test_dir.to_s,
         files: [
-          { filename: "test.ttf", path: "#{test_dir}/test.ttf", file_size: 100, file_mtime: 123456, signature: "abc123" }
+          { filename: "test.ttf", path: "#{test_dir}/test.ttf", file_size: 100,
+            file_mtime: 123456, signature: "abc123" },
         ],
-        scanned_at: 1234567890
+        scanned_at: 1234567890,
       }
 
       snapshot = described_class.from_hash(hash)
@@ -106,7 +109,7 @@ RSpec.describe Fontist::Indexes::DirectorySnapshot do
       snapshot = described_class.from_hash(
         directory_path: test_dir.to_s,
         files: [],
-        scanned_at: old_time
+        scanned_at: old_time,
       )
 
       expect(snapshot.older_than?(100)).to be true
@@ -183,9 +186,9 @@ RSpec.describe Fontist::Indexes::DirectorySnapshot do
 
     content = case File.extname(filename)
               when ".ttf", ".TTF"
-                "\x00\x01\x00\x00" + "\x00" * 100
+                "\u0000\u0001\u0000\u0000#{"\x00" * 100}"
               when ".otf", ".OTF"
-                "OTTO" + "\x00" * 100
+                "OTTO#{"\x00" * 100}"
               else
                 "\x00" * 104
               end

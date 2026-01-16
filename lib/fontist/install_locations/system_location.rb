@@ -101,7 +101,7 @@ module Fontist
       #
       # This index tracks all fonts installed in system locations
       #
-      # @return [Indexes::SystemIndex] Singleton index instance  
+      # @return [Indexes::SystemIndex] Singleton index instance
       def index
         @index ||= Fontist::Indexes::SystemIndex.instance
       end
@@ -191,7 +191,7 @@ module Fontist
       #
       # @return [Boolean] true if path ends with /fontist
       def uses_fontist_subdirectory?
-        base_path.to_s.end_with?("/fontist") || base_path.to_s.end_with?("\\fontist")
+        base_path.to_s.end_with?("/fontist", "\\fontist")
       end
     end
   end

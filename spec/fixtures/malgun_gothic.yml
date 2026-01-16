@@ -41,5 +41,5 @@ fonts:
 extract: {}
 copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
 license_url: http://www.microsoft.com/typography/fonts
-command: "./spec/fontist/import/ --format progress"
+command: ''
 font_version: '5.00'

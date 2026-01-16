@@ -16,7 +16,8 @@ module Fontist
 
       attr_reader :error_collector
 
-      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil, verbose: false)
+      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil,
+verbose: false)
         @archive = archive
         @subdir = subdir
         @file_pattern = file_pattern
@@ -76,7 +77,8 @@ module Fontist
           # Show extraction directory once in verbose mode
           if @verbose && !extraction_dir_shown && File.file?(path)
             extraction_dir = File.dirname(path)
-            Fontist.ui.say("  Extracting to: #{Paint[extraction_dir, :black, :bright]}")
+            Fontist.ui.say("  Extracting to: #{Paint[extraction_dir, :black,
+                                                     :bright]}")
             extraction_dir_shown = true
           end
 
@@ -109,7 +111,8 @@ module Fontist
           file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          collection = Files::CollectionFile.from_path(path, name_prefix: @name_prefix, error_collector: @error_collector)
+          collection = Files::CollectionFile.from_path(path,
+                                                       name_prefix: @name_prefix, error_collector: @error_collector)
           if collection
             @collection_files << collection
           else

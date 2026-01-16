@@ -29,7 +29,7 @@ module Fontist
         # Invalid format
         Fontist.ui.error(
           "Invalid FONTIST_PLATFORM_OVERRIDE: #{override}\n" \
-          "Supported: 'macos-font<N>', 'linux', 'windows'"
+          "Supported: 'macos-font<N>', 'linux', 'windows'",
         )
         nil
       end
@@ -86,22 +86,26 @@ module Fontist
       end
 
       def self.case_sensitive_filesystem?
-        ![:windows, :macos].include?(user_os)
+        !%i[windows macos].include?(user_os)
       end
 
       def self.user_os_with_version
         release = if windows?
-          # Windows doesn't have uname command
-          # Try to extract version from RbConfig or use a placeholder
-          RbConfig::CONFIG["host_os"].match(/\d+/)[0] rescue "unknown"
-        else
-          # Unix-like systems (macOS, Linux, etc.) have uname command
-          begin
-            `uname -r`.strip
-          rescue Errno::ENOENT
-            "unknown"
-          end
-        end
+                    # Windows doesn't have uname command
+                    # Try to extract version from RbConfig or use a placeholder
+                    begin
+                      RbConfig::CONFIG["host_os"].match(/\d+/)[0]
+                    rescue StandardError
+                      "unknown"
+                    end
+                  else
+                    # Unix-like systems (macOS, Linux, etc.) have uname command
+                    begin
+                      `uname -r`.strip
+                    rescue Errno::ENOENT
+                      "unknown"
+                    end
+                  end
 
         "#{user_os}-#{release}"
       end

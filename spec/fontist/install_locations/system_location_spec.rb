@@ -9,14 +9,14 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
     import_source = instance_double(
       "ImportSource",
       framework_version: 7,
-      asset_id: "abc123def456"
+      asset_id: "abc123def456",
     )
 
     instance_double(
       Fontist::Formula,
       key: "macos/font7/sf_pro",
       macos_import?: true,
-      import_source: import_source
+      import_source: import_source,
     )
   end
 
@@ -64,14 +64,14 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
         import_source = instance_double(
           "ImportSource",
           framework_version: 5,
-          asset_id: "test123"
+          asset_id: "test123",
         )
 
         formula_font5 = instance_double(
           Fontist::Formula,
           key: "macos/font5/helvetica",
           macos_import?: true,
-          import_source: import_source
+          import_source: import_source,
         )
 
         allow(Fontist::MacosFrameworkMetadata).to receive(:system_install_path)
@@ -83,25 +83,29 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       end
 
       it "raises error when framework version missing" do
-        import_source = instance_double("ImportSource", framework_version: nil, asset_id: "test")
+        import_source = instance_double("ImportSource", framework_version: nil,
+                                                        asset_id: "test")
         bad_formula = instance_double(
           Fontist::Formula,
           key: "macos/bad",
           macos_import?: true,
-          import_source: import_source
+          import_source: import_source,
         )
 
         bad_location = described_class.new(bad_formula)
-        expect { bad_location.base_path }.to raise_error(/Cannot determine framework version/)
+        expect do
+          bad_location.base_path
+        end.to raise_error(/Cannot determine framework version/)
       end
 
       it "raises error when asset_id missing" do
-        import_source = instance_double("ImportSource", framework_version: 7, asset_id: nil)
+        import_source = instance_double("ImportSource", framework_version: 7,
+                                                        asset_id: nil)
         bad_formula = instance_double(
           Fontist::Formula,
           key: "macos/font7/bad",
           macos_import?: true,
-          import_source: import_source
+          import_source: import_source,
         )
 
         allow(Fontist::MacosFrameworkMetadata).to receive(:system_install_path)
@@ -189,7 +193,10 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
       end
 
       it "raises error" do
-        expect { location.base_path }.to raise_error(Fontist::Errors::GeneralError, /Unsupported platform/)
+        expect do
+          location.base_path
+        end.to raise_error(Fontist::Errors::GeneralError,
+                           /Unsupported platform/)
       end
     end
   end

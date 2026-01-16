@@ -10,7 +10,7 @@ RSpec.describe Fontist::Indexes::PreferredFamilyFontIndex do
 
       it "round-trips correctly" do
         # Ensure index file exists (will rebuild if missing)
-        index = described_class.from_file(filename)
+        described_class.from_file(filename)
         content = File.read(filename)
         expect(described_class.from_yaml(content).to_yaml).to eq(content)
       end

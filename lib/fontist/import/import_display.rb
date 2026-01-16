@@ -29,7 +29,7 @@ module Fontist
         details.each do |key, value|
           next unless value
 
-          label = key.to_s.split('_').map(&:capitalize).join(' ')
+          label = key.to_s.split("_").map(&:capitalize).join(" ")
           Fontist.ui.say("📁 #{label}: #{Paint[value.to_s, :white]}")
         end
 
@@ -60,8 +60,15 @@ module Fontist
       # @param message [String] Success message
       # @param details [String] Optional details (e.g., formula name, timing)
       def self.status_success(message, details = "")
-        detail_text = details.empty? ? "" : " #{Paint[details, :black, :bright]}"
-        Fontist.ui.say("  #{Paint['✓', :green]} #{Paint[message, :white]}#{detail_text}")
+        detail_text = if details.empty?
+                        ""
+                      else
+                        " #{Paint[details, :black,
+                                  :bright]}"
+                      end
+        Fontist.ui.say("  #{Paint['✓',
+                                  :green]} #{Paint[message,
+                                                   :white]}#{detail_text}")
       end
 
       # Display skip status
@@ -78,7 +85,8 @@ module Fontist
       # @param message [String] Error message
       def self.status_failed(message)
         error_display = message.length > 60 ? "#{message[0..60]}..." : message
-        Fontist.ui.say("  #{Paint['✗', :red]} Failed: #{Paint[error_display, :red]}")
+        Fontist.ui.say("  #{Paint['✗',
+                                  :red]} Failed: #{Paint[error_display, :red]}")
       end
 
       # Display overwrite warning
@@ -148,7 +156,8 @@ module Fontist
       #
       # @param url [String] Download URL
       def self.download_url(url)
-        Fontist.ui.say("  #{Paint['📥', :green]} Download URL: #{Paint[url, :white]}")
+        Fontist.ui.say("  #{Paint['📥',
+                                  :green]} Download URL: #{Paint[url, :white]}")
       end
 
       # Display "Following link..." message
@@ -163,7 +172,7 @@ module Fontist
       # @param count [Integer] Number of elements
       # @param selector [String] CSS selector name
       def self.found_elements(count, selector)
-        debug_info("Found #{count} '#{selector}' elements") if count > 0
+        debug_info("Found #{count} '#{selector}' elements") if count.positive?
       end
 
       # Format duration in human-readable format
@@ -203,20 +212,32 @@ module Fontist
           success_rate = (results[:successful].to_f / total * 100).round(1)
 
           Fontist.ui.say("  Total packages:     #{Paint[total.to_s, :white]}")
-          Fontist.ui.say("  #{Paint['✓', :green]} Successful:     #{Paint[results[:successful].to_s, :green, :bright]} #{Paint["(#{success_rate}%)", :green]}")
+          Fontist.ui.say("  #{Paint['✓',
+                                    :green]} Successful:     #{Paint[results[:successful].to_s, :green,
+                                                                     :bright]} #{Paint["(#{success_rate}%)",
+                                                                                       :green]}")
 
-          if results[:skipped] && results[:skipped] > 0
+          if results[:skipped]&.positive?
             skip_rate = (results[:skipped].to_f / total * 100).round(1)
-            Fontist.ui.say("  #{Paint['⊝', :yellow]} Skipped:        #{Paint[results[:skipped].to_s, :yellow]} #{Paint["(#{skip_rate}%)", :yellow]} #{Paint['(already exists)', :black, :bright]}")
+            Fontist.ui.say("  #{Paint['⊝',
+                                      :yellow]} Skipped:        #{Paint[results[:skipped].to_s,
+                                                                        :yellow]} #{Paint["(#{skip_rate}%)",
+                                                                                          :yellow]} #{Paint['(already exists)',
+                                                                                                            :black, :bright]}")
           end
 
-          if results[:overwritten] && results[:overwritten] > 0
-            Fontist.ui.say("  #{Paint['⚠', :yellow]} Overwritten:    #{Paint[results[:overwritten].to_s, :yellow]}")
+          if results[:overwritten]&.positive?
+            Fontist.ui.say("  #{Paint['⚠',
+                                      :yellow]} Overwritten:    #{Paint[results[:overwritten].to_s,
+                                                                        :yellow]}")
           end
 
-          if results[:failed] && results[:failed] > 0
+          if results[:failed]&.positive?
             fail_rate = (results[:failed].to_f / total * 100).round(1)
-            Fontist.ui.say("  #{Paint['✗', :red]} Failed:         #{Paint[results[:failed].to_s, :red]} #{Paint["(#{fail_rate}%)", :red]}")
+            Fontist.ui.say("  #{Paint['✗',
+                                      :red]} Failed:         #{Paint[results[:failed].to_s,
+                                                                     :red]} #{Paint["(#{fail_rate}%)",
+                                                                                    :red]}")
           end
 
           Fontist.ui.say("")
@@ -225,14 +246,17 @@ module Fontist
         def print_summary_errors(results)
           return unless results[:errors]&.any?
 
-          Fontist.ui.say("  #{Paint['⚠', :yellow]} Note: #{results[:failed]} font#{results[:failed] > 1 ? 's' : ''} failed during import.")
+          Fontist.ui.say("  #{Paint['⚠',
+                                    :yellow]} Note: #{results[:failed]} font#{results[:failed] > 1 ? 's' : ''} failed during import.")
           Fontist.ui.say("")
         end
 
         def print_summary_tips(results, options)
           # Show force tip if there were skipped formulas
-          if results[:skipped] && results[:skipped] > 0 && !options[:force]
-            Fontist.ui.say("  #{Paint['💡 Tip:', :cyan]} Use #{Paint['--force', :cyan, :bright]} to overwrite existing formulas")
+          if results[:skipped]&.positive? && !options[:force]
+            Fontist.ui.say("  #{Paint['💡 Tip:',
+                                      :cyan]} Use #{Paint['--force', :cyan,
+                                                          :bright]} to overwrite existing formulas")
             Fontist.ui.say("")
           end
         end
@@ -242,20 +266,18 @@ module Fontist
           return if total.zero?
 
           if results[:successful] > (total * 0.5)
-            Fontist.ui.say(Paint["  🎉 Great success! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created!", :green, :bright])
-          elsif results[:successful] > 0
-            Fontist.ui.say(Paint["  👍 Keep going! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created.", :yellow, :bright])
+            Fontist.ui.say(Paint["  🎉 Great success! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created!",
+                                 :green, :bright])
+          elsif results[:successful].positive?
+            Fontist.ui.say(Paint["  👍 Keep going! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created.",
+                                 :yellow, :bright])
           end
 
           Fontist.ui.say("")
         end
 
         def calculate_total(results)
-          if results[:total]
-            results[:total]
-          else
-            (results[:successful] || 0) + (results[:failed] || 0) + (results[:skipped] || 0)
-          end
+          results[:total] || (results[:successful] || 0) + (results[:failed] || 0) + (results[:skipped] || 0)
         end
       end
     end

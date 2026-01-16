@@ -21,7 +21,9 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
       result = described_class.scan_directory(test_dir)
 
       expect(result.count).to eq 2
-      expect(result.map { |f| f[:filename] }).to contain_exactly("Arial.ttf", "Times.ttf")
+      expect(result.map do |f|
+        f[:filename]
+      end).to contain_exactly("Arial.ttf", "Times.ttf")
     end
 
     it "returns full paths" do
@@ -100,7 +102,7 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
         path: font_path,
         file_size: first_result[:file_size],
         file_mtime: first_result[:file_mtime],
-        signature: first_result[:signature]
+        signature: first_result[:signature],
       }
 
       # Second scan with cache
@@ -144,7 +146,9 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
       results = described_class.scan_batch(fonts)
 
       expect(results.count).to eq 3
-      expect(results.map { |r| r[:filename] }).to contain_exactly("A.ttf", "B.ttf", "C.ttf")
+      expect(results.map do |r|
+        r[:filename]
+      end).to contain_exactly("A.ttf", "B.ttf", "C.ttf")
     end
 
     it "handles empty batch" do
@@ -154,10 +158,10 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
     end
 
     it "skips non-existent files gracefully" do
-      existing = create_test_font(test_dir, "Exists.ttf")
+      create_test_font(test_dir, "Exists.ttf")
       paths = [
         File.join(test_dir, "Exists.ttf"),
-        File.join(test_dir, "Nonexistent.ttf")
+        File.join(test_dir, "Nonexistent.ttf"),
       ]
 
       results = described_class.scan_batch(paths)
@@ -176,12 +180,14 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
       first_results = described_class.scan_batch(fonts)
 
       # Simulate cached data (hash of path => cached_version)
-      cached_data = first_results.map { |r| [r[:path], { signature: r[:signature] }] }.to_h
+      cached_data = first_results.map do |r|
+        [r[:path], { signature: r[:signature] }]
+      end.to_h
 
       # Second pass with cache (should be faster)
       start = Time.now
       second_results = described_class.scan_batch(fonts, cache: cached_data)
-      elapsed = Time.now - start
+      Time.now - start
 
       expect(second_results).to eq first_results
       # With proper caching, this should be much faster
@@ -204,9 +210,9 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
     # Create minimal TTF header
     content = case File.extname(filename)
               when ".ttf", ".TTF"
-                "\x00\x01\x00\x00" + "\x00" * 100
+                "\u0000\u0001\u0000\u0000#{"\x00" * 100}"
               when ".otf", ".OTF"
-                "OTTO" + "\x00" * 100
+                "OTTO#{"\x00" * 100}"
               else
                 "\x00" * 104
               end

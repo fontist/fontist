@@ -975,7 +975,8 @@ RSpec.describe Fontist::Import::Google::FontDatabase, :vcr do
           source_path: nil,
         )
 
-        paths = db_no_source.save_formulas(temp_output_dir, family_name: "ABeeZee")
+        paths = db_no_source.save_formulas(temp_output_dir,
+                                           family_name: "ABeeZee")
 
         expect(paths).not_to be_empty
         filename = File.basename(paths.first)

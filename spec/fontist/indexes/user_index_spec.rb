@@ -147,7 +147,9 @@ RSpec.describe Fontist::Indexes::UserIndex do
 
   describe "user font paths" do
     it "handles errors gracefully" do
-      allow(Fontist::InstallLocations::UserLocation).to receive(:new).and_raise(StandardError, "Test error")
+      allow(Fontist::InstallLocations::UserLocation).to receive(:new).and_raise(
+        StandardError, "Test error"
+      )
       allow(Fontist.ui).to receive(:debug)
 
       # Should not raise, should return empty array

@@ -12,43 +12,43 @@ module Fontist
         "max_macos_version" => "10.12",
         "asset_path" => "/System/Library/Assets",
         "parser_class" => "Fontist::Macos::Catalog::Font3Parser",
-        "description" => "Font3 framework (macOS Sierra)"
+        "description" => "Font3 framework (macOS Sierra)",
       },
       4 => {
         "min_macos_version" => "10.13",
         "max_macos_version" => "10.13",
         "asset_path" => "/System/Library/Assets",
         "parser_class" => "Fontist::Macos::Catalog::Font4Parser",
-        "description" => "Font4 framework (macOS High Sierra)"
+        "description" => "Font4 framework (macOS High Sierra)",
       },
       5 => {
         "min_macos_version" => "10.14",
         "max_macos_version" => "10.15",
         "asset_path" => "/System/Library/AssetsV2",
         "parser_class" => "Fontist::Macos::Catalog::Font5Parser",
-        "description" => "Font5 framework (macOS Mojave, Catalina)"
+        "description" => "Font5 framework (macOS Mojave, Catalina)",
       },
       6 => {
         "min_macos_version" => "10.15",
         "max_macos_version" => "11.99",
         "asset_path" => "/System/Library/AssetsV2",
         "parser_class" => "Fontist::Macos::Catalog::Font6Parser",
-        "description" => "Font6 framework (macOS Catalina, Big Sur)"
+        "description" => "Font6 framework (macOS Catalina, Big Sur)",
       },
       7 => {
         "min_macos_version" => "12.0",
         "max_macos_version" => "15.99",
         "asset_path" => "/System/Library/AssetsV2",
         "parser_class" => "Fontist::Macos::Catalog::Font7Parser",
-        "description" => "Font7 framework (macOS Monterey, Ventura, Sonoma, Sequoia)"
+        "description" => "Font7 framework (macOS Monterey, Ventura, Sonoma, Sequoia)",
       },
       8 => {
         "min_macos_version" => "26.0",
         "max_macos_version" => nil,
         "asset_path" => "/System/Library/AssetsV2",
         "parser_class" => "Fontist::Macos::Catalog::Font8Parser",
-        "description" => "Font8 framework (macOS Tahoe+)"
-      }
+        "description" => "Font8 framework (macOS Tahoe+)",
+      },
     }.freeze
 
     class << self
@@ -112,7 +112,8 @@ module Fontist
       # @param framework_version [Integer] The framework version (7, 8, etc.)
       # @return [String] The description or a generic message if not found
       def description(framework_version)
-        metadata.dig(framework_version, "description") || "Unknown framework #{framework_version}"
+        metadata.dig(framework_version,
+                     "description") || "Unknown framework #{framework_version}"
       end
 
       # Gets the asset path for a given framework
@@ -141,7 +142,7 @@ module Fontist
       def framework_for_macos(macos_version)
         return nil unless macos_version
 
-        version = Gem::Version.new(macos_version)
+        Gem::Version.new(macos_version)
 
         # Search for compatible framework in reverse order (newest first)
         metadata.keys.sort.reverse.each do |framework_version|

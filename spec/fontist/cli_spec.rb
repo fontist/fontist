@@ -5,13 +5,41 @@ RSpec.describe Fontist::CLI do
   # Ensure complete isolation between tests to prevent pollution
   before(:each) do
     # Reset all singleton caches
-    Fontist::Config.reset rescue nil
-    Fontist::Index.reset_cache rescue nil
-    Fontist::SystemIndex.reset_cache rescue nil
-    Fontist::SystemFont.reset_font_paths_cache rescue nil
-    Fontist::Indexes::FontistIndex.reset_cache rescue nil
-    Fontist::Indexes::UserIndex.reset_cache rescue nil
-    Fontist::Indexes::SystemIndex.reset_cache rescue nil
+    begin
+      Fontist::Config.reset
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::Index.reset_cache
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::SystemIndex.reset_cache
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::SystemFont.reset_font_paths_cache
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::Indexes::FontistIndex.reset_cache
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::Indexes::UserIndex.reset_cache
+    rescue StandardError
+      nil
+    end
+    begin
+      Fontist::Indexes::SystemIndex.reset_cache
+    rescue StandardError
+      nil
+    end
   end
 
   after(:context) do
@@ -409,7 +437,8 @@ RSpec.describe Fontist::CLI do
             .with(anything, hash_including(location: :fontist))
             .and_return([])
 
-          status = described_class.start(["install", "--location=fontist", "texgyrechorus"])
+          status = described_class.start(["install", "--location=fontist",
+                                          "texgyrechorus"])
           expect(status).to be 0
         end
 
@@ -418,7 +447,8 @@ RSpec.describe Fontist::CLI do
             .with(anything, hash_including(location: :user))
             .and_return([])
 
-          status = described_class.start(["install", "--location=user", "texgyrechorus"])
+          status = described_class.start(["install", "--location=user",
+                                          "texgyrechorus"])
           expect(status).to be 0
         end
 
@@ -427,7 +457,8 @@ RSpec.describe Fontist::CLI do
             .with(anything, hash_including(location: :system))
             .and_return([])
 
-          status = described_class.start(["install", "--location=system", "texgyrechorus"])
+          status = described_class.start(["install", "--location=system",
+                                          "texgyrechorus"])
           expect(status).to be 0
         end
 
@@ -436,7 +467,8 @@ RSpec.describe Fontist::CLI do
             .with(anything, hash_including(location: :user))
             .and_return([])
 
-          status = described_class.start(["install", "-l", "user", "texgyrechorus"])
+          status = described_class.start(["install", "-l", "user",
+                                          "texgyrechorus"])
           expect(status).to be 0
         end
       end
@@ -961,7 +993,8 @@ RSpec.describe Fontist::CLI do
                            "paths" => include(/AndaleMo\.TTF/i) } },
           "Courier New" =>
           { "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [formula_font_path("courier", "courbd.ttf")] } },
+                        "paths" => [formula_font_path("courier",
+                                                      "courbd.ttf")] } },
         )
       end
     end
@@ -1014,13 +1047,17 @@ RSpec.describe Fontist::CLI do
         expect_say_yaml(
           "Courier New" => {
             "Regular" => { "full_name" => "Courier New",
-                           "paths" => [formula_font_path("courier", "cour.ttf")] },
+                           "paths" => [formula_font_path("courier",
+                                                         "cour.ttf")] },
             "Bold" => { "full_name" => "Courier New Bold",
-                        "paths" => [formula_font_path("courier", "courbd.ttf")] },
+                        "paths" => [formula_font_path("courier",
+                                                      "courbd.ttf")] },
             "Italic" => { "full_name" => "Courier New Italic",
-                          "paths" => [formula_font_path("courier", "couri.ttf")] },
+                          "paths" => [formula_font_path("courier",
+                                                        "couri.ttf")] },
             "Bold Italic" => { "full_name" => "Courier New Bold Italic",
-                               "paths" => [formula_font_path("courier", "courbi.ttf")] },
+                               "paths" => [formula_font_path("courier",
+                                                             "courbi.ttf")] },
           },
         )
       end
@@ -1112,14 +1149,16 @@ RSpec.describe Fontist::CLI do
 
         it "accepts --location=fontist" do
           location_options = options + ["--location=fontist"]
-          command = described_class.start(["manifest", "install", *location_options, path])
+          command = described_class.start(["manifest", "install",
+                                           *location_options, path])
           expect(command).to be 0
         end
 
         it "accepts --location=user" do
           allow(FileUtils).to receive(:cp).and_return(true)
           location_options = options + ["--location=user"]
-          command = described_class.start(["manifest", "install", *location_options, path])
+          command = described_class.start(["manifest", "install",
+                                           *location_options, path])
           expect(command).to be 0
         end
 
@@ -1127,14 +1166,16 @@ RSpec.describe Fontist::CLI do
           allow(Fontist.ui).to receive(:say)
           allow(FileUtils).to receive(:cp).and_return(true)
           location_options = options + ["--location=system"]
-          command = described_class.start(["manifest", "install", *location_options, path])
+          command = described_class.start(["manifest", "install",
+                                           *location_options, path])
           expect(command).to be 0
         end
 
         it "accepts -l alias for --location" do
           allow(FileUtils).to receive(:cp).and_return(true)
           location_options = options + ["-l", "user"]
-          command = described_class.start(["manifest", "install", *location_options, path])
+          command = described_class.start(["manifest", "install",
+                                           *location_options, path])
           expect(command).to be 0
         end
       end

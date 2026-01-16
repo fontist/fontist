@@ -44,8 +44,11 @@ module Fontist
       if options[:show_timing]
         puts
         puts Paint["⏱ Timing:", :cyan, :bright]
-        puts Paint["  Manifest resolution time: ", :white] + Paint["#{resolve_time.round(3)}s", :yellow, :bright]
-        puts Paint["  Fonts in manifest:         ", :white] + Paint[paths.fonts.size.to_s, :yellow]
+        puts Paint["  Manifest resolution time: ",
+                   :white] + Paint["#{resolve_time.round(3)}s", :yellow,
+                                   :bright]
+        puts Paint["  Fonts in manifest:         ",
+                   :white] + Paint[paths.fonts.size.to_s, :yellow]
       end
 
       CLI::STATUS_SUCCESS

@@ -42,9 +42,9 @@ RSpec.describe Fontist::Macos::Catalog::Font8Parser do
 
     before do
       allow(parser).to receive(:data).and_return({
-        "Assets" => mock_assets,
-        "postedDate" => "2024-08-13T18:11:00Z"
-      })
+                                                   "Assets" => mock_assets,
+                                                   "postedDate" => "2024-08-13T18:11:00Z",
+                                                 })
     end
 
     it "includes assets with macOS-download in PlatformDelivery" do
@@ -85,7 +85,8 @@ RSpec.describe Fontist::Macos::Catalog::Font8Parser do
     end
 
     it "returns true for assets with multiple platforms including macOS" do
-      asset = { "PlatformDelivery" => ["iOS-download", "macOS-download", "watchOS-download"] }
+      asset = { "PlatformDelivery" => ["iOS-download", "macOS-download",
+                                       "watchOS-download"] }
       expect(parser.send(:macos_compatible?, asset)).to be true
     end
 

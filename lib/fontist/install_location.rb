@@ -105,8 +105,6 @@ module Fontist
       ]
     end
 
-    private_class_method
-
     # Parses and validates location type
     #
     # @param value [Symbol, String, nil] Location type to parse

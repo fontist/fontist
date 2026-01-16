@@ -113,29 +113,29 @@ RSpec.describe Fontist::Manifest do
             # Note: We don't mock mkdir_p because it's needed for lock file creation
             allow(FileUtils).to receive(:cp).and_return(true)
 
-            expect {
+            expect do
               described_class.from_hash(manifest)
                 .install(confirmation: "yes", location: :user)
-            }.not_to raise_error
+            end.not_to raise_error
           end
 
           it "installs all fonts to system location" do
             # Mock file operations to avoid permission errors
             # Note: We don't mock mkdir_p because it's needed for lock file creation
-            allow(Fontist.ui).to receive(:say)  # Suppress warnings
+            allow(Fontist.ui).to receive(:say) # Suppress warnings
             allow(FileUtils).to receive(:cp).and_return(true)
 
-            expect {
+            expect do
               described_class.from_hash(manifest)
                 .install(confirmation: "yes", location: :system)
-            }.not_to raise_error
+            end.not_to raise_error
           end
 
           it "installs all fonts to fontist location" do
-            expect {
+            expect do
               described_class.from_hash(manifest)
                 .install(confirmation: "yes", location: :fontist)
-            }.not_to raise_error
+            end.not_to raise_error
           end
         end
 
@@ -148,17 +148,17 @@ RSpec.describe Fontist::Manifest do
           end
 
           it "raises ArgumentError for string location parameter" do
-            expect {
+            expect do
               described_class.from_hash(manifest)
                 .install(confirmation: "yes", location: "user")
-            }.to raise_error(ArgumentError, /location must be a Symbol/)
+            end.to raise_error(ArgumentError, /location must be a Symbol/)
           end
 
           it "raises ArgumentError for custom path (string)" do
-            expect {
+            expect do
               described_class.from_hash(manifest)
                 .install(confirmation: "yes", location: "/custom/path")
-            }.to raise_error(ArgumentError, /location must be a Symbol/)
+            end.to raise_error(ArgumentError, /location must be a Symbol/)
           end
         end
 
@@ -229,7 +229,8 @@ RSpec.describe Fontist::Manifest do
 
     describe "manifest compilation with optimizations" do
       it "uses performance optimizations during from_file" do
-        manifest_path = File.join("spec", "examples", "manifests", "mscorefonts.yml")
+        manifest_path = File.join("spec", "examples", "manifests",
+                                  "mscorefonts.yml")
 
         expect(described_class).to receive(:with_performance_optimizations).and_call_original
 

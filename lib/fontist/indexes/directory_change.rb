@@ -104,7 +104,7 @@ module Fontist
           change_type: @change_type,
           filename: @filename,
           old_info: @old_info,
-          new_info: @new_info
+          new_info: @new_info,
         }
       end
     end

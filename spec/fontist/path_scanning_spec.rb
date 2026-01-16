@@ -49,7 +49,9 @@ RSpec.describe Fontist::PathScanning do
       supported_lowercase.each_with_index do |ext, i|
         FileUtils.touch(File.join(test_dir, "font#{i}.#{ext}"))
       end
-      unsupported.each { |ext| FileUtils.touch(File.join(test_dir, "file.#{ext}")) }
+      unsupported.each do |ext|
+        FileUtils.touch(File.join(test_dir, "file.#{ext}"))
+      end
 
       result = described_class.list_font_directory(test_dir)
 
@@ -261,7 +263,7 @@ RSpec.describe Fontist::PathScanning do
       FileUtils.mkdir_p(test_dir)
 
       # Make directory unreadable (if possible)
-      File.chmod(0000, test_dir)
+      File.chmod(0o000, test_dir)
 
       result = described_class.list_font_directory(test_dir)
 
@@ -269,7 +271,7 @@ RSpec.describe Fontist::PathScanning do
       expect(result).to be_a(Array)
 
       # Restore permissions for cleanup
-      File.chmod(0755, test_dir)
+      File.chmod(0o755, test_dir)
       FileUtils.rm_rf(test_dir)
     end
 

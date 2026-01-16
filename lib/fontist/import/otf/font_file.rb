@@ -97,7 +97,7 @@ module Fontist
           Fontist.ui.error("WARN: Could not extract metadata from #{@path}: #{e.message}")
           Models::FontMetadata.new(
             family_name: File.basename(@path, ".*"),
-            subfamily_name: "Regular"
+            subfamily_name: "Regular",
           )
         end
       end

@@ -108,7 +108,7 @@ module Fontist
       # Remove duplicates by path and return
       return nil if results.empty?
 
-      results = results.uniq { |f| f.path }
+      results = results.uniq(&:path)
 
       # Cache the result if caching is enabled
       if @find_styles_cache_enabled

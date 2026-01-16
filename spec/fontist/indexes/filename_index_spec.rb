@@ -9,7 +9,7 @@ RSpec.describe Fontist::Indexes::FilenameIndex do
 
       it "round-trips correctly" do
         # Ensure index file exists (will rebuild if missing)
-        index = described_class.from_file
+        described_class.from_file
         content = File.read(filename)
         expect(described_class.from_yaml(content).to_yaml).to eq(content)
       end

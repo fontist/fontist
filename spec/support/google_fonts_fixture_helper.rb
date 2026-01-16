@@ -35,15 +35,15 @@ module GoogleFontsFixtureHelper
   #
   # These are fetched from the actual Google Fonts API and cached via VCR
   def self.abeezee_fixture
-    @abeezee ||= fixture_font("ABeeZee")
+    @abeezee_fixture ||= fixture_font("ABeeZee")
   end
 
   def self.roboto_fixture
-    @roboto ||= fixture_font("Roboto")
+    @roboto_fixture ||= fixture_font("Roboto")
   end
 
   def self.ar_one_sans_fixture
-    @ar_one_sans ||= fixture_font("AR One Sans")
+    @ar_one_sans_fixture ||= fixture_font("AR One Sans")
   end
 
   # Clear cached fixtures

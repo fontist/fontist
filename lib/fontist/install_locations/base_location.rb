@@ -81,7 +81,8 @@ module Fontist
           else
             # Non-managed: use unique name to avoid overwriting user/system fonts
             unique_filename = generate_unique_filename(target_filename)
-            install_with_warning(source_path, unique_filename, original_path: target)
+            install_with_warning(source_path, unique_filename,
+                                 original_path: target)
           end
         else
           # New installation - simple case
@@ -215,6 +216,7 @@ module Fontist
         loop do
           candidate = "#{base}-fontist-#{counter}#{ext}"
           return candidate unless File.exist?(font_path(candidate))
+
           counter += 1
         end
       end

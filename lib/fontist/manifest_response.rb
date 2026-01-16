@@ -12,10 +12,6 @@ module Fontist
       map "full_name", to: :full_name
       map "paths", to: :paths
     end
-
-    def to_hash
-      super
-    end
   end
 
   class ManifestResponseFont < ManifestFont
@@ -31,7 +27,8 @@ module Fontist
       }
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false, location: nil)
+    def install(confirmation: "no", hide_licenses: false, no_progress: false,
+location: nil)
       Fontist::Font.install(
         name,
         force: false,

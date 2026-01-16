@@ -82,7 +82,7 @@ module Fontist
       #
       # @param path [String] Full path to installed font file
       # @return [void]
-      def add_font(path)
+      def add_font(_path)
         # Reset verification flag to force re-check
         collection.reset_verification!
 

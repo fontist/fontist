@@ -10,7 +10,7 @@ RSpec.describe Fontist::Macos::Catalog::CatalogManager do
     described_class.remove_instance_variable(:@catalog_cache_path) if described_class.instance_variable_defined?(:@catalog_cache_path)
 
     # Clean up downloaded catalog files to avoid polluting other tests
-    FileUtils.rm_rf(cache_path) if cache_path && cache_path.exist?
+    FileUtils.rm_rf(cache_path) if cache_path&.exist?
   end
 
   # Skip all tests if catalogs are not available

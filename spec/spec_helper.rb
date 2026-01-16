@@ -60,8 +60,8 @@ RSpec.configure do |config|
   # Disable interactive prompts during tests
   config.before(:suite) do
     Fontist.interactive = false
-    Fontist.ui.level = :info  # Enable UI method execution in tests
-    Fontist.auto_overwrite = true  # Auto-overwrite repos to prevent yes? prompts blocking CI
+    Fontist.ui.level = :info # Enable UI method execution in tests
+    Fontist.auto_overwrite = true # Auto-overwrite repos to prevent yes? prompts blocking CI
   end
 
   # Reset all Fontist state before each test to ensure clean state for stubs
@@ -75,15 +75,43 @@ RSpec.configure do |config|
       Fontist::Test::IsolationManager.instance.reset_all
     rescue StandardError
       # Fallback to individual resets if isolation manager not available
-      Fontist::Config.reset rescue nil
-      Fontist::Index.reset_cache rescue nil
-      Fontist::SystemIndex.reset_cache rescue nil
-      Fontist::SystemFont.reset_font_paths_cache rescue nil
+      begin
+        Fontist::Config.reset
+      rescue StandardError
+        nil
+      end
+      begin
+        Fontist::Index.reset_cache
+      rescue StandardError
+        nil
+      end
+      begin
+        Fontist::SystemIndex.reset_cache
+      rescue StandardError
+        nil
+      end
+      begin
+        Fontist::SystemFont.reset_font_paths_cache
+      rescue StandardError
+        nil
+      end
 
       # Reset new OOP index singletons
-      Fontist::Indexes::FontistIndex.reset_cache rescue nil
-      Fontist::Indexes::UserIndex.reset_cache rescue nil
-      Fontist::Indexes::SystemIndex.reset_cache rescue nil
+      begin
+        Fontist::Indexes::FontistIndex.reset_cache
+      rescue StandardError
+        nil
+      end
+      begin
+        Fontist::Indexes::UserIndex.reset_cache
+      rescue StandardError
+        nil
+      end
+      begin
+        Fontist::Indexes::SystemIndex.reset_cache
+      rescue StandardError
+        nil
+      end
     end
 
     # Set up a pass-through stub for user_os that calls the original method
@@ -106,7 +134,7 @@ RSpec.configure do |config|
     allow(Fontist).to receive(:default_fontist_path).and_call_original
 
     # DEBUG: Verify stub was reset
-    $stderr.puts "DEBUG spec_helper after(:each): default_fontist_path=#{Fontist.default_fontist_path}" if ENV["DEBUG_FRESH_HOME"]
+    warn "DEBUG spec_helper after(:each): default_fontist_path=#{Fontist.default_fontist_path}" if ENV["DEBUG_FRESH_HOME"]
 
     # Always reset interactive mode
     Fontist.interactive = false

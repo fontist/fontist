@@ -6,13 +6,16 @@ RSpec.describe Fontist::SystemIndex do
       # Use minimal fixture - we only need to verify concurrent rebuilds produce
       # the same result, not scan thousands of system fonts
       minimal_system_file = case Fontist::Utils::System.user_os
-                           when :macos
-                             Fontist.root_path.join("spec", "fixtures", "system_macos_minimal.yml")
-                           when :windows
-                             Fontist.root_path.join("spec", "fixtures", "system_windows_minimal.yml")
-                           else
-                             Fontist.root_path.join("spec", "fixtures", "system.yml")
-                           end
+                            when :macos
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system_macos_minimal.yml")
+                            when :windows
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system_windows_minimal.yml")
+                            else
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system.yml")
+                            end
 
       stub_system_fonts(minimal_system_file)
 

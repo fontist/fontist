@@ -31,9 +31,9 @@ RSpec.describe "Fontist::Import::Macos dfont support" do
     end
   end
 
-  def fixtures_dir
+  def fixtures_dir(&block)
     Dir.mktmpdir do |dir|
-      Dir.chdir(dir) { yield }
+      Dir.chdir(dir, &block)
     end
   end
 end

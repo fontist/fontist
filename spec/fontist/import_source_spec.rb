@@ -9,17 +9,18 @@ RSpec.describe Fontist::ImportSource do
     it "raises NotImplementedError for differentiation_key on base class" do
       source = described_class.new
 
-      expect {
+      expect do
         source.differentiation_key
-      }.to raise_error(NotImplementedError, /must implement #differentiation_key/)
+      end.to raise_error(NotImplementedError,
+                         /must implement #differentiation_key/)
     end
 
     it "raises NotImplementedError for outdated? on base class" do
       source = described_class.new
 
-      expect {
+      expect do
         source.outdated?(double)
-      }.to raise_error(NotImplementedError, /must implement #outdated\?/)
+      end.to raise_error(NotImplementedError, /must implement #outdated\?/)
     end
   end
 end

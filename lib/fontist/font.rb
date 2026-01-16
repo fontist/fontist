@@ -105,7 +105,7 @@ module Fontist
       return if @install_location.is_a?(Symbol)
 
       raise ArgumentError,
-        "location must be a Symbol (e.g., :fontist, :user, :system), got #{@install_location.class}"
+            "location must be a Symbol (e.g., :fontist, :user, :system), got #{@install_location.class}"
     end
 
     def find_system_font
@@ -116,7 +116,7 @@ module Fontist
       end
 
       print_paths(paths)
-      paths  # Return paths after printing
+      paths # Return paths after printing
     end
 
     def print_paths(paths)
@@ -184,7 +184,7 @@ module Fontist
     def font_installer(formula)
       options = {
         no_progress: @no_progress,
-        location: @install_location
+        location: @install_location,
       }
 
       if @by_formula

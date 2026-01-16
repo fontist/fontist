@@ -148,10 +148,9 @@ module Fontist
       # - Unique filename generation
       # - Index updates
       # - Warning messages
-      installed_path = @location.install_font(source, target_name)
+      @location.install_font(source, target_name)
 
       # Return path if installed, nil if skipped
-      installed_path
     end
 
     def macos_asset_directory

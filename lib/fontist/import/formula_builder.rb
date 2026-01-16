@@ -62,18 +62,19 @@ module Fontist
           type: "macos",
           framework_version: framework_version,
           posted_date: posted_date,
-          asset_id: asset_id
+          asset_id: asset_id,
         )
       end
 
       # Convenience method to set Google import source
-      def set_google_import_source(commit_id:, api_version:, last_modified:, family_id:)
+      def set_google_import_source(commit_id:, api_version:, last_modified:,
+family_id:)
         @import_source = GoogleImportSource.new(
           type: "google",
           commit_id: commit_id,
           api_version: api_version,
           last_modified: last_modified,
-          family_id: family_id
+          family_id: family_id,
         )
       end
 
@@ -82,7 +83,7 @@ module Fontist
         @import_source = SilImportSource.new(
           type: "sil",
           version: version,
-          release_date: release_date
+          release_date: release_date,
         )
       end
 
@@ -131,7 +132,7 @@ module Fontist
           extensions = RecursiveExtraction::SUPPORTED_FONT_EXTENSIONS.join(", ")
           raise Errors::FontNotFoundError.new(
             "No fonts found in archive. Only files with these extensions are processed: #{extensions}",
-            parsing_errors: parsing_errors
+            parsing_errors: parsing_errors,
           )
         end
 
@@ -190,7 +191,9 @@ module Fontist
       end
 
       def styles_from_files(files, style_type)
-        files.map(&style_type).map { |style| deep_compact(style) }.sort_by { |x| x[:type] }
+        files.map(&style_type).map do |style|
+          deep_compact(style)
+        end.sort_by { |x| x[:type] }
       end
 
       # Recursively remove nil values from hashes and arrays
@@ -266,8 +269,8 @@ module Fontist
         base_name = Fontist::Import.normalize_filename(name)
 
         # Add differentiation_key if import_source supports it
-        if @import_source&.respond_to?(:differentiation_key) &&
-           (key = @import_source.differentiation_key)
+        if @import_source.respond_to?(:differentiation_key) &&
+            (key = @import_source.differentiation_key)
           "#{base_name}_#{key}.yml"
         else
           "#{base_name}.yml"

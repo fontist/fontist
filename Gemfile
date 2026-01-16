@@ -4,8 +4,8 @@ source "https://rubygems.org"
 gemspec
 
 gem "bundler"
-gem "pry"
 gem "openssl", "~> 3.0"
+gem "pry"
 gem "rake"
 gem "rspec"
 gem "rspec-benchmark"

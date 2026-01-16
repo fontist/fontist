@@ -10,6 +10,7 @@ module Fontist
         new(font_info)
       end
 
+      # rubocop:disable Metrics/MethodLength
       def from_content(content)
         tmpfile = Tempfile.new(["font", ".ttf"])
         tmpfile.binmode
@@ -19,16 +20,20 @@ module Fontist
 
         font_info = extract_font_info_from_path(tmpfile.path)
         # Keep tempfile alive to prevent GC issues on Windows
+        # rubocop:disable Layout/LineLength
         # Return both the font object and tempfile so caller can keep it referenced
+        # rubocop:enable Layout/LineLength
         new(font_info, tmpfile)
       rescue StandardError => e
         raise_font_file_error(e)
       end
+      # rubocop:enable Metrics/MethodLength
 
-      private
-
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def extract_font_info_from_path(path)
+        # rubocop:disable Layout/LineLength
         # First, detect if the file is actually a collection (regardless of extension)
+        # rubocop:enable Layout/LineLength
         # This handles cases where .ttf files are actually .ttc collections
         is_collection = Fontisan::FontLoader.collection?(path)
 
@@ -38,28 +43,34 @@ module Fontist
         # For collections, we need different handling
         if is_collection
           # Load and validate the first font in the collection for indexability
-          font = Fontisan::FontLoader.load(path, font_index: 0, mode: :metadata, lazy: true)
+          font = Fontisan::FontLoader.load(path, font_index: 0,
+                                                 mode: :metadata, lazy: true)
 
           # Validate the font using indexability profile
           validator = load_indexability_validator
           validation_report = validator.validate(font)
 
           unless validation_report.valid?
-            error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+            error_messages = validation_report.errors.map do |e|
+              "#{e.category}: #{e.message}"
+            end.join("; ")
+            # rubocop:disable Layout/LineLength
             raise Errors::FontFileError,
                   "Font from collection failed indexability validation: #{error_messages}"
+            # rubocop:enable Layout/LineLength
           end
 
-          extract_names_from_font(font)
         else
           # Single font - validate and load
           font = validate_and_load_single_font(path)
-          extract_names_from_font(font)
         end
+        extract_names_from_font(font)
       rescue StandardError => e
         raise_font_file_error(e)
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength
       def validate_and_load_single_font(path)
         # Load font first (we need to validate it, not the file path)
         font = Fontisan::FontLoader.load(path, mode: :metadata, lazy: true)
@@ -69,27 +80,32 @@ module Fontist
         validation_report = validator.validate(font)
 
         unless validation_report.valid?
-          error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+          error_messages = validation_report.errors.map do |e|
+            "#{e.category}: #{e.message}"
+          end.join("; ")
           raise Errors::FontFileError,
                 "Font file failed indexability validation: #{error_messages}"
         end
 
         font
       end
+      # rubocop:enable Metrics/MethodLength
 
       def load_indexability_validator
         Fontisan::Validators::ProfileLoader.load(:indexability)
       end
 
+      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       def check_extension_warning(path, is_collection)
         expected_ext = File.extname(path).downcase.sub(/^\./, "")
 
         # Determine actual format based on content
         actual_format = if is_collection
-                         "ttc" # or "otc" - but we use ttc as generic collection extension
-                       else
-                         detect_font_format(path)
-                       end
+                          # Use ttc as generic collection extension
+                          "ttc"
+                        else
+                          detect_font_format(path)
+                        end
 
         # Map common collection extensions to "ttc"
         collection_extensions = %w[ttc otc dfont]
@@ -98,30 +114,40 @@ module Fontist
         # Check for mismatch
         if is_collection && !is_expected_collection
           Fontist.ui.warn(
+            # rubocop:disable Layout/LineLength
             "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
             "but appears to be a font collection (.ttc/.otc/.dfont). " \
-            "The file will be indexed, but consider renaming for clarity."
+            "The file will be indexed, but consider renaming for clarity.",
+            # rubocop:enable Layout/LineLength
           )
         elsif !is_collection && is_expected_collection
           # File has collection extension but is actually a single font
           Fontist.ui.warn(
+            # rubocop:disable Layout/LineLength
             "WARNING: File '#{File.basename(path)}' has collection extension '.#{expected_ext}' " \
             "but appears to be a single font (.#{actual_format}). " \
-            "The file will be indexed, but consider renaming for clarity."
+            "The file will be indexed, but consider renaming for clarity.",
+            # rubocop:enable Layout/LineLength
           )
         elsif !is_collection && expected_ext != actual_format
           # Single font with wrong format extension
           Fontist.ui.warn(
+            # rubocop:disable Layout/LineLength
             "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
             "but appears to be a #{actual_format.upcase} font. " \
-            "The file will be indexed, but consider renaming for clarity."
+            "The file will be indexed, but consider renaming for clarity.",
+            # rubocop:enable Layout/LineLength
           )
         end
       rescue StandardError => e
         # Don't fail indexing just because we can't detect the format
+        # rubocop:disable Layout/LineLength
         Fontist.ui.debug("Could not detect file format for warning: #{e.message}")
+        # rubocop:enable Layout/LineLength
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+      # rubocop:disable Metrics/MethodLength
       def detect_font_format(path)
         # Open file and check SFNT version to determine actual format
         File.open(path, "rb") do |io|
@@ -145,6 +171,7 @@ module Fontist
         "unknown"
       end
 
+      # rubocop:disable Metrics/MethodLength
       def extract_names_from_font(font)
         # Access name table directly
         name_table = font.table(Fontisan::Constants::NAME_TAG)
@@ -160,6 +187,7 @@ module Fontist
           postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME),
         }
       end
+      # rubocop:enable Metrics/MethodLength
 
       def raise_font_file_error(exception)
         raise Errors::FontFileError,

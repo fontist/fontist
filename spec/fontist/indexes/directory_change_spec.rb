@@ -1,8 +1,14 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Indexes::DirectoryChange do
-  let(:old_info) { { filename: "test.ttf", path: "/path/test.ttf", file_size: 100, file_mtime: 1000, signature: "old_sig" } }
-  let(:new_info) { { filename: "test.ttf", path: "/path/test.ttf", file_size: 200, file_mtime: 2000, signature: "new_sig" } }
+  let(:old_info) do
+    { filename: "test.ttf", path: "/path/test.ttf", file_size: 100,
+      file_mtime: 1000, signature: "old_sig" }
+  end
+  let(:new_info) do
+    { filename: "test.ttf", path: "/path/test.ttf", file_size: 200,
+      file_mtime: 2000, signature: "new_sig" }
+  end
 
   describe ".added" do
     it "creates added change with new info" do
@@ -158,8 +164,10 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     it "detects modified files" do
-      old_file_info = { filename: "modified.ttf", file_size: 100, file_mtime: 1000, signature: "old" }
-      new_file_info = { filename: "modified.ttf", file_size: 200, file_mtime: 2000, signature: "new" }
+      old_file_info = { filename: "modified.ttf", file_size: 100,
+                        file_mtime: 1000, signature: "old" }
+      new_file_info = { filename: "modified.ttf", file_size: 200,
+                        file_mtime: 2000, signature: "new" }
 
       old_snapshot = create_snapshot(test_dir, [old_file_info])
       new_snapshot = create_snapshot(test_dir, [new_file_info])
@@ -179,12 +187,13 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
       old_files = [
         { filename: "A.ttf", file_size: 100, file_mtime: 1000, signature: "a" },
         { filename: "B.ttf", file_size: 100, file_mtime: 1000, signature: "b" },
-        { filename: "C.ttf", file_size: 100, file_mtime: 1000, signature: "c" }
+        { filename: "C.ttf", file_size: 100, file_mtime: 1000, signature: "c" },
       ]
       new_files = [
-        { filename: "B.ttf", file_size: 200, file_mtime: 2000, signature: "b-modified" },
+        { filename: "B.ttf", file_size: 200, file_mtime: 2000,
+          signature: "b-modified" },
         { filename: "D.ttf", file_size: 100, file_mtime: 1000, signature: "d" },
-        { filename: "E.ttf", file_size: 100, file_mtime: 1000, signature: "e" }
+        { filename: "E.ttf", file_size: 100, file_mtime: 1000, signature: "e" },
       ]
 
       old_snapshot = create_snapshot(test_dir, old_files)
@@ -199,7 +208,8 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     it "returns empty array when no changes" do
-      file_info = { filename: "same.ttf", file_size: 100, file_mtime: 1000, signature: "same" }
+      file_info = { filename: "same.ttf", file_size: 100, file_mtime: 1000,
+                    signature: "same" }
 
       old_snapshot = create_snapshot(test_dir, [file_info])
       new_snapshot = create_snapshot(test_dir, [file_info])
@@ -210,8 +220,10 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     it "detects modification when size changes" do
-      old_file = { filename: "size_changed.ttf", file_size: 100, file_mtime: 1000, signature: "sig1" }
-      new_file = { filename: "size_changed.ttf", file_size: 200, file_mtime: 1000, signature: "sig2" }
+      old_file = { filename: "size_changed.ttf", file_size: 100,
+                   file_mtime: 1000, signature: "sig1" }
+      new_file = { filename: "size_changed.ttf", file_size: 200,
+                   file_mtime: 1000, signature: "sig2" }
 
       old_snapshot = create_snapshot(test_dir, [old_file])
       new_snapshot = create_snapshot(test_dir, [new_file])
@@ -223,8 +235,10 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     it "detects modification when mtime changes" do
-      old_file = { filename: "time_changed.ttf", file_size: 100, file_mtime: 1000, signature: "sig1" }
-      new_file = { filename: "time_changed.ttf", file_size: 100, file_mtime: 2000, signature: "sig2" }
+      old_file = { filename: "time_changed.ttf", file_size: 100,
+                   file_mtime: 1000, signature: "sig1" }
+      new_file = { filename: "time_changed.ttf", file_size: 100,
+                   file_mtime: 2000, signature: "sig2" }
 
       old_snapshot = create_snapshot(test_dir, [old_file])
       new_snapshot = create_snapshot(test_dir, [new_file])
@@ -236,8 +250,10 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     it "detects modification when signature changes" do
-      old_file = { filename: "sig_changed.ttf", file_size: 100, file_mtime: 1000, signature: "sig1" }
-      new_file = { filename: "sig_changed.ttf", file_size: 100, file_mtime: 1000, signature: "sig2" }
+      old_file = { filename: "sig_changed.ttf", file_size: 100,
+                   file_mtime: 1000, signature: "sig1" }
+      new_file = { filename: "sig_changed.ttf", file_size: 100,
+                   file_mtime: 1000, signature: "sig2" }
 
       old_snapshot = create_snapshot(test_dir, [old_file])
       new_snapshot = create_snapshot(test_dir, [new_file])
@@ -260,7 +276,7 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     Fontist::Indexes::DirectorySnapshot.from_hash(
       directory_path: dir,
       files: files,
-      scanned_at: Time.now.to_i
+      scanned_at: Time.now.to_i,
     )
   end
 
@@ -272,7 +288,7 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
         path: File.join(dir, info[:filename]),
         file_size: info.fetch(:file_size, 100),
         file_mtime: info.fetch(:file_mtime, 1000),
-        signature: info.fetch(:signature, "default_sig")
+        signature: info.fetch(:signature, "default_sig"),
       }
     else
       # info is a string filename - build minimal file info
@@ -282,7 +298,7 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
         path: File.join(dir, filename),
         file_size: 100,
         file_mtime: 1000,
-        signature: "sig_#{filename}"
+        signature: "sig_#{filename}",
       }
     end
   end

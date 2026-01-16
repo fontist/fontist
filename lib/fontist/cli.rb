@@ -137,7 +137,10 @@ module Fontist
         confirmation = options[:accept_all_licenses] ? "yes" : "no"
         install_options = options.to_h.transform_keys(&:to_sym)
         install_options[:confirmation] = confirmation
-        install_options[:location] = options[:location]&.to_sym if options[:location]
+        if options[:location]
+          install_options[:location] =
+            options[:location]&.to_sym
+        end
 
         Fontist::Font.install(fonts.first, install_options)
         return success
@@ -147,7 +150,10 @@ module Fontist
       confirmation = options[:accept_all_licenses] ? "yes" : "no"
       install_options = options.to_h.transform_keys(&:to_sym)
       install_options[:confirmation] = confirmation
-      install_options[:location] = options[:location]&.to_sym if options[:location]
+      if options[:location]
+        install_options[:location] =
+          options[:location]&.to_sym
+      end
 
       result = Fontist::Font.install_many(fonts, install_options)
 

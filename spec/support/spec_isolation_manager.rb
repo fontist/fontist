@@ -120,12 +120,10 @@ module Fontist
         fontist_dirs = Dir.glob(File.join(temp_base, "fontist*"))
 
         fontist_dirs.each do |dir|
-          begin
-            FileUtils.remove_entry(dir) if File.directory?(dir)
-          rescue => e
-            # Log but don't fail - cleanup is best effort
-            warn "Warning: Could not remove temp directory #{dir}: #{e.message}"
-          end
+          FileUtils.remove_entry(dir) if File.directory?(dir)
+        rescue StandardError => e
+          # Log but don't fail - cleanup is best effort
+          warn "Warning: Could not remove temp directory #{dir}: #{e.message}"
         end
       end
 
@@ -134,15 +132,13 @@ module Fontist
         # that might prevent directory removal
         temp_base = Dir.tmpdir
         lock_files = Dir.glob(File.join(temp_base, "*lock*")) +
-                    Dir.glob(File.join(temp_base, "*fontist*.tmp"))
+          Dir.glob(File.join(temp_base, "*fontist*.tmp"))
 
         lock_files.each do |file|
-          begin
-            FileUtils.remove_entry(file) if File.exist?(file)
-          rescue => e
-            # Log but don't fail - cleanup is best effort
-            warn "Warning: Could not remove lock file #{file}: #{e.message}"
-          end
+          FileUtils.remove_entry(file) if File.exist?(file)
+        rescue StandardError => e
+          # Log but don't fail - cleanup is best effort
+          warn "Warning: Could not remove lock file #{file}: #{e.message}"
         end
       end
 

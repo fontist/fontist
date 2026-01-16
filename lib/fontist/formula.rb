@@ -283,7 +283,7 @@ module Fontist
           require_relative "macos_framework_metadata"
           raise Errors::UnsupportedMacOSVersionError.new(
             current_macos,
-            MacosFrameworkMetadata.metadata
+            MacosFrameworkMetadata.metadata,
           )
         end
 
@@ -321,12 +321,13 @@ module Fontist
         end
       end
 
-      message += " This font cannot be installed on your system."
+      "#{message} This font cannot be installed on your system."
     end
 
     def requires_system_installation?
       source == "apple_cdn" && platforms&.include?("macos")
     end
+
     def key
       @key ||= key_from_path
     end

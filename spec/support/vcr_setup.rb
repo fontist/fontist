@@ -33,11 +33,11 @@ VCR.configure do |config|
     # Normalize Windows paths to forward slashes for cross-platform cassettes
     if Fontist::Utils::System.user_os == :windows
       # Normalize request URI paths
-      interaction.request.uri.gsub!('\\', '/') if interaction.request.uri
+      interaction.request.uri&.gsub!("\\", "/")
 
       # Normalize response body paths if it's a string
       if interaction.response.body.is_a?(String)
-        interaction.response.body.gsub!('\\', '/')
+        interaction.response.body.gsub!("\\", "/")
       end
     end
   end
