@@ -39,6 +39,10 @@ module Fontist
         new.say(message, :red) if log_levels.include?(:warn)
       end
 
+      def self.warn(message)
+        new.say(message, :yellow) if log_levels.include?(:warn)
+      end
+
       def self.say(message)
         new.say(message) if log_levels.include?(:info)
       end
