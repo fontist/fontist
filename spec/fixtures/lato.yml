@@ -247,5 +247,5 @@ open_license: |-
   DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
   FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
   OTHER DEALINGS IN THE FONT SOFTWARE.
-command: ''
+command: "./spec/fontist/import/ --format progress"
 font_version: 2.015; 2015-08-06; http://www.latofonts.com/

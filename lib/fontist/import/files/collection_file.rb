@@ -20,11 +20,13 @@ module Fontist
           private
 
           def build_collection(path, error_collector: nil)
-            Fontisan::TrueTypeCollection.from_file(path)
+            # Use FontLoader to properly detect and load any collection type
+            # (TTC, OTC, dfont, etc.)
+            Fontisan::FontLoader.load_collection(path)
           rescue StandardError => e
             # Collect error if collector provided, otherwise just debug log
             error_collector&.add(path, e.message, backtrace: e.backtrace)
-            Fontist.ui.debug("Fontisan brief info failed for #{File.basename(path)}: #{e.message}")
+            Fontist.ui.debug("Fontisan collection load failed for #{File.basename(path)}: #{e.message}")
             nil
           end
         end

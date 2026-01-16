@@ -28,23 +28,121 @@ module Fontist
       private
 
       def extract_font_info_from_path(path)
-        # Validate font is indexable using Fontisan's fast validation
-        report = Fontisan.validate(path, profile: :indexability)
-        unless report.valid?
-          error_messages = report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+        # First, detect if the file is actually a collection (regardless of extension)
+        # This handles cases where .ttf files are actually .ttc collections
+        is_collection = Fontisan::FontLoader.collection?(path)
+
+        # Check for extension mismatch and issue warning
+        check_extension_warning(path, is_collection)
+
+        # For collections, we need different handling
+        if is_collection
+          # Load and validate the first font in the collection for indexability
+          font = Fontisan::FontLoader.load(path, font_index: 0, mode: :metadata, lazy: true)
+
+          # Validate the font using indexability profile
+          validator = load_indexability_validator
+          validation_report = validator.validate(font)
+
+          unless validation_report.valid?
+            error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+            raise Errors::FontFileError,
+                  "Font from collection failed indexability validation: #{error_messages}"
+          end
+
+          extract_names_from_font(font)
+        else
+          # Single font - validate and load
+          font = validate_and_load_single_font(path)
+          extract_names_from_font(font)
+        end
+      rescue StandardError => e
+        raise_font_file_error(e)
+      end
+
+      def validate_and_load_single_font(path)
+        # Load font first (we need to validate it, not the file path)
+        font = Fontisan::FontLoader.load(path, mode: :metadata, lazy: true)
+
+        # Validate the font using indexability profile
+        validator = load_indexability_validator
+        validation_report = validator.validate(font)
+
+        unless validation_report.valid?
+          error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
           raise Errors::FontFileError,
                 "Font file failed indexability validation: #{error_messages}"
         end
 
-        # Load font using Fontisan's metadata-only mode with lazy loading for
-        # maximum performance during system font indexing. This combination:
-        # - Metadata mode: Loads only 6 essential tables vs ~15-20 tables
-        # - Lazy loading: Defers table parsing until tables are accessed
-        # Together this provides ~5x speedup according to fontisan benchmarks
-        font = Fontisan::FontLoader.load(path, mode: :metadata, lazy: true)
-        extract_names_from_font(font)
+        font
+      end
+
+      def load_indexability_validator
+        Fontisan::Validators::ProfileLoader.load(:indexability)
+      end
+
+      def check_extension_warning(path, is_collection)
+        expected_ext = File.extname(path).downcase.sub(/^\./, "")
+
+        # Determine actual format based on content
+        actual_format = if is_collection
+                         "ttc" # or "otc" - but we use ttc as generic collection extension
+                       else
+                         detect_font_format(path)
+                       end
+
+        # Map common collection extensions to "ttc"
+        collection_extensions = %w[ttc otc dfont]
+        is_expected_collection = collection_extensions.include?(expected_ext)
+
+        # Check for mismatch
+        if is_collection && !is_expected_collection
+          Fontist.ui.warn(
+            "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
+            "but appears to be a font collection (.ttc/.otc/.dfont). " \
+            "The file will be indexed, but consider renaming for clarity."
+          )
+        elsif !is_collection && is_expected_collection
+          # File has collection extension but is actually a single font
+          Fontist.ui.warn(
+            "WARNING: File '#{File.basename(path)}' has collection extension '.#{expected_ext}' " \
+            "but appears to be a single font (.#{actual_format}). " \
+            "The file will be indexed, but consider renaming for clarity."
+          )
+        elsif !is_collection && expected_ext != actual_format
+          # Single font with wrong format extension
+          Fontist.ui.warn(
+            "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
+            "but appears to be a #{actual_format.upcase} font. " \
+            "The file will be indexed, but consider renaming for clarity."
+          )
+        end
       rescue StandardError => e
-        raise_font_file_error(e)
+        # Don't fail indexing just because we can't detect the format
+        Fontist.ui.debug("Could not detect file format for warning: #{e.message}")
+      end
+
+      def detect_font_format(path)
+        # Open file and check SFNT version to determine actual format
+        File.open(path, "rb") do |io|
+          signature = io.read(4)
+          io.rewind
+
+          case signature
+          when "\x00\x01\x00\x00", "true"
+            "ttf"
+          when "OTTO"
+            "otf"
+          when "wOFF"
+            "woff"
+          when "wOF2"
+            "woff2"
+          else
+            "unknown"
+          end
+        end
+      rescue StandardError
+        "unknown"
       end
 
       def extract_names_from_font(font)

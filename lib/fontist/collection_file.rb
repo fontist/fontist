@@ -16,18 +16,56 @@ module Fontist
       private
 
       def build_collection(path)
-        # Validate font collection is indexable using Fontisan's fast validation
-        report = Fontisan.validate(path, profile: :indexability)
-        unless report.valid?
-          error_messages = report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+        # Validate collection by checking it can be loaded and fonts can be extracted
+        # This uses fontisan's collection validation infrastructure
+        require "fontisan"
+
+        # First check if it's a valid collection file
+        unless Fontisan::FontLoader.collection?(path)
           raise Errors::FontFileError,
-                "Font collection failed indexability validation: #{error_messages}"
+                "File is not a recognized font collection (TTC/OTC/dfont)"
         end
 
-        Fontisan::TrueTypeCollection.from_file(path)
+        # Check for extension mismatch and issue warning
+        check_extension_warning(path)
+
+        # Load the collection to verify structure
+        collection = Fontisan::FontLoader.load_collection(path)
+
+        # Validate at least the first font is indexable
+        # This provides a basic sanity check that the collection is valid
+        validator = Fontisan::Validators::ProfileLoader.load(:indexability)
+        first_font = Fontisan::FontLoader.load(path, font_index: 0, mode: :metadata, lazy: true)
+        validation_report = validator.validate(first_font)
+
+        unless validation_report.valid?
+          error_messages = validation_report.errors.map { |e| "#{e.category}: #{e.message}" }.join("; ")
+          raise Errors::FontFileError,
+                "Font collection failed indexability validation (first font): #{error_messages}"
+        end
+
+        collection
       rescue StandardError => e
         raise Errors::FontFileError,
-              "Font file could not be parsed: #{e.inspect}."
+              "Font collection could not be loaded: #{e.inspect}."
+      end
+
+      def check_extension_warning(path)
+        expected_ext = File.extname(path).downcase.sub(/^\./, "")
+
+        # Collection extensions
+        collection_extensions = %w[ttc otc dfont]
+
+        unless collection_extensions.include?(expected_ext)
+          Fontist.ui.warn(
+            "WARNING: File '#{File.basename(path)}' has extension '.#{expected_ext}' " \
+            "but appears to be a font collection (.ttc/.otc/.dfont). " \
+            "The file will be indexed, but consider renaming for clarity."
+          )
+        end
+      rescue StandardError => e
+        # Don't fail indexing just because we can't detect the format
+        Fontist.ui.debug("Could not check extension for warning: #{e.message}")
       end
     end
 
