@@ -60,8 +60,9 @@ module Fontist
 
             Fontist.ui.say("Downloading Font#{version} catalog from #{url}...") if Fontist.ui.respond_to?(:say)
 
-            URI.open(url,
-                     "User-Agent" => "Fontist/#{Fontist::VERSION}") do |response|
+            URI(url).open(
+              "User-Agent" => "Fontist/#{Fontist::VERSION}",
+            ) do |response|
               File.write(catalog_file, response.read)
             end
 
