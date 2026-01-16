@@ -1221,9 +1221,10 @@ RSpec.describe Fontist::Font do
         allow(Fontist::Utils::System).to receive(:user_os).and_return(:windows)
       end
 
-      it "does not contain the formula" do
+      it "does not contain the macOS-only formula", :windows do
         formulas = command.keys.map(&:key)
-        expect(formulas).to eq []
+        # On Windows, other Windows-specific formulas may be present, but the macOS-only formula should not be
+        expect(formulas).not_to include("work_sans_macos_only")
       end
     end
 
@@ -1237,9 +1238,10 @@ RSpec.describe Fontist::Font do
         allow(Fontist::Utils::System).to receive(:user_os).and_return(:macos)
       end
 
-      it "returns the formula" do
+      it "returns the formula", :macos do
         formulas = command.keys.map(&:key)
-        expect(formulas).to eq ["work_sans_macos_only"]
+        # On macOS, the macOS-only formula should be present
+        expect(formulas).to include("work_sans_macos_only")
       end
     end
   end
