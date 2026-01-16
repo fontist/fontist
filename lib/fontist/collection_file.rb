@@ -1,5 +1,4 @@
 require "fontisan"
-require "tempfile"
 require_relative "errors"
 
 module Fontist
@@ -85,13 +84,6 @@ module Fontist
     def initialize(fontisan_collection, path)
       @collection = fontisan_collection
       @path = path
-      # Keep tempfiles alive during font extraction to prevent Windows GC issues
-      # On Windows, GC finalizers trying to delete files can fail with EACCES
-      # if files are still being accessed. By keeping references, we let Ruby's
-      # rubocop:disable Layout/LineLength
-      # normal GC handle cleanup when the CollectionFile is no longer referenced.
-      # rubocop:enable Layout/LineLength
-      @tempfiles = []
     end
 
     def count
@@ -106,32 +98,57 @@ module Fontist
       self
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # Return font metadata for a font in the collection.
+    # This uses Fontisan directly to extract metadata without creating tempfiles,
+    # which avoids Windows file locking issues.
     def [](index)
-      # Extract font from collection to temporary file,
-      # then load and extract metadata
-      tmpfile = Tempfile.new(["font", ".ttf"])
-      tmpfile.binmode
+      # Load the font directly from the collection using Fontisan's FontLoader
+      # mode: :metadata gives us just the metadata tables (faster, less memory)
+      # lazy: false means we load the tables immediately (not deferred)
+      font = Fontisan::FontLoader.load(@path, font_index: index, mode: :metadata, lazy: false)
 
-      File.open(@path, "rb") do |io|
-        # Get font from collection
-        font = @collection.font(index, io)
+      # Extract font metadata directly from Fontisan's font object
+      # This avoids creating tempfiles and loading the font twice
+      font_info = extract_font_metadata(font)
 
-        # Write to tempfile
-        font.to_file(tmpfile.path)
-      end
-
-      tmpfile.close
-
-      # Keep tempfile alive to prevent GC issues on Windows
-      @tempfiles << tmpfile
-
-      # Load and extract metadata using FontFile
-      # Tempfile will be deleted when CollectionFile is GC'd
-      FontFile.from_path(tmpfile.path)
+      # Create a FontFile-like object to hold the metadata
+      # We use a simple struct with accessor methods for compatibility
+      FontFileMetadata.new(font_info)
     end
-    # rubocop:enable Metrics/MethodLength
 
-    # Removed extract_font_info method - now using FontFile.from_path
+    private
+
+    # Simple metadata container that provides the same interface as FontFile
+    # This avoids creating tempfiles while maintaining compatibility with code
+    # that expects FontFile objects.
+    class FontFileMetadata
+      attr_reader :full_name, :family, :subfamily, :preferred_family_name, :preferred_subfamily_name
+
+      def initialize(metadata)
+        @full_name = metadata[:full_name]
+        @family = metadata[:family_name]
+        @subfamily = metadata[:subfamily_name]
+        @preferred_family_name = metadata[:preferred_family]
+        @preferred_subfamily_name = metadata[:preferred_subfamily]
+      end
+    end
+
+    # Extract font metadata from a Fontisan font object.
+    # Returns a hash with the same structure as FontFile's internal @info hash.
+    def extract_font_metadata(font)
+      # Access name table directly
+      name_table = font.table(Fontisan::Constants::NAME_TAG)
+      return {} unless name_table
+
+      # Extract all needed name strings using Fontisan's API
+      {
+        full_name: name_table.english_name(Fontisan::Tables::Name::FULL_NAME),
+        family_name: name_table.english_name(Fontisan::Tables::Name::FAMILY),
+        subfamily_name: name_table.english_name(Fontisan::Tables::Name::SUBFAMILY),
+        preferred_family: name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY),
+        preferred_subfamily: name_table.english_name(Fontisan::Tables::Name::PREFERRED_SUBFAMILY),
+        postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME),
+      }
+    end
   end
 end

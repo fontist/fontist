@@ -1,5 +1,4 @@
 require "fontisan"
-require "tempfile"
 require_relative "../otf/font_file"
 
 module Fontist
@@ -63,20 +62,84 @@ module Fontist
         def extract_fonts
           Array.new(@collection.num_fonts) do |index|
             extract_font_at(index)
+          end.compact # Remove nil entries from failed extractions
+        end
+
+        # rubocop:disable Metrics/MethodLength
+        def extract_font_at(index)
+          # Load the font directly from the collection using Fontisan.
+          # rubocop:disable Layout/LineLength
+          # This avoids creating tempfiles and prevents Windows file locking issues.
+          # mode: :metadata loads only metadata tables (faster, less memory)
+          # rubocop:enable Layout/LineLength
+          font = Fontisan::FontLoader.load(@path,
+                                            font_index: index,
+                                            mode: :metadata,
+                                            lazy: false)
+
+          # Build metadata directly from the Fontisan font object
+          metadata = build_metadata_from_font(font)
+
+          # rubocop:disable Layout/LineLength
+          # Create Otf::FontFile with pre-built metadata (no tempfile needed)
+          # Use collection path as the "path" for reference, but metadata comes from the font
+          # rubocop:enable Layout/LineLength
+          Otf::FontFile.new(@path, name_prefix: @name_prefix,
+                                   metadata: metadata)
+        rescue StandardError => e
+          # rubocop:disable Layout/LineLength
+          Fontist.ui.debug("Failed to extract font at index #{index} from #{File.basename(@path)}: #{e.message}")
+          # rubocop:enable Layout/LineLength
+          nil
+        end
+        # rubocop:enable Metrics/MethodLength
+
+        # rubocop:disable Layout/LineLength
+        # Build FontMetadata from a Fontisan font object.
+        # This is used when extracting fonts from collections without creating tempfiles.
+        # rubocop:enable Layout/LineLength
+        # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        def build_metadata_from_font(font)
+          name_table = font.table(Fontisan::Constants::NAME_TAG)
+          return unless name_table
+
+          # Preload tables needed for metadata
+          font.table(Fontisan::Constants::OS2_TAG)
+          font.table(Fontisan::Constants::HEAD_TAG)
+
+          Import::Models::FontMetadata.new(
+            family_name: name_table.english_name(Fontisan::Tables::Name::FAMILY),
+            subfamily_name: name_table.english_name(Fontisan::Tables::Name::SUBFAMILY),
+            full_name: name_table.english_name(Fontisan::Tables::Name::FULL_NAME),
+            postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME),
+            preferred_family_name: name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY),
+            preferred_subfamily_name: name_table.english_name(Fontisan::Tables::Name::PREFERRED_SUBFAMILY),
+            version: clean_version(name_table.english_name(Fontisan::Tables::Name::VERSION)),
+            copyright: name_table.english_name(Fontisan::Tables::Name::COPYRIGHT),
+            description: name_table.english_name(Fontisan::Tables::Name::LICENSE_DESCRIPTION),
+            vendor_url: name_table.english_name(Fontisan::Tables::Name::VENDOR_URL),
+            license_url: name_table.english_name(Fontisan::Tables::Name::LICENSE_URL),
+            font_format: detect_font_format(font),
+            is_variable: font.has_table?(Fontisan::Constants::FVAR_TAG),
+          )
+        end
+        # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+        def detect_font_format(font)
+          case font
+          when Fontisan::TrueTypeFont
+            "truetype"
+          when Fontisan::OpenTypeFont
+            "cff"
+          else
+            "unknown"
           end
         end
 
-        def extract_font_at(index)
-          tmpfile = Tempfile.new(["font", ".ttf"])
-          tmpfile.binmode
+        def clean_version(version)
+          return nil unless version
 
-          File.open(@path, "rb") do |io|
-            font = @collection.font(index, io)
-            font.to_file(tmpfile.path)
-          end
-
-          tmpfile.close
-          Otf::FontFile.new(tmpfile.path, name_prefix: @name_prefix)
+          version.to_s.gsub(/^Version\s+/i, "")
         end
 
         def hidden?(font_file)

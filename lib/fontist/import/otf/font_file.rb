@@ -15,10 +15,17 @@ module Fontist
 
         attr_reader :path
 
-        def initialize(path, name_prefix: nil)
-          @path = path
+        def initialize(path_or_metadata, name_prefix: nil, metadata: nil)
+          if metadata
+            # Use pre-built metadata (for collection fonts without tempfiles)
+            @path = path_or_metadata.to_s
+            @metadata = metadata
+          else
+            # Extract metadata from file path (backward compatibility)
+            @path = path_or_metadata
+            @metadata = extract_metadata
+          end
           @name_prefix = name_prefix
-          @metadata = extract_metadata
         end
 
         def to_style
@@ -65,8 +72,10 @@ module Fontist
           @metadata.description
         end
 
+        # rubocop:disable Layout/LineLength
+        # Use the exact filename from the archive - do NOT modify or standardize it
+        # rubocop:enable Layout/LineLength
         def font
-          # Use the exact filename from the archive - do NOT modify or standardize it
           File.basename(@path)
         end
 
@@ -93,8 +102,10 @@ module Fontist
         def extract_metadata
           FontMetadataExtractor.new(@path).extract
         rescue StandardError => e
+          # rubocop:disable Layout/LineLength
           # Return a minimal metadata object if extraction fails
           Fontist.ui.error("WARN: Could not extract metadata from #{@path}: #{e.message}")
+          # rubocop:enable Layout/LineLength
           Models::FontMetadata.new(
             family_name: File.basename(@path, ".*"),
             subfamily_name: "Regular",
