@@ -108,15 +108,15 @@ module Fontist
   end
 
   def self.formula_index_path
-    Fontist.formula_index_dir.join("formula_index.default_family.yml")
+    formula_index_dir.join("formula_index.default_family.yml")
   end
 
   def self.formula_preferred_family_index_path
-    Fontist.formula_index_dir.join("formula_index.preferred_family.yml")
+    formula_index_dir.join("formula_index.preferred_family.yml")
   end
 
   def self.formula_filename_index_path
-    Fontist.formula_index_dir.join("filename_index.yml")
+    formula_index_dir.join("filename_index.yml")
   end
 
   def self.formula_index_dir
@@ -186,7 +186,7 @@ module Fontist
   end
 
   def self.formulas_repo_path_exists!
-    return true if Dir.exist?(Fontist.formulas_repo_path)
+    return true if Dir.exist?(Fontist.formulas_repo_path.join("Formulas"))
 
     raise Errors::MainRepoNotFoundError.new(
       "Please fetch formulas with `fontist update`.",
