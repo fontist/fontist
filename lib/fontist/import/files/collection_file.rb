@@ -73,9 +73,9 @@ module Fontist
           # mode: :metadata loads only metadata tables (faster, less memory)
           # rubocop:enable Layout/LineLength
           font = Fontisan::FontLoader.load(@path,
-                                            font_index: index,
-                                            mode: :metadata,
-                                            lazy: false)
+                                           font_index: index,
+                                           mode: :metadata,
+                                           lazy: false)
 
           # Build metadata directly from the Fontisan font object
           metadata = build_metadata_from_font(font)

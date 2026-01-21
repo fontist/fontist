@@ -176,6 +176,7 @@ location: nil)
       installed_any = false
       fonts_casted.each do |font|
         paths = font.group_paths
+
         if paths.empty?
           font.install(confirmation: confirmation,
                        hide_licenses: hide_licenses,

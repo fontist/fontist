@@ -200,6 +200,8 @@ module Fontist
     def find(font, style)
       current_fonts = index
 
+      return nil if current_fonts.nil? || current_fonts.empty?
+
       if style.nil?
         found_fonts = current_fonts.select do |file|
           file.family_name&.casecmp?(font)
@@ -215,7 +217,11 @@ module Fontist
 
     def index
       # Fast path: if read_only mode is set, skip index_changed? check entirely
-      return fonts if @read_only_mode
+      # But we still need to build if fonts is nil (first time access)
+      if @read_only_mode && !fonts.nil?
+        return fonts
+        # Fall through to build the index on first access
+      end
 
       return fonts unless index_changed?
 

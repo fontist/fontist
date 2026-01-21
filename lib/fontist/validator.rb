@@ -48,10 +48,10 @@ module Fontist
       # Validate in parallel or sequential
       results = if use_parallel && font_paths.size > 10
                   validate_parallel(font_paths, cache_lookup: cache_lookup,
-                                                     verbose: verbose)
+                                                verbose: verbose)
                 else
                   validate_sequential(font_paths, cache_lookup: cache_lookup,
-                                                    verbose: verbose)
+                                                  verbose: verbose)
                 end
 
       @report.results = results

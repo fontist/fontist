@@ -36,9 +36,9 @@ module Fontist
         # This provides a basic sanity check that the collection is valid
         validator = Fontisan::Validators::ProfileLoader.load(:indexability)
         first_font = Fontisan::FontLoader.load(path,
-                                                 font_index: 0,
-                                                 mode: :metadata,
-                                                 lazy: true)
+                                               font_index: 0,
+                                               mode: :metadata,
+                                               lazy: true)
         validation_report = validator.validate(first_font)
 
         unless validation_report.valid?
@@ -105,7 +105,8 @@ module Fontist
       # Load the font directly from the collection using Fontisan's FontLoader
       # mode: :metadata gives us just the metadata tables (faster, less memory)
       # lazy: false means we load the tables immediately (not deferred)
-      font = Fontisan::FontLoader.load(@path, font_index: index, mode: :metadata, lazy: false)
+      font = Fontisan::FontLoader.load(@path, font_index: index,
+                                              mode: :metadata, lazy: false)
 
       # Extract font metadata directly from Fontisan's font object
       # This avoids creating tempfiles and loading the font twice
@@ -122,7 +123,8 @@ module Fontist
     # This avoids creating tempfiles while maintaining compatibility with code
     # that expects FontFile objects.
     class FontFileMetadata
-      attr_reader :full_name, :family, :subfamily, :preferred_family_name, :preferred_subfamily_name
+      attr_reader :full_name, :family, :subfamily, :preferred_family_name,
+                  :preferred_subfamily_name
 
       def initialize(metadata)
         @full_name = metadata[:full_name]

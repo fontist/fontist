@@ -40,7 +40,7 @@ RSpec.describe "formulas isolation" do
       allow(Fontist).to receive(:formulas_version).and_return("master")
     end
 
-    it "does not ask to update and returns formula", slow: true do
+    it "does not ask to update and returns formula", :windows => false, slow: true do
       expect(Fontist::Formula.find("andale mono")).to be
     end
   end

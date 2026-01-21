@@ -2,26 +2,39 @@ RSpec.shared_context "fresh home" do
   attr_reader :temp_dir
 
   around do |example|
-    retry_count = 0
-    begin
-      Dir.mktmpdir do |dir|
-        @temp_dir = dir
-        example.run
+    Dir.mktmpdir do |dir|
+      @temp_dir = dir
+      example.run
 
-        @temp_dir = nil
-
-        # On Windows, wait a bit for file handles to be released
-        sleep(0.1) if Fontist::Utils::System.user_os == :windows
-      end
-    rescue Errno::ENOTEMPTY, Errno::EACCES => e
-      # Windows-specific: retry cleanup after file handles are released
-      if Fontist::Utils::System.user_os == :windows && retry_count < 3
+      @temp_dir = nil
+    end
+  rescue Errno::ENOTEMPTY, Errno::EACCES => e
+    # Windows-specific: Don't retry, just warn
+    #
+    # We intentionally DON'T retry on Windows because:
+    # 1. Re-running the test in a new temp directory causes state leakage
+    # 2. Tests that check file existence would fail (file created in dir A, checked in dir B)
+    # 3. The retry mechanism creates unpredictable test results
+    #
+    # Instead, we accept that temp directories may accumulate on Windows.
+    # This is acceptable because:
+    # - They're in the system temp directory
+    # - They get cleaned up on system reboot
+    # - CI environments are ephemeral anyway
+    if Fontist::Utils::System.user_os == :windows
+      warn "Warning: Could not clean up temp directory (Windows file locking): #{e.message}"
+      warn "Temp directory may accumulate: #{Dir.glob(File.join(Dir.tmpdir,
+                                                                'tmp*')).count} temp dirs present"
+    else
+      # On Unix, retry a few times as this is usually transient
+      retry_count = 0
+      begin
         retry_count += 1
-        sleep(0.2)
+        sleep(0.5)
         retry
+      rescue StandardError
+        warn "Warning: Could not clean up temp directory: #{e.message}"
       end
-      # If cleanup still fails, warn but don't fail the test
-      warn "Warning: Could not clean up temp directory: #{e.message}"
     end
   end
 
@@ -55,16 +68,34 @@ RSpec.shared_context "fresh home" do
 
     stub_system_fonts
 
-    FileUtils.mkdir_p(Fontist.fonts_path)
     FileUtils.mkdir_p(Fontist.formulas_path)
 
+    # CRITICAL: Reset caches first to ensure all index files are closed
+    # This is especially important on Windows where file locking can prevent deletion
+    Fontist::Config.reset
+    Fontist::Index.reset_cache
+    Fontist::SystemIndex.reset_cache
+    Fontist::SystemFont.reset_font_paths_cache
+    Fontist::SystemFont.disable_find_styles_cache # Reset find_styles cache
+    Fontist::Indexes::FontistIndex.reset_cache
+    Fontist::Indexes::UserIndex.reset_cache
+    Fontist::Indexes::SystemIndex.reset_cache
+
+    # CRITICAL: Delete formula index files BEFORE running the test to ensure
+    # each test starts with a clean index state. This prevents stale index data
+    # from previous test runs from interfering. The FilenameIndex stores paths
+    # relative to Fontist.formulas_path, which changes in fresh_home context.
+    # On Windows, use retries to handle file locking issues.
+    delete_with_retry(Fontist.formula_index_path.to_s)
+    delete_with_retry(Fontist.formula_preferred_family_index_path.to_s)
+    delete_with_retry(Fontist.formula_filename_index_path.to_s)
+
     # Remove config file to prevent state pollution from previous tests
-    File.delete(Fontist.config_path) if File.exist?(Fontist.config_path)
+    delete_with_retry(Fontist.config_path.to_s)
 
     # CRITICAL: Delete system index file to prevent state pollution from
     # previous tests that might have installed fonts to the system location
-    system_index_path = Fontist.system_index_path
-    File.delete(system_index_path) if File.exist?(system_index_path)
+    delete_with_retry(Fontist.system_index_path.to_s)
 
     # CRITICAL: Save the formula index paths NOW while the stub is active.
     # We need to delete these specific files in the after hook, because
@@ -74,13 +105,7 @@ RSpec.shared_context "fresh home" do
     @formula_preferred_family_index_path = Fontist.formula_preferred_family_index_path.to_s
     @formula_filename_index_path = Fontist.formula_filename_index_path.to_s
 
-    Fontist::Config.reset
-    Fontist::Index.reset_cache
-    Fontist::SystemIndex.reset_cache
-    Fontist::SystemFont.reset_font_paths_cache
-    Fontist::SystemFont.disable_find_styles_cache # Reset find_styles cache
-    Fontist::Indexes::FontistIndex.reset_cache
-    Fontist::Indexes::UserIndex.reset_cache
+    # Stub system fonts after all cleanup is done
   end
 
   after do
@@ -111,5 +136,29 @@ RSpec.shared_context "fresh home" do
     File.delete(@formula_index_path) if @formula_index_path && File.exist?(@formula_index_path)
     File.delete(@formula_preferred_family_index_path) if @formula_preferred_family_index_path && File.exist?(@formula_preferred_family_index_path)
     File.delete(@formula_filename_index_path) if @formula_filename_index_path && File.exist?(@formula_filename_index_path)
+  end
+
+  # Helper method to delete a file with retries for Windows file locking
+  #
+  # @param path [String, nil] The file path to delete
+  # @param max_retries [Integer] Maximum number of retry attempts
+  # @param retry_delay [Float] Delay in seconds between retries
+  def delete_with_retry(path, max_retries: 3, retry_delay: 0.2)
+    return if path.nil? || path.empty?
+    return unless File.exist?(path)
+
+    retry_count = 0
+    begin
+      File.delete(path)
+    rescue Errno::EACCES, Errno::ENOENT => e
+      retry_count += 1
+      if retry_count < max_retries
+        sleep(retry_delay)
+        retry
+      end
+
+      # Log warning but don't fail - this is cleanup code
+      warn "Warning: Could not delete file after #{max_retries} attempts: #{path} (#{e.class}: #{e.message})"
+    end
   end
 end

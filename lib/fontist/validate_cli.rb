@@ -91,8 +91,8 @@ module Fontist
       puts
       puts Paint["-" * 80, :cyan]
       puts Paint["Cache file: ", :white] + Paint[cache_path, :cyan]
-      puts Paint["Total time: ", 
-:white] + Paint["#{total_time.round(2)}s", :green, :bright]
+      puts Paint["Total time: ",
+                 :white] + Paint["#{total_time.round(2)}s", :green, :bright]
 
       CLI::STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
@@ -148,22 +148,22 @@ module Fontist
       lines << "  Invalid fonts:    #{Paint[report.invalid_fonts.to_s, :red]}"
       lines << ""
       lines << Paint["Timing Statistics:", :cyan, :bright]
-      lines << "  Total time:         #{Paint["#{report.total_time.round(2)}s", 
-:green]}"
-      lines << "  Avg time per font:  #{Paint["#{report.avg_time_per_font.round(4)}s", 
-:yellow]}"
-      lines << "  Min time:           #{Paint["#{report.min_time.round(4)}s", 
-:yellow]}"
-      lines << "  Max time:           #{Paint["#{report.max_time.round(4)}s", 
-:yellow]}"
+      lines << "  Total time:         #{Paint["#{report.total_time.round(2)}s",
+                                              :green]}"
+      lines << "  Avg time per font:  #{Paint["#{report.avg_time_per_font.round(4)}s",
+                                              :yellow]}"
+      lines << "  Min time:           #{Paint["#{report.min_time.round(4)}s",
+                                              :yellow]}"
+      lines << "  Max time:           #{Paint["#{report.max_time.round(4)}s",
+                                              :yellow]}"
       lines << ""
-      lines << "  Report generation:  #{Paint["#{total_time.round(2)}s", 
-:cyan]}"
+      lines << "  Report generation:  #{Paint["#{total_time.round(2)}s",
+                                              :cyan]}"
 
       if report.invalid_fonts.positive?
         lines << ""
-        lines << Paint["Invalid Fonts (#{report.invalid_fonts}):", :red, 
-:bright]
+        lines << Paint["Invalid Fonts (#{report.invalid_fonts}):", :red,
+                       :bright]
         lines << Paint["-" * 80, :red]
 
         report.invalid_results.each do |result|

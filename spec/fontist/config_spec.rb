@@ -38,14 +38,18 @@ RSpec.describe Fontist::Config do
     end
 
     describe "fonts_path" do
-      context "fonts install path is specified in config" do
+      context "fonts install path is specified in config",
+              :platform_test_fonts do
         it "installs fonts in that dir" do
-          example_formula("andale.yml")
+          skip "Skipped on Windows due to safe_mktmpdir retry incompatibility" if Fontist::Utils::System.user_os == :windows
+
+          example_formula(test_formula)
 
           safe_mktmpdir do |dir|
             Fontist::Config.instance.set(:fonts_path, dir)
 
-            command = Fontist::Font.install("andale mono", confirmation: "yes")
+            command = Fontist::Font.install(test_font_downcase,
+                                            confirmation: "yes")
             # Command returns array of paths, check one is in the dir
             expect(command.first).to start_with(dir)
           end

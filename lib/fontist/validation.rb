@@ -36,7 +36,8 @@ module Fontist
     attribute :avg_time_per_font, :float, default: -> { 0.0 }
     attribute :min_time, :float, default: -> { 0.0 }
     attribute :max_time, :float, default: -> { 0.0 }
-    attribute :results, FontValidationResult, collection: true, initialize_empty: true
+    attribute :results, FontValidationResult, collection: true,
+                                              initialize_empty: true
 
     key_value do
       map "generated_at", to: :generated_at
@@ -54,7 +55,7 @@ module Fontist
     # Calculate summary statistics from results
     def calculate_summary!
       self.total_fonts = results.size
-      self.valid_fonts = results.count { |r| r.valid }
+      self.valid_fonts = results.count(&:valid)
       self.invalid_fonts = total_fonts - valid_fonts
 
       times = results.map(&:time_taken).compact
@@ -68,12 +69,12 @@ module Fontist
 
     # Get only invalid results
     def invalid_results
-      results.reject { |r| r.valid }
+      results.reject(&:valid)
     end
 
     # Get only valid results
     def valid_results
-      results.select { |r| r.valid }
+      results.select(&:valid)
     end
   end
 
@@ -82,7 +83,8 @@ module Fontist
   # Persisted to disk for fast subsequent validation runs.
   class ValidationCache < Lutaml::Model::Serializable
     attribute :generated_at, :integer
-    attribute :entries, FontValidationResult, collection: true, initialize_empty: true
+    attribute :entries, FontValidationResult, collection: true,
+                                              initialize_empty: true
 
     key_value do
       map "generated_at", to: :generated_at

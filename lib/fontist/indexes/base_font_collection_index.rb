@@ -65,7 +65,7 @@ module Fontist
       #
       # @return [Array<SystemIndexFont>] All indexed fonts
       def fonts
-        collection.fonts
+        collection.fonts || []
       end
 
       # Checks if a font exists at the given path
@@ -73,6 +73,8 @@ module Fontist
       # @param path [String] Full path to font file
       # @return [Boolean] true if font exists in index
       def font_exists?(path)
+        return false if collection.fonts.nil?
+
         collection.fonts.any? { |f| f.path == path }
       end
 
@@ -97,6 +99,8 @@ module Fontist
       # @param path [String] Full path to font file to remove
       # @return [void]
       def remove_font(path)
+        return if collection.fonts.nil?
+
         collection.fonts.delete_if { |f| f.path == path }
         collection.to_file(index_path)
       end

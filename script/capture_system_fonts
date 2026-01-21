@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+# Capture system fonts and show what's new/changed compared to fixtures
+
+require "fileutils"
+require "yaml"
+
+# Load fontist
+require_relative "../lib/fontist"
+
+puts "Capturing system fonts for #{Fontist::Utils::System.user_os}..."
+
+# Build the system index
+index = Fontist::Indexes::SystemIndex.instance
+index.rebuild(verbose: false)
+
+# Read the current index
+index_path = Fontist.system_index_path
+unless File.exist?(index_path)
+  puts "ERROR: System index not found at #{index_path}"
+  puts "Run 'fontist index rebuild system' first"
+  exit 1
+end
+
+index_data = YAML.load_file(index_path)
+font_families = index_data.keys.sort
+
+# Build output
+output = {
+  "platform" => Fontist::Utils::System.user_os.to_s,
+  "captured_at" => Time.now.utc.iso8601,
+  "font_families" => font_families,
+  "count" => font_families.count,
+}
+
+# Write to temp file first
+fixtures_dir = File.join(Fontist.root_path, "spec", "fixtures", "system_fonts")
+FileUtils.mkdir_p(fixtures_dir)
+
+platform = Fontist::Utils::System.user_os
+output_file = File.join(fixtures_dir, "#{platform}_system_fonts.yml")
+
+# Check if fixture already exists
+if File.exist?(output_file)
+  existing = YAML.load_file(output_file)
+  existing_fonts = Set.new(existing["font_families"] || [])
+  new_fonts = Set.new(font_families)
+
+  added = new_fonts - existing_fonts
+  removed = existing_fonts - new_fonts
+
+  if added.empty? && removed.empty?
+    puts "✓ No changes to system fonts for #{platform}"
+    puts "  Current: #{font_families.count} fonts"
+  else
+    puts "\nChanges detected for #{platform}:"
+    puts "  Added: #{added.count} fonts"
+    added.first(10).each { |f| puts "    + #{f}" }
+    puts "    ... and #{added.count - 10} more" if added.count > 10
+
+    puts "  Removed: #{removed.count} fonts"
+    removed.first(10).each { |f| puts "    - #{f}" }
+    puts "    ... and #{removed.count - 10} more" if removed.count > 10
+
+    puts "\nWriting new fixture to #{output_file}"
+    File.write(output_file, YAML.dump(output))
+    puts "✓ Updated #{platform}_system_fonts.yml (#{font_families.count} fonts)"
+  end
+else
+  File.write(output_file, YAML.dump(output))
+  puts "✓ Created #{platform}_system_fonts.yml (#{font_families.count} fonts)"
+end

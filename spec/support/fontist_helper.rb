@@ -75,6 +75,15 @@ module Fontist
           formula_preferred_family_index_path = Fontist.formula_preferred_family_index_path.to_s
           formula_filename_index_path = Fontist.formula_filename_index_path.to_s
 
+          # CRITICAL: Delete existing index files BEFORE running the test to ensure
+          # each test starts with a clean index state. This prevents stale index data
+          # from previous test runs from interfering. The FilenameIndex stores paths
+          # relative to Fontist.formulas_path, which changes in fresh_home context.
+          # On Windows, use retries to handle file locking issues.
+          delete_with_retry(formula_index_path)
+          delete_with_retry(formula_preferred_family_index_path)
+          delete_with_retry(formula_filename_index_path)
+
           yield dir
 
           # Restore original values
@@ -232,8 +241,12 @@ module Fontist
     end
 
     def stub_system_fonts(system_file = nil)
+      # If system_file is a Tempfile (or similar), use its path
+      # This ensures YAML.load_file gets a path string, not an IO object
+      path = system_file.respond_to?(:path) ? system_file.path : system_file
+
       allow(Fontist).to receive(:system_file_path).and_return(
-        system_file || Fontist.root_path.join("spec", "fixtures", "system.yml"),
+        path || Fontist.root_path.join("spec", "fixtures", "system.yml"),
       )
 
       disable_system_font_paths_caching
@@ -367,7 +380,16 @@ module Fontist
       raise("System dir is not stubbed") unless @system_dir
 
       example_font_to(filename, @system_dir)
+
+      # CRITICAL: Delete the system index file to prevent stale cache issues
+      # On Windows, the SystemIndex might use a cached index file from a previous
+      # test run due to file locking preventing proper cleanup.
+      system_index_path = Fontist.system_index_path
+      File.delete(system_index_path) if File.exist?(system_index_path)
+
       # Rebuild system index so fonts are findable
+      # Reset cache first to ensure we pick up the new stub
+      Fontist::Indexes::SystemIndex.reset_cache
       Fontist::Indexes::SystemIndex.instance.rebuild
     end
 
@@ -560,6 +582,39 @@ module Fontist
     end
 
     private
+
+    # Delete a file with retries to handle Windows file locking issues
+    #
+    # On Windows, files may be locked by other processes (e.g., antivirus,
+    # indexing services). This method retries deletion with a small delay
+    # between attempts.
+    #
+    # @param path [String, nil] The file path to delete. If nil, does nothing.
+    # @param max_retries [Integer] Maximum number of retry attempts (default: 3)
+    # @param retry_delay [Float] Delay in seconds between retries (default: 0.2)
+    # @return [Boolean] true if file was deleted or didn't exist, false otherwise
+    def delete_with_retry(path, max_retries: 3, retry_delay: 0.2)
+      return true if path.nil? || path.empty?
+      return true unless File.exist?(path)
+
+      retry_count = 0
+      begin
+        File.delete(path)
+        true
+      rescue Errno::EACCES, Errno::ENOENT => e
+        # EACCES: Permission denied (Windows file locking)
+        # ENOENT: File was deleted by another process
+        retry_count += 1
+        if retry_count < max_retries
+          sleep(retry_delay)
+          retry
+        end
+
+        # Log warning but don't fail - this is cleanup code
+        warn "Warning: Could not delete file after #{max_retries} attempts: #{path} (#{e.class}: #{e.message})"
+        false
+      end
+    end
 
     # Infers formula key from font filename
     #

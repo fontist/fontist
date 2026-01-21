@@ -162,6 +162,8 @@ RSpec.configure do |config|
 
   if Fontist::Utils::System.user_os == :windows
     config.filter_run_excluding fontconfig: true
+    # Skip tests explicitly marked to be excluded on Windows
+    config.filter_run_excluding windows: false
   end
 
   unless ENV["CI"].nil? || Fontist::Utils::System.fontconfig_installed?

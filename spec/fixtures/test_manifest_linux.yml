@@ -1,0 +1,15 @@
+---
+# Test manifest for Linux - uses fonts that need installation
+#
+# On Linux, Andale Mono and Georgia are not pre-installed,
+# so they can be used for installation testing.
+Andale Mono:
+  - Regular
+Georgia:
+  - Regular
+  - Bold
+  - Italic
+  - Bold Italic
+Courier New:
+  - Regular
+  - Bold

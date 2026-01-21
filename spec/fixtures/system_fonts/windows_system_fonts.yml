@@ -1,0 +1,87 @@
+---
+platform: windows
+captured_at: '2026-01-21T09:45:59Z'
+source: rake.yml run 21201167481
+font_families:
+- Arial
+- Bahnschrift
+- Calibri
+- Cambria
+- Cambria Math
+- Candara
+- Cascadia Code
+- Cascadia Mono
+- Comic Sans MS
+- Consolas
+- Constantia
+- Corbel
+- Courier New
+- Dotum
+- DotumChe
+- Ebrima
+- Franklin Gothic Medium
+- Gabriola
+- Gadugi
+- Georgia
+- Gulim
+- GulimChe
+- Impact
+- Ink Free
+- Javanese Text
+- Leelawadee UI
+- Lucida Console
+- Lucida Sans Unicode
+- MS Gothic
+- MS PGothic
+- MS UI Gothic
+- MV Boli
+- Malgun Gothic
+- Marlett
+- Microsoft JhengHei
+- Microsoft JhengHei UI
+- Microsoft New Tai Lue
+- Microsoft PhagsPa
+- Microsoft Sans Serif
+- Microsoft Tai Le
+- Microsoft YaHei
+- Microsoft YaHei UI
+- Microsoft Yi Baiti
+- MingLiU
+- MingLiU-ExtB
+- MingLiU_HKSCS
+- MingLiU_HKSCS-ExtB
+- MingLiU_MSCS
+- MingLiU_MSCS-ExtB
+- Mongolian Baiti
+- Myanmar Text
+- NSimSun
+- Nirmala Text
+- Nirmala UI
+- PMingLiU
+- PMingLiU-ExtB
+- Palatino Linotype
+- Sans Serif Collection
+- Segoe Fluent Icons
+- Segoe MDL2 Assets
+- Segoe Print
+- Segoe Script
+- Segoe UI
+- Segoe UI Emoji
+- Segoe UI Historic
+- Segoe UI Symbol
+- Segoe UI Variable
+- SimSun
+- SimSun-ExtB
+- SimSun-ExtG
+- Sitka
+- Sylfaen
+- Symbol
+- Tahoma
+- Times New Roman
+- Trebuchet MS
+- Verdana
+- Webdings
+- Wingdings
+- Yu Gothic
+- Yu Gothic UI
+count: 81

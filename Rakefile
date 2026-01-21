@@ -5,6 +5,9 @@ require "net/http"
 require "uri"
 require "fileutils"
 
+# Load custom tasks from lib/tasks
+Dir.glob("lib/tasks/*.rake").each { |r| load r }
+
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new
 
