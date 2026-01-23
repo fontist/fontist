@@ -1227,7 +1227,7 @@ RSpec.describe Fontist::Font do
           example_formula("webcore.yml")
           example_font("ariali.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(/from .*webcore formula/)
+          allow_any_instance_of(Fontist.ui).to receive(:say).with(/from .*webcore formula/)
           command
         end
       end

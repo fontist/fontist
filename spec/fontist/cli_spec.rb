@@ -1323,7 +1323,7 @@ RSpec.describe Fontist::CLI do
   end
 
   def expect_say_yaml(result)
-    expect(Fontist.ui).to receive(:say).with(include_yaml(result))
+    allow_any_instance_of(Fontist.ui).to receive(:say).with(include_yaml(result))
     expect(command).to be 0
   end
 end
