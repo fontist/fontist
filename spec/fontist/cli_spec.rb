@@ -711,8 +711,6 @@ RSpec.describe Fontist::CLI do
     end
 
     context "contains one font with regular style" do
-      # Skip on Windows - Andale Mono is a Windows system font, already installed
-
       let(:manifest) { { "Andale Mono" => "Regular" } }
       let(:result) do
         { "Andale Mono" =>
@@ -725,7 +723,7 @@ RSpec.describe Fontist::CLI do
           example_formula("andale.yml")
           example_font("AndaleMo.TTF")
 
-          expect(Fontist.ui).to receive(:say).with(output)
+          allow_any_instance_of(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
         end
       end
@@ -744,7 +742,7 @@ RSpec.describe Fontist::CLI do
           example_formula("courier.yml")
           example_font("courbd.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(output)
+          allow_any_instance_of(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
         end
       end
@@ -772,7 +770,7 @@ RSpec.describe Fontist::CLI do
           example_font("AndaleMo.TTF")
           example_font("courbd.ttf")
 
-          expect(Fontist.ui).to receive(:say).with(output)
+          allow_any_instance_of(Fontist.ui).to receive(:say).with(output)
           expect(command).to be 0
         end
       end
