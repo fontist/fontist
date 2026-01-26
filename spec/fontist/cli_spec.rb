@@ -1109,12 +1109,19 @@ RSpec.describe Fontist::CLI do
       before { example_formula("andale.yml") }
 
       it "does not install font file" do
+        if Fontist::Utils::System.user_os == :windows
+          allow(Fontist.ui).to receive(:ask).with(/Type 'yes' to continue, or press ENTER to cancel/).and_return
+        end
         # Without --accept-all-licenses, licenses are declined by default
         command
         expect(font_file("AndaleMo.TTF")).not_to exist
       end
 
       it "tells that license should be confirmed in order for font to be installed" do
+        if Fontist::Utils::System.user_os == :windows
+          allow(Fontist.ui).to receive(:ask).with(/Type 'yes' to continue, or press ENTER to cancel/).and_return
+        end
+
         expect(Fontist.ui).to receive(:error).with("Fontist will not download these fonts unless you accept the terms.")
         expect(command).to eq Fontist::CLI::STATUS_LICENSING_ERROR
       end
