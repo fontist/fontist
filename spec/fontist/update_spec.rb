@@ -4,6 +4,14 @@ RSpec.describe Fontist::Update do
   let(:command) { described_class.new }
 
   context "no main repo" do
+    before do
+      WebMock.allow_net_connect! if Fontist::Utils::System.user_os == :windows
+    end
+
+    after do
+      WebMock.disable_net_connect!(allow_localhost: true) if Fontist::Utils::System.user_os == :windows
+    end
+
     it "creates main repo" do
       fresh_fontist_home do
         described_class.call

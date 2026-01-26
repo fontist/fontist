@@ -1110,7 +1110,7 @@ RSpec.describe Fontist::CLI do
 
       it "does not install font file" do
         if Fontist::Utils::System.user_os == :windows
-          allow(Fontist.ui).to receive(:ask).with(/Type 'yes' to continue, or press ENTER to cancel/).and_return
+          allow(Fontist.ui).to receive(:ask).with(/TYPE 'yes' to continue, or press ENTER to cancel/).and_return(true)
         end
         # Without --accept-all-licenses, licenses are declined by default
         command
@@ -1119,7 +1119,7 @@ RSpec.describe Fontist::CLI do
 
       it "tells that license should be confirmed in order for font to be installed" do
         if Fontist::Utils::System.user_os == :windows
-          allow(Fontist.ui).to receive(:ask).with(/Type 'yes' to continue, or press ENTER to cancel/).and_return
+          allow(Fontist.ui).to receive(:ask).with(/TYPE 'yes' to continue, or press ENTER to cancel/).and_return(true)
         end
 
         expect(Fontist.ui).to receive(:error).with("Fontist will not download these fonts unless you accept the terms.")
