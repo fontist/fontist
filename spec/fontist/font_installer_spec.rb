@@ -46,8 +46,6 @@ RSpec.describe Fontist::FontInstaller do
       end
 
       it "tries the second one" do
-        skip "Skipped on Windows due to mock/timeout issues" if Fontist::Utils::System.user_os == :windows
-
         # Use andale formula for mirror testing regardless of platform
         # since we're testing download retry behavior, not font detection
         example_formula("andale.yml")

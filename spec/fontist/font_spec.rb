@@ -226,7 +226,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "install proprietary fonts with correct license agreement" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
         font_paths = Fontist::Font.install(test_font_downcase,
                                            confirmation: "yes")
@@ -235,7 +234,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "raises error for missing license agreement" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
 
         expect do
@@ -246,7 +244,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "raises licensing error when confirmation is not 'yes'" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
         expect do
           Fontist::Font.install(test_font_downcase, confirmation: "no")
@@ -267,8 +264,6 @@ RSpec.describe Fontist::Font do
       around { |example| avoid_cache(url) { example.run } }
 
       it "prints descriptive messages of what's going on" do
-        skip "Skipped on Windows - UI message format may vary due to caching/mirrors" if Fontist::Utils::System.user_os == :windows
-
         # rubocop:disable Layout/LineLength
         expect(Fontist.ui).to receive(:say).with(%(Font "#{test_font_downcase}" not found locally.))
         expect(Fontist.ui).to receive(:say).with(%(Downloading from https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe))
@@ -305,8 +300,6 @@ RSpec.describe Fontist::Font do
       before { example_formula(test_formula) }
 
       it "tells about fetching from cache" do
-        skip "Skipped on Windows - cache behavior may differ" if Fontist::Utils::System.user_os == :windows
-
         Fontist::Font.install(font, confirmation: "yes")
 
         expect(Fontist.ui)

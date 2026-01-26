@@ -62,11 +62,6 @@ RSpec.describe Fontist::FormulaSuggestion do
     context "matching and non-matching formulas" do
       include_context "fresh home"
 
-      # Skip on Windows to isolate FormulaSuggestion issue
-      before do
-        skip "FormulaSuggestion finding extra matches on Windows - investigate separately" if Fontist::Utils::System.user_os == :windows
-      end
-
       let(:name) { "andle" }
 
       before do

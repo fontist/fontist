@@ -712,9 +712,6 @@ RSpec.describe Fontist::CLI do
 
     context "contains one font with regular style" do
       # Skip on Windows - Andale Mono is a Windows system font, already installed
-      before do
-        skip "Andale Mono is a Windows system font" if Fontist::Utils::System.user_os == :windows
-      end
 
       let(:manifest) { { "Andale Mono" => "Regular" } }
       let(:result) do
@@ -735,11 +732,6 @@ RSpec.describe Fontist::CLI do
     end
 
     context "contains one font with bold style" do
-      # Skip on Windows - Courier New is a Windows system font, already installed
-      before do
-        skip "Courier New is a Windows system font" if Fontist::Utils::System.user_os == :windows
-      end
-
       let(:manifest) { { "Courier New" => "Bold" } }
       let(:result) do
         { "Courier New" =>
@@ -759,11 +751,6 @@ RSpec.describe Fontist::CLI do
     end
 
     context "contains two fonts" do
-      # Skip on Windows - Andale Mono and Courier New are Windows system fonts, already installed
-      before do
-        skip "Andale Mono and Courier New are Windows system fonts" if Fontist::Utils::System.user_os == :windows
-      end
-
       let(:manifest) do
         { "Andale Mono" => "Regular",
           "Courier New" => "Bold" }
@@ -1066,11 +1053,6 @@ RSpec.describe Fontist::CLI do
     end
 
     context "with no style specified" do
-      # Skip on Windows - Georgia is a Windows system font, already installed
-      before do
-        skip "Georgia is a Windows system font" if Fontist::Utils::System.user_os == :windows
-      end
-
       let(:options) { ["--accept-all-licenses"] }
       let(:manifest) do
         { "Georgia" => nil }
@@ -1095,11 +1077,6 @@ RSpec.describe Fontist::CLI do
     end
 
     context "with no style by font name from formulas" do
-      # Skip on Windows - Courier New is a Windows system font, already installed
-      before do
-        skip "Courier New is a Windows system font" if Fontist::Utils::System.user_os == :windows
-      end
-
       let(:options) { ["--accept-all-licenses"] }
       let(:manifest) do
         { "Courier New" => nil }
@@ -1132,16 +1109,12 @@ RSpec.describe Fontist::CLI do
       before { example_formula("andale.yml") }
 
       it "does not install font file" do
-        skip "Skipped on Windows - interactive license prompt test" if Fontist::Utils::System.user_os == :windows
-
         # Without --accept-all-licenses, licenses are declined by default
         command
         expect(font_file("AndaleMo.TTF")).not_to exist
       end
 
       it "tells that license should be confirmed in order for font to be installed" do
-        skip "Skipped on Windows - interactive license prompt test" if Fontist::Utils::System.user_os == :windows
-
         expect(Fontist.ui).to receive(:error).with("Fontist will not download these fonts unless you accept the terms.")
         expect(command).to eq Fontist::CLI::STATUS_LICENSING_ERROR
       end

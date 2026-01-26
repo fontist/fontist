@@ -257,8 +257,6 @@ RSpec.describe Fontist::PathScanning do
 
   describe "error handling" do
     it "handles permission errors gracefully" do
-      skip_on_windows
-
       test_dir = Fontist.root_path.join("spec/fixtures/perm_test")
       FileUtils.mkdir_p(test_dir)
 
@@ -276,8 +274,6 @@ RSpec.describe Fontist::PathScanning do
     end
 
     it "handles broken symlinks" do
-      skip_on_windows
-
       test_dir = Fontist.root_path.join("spec/fixtures/symlink_test")
       FileUtils.mkdir_p(test_dir)
 
@@ -308,11 +304,5 @@ RSpec.describe Fontist::PathScanning do
         expect(File.exist?(path)).to be true
       end
     end
-  end
-
-  private
-
-  def skip_on_windows
-    skip "Test not applicable on Windows" if Fontist::Utils::System.user_os == :windows
   end
 end

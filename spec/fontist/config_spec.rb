@@ -41,8 +41,6 @@ RSpec.describe Fontist::Config do
       context "fonts install path is specified in config",
               :platform_test_fonts do
         it "installs fonts in that dir" do
-          skip "Skipped on Windows due to safe_mktmpdir retry incompatibility" if Fontist::Utils::System.user_os == :windows
-
           example_formula(test_formula)
 
           safe_mktmpdir do |dir|

@@ -221,12 +221,6 @@ RSpec.describe Fontist::Repo do
 
   describe "#list" do
     context "private repo exists" do
-      # Skip on Windows due to test isolation issues
-      # Test finds ["acme", "test"] instead of ["acme"]
-      before do
-        skip "Test pollution issue - 'test' repo not cleaned up from previous test" if Fontist::Utils::System.user_os == :windows
-      end
-
       it "returns a list of repo names" do
         fresh_fontist_home do
           formula_repo_with("tex_gyre_chorus.yml") do |repo_dir|

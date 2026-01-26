@@ -4,11 +4,6 @@ RSpec.describe Fontist::Update do
   let(:command) { described_class.new }
 
   context "no main repo" do
-    # Skip on Windows due to Git threading/fetch issues in CI environment
-    before do
-      skip "Git operations not reliable in Windows CI" if Fontist::Utils::System.user_os == :windows
-    end
-
     it "creates main repo" do
       fresh_fontist_home do
         described_class.call
@@ -98,12 +93,6 @@ RSpec.describe Fontist::Update do
   end
 
   context "private repo is set up before the main one" do
-    # Skip on Windows due to Git bug: "getaddrinfo() thread failed to start"
-    # This is a known Windows-specific issue with Git's threading model
-    before do
-      skip "Git network threading bug on Windows" if Fontist::Utils::System.user_os == :windows
-    end
-
     it "fetches the main repo" do
       fresh_fontist_home do
         remote_main_repo do |main_repo_url|
