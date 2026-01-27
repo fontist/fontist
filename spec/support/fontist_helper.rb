@@ -565,7 +565,11 @@ module Fontist
           result = yield dir
 
           # On Windows, wait for file handles to be released
-          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+          if Fontist::Utils::System.user_os == :windows
+            # Force garbage collection to release file handles
+            GC.start
+            sleep(0.1)
+          end
 
           result
         end
