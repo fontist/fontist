@@ -566,9 +566,8 @@ module Fontist
 
           # On Windows, wait for file handles to be released
           if Fontist::Utils::System.user_os == :windows
-            # Force garbage collection to release file handles
-            GC.start
             sleep(0.1)
+            unlink_subtree_nested(dir)
           end
 
           result
@@ -586,6 +585,20 @@ module Fontist
     end
 
     private
+
+    def unlink_subtree_nested(tmpdir)
+      dir = Pathname.new(tmpdir)
+      dir.children.each do |child|
+        Timeout.timeout(10) do
+          if child.directory?
+            unlink_subtree_nested(child)
+            child.delete
+          else
+            delete_with_retry(child, max_retries: 5500, retry_delay: 0.1)
+          end
+        end
+      end
+    end
 
     # Delete a file with retries to handle Windows file locking issues
     #
