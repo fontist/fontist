@@ -565,16 +565,20 @@ module Fontist
           result = yield dir
 
           # On Windows, wait for file handles to be released
-          sleep(0.1) if Fontist::Utils::System.user_os == :windows
+          if Fontist::Utils::System.user_os == :windows
+            sleep(0.1)
+            Fontist::Indexes::FontistIndex.reset_cache
+            Fontist::Indexes::SystemIndex.reset_cache
+            Fontist::Indexes::UserIndex.reset_cache
+          end
 
           result
         end
       rescue Errno::ENOTEMPTY, Errno::EACCES => e
         # Windows-specific: retry cleanup after file handles are released
-        if Fontist::Utils::System.user_os == :windows# && retry_count < 3
+        if Fontist::Utils::System.user_os == :windows && retry_count < 3
           retry_count += 1
           sleep(0.2)
-          puts "retrying count: #{retry_count}"
           retry
         end
         # If cleanup still fails, warn but don't fail the test
