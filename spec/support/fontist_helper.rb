@@ -567,9 +567,7 @@ module Fontist
           # On Windows, wait for file handles to be released
           if Fontist::Utils::System.user_os == :windows
             sleep(0.1)
-            Fontist::Indexes::FontistIndex.reset_cache
-            Fontist::Indexes::SystemIndex.reset_cache
-            Fontist::Indexes::UserIndex.reset_cache
+            ObjectSpace.each_object(File) { |file| file.close if file.closed? }
           end
 
           result
