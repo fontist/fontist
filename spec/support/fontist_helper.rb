@@ -565,18 +565,16 @@ module Fontist
           result = yield dir
 
           # On Windows, wait for file handles to be released
-          if Fontist::Utils::System.user_os == :windows
-            sleep(0.1)
-            unlink_subtree_nested(dir)
-          end
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
 
           result
         end
       rescue Errno::ENOTEMPTY, Errno::EACCES => e
         # Windows-specific: retry cleanup after file handles are released
-        if Fontist::Utils::System.user_os == :windows && retry_count < 3
+        if Fontist::Utils::System.user_os == :windows# && retry_count < 3
           retry_count += 1
           sleep(0.2)
+          puts "retrying count: #{retry_count}"
           retry
         end
         # If cleanup still fails, warn but don't fail the test
@@ -585,20 +583,6 @@ module Fontist
     end
 
     private
-
-    def unlink_subtree_nested(tmpdir)
-      dir = Pathname.new(tmpdir)
-      dir.children.each do |child|
-        Timeout.timeout(10) do
-          if child.directory?
-            unlink_subtree_nested(child)
-            child.delete
-          else
-            delete_with_retry(child, max_retries: 5500, retry_delay: 0.1)
-          end
-        end
-      end
-    end
 
     # Delete a file with retries to handle Windows file locking issues
     #
