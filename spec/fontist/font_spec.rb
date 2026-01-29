@@ -236,7 +236,7 @@ RSpec.describe Fontist::Font do
       end
 
       it "raises error for missing license agreement" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
+        # skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
 
         expect do
