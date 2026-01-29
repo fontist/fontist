@@ -567,7 +567,12 @@ module Fontist
           # On Windows, wait for file handles to be released
           if Fontist::Utils::System.user_os == :windows
             sleep(0.1)
-            ObjectSpace.each_object(File) { |file| file.close if file.closed? }
+            ObjectSpace.each_object(File) do |file|
+              next if file.closed?
+
+              file.close
+              puts "Closed file: #{file.inspect}"
+            end
           end
 
           result
