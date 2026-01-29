@@ -9,8 +9,6 @@ RSpec.describe Fontist::FontFile do
       end
 
       it "rejects corrupt font with validation error" do
-        skip "Corrupt font fixture not available" unless File.exist?(corrupt_font_path)
-
         expect do
           described_class.from_path(corrupt_font_path)
         end.to raise_error(Fontist::Errors::FontFileError,
@@ -18,8 +16,6 @@ RSpec.describe Fontist::FontFile do
       end
 
       it "includes validation details in error message" do
-        skip "Corrupt font fixture not available" unless File.exist?(corrupt_font_path)
-
         expect do
           described_class.from_path(corrupt_font_path)
         end.to raise_error(Fontist::Errors::FontFileError,

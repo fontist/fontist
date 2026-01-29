@@ -226,8 +226,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "install proprietary fonts with correct license agreement" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
-
         example_formula(test_formula)
         font_paths = Fontist::Font.install(test_font_downcase,
                                            confirmation: "yes")
@@ -236,7 +234,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "raises error for missing license agreement" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
 
         expect do
@@ -247,7 +244,6 @@ RSpec.describe Fontist::Font do
       end
 
       it "raises licensing error when confirmation is not 'yes'" do
-        skip "Skipped on Windows - download from real URLs hangs on CI" if Fontist::Utils::System.user_os == :windows
         example_formula(test_formula)
         expect do
           Fontist::Font.install(test_font_downcase, confirmation: "no")
