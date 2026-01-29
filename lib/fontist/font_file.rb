@@ -64,7 +64,9 @@ module Fontist
           # Single font - validate and load
           font = validate_and_load_single_font(path)
         end
-        extract_names_from_font(font)
+        names = extract_names_from_font(font)
+        font.close
+        names
       rescue StandardError => e
         raise_font_file_error(e)
       end

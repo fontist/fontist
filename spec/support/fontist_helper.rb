@@ -565,15 +565,7 @@ module Fontist
           result = yield dir
 
           # On Windows, wait for file handles to be released
-          if Fontist::Utils::System.user_os == :windows
-            sleep(0.1)
-            ObjectSpace.each_object(File) do |file|
-              next if file.closed?
-
-              file.close
-              puts "Closed file: #{file.inspect}"
-            end
-          end
+          sleep(0.1) if Fontist::Utils::System.user_os == :windows
 
           result
         end
