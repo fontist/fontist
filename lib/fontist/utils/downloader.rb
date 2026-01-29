@@ -96,8 +96,7 @@ module Fontist
 
       # rubocop:disable Metrics/MethodLength
       def do_download_file_with_progress_bar(progress_bar)
-        puts "Before downloading from: #{url}"
-        down_file = Down.download(
+        Down.download(
           url,
           open_timeout: Fontist.open_timeout,
           read_timeout: Fontist.read_timeout,
@@ -112,9 +111,6 @@ module Fontist
             progress_bar.increment(progress)
           },
         )
-        puts "After downloading from: #{url}"
-        puts "Down file size: #{down_file.size}"
-        down_file
       end
       # rubocop:enable Metrics/MethodLength
 
