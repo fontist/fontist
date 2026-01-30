@@ -42,8 +42,10 @@ jobs:
     steps:
       - name: Disable Windows Firewall
         if: startsWith(matrix.os, 'windows')
-        run: Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
-        shell: powershell
+        run: |
+          git config --global http.postBuffer 524288000
+          git config --global core.compression 0
+        shell: bash
 
       - uses: actions/checkout@v4
 
