@@ -26,7 +26,7 @@ module Fontist
         #                  Fontist.formulas_repo_path,
         #                  branch: @branch,
         #                  depth: 1)
-        return system("git clone #{Fontist.formulas_repo_url} #{Fontist.formulas_repo_path} --branch #{@branch} --depth 1")
+        system("git clone #{Fontist.formulas_repo_url} #{Fontist.formulas_repo_path} --depth 1")
       end
 
       git = if Dir.exist?(Fontist.formulas_repo_path.join(".git"))
