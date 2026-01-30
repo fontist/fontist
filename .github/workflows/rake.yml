@@ -40,6 +40,11 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
+      - name: Disable Windows Firewall
+        if: startsWith(matrix.os, 'windows')
+        run: Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+        shell: powershell
+
       - uses: actions/checkout@v4
 
       - uses: ruby/setup-ruby@v1
