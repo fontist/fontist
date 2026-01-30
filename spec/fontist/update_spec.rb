@@ -5,9 +5,10 @@ RSpec.describe Fontist::Update do
 
   context "no main repo" do
     before do
-      if Fontist::Utils::System.user_os == :windows
-        allow(Git).to(receive(:clone).and_return(nil))
-        allow(File).to(receive(:exist?).with(Fontist.formulas_repo_path).and_return(true))
+      if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:\\temp\\fontist\\versions\\v4\\formulas")
+        allow(Git).to receive(:clone).and_return(nil)
+        allow(File).to receive(:exist?).and_return(true)
+        allow(Dir).to receive(:mktmpdir).and_yield(Pathname.new("C:\\temp\\fontist"))
       end
     end
 
