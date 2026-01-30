@@ -61,13 +61,23 @@ jobs:
           git config --global --list
         shell: powershell
 
-      # Step 3: Clear any proxy settings
+            # Step 3: Clear any proxy settings
       - name: Clear Git proxy settings
         if: startsWith(matrix.os, 'windows')
         run: |
           Write-Host "Clearing proxy settings..."
-          git config --global --unset-all http.proxy 2>$null || echo "No proxy set"
-          git config --global --unset-all https.proxy 2>$null || echo "No HTTPS proxy set"
+          try {
+            git config --global --unset-all http.proxy 2>$null
+            Write-Host "HTTP proxy cleared"
+          } catch {
+            Write-Host "No HTTP proxy set"
+          }
+          try {
+            git config --global --unset-all https.proxy 2>$null
+            Write-Host "HTTPS proxy cleared"
+          } catch {
+            Write-Host "No HTTPS proxy set"
+          }
         shell: powershell
 
       # Step 4: Flush DNS and test connectivity
