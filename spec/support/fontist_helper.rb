@@ -126,7 +126,9 @@ module Fontist
           Fontist::Utils::FileOps.safe_rm_rf(Fontist.formulas_repo_path)
         end
 
+        puts "Cloning #{Fontist.formulas_repo_path} to dir #{dir} using the git gem."
         Git.clone(dir, Fontist.formulas_repo_path, depth: 1)
+        puts "Cloned #{Fontist.formulas_repo_path} to dir #{dir} using the git gem."
 
         yield dir
       end
