@@ -24,8 +24,9 @@ module Fontist
       unless Dir.exist?(Fontist.formulas_repo_path)
         return Git.clone(Fontist.formulas_repo_url,
                          Fontist.formulas_repo_path,
-                        #  branch: @branch,
-                         depth: 1)
+                         branch: @branch,
+                         depth: 1,
+                         log: Logger.new($stdout))
       end
 
       git = if Dir.exist?(Fontist.formulas_repo_path.join(".git"))
