@@ -14,8 +14,8 @@ RSpec.describe Fontist::Update do
 
     it "creates main repo" do
       fresh_fontist_home do
-        puts "pinging 20.207.73.82 with limiting to 2 packets"
-        puts system("ping -n 2 20.207.73.82")
+        puts "pinging 20.207.73.82 with limiting to 20 packets"
+        puts system("ping -n 20 20.207.73.82")
         described_class.call
         expect(File.exist?(Fontist.formulas_repo_path)).to be true
       end
