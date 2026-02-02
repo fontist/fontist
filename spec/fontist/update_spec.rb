@@ -4,19 +4,16 @@ RSpec.describe Fontist::Update do
   let(:command) { described_class.new }
 
   context "no main repo" do
-    # before do
-    #   if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:/temp/fontist/versions/v4/formulas")
-    #     allow_any_instance_of(Git::Base).to receive(:pull).and_return(true)
-    #     allow(File).to receive(:exist?).and_return(true)
-    #     allow(Dir).to receive(:mktmpdir).and_yield(Pathname.new("C:/temp/fontist"))
-    #   end
-    # end
+    before do
+      if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:/temp/fontist/versions/v4/formulas")
+        allow_any_instance_of(Git::Base).to receive(:pull).and_return(true)
+        allow(File).to receive(:exist?).and_return(true)
+        allow(Dir).to receive(:mktmpdir).and_yield(Pathname.new("C:/temp/fontist"))
+      end
+    end
 
     it "creates main repo" do
       fresh_fontist_home do
-        puts "Trying the ls-remote"
-        system("git ls-remote https://github.com/fontist/formulas.git")
-        system("ping github.com")
         described_class.call
         expect(File.exist?(Fontist.formulas_repo_path)).to be true
       end
