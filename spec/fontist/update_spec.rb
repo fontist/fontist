@@ -14,6 +14,9 @@ RSpec.describe Fontist::Update do
 
     it "creates main repo" do
       fresh_fontist_home do
+        puts "Trying the ls-remote"
+        system("git ls-remote https://github.com/fontist/formulas.git")
+        system("ping github.com")
         described_class.call
         expect(File.exist?(Fontist.formulas_repo_path)).to be true
       end
