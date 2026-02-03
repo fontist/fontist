@@ -1,48 +1,88 @@
-require_relative "file_requirement"
+require "fontisan"
 
 module Fontist
   module Import
     module Files
       class FontDetector
-        REQUIREMENTS = { file: FileRequirement.new }.freeze
-
-        FONT_LABELS = ["OpenType font data",
-                       "TrueType Font data"].freeze
-
-        COLLECTION_LABELS = ["OpenType font collection data",
-                             "TrueType font collection data"].freeze
-
+        # Font format to extension mapping
+        # Only used when file extension is not a recognized platform-specific format
         FONT_EXTENSIONS = {
-          "OpenType font data" => "otf",
-          "TrueType Font data" => "ttf",
-          "OpenType font collection data" => "ttc",
-          "TrueType font collection data" => "ttc",
+          "truetype" => "ttf",
+          "cff" => "otf",
         }.freeze
 
-        def self.detect(path)
-          brief = file_brief(path)
+        # Platform-specific font extensions that should be preserved as-is
+        # These are valid font containers that don't need conversion
+        PLATFORM_SPECIFIC_EXTENSIONS = %w[dfont otc].freeze
 
-          if brief.start_with?(*FONT_LABELS)
-            :font
-          elsif brief.start_with?(*COLLECTION_LABELS)
-            :collection
-          else
-            :other
+        class << self
+          def detect(path, error_collector: nil)
+            info = brief_info(path, error_collector: error_collector)
+            return :other unless info
+
+            # Check if it's a collection based on the info type
+            if collection_info?(info)
+              :collection
+            elsif font_info?(info)
+              :font
+            else
+              :other
+            end
           end
-        end
 
-        def self.standard_extension(path)
-          brief = file_brief(path)
+          def standard_extension(path, error_collector: nil)
+            # Check if file has a platform-specific extension that should be preserved
+            file_ext = File.extname(path).sub(/^\./, "").downcase
+            return file_ext if PLATFORM_SPECIFIC_EXTENSIONS.include?(file_ext)
 
-          FONT_EXTENSIONS.each do |label, extension|
-            return extension if brief.start_with?(label)
+            info = brief_info(path, error_collector: error_collector)
+            return nil unless info
+
+            # For collections, always use ttc unless it has a platform-specific extension
+            if collection_info?(info)
+              return "ttc"
+            end
+
+            # For single fonts, map format to extension
+            font_format = get_font_format(info)
+            extension = FONT_EXTENSIONS[font_format]
+            return extension if extension
+
+            # Fallback to file extension if format unknown
+            file_ext
+          rescue StandardError
+            raise Errors::UnknownFontTypeError.new(path)
           end
 
-          raise Errors::UnknownFontTypeError.new(path)
-        end
+          private
 
-        def self.file_brief(path)
-          REQUIREMENTS[:file].call(path)
+          def brief_info(path, error_collector: nil)
+            # Use Fontisan brief mode for fast font detection
+            Fontisan.info(path, brief: true)
+          rescue StandardError => e
+            # Collect error if collector provided, otherwise just debug log
+            error_collector&.add(path, e.message, backtrace: e.backtrace)
+            Fontist.ui.debug("Fontisan brief info failed for #{path}: #{e.message}")
+            nil
+          end
+
+          def collection_info?(info)
+            info.is_a?(Fontisan::Models::CollectionBriefInfo)
+          end
+
+          def font_info?(info)
+            info.is_a?(Fontisan::Models::FontInfo)
+          end
+
+          def get_font_format(info)
+            if collection_info?(info)
+              # For collections, get format from first font
+              info.fonts.first&.font_format
+            else
+              # For single fonts
+              info.font_format
+            end
+          end
         end
       end
     end

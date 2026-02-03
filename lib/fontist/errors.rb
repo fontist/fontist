@@ -20,9 +20,22 @@ module Fontist
 
     class FontFileError < GeneralError; end
 
+    class FontExtractError < GeneralError; end
+
     class FontistVersionError < GeneralError; end
 
-    class FontNotFoundError < GeneralError; end
+    class FontNotFoundError < GeneralError
+      attr_reader :parsing_errors
+
+      def initialize(message, parsing_errors: [])
+        super(message)
+        @parsing_errors = Array(parsing_errors)
+      end
+
+      def has_parsing_errors?
+        @parsing_errors&.any?
+      end
+    end
 
     # for backward compatibility with metanorma,
     # it depends on this exception to automatically download formulas
@@ -121,6 +134,67 @@ module Fontist
         MSG
 
         super(msg, font)
+      end
+    end
+
+    class PlatformMismatchError < FontError
+      attr_reader :required_platforms, :current_platform
+
+      def initialize(font_name, required_platforms, current_platform)
+        @required_platforms = Array(required_platforms)
+        @current_platform = current_platform
+
+        msg = build_message(font_name)
+        super(msg, font_name)
+      end
+
+      private
+
+      def build_message(font_name)
+        "Font '#{font_name}' is only available for: #{@required_platforms.join(', ')}. " \
+        "Your current platform is: #{@current_platform}. " \
+        "This font is licensed exclusively for the specified platform(s) and " \
+        "cannot be installed on your system."
+      end
+    end
+
+    class UnsupportedMacOSVersionError < GeneralError
+      def initialize(detected_version, available_frameworks)
+        super(build_message(detected_version, available_frameworks))
+      end
+
+      private
+
+      def build_message(version, frameworks)
+        <<~MSG
+          Unsupported macOS version: #{version}
+
+          Your macOS version is not supported by any font framework.
+
+          Supported frameworks:
+          #{format_frameworks(frameworks)}
+
+          Options:
+
+          1. Override platform (if you know your framework):
+             export FONTIST_PLATFORM_OVERRIDE="macos-font<N>"
+             Example: export FONTIST_PLATFORM_OVERRIDE="macos-font7"
+
+          2. Install to Fontist library (works with any override):
+             fontist install "Font Name" --macos-fonts-location=fontist-library
+
+          Note: Non-macOS-platform-tagged fonts work normally.
+
+          Report issues: https://github.com/fontist/fontist/issues
+        MSG
+      end
+
+      def format_frameworks(frameworks)
+        frameworks.map do |num, meta|
+          min = meta["min_macos_version"]
+          max = meta["max_macos_version"] || "+"
+          "  Font#{num}: #{min}-#{max} (#{meta['description']})"
+        end.join("\n")
       end
     end
   end

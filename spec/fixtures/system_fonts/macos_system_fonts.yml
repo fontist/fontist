@@ -1,0 +1,558 @@
+---
+platform: macos
+captured_at: '2026-01-21T09:45:59Z'
+source: rake.yml run 21201167481
+font_families:
+- ".Al Bayan PUA"
+- ".Al Nile PUA"
+- ".Al Rafidain PUA"
+- ".Al Tarikh PUA"
+- ".Al-Firat PUA"
+- ".AlKhalil PUA"
+- ".AlRafidain AlFanni PUA"
+- ".Algiers PUA"
+- ".Apple Color Emoji UI"
+- ".Apple SD Gothic NeoI"
+- ".Aqua Kana"
+- ".Arial Hebrew Desk Interface"
+- ".Baghdad PUA"
+- ".Basra PUA"
+- ".Beirut PUA"
+- ".Damascus PUA"
+- ".DecoType Naskh PUA"
+- ".Dijla PUA"
+- ".Diwan Kufi PUA"
+- ".Farah PUA"
+- ".Geeza Pro Interface"
+- ".Geeza Pro PUA"
+- ".Hiragino Kaku Gothic Interface"
+- ".Hiragino Sans GB Interface"
+- ".Koufi Abjadi PUA"
+- ".KufiStandardGK PUA"
+- ".Laimoon PUA"
+- ".Muna PUA"
+- ".Nadeem PUA"
+- ".Nisan PUA"
+- ".Noto Nastaliq Urdu UI"
+- ".Raya PUA"
+- ".Sana PUA"
+- ".Savoye LET CC."
+- ".Somer PUA"
+- ".Yaziji PUA"
+- ".Zawra PUA"
+- Academy Engraved LET
+- Adelle Sans Devanagari
+- AkayaKanadaka
+- AkayaTelivigala
+- Al Bayan
+- Al Firat
+- Al Khalil
+- Al Nile
+- Al Rafidain
+- Al Rafidain Al Fanni
+- Al Tarikh
+- Algiers
+- American Typewriter
+- Andale Mono
+- Annai MN
+- Apple Braille
+- Apple Chancery
+- Apple Color Emoji
+- Apple LiGothic
+- Apple LiSung
+- Apple SD Gothic Neo
+- Apple Symbols
+- AppleGothic
+- AppleMyungjo
+- Arial
+- Arial Black
+- Arial Hebrew
+- Arial Hebrew Scholar
+- Arial Narrow
+- Arial Rounded MT Bold
+- Arial Unicode MS
+- Arima Koshi
+- Arima Madurai
+- Asphalt
+- Athelas
+- Avenir
+- Avenir Next
+- Avenir Next Condensed
+- Ayuthaya
+- BIZ UDGothic
+- BIZ UDMincho
+- BM Dohyeon
+- BM Hanna 11yrs Old
+- BM Hanna Air
+- BM Hanna Pro
+- BM Jua
+- BM Kirang Haerang
+- BM Yeonsung
+- Baghdad
+- Bai Jamjuree
+- Balega
+- Baloo 2
+- Baloo Bhai 2
+- Baloo Bhaijaan
+- Baloo Bhaina 2
+- Baloo Chettan 2
+- Baloo Da 2
+- Baloo Paaji 2
+- Baloo Tamma 2
+- Baloo Tammudu 2
+- Baloo Thambi 2
+- Bangla MN
+- Bangla Sangam MN
+- Bank Gothic
+- Baoli SC
+- Baoli TC
+- Baskerville
+- Basra
+- Bebas Neue
+- Beirut
+- BiauKaiHK
+- BiauKaiTC
+- Big Caslon
+- Blackmoor LET
+- BlairMdITC TT
+- Bodoni 72
+- Bodoni 72 Oldstyle
+- Bodoni 72 Smallcaps
+- Bodoni Ornaments
+- Bodoni Ornaments ITC TT
+- Bodoni SvtyTwo ITC TT
+- Bodoni SvtyTwo OS ITC TT
+- Bodoni SvtyTwo SC ITC TT
+- Book Antiqua
+- Bookman Old Style
+- Bordeaux Roman Bold LET
+- Bradley Hand
+- Braganza
+- Brill
+- Brush Script MT
+- Cambay Devanagari
+- Canela
+- Canela Deck
+- Canela Text
+- Capitals
+- Carlito
+- Century Gothic
+- Century Schoolbook
+- Chakra Petch
+- Chalkboard
+- Chalkboard SE
+- Chalkduster
+- Charm
+- Charmonman
+- Charter
+- Cochin
+- Comic Sans MS
+- Copperplate
+- Corsiva Hebrew
+- Courier
+- Courier New
+- DIN Alternate
+- DIN Condensed
+- Damascus
+- Dash
+- Dear Joe Four
+- DecoType Naskh
+- Devanagari MT
+- Devanagari Sangam MN
+- Didot
+- Dijla
+- Diwan Kufi
+- Diwan Thuluth
+- Domaine Display
+- Druk
+- Druk Text
+- Druk Wide
+- Euphemia UCAS
+- Fahkwang
+- Fakt Slab Stencil Pro
+- Farah
+- Farisi
+- Forgotten Futurist
+- Founders Grotesk
+- Founders Grotesk Condensed
+- Founders Grotesk Text
+- Futura
+- Galvji
+- Garamond
+- Geeza Pro
+- Geneva
+- Georgia
+- Gill Sans
+- Gotu
+- Grantha Sangam MN
+- Graphik
+- Graphik Compact
+- Gujarati MT
+- Gujarati Sangam MN
+- GungSeo
+- Gurmukhi MN
+- Gurmukhi MT
+- Gurmukhi Sangam MN
+- Hannotate SC
+- Hannotate TC
+- HanziPen SC
+- HanziPen TC
+- HeadLineA
+- Hei
+- Heiti SC
+- Heiti TC
+- Helvetica
+- Helvetica Neue
+- Herculanum
+- Hiragino Kaku Gothic Pro
+- Hiragino Kaku Gothic ProN
+- Hiragino Kaku Gothic Std
+- Hiragino Kaku Gothic StdN
+- Hiragino Maru Gothic Pro
+- Hiragino Maru Gothic ProN
+- Hiragino Mincho Pro
+- Hiragino Mincho ProN
+- Hiragino Sans
+- Hiragino Sans GB
+- Hiragino Sans TC
+- Hoefler Text
+- Hopper Script
+- Hubballi
+- ITF Devanagari
+- ITF Devanagari Marathi
+- Impact
+- InaiMathi
+- Iowan Old Style
+- Jaini
+- Jaini Purva
+- Jazz LET
+- Journal Sans New
+- K2D
+- Kai
+- Kailasa
+- Kaiti SC
+- Kaiti TC
+- Kannada MN
+- Kannada Sangam MN
+- Katari
+- Kavivanar
+- Kefa
+- Khmer MN
+- Khmer Sangam MN
+- Kigelia
+- Kigelia Arabic
+- Klee
+- KoHo
+- Kodchasan
+- Kohinoor Bangla
+- Kohinoor Devanagari
+- Kohinoor Gujarati
+- Kohinoor Telugu
+- Kokonor
+- Koufi Abjadi
+- Krub
+- Krungthep
+- KufiStandardGK
+- Lahore Gurmukhi
+- Laimoon
+- Lantinghei SC
+- Lantinghei TC
+- Lao MN
+- Lao Sangam MN
+- Lava Devanagari
+- Lava Kannada
+- Lava Telugu
+- LiHei Pro
+- LiSong Pro
+- Libian SC
+- Libian TC
+- LingWai SC
+- LingWai TC
+- Lucida Grande
+- Luminari
+- Maku
+- Malayalam MN
+- Malayalam Sangam MN
+- Mali
+- Marion
+- Marker Felt
+- Menlo
+- Microsoft Sans Serif
+- Mishafi
+- Mishafi Gold
+- Modak
+- Mona Lisa Solid ITC TT
+- Monaco
+- Mshtakan
+- Mukta
+- Mukta Mahee
+- Mukta Malar
+- Mukta Vaani
+- Muna
+- Myanmar MN
+- Myanmar Sangam MN
+- Myriad Arabic
+- Nadeem
+- Nanum Brush Script
+- Nanum Gothic
+- Nanum Myeongjo
+- Nanum Pen Script
+- New Peninim MT
+- Niramit
+- Nisan
+- Nom Na Tong
+- Noteworthy
+- Noto Nastaliq Urdu
+- Noto Sans Adlam
+- Noto Sans Armenian
+- Noto Sans Avestan
+- Noto Sans Bamum
+- Noto Sans Bassa Vah
+- Noto Sans Batak
+- Noto Sans Bhaiksuki
+- Noto Sans Brahmi
+- Noto Sans Buginese
+- Noto Sans Buhid
+- Noto Sans Carian
+- Noto Sans Caucasian Albanian
+- Noto Sans Chakma
+- Noto Sans Cham
+- Noto Sans Coptic
+- Noto Sans Cuneiform
+- Noto Sans Cypriot
+- Noto Sans Duployan
+- Noto Sans Egyptian Hieroglyphs
+- Noto Sans Elbasan
+- Noto Sans Glagolitic
+- Noto Sans Gothic
+- Noto Sans Hanifi Rohingya
+- Noto Sans Hanunoo
+- Noto Sans Hatran
+- Noto Sans Imperial Aramaic
+- Noto Sans Inscriptional Pahlavi
+- Noto Sans Inscriptional Parthian
+- Noto Sans Kaithi
+- Noto Sans Kannada
+- Noto Sans Kayah Li
+- Noto Sans Kharoshthi
+- Noto Sans Khojki
+- Noto Sans Khudawadi
+- Noto Sans Lepcha
+- Noto Sans Limbu
+- Noto Sans Linear A
+- Noto Sans Linear B
+- Noto Sans Lisu
+- Noto Sans Lycian
+- Noto Sans Lydian
+- Noto Sans Mahajani
+- Noto Sans Mandaic
+- Noto Sans Manichaean
+- Noto Sans Marchen
+- Noto Sans Meetei Mayek
+- Noto Sans Mende Kikakui
+- Noto Sans Meroitic
+- Noto Sans Miao
+- Noto Sans Modi
+- Noto Sans Mongolian
+- Noto Sans Mro
+- Noto Sans Multani
+- Noto Sans Myanmar
+- Noto Sans NKo
+- Noto Sans Nabataean
+- Noto Sans New Tai Lue
+- Noto Sans Newa
+- Noto Sans Ol Chiki
+- Noto Sans Old Hungarian
+- Noto Sans Old Italic
+- Noto Sans Old North Arabian
+- Noto Sans Old Permic
+- Noto Sans Old Persian
+- Noto Sans Old South Arabian
+- Noto Sans Old Turkic
+- Noto Sans Oriya
+- Noto Sans Osage
+- Noto Sans Osmanya
+- Noto Sans Pahawh Hmong
+- Noto Sans Palmyrene
+- Noto Sans Pau Cin Hau
+- Noto Sans PhagsPa
+- Noto Sans Phoenician
+- Noto Sans Psalter Pahlavi
+- Noto Sans Rejang
+- Noto Sans Samaritan
+- Noto Sans Saurashtra
+- Noto Sans Sharada
+- Noto Sans Sora Sompeng
+- Noto Sans Sundanese
+- Noto Sans Syloti Nagri
+- Noto Sans Syriac
+- Noto Sans Tagalog
+- Noto Sans Tagbanwa
+- Noto Sans Tai Le
+- Noto Sans Tai Tham
+- Noto Sans Tai Viet
+- Noto Sans Takri
+- Noto Sans Thaana
+- Noto Sans Tirhuta
+- Noto Sans Ugaritic
+- Noto Sans Vai
+- Noto Sans Wancho
+- Noto Sans Warang Citi
+- Noto Sans Yi
+- Noto Sans Zawgyi
+- Noto Serif Ahom
+- Noto Serif Balinese
+- Noto Serif Hmong Nyiakeng
+- Noto Serif Kannada
+- Noto Serif Myanmar
+- November Bangla Traditional
+- November India
+- October Compressed Devanagari
+- October Compressed Gujarati
+- October Compressed Gurmukhi
+- October Compressed Kannada
+- October Compressed Meetei Mayek
+- October Compressed Odia
+- October Compressed Ol Chiki
+- October Compressed Tamil
+- October Compressed Telugu
+- October Condensed Devanagari
+- October Condensed Gujarati
+- October Condensed Gurmukhi
+- October Condensed Kannada
+- October Condensed Meetei Mayek
+- October Condensed Odia
+- October Condensed Ol Chiki
+- October Condensed Tamil
+- October Condensed Telugu
+- October Devanagari
+- October Gujarati
+- October Gurmukhi
+- October India
+- October Kannada
+- October Meetei Mayek
+- October Odia
+- October Ol Chiki
+- October Tamil
+- October Telugu
+- Optima
+- Oriya MN
+- Oriya Sangam MN
+- Osaka
+- PCMyungjo
+- PSL Ornanong Pro
+- PT Mono
+- PT Sans
+- PT Sans Caption
+- PT Sans Narrow
+- PT Serif
+- PT Serif Caption
+- Padyakke Expanded One
+- Palatino
+- Papyrus
+- Party LET
+- Phosphate
+- PilGi
+- Plantagenet Cherokee
+- PortagoITC TT
+- Princetown LET
+- Produkt
+- Proxima Nova
+- Publico Headline
+- Publico Text
+- Quotes Caps
+- Quotes Script
+- Raanana
+- Raya
+- Rockwell
+- STFangsong
+- STHeiti
+- STIX Two Text
+- STKaiti
+- STSong
+- Sama Devanagari
+- Sama Gujarati
+- Sama Gurmukhi
+- Sama Kannada
+- Sama Malayalam
+- Sama Tamil
+- Sana
+- Santa Fe LET
+- Sarabun
+- Sathu
+- Savoye LET
+- Scheme
+- SchoolHouse Cursive B
+- SchoolHouse Printed A
+- Seravek
+- Shobhika
+- Shree Devanagari 714
+- SignPainter
+- Silom
+- SimSong
+- Sinhala MN
+- Sinhala Sangam MN
+- Skia
+- Snell Roundhand
+- Somer
+- Songti SC
+- Songti TC
+- Spot Mono
+- Srisakdi
+- Stone Sans ITC TT
+- Stone Sans Sem ITC TT
+- Sukhumvit Set
+- Superclarendon
+- Symbol
+- Synchro LET
+- Tahoma
+- Tamil MN
+- Tamil Sangam MN
+- Telugu MN
+- Telugu Sangam MN
+- The Hand Serif
+- Thonburi
+- Times
+- Times New Roman
+- Tiro Bangla
+- Tiro Devanagari Hindi
+- Tiro Devanagari Marathi
+- Tiro Devanagari Sanskrit
+- Tiro Gurmukhi
+- Tiro Kannada
+- Tiro Tamil
+- Tiro Telugu
+- Toppan Bunkyu Gothic
+- Toppan Bunkyu Midashi Gothic
+- Toppan Bunkyu Midashi Mincho
+- Toppan Bunkyu Mincho
+- Trattatello
+- Trebuchet MS
+- Tsukushi A Round Gothic
+- Tsukushi B Round Gothic
+- Tw Cen MT
+- Type Embellishments One LET
+- Verdana
+- Waseem
+- Wawati SC
+- Wawati TC
+- Webdings
+- Weibei SC
+- Weibei TC
+- Wingdings
+- Wingdings 2
+- Wingdings 3
+- Xingkai SC
+- Xingkai TC
+- Yaziji
+- YuGothic
+- YuMincho
+- YuMincho +36p Kana
+- Yuanti SC
+- Yuanti TC
+- Yuppy SC
+- Yuppy TC
+- Zapf Dingbats
+- Zapfino
+- Zawra
+count: 552

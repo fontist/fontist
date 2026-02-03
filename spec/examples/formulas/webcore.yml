@@ -4,10 +4,10 @@ description: webcore
 resources:
   webcore.rpm:
     urls:
-    - https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
-    - http://plug-mirror.rcac.purdue.edu/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
     - http://ftp.lysator.liu.se/pub/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
     - https://web.archive.org/web/20210122154443/http://plug-mirror.rcac.purdue.edu/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
+    - https://download.opensuse.org/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
+    - http://plug-mirror.rcac.purdue.edu/opensuse/repositories/home:/alteratio:/Common/openSUSE_13.2/src/webcore-fonts-3.0-2.1.src.rpm
     sha256: 75aab1edd72bb2e65592346ad54b78089cddedaa9801c8c133cba79677482fb2
     file_size: 7962466
 font_collections:

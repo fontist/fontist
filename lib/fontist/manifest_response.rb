@@ -6,6 +6,12 @@ module Fontist
     attribute :type, :string
     attribute :full_name, :string
     attribute :paths, :string, collection: true
+
+    key_value do
+      map "type", to: :type
+      map "full_name", to: :full_name
+      map "paths", to: :paths
+    end
   end
 
   class ManifestResponseFont < ManifestFont
@@ -21,21 +27,15 @@ module Fontist
       }
     end
 
-    def install(confirmation: "no", hide_licenses: false, no_progress: false)
-      styles.each do |style|
-        if style.paths.nil?
-          # If no paths are found, notify the user but continue with the
-          # installation
-          Fontist.ui.error("Font #{name} with style #{style} not found, skipping installation.")
-        end
-      end
-
+    def install(confirmation: "no", hide_licenses: false, no_progress: false,
+location: nil)
       Fontist::Font.install(
         name,
         force: false,
         confirmation: confirmation,
         hide_licenses: hide_licenses,
         no_progress: no_progress,
+        location: location,
       )
     end
   end

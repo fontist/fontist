@@ -1,0 +1,17 @@
+---
+# Test manifest for Windows - uses fonts NOT pre-installed on Windows
+#
+# These fonts are used to test installation on Windows, where the common
+# fonts (Andale Mono, Georgia, Courier New) are already system fonts.
+Lato:
+  - Regular
+  - Bold
+  - Italic
+  - Bold Italic
+TeX Gyre Chorus:
+  - Regular
+  - Italic
+Euphemia UCAS:
+  - Regular
+  - Bold
+  - Italic

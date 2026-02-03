@@ -7,6 +7,8 @@ require_relative "cache_cli"
 require_relative "import_cli"
 require_relative "fontconfig_cli"
 require_relative "config_cli"
+require_relative "index_cli"
+require_relative "manifest_cli"
 
 module Fontist
   class CLI < Thor
@@ -94,7 +96,7 @@ module Fontist
       STATUS_SUCCESS
     end
 
-    desc "install FONT", "Install font"
+    desc "install FONT...", "Install one or more fonts"
     option :force, type: :boolean, aliases: :f,
                    desc: "Install even if already installed in system"
     option :formula, type: :boolean, aliases: :F,
@@ -118,11 +120,70 @@ module Fontist
                  "(default is #{Fontist.formula_size_limit_in_megabytes} MB)"
     option :update_fontconfig, type: :boolean, aliases: :u,
                                desc: "Update fontconfig"
-    def install(font)
+    option :location,
+           type: :string, aliases: :l,
+           enum: ["fontist", "user", "system"],
+           desc: "Install location: fontist (default), user, system"
+    def install(*fonts)
       handle_class_options(options)
+
+      if fonts.empty?
+        return error("Please specify at least one font to install.",
+                     STATUS_UNKNOWN_ERROR)
+      end
+
+      # For backward compatibility, use original behavior for single font
+      if fonts.size == 1
+        confirmation = options[:accept_all_licenses] ? "yes" : "no"
+        install_options = options.to_h.transform_keys(&:to_sym)
+        install_options[:confirmation] = confirmation
+        if options[:location]
+          install_options[:location] =
+            options[:location]&.to_sym
+        end
+
+        Fontist::Font.install(fonts.first, install_options)
+        return success
+      end
+
+      # Multi-font installation
       confirmation = options[:accept_all_licenses] ? "yes" : "no"
-      Fontist::Font.install(font, options.merge(confirmation: confirmation))
-      success
+      install_options = options.to_h.transform_keys(&:to_sym)
+      install_options[:confirmation] = confirmation
+      if options[:location]
+        install_options[:location] =
+          options[:location]&.to_sym
+      end
+
+      result = Fontist::Font.install_many(fonts, install_options)
+
+      # Report results
+      if result[:successes].any?
+        Fontist.ui.success("Successfully installed #{result[:successes].size} font(s): #{result[:successes].join(', ')}")
+      end
+
+      if result[:failures].any?
+        Fontist.ui.error("Failed to install #{result[:failures].size} font(s):")
+        result[:failures].each do |failure|
+          _, mode, message = ERROR_TO_STATUS[failure[:error].class]
+          text = if message && mode == :overwrite
+                   message
+                 elsif message
+                   "#{failure[:error].message} #{message}"
+                 else
+                   failure[:error].message
+                 end
+          Fontist.ui.error("  - #{failure[:font]}: #{text}")
+        end
+      end
+
+      # Return appropriate status code
+      return STATUS_SUCCESS if result[:failures].empty?
+
+      # If all failed, return the status of the first error
+      first_error = result[:failures].first[:error]
+      status, = ERROR_TO_STATUS[first_error.class]
+      status || STATUS_UNKNOWN_ERROR
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
     end
@@ -174,36 +235,8 @@ module Fontist
       STATUS_REPO_COULD_NOT_BE_UPDATED
     end
 
-    desc "manifest-locations MANIFEST",
-         "Get locations of fonts from MANIFEST (yaml)"
-    def manifest_locations(manifest)
-      handle_class_options(options)
-      paths = Fontist::Manifest.from_file(manifest, locations: true)
-      print_yaml(paths.to_hash)
-      success
-    rescue Fontist::Errors::GeneralError => e
-      handle_error(e)
-    end
-
-    desc "manifest-install MANIFEST", "Install fonts from MANIFEST (yaml)"
-    option :accept_all_licenses, type: :boolean,
-                                 aliases: ["--confirm-license", :a],
-                                 desc: "Accept all license agreements"
-    option :hide_licenses, type: :boolean,
-                           aliases: :h,
-                           desc: "Hide license texts"
-    def manifest_install(manifest)
-      handle_class_options(options)
-      instance = Fontist::Manifest.from_file(manifest)
-      paths = instance.install(
-        confirmation: options[:accept_all_licenses] ? "yes" : "no",
-        hide_licenses: options[:hide_licenses],
-      )
-      print_yaml(paths.to_hash)
-      success
-    rescue Fontist::Errors::GeneralError => e
-      handle_error(e)
-    end
+    desc "manifest SUBCOMMAND ...ARGS", "Manage font manifests"
+    subcommand "manifest", Fontist::ManifestCLI
 
     desc "create-formula URL", "Create a new formula with fonts from URL"
     option :name, desc: "Example: Times New Roman"
@@ -236,6 +269,36 @@ module Fontist
       STATUS_SUCCESS
     end
 
+    desc "macos-catalogs", "List available macOS font catalogs"
+    def macos_catalogs
+      handle_class_options(options)
+      require_relative "macos/catalog/catalog_manager"
+
+      catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
+
+      if catalogs.empty?
+        Fontist.ui.error("No macOS font catalogs found.")
+        Fontist.ui.say("Expected location: /System/Library/AssetsV2/")
+        Fontist.ui.say("\nYou can specify a catalog manually with:")
+        Fontist.ui.say("  fontist import macos --plist path/to/com_apple_MobileAsset_FontX.xml")
+        return STATUS_UNKNOWN_ERROR
+      end
+
+      Fontist.ui.say("Available macOS Font Catalogs:")
+      catalogs.each do |catalog_path|
+        version = Fontist::Macos::Catalog::CatalogManager.detect_version(catalog_path)
+        size = File.size(catalog_path)
+        size_str = format_bytes(size)
+
+        Fontist.ui.say("  Font#{version}: #{catalog_path} (#{size_str})")
+      end
+
+      Fontist.ui.say("\nTo import a catalog:")
+      Fontist.ui.say("  fontist import macos --plist <path>")
+
+      STATUS_SUCCESS
+    end
+
     desc "repo SUBCOMMAND ...ARGS", "Manage custom repositories"
     subcommand "repo", Fontist::RepoCLI
 
@@ -250,6 +313,9 @@ module Fontist
 
     desc "cache SUBCOMMAND ...ARGS", "Manage fontist cache"
     subcommand "cache", Fontist::CacheCLI
+
+    desc "index SUBCOMMAND ...ARGS", "Manage system font index"
+    subcommand "index", Fontist::IndexCLI
 
     private
 
@@ -275,6 +341,16 @@ module Fontist
     def error(message, status)
       Fontist.ui.error(message)
       status
+    end
+
+    def format_bytes(bytes)
+      if bytes < 1024
+        "#{bytes} B"
+      elsif bytes < 1024 * 1024
+        "#{(bytes / 1024.0).round(1)} KB"
+      else
+        "#{(bytes / (1024.0 * 1024)).round(1)} MB"
+      end
     end
 
     def print_yaml(object)

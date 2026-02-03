@@ -1,6 +1,7 @@
 require_relative "otf/font_file"
 require_relative "files/collection_file"
 require_relative "files/font_detector"
+require_relative "font_parsing_error_collector"
 
 module Fontist
   module Import
@@ -8,14 +9,24 @@ module Fontist
       LICENSE_PATTERN =
         /(ofl\.txt|ufl\.txt|licenses?\.txt|license(\.md)?|copying)$/i.freeze
 
-      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil)
+      # Font extensions that are recognized during extraction
+      # This is displayed to users so they understand what files are being matched
+      SUPPORTED_FONT_EXTENSIONS = %w[ttf otf ttc otc woff woff2 dfont].freeze
+      FONT_EXTENSIONS_PATTERN = /\.(#{SUPPORTED_FONT_EXTENSIONS.join('|')})$/i.freeze
+
+      attr_reader :error_collector
+
+      def initialize(archive, subdir: nil, file_pattern: nil, name_prefix: nil,
+verbose: false)
         @archive = archive
         @subdir = subdir
         @file_pattern = file_pattern
         @name_prefix = name_prefix
+        @verbose = verbose
         @operations = {}
         @font_files = []
         @collection_files = []
+        @error_collector = FontParsingErrorCollector.new
 
         save_operation_subdir
       end
@@ -40,6 +51,10 @@ module Fontist
         @operations
       end
 
+      def error_collector
+        @error_collector
+      end
+
       private
 
       def save_operation_subdir
@@ -57,13 +72,25 @@ module Fontist
       end
 
       def extract_data(archive)
+        extraction_dir_shown = false
         Excavate::Archive.new(path(archive)).files(recursive_packages: true) do |path|
-          Fontist.ui.debug(path)
+          # Show extraction directory once in verbose mode
+          if @verbose && !extraction_dir_shown && File.file?(path)
+            extraction_dir = File.dirname(path)
+            Fontist.ui.say("  Extracting to: #{Paint[extraction_dir, :black,
+                                                     :bright]}")
+            extraction_dir_shown = true
+          end
+
+          Fontist.ui.say("  #{Paint[path, :black, :bright]}") if @verbose
           next unless File.file?(path)
 
           match_license(path)
           match_font(path) if font_candidate?(path)
         end
+
+        # Notify when extraction cache is cleared (verbose mode only)
+        Fontist.ui.say("  Extraction cache cleared") if @verbose
       end
 
       def path(file)
@@ -79,14 +106,23 @@ module Fontist
       end
 
       def match_font(path)
-        case Files::FontDetector.detect(path)
+        case Files::FontDetector.detect(path, error_collector: @error_collector)
         when :font
           file = Otf::FontFile.new(path, name_prefix: @name_prefix)
           @font_files << file unless already_exist?(file)
         when :collection
-          @collection_files << Files::CollectionFile.new(path,
-                                                         name_prefix: @name_prefix)
+          collection = Files::CollectionFile.from_path(path,
+                                                       name_prefix: @name_prefix, error_collector: @error_collector)
+          if collection
+            @collection_files << collection
+          else
+            # Collection could not be parsed - already logged by CollectionFile
+            Fontist.ui.debug("Skipping unparseable collection: #{File.basename(path)}")
+          end
         end
+      rescue StandardError => e
+        # Log error but continue processing other fonts
+        Fontist.ui.debug("Error processing font #{File.basename(path)}: #{e.message}")
       end
 
       def already_exist?(candidate)
@@ -103,7 +139,7 @@ module Fontist
       end
 
       def has_font_extension?(path)
-        path.match?(/\.(ttf|otf|ttc|woff|woff2)$/i)
+        path.match?(FONT_EXTENSIONS_PATTERN)
       end
 
       def font_directory?(path)

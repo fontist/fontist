@@ -27,10 +27,30 @@ module Fontist
           # puts "Rebuilding index..."
           new.build
         end
+
+        def rebuild_with_formulas(formulas)
+          new.build_with_formulas(formulas)
+        end
+
+        def reset_cache
+          # Delete the index file to force rebuild on next access
+          # This is important for tests to ensure clean state
+          File.delete(path) if File.exist?(path)
+        end
       end
 
       def build
         Formula.all.each do |formula|
+          add_formula(formula)
+        end
+
+        to_file
+
+        self
+      end
+
+      def build_with_formulas(formulas)
+        formulas.each do |formula|
           add_formula(formula)
         end
 

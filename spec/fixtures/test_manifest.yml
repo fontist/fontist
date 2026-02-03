@@ -1,0 +1,45 @@
+---
+# Test manifest with common system fonts
+Arial:
+  - Regular
+  - Bold
+  - Italic
+  - Bold Italic
+Helvetica:
+  - Regular
+  - Bold
+Times New Roman:
+  - Regular
+  - Bold
+  - Italic
+Courier New:
+  - Regular
+  - Bold
+Georgia:
+  - Regular
+  - Bold
+Verdana:
+  - Regular
+  - Bold
+Trebuchet MS:
+  - Regular
+  - Bold
+Comic Sans MS:
+  - Regular
+  - Bold
+Impact:
+  - Regular
+Palatino:
+  - Regular
+  - Bold
+Monaco:
+  - Regular
+Menlo:
+  - Regular
+  - Bold
+SF Pro Display:
+  - Regular
+  - Bold
+SF Pro Text:
+  - Regular
+  - Medium

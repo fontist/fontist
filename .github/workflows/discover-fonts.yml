@@ -1,0 +1,91 @@
+name: discover-fonts
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+    paths-ignore:
+      - '**.adoc'
+  pull_request:
+    paths-ignore:
+      - '**.adoc'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-macos:
+    name: macOS ${{ matrix.version }} fonts
+    runs-on: macos-${{ matrix.version }}
+    strategy:
+      matrix:
+        version: [14, 15, 26]
+      fail-fast: false
+    steps:
+      - name: List ALL Core System Fonts
+        run: |
+          echo "=== ALL FONTS IN /System/Library/Fonts/ ==="
+          find /System/Library/Fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | sort
+          echo ""
+          echo "=== Total Count ==="
+          find /System/Library/Fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | wc -l
+
+      - name: Find and Display Catalogs
+        run: |
+          echo "=== Available Font Catalogs (XML) ==="
+          find /System/Library/AssetsV2/ -name "*.xml" -type f 2>/dev/null | sort || echo "No XML catalogs found"
+          echo ""
+          echo "=== Available Font Catalogs (Plist) ==="
+          find /System/Library/AssetsV2/ -name "*.plist" -type f 2>/dev/null | sort || echo "No plist files found"
+          echo ""
+          echo "=== All MobileAsset Font Files ==="
+          find /System/Library/AssetsV2/com_apple_MobileAsset_Font*/ -type f 2>/dev/null | sort || echo "No MobileAsset Font directory found"
+          echo ""
+          echo "=== Catalog Details ==="
+          for file in /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.{xml,plist}; do
+            if [ -f "$file" ]; then
+              catalog_dir=$(basename "$(dirname "$file")")
+              file_name=$(basename "$file")
+              file_size=$(wc -c < "$file" 2>/dev/null || echo 0)
+              file_type=$(file -b "$file" 2>/dev/null || echo "unknown")
+              echo "$catalog_dir/$file_name: $file_size bytes, type: $file_type"
+            fi
+          done
+
+      - name: Upload Catalogs
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.version }}-catalogs
+          path: |
+            /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.xml
+            /System/Library/AssetsV2/com_apple_MobileAsset_Font*/*.plist
+          if-no-files-found: warn
+
+  discover-windows:
+    name: Windows ${{ matrix.version }} fonts
+    runs-on: windows-${{ matrix.version }}
+    strategy:
+      matrix:
+        version: [2022, 2025]
+      fail-fast: false
+    steps:
+      - name: List ALL Windows Fonts
+        shell: pwsh
+        run: |
+          Write-Host "=== ALL FONTS IN C:\Windows\Fonts\ ==="
+          Get-ChildItem -Path "C:\Windows\Fonts\" -Include *.ttf,*.ttc,*.otf -Recurse | ForEach-Object { $_.FullName } | Sort-Object
+          Write-Host ""
+          Write-Host "=== Total Count ==="
+          (Get-ChildItem -Path "C:\Windows\Fonts\" -Include *.ttf,*.ttc,*.otf -Recurse).Count
+
+  discover-linux:
+    name: Linux fonts
+    runs-on: ubuntu-latest
+    steps:
+      - name: List ALL System Fonts
+        run: |
+          echo "=== ALL FONTS IN /usr/share/fonts/ ==="
+          find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | sort
+          echo ""
+          echo "=== Total Count ==="
+          find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" -o -name "*.otf" \) | wc -l

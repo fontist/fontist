@@ -3,7 +3,21 @@ require "spec_helper"
 RSpec.describe Fontist::SystemIndex do
   context "two simultaneous runs" do
     it "generates the same system index", slow: true do
-      stub_system_fonts(Fontist.orig_system_file_path)
+      # Use minimal fixture - we only need to verify concurrent rebuilds produce
+      # the same result, not scan thousands of system fonts
+      minimal_system_file = case Fontist::Utils::System.user_os
+                            when :macos
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system_macos_minimal.yml")
+                            when :windows
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system_windows_minimal.yml")
+                            else
+                              Fontist.root_path.join("spec", "fixtures",
+                                                     "system.yml")
+                            end
+
+      stub_system_fonts(minimal_system_file)
 
       reference_index_path = stub_system_index_path do
         Fontist::SystemIndex.system_index.rebuild
@@ -22,6 +36,10 @@ RSpec.describe Fontist::SystemIndex do
 
           def Fontist.default_fontist_path
             "#{Fontist.default_fontist_path}"
+          end
+
+          def Fontist.system_file_path
+            "#{minimal_system_file}"
           end
 
           Fontist::SystemIndex.system_index.rebuild
@@ -132,10 +150,10 @@ RSpec.describe Fontist::SystemIndex do
       before do
         # Create the font file
         FileUtils.cp(examples_font_path("AndaleMo.TTF"), font_file_path)
-        
+
         # Create the excluded font file
         FileUtils.cp(examples_font_path("AndaleMo.TTF"), excluded_font_path)
-        
+
         # Build initial index with only the regular font
         instance.update
         instance.to_file(index_path)
@@ -150,18 +168,20 @@ RSpec.describe Fontist::SystemIndex do
       let(:font_file_path) { File.join(tmp_dir, "regular_font.ttf") }
       let(:excluded_font_path) { File.join(tmp_dir, "NISC18030.ttf") }
       let(:additional_font_path) { File.join(tmp_dir, "additional_font.ttf") }
-      let(:paths_loader_call) { [font_file_path, excluded_font_path, additional_font_path] }
+      let(:paths_loader_call) do
+        [font_file_path, excluded_font_path, additional_font_path]
+      end
 
       before do
         # Create the font files
         FileUtils.cp(examples_font_path("AndaleMo.TTF"), font_file_path)
         FileUtils.cp(examples_font_path("AndaleMo.TTF"), excluded_font_path)
         FileUtils.cp(examples_font_path("AndaleMo.TTF"), additional_font_path)
-        
+
         # Build initial index with only the regular font (simulating old state)
         instance = Fontist::SystemIndexFontCollection.from_file(
           path: index_path,
-          paths_loader: -> { [font_file_path, excluded_font_path] }
+          paths_loader: -> { [font_file_path, excluded_font_path] },
         )
         instance.update
         instance.to_file(index_path)
@@ -175,9 +195,9 @@ RSpec.describe Fontist::SystemIndex do
         # Reset the instance to reload from file
         reloaded_instance = Fontist::SystemIndexFontCollection.from_file(
           path: index_path,
-          paths_loader: -> { paths_loader_call }
+          paths_loader: -> { paths_loader_call },
         )
-        
+
         expect(reloaded_instance).to receive(:update).once.and_call_original
         reloaded_instance.find("Andale Mono", nil)
         reloaded_instance.find("Andale Mono", nil)

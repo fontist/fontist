@@ -15,11 +15,17 @@ RSpec.describe Fontist::SystemFont do
 
     context "with valid font name" do
       it "returns the complete font path" do
-        no_fonts do
-          example_font_to_fontist("CAMBRIA.TTC")
+        stub_system_index_path do
+          no_fonts do
+            example_font_to_fontist("CAMBRIA.TTC")
 
-          paths = Fontist::SystemFont.find("Cambria")
-          expect(paths).to include(include("CAMBRIA.TTC"))
+            # Rebuild indexes to ensure font is findable
+            Fontist::Indexes::FontistIndex.instance.rebuild
+            Fontist::Indexes::SystemIndex.instance.rebuild
+
+            paths = Fontist::SystemFont.find("Cambria")
+            expect(paths).to include(include("CAMBRIA.TTC"))
+          end
         end
       end
     end
@@ -34,27 +40,31 @@ RSpec.describe Fontist::SystemFont do
 
     context "filename not include full style" do
       it "returns only requested style" do
-        no_fonts do
-          example_font_to_system("ariali.ttf")
-          example_font_to_system("arialbi.ttf")
+        stub_system_index_path do
+          no_fonts do
+            example_font_to_system("ariali.ttf")
+            example_font_to_system("arialbi.ttf")
 
-          result = Fontist::SystemFont.find_styles("Arial", "Italic")
-          paths = result.map(&:path)
-          expect(paths).to match [include("ariali.ttf")]
-          expect(paths).not_to include(include("arialbi.ttf"))
+            result = Fontist::SystemFont.find_styles("Arial", "Italic")
+            paths = result.map(&:path)
+            expect(paths).to match [include("ariali.ttf")]
+            expect(paths).not_to include(include("arialbi.ttf"))
+          end
         end
       end
     end
 
     context "collection fonts" do
       it "could return all collection fonts" do
-        no_fonts do
-          example_font_to_system("Times.ttc")
+        stub_system_index_path do
+          no_fonts do
+            example_font_to_system("Times.ttc")
 
-          ["Regular", "Italic", "Bold", "Bold Italic"].each do |style|
-            result = Fontist::SystemFont.find_styles("Times", style)
-            paths = result.map(&:path)
-            expect(paths).to match [include("Times.ttc")]
+            ["Regular", "Italic", "Bold", "Bold Italic"].each do |style|
+              result = Fontist::SystemFont.find_styles("Times", style)
+              paths = result.map(&:path)
+              expect(paths).to match [include("Times.ttc")]
+            end
           end
         end
       end

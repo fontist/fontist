@@ -18,7 +18,9 @@ module Fontist
       @size_limit = options[:size_limit]
       @by_formula = options[:formula]
       @update_fontconfig = options[:update_fontconfig]
+      @install_location = options[:location] || options[:install_location]
 
+      validate_location_parameter!
       check_or_create_fontist_path!
     end
 
@@ -32,6 +34,20 @@ module Fontist
 
     def self.install(name, options = {})
       new(options.merge(name: name)).install
+    end
+
+    def self.install_many(names, options = {})
+      successes = []
+      failures = []
+
+      names.each do |name|
+        install(name, options)
+        successes << name
+      rescue Fontist::Errors::GeneralError => e
+        failures << { font: name, error: e }
+      end
+
+      { successes: successes, failures: failures }
     end
 
     def self.uninstall(name)
@@ -84,6 +100,14 @@ module Fontist
 
     attr_reader :name
 
+    def validate_location_parameter!
+      return unless @install_location
+      return if @install_location.is_a?(Symbol)
+
+      raise ArgumentError,
+            "location must be a Symbol (e.g., :fontist, :user, :system), got #{@install_location.class}"
+    end
+
     def find_system_font
       paths = Fontist::SystemFont.find(name)
       unless paths
@@ -92,6 +116,7 @@ module Fontist
       end
 
       print_paths(paths)
+      paths # Return paths after printing
     end
 
     def print_paths(paths)
@@ -157,10 +182,16 @@ module Fontist
     end
 
     def font_installer(formula)
-      options = { no_progress: @no_progress }
-      return FontInstaller.new(formula, **options) if @by_formula
+      options = {
+        no_progress: @no_progress,
+        location: @install_location,
+      }
 
-      FontInstaller.new(formula, font_name: @name, **options)
+      if @by_formula
+        FontInstaller.new(formula, **options)
+      else
+        FontInstaller.new(formula, font_name: @name, **options)
+      end
     end
 
     def sufficient_formulas
@@ -214,7 +245,12 @@ module Fontist
 
     def request_formula_installation(formula)
       confirmation = check_and_confirm_required_license(formula)
-      paths = font_installer(formula).install(confirmation: confirmation)
+
+      # Check and warn about system installation permissions
+      installer = font_installer(formula)
+      check_permission_warning(installer.location)
+
+      paths = installer.install(confirmation: confirmation)
 
       if paths.nil? || paths.empty?
         Fontist.ui.error("Fonts not found in formula #{formula}")
@@ -234,7 +270,10 @@ module Fontist
       return @confirmation if @confirmation.casecmp?("yes")
 
       confirmation = ask_for_agreement
-      return confirmation if confirmation&.casecmp?("yes")
+      if confirmation&.casecmp?("yes")
+        @confirmation = "yes" # Persist acceptance to avoid re-prompting
+        return confirmation
+      end
 
       raise Fontist::Errors::LicensingError.new(
         "Fontist will not download these fonts unless you accept the terms.",
@@ -248,7 +287,8 @@ module Fontist
     def ask_for_agreement
       Fontist.ui.ask(
         "\nDo you accept all presented font licenses, and want Fontist " \
-        "to download these fonts for you? => TYPE 'Yes' or 'No':",
+        "to download these fonts for you? => TYPE 'yes' to continue, " \
+        "or press ENTER to cancel:",
       )
     end
 
@@ -287,14 +327,69 @@ module Fontist
     end
 
     def uninstall_font
-      paths = find_fontist_paths
-      return unless paths
+      # Search all three indexes for the font
+      fontist_fonts = Fontist::Indexes::FontistIndex.instance.find(name, nil)
+      user_fonts = Fontist::Indexes::UserIndex.instance.find(name, nil)
+      system_fonts = Fontist::Indexes::SystemIndex.instance.find(name, nil)
 
-      paths.each do |path|
-        File.delete(path)
+      all_fonts = [fontist_fonts, user_fonts, system_fonts].compact.flatten
+      return unless all_fonts && !all_fonts.empty?
+
+      uninstalled_paths = all_fonts.map do |font|
+        uninstall_font_at_location(font.path)
+      end.compact
+
+      return if uninstalled_paths.empty?
+
+      uninstalled_paths
+    end
+
+    def uninstall_font_at_location(font_path)
+      # Determine location from path
+      location = determine_location_from_path(font_path)
+      return nil unless location
+
+      # Use location's uninstall method
+      filename = File.basename(font_path)
+      location.uninstall_font(filename)
+    end
+
+    def determine_location_from_path(path)
+      # Check if path is in fontist library
+      if path.start_with?(Fontist.fonts_path.to_s)
+        # Need to determine formula from path
+        formula = formula_from_path(path)
+        return Fontist::InstallLocations::FontistLocation.new(formula) if formula
       end
 
-      paths
+      # Check if path is in user location
+      user_location = Fontist::InstallLocations::UserLocation.new(nil)
+      if path.start_with?(user_location.base_path.to_s)
+        return user_location
+      end
+
+      # Check if path is in system location
+      system_location = Fontist::InstallLocations::SystemLocation.new(nil)
+      if path.start_with?(system_location.base_path.to_s)
+        return system_location
+      end
+
+      # Font in unknown location - can't uninstall
+      nil
+    rescue StandardError => e
+      Fontist.ui.debug("Error determining location for #{path}: #{e.message}")
+      nil
+    end
+
+    def formula_from_path(path)
+      # Extract formula key from path: ~/.fontist/fonts/{formula-key}/...
+      relative_path = Pathname.new(path).relative_path_from(Fontist.fonts_path)
+      formula_key = relative_path.to_s.split(File::SEPARATOR).first
+
+      # Find formula by key
+      Formula.find_by_key(formula_key)
+    rescue StandardError
+      nil
     end
 
     def find_fontist_paths
@@ -319,7 +414,13 @@ module Fontist
     end
 
     def font_paths
-      @font_paths ||= Dir.glob(Fontist.fonts_path.join("**"))
+      # Use Dir.glob for fontist's own managed directory
+      # This allows immediate detection of newly installed fonts without requiring index rebuild
+      # The indexes are primarily for system/user locations
+      # Uses case-insensitive glob patterns that work on all platforms,
+      # including Linux where File::FNM_CASEFOLD is ignored
+      patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+      @font_paths ||= patterns.flat_map { |pattern| Dir.glob(pattern) }.sort
     end
 
     def all_list
@@ -360,6 +461,22 @@ module Fontist
 
     def raise_non_supported_font
       raise Fontist::Errors::UnsupportedFontError.new(@name)
+    end
+
+    def check_permission_warning(location)
+      return unless location
+
+      warn_msg = location.permission_warning
+      return unless warn_msg
+
+      Fontist.ui.say(warn_msg)
+
+      # In non-interactive mode, proceed with warning logged
+      return unless Fontist.interactive?
+
+      # Interactive mode - wait 3 seconds for user to cancel
+      Fontist.ui.say("Proceeding in 3 seconds... (Press Ctrl+C to cancel)")
+      sleep 3
     end
   end
 end

@@ -2,26 +2,29 @@ require "spec_helper"
 
 RSpec.describe Fontist::FontInstaller do
   include_context "fresh home"
-  before { example_formula("andale.yml") }
+  include_context "platform test fonts"
+  before { example_formula(test_formula) }
 
   describe "#install" do
     context "with confirmation" do
       it "installs font" do
-        no_fonts do
-          formula = Fontist::Formula.find("andale mono")
+        fresh_fonts_and_formulas do
+          example_formula_to(test_formula, Fontist.formulas_path)
+          formula = Fontist::Formula.find(test_font_downcase)
           paths = described_class.new(formula).install(confirmation: "yes")
           expect(paths).to include(
-            include("AndaleMo.TTF").or(include("andalemo.ttf")),
+            include(test_font_file).or(include(test_font_file.downcase)),
           )
-          expect(font_files).to include(/AndaleMo.TTF/i)
+          expect(font_files).to include(/#{test_font_file}/i)
         end
       end
     end
 
     context "with no confirmation" do
       it "raises an licensing error" do
-        no_fonts do
-          formula = Fontist::Formula.find("andale mono")
+        fresh_fonts_and_formulas do
+          example_formula_to(test_formula, Fontist.formulas_path)
+          formula = Fontist::Formula.find(test_font_downcase)
           expect { described_class.new(formula).install(confirmation: "no") }
             .to raise_error(Fontist::Errors::LicensingError)
         end
@@ -43,6 +46,13 @@ RSpec.describe Fontist::FontInstaller do
       end
 
       it "tries the second one" do
+        # Use andale formula for mirror testing regardless of platform
+        # since we're testing download retry behavior, not font detection
+        example_formula("andale.yml")
+
+        # Disable cache to ensure download is attempted
+        allow(Fontist).to receive(:use_cache?).and_return(false)
+
         avoid_cache(first_mirror) do
           allow(Down).to receive(:download)
             .with(any_args).and_call_original
@@ -73,6 +83,12 @@ RSpec.describe Fontist::FontInstaller do
       end
 
       it "raises the invalid-resource exception" do
+        # Use andale formula for mirror testing regardless of platform
+        example_formula("andale.yml")
+
+        # Disable cache to ensure download is attempted
+        allow(Fontist).to receive(:use_cache?).and_return(false)
+
         avoid_cache(*mirrors) do
           allow(Down).to receive(:download)
             .with(any_args).and_raise(Down::TimeoutError)

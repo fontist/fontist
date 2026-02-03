@@ -1,0 +1,187 @@
+#!/usr/bin/env ruby
+# Download system-index artifacts from GitHub Actions rake.yml workflow
+# and convert them to fixtures for platform_fonts.rb
+
+require "fileutils"
+require "yaml"
+require "net/http"
+require "json"
+require "uri"
+
+OWNER = "fontist".freeze
+REPO = "fontist".freeze
+WORKFLOW = "rake.yml".freeze
+
+# Get the latest workflow run
+def get_latest_run
+  uri = URI("https://api.github.com/repos/#{OWNER}/#{REPO}/actions/workflows/#{WORKFLOW}/runs?per_page=1")
+  req = Net::HTTP::Get.new(uri)
+  req["Accept"] = "application/vnd.github+json"
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(req)
+  end
+
+  data = JSON.parse(response.body)
+  run = data["workflow_runs"].first
+  return nil unless run
+
+  run["id"]
+end
+
+# Get jobs for a run
+def get_jobs(run_id)
+  uri = URI("https://api.github.com/repos/#{OWNER}/#{REPO}/actions/runs/#{run_id}/jobs")
+  req = Net::HTTP::Get.new(uri)
+  req["Accept"] = "application/vnd.github+json"
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(req)
+  end
+
+  data = JSON.parse(response.body)
+  data["jobs"]
+end
+
+# Download artifact
+def download_artifact(run_id, artifact_name, output_path)
+  # First, get the artifact list
+  uri = URI("https://api.github.com/repos/#{OWNER}/#{REPO}/actions/runs/#{run_id}/artifacts")
+  req = Net::HTTP::Get.new(uri)
+  req["Accept"] = "application/vnd.github+json"
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(req)
+  end
+
+  data = JSON.parse(response.body)
+  artifact = data["artifacts"].find { |a| a["name"] == artifact_name }
+  return nil unless artifact
+
+  # Download the artifact (it's a zip file)
+  download_url = artifact["archive_download_url"]
+  uri = URI(download_url)
+  req = Net::HTTP::Get.new(uri)
+  req["Accept"] = "application/vnd.github+json"
+  req["Authorization"] = "Bearer #{ENV['GITHUB_TOKEN']}" if ENV["GITHUB_TOKEN"]
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(req)
+  end
+
+  if response.code == "302"
+    # Follow redirect
+    redirect_uri = URI(response["Location"])
+    req = Net::HTTP::Get.new(redirect_uri)
+    response = Net::HTTP.start(redirect_uri.hostname, redirect_uri.port,
+                               use_ssl: true) do |http|
+      http.request(req)
+    end
+  end
+
+  FileUtils.mkdir_p(File.dirname(output_path))
+  File.write(output_path, response.body)
+  true
+end
+
+# Extract font families from system index
+def extract_font_families(system_index_path)
+  return Set.new unless File.exist?(system_index_path)
+
+  index_data = YAML.load_file(system_index_path)
+  font_families = Set.new
+
+  index_data.each do |entry|
+    family = entry["preferred_family_name"] || entry["family_name"]
+    font_families.add(family) if family
+  end
+
+  font_families
+end
+
+# Map OS name to platform name
+def map_os_to_platform(os_name)
+  case os_name
+  when /macos|macOS/
+    "macos"
+  when /windows|Windows/
+    "windows"
+  when /ubuntu|linux/
+    "linux"
+  else
+    "unknown"
+  end
+end
+
+# Main execution
+puts "Fetching latest rake.yml workflow run..."
+run_id = get_latest_run
+
+unless run_id
+  puts "ERROR: No workflow runs found for #{WORKFLOW}"
+  exit 1
+end
+
+puts "✓ Found run #{run_id}"
+
+puts "\nFetching jobs..."
+jobs = get_jobs(run_id)
+
+fixtures_dir = File.join(File.dirname(__FILE__), "..", "spec", "fixtures",
+                         "system_fonts")
+FileUtils.mkdir_p(fixtures_dir)
+
+# Download and process each system-index artifact
+jobs.each do |job|
+  artifact_name = "system-index-#{job['name']}"
+  puts "\nProcessing: #{artifact_name}"
+
+  # Download artifact to temp location
+  temp_zip = "/tmp/#{artifact_name}.zip"
+  unless download_artifact(run_id, artifact_name, temp_zip)
+    puts "  ✗ Failed to download artifact"
+    next
+  end
+
+  puts "  ✓ Downloaded artifact"
+
+  # Extract the zip file
+  temp_dir = "/tmp/#{artifact_name}"
+  FileUtils.mkdir_p(temp_dir)
+  system("unzip -q -o '#{temp_zip}' -d '#{temp_dir}'") || true
+
+  # Look for system_index.default_family.yml
+  index_file = Dir.glob("#{temp_dir}/**/system_index.default_family.yml").first
+  unless index_file
+    puts "  ✗ system_index.default_family.yml not found"
+    next
+  end
+
+  # Extract font families
+  font_families = extract_font_families(index_file)
+
+  # Map OS name to platform
+  platform = map_os_to_platform(job["name"])
+
+  # Build output
+  output = {
+    "platform" => platform,
+    "captured_at" => Time.now.utc.iso8601,
+    "source" => "rake.yml workflow run #{run_id}",
+    "job_name" => job["name"],
+    "font_families" => font_families.to_a.sort,
+    "count" => font_families.count,
+  }
+
+  # Write fixture
+  output_file = File.join(fixtures_dir, "#{platform}_system_fonts.yml")
+  File.write(output_file, YAML.dump(output))
+
+  puts "  ✓ Created #{platform}_system_fonts.yml (#{font_families.count} fonts)"
+
+  # Cleanup
+  FileUtils.rm_rf(temp_dir)
+  FileUtils.rm_f(temp_zip)
+end
+
+puts "\nDone! Fixtures saved to: #{fixtures_dir}/"

@@ -1,15 +1,9 @@
-require_relative "../otfinfo/otfinfo_requirement"
-require_relative "../text_helper"
-require_relative "../files/font_detector"
+require_relative "../font_metadata_extractor"
 
 module Fontist
   module Import
     module Otf
       class FontFile
-        REQUIREMENTS = {
-          otfinfo: Otfinfo::OtfinfoRequirement.new,
-        }.freeze
-
         STYLE_ATTRIBUTES = %i[family_name type preferred_family_name
                               preferred_type full_name post_script_name
                               version description copyright font
@@ -21,11 +15,17 @@ module Fontist
 
         attr_reader :path
 
-        def initialize(path, name_prefix: nil)
-          @path = path
+        def initialize(path_or_metadata, name_prefix: nil, metadata: nil)
+          if metadata
+            # Use pre-built metadata (for collection fonts without tempfiles)
+            @path = path_or_metadata.to_s
+            @metadata = metadata
+          else
+            # Extract metadata from file path (backward compatibility)
+            @path = path_or_metadata
+            @metadata = extract_metadata
+          end
           @name_prefix = name_prefix
-          @info = read
-          @extension = detect_extension
         end
 
         def to_style
@@ -37,86 +37,79 @@ module Fontist
         end
 
         def family_name
-          name = info["Family"]
+          name = @metadata.family_name || "Unknown"
           @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def type
-          info["Subfamily"]
+          @metadata.subfamily_name || "Regular"
         end
 
         def preferred_family_name
-          name = info["Preferred family"]
+          name = @metadata.preferred_family_name
           return unless name
 
           @name_prefix ? "#{@name_prefix}#{name}" : name
         end
 
         def preferred_type
-          info["Preferred subfamily"]
+          @metadata.preferred_subfamily_name
         end
 
         def full_name
-          info["Full name"]
+          @metadata.full_name
         end
 
         def post_script_name
-          info["PostScript name"]
+          @metadata.postscript_name
         end
 
         def version
-          return unless info["Version"]
-
-          info["Version"].gsub("Version ", "")
+          @metadata.version
         end
 
         def description
-          info["Description"]
+          @metadata.description
         end
 
+        # rubocop:disable Layout/LineLength
+        # Use the exact filename from the archive - do NOT modify or standardize it
+        # rubocop:enable Layout/LineLength
         def font
-          basename = File.basename(@path, ".*").chomp(".#{@extension}")
-
-          "#{basename}.#{@extension}"
+          File.basename(@path)
         end
 
         def source_font
-          File.basename(@path) unless font == File.basename(@path)
+          # source_font is only used when font != original filename
+          # Since we now use exact filename, this should always be nil
+          nil
         end
 
         def copyright
-          info["Copyright"]
+          @metadata.copyright
         end
 
         def homepage
-          info["Vendor URL"]
+          @metadata.vendor_url
         end
 
         def license_url
-          info["License URL"]
+          @metadata.license_url
         end
 
         private
 
-        attr_reader :info
-
-        def read
-          text = REQUIREMENTS[:otfinfo].call(@path)
-
-          text
-            .encode("UTF-8", invalid: :replace, replace: "")
-            .split("\n")
-            .select { |x| x.include?(":") }
-            .map { |x| x.split(":", 2) }
-            .to_h { |x| x.map { |y| Fontist::Import::TextHelper.cleanup(y) } }
-        end
-
-        def detect_extension
-          detected = Files::FontDetector.standard_extension(@path)
-          file_extension = File.extname(File.basename(@path)).sub(/^\./, "")
-          return file_extension if file_extension.casecmp?(detected)
-
-          detected
+        def extract_metadata
+          FontMetadataExtractor.new(@path).extract
+        rescue StandardError => e
+          # rubocop:disable Layout/LineLength
+          # Return a minimal metadata object if extraction fails
+          Fontist.ui.error("WARN: Could not extract metadata from #{@path}: #{e.message}")
+          # rubocop:enable Layout/LineLength
+          Models::FontMetadata.new(
+            family_name: File.basename(@path, ".*"),
+            subfamily_name: "Regular",
+          )
         end
       end
     end

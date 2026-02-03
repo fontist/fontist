@@ -42,18 +42,22 @@ module Fontist
     end
 
     def self.rebuild
-      Fontist::Indexes::DefaultFamilyFontIndex.rebuild.to_file
-      Fontist::Indexes::PreferredFamilyFontIndex.rebuild.to_file
-      Fontist::Indexes::FilenameIndex.rebuild.to_file
+      # Load formulas once and share across all indexes
+      formulas = Formula.all
 
-      reset_cache
+      Fontist::Indexes::DefaultFamilyFontIndex.rebuild_with_formulas(formulas).to_file
+      Fontist::Indexes::PreferredFamilyFontIndex.rebuild_with_formulas(formulas).to_file
+      Fontist::Indexes::FilenameIndex.rebuild_with_formulas(formulas).to_file
+
+      # DO NOT call reset_cache here - it deletes the index files we just created!
+      # reset_cache is called in test cleanup hooks (fresh_home, empty_home, etc.)
+      # to delete old index files between tests
     end
 
-    # TODO: Uncomment all lines when each fixed
     def self.reset_cache
-      # Fontist::Indexes::DefaultFamilyFontIndex.reset_cache
-      # Fontist::Indexes::PreferredFamilyFontIndex.reset_cache
-      # Fontist::Indexes::FilenameIndex.reset_cache
+      Fontist::Indexes::DefaultFamilyFontIndex.reset_cache
+      Fontist::Indexes::PreferredFamilyFontIndex.reset_cache
+      Fontist::Indexes::FilenameIndex.reset_cache
     end
   end
 end

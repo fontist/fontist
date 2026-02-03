@@ -1,0 +1,15 @@
+---
+platform: linux
+captured_at: '2026-01-21T09:45:59Z'
+source: rake.yml run 21201167481
+font_families:
+- DejaVu Math TeX Gyre
+- DejaVu Sans
+- DejaVu Sans Mono
+- DejaVu Serif
+- Lato
+- Liberation Mono
+- Liberation Sans
+- Liberation Serif
+- Noto Color Emoji
+count: 9

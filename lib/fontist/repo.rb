@@ -1,4 +1,5 @@
 require "git"
+require "paint"
 
 module Fontist
   class Info
@@ -61,8 +62,51 @@ module Fontist
     class << self
       def setup(name, url)
         ensure_private_formulas_path_exists
-        fetch_repo(name, url)
-        Index.rebuild
+        path = repo_path(name)
+
+        # Check for duplicate URL across all repos
+        existing_repo_with_url = find_repo_by_url(url)
+        if existing_repo_with_url && existing_repo_with_url != name
+          Fontist.ui.error(Paint["Repository URL already in use by '#{existing_repo_with_url}'",
+                                 :red])
+          Fontist.ui.error(Paint["URL: #{url}", :yellow])
+          Fontist.ui.error(Paint["Cannot setup duplicate repository.", :red])
+          return false
+        end
+
+        if Dir.exist?(path)
+          Fontist.ui.say(Paint["Repository '#{name}' already exists at #{path}",
+                               :yellow])
+          # Determine whether to proceed with overwrite:
+          # - If auto_overwrite is explicitly set, use that value
+          # - If interactive, prompt the user
+          # - Otherwise (non-interactive without explicit setting), proceed automatically
+          proceed = if !Fontist.auto_overwrite.nil?
+                      Fontist.auto_overwrite
+                    elsif Fontist.interactive?
+                      Fontist.ui.yes?(Paint["Do you want to overwrite it? [y/N]",
+                                            :yellow, :bright])
+                    else
+                      true
+                    end
+          unless proceed
+            Fontist.ui.say(Paint["Setup cancelled.", :red])
+            return false
+          end
+          Fontist.ui.say(Paint["Removing existing repository...", :yellow])
+          Fontist::Utils::FileOps.safe_rm_rf(path)
+        end
+
+        validate_and_fetch_repo(name, url)
+        rebuild_index_if_needed
+        true
+      rescue StandardError => e
+        # Catch all git-related errors
+        if e.class.name.include?("Git") || e.message.match?(/git|clone|repository/i)
+          handle_git_error(name, url, e, :setup)
+        else
+          raise
+        end
       end
 
       def update(name)
@@ -74,17 +118,14 @@ module Fontist
         git = Git.open(path)
         git.pull("origin", git.current_branch)
 
-        Index.rebuild
-      rescue Git::Error => e
-        raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
-          Formulas repo '#{name}' could not be updated.
-          Please consider reinitializing it with:
-            fontist remove #{name}
-            fontist setup #{name} REPO_URL
-
-          Git error:
-          #{e.message}
-        MSG
+        rebuild_index_if_needed
+      rescue StandardError => e
+        # Catch all git-related errors
+        if e.class.name.include?("Git") || e.message.match?(/git|pull|repository/i)
+          handle_git_error(name, git.config["remote.origin.url"], e, :update)
+        else
+          raise
+        end
       end
 
       def remove(name)
@@ -94,7 +135,7 @@ module Fontist
         end
 
         FileUtils.rm_r(path)
-        Index.rebuild
+        rebuild_index_if_needed
       end
 
       def list
@@ -114,23 +155,157 @@ module Fontist
 
       private
 
+      def find_repo_by_url(target_url)
+        normalized_target = normalize_git_url(target_url)
+
+        list.each do |repo_name|
+          repo_path_obj = repo_path(repo_name)
+          next unless Dir.exist?(repo_path_obj)
+
+          begin
+            git = Git.open(repo_path_obj)
+            existing_url = git.config["remote.origin.url"]
+            return repo_name if normalize_git_url(existing_url) == normalized_target
+          rescue StandardError
+            # Skip repos that can't be opened
+            next
+          end
+        end
+
+        nil
+      end
+
+      def normalize_git_url(url)
+        return "" if url.nil? || url.empty?
+
+        normalized = url.to_s.strip.downcase
+
+        # Remove trailing slashes
+        normalized = normalized.sub(%r{/+$}, "")
+
+        # Remove .git extension
+        normalized = normalized.sub(/\.git$/, "")
+
+        # Normalize protocol variations
+        normalized = normalized.sub(%r{^https?://}, "")
+        normalized = normalized.sub(%r{^git@}, "")
+        normalized = normalized.sub(%r{^ssh://}, "")
+        normalized = normalized.sub(%r{^git://}, "")
+
+        # Normalize git@ style to https style for comparison
+        # git@github.com:user/repo -> github.com/user/repo
+        normalized.sub(/:/, "/")
+      end
+
       def ensure_private_formulas_path_exists
         Fontist.private_formulas_path.tap do |path|
           FileUtils.mkdir_p(path)
         end
       end
 
+      def validate_and_fetch_repo(name, url)
+        # Basic URL validation - allow file paths and standard git URLs
+        url_str = url.to_s
+        is_valid = url_str.match?(%r{^(https?://|git@|ssh://|git://|file://|/)}) ||
+          File.exist?(url_str) ||
+          File.directory?(url_str)
+
+        unless is_valid
+          raise Errors::RepoCouldNotBeUpdatedError.new(
+            "Invalid repository URL: #{url}\n" \
+            "URL must be a valid git repository URL (http://, https://, git@, ssh://, git://) or a local path",
+          )
+        end
+
+        fetch_repo(name, url)
+      end
+
       def fetch_repo(name, url)
         path = repo_path(name)
         if Dir.exist?(path)
+          Fontist.ui.say(Paint["Updating repository '#{name}'...", :cyan])
           Git.open(path).pull
         else
+          Fontist.ui.say(Paint["Cloning repository '#{name}' from #{url}...",
+                               :cyan])
           repo = Git.clone(url, path, depth: 1)
           if repo.branches[:main].name != repo.current_branch
             # https://github.com/ruby-git/ruby-git/issues/531
             repo.checkout(:main).pull
           end
+          Fontist.ui.say(Paint["Repository '#{name}' cloned successfully.",
+                               :green])
         end
+      end
+
+      def handle_git_error(name, url, error, operation)
+        error_msg = error.message
+
+        # Check for common error patterns
+        case error_msg
+        when /could not resolve host|unable to access/i
+          raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
+            Repository URL is not accessible: #{url}
+
+            Please check:
+            1. The URL is correct and the repository exists
+            2. You have network connectivity
+            3. The repository is publicly accessible or you have proper credentials configured
+
+            For private repositories, configure git credentials:
+              git config --global credential.helper store
+
+            Git error: #{error_msg}
+          MSG
+        when /authentication failed|permission denied|publickey/i
+          raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
+            Authentication failed for repository: #{url}
+
+            This repository requires authentication. Please configure credentials:
+
+            For HTTPS URLs:
+              git config --global credential.helper store
+              # Then clone manually once to store credentials
+
+            For SSH URLs:
+              # Ensure your SSH key is added to ssh-agent:
+              ssh-add ~/.ssh/id_rsa
+              # And your public key is added to the git service (GitHub, GitLab, etc.)
+
+            Git error: #{error_msg}
+          MSG
+        when /repository not found|does not exist/i
+          raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
+            Repository not found: #{url}
+
+            Please verify:
+            1. The repository URL is correct
+            2. The repository exists and is accessible
+            3. You have permission to access this repository
+
+            Git error: #{error_msg}
+          MSG
+        else
+          # Generic error
+          action = operation == :setup ? "set up" : "updated"
+          raise Errors::RepoCouldNotBeUpdatedError.new(<<~MSG.chomp)
+            Formulas repo '#{name}' could not be #{action}.
+
+            Git error: #{error_msg}
+
+            For setup issues, try:
+              fontist remove #{name}
+              fontist setup #{name} #{url}
+          MSG
+        end
+      end
+
+      def rebuild_index_if_needed
+        # Only rebuild formula indexes, not system indexes
+        # This is fast as it only processes formula YAML files
+        Fontist.ui.say(Paint["Rebuilding formula indexes...", :cyan])
+        Index.rebuild
+        Fontist.ui.say(Paint["Formula indexes rebuilt.", :green])
       end
 
       def repo_path(name)

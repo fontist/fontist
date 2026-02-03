@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "bundler"
+gem "openssl", "~> 3.0"
 gem "pry"
 gem "rake"
 gem "rspec"
@@ -12,5 +13,11 @@ gem "rubocop"
 gem "rubocop-performance"
 gem "rubocop-rails"
 gem "rubocop-rake"
+gem "simplecov"
 gem "vcr"
 gem "webmock"
+
+# Profiling tools (development only)
+# gem "ruby-prof", "~> 1.7"
+# stackprof uses Unix-specific system calls and doesn't compile on Windows
+# gem "stackprof", "~> 0.2", install_if: -> { RUBY_PLATFORM !~ /mingw|mswin/ }

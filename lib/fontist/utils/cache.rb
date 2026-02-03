@@ -1,4 +1,5 @@
 require "lutaml/model"
+require "marcel"
 
 module Fontist
   module Utils
@@ -55,6 +56,12 @@ module Fontist
 
       include Locking
 
+      attr_reader :cache_path
+
+      def initialize(cache_path: nil)
+        @cache_path = cache_path || Fontist.downloads_path
+      end
+
       def self.lock_path(path)
         "#{path}.lock"
       end
@@ -62,7 +69,7 @@ module Fontist
       def fetch(key)
         map = load_cache
         if Fontist.use_cache? && cache_exist?(map[key])
-          print(map[key])
+          print_cached(map[key])
 
           return downloaded_file(map[key])
         end
@@ -100,7 +107,7 @@ module Fontist
       private
 
       def cache_map_path
-        Fontist.downloads_path.join("map.yml")
+        @cache_path.join("map.yml")
       end
 
       def load_cache
@@ -116,11 +123,20 @@ module Fontist
       end
 
       def downloaded_path(path)
-        Fontist.downloads_path.join(path)
+        @cache_path.join(path)
       end
 
       def print(path)
         Fontist.ui.say("Fetched from cache: #{size(path)} MiB.")
+      end
+
+      def print_cached(path)
+        size_mb = size(path)
+        if size_mb.positive?
+          Fontist.ui.say("Fetched from cache: #{size_mb} MiB.")
+        else
+          Fontist.ui.say("Using cached file.")
+        end
       end
 
       def size(path)
@@ -151,8 +167,8 @@ module Fontist
       end
 
       def create_downloads_directory
-        unless Fontist.downloads_path.exist?
-          FileUtils.mkdir_p(Fontist.downloads_path)
+        unless @cache_path.exist?
+          FileUtils.mkdir_p(@cache_path)
         end
       end
 
@@ -161,7 +177,7 @@ module Fontist
         # on `Dir.mktmpdir`, which occurs in ruby-3.4-preview2.
         # Double-check on stable ruby-3.4 and remove if no longer needed.
 
-        dir = Dir.mktmpdir(nil, Fontist.downloads_path.to_s)
+        dir = Dir.mktmpdir(nil, @cache_path.to_s)
         File.join(dir, filename(source))
       end
 
@@ -172,12 +188,27 @@ module Fontist
 
       def response_to_filename(source)
         if File.extname(source.original_filename).empty? && source.content_type
-          require "mime/types"
-          ext = MIME::Types[source.content_type].first&.preferred_extension
+          require "marcel"
+          ext = extension_from_mime(source.content_type)
           return "#{source.original_filename}.#{ext}" if ext
         end
 
         source.original_filename
+      end
+
+      def extension_from_mime(content_type)
+        # Common MIME type to extension mapping
+        case content_type
+        when "application/zip" then "zip"
+        when "application/x-tar" then "tar"
+        when "application/gzip", "application/x-gzip" then "gz"
+        when "application/x-7z-compressed" then "7z"
+        when "application/octet-stream" then "bin"
+        when "application/vnd.ms-cab-compressed" then "cab"
+        else
+          # Fallback: extract from MIME type subtype
+          content_type.split("/").last.gsub(/[^a-z0-9]/, "")
+        end
       end
 
       def format_filename(filename)
@@ -196,7 +227,7 @@ module Fontist
       end
 
       def relative_to_downloads(path)
-        Pathname.new(path).relative_path_from(Fontist.downloads_path).to_s
+        Pathname.new(path).relative_path_from(@cache_path).to_s
       end
     end
   end

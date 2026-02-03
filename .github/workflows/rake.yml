@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BUNDLER_VER: 2.3.24
+  BUNDLER_VER: latest
 # Forcing bundler version to ensure that it is consistent everywhere and
 # does not cause bundler gem reinstalls
 # bundler/rubygems 2.3.22 is a minimal requirement to support gnu/musl differentiation
@@ -40,6 +40,12 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
+      - if: startsWith(matrix.os, 'windows')
+        name: Pre-clone formulas repo on Windows
+        run: |
+          git clone --branch v4 --depth 1 https://github.com/fontist/formulas.git C:\temp\fontist\versions\v4\formulas
+        shell: powershell
+    
       - uses: actions/checkout@v4
 
       - uses: ruby/setup-ruby@v1
@@ -49,8 +55,169 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
-      - if: matrix.os == 'macos-latest'
-        run: brew install lcdf-typetools
+      - name: Build and display fontist system index
+        run: |
+          echo "=== Building Fontist System Index ==="
+          bundle exec fontist index rebuild --verbose
+          echo ""
+          echo "=== System Index Path ==="
+          bundle exec fontist index path
+          echo ""
+          echo "=== First 50 Fonts (YAML) ==="
+          bundle exec fontist index list --format yaml --limit 50
+
+      - name: Copy index files for artifact upload
+        if: always()
+        shell: bash
+        run: |
+          echo "=== Debugging file locations ==="
+          echo "HOME is: $HOME"
+          echo "Checking if .fontist directory exists:"
+          ls -la $HOME/.fontist/ || echo ".fontist directory not found"
+          echo ""
+          echo "Looking for system_index files:"
+          find $HOME/.fontist -name "system_index*.yml" -type f 2>/dev/null || echo "No system_index files found"
+          echo ""
+          echo "Creating artifacts directory..."
+          mkdir -p ./artifacts
+          echo ""
+          echo "Copying index files..."
+          cp $HOME/.fontist/system_index.default_family.yml ./artifacts/ 2>/dev/null && echo "  ✓ Copied system_index.default_family.yml" || echo "  ✗ Failed to copy system_index.default_family.yml"
+          cp $HOME/.fontist/system_index.preferred_family.yml ./artifacts/ 2>/dev/null && echo "  ✓ Copied system_index.preferred_family.yml" || echo "  ✗ File not found or copy failed"
+          echo ""
+          echo "Artifacts directory contents:"
+          ls -la ./artifacts/ || echo "Artifacts directory is empty"
+
+      - name: Test macOS supplementary font installation
+        if: startsWith(matrix.os, 'macos')
+        shell: bash
+        run: |
+          echo "========================================================================="
+          echo "   macOS Supplementary Font Installation Test"
+          echo "========================================================================="
+          echo ""
+          echo "Platform: macOS $(sw_vers -productVersion)"
+          echo "Runner: ${{ matrix.os }}"
+          echo ""
+
+          echo "--- Step 1: Check Font Catalog Availability ---"
+          if [ -d "/System/Library/AssetsV2" ]; then
+            echo "✓ AssetsV2 directory exists"
+            CATALOG_COUNT=$(ls -d /System/Library/AssetsV2/com_apple_MobileAsset_Font* 2>/dev/null | wc -l)
+            echo "  Found $CATALOG_COUNT font catalog(s):"
+            ls -d /System/Library/AssetsV2/com_apple_MobileAsset_Font* 2>/dev/null | while read catalog; do
+              echo "    - $(basename $catalog)"
+            done
+          else
+            echo "✗ AssetsV2 directory not found"
+            echo "  Supplementary fonts may not be available on this macOS version"
+            exit 0
+          fi
+          echo ""
+
+          echo "--- Step 2: List Available Supplementary Fonts ---"
+          echo "Querying fontist for macOS catalog information..."
+          bundle exec fontist import macos-catalogs 2>&1 || echo "  (Command may not be fully implemented yet)"
+          echo ""
+
+          echo "--- Step 3: Check System Index for Installed Fonts ---"
+          echo "Rebuilding system font index to get current state..."
+          bundle exec fontist index rebuild --verbose > /dev/null 2>&1
+          TOTAL_FONTS=$(bundle exec fontist index list --format yaml --limit 99999 2>/dev/null | grep -c "^- path:" || echo "0")
+          echo "✓ System currently has $TOTAL_FONTS fonts indexed"
+          echo ""
+
+          echo "--- Step 4: Find a Supplementary Font to Install ---"
+          echo "Checking common macOS supplementary fonts..."
+
+          # List of common macOS supplementary fonts that are good test candidates
+          TEST_FONTS=(
+            "Al Bayan"
+            "Al Nile"
+            "Al Tarikh"
+            "Baghdad"
+            "Farisi"
+            "Geeza Pro"
+            "Hiragino Sans GB"
+            "Noto Sans Myanmar"
+            "Noto Serif Myanmar"
+          )
+
+          FONT_TO_INSTALL=""
+          for font in "${TEST_FONTS[@]}"; do
+            echo -n "  Checking '$font'... "
+            if bundle exec fontist list "$font" 2>&1 | grep -q "not found\|Unsupported font"; then
+              echo "NOT INSTALLED ← Will install this"
+              FONT_TO_INSTALL="$font"
+              break
+            else
+              echo "already available"
+            fi
+          done
+          echo ""
+
+          if [ -z "$FONT_TO_INSTALL" ]; then
+            echo "ℹ All tested supplementary fonts are already installed"
+            echo "  This indicates either:"
+            echo "  - Fonts are pre-installed on this macOS version"
+            echo "  - Fonts are not available in the catalog"
+            echo ""
+            echo "Attempting to install Al Bayan anyway to verify functionality..."
+            FONT_TO_INSTALL="Al Bayan"
+          fi
+
+          echo "--- Step 5: Install '$FONT_TO_INSTALL' ---"
+          echo "Running: fontist install '$FONT_TO_INSTALL' --accept-all-licenses --force"
+          echo ""
+          if bundle exec fontist install "$FONT_TO_INSTALL" --accept-all-licenses --force 2>&1; then
+            echo ""
+            echo "✓ Installation command completed"
+          else
+            EXIT_CODE=$?
+            echo ""
+            echo "✗ Installation failed with exit code: $EXIT_CODE"
+            echo "  This may indicate:"
+            echo "  - Font is not available as a supplementary font"
+            echo "  - Formula does not exist yet"
+            echo "  - Platform limitation"
+          fi
+          echo ""
+
+          echo "--- Step 6: Verify Installation Status ---"
+          echo "Rebuilding index to check for newly installed fonts..."
+          bundle exec fontist index rebuild --verbose > /dev/null 2>&1
+          TOTAL_FONTS_AFTER=$(bundle exec fontist index list --format yaml --limit 99999 2>/dev/null | grep -c "^- path:" || echo "0")
+          echo "✓ System now has $TOTAL_FONTS_AFTER fonts indexed"
+
+          if [ "$TOTAL_FONTS_AFTER" -gt "$TOTAL_FONTS" ]; then
+            ADDED=$((TOTAL_FONTS_AFTER - TOTAL_FONTS))
+            echo "✓ SUCCESS: $ADDED new font(s) added"
+          else
+            echo "ℹ No new fonts added (may have been already installed)"
+          fi
+          echo ""
+
+          echo "Checking if '$FONT_TO_INSTALL' is now available:"
+          if bundle exec fontist list "$FONT_TO_INSTALL" 2>&1; then
+            echo ""
+            echo "✓ Font is available"
+          else
+            echo ""
+            echo "✗ Font still not found"
+          fi
+          echo ""
+
+          echo "========================================================================="
+          echo "   Test Complete"
+          echo "========================================================================="
+
+      - name: Upload system index as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-index-${{ matrix.os }}-ruby-${{ matrix.ruby.version }}
+          path: ./artifacts/
+          if-no-files-found: ignore
 
       - run: bundle exec rake
 

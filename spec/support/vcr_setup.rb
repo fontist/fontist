@@ -1,8 +1,44 @@
 require "vcr"
+require "cgi"
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.allow_http_connections_when_no_cassette = true
+  config.default_cassette_options = {
+    record: :none,
+    allow_playback_repeats: true,
+    match_requests_on: %i[method host path],
+  }
+
+  # Filter sensitive API keys in both requests and responses
+  config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do
+    ENV["GOOGLE_FONTS_API_KEY"]
+  end
+
+  # Additional filtering for URL-encoded API keys and Windows path normalization
+  config.before_record do |interaction|
+    if ENV["GOOGLE_FONTS_API_KEY"]
+      key = ENV["GOOGLE_FONTS_API_KEY"]
+      # Replace in URI
+      interaction.request.uri.gsub!(/key=#{Regexp.escape(key)}/,
+                                    "key=<GOOGLE_FONTS_API_KEY>")
+      # Replace URL-encoded version
+      encoded_key = CGI.escape(key)
+      interaction.request.uri.gsub!(/key=#{Regexp.escape(encoded_key)}/,
+                                    "key=<GOOGLE_FONTS_API_KEY>")
+    end
+
+    # Normalize Windows paths to forward slashes for cross-platform cassettes
+    if Fontist::Utils::System.user_os == :windows
+      # Normalize request URI paths
+      interaction.request.uri&.gsub!("\\", "/")
+
+      # Normalize response body paths if it's a string
+      if interaction.response.body.is_a?(String)
+        interaction.response.body.gsub!("\\", "/")
+      end
+    end
+  end
 end

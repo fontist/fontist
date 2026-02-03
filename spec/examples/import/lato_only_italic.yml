@@ -5,7 +5,7 @@ homepage: http://www.typoland.com/
 resources:
   Lato2OFL.zip:
     urls:
-    - "../examples/archives/Lato2OFL.zip"
+    - archives/Lato2OFL.zip
     sha256: 42b54e96c07e299d967fc3227c7bd63a20d6cfb1dc8fd6dae83628091e20a5b8
     file_size: 6102132
 fonts:
@@ -16,249 +16,127 @@ fonts:
     full_name: Lato Bold Italic
     post_script_name: Lato-BoldItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-BoldItalic.ttf
   - family_name: Lato
     type: Italic
     full_name: Lato Italic
     post_script_name: Lato-Italic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-Italic.ttf
 - name: Lato Black
   styles:
   - family_name: Lato Black
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Black Italic
     full_name: Lato Black Italic
     post_script_name: Lato-BlackItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-BlackItalic.ttf
 - name: Lato Hairline
   styles:
   - family_name: Lato Hairline
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Hairline Italic
     full_name: Lato Hairline Italic
     post_script_name: Lato-HairlineItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-HairlineItalic.ttf
 - name: Lato Heavy
   styles:
   - family_name: Lato Heavy
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Heavy Italic
     full_name: Lato Heavy Italic
     post_script_name: Lato-HeavyItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-HeavyItalic.ttf
 - name: Lato Light
   styles:
   - family_name: Lato Light
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Light Italic
     full_name: Lato Light Italic
     post_script_name: Lato-LightItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-LightItalic.ttf
 - name: Lato Medium
   styles:
   - family_name: Lato Medium
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Medium Italic
     full_name: Lato Medium Italic
     post_script_name: Lato-MediumItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-MediumItalic.ttf
 - name: Lato Semibold
   styles:
   - family_name: Lato Semibold
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Semibold Italic
     full_name: Lato Semibold Italic
     post_script_name: Lato-SemiboldItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-SemiboldItalic.ttf
 - name: Lato Thin
   styles:
   - family_name: Lato Thin
     type: Italic
-    preferred_family_name: Lato
-    preferred_type: Thin Italic
     full_name: Lato Thin Italic
     post_script_name: Lato-ThinItalic
     version: 2.015; 2015-08-06; http://www.latofonts.com/
-    description: 'Lato is a sanserif typeface family designed in the Summer 2010 and
-      extended in the Summer 2013 by Warsaw-based designer Lukasz Dziedzic ("Lato"
-      means "Summer" in Polish). It tries to carefully balance some potentially conflicting
-      priorities: it should seem quite "transparent" when used in body text but would
-      display some original traits when used in larger sizes. The classical proportions,
-      particularly visible in the uppercase, give the letterforms familiar harmony
-      and elegance. At the same time, its sleek sanserif look makes evident the fact
-      that Lato was designed in the 2010s, even though it does not follow any current
-      trend. The semi-rounded details of the letters give Lato a feeling of warmth,
-      while the strong structure provides stability and seriousness. In 2013-2014,
-      the family was greatly extended (with the help of Adam Twardoch and Botio Nikoltchev)
-      to cover 3000+ glyphs over nine weights with italics. It now supports 100+ Latin-based
-      languages, 50+ Cyrillic-based languages as well as Greek and IPA phonetics.
-      The Lato fonts are available free of charge under the SIL Open Font License
-      from http://www.latofonts.com/'
-    copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+    description: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
       with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-      1.1 (http://scripts.sil.org/OFL).
+      1.1 (http://scripts.sil.org/OFL). '
+    copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+      with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
+      1.1 (http://scripts.sil.org/OFL). '
     font: Lato-ThinItalic.ttf
 extract: {}
-copyright: Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
+copyright: 'Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
   with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version
-  1.1 (http://scripts.sil.org/OFL).
+  1.1 (http://scripts.sil.org/OFL). '
 license_url: http://scripts.sil.org/OFL
 open_license: |-
   Copyright (c) 2010-2015, Łukasz Dziedzic (dziedzic@typoland.com),
@@ -355,3 +233,4 @@ open_license: |-
   DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
   FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
   OTHER DEALINGS IN THE FONT SOFTWARE.
+command: ''
