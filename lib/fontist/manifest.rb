@@ -79,13 +79,13 @@ location: nil)
     end
 
     def validate_platform_compatibility!
-      formula = Fontist::Formula.find(name)
-      return if formula.nil?
-      return if formula.compatible_with_platform?
+      formula = Fontist::Formula.find_many(name)
+      return if formula.empty?
+      return if formula.any?(&:compatible_with_platform?)
 
       raise Fontist::Errors::PlatformMismatchError.new(
         name,
-        formula.platforms,
+        formula.map(&:platforms).flatten.uniq,
         Fontist::Utils::System.user_os,
       )
     end
