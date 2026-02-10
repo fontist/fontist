@@ -99,7 +99,11 @@ RSpec.describe Fontist::Manifest do
 
       context "incompatible platform" do
         let(:manifest) { { "Work Sans" => nil } }
-        before { example_formula("work_sans_macos_only.yml") }
+        before do
+          skip "The font is already available on macOS" if Fontist::Utils::System.user_os == :macos
+          
+          example_formula("work_sans_macos_only.yml")
+        end
 
         it "raises PlatformMismatchError" do
           expect { instance }.to raise_error(Fontist::Errors::PlatformMismatchError)
