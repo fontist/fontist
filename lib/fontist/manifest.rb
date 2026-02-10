@@ -85,7 +85,7 @@ location: nil)
 
       raise Fontist::Errors::PlatformMismatchError.new(
         name,
-        formula.map(&:platforms).uniq,
+        formula.map(&:platforms).flatten.uniq,
         Fontist::Utils::System.user_os,
       )
     end
