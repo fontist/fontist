@@ -50,12 +50,14 @@ RSpec.describe Fontist::CLI do
     before { stub_system_fonts }
 
     context "no formulas repo found" do
-      it "proposes to download formulas repo" do
+      it "auto-updates formulas repo and proceeds with installation" do
         fresh_fontist_home do
-          expect(Fontist.ui).to receive(:error)
-            .with("Please fetch formulas with `fontist update`.")
-          status = described_class.start(["install", "texgyrechorus"])
-          expect(status).to eq Fontist::CLI::STATUS_MAIN_REPO_NOT_FOUND
+          # Do NOT stub Font.install - we want to test the real lazy initialization
+          # The CLI will auto-update formulas repo, then fail to find this font
+          # (since it doesn't exist in the formulas repo)
+          # This should result in UnsupportedFontError with status 2
+          status = described_class.start(["install", "thisfontdefinitelydoesnotexist12345"])
+          expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end
     end

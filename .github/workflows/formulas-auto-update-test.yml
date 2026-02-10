@@ -1,0 +1,287 @@
+name: formulas-auto-update-test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cancel in-progress runs for the same workflow and branch
+concurrency:
+  group: '${{ github.workflow }}-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+env:
+  BUNDLER_VER: latest
+
+jobs:
+  # This job tests that fonts can be installed WITHOUT explicit `fontist update`.
+  # This verifies the lazy initialization feature works correctly on all platforms.
+  #
+  # Lazy initialization ensures formulas are auto-downloaded on first access,
+  # fixing the issue where CI workflows failed because formulas weren't available.
+  test-formulas-auto-update:
+    name: Formulas Auto-Update Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        # Test on all platforms to ensure lazy initialization works everywhere
+        # macOS: STIX Two Math is pre-installed, but we still test the mechanism
+        # Linux/Windows: No pre-installed fonts, tests full lazy initialization
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          rubygems: latest
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - name: Verify fontist installation
+        shell: bash
+        run: |
+          echo "=== Fontist Version ==="
+          bundle exec fontist --version
+          echo ""
+          echo "=== Fontist Home Path ==="
+          echo "Fontist home: $HOME/.fontist"
+          echo "Formulas path: $HOME/.fontist/versions/v4/formulas"
+
+      # CRITICAL: Remove any existing formulas directory to simulate fresh CI environment
+      # This ensures we're testing lazy initialization from a clean state
+      - name: Remove existing formulas directory (simulate fresh CI)
+        shell: bash
+        run: |
+          echo "=== Simulating Fresh CI Environment ==="
+          echo "Removing any existing formulas directory..."
+          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+            echo "  ✓ Found existing formulas directory, removing..."
+            rm -rf "$HOME/.fontist/versions/v4/formulas"
+            echo "  ✓ Formulas directory removed"
+          else
+            echo "  ✓ No existing formulas directory (clean state)"
+          fi
+          echo ""
+          echo "Verifying formulas directory does not exist:"
+          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+            echo "  ✗ ERROR: Formulas directory still exists!"
+            exit 1
+          else
+            echo "  ✓ Confirmed: Formulas directory does not exist"
+          fi
+
+      - name: Verify formulas directory doesn't exist before test
+        shell: bash
+        run: |
+          echo "=== Pre-test State Verification ==="
+          echo "Checking formulas directory status:"
+          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          if [ -d "$FORMULAS_DIR" ]; then
+            echo "  ✗ ERROR: Formulas directory exists at $FORMULAS_DIR"
+            echo "  This will invalidate the test!"
+            exit 1
+          else
+            echo "  ✓ Formulas directory does not exist (as expected)"
+          fi
+          echo ""
+          echo "Listing .fontist directory contents (if any):"
+          ls -la "$HOME/.fontist/" 2>/dev/null || echo "  (No .fontist directory yet)"
+          echo ""
+          echo "Listing versions directory (if any):"
+          ls -la "$HOME/.fontist/versions/" 2>/dev/null || echo "  (No versions directory yet)"
+
+      # CRITICAL: Remove formulas directory again right before install test
+      # This is necessary because bundler-cache may restore .fontist directory
+      - name: Force remove formulas directory before test
+        shell: bash
+        run: |
+          echo "=== Force removing formulas directory before test ==="
+          rm -rf "$HOME/.fontist/versions/v4/formulas"
+          echo "✓ Formulas directory removed"
+          echo ""
+          echo "Verifying removal:"
+          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+            echo "  ✗ ERROR: Formulas directory still exists!"
+            exit 1
+          else
+            echo "  ✓ Formulas directory successfully removed"
+          fi
+
+      # CRITICAL TEST: Install Andale Mono WITHOUT running `fontist update` first
+      # Andale Mono is NOT pre-installed on any platform (macOS/Linux/Windows),
+      # so this properly tests lazy initialization on ALL platforms.
+      # Unlike STIX Two Math which is pre-installed on macOS.
+      - name: Install Andale Mono (WITHOUT fontist update)
+        shell: bash
+        run: |
+          echo "========================================================================="
+          echo "   CRITICAL TEST: Lazy Initialization"
+          echo "========================================================================="
+          echo ""
+          echo "This test installs Andale Mono WITHOUT running 'fontist update' first."
+          echo "Andale Mono is NOT pre-installed on any platform, ensuring we test"
+          echo "lazy initialization on ALL platforms (macOS/Linux/Windows)."
+          echo ""
+          echo "Platform: ${{ matrix.os }}"
+          echo "Ruby: $(ruby --version)"
+          echo ""
+          echo "--- Step 1: Verify formulas don't exist yet ---"
+          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          if [ -d "$FORMULAS_DIR" ]; then
+            echo "  ✗ ERROR: Formulas directory already exists!"
+            echo "  This invalidates the test - lazy initialization won't be tested."
+            exit 1
+          else
+            echo "  ✓ Formulas directory does not exist (as expected)"
+          fi
+          echo ""
+
+          echo "--- Step 2: Install Andale Mono (should trigger lazy update) ---"
+          echo "Running: bundle exec fontist install 'Andale Mono' --accept-all-licenses --force"
+          echo ""
+          if bundle exec fontist install "Andale Mono" --accept-all-licenses --force 2>&1; then
+            echo ""
+            echo "✓ SUCCESS: Andale Mono installation completed"
+            INSTALL_SUCCESS=true
+          else
+            EXIT_CODE=$?
+            echo ""
+            echo "✗ FAILED: Andale Mono installation failed with exit code: $EXIT_CODE"
+            INSTALL_SUCCESS=false
+          fi
+          echo ""
+
+          echo "--- Step 3: Verify formulas were auto-downloaded ---"
+          if [ -d "$FORMULAS_DIR" ]; then
+            echo "  ✓ Formulas directory was created (lazy initialization worked!)"
+            echo ""
+            echo "  Formulas directory contents (first 20 entries):"
+            ls -1 "$FORMULAS_DIR" | head -20
+          else
+            echo "  ✗ ERROR: Formulas directory was NOT created!"
+            echo "  This indicates lazy initialization FAILED."
+            INSTALL_SUCCESS=false
+          fi
+          echo ""
+
+          echo "--- Step 4: Verify Andale Mono formula exists ---"
+          ANDALE_FORMULA="$FORMULAS_DIR/andale.yml"
+          if [ -f "$ANDALE_FORMULA" ]; then
+            echo "  ✓ Andale Mono formula exists at andale.yml"
+          else
+            echo "  ✗ ERROR: Andale Mono formula NOT found!"
+            echo "  Expected: $ANDALE_FORMULA"
+            INSTALL_SUCCESS=false
+          fi
+          echo ""
+
+          echo "--- Step 5: Verify Andale Mono font was installed ---"
+          # Check if font file exists
+          FONT_PATH=$(find "$HOME/.fontist/fonts" -name "*Andale*" -type f 2>/dev/null | head -1)
+          if [ -n "$FONT_PATH" ]; then
+            echo "  ✓ Andale Mono font file found:"
+            echo "    $FONT_PATH"
+          else
+            echo "  ⚠ WARNING: Andale Mono font file not found in .fontist/fonts"
+            echo "  Checking with 'fontist list'..."
+            if bundle exec fontist list "Andale Mono" 2>&1 | grep -q "Andale"; then
+              echo "  ✓ Font is discoverable via fontist list"
+            else
+              echo "  ✗ ERROR: Font is NOT discoverable"
+              INSTALL_SUCCESS=false
+            fi
+          fi
+          echo ""
+
+          echo "--- Step 6: Final Result ---"
+          if [ "$INSTALL_SUCCESS" = true ]; then
+            echo "========================================================================="
+            echo "   ✓✓✓ TEST PASSED: Lazy initialization works correctly ✓✓✓"
+            echo "========================================================================="
+            echo ""
+            echo "Andale Mono was successfully installed WITHOUT running 'fontist update'"
+            echo "This confirms that formulas are auto-downloaded on first access."
+          else
+            echo "========================================================================="
+            echo "   ✗✗✗ TEST FAILED: Lazy initialization not working ✗✗✗"
+            echo "========================================================================="
+            echo ""
+            echo "Andale Mono installation failed or formulas were not auto-downloaded."
+            echo "This indicates a regression in the lazy initialization feature."
+            exit 1
+          fi
+
+      - name: Debug output on failure
+        if: failure()
+        shell: bash
+        run: |
+          echo "=== Debug Information ==="
+          echo ""
+          echo "Fontist version:"
+          bundle exec fontist --version || true
+          echo ""
+          echo ".fontist directory structure:"
+          find "$HOME/.fontist" -type d 2>/dev/null || true
+          echo ""
+          echo "Formulas directory:"
+          ls -la "$HOME/.fontist/versions/v4/formulas/" 2>/dev/null || echo "  (Does not exist)"
+          echo ""
+          echo "Formulas/Formulas directory:"
+          ls -la "$HOME/.fontist/versions/v4/formulas/Formulas/" 2>/dev/null || echo "  (Does not exist)"
+          echo ""
+          echo "Fonts directory:"
+          ls -la "$HOME/.fontist/fonts/" 2>/dev/null || echo "  (Does not exist)"
+          echo ""
+          echo "Andale Mono formula file:"
+          cat "$HOME/.fontist/versions/v4/formulas/Formulas/andale.yml" 2>/dev/null || echo "  (Does not exist)"
+
+  # Additional test: Verify that explicit 'fontist update' still works
+  test-explicit-update-still-works:
+    name: Explicit fontist update still works
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          rubygems: latest
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - name: Remove existing formulas directory
+        shell: bash
+        run: rm -rf "$HOME/.fontist/versions/v4/formulas"
+
+      - name: Run explicit fontist update
+        shell: bash
+        run: |
+          echo "=== Testing explicit 'fontist update' ==="
+          echo ""
+          echo "Running: bundle exec fontist update"
+          bundle exec fontist update
+          echo ""
+          echo "✓ Explicit update completed"
+          echo ""
+          echo "Verifying formulas directory exists:"
+          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          if [ -d "$FORMULAS_DIR" ]; then
+            echo "  ✓ Formulas directory exists"
+            echo "  Formula count: $(ls -1 "$FORMULAS_DIR" | wc -l)"
+          else
+            echo "  ✗ ERROR: Formulas directory does not exist"
+            exit 1
+          fi

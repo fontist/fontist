@@ -188,9 +188,12 @@ module Fontist
   def self.formulas_repo_path_exists!
     return true if Dir.exist?(Fontist.formulas_repo_path.join("Formulas"))
 
-    raise Errors::MainRepoNotFoundError.new(
-      "Please fetch formulas with `fontist update`.",
-    )
+    # Auto-update formulas repo if it doesn't exist (lazy initialization).
+    # This ensures formulas are always discoverable without requiring
+    # explicit `fontist update`.
+    Formula.update_formulas_repo
+
+    true
   end
 end
 

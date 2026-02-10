@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - '**.adoc'
 
+permissions:
+  contents: read
+
 concurrency:
   group: '${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name }}'
   cancel-in-progress: true
@@ -45,7 +48,7 @@ jobs:
         run: |
           git clone --branch v4 --depth 1 https://github.com/fontist/formulas.git C:\temp\fontist\versions\v4\formulas
         shell: powershell
-    
+
       - uses: actions/checkout@v4
 
       - uses: ruby/setup-ruby@v1

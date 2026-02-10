@@ -1030,9 +1030,8 @@ RSpec.describe Fontist::Font do
                                                  "system.yml"))
       end
 
-      it "throws MainRepoNotFoundError", slow: true do
-        expect { command }
-          .to raise_error(Fontist::Errors::MainRepoNotFoundError)
+      it "auto-updates and raises UnsupportedFontError for nonexistent font", slow: true do
+        expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
       end
     end
   end

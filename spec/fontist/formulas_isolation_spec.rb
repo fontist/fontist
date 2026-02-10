@@ -6,9 +6,14 @@ RSpec.describe "formulas isolation" do
     include_context "fresh home"
     before { allow(Fontist).to receive(:formulas_version).and_return("v2") }
 
-    it "status should ask to update" do
-      expect { Fontist::Formula.find("andale mono") }
-        .to raise_error(Fontist::Errors::MainRepoNotFoundError)
+    it "status should auto-update and find formula", slow: true do
+      # Use local repo instead of cloning from internet for speed
+      local_test_repo do |repo_path|
+        allow(Fontist).to receive(:formulas_repo_url).and_return(repo_path)
+
+        # Instead of raising error, it should auto-update and work
+        expect(Fontist::Formula.find("andale mono")).to be_a(Fontist::Formula)
+      end
     end
 
     it "update should create a new dir", slow: true do
@@ -56,9 +61,14 @@ RSpec.describe "formulas isolation" do
       # Create Formulas directory
       formulas_dir = File.join(dir, "Formulas")
       FileUtils.mkdir_p(formulas_dir)
-      FileUtils.touch(File.join(formulas_dir, ".keep"))
 
-      git.add("Formulas/.keep")
+      # Copy the andale.yml formula to the Formulas directory
+      example_formula = "andale.yml"
+      example_path = File.join("spec", "examples", "formulas", example_formula)
+      target_path = File.join(formulas_dir, example_formula)
+      FileUtils.cp(example_path, target_path)
+
+      git.add("Formulas/#{example_formula}")
       git.commit("Initial commit")
 
       # Create the requested branch
