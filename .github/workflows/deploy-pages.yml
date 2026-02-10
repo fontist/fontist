@@ -1,4 +1,8 @@
 name: deploy-pages
+
+permissions:
+  contents: read
+
 on:
   push:
     branches: "main"
@@ -10,9 +14,11 @@ on:
       - .github/**
       - "!.github/workflows/deploy-pages.yml"
   workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
+
 jobs:
   deploy-pages:
     environment:

@@ -12,6 +12,10 @@ on:
   repository_dispatch:
     types: [ do-release ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   release:
     permissions:

@@ -42,6 +42,16 @@ module Fontist
         end
       end
 
+      def cleanup_temp_files
+        # Clean up orphaned .tmp files from interrupted writes
+        # This can happen if the process crashes between File.write and File.rename
+        Dir.glob(File.join(@cache_dir, "*.tmp")).each do |tmp|
+          File.delete(tmp)
+        rescue StandardError
+          nil
+        end
+      end
+
       private
 
       attr_reader :cache_dir
@@ -68,11 +78,30 @@ module Fontist
       def read_entry(key)
         return nil unless File.exist?(cache_path(key))
 
-        Marshal.load(File.read(cache_path(key)))
+        begin
+          Marshal.load(File.read(cache_path(key)))
+        rescue ArgumentError, TypeError => e
+          # Cache file is corrupted - delete it and return nil
+          # This can happen on Windows when file is read while being written,
+          # or when cache files from previous runs are corrupted
+          File.delete(cache_path(key)) rescue nil
+          nil
+        end
       end
 
       def write_entry(key, entry)
-        File.write(cache_path(key), Marshal.dump(entry))
+        # Use temp file + atomic rename to prevent race conditions
+        # This ensures readers never see partial writes, even on Windows
+        temp_path = cache_path(key) + ".tmp"
+
+        File.write(temp_path, Marshal.dump(entry))
+        # Atomic rename (overwrites target atomically)
+        # File.rename is atomic on all platforms for same filesystem
+        File.rename(temp_path, cache_path(key))
+      rescue => e
+        # Clean up temp file if rename fails
+        File.delete(temp_path) rescue nil
+        raise e
       end
 
       # Cache entry with TTL support

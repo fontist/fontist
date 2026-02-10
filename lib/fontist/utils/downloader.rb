@@ -1,4 +1,6 @@
 require_relative "cache"
+require_relative "github_url"
+require_relative "github_client"
 
 module Fontist
   module Utils
@@ -59,14 +61,28 @@ module Fontist
       end
 
       def download_file
-        tries = tries ? tries + 1 : 1
+        @tries ||= 0
+        @tries += 1
         print_download_start if @verbose
         do_download_file
       rescue Down::Error => e
-        retry if tries < 3
+        if @tries < max_retries
+          sleep(backoff_time(@tries))
+          retry
+        end
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
+      end
+
+      def max_retries
+        @max_retries ||= 3
+      end
+
+      def backoff_time(attempt)
+        # Exponential backoff: 2^attempt seconds, max 30 seconds
+        # 1st retry: 2s, 2nd: 4s, 3rd: 8s
+        [2**attempt, 30].min
       end
 
       def print_download_start
@@ -115,8 +131,10 @@ module Fontist
       # rubocop:enable Metrics/MethodLength
 
       def url
-        obj = Helpers.url_object(@file)
-        obj.respond_to?(:url) ? obj.url : obj
+        @url ||= begin
+          raw_url = extract_raw_url
+          github_aware_url(raw_url)
+        end
       end
 
       def headers
@@ -125,6 +143,22 @@ module Fontist
           obj.headers &&
           obj.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
           {}
+      end
+
+      private
+
+      def extract_raw_url
+        obj = Helpers.url_object(@file)
+        obj.respond_to?(:url) ? obj.url : obj
+      end
+
+      def github_aware_url(raw_url)
+        parsed = GitHubUrl.parse(raw_url)
+        if parsed.matched?
+          GitHubClient.authenticated_download_url(parsed)
+        else
+          raw_url
+        end
       end
     end
 
