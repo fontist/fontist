@@ -88,6 +88,24 @@ RSpec.describe Fontist::Manifest do
         end
       end
 
+      context "fonts platform validation" do
+        let(:manifest) { { "STIX Two Math" => nil } }
+        before { example_formula("stix.yml") }
+
+        it "installs 'STIX Two Math' font without any error" do
+          expect { instance }.not_to raise_error
+        end
+      end
+
+      context "incompatible platform" do
+        let(:manifest) { { "Work Sans" => nil } }
+        before { example_formula("work_sans_macos_only.yml") }
+
+        it "raises PlatformMismatchError" do
+          expect { instance }.to raise_error(Fontist::Errors::PlatformMismatchError)
+        end
+      end
+
       context "requires license confirmation and no flag passed", :windows => false do
         it "raises licensing error" do
           # Explicitly rebuild the index to ensure the formula is found
@@ -169,9 +187,6 @@ RSpec.describe Fontist::Manifest do
               # (If fonts have empty paths, to_response returns Manifest instead)
               expect([Fontist::ManifestResponse,
                       Fontist::Manifest]).to include(result.class)
-              # Verify that the result has fonts installed
-              if result.is_a?(Fontist::ManifestResponse)
-              end
               expect(result.fonts).not_to be_empty
             end
           end
