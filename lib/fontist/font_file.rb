@@ -42,11 +42,11 @@ module Fontist
 
         # For collections, we need different handling
         if is_collection
-          # Load and validate the first font in the collection for indexability
+          # Load the first font in the collection
           font = Fontisan::FontLoader.load(path, font_index: 0,
                                                  mode: :metadata, lazy: true)
 
-          # Validate the font using indexability profile
+          # Validate the font using indexability profile (log issues but don't reject)
           validator = load_indexability_validator
           validation_report = validator.validate(font)
 
@@ -54,10 +54,9 @@ module Fontist
             error_messages = validation_report.errors.map do |e|
               "#{e.category}: #{e.message}"
             end.join("; ")
-            # rubocop:disable Layout/LineLength
-            raise Errors::FontFileError,
-                  "Font from collection failed indexability validation: #{error_messages}"
-            # rubocop:enable Layout/LineLength
+            Fontist.ui.debug(
+              "Font validation issues for #{File.basename(path)}: #{error_messages}",
+            )
           end
 
         else
@@ -82,11 +81,14 @@ module Fontist
         validation_report = validator.validate(font)
 
         unless validation_report.valid?
+          # Log validation issues but don't reject outright
+          # We'll check if we can still extract metadata
           error_messages = validation_report.errors.map do |e|
             "#{e.category}: #{e.message}"
           end.join("; ")
-          raise Errors::FontFileError,
-                "Font file failed indexability validation: #{error_messages}"
+          Fontist.ui.debug(
+            "Font validation issues for #{File.basename(path)}: #{error_messages}",
+          )
         end
 
         font
@@ -180,16 +182,65 @@ module Fontist
         return {} unless name_table
 
         # Extract all needed name strings using Fontisan's API
+        # Fall back to non-English names if English names are not available
         {
-          full_name: name_table.english_name(Fontisan::Tables::Name::FULL_NAME),
-          family_name: name_table.english_name(Fontisan::Tables::Name::FAMILY),
-          subfamily_name: name_table.english_name(Fontisan::Tables::Name::SUBFAMILY),
-          preferred_family: name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY),
-          preferred_subfamily: name_table.english_name(Fontisan::Tables::Name::PREFERRED_SUBFAMILY),
-          postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME),
+          full_name: name_table.english_name(Fontisan::Tables::Name::FULL_NAME) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::FULL_NAME),
+          family_name: name_table.english_name(Fontisan::Tables::Name::FAMILY) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::FAMILY),
+          subfamily_name: name_table.english_name(Fontisan::Tables::Name::SUBFAMILY) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::SUBFAMILY),
+          preferred_family: name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::PREFERRED_FAMILY),
+          preferred_subfamily: name_table.english_name(Fontisan::Tables::Name::PREFERRED_SUBFAMILY) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::PREFERRED_SUBFAMILY),
+          postscript_name: name_table.english_name(Fontisan::Tables::Name::POSTSCRIPT_NAME) ||
+            extract_any_name(name_table, Fontisan::Tables::Name::POSTSCRIPT_NAME),
         }
       end
       # rubocop:enable Metrics/MethodLength
+
+      # Extract any available name for a given name ID by manually decoding the name record
+      def extract_any_name(name_table, name_id)
+        # Find any name record with the matching name_id
+        records = name_table.name_records.select { |r| r.name_id == name_id }
+        return nil if records.empty?
+
+        # Manually decode each record
+        records.each do |record|
+          decoded = decode_name_record_manually(name_table, record)
+          return decoded unless decoded.nil? || decoded.empty?
+        end
+
+        nil
+      end
+
+      # Manually decode a name record since the fontisan method is private
+      def decode_name_record_manually(name_table, record)
+        # Get raw string storage
+        storage_bytes = name_table.string_storage.to_s.b
+
+        # Extract this record's string
+        offset = record.string_offset
+        length = record.string_length
+
+        return nil if offset + length > storage_bytes.bytesize
+        return nil if length.zero?
+
+        string_data = storage_bytes.byteslice(offset, length)
+
+        # Decode based on platform (same logic as fontisan)
+        case record.platform_id
+        when 0, 3 # PLATFORM_UNICODE, PLATFORM_WINDOWS
+          string_data.dup.force_encoding("UTF-16BE")
+            .encode("UTF-8", invalid: :replace, undef: :replace)
+        when 1 # PLATFORM_MACINTOSH
+          string_data.dup.force_encoding("ASCII-8BIT")
+            .encode("UTF-8", invalid: :replace, undef: :replace)
+        else
+          string_data.dup.force_encoding("UTF-8")
+        end
+      end
 
       def raise_font_file_error(exception)
         raise Errors::FontFileError,

@@ -682,7 +682,10 @@ spinner_index = nil)
 
     def parse_font(font_file, path)
       # Skip fonts with incomplete metadata
-      return nil unless font_file.full_name && font_file.family
+      unless font_file.full_name && font_file.family
+        warn_incomplete_metadata(path)
+        return nil
+      end
 
       # Get file metadata for caching
       file_size = begin
@@ -722,6 +725,14 @@ spinner_index = nil)
       Fontist.ui.error(<<~MSG.chomp)
         Skipping font with incomplete metadata: #{font.path}
         Missing attributes: #{missing_keys.join(', ')}.
+        This font will not be indexed, but Fontist will continue to work.
+      MSG
+    end
+
+    def warn_incomplete_metadata(path)
+      Fontist.ui.error(<<~MSG.chomp)
+        Skipping font with incomplete metadata: #{path}
+        Missing attributes: full_name, family_name.
         This font will not be indexed, but Fontist will continue to work.
       MSG
     end
