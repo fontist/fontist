@@ -145,13 +145,13 @@ Fontist depends on several gems that include native C/C++ extensions:
 |===
 |Gem |Compiler |Purpose
 
-|`bigdecimal` (via ttfunk)
-|gcc
-|Decimal arithmetic for font metrics
-
 |`json`
 |gcc
 |JSON processing
+
+|`brotli` (via fontisan)
+|gcc
+|WOFF2 font decompression
 
 |`seven-zip` (via excavate)
 |g++
@@ -160,6 +160,10 @@ Fontist depends on several gems that include native C/C++ extensions:
 |`libmspack` (via excavate)
 |gcc
 |CAB/CHM archive extraction
+
+|`ffi-libarchive-binary` (via excavate)
+|gcc
+|Archive extraction (zip, tar, etc.)
 |===
 
 NOTE: Some gems like `nokogiri` and `ffi` provide prebuilt binaries for common
