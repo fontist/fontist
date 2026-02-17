@@ -316,7 +316,7 @@ module Fontist
 
       require_relative "import/v4_to_v5_migrator"
 
-      migrator = V4ToV5Migrator.new(input, output,
+      migrator = Fontist::Import::V4ToV5Migrator.new(input, output,
                                     verbose: options[:verbose],
                                     dry_run: options[:dry_run])
 

@@ -101,7 +101,12 @@ module Fontist
       end
 
       def output_path_for(input_file)
-        return input_file if @input_path == @output_path
+        return input_file if @output_path.nil? || @input_path == @output_path
+
+        # If input is a file and output is a directory, use the same filename
+        if File.file?(@input_path) && File.directory?(@output_path)
+          return File.join(@output_path, File.basename(input_file))
+        end
 
         # Calculate relative path and map to output
         relative = input_file.sub(@input_path, "")
