@@ -22,8 +22,8 @@ Formula (v5 only)
 ├── schema_version: 5
 ├── resources: ResourceCollection
 │   └── Resource
-│       ├── format: string
-│       └── variable_axes: array
+│       ├── format: string (ttf, otf, woff, woff2, ttc, otc, dfont)
+│       └── variable_axes: array (e.g., ["wght", "wdth"])
 ├── fonts: FontModel[]
 │   └── styles: FontStyle[]
 │       ├── formats: array
@@ -32,75 +32,137 @@ Formula (v5 only)
 └── font_collections: FontCollection[]
 ```
 
-## Files Modified/Created
+## Implementation Status
+
+### Phase 1: Core Models ✅ DONE
+
+- [x] FormatSpec model (`lib/fontist/format_spec.rb`)
+- [x] FormatMatcher service (`lib/fontist/format_matcher.rb`)
+- [x] FontFinder service (`lib/fontist/font_finder.rb`)
+- [x] v5-only Formula class (`lib/fontist/formula.rb`)
+- [x] v5-only Resource class (`lib/fontist/resource.rb`)
+- [x] v5-only FontStyle class (`lib/fontist/font_style.rb`)
+- [x] ResourceCollection class (`lib/fontist/resource_collection.rb`)
+- [x] All 77 core tests passing
+
+### Phase 2: Import System Fixes ✅ DONE
+
+#### Importer Format Metadata Status
+
+| Importer | format in resources | variable_axes | Status |
+|----------|-------------------|---------------|--------|
+| Google V5 | ✅ Dynamic | ✅ Yes | DONE |
+| Google V4 | ✅ Hardcoded "ttf" | ⚠️ Skipped | N/A |
+| macOS | ✅ Via CreateFormula | ✅ Via CreateFormula | DONE |
+| SIL | ✅ Via CreateFormula | ✅ Via CreateFormula | DONE |
+
+#### Tasks
+
+- [x] Fix `CreateFormula` class to detect and add format metadata
+- [x] macOS importer uses CreateFormula (now has format detection)
+- [x] SIL importer uses CreateFormula (now has format detection)
+- [x] Verify Google V5 importer works correctly
+
+### Phase 3: Migration Script ✅ DONE
+
+Create `lib/fontist/import/v4_to_v5_migrator.rb`: ✅ Created
+
+Migration features:
+- [x] Reads v4 YAML
+- [x] Adds schema_version: 5
+- [x] Detects format from file extensions
+- [x] Detects variable fonts from filename patterns
+- [x] Writes v5 YAML
+- [x] CLI command: `fontist migrate-formulas INPUT [OUTPUT]`
+
+### Phase 4: Run Imports 📋 TODO
+
+```bash
+# Google Fonts (already has V5 builder)
+fontist import google --schema-version=5 --output-path=./Formulas/google --force
+
+# macOS Fonts (needs format detection fix first)
+fontist import macos --schema-version=5 --output-path=./Formulas/macos --force
+
+# SIL Fonts (needs format detection fix first)
+fontist import sil --schema-version=5 --output-path=./Formulas/sil --force
+```
+
+### Phase 5: Migrate Existing Formulas 📋 TODO
+
+```bash
+# Run migration on all existing v4 formulas
+fontist migrate-formulas ./Formulas ./Formulas --schema-version=5
+```
+
+## Critical Files
 
 ### Core Classes (v5 only)
 
-| File | Description |
-|------|-------------|
-| `lib/fontist/formula.rb` | v5 formula with schema_version, format support |
-| `lib/fontist/resource.rb` | Resource with format/variable_axes |
-| `lib/fontist/resource_collection.rb` | Resource collection |
-| `lib/fontist/font_style.rb` | FontStyle with formats/variable_font/variable_axes |
-| `lib/fontist/font_model.rb` | FontModel using FontStyle |
-| `lib/fontist/font_collection.rb` | FontCollection using FontModel |
+| File | Description | Status |
+|------|-------------|--------|
+| `lib/fontist/formula.rb` | v5 formula with schema_version | ✅ Done |
+| `lib/fontist/resource.rb` | Resource with format/variable_axes | ✅ Done |
+| `lib/fontist/resource_collection.rb` | Resource collection | ✅ Done |
+| `lib/fontist/font_style.rb` | FontStyle with format metadata | ✅ Done |
+| `lib/fontist/font_model.rb` | FontModel using FontStyle | ✅ Done |
+| `lib/fontist/font_collection.rb` | FontCollection using FontModel | ✅ Done |
 
 ### Services
 
-| File | Description |
-|------|-------------|
-| `lib/fontist/format_spec.rb` | FormatSpec model |
-| `lib/fontist/format_matcher.rb` | Format matching service |
-| `lib/fontist/font_finder.rb` | Font discovery by capabilities |
+| File | Description | Status |
+|------|-------------|--------|
+| `lib/fontist/format_spec.rb` | FormatSpec model | ✅ Done |
+| `lib/fontist/format_matcher.rb` | Format matching service | ✅ Done |
+| `lib/fontist/font_finder.rb` | Font discovery by capabilities | ✅ Done |
 
-### Removed Files
+### Import System
 
-All v4-specific files removed - migration handled by script:
-- `lib/fontist/formula_v4.rb` (deleted)
-- `lib/fontist/formula_v5.rb` (deleted)
-- `lib/fontist/resource_v4.rb` (deleted)
-- `lib/fontist/resource_v5.rb` (deleted)
-- `lib/fontist/font_style_v4.rb` (deleted)
-- `lib/fontist/font_style_v5.rb` (deleted)
-- `lib/fontist/font_style_base.rb` (deleted)
-- etc.
-
-## Current Status
-
-- [x] FormatSpec model
-- [x] FormatMatcher service
-- [x] FontFinder service
-- [x] CLI options for format selection
-- [x] Import CLI --schema-version option
-- [x] Simplified to v5-only classes (no v4 classes)
-- [x] All 77 core tests passing
-- [ ] Run imports for formulas repository
-- [ ] Create v4→v5 migration script
-
-## Migration Strategy
-
-v4 formulas will be converted to v5 using a migration script that:
-1. Reads v4 formula YAML
-2. Adds `schema_version: 5`
-3. Detects format from file extensions
-4. Detects variable fonts from filename patterns
-5. Outputs v5 formula YAML
+| File | Description | Status |
+|------|-------------|--------|
+| `lib/fontist/import/create_formula.rb` | Generic formula creator | ✅ Fixed |
+| `lib/fontist/import/formula_builder.rb` | Base formula builder | ✅ Works |
+| `lib/fontist/import/google/formula_builder_v5.rb` | Google V5 builder | ✅ Done |
+| `lib/fontist/import/macos_importer.rb` | macOS importer | ✅ Works |
+| `lib/fontist/import/sil_importer.rb` | SIL importer | ✅ Works |
+| `lib/fontist/import/v4_to_v5_migrator.rb` | Migration script | ✅ Created |
 
 ## Next Steps
 
-1. Run formula imports with v5 schema:
-   ```bash
-   fontist import google --schema-version=5 --output-path=./Formulas/google --force
-   fontist import macos --schema-version=5 --output-path=./Formulas/macos --force
-   fontist import sil --schema-version=5 --output-path=./Formulas/sil --force
-   ```
-
-2. Create v4→v5 migration script for existing formulas
-
-3. Run full test suite to verify all functionality works with v5
+1. ~~**Fix CreateFormula class**~~ - ✅ Done
+2. ~~**Fix macOS importer**~~ - ✅ Works via CreateFormula
+3. ~~**Fix SIL importer**~~ - ✅ Works via CreateFormula
+4. ~~**Create V4→V5 migrator**~~ - ✅ Created
+5. **Run imports** - Google, macOS, SIL with v5 schema
+6. **Migrate remaining** - Run migrator on v4 formulas
+7. **Verify** - All formulas should have schema_version: 5
 
 ## Breaking Changes
 
 - v4 formulas are no longer supported directly
-- Migration script required to convert v4 formulas to v5
+- Migration or re-import required for all formulas
 - All formulas must have `schema_version: 5`
+- Resources must have `format` field in v5
+
+## Format Detection Logic
+
+### File Extension → Format
+
+| Extension | Format |
+|-----------|--------|
+| .ttf | ttf |
+| .otf | otf |
+| .woff | woff |
+| .woff2 | woff2 |
+| .ttc | ttc |
+| .otc | otc |
+| .dfont | dfont |
+
+### Filename Pattern → Variable Axes
+
+| Pattern | Axes |
+|---------|------|
+| `Font[wght].ttf` | ["wght"] |
+| `Font[wght,wdth].ttf` | ["wght", "wdth"] |
+| `Font-Variable.ttf` | Detect from font file |
+| `Font-VF.ttf` | Detect from font file |

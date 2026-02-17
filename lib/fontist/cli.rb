@@ -306,6 +306,34 @@ module Fontist
       STATUS_REPO_COULD_NOT_BE_UPDATED
     end
 
+    desc "migrate-formulas INPUT [OUTPUT]",
+         "Migrate v4 formulas to v5 schema"
+    option :verbose, type: :boolean, desc: "Show detailed progress"
+    option :dry_run, type: :boolean,
+                     desc: "Show what would be done without making changes"
+    def migrate_formulas(input, output = nil)
+      handle_class_options(options)
+
+      require_relative "import/v4_to_v5_migrator"
+
+      migrator = V4ToV5Migrator.new(input, output,
+                                    verbose: options[:verbose],
+                                    dry_run: options[:dry_run])
+
+      results = migrator.migrate_all
+
+      if results[:failed].positive?
+        Fontist.ui.error("Migration completed with #{results[:failed]} error(s)")
+        STATUS_UNKNOWN_ERROR
+      else
+        Fontist.ui.success("Migrated #{results[:migrated]} formula(s), " \
+                           "skipped #{results[:skipped]} already v5 formula(s)")
+        success
+      end
+    rescue Fontist::Errors::GeneralError => e
+      handle_error(e)
+    end
+
     desc "manifest SUBCOMMAND ...ARGS", "Manage font manifests"
     subcommand "manifest", Fontist::ManifestCLI
 
