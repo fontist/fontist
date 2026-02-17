@@ -90,7 +90,7 @@ RSpec.describe Fontist::FormatMatcher do
   end
 
   describe "#matches_style?" do
-    # Use real FontStyle instances for proper typing
+    # Use FontStyle instances for v5 format features
     let(:style) do
       Fontist::FontStyle.new(
         family_name: "Test",
@@ -207,7 +207,7 @@ RSpec.describe Fontist::FormatMatcher do
   end
 
   describe "#filter_styles" do
-    # Use real FontStyle instances for proper typing
+    # Use FontStyle for v5 format features
     let(:style1) do
       Fontist::FontStyle.new(family_name: "Test1", type: "Regular",
                              formats: ["ttf"])

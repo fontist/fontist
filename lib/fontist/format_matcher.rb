@@ -22,11 +22,14 @@ module Fontist
     # Check if a resource matches the format spec
     def matches_resource?(resource)
       return true unless @spec.has_constraints?
-      return false if @spec.format && resource.format != @spec.format
-      return false if @spec.variable_requested? && !resource.variable_font?
 
-      if @spec.axes.any? && resource.variable_font?
-        return axes_match?(resource.variable_axes)
+      if @spec.format && resource.format && resource.format != @spec.format
+        return false
+      end
+
+      if @spec.variable_requested?
+        return false unless resource.variable_font?
+        return axes_match?(resource.variable_axes) if @spec.axes.any?
       end
 
       true
@@ -43,8 +46,8 @@ module Fontist
       end
 
       if @spec.variable_requested?
-        # Check if style is variable (FontStyle has variable_font? method)
-        is_variable = style.is_a?(FontStyle) ? style.variable_font? : style.variable_font
+        # Check if style is variable
+        is_variable = style.variable_font?
         return false unless is_variable
 
         return axes_match?(style.variable_axes) if @spec.axes.any?

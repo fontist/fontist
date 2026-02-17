@@ -27,10 +27,10 @@ module Fontist
       matching_formulas.flat_map do |formula|
         next [] unless formula.v5?
 
-        formula.resources.select do |name, resource|
+        each_resource(formula).select do |_name, resource|
           resource.variable_font? && axes_supported?(resource, axes)
-        end.map do |_name, _|
-          build_font_match(formula, _name, resource)
+        end.map do |name, resource|
+          build_font_match(formula, name, resource)
         end
       end.flatten
     end
@@ -40,7 +40,9 @@ module Fontist
       matching_formulas.flat_map do |formula|
         next [] unless formula.v5?
 
-        formula.resources.select { |_, r| r.variable_font? }.map do |name, resource|
+        each_resource(formula).select do |_, r|
+          r.variable_font?
+        end.map do |name, resource|
           build_font_match(formula, name, resource)
         end
       end.flatten
@@ -62,11 +64,25 @@ module Fontist
 
     private
 
+    # Helper to iterate over resources as [name, resource] pairs
+    def each_resource(formula)
+      return [] unless formula.resources
+
+      # ResourceCollection has a resources attribute that contains the array
+      resources_array = if formula.resources.is_a?(ResourceCollection)
+                          formula.resources.resources
+                        else
+                          formula.resources
+                        end
+
+      Array(resources_array).map { |r| [r.name, r] }
+    end
+
     def extract_resource_names(formula)
       return [] unless formula.resources
 
       # ResourceCollection has a resources attribute that contains the array
-      resources_array = if formula.resources.respond_to?(:resources)
+      resources_array = if formula.resources.is_a?(ResourceCollection)
                           formula.resources.resources
                         else
                           formula.resources
@@ -99,9 +115,9 @@ module Fontist
     end
 
     def extract_category(formula)
-      # Extract from formula metadata or defaults
-      return formula.category if formula.respond_to?(:category) && formula.category
-
+      # Extract from formula metadata if available
+      # Note: Formula does not have a category attribute currently
+      # Category is detected from name heuristics
       detect_category_from_name(formula.name)
     end
 

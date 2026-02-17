@@ -53,6 +53,13 @@ module Fontist
       end
     end
 
+    class UnsupportedSchemaVersionError < GeneralError
+      def initialize(version)
+        super("Unsupported formula schema version: #{version}. " \
+              "Supported versions: 4, 5")
+      end
+    end
+
     class MainRepoNotFoundError < FormulaIndexNotFoundError; end
 
     class InvalidConfigAttributeError < GeneralError; end

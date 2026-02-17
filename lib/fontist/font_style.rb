@@ -1,6 +1,7 @@
 require "lutaml/model"
 
 module Fontist
+  # FontStyle - v5 font style with format metadata for multi-format support
   class FontStyle < Lutaml::Model::Serializable
     attribute :family_name, :string
     attribute :type, :string
@@ -17,10 +18,9 @@ module Fontist
     attribute :default_type, :string
     attribute :override, :string
 
-    # v5 schema attributes for multi-format support
-    # Note: No defaults to avoid serialization of unset values
+    # v5 format metadata
     attribute :formats, :string, collection: true # ["ttf", "woff2"]
-    attribute :variable_font, :boolean # nil = not set, true/false otherwise
+    attribute :variable_font, :boolean # true/false
     attribute :variable_axes, :string, collection: true # ["wght", "wdth"]
     attribute :source_resource, :string
 
