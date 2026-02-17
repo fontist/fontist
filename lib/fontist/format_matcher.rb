@@ -33,15 +33,19 @@ module Fontist
     end
 
     # Check if a style matches the format spec
+    # @param style [FontStyle, SystemIndexFont] Style object to check
     def matches_style?(style)
       return true unless @spec.has_constraints?
 
-      if @spec.format && style.respond_to?(:formats)
-        return false unless Array(style.formats).include?(@spec.format)
+      # Check format constraint for FontStyle (v5 formulas have formats)
+      if @spec.format && style.is_a?(FontStyle) && style.formats && !Array(style.formats).include?(@spec.format)
+        return false
       end
 
       if @spec.variable_requested?
-        return false unless style.variable_font
+        # Check if style is variable (FontStyle has variable_font? method)
+        is_variable = style.is_a?(FontStyle) ? style.variable_font? : style.variable_font
+        return false unless is_variable
 
         return axes_match?(style.variable_axes) if @spec.axes.any?
       end

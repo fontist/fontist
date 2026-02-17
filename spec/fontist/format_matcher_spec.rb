@@ -1,6 +1,7 @@
 require "spec_helper"
 require "fontist/format_matcher"
 require "fontist/format_spec"
+require "fontist/font_style"
 
 RSpec.describe Fontist::FormatMatcher do
   let(:format_spec) { Fontist::FormatSpec.new }
@@ -18,7 +19,8 @@ RSpec.describe Fontist::FormatMatcher do
 
     it "defines all formats" do
       expect(described_class::ALL_FORMATS)
-        .to match_array(described_class::DESKTOP_FORMATS + described_class::WEB_FORMATS)
+        .to match_array(described_class::DESKTOP_FORMATS +
+                        described_class::WEB_FORMATS)
     end
   end
 
@@ -88,11 +90,15 @@ RSpec.describe Fontist::FormatMatcher do
   end
 
   describe "#matches_style?" do
+    # Use real FontStyle instances for proper typing
     let(:style) do
-      double("Style",
-             formats: %w[ttf woff2],
-             variable_font: false,
-             variable_axes: [])
+      Fontist::FontStyle.new(
+        family_name: "Test",
+        type: "Regular",
+        formats: %w[ttf woff2],
+        variable_font: false,
+        variable_axes: [],
+      )
     end
 
     context "with no constraints" do
@@ -109,7 +115,7 @@ RSpec.describe Fontist::FormatMatcher do
       end
 
       it "returns false when format is not in style formats" do
-        allow(style).to receive(:formats).and_return(["ttf"])
+        style.formats = ["ttf"]
 
         expect(matcher.matches_style?(style)).to be false
       end
@@ -123,7 +129,7 @@ RSpec.describe Fontist::FormatMatcher do
       end
 
       it "returns true when style is variable" do
-        allow(style).to receive(:variable_font).and_return(true)
+        style.variable_font = true
 
         expect(matcher.matches_style?(style)).to be true
       end
@@ -175,10 +181,12 @@ RSpec.describe Fontist::FormatMatcher do
 
   describe "#filter_resources" do
     let(:resource1) do
-      double("Resource", format: "ttf", variable_font?: false, variable_axes: [])
+      double("Resource", format: "ttf", variable_font?: false,
+                         variable_axes: [])
     end
     let(:resource2) do
-      double("Resource", format: "woff2", variable_font?: false, variable_axes: [])
+      double("Resource", format: "woff2", variable_font?: false,
+                         variable_axes: [])
     end
     let(:resources) { [["ttf_res", resource1], ["woff2_res", resource2]] }
 
@@ -199,8 +207,15 @@ RSpec.describe Fontist::FormatMatcher do
   end
 
   describe "#filter_styles" do
-    let(:style1) { double("Style", formats: ["ttf"], variable_font: false, variable_axes: []) }
-    let(:style2) { double("Style", formats: ["woff2"], variable_font: false, variable_axes: []) }
+    # Use real FontStyle instances for proper typing
+    let(:style1) do
+      Fontist::FontStyle.new(family_name: "Test1", type: "Regular",
+                             formats: ["ttf"])
+    end
+    let(:style2) do
+      Fontist::FontStyle.new(family_name: "Test2", type: "Regular",
+                             formats: ["woff2"])
+    end
     let(:styles) { [style1, style2] }
 
     context "with no constraints" do
@@ -220,8 +235,14 @@ RSpec.describe Fontist::FormatMatcher do
   end
 
   describe "#filter_indexed_fonts" do
-    let(:font1) { double("IndexedFont", format: "ttf", variable_font: false, variable_axes: []) }
-    let(:font2) { double("IndexedFont", format: "woff2", variable_font: false, variable_axes: []) }
+    let(:font1) do
+      double("IndexedFont", format: "ttf", variable_font: false,
+                            variable_axes: [])
+    end
+    let(:font2) do
+      double("IndexedFont", format: "woff2", variable_font: false,
+                            variable_axes: [])
+    end
     let(:fonts) { [font1, font2] }
 
     context "with no constraints" do
@@ -242,13 +263,16 @@ RSpec.describe Fontist::FormatMatcher do
 
   describe "#select_preferred_resource" do
     let(:static_ttf) do
-      double("Resource", format: "ttf", variable_font?: false, variable_axes: [])
+      double("Resource", format: "ttf", variable_font?: false,
+                         variable_axes: [])
     end
     let(:static_woff2) do
-      double("Resource", format: "woff2", variable_font?: false, variable_axes: [])
+      double("Resource", format: "woff2", variable_font?: false,
+                         variable_axes: [])
     end
     let(:variable_ttf) do
-      double("Resource", format: "ttf", variable_font?: true, variable_axes: ["wght"])
+      double("Resource", format: "ttf", variable_font?: true,
+                         variable_axes: ["wght"])
     end
     let(:resources) do
       [
@@ -266,7 +290,8 @@ RSpec.describe Fontist::FormatMatcher do
 
     context "with no constraints" do
       it "returns first resource" do
-        expect(matcher.select_preferred_resource(resources)).to eq(resources.first)
+        expect(matcher.select_preferred_resource(resources))
+          .to eq(resources.first)
       end
     end
 

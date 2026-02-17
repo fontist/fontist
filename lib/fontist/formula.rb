@@ -73,7 +73,8 @@ module Fontist
     }.freeze
 
     # v5 schema version for multi-format support
-    attribute :schema_version, :integer, default: 4
+    # No default to avoid serialization of v4 formulas
+    attribute :schema_version, :integer
 
     attribute :name, :string
     attribute :path, :string
@@ -247,8 +248,14 @@ module Fontist
     end
 
     # Check if formula uses v5 schema (multi-format support)
+    # Returns true only if schema_version is explicitly 5
     def v5?
       schema_version == 5
+    end
+
+    # Get the effective schema version (default to 4 if not set)
+    def effective_schema_version
+      schema_version || 4
     end
 
     # Filter resources based on format specification

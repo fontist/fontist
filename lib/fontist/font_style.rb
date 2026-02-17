@@ -18,9 +18,10 @@ module Fontist
     attribute :override, :string
 
     # v5 schema attributes for multi-format support
-    attribute :formats, :string, collection: true           # ["ttf", "woff2"]
-    attribute :variable_font, :boolean, default: false
-    attribute :variable_axes, :string, collection: true     # ["wght", "wdth"]
+    # Note: No defaults to avoid serialization of unset values
+    attribute :formats, :string, collection: true # ["ttf", "woff2"]
+    attribute :variable_font, :boolean # nil = not set, true/false otherwise
+    attribute :variable_axes, :string, collection: true # ["wght", "wdth"]
     attribute :source_resource, :string
 
     key_value do
@@ -42,6 +43,12 @@ module Fontist
       map "variable_font", to: :variable_font
       map "variable_axes", to: :variable_axes
       map "source_resource", to: :source_resource
+    end
+
+    # Helper to check if this is a variable font
+    # Returns false if not set, true only if explicitly set to true
+    def variable_font?
+      variable_font == true
     end
   end
 end
