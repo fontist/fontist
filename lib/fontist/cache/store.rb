@@ -80,11 +80,15 @@ module Fontist
 
         begin
           Marshal.load(File.read(cache_path(key)))
-        rescue ArgumentError, TypeError => e
+        rescue ArgumentError, TypeError
           # Cache file is corrupted - delete it and return nil
           # This can happen on Windows when file is read while being written,
           # or when cache files from previous runs are corrupted
-          File.delete(cache_path(key)) rescue nil
+          begin
+            File.delete(cache_path(key))
+          rescue StandardError
+            nil
+          end
           nil
         end
       end
@@ -92,15 +96,19 @@ module Fontist
       def write_entry(key, entry)
         # Use temp file + atomic rename to prevent race conditions
         # This ensures readers never see partial writes, even on Windows
-        temp_path = cache_path(key) + ".tmp"
+        temp_path = "#{cache_path(key)}.tmp"
 
         File.write(temp_path, Marshal.dump(entry))
         # Atomic rename (overwrites target atomically)
         # File.rename is atomic on all platforms for same filesystem
         File.rename(temp_path, cache_path(key))
-      rescue => e
+      rescue StandardError => e
         # Clean up temp file if rename fails
-        File.delete(temp_path) rescue nil
+        begin
+          File.delete(temp_path)
+        rescue StandardError
+          nil
+        end
         raise e
       end
 

@@ -2,7 +2,7 @@
 
 require_relative "base_formula_builder"
 require_relative "../../../utils/downloader"
-require_relative "../../../font_metadata_extractor"
+require_relative "../../font_metadata_extractor"
 
 module Fontist
   module Import
@@ -111,9 +111,18 @@ module Fontist
               font: filename,
             }
 
-            style_data[:preferred_family_name] = metadata.preferred_family_name if metadata.preferred_family_name
-            style_data[:preferred_type] = metadata.preferred_subfamily_name if metadata.preferred_subfamily_name
-            style_data[:description] = metadata.description if metadata.description
+            if metadata.preferred_family_name
+              style_data[:preferred_family_name] =
+                metadata.preferred_family_name
+            end
+            if metadata.preferred_subfamily_name
+              style_data[:preferred_type] =
+                metadata.preferred_subfamily_name
+            end
+            if metadata.description
+              style_data[:description] =
+                metadata.description
+            end
 
             style_data
           end
@@ -136,7 +145,8 @@ module Fontist
           end
 
           def extract_copyright(fonts_data)
-            fonts_data.dig(0, "styles", 0, "copyright") || github_family&.license_text
+            fonts_data.dig(0, "styles", 0,
+                           "copyright") || github_family&.license_text
           end
         end
       end

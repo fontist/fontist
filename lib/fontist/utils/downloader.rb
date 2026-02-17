@@ -145,8 +145,6 @@ module Fontist
           {}
       end
 
-      private
-
       def extract_raw_url
         obj = Helpers.url_object(@file)
         obj.respond_to?(:url) ? obj.url : obj

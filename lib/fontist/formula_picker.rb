@@ -50,8 +50,6 @@ module Fontist
         matching = matcher.filter_resources(formula.resources)
         if matching.any?
           formula.dup.tap { |f| f.resources = matching }
-        else
-          nil
         end
       end.compact
     end

@@ -43,7 +43,7 @@ Formula (v5 only)
 - [x] v5-only Resource class (`lib/fontist/resource.rb`)
 - [x] v5-only FontStyle class (`lib/fontist/font_style.rb`)
 - [x] ResourceCollection class (`lib/fontist/resource_collection.rb`)
-- [x] All 77 core tests passing
+- [x] All 65 tests passing
 
 ### Phase 2: Import System Fixes ✅ DONE
 
@@ -75,25 +75,33 @@ Migration features:
 - [x] Writes v5 YAML
 - [x] CLI command: `fontist migrate-formulas INPUT [OUTPUT]`
 
-### Phase 4: Run Imports 📋 TODO
+### Phase 4: Run Imports ✅ DONE (via migration)
+
+All existing formulas migrated to v5 schema. Fresh imports can be run if needed:
 
 ```bash
-# Google Fonts (already has V5 builder)
+# Google Fonts (if fresh import needed)
 fontist import google --schema-version=5 --output-path=./Formulas/google --force
 
-# macOS Fonts (needs format detection fix first)
+# macOS Fonts (if fresh import needed)
 fontist import macos --schema-version=5 --output-path=./Formulas/macos --force
 
-# SIL Fonts (needs format detection fix first)
+# SIL Fonts (if fresh import needed)
 fontist import sil --schema-version=5 --output-path=./Formulas/sil --force
 ```
 
-### Phase 5: Migrate Existing Formulas 📋 TODO
+### Phase 5: Migrate Existing Formulas ✅ DONE
 
 ```bash
 # Run migration on all existing v4 formulas
-fontist migrate-formulas ./Formulas ./Formulas --schema-version=5
+fontist migrate-formulas ../formulas/Formulas ../formulas/Formulas --verbose
 ```
+
+Results:
+- Migrated: 3206 formulas
+- Skipped (already v5): 474 formulas
+- Failed: 1 (malformed YAML backup file)
+- Total time: ~5 seconds
 
 ## Critical Files
 
@@ -133,9 +141,10 @@ fontist migrate-formulas ./Formulas ./Formulas --schema-version=5
 2. ~~**Fix macOS importer**~~ - ✅ Works via CreateFormula
 3. ~~**Fix SIL importer**~~ - ✅ Works via CreateFormula
 4. ~~**Create V4→V5 migrator**~~ - ✅ Created
-5. **Run imports** - Google, macOS, SIL with v5 schema
-6. **Migrate remaining** - Run migrator on v4 formulas
-7. **Verify** - All formulas should have schema_version: 5
+5. ~~**Migrate formulas**~~ - ✅ 3206 migrated, 474 skipped
+6. ~~**Commit formulas**~~ - ✅ Committed to v5 branch (3cbe032)
+7. **Run fresh imports** (optional) - Google, macOS, SIL for updated formulas
+8. **Verify** - Test installation with v5 formulas
 
 ## Breaking Changes
 

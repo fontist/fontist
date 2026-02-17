@@ -56,7 +56,8 @@ RSpec.describe Fontist::CLI do
           # The CLI will auto-update formulas repo, then fail to find this font
           # (since it doesn't exist in the formulas repo)
           # This should result in UnsupportedFontError with status 2
-          status = described_class.start(["install", "thisfontdefinitelydoesnotexist12345"])
+          status = described_class.start(["install",
+                                          "thisfontdefinitelydoesnotexist12345"])
           expect(status).to eq Fontist::CLI::STATUS_NON_SUPPORTED_FONT_ERROR
         end
       end

@@ -62,7 +62,8 @@ module Fontist
       def add_formula(formula)
         # Accept FormulaV4, FormulaV5, or any object that responds to all_fonts
         unless formula.respond_to?(:all_fonts) && formula.respond_to?(:path)
-          raise ArgumentError, "Expected formula-like object, got #{formula.class}"
+          raise ArgumentError,
+                "Expected formula-like object, got #{formula.class}"
         end
 
         formula.all_fonts.each do |font|

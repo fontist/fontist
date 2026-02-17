@@ -47,7 +47,8 @@ module Fontist
           end
 
           def default_homepage
-            "https://fonts.google.com/specimen/#{family.family.gsub(/\s+/, '+')}"
+            "https://fonts.google.com/specimen/#{family.family.gsub(/\s+/,
+                                                                    '+')}"
           end
 
           def build_license_info

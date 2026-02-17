@@ -193,7 +193,7 @@ module Fontist
 
       # User has accepted the license, but we still warn them
       # that transcoding may not be permitted by all licenses
-      Fontist.ui.warn("\n" + "=" * 60)
+      Fontist.ui.warn("\n#{'=' * 60}")
       Fontist.ui.warn("LICENSE TRANSCODING NOTICE")
       Fontist.ui.warn("=" * 60)
       Fontist.ui.warn(
@@ -206,7 +206,7 @@ module Fontist
         "of which transcoding is a type. Please ensure your use of",
       )
       Fontist.ui.warn("this font complies with the license terms.")
-      Fontist.ui.warn("=" * 60 + "\n")
+      Fontist.ui.warn("#{'=' * 60}\n")
     end
 
     def install_with_conversion(source, target_name, source_format)
