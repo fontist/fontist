@@ -34,6 +34,22 @@ module Fontist
     def variable_font?
       variable_axes && !variable_axes.empty?
     end
+
+    def static_font?
+      !variable_font?
+    end
+
+    def axes_tags
+      Array(variable_axes).map(&:to_s)
+    end
+
+    def has_axis?(tag)
+      axes_tags.include?(tag.to_s)
+    end
+
+    def collection_file?
+      %w[ttc otc].include?(format&.to_s)
+    end
   end
 
   class ResourceCollection < Lutaml::Model::Collection
@@ -55,6 +71,9 @@ module Fontist
       "sil" => "SIL",
       "macos" => "macOS",
     }.freeze
+
+    # v5 schema version for multi-format support
+    attribute :schema_version, :integer, default: 4
 
     attribute :name, :string
     attribute :path, :string
@@ -83,6 +102,7 @@ module Fontist
     attribute :font_version, :string
 
     key_value do
+      map "schema_version", to: :schema_version
       map "name", to: :name
       map "description", to: :description
       map "homepage", to: :homepage
@@ -224,6 +244,20 @@ module Fontist
 
     def downloadable?
       !resources.nil? && !resources.empty?
+    end
+
+    # Check if formula uses v5 schema (multi-format support)
+    def v5?
+      schema_version == 5
+    end
+
+    # Filter resources based on format specification
+    # Returns matching resources for v5 formulas, all resources otherwise
+    def matching_resources(format_spec)
+      return resources if format_spec.nil? || !v5?
+
+      require_relative "format_matcher"
+      FormatMatcher.new(format_spec).filter_resources(resources)
     end
 
     # Convenience methods for import source type checking

@@ -17,6 +17,12 @@ module Fontist
     attribute :default_type, :string
     attribute :override, :string
 
+    # v5 schema attributes for multi-format support
+    attribute :formats, :string, collection: true           # ["ttf", "woff2"]
+    attribute :variable_font, :boolean, default: false
+    attribute :variable_axes, :string, collection: true     # ["wght", "wdth"]
+    attribute :source_resource, :string
+
     key_value do
       map "family_name", to: :family_name
       map "type", to: :type
@@ -32,6 +38,10 @@ module Fontist
       map "default_family_name", to: :default_family_name
       map "default_type", to: :default_type
       map "override", to: :override
+      map "formats", to: :formats
+      map "variable_font", to: :variable_font
+      map "variable_axes", to: :variable_axes
+      map "source_resource", to: :source_resource
     end
   end
 end

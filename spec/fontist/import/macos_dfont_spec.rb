@@ -3,7 +3,7 @@ require_relative "../../support/macos_catalog_helper"
 require_relative "../../../lib/fontist/import/files/font_detector"
 require_relative "../../../lib/fontist/import/otf/font_file"
 
-RSpec.describe "Fontist::Import::Macos dfont support" do
+RSpec.describe "Fontist::Import::MacosImporter dfont support" do
   include_context "fresh home"
 
   let(:fixture_path) { File.expand_path("../../fixtures/fonts", __dir__) }

@@ -18,12 +18,13 @@ module Fontist
         @api_key = options[:api_key] || ENV.fetch("GOOGLE_FONTS_API_KEY") do
           raise "GOOGLE_FONTS_API_KEY environment variable not set"
         end
-        @source_path = options[:source_path] || raise("source_path required for v4 formula generation")
+        @source_path = options[:source_path] || raise("source_path required for v4/v5 formula generation")
         @output_path = options[:output_path] || "./Formulas/google"
         @font_family = options[:font_family]
         @verbose = options[:verbose]
         @import_cache = options[:import_cache]
         @force = options[:force]
+        @schema_version = options[:schema_version] || 4
         @success_count = 0
         @failure_count = 0
         @skipped_count = 0
@@ -84,10 +85,21 @@ module Fontist
           ImportDisplay.debug_info("→ Fetching TTF endpoint data...")
         end
 
-        database = Google::FontDatabase.build_v4(
-          api_key: @api_key,
-          source_path: @source_path,
-        )
+        database = if @schema_version == 5
+                     if @verbose
+                       ImportDisplay.debug_info("→ Fetching VF endpoint data...")
+                       ImportDisplay.debug_info("→ Fetching WOFF2 endpoint data...")
+                     end
+                     Google::FontDatabase.build_v5(
+                       api_key: @api_key,
+                       source_path: @source_path,
+                     )
+                   else
+                     Google::FontDatabase.build_v4(
+                       api_key: @api_key,
+                       source_path: @source_path,
+                     )
+                   end
 
         if @verbose
           ImportDisplay.debug_info("→ Parsing GitHub metadata...")
