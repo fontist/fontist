@@ -1,4 +1,5 @@
 require "lutaml/model"
+require_relative "resource"
 require_relative "resource_collection"
 require_relative "font_collection"
 require_relative "font_model"
@@ -29,8 +30,9 @@ module Fontist
       "macos" => "macOS",
     }.freeze
 
-    # v5 schema version
-    attribute :schema_version, :integer, default: 5
+    # v5 schema version for multi-format support
+    # No default to avoid serialization of v4 formulas
+    attribute :schema_version, :integer
 
     attribute :name, :string
     attribute :path, :string
@@ -46,7 +48,7 @@ module Fontist
     attribute :min_fontist, :string
     attribute :digest, :string
     attribute :instructions, :string
-    attribute :resources, ResourceCollection, collection: true
+    attribute :resources, Resource, collection: true
     attribute :font_collections, FontCollection, collection: true
     attribute :fonts, FontModel, collection: true, default: []
     attribute :extract, Extract, collection: true
@@ -59,15 +61,24 @@ module Fontist
     attribute :font_version, :string
 
     key_value do
-      map "schema_version", to: :schema_version
+      # Only serialize schema_version if it's v5 (5), not for v4 formulas
+      map "schema_version", to: :schema_version, render_nil: false, render_default: false
       map "name", to: :name
       map "description", to: :description
       map "homepage", to: :homepage
       map "display_progress_bar", to: :display_progress_bar
       map "repository", to: :repository
       map "platforms", to: :platforms
-      map "resources", to: :resources, value_map: {
-        to: { empty: :empty, omitted: :omitted, nil: :nil },
+      map "resources", to: :resources, child_mappings: {
+        name: :key,
+        source: :source,
+        urls: :urls,
+        sha256: :sha256,
+        file_size: :file_size,
+        family: :family,
+        files: :files,
+        format: :format,
+        variable_axes: :variable_axes,
       }
       map "digest", to: :digest
       map "instructions", to: :instructions
@@ -196,13 +207,15 @@ module Fontist
       end
     end
 
-    # v5 formulas always have schema_version 5
+    # Check if formula uses v5 schema (multi-format support)
+    # Returns true only if schema_version is explicitly 5
     def v5?
-      true
+      schema_version == 5
     end
 
+    # Get the effective schema version (default to 4 if not set)
     def effective_schema_version
-      5
+      schema_version || 4
     end
 
     # Filter resources based on format specification

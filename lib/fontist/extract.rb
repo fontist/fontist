@@ -21,5 +21,9 @@ module Fontist
       map "file", to: :file
       map "options", to: :options
     end
+
+    def empty?
+      format.nil? && file.nil? && (options.nil? || options.empty?)
+    end
   end
 end

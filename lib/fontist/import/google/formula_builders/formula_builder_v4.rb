@@ -2,7 +2,7 @@
 
 require_relative "base_formula_builder"
 require_relative "../../../utils/downloader"
-require_relative "../../font_metadata_extractor"
+require_relative "../../font_metadata_extractor"  # lib/fontist/import/font_metadata_extractor.rb
 
 module Fontist
   module Import

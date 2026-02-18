@@ -7,9 +7,8 @@ module Fontist
     instances :resources, Resource
 
     key_value do
-      root "resources"
-      map to: :resources
       map_key to_instance: :name
+      map_instances to: :resources
     end
 
     def empty?
