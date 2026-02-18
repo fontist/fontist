@@ -181,8 +181,8 @@ fonts:
     copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
     font: WorkSans-Thin.ttf
 extract:
-  options:
-    fonts_sub_dir: Work-Sans-2.010/fonts/static/*
+- options:
+  - fonts_sub_dir: Work-Sans-2.010/fonts/static/*
 copyright: Copyright 2019 The Work Sans Project Authors (https://github.com/weiweihuanghuang/Work-Sans)
 license_url: http://scripts.sil.org/OFL
 open_license: |-

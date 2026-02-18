@@ -15,9 +15,9 @@ module Fontist
 
           file_content = File.read(file_path).strip
 
-          if file_content.empty?
-            raise Fontist::Errors::FontIndexCorrupted,
-                  "Index file is empty: #{file_path}"
+          if file_content.empty? || file_content == "---"
+            # Return empty collection for empty index files
+            return new
           end
 
           from_yaml(file_content)

@@ -154,7 +154,12 @@ module Fontist
     end
 
     def subdirectories
-      @subdirectories ||= [@formula.extract].flatten.compact.filter_map(&:options).filter_map(&:fonts_sub_dir)
+      @subdirectories ||= begin
+        extracts = [@formula.extract].flatten.compact
+        # options is a collection, so we need to flatten it too
+        options = extracts.flat_map { |e| e.options }.compact
+        options.filter_map(&:fonts_sub_dir)
+      end
     end
 
     def install_font_file(source)

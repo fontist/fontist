@@ -48,10 +48,10 @@ module Fontist
     attribute :min_fontist, :string
     attribute :digest, :string
     attribute :instructions, :string
-    attribute :resources, Resource, collection: true
-    attribute :font_collections, FontCollection, collection: true
+    attribute :resources, Resource, collection: true, default: []
+    attribute :font_collections, FontCollection, collection: true, default: []
     attribute :fonts, FontModel, collection: true, default: []
-    attribute :extract, Extract, collection: true
+    attribute :extract, Extract, collection: true, default: []
     attribute :command, :string
     attribute :import_source, ImportSource, polymorphic: [
       "MacosImportSource",
@@ -84,9 +84,7 @@ module Fontist
       map "instructions", to: :instructions
       map "font_collections", to: :font_collections
       map "fonts", to: :fonts
-      map "extract", to: :extract, value_map: {
-        to: { empty: :empty, omitted: :omitted, nil: :nil },
-      }
+      map "extract", to: :extract, render_nil: false, render_empty: false
       map "min_fontist", to: :min_fontist
       map "copyright", to: :copyright
       map "requires_license_agreement", to: :requires_license_agreement
