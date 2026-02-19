@@ -182,13 +182,19 @@ github_data: nil, version: 4, source_path: nil)
 
           # Use FormulaBuilder class for version-aware building
           require_relative "formula_builder"
-          FormulaBuilder.build(
+          formula = FormulaBuilder.build(
             family,
             version: @version,
             github_index: @github_index,
             ttf_files: @ttf_files,
             woff2_files: @woff2_files,
           )
+
+          # Add import_source if available (requires commit_id from source_path)
+          import_source = create_import_source(family)
+          formula[:import_source] = import_source if import_source
+
+          formula
         end
 
         # Generate formulas for all fonts

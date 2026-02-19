@@ -60,12 +60,9 @@ module Fontist
           end
 
           def create_import_source
-            return nil unless family.family
-
-            Fontist::GoogleImportSource.new(
-              family: family.family,
-              category: family.category,
-            )
+            # Import source is created by font_database.rb which has access to commit_id
+            # This method returns nil and should not be overridden
+            nil
           end
 
           def variant_to_type(variant)
