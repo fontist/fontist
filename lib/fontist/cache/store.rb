@@ -79,8 +79,9 @@ module Fontist
         return nil unless File.exist?(cache_path(key))
 
         begin
-          Marshal.load(File.read(cache_path(key)))
-        rescue ArgumentError, TypeError
+          # Use binary read mode for Marshal data - critical on Windows
+          Marshal.load(File.binread(cache_path(key)))
+        rescue ArgumentError, TypeError, EOFError
           # Cache file is corrupted - delete it and return nil
           # This can happen on Windows when file is read while being written,
           # or when cache files from previous runs are corrupted
@@ -98,7 +99,8 @@ module Fontist
         # This ensures readers never see partial writes, even on Windows
         temp_path = "#{cache_path(key)}.tmp"
 
-        File.write(temp_path, Marshal.dump(entry))
+        # Use binary write mode for Marshal data - critical on Windows
+        File.binwrite(temp_path, Marshal.dump(entry))
         # Atomic rename (overwrites target atomically)
         # File.rename is atomic on all platforms for same filesystem
         File.rename(temp_path, cache_path(key))
