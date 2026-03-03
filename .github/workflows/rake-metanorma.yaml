@@ -18,6 +18,7 @@ env:
 
 jobs:
   prepare:
+    runs-on: ${{ matrix.os }}
     steps:
       #- if: startsWith(matrix.os, 'windows')
       - name: Pre-clone formulas repo #on Windows
