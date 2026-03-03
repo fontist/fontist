@@ -18,6 +18,7 @@ env:
 
 jobs:
   clone_formulas:
+    name: Clone formulas repo
     runs-on: ${{ matrix.os }}
     steps:
       - if: startsWith(matrix.os, 'windows')
