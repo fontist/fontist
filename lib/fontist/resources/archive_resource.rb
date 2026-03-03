@@ -44,7 +44,7 @@ module Fontist
         )
       rescue Errors::InvalidResourceError => e
         if Testing.testing?
-          puts "Down::Backend: #{Down.backend.inspect}"
+          puts "Down::Backend: #{Down.backend}"
           puts "Down::Error: #{e.inspect}"
           puts "Backtrace: #{e.backtrace.join("\n")}"
         end
