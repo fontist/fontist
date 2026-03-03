@@ -11,6 +11,18 @@ SimpleCov.start do
   track_files "lib/**/*.rb"
 end
 
+class Testing
+  class << self
+    def testing?
+      @testing
+    end
+
+    def testing=(value)
+      @testing = value
+    end
+  end
+end
+
 require "bundler/setup"
 require "fontist"
 require "vcr"

@@ -881,6 +881,8 @@ RSpec.describe Fontist::Font do
       context "formula contains more than one font" do
         let(:font) { "lato" }
         before { example_formula("lato.yml") }
+        before { Testing.testing = true }
+        after { Testing.testing = false }
 
         it "installs only requested font" do
           command
