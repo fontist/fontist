@@ -17,9 +17,7 @@ env:
   BUNDLER_VER: latest
 
 jobs:
-  prepare:
-    uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
-    # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
+  clone_formulas:
     runs-on: ${{ matrix.os }}
     steps:
       #- if: startsWith(matrix.os, 'windows')
@@ -27,6 +25,10 @@ jobs:
         run: |
           git clone --branch v4 --depth 1 https://github.com/fontist/formulas.git C:\temp\fontist\versions\v4\formulas
       #  shell: powershell
+
+  prepare:
+    uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
+    # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
 
   metanorma:
     name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
