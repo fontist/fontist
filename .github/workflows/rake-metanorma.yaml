@@ -30,9 +30,22 @@ jobs:
           xcopy /E /I /Q "${{ github.workspace }}\formulas" "C:\temp\fontist\versions\v4\formulas"
           # rmdir /s /q "${{ github.workspace }}\formulas"
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formulas-artifact
+          path: fontist/formulas
+
   prepare:
     needs: clone_formulas
-    uses: metanorma/ci/.github/workflows/inkscape-rake.yml@test/issue_428
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: formulas-artifact # Name must match the uploaded artifact's name
+          path: "C:\temp\fontist\versions\v4\formulas"
+
+      - uses: metanorma/ci/.github/workflows/inkscape-rake.yml@test/issue_428
     # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
 
   metanorma:

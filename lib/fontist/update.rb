@@ -23,7 +23,8 @@ module Fontist
 
       unless Dir.exist?(Fontist.formulas_repo_path)
         puts "Git.clone"
-        gh_url = Fontist.formulas_repo_url.gsub(/github\.com/, "140.82.121.4")
+        gh_url = Fontist.formulas_repo_url
+        # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
         return Git.clone(gh_url,
