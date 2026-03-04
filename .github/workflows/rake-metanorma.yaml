@@ -19,7 +19,7 @@ env:
 jobs:
   clone_formulas:
     name: Pre-clone formulas repo
-    runs-on: windows
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
         with:
