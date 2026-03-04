@@ -25,7 +25,10 @@ jobs:
         with:
           repository: fontist/formulas
           ref: v4
-          path: C:\temp\fontist\versions\v4\formulas
+      - name: Move formulas repository to a temp path
+          run: |
+            xcopy /E /I "${{ github.workspace }}/formulas" "C:\temp\fontist\versions\v4\formulas"
+            rmdir "${{ github.workspace }}/formulas"
 
   prepare:
     needs: clone_formulas
