@@ -21,8 +21,6 @@ module Fontist
       dir = File.dirname(Fontist.formulas_repo_path)
       FileUtils.mkdir_p(dir)
 
-      print Fontist.formulas_repo_url
-      print Fontist.formulas_repo_path
       unless Dir.exist?(Fontist.formulas_repo_path)
         return Git.clone(Fontist.formulas_repo_url,
                          Fontist.formulas_repo_path,
