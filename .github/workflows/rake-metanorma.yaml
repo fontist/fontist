@@ -27,17 +27,18 @@ jobs:
           ref: v4
       - name: Move formulas repository to a temp path
         run: |
-          xcopy /E /I "${{ github.workspace }}\formulas" "C:\temp\fontist\versions\v4\formulas"
+          xcopy /E /I /Q "${{ github.workspace }}\formulas" "C:\temp\fontist\versions\v4\formulas"
           # rmdir /s /q "${{ github.workspace }}\formulas"
 
   prepare:
     needs: clone_formulas
+    runs-on: windows-latest
     uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
     # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
 
   metanorma:
     name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest#${{ matrix.os }}
 
     needs: prepare
     if: needs.prepare.outputs.push-for-tag != 'true'
