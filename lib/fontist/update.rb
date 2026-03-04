@@ -23,6 +23,8 @@ module Fontist
 
       unless Dir.exist?(Fontist.formulas_repo_path)
         puts "Git.clone"
+        puts Fontist.formulas_repo_url
+        puts Fontist.formulas_repo_path
         return Git.clone(Fontist.formulas_repo_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
