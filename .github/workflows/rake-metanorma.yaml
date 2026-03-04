@@ -34,7 +34,7 @@ jobs:
     needs: clone_formulas
     runs-on: windows-latest
     steps:
-    - uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
+      - uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
     # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
 
   metanorma:
