@@ -6,6 +6,10 @@ RSpec.describe Fontist::Update do
   context "no main repo" do
     before do
       puts "no main repo Before"
+      puts Dir.exist?("C:/temp")
+      puts Dir.exist?("C:/temp/fontist")
+      puts Dir.exist?("C:/temp/fontist/versions")
+      puts Dir.exist?("C:/temp/fontist/versions/v4")
       puts Dir.exist?("C:/temp/fontist/versions/v4/formulas")
       puts File.exist?(Fontist.formulas_repo_path)
       if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:/temp/fontist/versions/v4/formulas")
