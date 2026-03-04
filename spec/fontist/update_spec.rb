@@ -7,10 +7,8 @@ RSpec.describe Fontist::Update do
     before do
       puts "no main repo Before"
       puts Dir.exist?("C:/temp")
-      puts Dir.exist?("C:/temp/fontist")
-      puts Dir.exist?("C:/temp/fontist/versions")
-      puts Dir.exist?("C:/temp/fontist/versions/v4")
       puts Dir.exist?("C:/temp/fontist/versions/v4/formulas")
+      puts Fontist.formulas_repo_path
       puts File.exist?(Fontist.formulas_repo_path)
       if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:/temp/fontist/versions/v4/formulas")
         allow_any_instance_of(Git::Base).to receive(:pull).and_return(true)

@@ -22,6 +22,7 @@ module Fontist
       FileUtils.mkdir_p(dir)
 
       unless Dir.exist?(Fontist.formulas_repo_path)
+        puts "Git.clone"
         return Git.clone(Fontist.formulas_repo_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
