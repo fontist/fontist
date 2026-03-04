@@ -10,11 +10,16 @@ RSpec.describe Fontist::Update do
       puts Dir.exist?("C:/temp/fontist/versions/v4/formulas")
       puts Fontist.formulas_repo_path
       puts File.exist?(Fontist.formulas_repo_path)
-      if Fontist::Utils::System.user_os == :windows && Dir.exist?("C:/temp/fontist/versions/v4/formulas")
-        allow_any_instance_of(Git::Base).to receive(:pull).and_return(true)
-        allow(File).to receive(:exist?).and_return(true)
-        allow(File).to receive(:delete).and_return(true)
-        allow(Dir).to receive(:mktmpdir).and_yield(Pathname.new("C:/temp/fontist"))
+      if Fontist::Utils::System.user_os == :windows
+        puts "Start ipconfig /flushdns"
+        system('ipconfig /flushdns')
+        puts "End ipconfig /flushdns"
+        if Dir.exist?("C:/temp/fontist/versions/v4/formulas")
+          allow_any_instance_of(Git::Base).to receive(:pull).and_return(true)
+          allow(File).to receive(:exist?).and_return(true)
+          allow(File).to receive(:delete).and_return(true)
+          allow(Dir).to receive(:mktmpdir).and_yield(Pathname.new("C:/temp/fontist"))
+        end
       end
     end
 
