@@ -29,7 +29,10 @@ module Fontist
         # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
-        puts Gem.loaded_specs['Git'].version.to_s
+        puts Gem.loaded_specs['Git']&.version&.to_s || 'unknown'
+        Gem.loaded_specs.values.map do |spec|
+          puts "#{spec.name} (#{spec.version})"
+        end
         all_threads = Thread.list
         puts "Available threads:  #{all_threads.count}"
         if ObjectSpace.respond_to?(:each_object)
