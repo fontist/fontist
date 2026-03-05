@@ -27,6 +27,8 @@ module Fontist
         # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
+        all_threads = Thread.list
+        puts "Available threads:  #{all_threads.count}"
         return Git.clone(gh_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
