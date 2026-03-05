@@ -29,7 +29,7 @@ module Fontist
         # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
-        puts Gem.loaded_specs['Git']&.version&.to_s || 'unknown'
+        puts Gem.loaded_specs['git']&.version&.to_s || 'unknown'
         Gem.loaded_specs.values.map do |spec|
           puts "#{spec.name} (#{spec.version})"
         end
@@ -51,10 +51,11 @@ module Fontist
         end
         gitclone = nil
         begin
-          gitclone = Git.clone(gh_url,
-                         Fontist.formulas_repo_path,
-                         branch: @branch,
-                         depth: 1)
+          #gitclone = Git.clone(gh_url,
+          #               Fontist.formulas_repo_path,
+          #               branch: @branch,
+          #               depth: 1)
+          gitclone = `git clone --branch #{@branch} --depth 1 #{gh_url} #{Fontist.formulas_repo_path}`
         rescue Git::FailedError => e
           puts "An error occurred: #{e.message}"
         end
