@@ -143,8 +143,27 @@ Results:
 4. ~~**Create V4→V5 migrator**~~ - ✅ Created
 5. ~~**Migrate formulas**~~ - ✅ 3206 migrated, 474 skipped
 6. ~~**Commit formulas**~~ - ✅ Committed to v5 branch (3cbe032)
-7. **Run fresh imports** (optional) - Google, macOS, SIL for updated formulas
-8. **Verify** - Test installation with v5 formulas
+7. ~~**Fix V5 builder for variable fonts**~~ - ✅ Done (8e0e568)
+8. **Run fresh Google import** - Import with v5 schema to get WOFF2/variable fonts
+9. **Verify** - Test installation with v5 formulas
+
+## v5 Formula Example (Roboto Flex)
+
+```yaml
+schema_version: 5
+resources:
+  woff2_variable:
+    format: woff2
+    variable_axes: [GRAD, XOPQ, XTRA, YOPQ, YTAS, YTDE, YTFI, YTLC, YTUC, opsz, slnt, wdth, wght]
+  ttf_variable:
+    format: ttf
+    variable_axes: [GRAD, XOPQ, XTRA, YOPQ, YTAS, YTDE, YTFI, YTLC, YTUC, opsz, slnt, wdth, wght]
+fonts:
+- styles:
+  - variable_font: true
+    variable_axes: [GRAD, XOPQ, XTRA, YOPQ, YTAS, YTDE, YTFI, YTLC, YTUC, opsz, slnt, wdth, wght]
+    formats: [ttf, woff2]
+```
 
 ## Breaking Changes
 
