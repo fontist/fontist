@@ -1,3 +1,5 @@
+require "git"
+
 module Fontist
   class Update
     def self.call
