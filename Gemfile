@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "bundler"
+gem "git"
 gem "openssl", "~> 3.0"
 gem "pry"
 gem "rake"

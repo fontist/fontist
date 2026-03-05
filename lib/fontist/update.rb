@@ -27,7 +27,7 @@ module Fontist
         # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
-        puts Gem.loaded_specs["Git"].version.to_s
+        puts Gem.loaded_specs['Git'].version.to_s
         all_threads = Thread.list
         puts "Available threads:  #{all_threads.count}"
         if ObjectSpace.respond_to?(:each_object)
@@ -46,7 +46,7 @@ module Fontist
         end
         gitclone = nil
         begin
-          gitclone Git.clone(gh_url,
+          gitclone = Git.clone(gh_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
                          depth: 1)
