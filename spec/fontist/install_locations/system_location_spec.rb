@@ -149,20 +149,24 @@ RSpec.describe Fontist::InstallLocations::SystemLocation do
 
       it "falls back to SystemRoot when windir not set" do
         ENV.delete("windir")
+        env_systemroot = ENV["SystemRoot"]
         ENV["SystemRoot"] = "C:/WINNT"
 
         path = location.base_path
         expect_path(path, "C:/WINNT/Fonts/fontist")
 
-        ENV.delete("SystemRoot")
+        #ENV.delete("SystemRoot")
+        ENV["SystemRoot"] = env_systemroot
       end
 
       it "uses default C:/Windows when no env vars set" do
+        env_systemroot = ENV["SystemRoot"]
         ENV.delete("windir")
         ENV.delete("SystemRoot")
 
         path = location.base_path
         expect_path(path, "C:/Windows/Fonts/fontist")
+        ENV["SystemRoot"] = env_systemroot
       end
     end
 
