@@ -22,7 +22,7 @@ jobs:
     with:
       private-fonts: true
     secrets:
-      pat_token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
+      pat_token: ${{ secrets.GITHUB_TOKEN }}
 
     # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
 
