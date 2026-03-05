@@ -29,6 +29,20 @@ module Fontist
         puts Fontist.formulas_repo_path
         all_threads = Thread.list
         puts "Available threads:  #{all_threads.count}"
+        if ObjectSpace.respond_to?(:each_object)
+          count = 0
+          ObjectSpace.each_object(IO) do |io|
+            unless io.closed?
+              count += 1
+            end
+          rescue ::Exception
+            # Handle potential exceptions when accessing IO objects (e.g., in edge cases)
+            next
+          end
+          puts "Number of open Ruby IO objects: #{count}"
+        else
+          puts "ObjectSpace.each_object is not available in this Ruby environment."
+        end
         return Git.clone(gh_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
