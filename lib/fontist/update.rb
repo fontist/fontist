@@ -49,13 +49,16 @@ module Fontist
         else
           puts "ObjectSpace.each_object is not available in this Ruby environment."
         end
+        puts "SystemRoot:"
+        puts ENV['SystemRoot']
         gitclone = nil
         begin
-          #gitclone = Git.clone(gh_url,
-          #               Fontist.formulas_repo_path,
-          #               branch: @branch,
-          #               depth: 1)
-          gitclone = `git clone --branch #{@branch} --depth 1 #{gh_url} #{Fontist.formulas_repo_path}`
+          gitclone = Git.clone(gh_url,
+                         Fontist.formulas_repo_path,
+                         branch: @branch,
+                         depth: 1)
+          puts gitclone
+          #gitclone = `git clone --branch #{@branch} --depth 1 #{gh_url} #{Fontist.formulas_repo_path}`
         rescue Git::FailedError => e
           puts "An error occurred: #{e.message}"
         end
