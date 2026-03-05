@@ -27,6 +27,7 @@ module Fontist
         # .gsub(/github\.com/, "140.82.121.4")
         puts gh_url
         puts Fontist.formulas_repo_path
+        puts Gem.loaded_specs["Git"].version.to_s
         all_threads = Thread.list
         puts "Available threads:  #{all_threads.count}"
         if ObjectSpace.respond_to?(:each_object)
@@ -43,10 +44,16 @@ module Fontist
         else
           puts "ObjectSpace.each_object is not available in this Ruby environment."
         end
-        return Git.clone(gh_url,
+        gitclone = nil
+        begin
+          gitclone Git.clone(gh_url,
                          Fontist.formulas_repo_path,
                          branch: @branch,
                          depth: 1)
+        rescue Git::FailedError => e
+          puts "An error occurred: #{e.message}"
+        end
+        return gitclone
       end
 
       git = if Dir.exist?(Fontist.formulas_repo_path.join(".git"))
