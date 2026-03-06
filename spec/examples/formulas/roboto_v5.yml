@@ -24,6 +24,7 @@ resources:
     - Roboto-Regular.woff2
     - Roboto-Bold.woff2
     format: woff2
+    css_url: https://fonts.googleapis.com/css2?family=Roboto
   woff2_variable:
     source: google
     urls:
@@ -35,6 +36,7 @@ resources:
     variable_axes:
     - wght
     - wdth
+    css_url: https://fonts.googleapis.com/css2?family=Roboto
 fonts:
 - name: Roboto
   styles:

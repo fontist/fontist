@@ -319,7 +319,7 @@ module Fontist
     end
 
     desc "migrate-formulas INPUT [OUTPUT]",
-         "Migrate v4 formulas to v5 schema"
+         "Migrate v4 formulas to v5 schema and verify/fix existing v5 formulas"
     option :verbose, type: :boolean, desc: "Show detailed progress"
     option :dry_run, type: :boolean,
                      desc: "Show what would be done without making changes"
@@ -338,8 +338,11 @@ module Fontist
         Fontist.ui.error("Migration completed with #{results[:failed]} error(s)")
         STATUS_UNKNOWN_ERROR
       else
-        Fontist.ui.success("Migrated #{results[:migrated]} formula(s), " \
-                           "skipped #{results[:skipped]} already v5 formula(s)")
+        parts = []
+        parts << "Migrated #{results[:migrated]}" if results[:migrated].to_i > 0
+        parts << "Verified/fixed #{results[:verified]}" if results[:verified].to_i > 0
+        parts << "Skipped #{results[:skipped]}" if results[:skipped].to_i > 0
+        Fontist.ui.success(parts.join(", ") + " formula(s)")
         success
       end
     rescue Fontist::Errors::GeneralError => e

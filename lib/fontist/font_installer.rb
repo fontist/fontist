@@ -102,13 +102,14 @@ module Fontist
     end
 
     def resource_options
-      return @formula.resources.first if @formula.resources.size == 1
-      return @formula.resources.first unless @format_spec&.has_constraints?
-      return @formula.resources.first unless @formula.v5?
-
-      matcher = FormatMatcher.new(@format_spec)
-      selected = matcher.select_preferred_resource(@formula.resources)
-      selected
+      @resource_options ||= begin
+        if @formula.resources.size == 1 || !@format_spec&.has_constraints? || !@formula.v5?
+          @formula.resources.first
+        else
+          matcher = FormatMatcher.new(@format_spec)
+          matcher.select_preferred_resource(@formula.resources)
+        end
+      end
     end
 
     def font_file?(path)
@@ -121,15 +122,22 @@ module Fontist
 
     def source_files
       @source_files ||= begin
-        styles = filtered_styles
+        # For v5 formulas, use the selected resource's files directly
+        # since they contain format-specific filenames (e.g., .woff2)
+        # that match what GoogleResource expects
+        if @formula.v5? && resource_options.files&.any?
+          Array(resource_options.files)
+        else
+          styles = filtered_styles
 
-        # Use FormatMatcher for filtering
-        if @format_spec&.has_constraints? && @formula.v5?
-          matcher = FormatMatcher.new(@format_spec)
-          styles = matcher.filter_styles(styles)
+          # Use FormatMatcher for filtering
+          if @format_spec&.has_constraints? && @formula.v5?
+            matcher = FormatMatcher.new(@format_spec)
+            styles = matcher.filter_styles(styles)
+          end
+
+          styles.map { |s| s.source_font || s.font }
         end
-
-        styles.map { |s| s.source_font || s.font }
       end
     end
 
