@@ -1,9 +1,34 @@
 require "lutaml/model"
+require_relative "format_spec"
 
 module Fontist
   class ManifestFont < Lutaml::Model::Serializable
     attribute :name, :string
     attribute :styles, :string, collection: true
+
+    # Format specification (if not available, will transcode using Fontisan)
+    attribute :format, :string
+    attribute :variable_axes, :string, collection: true
+    attribute :prefer_variable, :boolean, default: false
+
+    # Transcoding options
+    attribute :transcode_path, :string
+    attribute :keep_original, :boolean, default: true
+
+    # Collection options
+    attribute :collection_index, :integer
+
+    # Build FormatSpec from attributes
+    def format_spec
+      FormatSpec.new(
+        format: format,
+        variable_axes: variable_axes,
+        prefer_variable: prefer_variable,
+        transcode_path: transcode_path,
+        keep_original: keep_original,
+        collection_index: collection_index,
+      )
+    end
 
     def style_paths(locations: false)
       ary = Array(styles)
@@ -29,7 +54,7 @@ module Fontist
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false,
-location: nil)
+               location: nil)
       validate_location_parameter!(location)
       validate_platform_compatibility!
 
@@ -40,6 +65,7 @@ location: nil)
         hide_licenses: hide_licenses,
         no_progress: no_progress,
         location: location,
+        format_spec: format_spec,
       )
     rescue Fontist::Errors::PlatformMismatchError => e
       # Re-raise with clear context for manifest users

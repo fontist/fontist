@@ -2,6 +2,7 @@ require "lutaml/model"
 require_relative "font_style"
 
 module Fontist
+  # FontModel - uses FontStyle with v5 format metadata
   class FontModel < Lutaml::Model::Serializable
     attribute :name, :string
     attribute :styles, FontStyle, collection: true

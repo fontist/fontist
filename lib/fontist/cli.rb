@@ -124,6 +124,31 @@ module Fontist
            type: :string, aliases: :l,
            enum: ["fontist", "user", "system"],
            desc: "Install location: fontist (default), user, system"
+    # Format selection options
+    option :format,
+           type: :string,
+           desc: "Font format to install (ttf, otf, woff, woff2, ttc, otc). " \
+                 "If format not available, will transcode from available formats."
+    option :variable_axes,
+           type: :string,
+           desc: "Variable axes to match (comma-separated, e.g., 'wght,wdth')"
+    option :prefer_variable,
+           type: :boolean,
+           desc: "Prefer variable fonts over static fonts"
+    option :prefer_format,
+           type: :string,
+           desc: "Preferred format when multiple available"
+    option :transcode_path,
+           type: :string,
+           desc: "Directory to save transcoded fonts (default: same as install location)"
+    option :keep_original,
+           type: :boolean,
+           default: true,
+           desc: "Keep original font after transcoding"
+    # Collection options
+    option :collection_index,
+           type: :numeric,
+           desc: "Extract specific font from TTC/OTC collection (0-indexed)"
     def install(*fonts)
       handle_class_options(options)
 
@@ -224,6 +249,64 @@ module Fontist
       handle_error(e)
     end
 
+    desc "find", "Find fonts by capabilities"
+    option :axes, type: :string,
+                  desc: "Variable axes to match (comma-separated, e.g., 'wght,wdth')"
+    option :variable, type: :boolean,
+                      desc: "Find all variable fonts"
+    option :category, type: :string,
+                      desc: "Filter by category (sans-serif, serif, monospace, display)"
+    option :format, type: :string,
+                    desc: "Filter by format (ttf, otf, woff2)"
+    option :json, type: :boolean,
+                  desc: "Output as JSON"
+    option :web_css, type: :string,
+                     desc: "Get CSS URL for a font (e.g., --web-css 'Roboto')"
+    def find
+      handle_class_options(options)
+
+      require_relative "font_finder"
+      require_relative "format_spec"
+
+      finder = FontFinder.new(
+        format_spec: FormatSpec.new(format: options[:format]),
+        category: options[:category],
+      )
+
+      if options[:web_css]
+        css_url = finder.css_url_for(options[:web_css])
+        if css_url
+          Fontist.ui.say(css_url)
+        else
+          Fontist.ui.error("No CSS URL found for '#{options[:web_css]}'")
+        end
+        return success
+      end
+
+      results = if options[:variable]
+                  finder.variable_fonts
+                elsif options[:axes]
+                  axes = options[:axes].split(",").map(&:strip)
+                  finder.by_axes(axes)
+                elsif options[:category]
+                  finder.by_category(options[:category])
+                else
+                  error("Please specify --axes, --variable, --category, or --web-css",
+                        STATUS_UNKNOWN_ERROR)
+                  return
+                end
+
+      if options[:json]
+        Fontist.ui.say(JSON.pretty_generate(results.map(&:to_h)))
+      else
+        print_find_results(results)
+      end
+
+      success
+    rescue Fontist::Errors::GeneralError => e
+      handle_error(e)
+    end
+
     desc "update", "Update formulas"
     def update
       handle_class_options(options)
@@ -233,6 +316,37 @@ module Fontist
     rescue Fontist::Errors::RepoCouldNotBeUpdatedError => e
       Fontist.ui.error(e.message)
       STATUS_REPO_COULD_NOT_BE_UPDATED
+    end
+
+    desc "migrate-formulas INPUT [OUTPUT]",
+         "Migrate v4 formulas to v5 schema and verify/fix existing v5 formulas"
+    option :verbose, type: :boolean, desc: "Show detailed progress"
+    option :dry_run, type: :boolean,
+                     desc: "Show what would be done without making changes"
+    def migrate_formulas(input, output = nil)
+      handle_class_options(options)
+
+      require_relative "import/v4_to_v5_migrator"
+
+      migrator = Fontist::Import::V4ToV5Migrator.new(input, output,
+                                                     verbose: options[:verbose],
+                                                     dry_run: options[:dry_run])
+
+      results = migrator.migrate_all
+
+      if results[:failed].positive?
+        Fontist.ui.error("Migration completed with #{results[:failed]} error(s)")
+        STATUS_UNKNOWN_ERROR
+      else
+        parts = []
+        parts << "Migrated #{results[:migrated]}" if results[:migrated].to_i > 0
+        parts << "Verified/fixed #{results[:verified]}" if results[:verified].to_i > 0
+        parts << "Skipped #{results[:skipped]}" if results[:skipped].to_i > 0
+        Fontist.ui.success(parts.join(", ") + " formula(s)")
+        success
+      end
+    rescue Fontist::Errors::GeneralError => e
+      handle_error(e)
     end
 
     desc "manifest SUBCOMMAND ...ARGS", "Manage font manifests"
@@ -381,5 +495,21 @@ module Fontist
       end
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+    def print_find_results(results)
+      if results.empty?
+        Fontist.ui.say("No fonts found matching criteria")
+        return
+      end
+
+      Fontist.ui.say("Found #{results.count} fonts:\n")
+
+      results.each do |match|
+        Fontist.ui.say("  #{match.name}")
+        Fontist.ui.say("    Axes: #{match.axes.join(', ')}") if match.axes&.any?
+        Fontist.ui.say("    Format: #{match.format}") if match.format
+        Fontist.ui.say("    Category: #{match.category}") if match.category
+      end
+    end
   end
 end

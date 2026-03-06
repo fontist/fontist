@@ -9,7 +9,7 @@ require_relative "../sil_import_source"
 module Fontist
   module Import
     class FormulaBuilder
-      FORMULA_ATTRIBUTES = %i[name platforms description homepage resources
+      FORMULA_ATTRIBUTES = %i[schema_version name platforms description homepage resources
                               font_collections fonts extract copyright
                               license_url requires_license_agreement
                               open_license digest command
@@ -46,6 +46,10 @@ module Fontist
         yaml = YAML.dump(Helpers::HashHelper.stringify_keys(formula))
         File.write(path, yaml)
         path
+      end
+
+      def schema_version
+        @options[:schema_version] || 4
       end
 
       def import_source

@@ -23,7 +23,7 @@ fonts:
       rights reserved.
     font: AndaleMo.TTF
 extract:
-  format: cab
+- format: cab
 requires_license_agreement: |
   (from http://web.archive.org/web/20011222020409/http://www.microsoft.com/typography/fontpack/eula.htm)
   TrueType core fonts for the Web EULA

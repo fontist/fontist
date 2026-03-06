@@ -10,17 +10,18 @@ require_relative "../sil_import_source"
 
 module Fontist
   module Import
-    class Macos
+    class MacosImporter
       HOMEPAGE = "https://support.apple.com/en-om/HT211240#document".freeze
 
       def initialize(catalog_path, formulas_dir: nil, font_name: nil,
-force: false, verbose: false, import_cache: nil)
+force: false, verbose: false, import_cache: nil, schema_version: 4)
         @catalog_path = catalog_path
         @custom_formulas_dir = formulas_dir
         @font_name_filter = font_name
         @force = force
         @verbose = verbose
         @import_cache = import_cache
+        @schema_version = schema_version
         @success_count = 0
         @failure_count = 0
         @skipped_count = 0
@@ -135,6 +136,7 @@ force: false, verbose: false, import_cache: nil)
           verbose: @verbose,
           import_cache: @import_cache,
           name: family_name,
+          schema_version: @schema_version,
         ).call
 
         elapsed = Time.now - start_time

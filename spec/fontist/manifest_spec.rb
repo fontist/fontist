@@ -101,7 +101,7 @@ RSpec.describe Fontist::Manifest do
         let(:manifest) { { "Work Sans" => nil } }
         before do
           skip "The font is already available on macOS" if Fontist::Utils::System.user_os == :macos
-          
+
           example_formula("work_sans_macos_only.yml")
         end
 
@@ -110,7 +110,8 @@ RSpec.describe Fontist::Manifest do
         end
       end
 
-      context "requires license confirmation and no flag passed", :windows => false do
+      context "requires license confirmation and no flag passed",
+              windows: false do
         it "raises licensing error" do
           # Explicitly rebuild the index to ensure the formula is found
           Fontist::Index.rebuild
@@ -126,7 +127,7 @@ RSpec.describe Fontist::Manifest do
         end
       end
 
-      context "confirmation option passed as no", :windows => false do
+      context "confirmation option passed as no", windows: false do
         let(:instance) do
           described_class.from_hash(manifest).install(confirmation: "no")
         end

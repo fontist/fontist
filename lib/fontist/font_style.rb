@@ -1,6 +1,7 @@
 require "lutaml/model"
 
 module Fontist
+  # FontStyle - v5 font style with format metadata for multi-format support
   class FontStyle < Lutaml::Model::Serializable
     attribute :family_name, :string
     attribute :type, :string
@@ -17,6 +18,12 @@ module Fontist
     attribute :default_type, :string
     attribute :override, :string
 
+    # v5 format metadata
+    attribute :formats, :string, collection: true # ["ttf", "woff2"]
+    attribute :variable_font, :boolean # true/false
+    attribute :variable_axes, :string, collection: true # ["wght", "wdth"]
+    attribute :source_resource, :string
+
     key_value do
       map "family_name", to: :family_name
       map "type", to: :type
@@ -32,6 +39,16 @@ module Fontist
       map "default_family_name", to: :default_family_name
       map "default_type", to: :default_type
       map "override", to: :override
+      map "formats", to: :formats
+      map "variable_font", to: :variable_font
+      map "variable_axes", to: :variable_axes
+      map "source_resource", to: :source_resource
+    end
+
+    # Helper to check if this is a variable font
+    # Returns false if not set, true only if explicitly set to true
+    def variable_font?
+      variable_font == true
     end
   end
 end

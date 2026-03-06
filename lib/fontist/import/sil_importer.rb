@@ -6,7 +6,7 @@ require "paint"
 
 module Fontist
   module Import
-    class SilImport
+    class SilImporter
       ROOT = "https://software.sil.org/fonts/".freeze
 
       def initialize(options = {})
@@ -15,6 +15,7 @@ module Fontist
         @verbose = options[:verbose]
         @import_cache = options[:import_cache]
         @force = options[:force]
+        @schema_version = options[:schema_version] || 4
         @success_count = 0
         @failure_count = 0
         @skipped_count = 0
@@ -304,6 +305,7 @@ module Fontist
         options[:import_source] = import_source if import_source
         options[:import_cache] = @import_cache if @import_cache
         options[:keep_existing] = !@force
+        options[:schema_version] = @schema_version
         # All SIL fonts use the SIL Open Font License
         options[:open_license] = "OFL-1.1"
 

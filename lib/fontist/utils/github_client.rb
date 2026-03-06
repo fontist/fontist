@@ -31,11 +31,14 @@ module Fontist
         end
 
         def fetch_release(client, parsed_url)
-          client.release_for_tag("#{parsed_url.owner}/#{parsed_url.repo}", parsed_url.tag)
+          client.release_for_tag("#{parsed_url.owner}/#{parsed_url.repo}",
+                                 parsed_url.tag)
         end
 
         def find_asset_url(release, asset_name)
-          release.assets.find { |asset| asset.name == asset_name }&.browser_download_url
+          release.assets.find do |asset|
+            asset.name == asset_name
+          end&.browser_download_url
         end
       end
     end

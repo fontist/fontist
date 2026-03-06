@@ -23,6 +23,10 @@ module Fontist
     option :import_cache,
            type: :string,
            desc: "Directory for import cache (default: ~/.fontist/import_cache)"
+    option :schema_version,
+           type: :numeric,
+           default: 4,
+           desc: "Formula schema version (4 or 5). v5 supports multi-format fonts."
 
     def google
       handle_class_options(options)
@@ -39,6 +43,7 @@ module Fontist
         force: options[:force],
         verbose: options[:verbose],
         import_cache: options[:import_cache],
+        schema_version: options[:schema_version],
       )
 
       result = importer.import
@@ -82,10 +87,14 @@ module Fontist
     option :import_cache,
            type: :string,
            desc: "Directory for import cache (default: ~/.fontist/import_cache)"
+    option :schema_version,
+           type: :numeric,
+           default: 4,
+           desc: "Formula schema version (4 or 5). v5 supports multi-format fonts."
 
     def macos
       handle_class_options(options)
-      require_relative "import/macos"
+      require_relative "import/macos_importer"
 
       # Handle deprecated formulas_dir option
       output_dir = if options[:formulas_dir] && !options[:output_path]
@@ -100,13 +109,14 @@ module Fontist
       verbose = options[:verbose]
       font_name = options[:font_name]
 
-      Import::Macos.new(
+      Import::MacosImporter.new(
         plist_path,
         formulas_dir: output_dir,
         font_name: font_name,
         force: force,
         verbose: verbose,
         import_cache: options[:import_cache],
+        schema_version: options[:schema_version],
       ).call
 
       CLI::STATUS_SUCCESS
@@ -132,18 +142,23 @@ module Fontist
     option :import_cache,
            type: :string,
            desc: "Directory for import cache (default: ~/.fontist/import_cache)"
+    option :schema_version,
+           type: :numeric,
+           default: 4,
+           desc: "Formula schema version (4 or 5). v5 supports multi-format fonts."
 
     def sil
       handle_class_options(options)
 
-      require "fontist/import/sil_import"
+      require "fontist/import/sil_importer"
 
-      importer = Fontist::Import::SilImport.new(
+      importer = Fontist::Import::SilImporter.new(
         output_path: options[:output_path],
         font_name: options[:font_name],
         force: options[:force],
         verbose: options[:verbose],
         import_cache: options[:import_cache],
+        schema_version: options[:schema_version],
       )
 
       result = importer.call

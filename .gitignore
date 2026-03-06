@@ -8,6 +8,9 @@
 /tmp/
 Gemfile.lock
 
+# backup files
+*.orig
+
 # fonts
 /spec/fixtures/fonts/*
 /spec/fixtures/fonts/DejaVuSerif.ttf
@@ -32,3 +35,6 @@ old-docs/
 
 # macOS font catalogs (downloaded via rake task)
 /spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font*.xml
+
+CLAUDE.md
+/cache/
