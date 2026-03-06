@@ -188,7 +188,7 @@ RSpec.describe Fontist::FormatMatcher do
       double("Resource", format: "woff2", variable_font?: false,
                          variable_axes: [])
     end
-    let(:resources) { [["ttf_res", resource1], ["woff2_res", resource2]] }
+    let(:resources) { [resource1, resource2] }
 
     context "with no constraints" do
       it "returns all resources" do
@@ -201,7 +201,7 @@ RSpec.describe Fontist::FormatMatcher do
 
       it "returns only matching resources" do
         result = matcher.filter_resources(resources)
-        expect(result).to eq([["woff2_res", resource2]])
+        expect(result).to eq([resource2])
       end
     end
   end
@@ -274,13 +274,7 @@ RSpec.describe Fontist::FormatMatcher do
       double("Resource", format: "ttf", variable_font?: true,
                          variable_axes: ["wght"])
     end
-    let(:resources) do
-      [
-        ["static_ttf", static_ttf],
-        ["static_woff2", static_woff2],
-        ["variable_ttf", variable_ttf],
-      ]
-    end
+    let(:resources) { [static_ttf, static_woff2, variable_ttf] }
 
     context "with empty resources" do
       it "returns nil" do
@@ -300,7 +294,7 @@ RSpec.describe Fontist::FormatMatcher do
 
       it "returns resource with preferred format" do
         result = matcher.select_preferred_resource(resources)
-        expect(result).to eq(["static_woff2", static_woff2])
+        expect(result).to eq(static_woff2)
       end
     end
 
@@ -309,7 +303,7 @@ RSpec.describe Fontist::FormatMatcher do
 
       it "returns variable resource" do
         result = matcher.select_preferred_resource(resources)
-        expect(result).to eq(["variable_ttf", variable_ttf])
+        expect(result).to eq(variable_ttf)
       end
     end
   end

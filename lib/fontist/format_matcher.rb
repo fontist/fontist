@@ -72,7 +72,7 @@ module Fontist
 
     # Filter resources to only matching ones
     def filter_resources(resources)
-      resources.select { |_name, r| matches_resource?(r) }
+      resources.select { |r| matches_resource?(r) }
     end
 
     # Filter styles to only matching ones
@@ -146,13 +146,13 @@ module Fontist
     def find_preferred_format(resources)
       return nil unless @spec.prefer_format
 
-      resources.find { |_name, r| r.format == @spec.prefer_format }
+      resources.find { |r| r.format == @spec.prefer_format }
     end
 
     def find_variable_resource(resources)
       return nil unless @spec.prefer_variable
 
-      resources.find { |_name, r| r.variable_font? }
+      resources.find { |r| r.variable_font? }
     end
 
     def axes_match?(available_axes)

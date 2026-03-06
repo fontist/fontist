@@ -3,6 +3,8 @@ require_relative "resource"
 
 module Fontist
   # Resource Collection
+  # NOTE: This class is kept for backward compatibility with external consumers
+  # but is no longer used internally by Formula (which uses Resource, collection: true).
   class ResourceCollection < Lutaml::Model::Collection
     instances :resources, Resource
 

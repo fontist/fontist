@@ -73,6 +73,9 @@ module Fontist
         # Upgrade resources with format metadata
         formula_data = upgrade_resources(formula_data) if formula_data["resources"]
 
+        # Upgrade font styles with v5 metadata
+        formula_data = migrate_styles(formula_data) if formula_data["fonts"]
+
         # Calculate output path
         output_file = output_path_for(path)
 
@@ -139,6 +142,77 @@ module Fontist
         end
 
         formula_data
+      end
+
+      def migrate_styles(formula_data)
+        resource_meta = build_resource_metadata(formula_data["resources"])
+
+        Array(formula_data["fonts"]).each do |font_family|
+          next unless font_family.is_a?(Hash) && font_family["styles"]
+
+          Array(font_family["styles"]).each do |style|
+            next unless style.is_a?(Hash)
+
+            font_file = style["font"] || style["source_font"]
+            if font_file
+              ext = font_file[/\.(\w+)$/, 1]&.downcase
+              style["formats"] ||= [ext] if ext && FONT_EXTENSIONS.include?(ext)
+
+              if font_file =~ /\[([^\]]+)\]/
+                axes = Regexp.last_match(1).split(",").map(&:strip)
+                style["variable_font"] = true
+                style["variable_axes"] = axes
+              else
+                style["variable_font"] ||= false
+              end
+
+              style["source_resource"] ||= find_source_resource(
+                font_file, formula_data["resources"]
+              )
+            end
+
+            if style["source_resource"] && resource_meta[style["source_resource"]]
+              meta = resource_meta[style["source_resource"]]
+              style["formats"] ||= [meta[:format]] if meta[:format]
+              if meta[:variable_axes]&.any? && !style.key?("variable_axes")
+                style["variable_font"] = true
+                style["variable_axes"] = meta[:variable_axes]
+              end
+            end
+          end
+        end
+
+        formula_data
+      end
+
+      def build_resource_metadata(resources)
+        meta = {}
+        return meta unless resources.is_a?(Hash)
+
+        resources.each do |name, data|
+          next unless data.is_a?(Hash)
+
+          meta[name] = {
+            format: data["format"],
+            variable_axes: data["variable_axes"],
+          }
+        end
+        meta
+      end
+
+      def find_source_resource(font_file, resources)
+        return nil unless resources.is_a?(Hash)
+
+        resources.each do |name, data|
+          next unless data.is_a?(Hash)
+
+          files = Array(data["files"])
+          return name if files.any? { |f| File.basename(f) == File.basename(font_file) }
+        end
+
+        return resources.keys.first if resources.size == 1
+
+        nil
       end
 
       def archive_resource?(resource_name, resource_data)

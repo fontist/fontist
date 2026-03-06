@@ -15,6 +15,9 @@ module Fontist
     attribute :format, :string # ttf, otf, woff2, ttc, otc
     attribute :variable_axes, :string, collection: true # [wght], [ital,wght], etc.
 
+    # Web-enabled format support (v5 feature #3)
+    attribute :css_url, :string # Google Fonts CSS URL for web embedding
+
     key_value do
       map "name", to: :name
       map "source", to: :source
@@ -25,6 +28,7 @@ module Fontist
       map "files", to: :files
       map "format", to: :format
       map "variable_axes", to: :variable_axes
+      map "css_url", to: :css_url
     end
 
     def empty?

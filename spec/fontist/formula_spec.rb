@@ -14,6 +14,57 @@ RSpec.describe Fontist::Formula do
     end
   end
 
+  describe "v5 formula" do
+    let(:v5_yaml) { File.read("spec/examples/formulas/roboto_v5.yml") }
+    let(:formula) { Fontist::Formula.from_yaml(v5_yaml) }
+
+    it "loads v5 formula correctly" do
+      expect(formula.name).to eq("Roboto")
+      expect(formula.schema_version).to eq(5)
+    end
+
+    it "reports v5? as true" do
+      expect(formula.v5?).to be true
+    end
+
+    it "returns effective_schema_version of 5" do
+      expect(formula.effective_schema_version).to eq(5)
+    end
+
+    it "has resources with format metadata" do
+      expect(formula.resources).to be_kind_of(Array)
+      formats = formula.resources.map(&:format).compact
+      expect(formats).to include("ttf", "woff2")
+    end
+
+    it "has resources with variable_axes" do
+      vf_resource = formula.resources.find { |r| r.variable_axes&.any? }
+      expect(vf_resource).not_to be_nil
+      expect(vf_resource.variable_axes).to include("wght", "wdth")
+    end
+
+    it "has styles with v5 attributes" do
+      style = formula.all_fonts.first.styles.first
+      expect(style.formats).to include("ttf", "woff2")
+      expect(style.variable_font).to eq(false)
+    end
+
+    context "matching_resources" do
+      it "filters by format" do
+        spec = Fontist::FormatSpec.new(format: "woff2")
+        matching = formula.matching_resources(spec)
+        expect(matching).to all(satisfy { |r| r.format == "woff2" })
+        expect(matching.size).to eq(2)
+      end
+
+      it "returns all when no constraints" do
+        spec = Fontist::FormatSpec.new
+        matching = formula.matching_resources(spec)
+        expect(matching.size).to eq(formula.resources.size)
+      end
+    end
+  end
+
   describe ".find" do
     before { Fontist::Index.reset_cache }
     context "by font name" do

@@ -108,7 +108,7 @@ module Fontist
 
       matcher = FormatMatcher.new(@format_spec)
       selected = matcher.select_preferred_resource(@formula.resources)
-      selected.is_a?(Array) ? selected[1] : selected
+      selected
     end
 
     def font_file?(path)
@@ -220,11 +220,11 @@ module Fontist
       # Check if Fontisan can convert between formats
       matcher = FormatMatcher.new(@format_spec)
       unless matcher.can_convert?(source_format, target_format)
-        Fontist.ui.warn(
-          "Cannot convert from #{source_format} to #{target_format}",
+        raise Errors::FormatNotAvailableError.new(
+          @font_name || @formula.name,
+          target_format,
+          [source_format],
         )
-        Fontist.ui.warn("Installing original format instead")
-        return @location.install_font(source, target_name)
       end
 
       begin

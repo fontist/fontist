@@ -260,6 +260,8 @@ module Fontist
                     desc: "Filter by format (ttf, otf, woff2)"
     option :json, type: :boolean,
                   desc: "Output as JSON"
+    option :web_css, type: :string,
+                     desc: "Get CSS URL for a font (e.g., --web-css 'Roboto')"
     def find
       handle_class_options(options)
 
@@ -271,6 +273,16 @@ module Fontist
         category: options[:category],
       )
 
+      if options[:web_css]
+        css_url = finder.css_url_for(options[:web_css])
+        if css_url
+          Fontist.ui.say(css_url)
+        else
+          Fontist.ui.error("No CSS URL found for '#{options[:web_css]}'")
+        end
+        return success
+      end
+
       results = if options[:variable]
                   finder.variable_fonts
                 elsif options[:axes]
@@ -279,7 +291,7 @@ module Fontist
                 elsif options[:category]
                   finder.by_category(options[:category])
                 else
-                  error("Please specify --axes, --variable, or --category",
+                  error("Please specify --axes, --variable, --category, or --web-css",
                         STATUS_UNKNOWN_ERROR)
                   return
                 end
