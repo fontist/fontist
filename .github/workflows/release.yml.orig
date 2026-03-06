@@ -14,8 +14,14 @@ on:
 
 permissions:
   contents: read
+<<<<<<< HEAD
+=======
   packages: write
+<<<<<<< Updated upstream
+=======
   id-token: write
+>>>>>>> Stashed changes
+>>>>>>> 35f3c7d (fix: release gha)
 
 jobs:
   release:
