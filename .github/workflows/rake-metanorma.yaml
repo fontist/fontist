@@ -18,13 +18,8 @@ env:
 
 jobs:
   prepare:
-    uses: metanorma/ci/.github/workflows/inkscape-rake.yml@main
-    with:
-      private-fonts: true
-    secrets:
-      pat_token: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
-
-    # uses: metanorma/ci/.github/workflows/prepare-rake.yml@main commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
+    # commented for https://github.com/fontist/fontist/issues/428#issuecomment-3992198584
+    uses: metanorma/ci/.github/workflows/prepare-rake.yml@main
 
   metanorma:
     name: Test metanorma on Ruby ${{ matrix.ruby.version }} ${{ matrix.os }}
@@ -40,11 +35,11 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: metanorma/metanorma
 
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v6
         with:
           path: "fontist"
 
@@ -57,6 +52,23 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
-      # - uses: metanorma/metanorma-build-scripts/inkscape-setup-action@main
+      - uses: metanorma/ci/inkscape-setup-action@main
+
+      - name: Configure Git credentials
+        env:
+          GIT_TOKEN: ${{ secrets.FONTIST_CI_PAT_TOKEN }}
+        run: |
+          git config --global user.name 'Fontist CI'
+          git config --global user.email 'fontist@ribose.com'
+          git config --global credential.helper store
+          echo "https://fontist-ci:${GIT_TOKEN}@github.com" > ~/.git-credentials
+        shell: bash
+
+      - run: |
+          bundle exec fontist update
+          bundle exec fontist repo setup metanorma https://github.com/metanorma/fontist-formulas-private.git
+          bundle exec fontist repo update metanorma
+        shell: bash
 
       - run: bundle exec rake
+        shell: bash
