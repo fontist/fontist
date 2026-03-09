@@ -2,6 +2,8 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  lang: "en-US",
+
   // https://vitepress.dev/guide/routing#generating-clean-url
   cleanUrls: true,
 
@@ -9,22 +11,48 @@ export default defineConfig({
   description:
     "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.",
 
+  lastUpdated: true,
+
   // https://github.com/vuejs/vitepress/issues/3508
   base: process.env.BASE_PATH,
 
+  head: [
+    [
+      "link",
+      { rel: "icon", type: "image/png", href: "/favicon-96x96.png", sizes: "96x96" },
+    ],
+    ["link", { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+    ["link", { rel: "shortcut icon", href: "/favicon.ico" }],
+    [
+      "link",
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+    ],
+    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:title", content: "Fontist" }],
+    [
+      "meta",
+      {
+        property: "og:description",
+        content:
+          "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS.",
+      },
+    ],
+    ["meta", { property: "og:image", content: "/logo-full.svg" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+  ],
+
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
-    logo: "/logo.png",
+    logo: "/logo-full.svg",
+    siteTitle: false,
 
     nav: [
-      { text: "Home", link: "/" },
+      { text: "← Fontist.org", link: "https://www.fontist.org" },
       { text: "Guide", link: "/guide/" },
       { text: "Reference", link: "/reference/" },
-      {
-        text: "Formulas",
-        link: "https://fontist.org/formulas/",
-        target: "_self",
-      },
+      { text: "Formulas", link: "https://www.fontist.org/formulas/", target: "_self" },
+      { text: "Fontisan", link: "https://www.fontist.org/fontisan/", target: "_self" },
     ],
 
     sidebar: {
@@ -39,7 +67,7 @@ export default defineConfig({
             { text: "Using Fontist with a proxy", link: "/guide/proxy" },
             {
               text: "Create a new Fontist Formula",
-              link: "https://fontist.org/formulas/guide/create-formula",
+              link: "https://www.fontist.org/formulas/guide/create-formula",
               target: "_self",
             },
           ],
@@ -50,7 +78,7 @@ export default defineConfig({
             { text: "Fontist Ruby library", link: "/guide/api-ruby" },
             {
               text: "Ruby API reference",
-              link: "https://fontist.org/fontist/reference/api-ruby/",
+              link: "https://www.fontist.org/fontist/reference/api-ruby/",
               target: "_self",
             },
           ],
@@ -63,7 +91,7 @@ export default defineConfig({
             { text: "Fontist CLI reference", link: "/reference/" },
             {
               text: "Ruby API reference",
-              link: "https://fontist.org/fontist/reference/api-ruby/",
+              link: "https://www.fontist.org/fontist/reference/api-ruby/",
               target: "_self",
             },
           ],
@@ -77,7 +105,7 @@ export default defineConfig({
 
     footer: {
       message: `Fontist is <a href="https://open.ribose.com/">riboseopen</a>`,
-      copyright: `Copyright &copy; 2023 Ribose Group Inc. All rights reserved.`,
+      copyright: `Copyright &copy; 2026 Ribose Group Inc. All rights reserved.`,
     },
   },
 });

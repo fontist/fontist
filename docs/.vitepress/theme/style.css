@@ -1,0 +1,152 @@
+:root {
+  /* Brand Colors from Logo */
+  --fontist-rose: #bf4e6a;
+  --fontist-rose-light: #d4718a;
+  --fontist-dark: #4d4b54;
+  --fontist-gray: #676565;
+  --fontist-cream: #e1dfd2;
+  --fontist-beige: #bebbac;
+  --fontist-pale: #dddac8;
+
+  /* VitePress Theme Overrides - Light Mode */
+  --vp-c-brand-1: var(--fontist-rose);
+  --vp-c-brand-2: #a3435a;
+  --vp-c-brand-3: var(--fontist-dark);
+  --vp-c-brand-soft: rgba(191, 78, 106, 0.14);
+
+  /* Text Colors */
+  --vp-c-text-1: var(--fontist-dark);
+  --vp-c-text-2: var(--fontist-gray);
+  --vp-c-text-3: #8a8888;
+
+  /* Background Colors */
+  --vp-c-bg-soft: #f8f7f4;
+  --vp-c-bg-alt: #f2f1ed;
+  --vp-c-bg: #ffffff;
+
+  /* Hero */
+  --vp-home-hero-name-color: var(--fontist-rose);
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    var(--fontist-rose) 30%,
+    #d4718a
+  );
+
+  /* Buttons */
+  --vp-button-brand-border: var(--fontist-rose);
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: var(--fontist-rose);
+  --vp-button-brand-hover-border: #a3435a;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #a3435a;
+  --vp-button-brand-active-border: #8a3849;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-brand-active-bg: #8a3849;
+
+  /* Sidebar */
+  --vp-sidebar-bg-color: var(--vp-c-bg-soft);
+
+  /* Nav */
+  --vp-nav-bg-color: var(--vp-c-bg);
+}
+
+/* Dark Mode */
+html.dark {
+  --vp-c-brand-1: var(--fontist-rose-light);
+  --vp-c-brand-2: var(--fontist-rose);
+  --vp-c-brand-3: #e1dfd2;
+  --vp-c-brand-soft: rgba(212, 113, 138, 0.14);
+
+  /* Text Colors - Dark Mode */
+  --vp-c-text-1: #e1dfd2;
+  --vp-c-text-2: #bebbac;
+  --vp-c-text-3: #8a8888;
+
+  /* Background Colors - Dark Mode */
+  --vp-c-bg: #1a1918;
+  --vp-c-bg-soft: #222120;
+  --vp-c-bg-alt: #2a2826;
+  --vp-c-bg-elv: #2a2826;
+
+  /* Hero - Dark Mode */
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    var(--fontist-rose-light) 30%,
+    #e08a9e
+  );
+
+  /* Buttons - Dark Mode */
+  --vp-button-brand-border: var(--fontist-rose-light);
+  --vp-button-brand-text: #1a1918;
+  --vp-button-brand-bg: var(--fontist-rose-light);
+  --vp-button-brand-hover-border: var(--fontist-rose);
+  --vp-button-brand-hover-text: #1a1918;
+  --vp-button-brand-hover-bg: var(--fontist-rose);
+  --vp-button-brand-active-border: #a3435a;
+  --vp-button-brand-active-text: #1a1918;
+  --vp-button-brand-active-bg: #a3435a;
+}
+
+/* Feature cards on home page - Light */
+.VPFeature .title {
+  color: var(--fontist-dark);
+}
+
+.VPFeature .details {
+  color: var(--fontist-gray);
+}
+
+.VPFeature:hover {
+  border-color: var(--fontist-rose);
+}
+
+/* Feature cards - Dark */
+html.dark .VPFeature .title {
+  color: var(--fontist-cream);
+}
+
+html.dark .VPFeature .details {
+  color: var(--fontist-beige);
+}
+
+/* Links */
+.vp-doc a {
+  color: var(--fontist-rose);
+}
+
+.vp-doc a:hover {
+  color: #a3435a;
+}
+
+html.dark .vp-doc a {
+  color: var(--fontist-rose-light);
+}
+
+html.dark .vp-doc a:hover {
+  color: var(--fontist-rose);
+}
+
+/* Footer */
+.VPFooter {
+  background-color: var(--vp-c-bg-soft);
+  border-top: 1px solid var(--fontist-pale);
+}
+
+html.dark .VPFooter {
+  border-top-color: #3a3836;
+}
+
+/* Code blocks - Light */
+.vp-doc [class*="language-"] {
+  background-color: var(--fontist-dark);
+}
+
+/* Code blocks - Dark */
+html.dark .vp-doc [class*="language-"] {
+  background-color: #0d0c0c;
+}
+
+/* Logo sizing */
+.VPNav .VPImage {
+  height: 39px;
+}
