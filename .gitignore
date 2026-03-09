@@ -28,7 +28,8 @@ Gemfile.lock
 .kilocode
 .claude
 old-docs/
-.md
+CLAUDE.md
 
 # macOS font catalogs (downloaded via rake task)
 /spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font*.xml
+
