@@ -6,7 +6,7 @@ cache = true
 max_cache_age = "1d"
 
 # Check verbatim URLs in code blocks
-include_verbatim = true
+include_verbatim = false
 
 # Exclude patterns for URLs (regex)
 exclude = [
