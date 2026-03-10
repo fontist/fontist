@@ -1,7 +1,16 @@
 import { defineConfig } from "vitepress";
+import { fileURLToPath, URL } from "node:url";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  // Register custom components
+  vite: {
+    resolve: {
+      alias: {
+        "@components": fileURLToPath(new URL("../components", import.meta.url)),
+      },
+    },
+  },
   lang: "en-US",
 
   // https://vitepress.dev/guide/routing#generating-clean-url
@@ -13,8 +22,8 @@ export default defineConfig({
 
   lastUpdated: true,
 
-  // https://github.com/vuejs/vitepress/issues/3508
-  base: process.env.BASE_PATH,
+  // Base path for deployment (e.g., /fontist/ for fontist.org/fontist/)
+  base: process.env.BASE_PATH || "/fontist/",
 
   head: [
     [
@@ -47,10 +56,26 @@ export default defineConfig({
     logo: "/logo-full.svg",
     siteTitle: false,
 
+    // Local search with MiniSearch
+    search: {
+      provider: "local",
+      options: {
+        detailedView: true,
+        miniSearch: {
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
+          },
+        },
+      },
+    },
+
     nav: [
       { text: "← Fontist.org", link: "https://www.fontist.org" },
       { text: "Guide", link: "/guide/" },
-      { text: "Reference", link: "/reference/" },
+      { text: "CLI", link: "/cli/" },
+      { text: "API", link: "/api/" },
       { text: "Formulas", link: "https://www.fontist.org/formulas/", target: "_self" },
       { text: "Fontisan", link: "https://www.fontist.org/fontisan/", target: "_self" },
     ],
@@ -58,42 +83,110 @@ export default defineConfig({
     sidebar: {
       "/guide/": [
         {
-          text: "Guide",
+          text: "Getting Started",
           items: [
+            { text: "Introduction", link: "/guide/" },
+            { text: "Installation", link: "/guide/installation" },
+            { text: "Quick Start", link: "/guide/quick-start" },
+          ],
+        },
+        {
+          text: "Concepts",
+          items: [
+            { text: "Overview", link: "/guide/concepts/" },
+            { text: "Fonts & Styles", link: "/guide/concepts/fonts" },
+            { text: "Variable Fonts", link: "/guide/concepts/variable-fonts" },
+            { text: "Formats & Containers", link: "/guide/concepts/formats" },
+            { text: "Licenses", link: "/guide/concepts/licenses" },
+            { text: "Requirements", link: "/guide/concepts/requirements" },
+          ],
+        },
+        {
+          text: "Learn More",
+          collapsed: true,
+          items: [
+            { text: "How Fontist Works", link: "/guide/how-it-works" },
             { text: "Why Fontist?", link: "/guide/why" },
-            { text: "Getting started", link: "/guide/" },
-            { text: "Using Fontist in CI", link: "/guide/ci" },
-            { text: "Fontist with Fontconfig", link: "/guide/fontconfig" },
-            { text: "Using Fontist with a proxy", link: "/guide/proxy" },
+            { text: "Manifests", link: "/guide/manifests" },
+            { text: "Formulas", link: "/guide/formulas" },
+          ],
+        },
+        {
+          text: "Guides",
+          collapsed: true,
+          items: [
+            { text: "CI/CD Integration", link: "/guide/ci" },
+            { text: "Fontconfig", link: "/guide/fontconfig" },
+            { text: "Proxy Setup", link: "/guide/proxy" },
             {
-              text: "Create a new Fontist Formula",
+              text: "Create a Formula",
               link: "https://www.fontist.org/formulas/guide/create-formula",
               target: "_self",
             },
           ],
         },
+      ],
+      "/cli/": [
         {
-          text: "API",
+          text: "CLI Reference",
           items: [
-            { text: "Fontist Ruby library", link: "/guide/api-ruby" },
-            {
-              text: "Ruby API reference",
-              link: "https://www.fontist.org/fontist/reference/api-ruby/",
-              target: "_self",
-            },
+            { text: "Overview", link: "/cli/" },
+          ],
+        },
+        {
+          text: "Core Commands",
+          items: [
+            { text: "install", link: "/cli/install" },
+            { text: "uninstall", link: "/cli/uninstall" },
+            { text: "list", link: "/cli/list" },
+            { text: "status", link: "/cli/status" },
+            { text: "update", link: "/cli/update" },
+            { text: "version", link: "/cli/version" },
+          ],
+        },
+        {
+          text: "Subcommands",
+          collapsed: true,
+          items: [
+            { text: "manifest", link: "/cli/manifest" },
+            { text: "cache", link: "/cli/cache" },
+            { text: "config", link: "/cli/config" },
+            { text: "repo", link: "/cli/repo" },
+            { text: "fontconfig", link: "/cli/fontconfig" },
+            { text: "import", link: "/cli/import" },
+            { text: "index", link: "/cli/index-cmd" },
+            { text: "create-formula", link: "/cli/create-formula" },
+          ],
+        },
+        {
+          text: "Reference",
+          collapsed: true,
+          items: [
+            { text: "Exit Codes", link: "/cli/exit-codes" },
           ],
         },
       ],
-      "/reference/": [
+      "/api/": [
         {
-          text: "Reference",
+          text: "API Reference",
           items: [
-            { text: "Fontist CLI reference", link: "/reference/" },
-            {
-              text: "Ruby API reference",
-              link: "https://www.fontist.org/fontist/reference/api-ruby/",
-              target: "_self",
-            },
+            { text: "Overview", link: "/api/" },
+          ],
+        },
+        {
+          text: "Classes",
+          items: [
+            { text: "Fontist::Font", link: "/api/font" },
+            { text: "Fontist::Formula", link: "/api/formula" },
+            { text: "Fontist::Manifest", link: "/api/manifest" },
+            { text: "Fontist::Fontconfig", link: "/api/fontconfig" },
+          ],
+        },
+        {
+          text: "Errors",
+          collapsed: true,
+          items: [
+            { text: "Fontist::Errors", link: "/api/errors" },
           ],
         },
       ],

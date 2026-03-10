@@ -1,0 +1,21 @@
+{
+  "codes": [
+    { "code": 0, "name": "SUCCESS", "description": "Command completed successfully" },
+    { "code": 1, "name": "UNKNOWN_ERROR", "description": "Unknown or unexpected error" },
+    { "code": 2, "name": "NON_SUPPORTED_FONT_ERROR", "description": "Font is not supported by fontist" },
+    { "code": 3, "name": "MISSING_FONT_ERROR", "description": "Font could not be found on the system or in formulas" },
+    { "code": 4, "name": "LICENSING_ERROR", "description": "License agreement required but not accepted" },
+    { "code": 5, "name": "MANIFEST_COULD_NOT_BE_FOUND_ERROR", "description": "Manifest file not found at specified path" },
+    { "code": 6, "name": "MANIFEST_COULD_NOT_BE_READ_ERROR", "description": "Manifest file could not be read (invalid YAML or permissions)" },
+    { "code": 7, "name": "FONT_INDEX_CORRUPTED", "description": "Font index file is corrupted and needs to be rebuilt" },
+    { "code": 8, "name": "REPO_NOT_FOUND", "description": "Repository not found" },
+    { "code": 9, "name": "MAIN_REPO_NOT_FOUND", "description": "Main formulas repository not found" },
+    { "code": 10, "name": "REPO_COULD_NOT_BE_UPDATED", "description": "Repository could not be updated (network or git error)" },
+    { "code": 11, "name": "MANUAL_FONT_ERROR", "description": "Manual font installation required (font cannot be downloaded)" },
+    { "code": 12, "name": "SIZE_LIMIT_ERROR", "description": "Formula exceeds size limit. Use --size-limit, --newest, or --smallest options" },
+    { "code": 13, "name": "FORMULA_NOT_FOUND", "description": "Formula not found for the requested font" },
+    { "code": 14, "name": "FONTCONFIG_NOT_FOUND", "description": "Fontconfig is not installed or not found" },
+    { "code": 15, "name": "FONTCONFIG_FILE_NOT_FOUND", "description": "Fontconfig configuration file not found" },
+    { "code": 16, "name": "INVALID_CONFIG_ATTRIBUTE", "description": "Invalid configuration attribute specified" }
+  ]
+}

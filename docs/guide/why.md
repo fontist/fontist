@@ -1,3 +1,7 @@
+---
+title: Why Fontist?
+---
+
 # Why Fontist?
 
 In general, fonts can be downloaded manually and placed in a system folder. Some fonts are even pre-installed with an OS. **This is inconsistent across Windows, macOS, and Linux.**
