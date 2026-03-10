@@ -1,67 +1,46 @@
-# Getting started
+---
+title: Getting Started
+---
 
-The easiest way to get started with Fontist is to install the Fontist CLI. There's also a [fontist RubyGem package](/guide/api-ruby) that you can use from your Ruby code.
+# Getting Started
+
+Fontist is a cross-platform font manager that installs fonts with a single command. It works consistently across macOS, Windows, and Linux, making it ideal for local development and CI/CD pipelines.
+
+## Overview
+
+Fontist provides a unified API for installing and managing fonts across different operating systems. Instead of manually downloading fonts and placing them in system folders, you can use `fontist install` to manage fonts programmatically.
+
+Fontist uses a **formula repository** to locate and download fonts. The main repository includes Google Fonts, SIL Fonts, macOS fonts, and many others.
+
+## Key Concepts
+
+- **[Font Concepts](/guide/concepts/)**: Understand fonts, styles, weights, formats, containers, variable fonts, and licenses.
+- **Formulas**: YAML files that describe where to download fonts and how to install them. Formulas are maintained in the [fontist/formulas](https://github.com/fontist/formulas) repository.
+- **Manifests**: YAML files that specify which fonts your project needs. Manifests enable reproducible font installations across teams and CI environments.
+- **Locations**: Fonts can be installed to Fontist's own directory, the user's fonts folder, or system-wide (with appropriate permissions).
+
+## Quick Start
+
+Install Fontist via RubyGems:
 
 ```sh
 gem install fontist
 ```
 
-💎 Don't have Ruby installed? You can [download Ruby from the official Ruby website](https://www.ruby-lang.org/en/downloads/).
-
-Now you're ready to start using Fontist to install fonts on your machine! 🤩
+Install your first font:
 
 ```sh
 fontist install "Fira Code"
-fontist install "Open Sans"
-fontist install "Consolas"
 ```
 
-<sup>👩‍⚖️ Some fonts may require you to accept license terms regarding their use.</sup>
-
-## Using a Fontist manifest
-
-Several fonts can be specified in a file, called "manifest", and installed together.
-
-First, prepare a file "manifest.yml":
-
-```yaml
----
-Times New Roman:
-Arial:
-Courier New:
----
-```
-
-Then run:
+Check installed fonts:
 
 ```sh
-fontist manifest install manifest.yml
+fontist status
 ```
 
-```
----
-Arial:
-  Regular:
-    full_name: Arial
-    paths:
-    - "/home/octocat/.fontist/fonts/Arial.ttf"
-  Bold Italic:
-    ...
-```
+## Next Steps
 
-💡 You can use `fontist manifest locations` to get the installation paths of **only the fonts listed in the manifest file**.
-
-```sh
-fontist manifest locations manifest.yml
-```
-
-```
----
-Arial:
-  Regular:
-    full_name: Arial
-    paths:
-    - "/home/octocat/.fontist/fonts/Arial.ttf"
-  Bold Italic:
-    ...
-```
+- [Installation Guide](/guide/installation) - Detailed installation instructions and platform-specific notes
+- [Quick Start Tutorial](/guide/quick-start) - A 5-minute guide to get up and running
+- [CLI Reference](/cli/) - Complete command documentation
