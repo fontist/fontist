@@ -1,67 +1,32 @@
 # Lychee Link Checker Configuration
-# For Documentation
 # https://github.com/lycheeverse/lychee
 
-# Cache results to avoid re-checking same URLs
+# Cache results
 cache = true
 max_cache_age = "1d"
 
-# Check both source files and built site
-include_verbatim = true
-
-# Recursively check all files
-recursive = true
-
-# File types to check
-include = [
-  ".vitepress/dist/**/*.html"
-]
-
-# Excluded paths
-exclude = [
+# Exclude paths
+exclude_path = [
   ".git",
   ".github",
-  "node_modules",
-  "vendor",
-  ".bundle",
-  ".sass-cache",
-  ".jekyll-cache"
+  "node_modules"
 ]
 
-# Link checking behavior
-max_redirects = 10
+# Retry and timeout settings
 max_retries = 3
 timeout = 20
 
-# Accept status codes
-accept = [
-  "100..=103",  # Informational
-  "200..=299",  # Success
-  "429"         # Too Many Requests (retry handled by max_retries)
-]
-
-# User agent to identify ourselves
-user_agent = "lychee/docs-link-checker"
-
-# Check HTTP, HTTPS, and file:// schemes
-scheme = ["https", "http", "file"]
-
-# Include file:// URLs for local link checking
-include_file = true
-
-# Handle different link types
-include_mail = false  # Don't check mailto: links
-
-# Follow links but don't check their content recursively
+# Concurrency
 max_concurrency = 8
 
-# Verbose output for debugging
+# Accept 429 (rate limited) as valid since we retry
+accept = ["200..=299", "429"]
+
+# Verbose output
 verbose = "info"
 
-# Require HTTPS where possible
-require_https = false  # Don't enforce
+# Don't require HTTPS
+require_https = false
 
-# Check fragment identifiers (anchors)
-# include_fragments = true
-
+# Index files
 index_files = ["index.html"]
