@@ -1,5 +1,4 @@
 require "thor"
-require_relative "../fontist"
 require_relative "cli/class_options"
 require_relative "cli/thor_ext"
 require_relative "repo_cli"
