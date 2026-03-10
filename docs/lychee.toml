@@ -21,7 +21,8 @@ exclude = [
   # Exclude malformed escaped URLs (VitePress footer issue)
   '%22https://',
   # Exclude proxy placeholder examples
-  '\*+proxyhost',
+  'proxyhost:port',
+  '\*\*\*proxy',
   # Exclude trailing slash version of formulas guide (VitePress clean URL issue)
   'fontist\.org/formulas/guide/create-formula/$',
 ]
