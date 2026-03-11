@@ -2,6 +2,7 @@ require "fileutils"
 require "yaml"
 require "tmpdir"
 require "find"
+require "rubygems/package"
 
 module Fontist
   module Import
@@ -385,7 +386,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar_gz(archive_path, extract_dir)
-        require "rubygems/package"
         require "zlib"
 
         File.open(archive_path, "rb") do |file|
@@ -403,7 +403,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar_bz2(archive_path, extract_dir)
-        require "rubygems/package"
         require "bzip2/ffi"
 
         File.open(archive_path, "rb") do |file|
@@ -421,8 +420,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar(archive_path, extract_dir)
-        require "rubygems/package"
-
         File.open(archive_path, "rb") do |file|
           Gem::Package::TarReader.new(file) do |tar|
             extract_tar_entries(tar, extract_dir)
