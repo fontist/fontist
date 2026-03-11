@@ -1,5 +1,6 @@
 ---
 layout: home
+pageClass: my-index-page
 
 hero:
   name: "Fontist"
@@ -30,6 +31,10 @@ features:
   - title: "⚡ Fontconfig Integration"
     details: Optional fontconfig integration for seamless font discovery in Linux environments.
 ---
+
+<WithinHero>
+<HeroCodeBlock title="fontist"><div class="line"><span class="comment"># 🚀 Install a font by name</span></div><div class="line"><span class="prompt">$</span> <span class="cmd">fontist</span> install "Open Sans"</div><div class="line"><span class="success">✓</span> Open Sans installed to ~/.fontist/fonts</div><div class="line">&nbsp;</div><div class="line"><span class="comment"># 📜 Install from manifest</span></div><div class="line"><span class="prompt">$</span> <span class="cmd">fontist</span> manifest-install manifest.yml</div><div class="line"><span class="success">✓</span> All fonts from manifest installed</div><div class="line">&nbsp;</div><div class="line"><span class="comment"># 🔍 Check font status</span></div><div class="line"><span class="prompt">$</span> <span class="cmd">fontist</span> status "Fira Code"</div><div class="line"><span class="success">✓</span> Fira Code Regular, Bold installed</div></HeroCodeBlock>
+</WithinHero>
 
 ## Quick Start
 
