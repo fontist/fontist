@@ -1,5 +1,3 @@
-require_relative "formula_serializer"
-
 module Fontist
   module Import
     class ConvertFormulas

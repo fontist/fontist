@@ -1,9 +1,3 @@
-require_relative "font3_parser"
-require_relative "font4_parser"
-require_relative "font5_parser"
-require_relative "font6_parser"
-require_relative "font7_parser"
-require_relative "font8_parser"
 require "open-uri"
 require "uri"
 

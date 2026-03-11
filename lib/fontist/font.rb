@@ -1,9 +1,3 @@
-require "fontist/font_installer"
-require "fontist/font_path"
-require "fontist/formula_picker"
-require "fontist/fontconfig"
-require "fontist/formula_suggestion"
-
 module Fontist
   class Font
     def initialize(options = {})

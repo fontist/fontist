@@ -1,5 +1,4 @@
 require "lutaml/model"
-require_relative "manifest"
 
 module Fontist
   class ManifestRequestFont < ManifestFont

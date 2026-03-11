@@ -1,6 +1,5 @@
 require "lutaml/model"
 require "marcel"
-require_relative "locking"
 
 module Fontist
   module Utils

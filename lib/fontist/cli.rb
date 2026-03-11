@@ -1,13 +1,6 @@
 require "thor"
 require_relative "cli/class_options"
 require_relative "cli/thor_ext"
-require_relative "repo_cli"
-require_relative "cache_cli"
-require_relative "import_cli"
-require_relative "fontconfig_cli"
-require_relative "config_cli"
-require_relative "index_cli"
-require_relative "manifest_cli"
 
 module Fontist
   class CLI < Thor

@@ -5,10 +5,6 @@
 # @deprecated Use {Fontist::Import::GoogleImporter} instead
 # @see Fontist::Import::GoogleImporter
 
-require_relative "google"
-require_relative "google/api"
-require_relative "google/create_google_formula"
-
 module Fontist
   module Import
     # Legacy Google Fonts import class
@@ -57,10 +53,7 @@ module Fontist
       # @return [Boolean] true if new importer is available and should be used
       def use_new_importer?
         # Check if new importer is available
-        require_relative "google_importer"
-        true
-      rescue LoadError
-        false
+        defined?(Fontist::Import::GoogleImporter)
       end
 
       # Delegates to new GoogleImporter

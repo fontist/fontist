@@ -1,8 +1,3 @@
-require_relative "otf/font_file"
-require_relative "files/collection_file"
-require_relative "files/font_detector"
-require_relative "font_parsing_error_collector"
-
 module Fontist
   module Import
     class RecursiveExtraction

@@ -1,5 +1,4 @@
 require "fontisan"
-require_relative "models/font_metadata"
 
 module Fontist
   module Import

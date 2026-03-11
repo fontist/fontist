@@ -1,11 +1,6 @@
 require "fileutils"
 require "yaml"
 require "paint"
-require_relative "../import"
-require_relative "../formula"
-require_relative "google/font_database"
-require_relative "google/api"
-require_relative "import_display"
 
 module Fontist
   module Import

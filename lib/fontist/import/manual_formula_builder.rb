@@ -1,5 +1,3 @@
-require_relative "formula_builder"
-
 module Fontist
   module Import
     class ManualFormulaBuilder < FormulaBuilder
