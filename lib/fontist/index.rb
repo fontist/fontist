@@ -1,8 +1,4 @@
 require "lutaml/model"
-require_relative "indexes/filename_index"
-require_relative "indexes/font_index"
-require_relative "indexes/default_family_font_index"
-require_relative "indexes/preferred_family_font_index"
 
 module Fontist
   class IndexEntry < Lutaml::Model::Serializable

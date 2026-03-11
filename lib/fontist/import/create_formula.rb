@@ -1,7 +1,3 @@
-require "fontist/import"
-require_relative "recursive_extraction"
-require_relative "formula_builder"
-
 module Fontist
   module Import
     class CreateFormula

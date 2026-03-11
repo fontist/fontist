@@ -1,5 +1,3 @@
-require "fontist/indexes/filename_index"
-
 module Fontist
   class FontPath
     def initialize(path)

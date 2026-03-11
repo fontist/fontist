@@ -1,7 +1,3 @@
-require_relative "cache"
-require_relative "github_url"
-require_relative "github_client"
-
 module Fontist
   module Utils
     class Downloader

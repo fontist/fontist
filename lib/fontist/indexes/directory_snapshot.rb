@@ -1,5 +1,3 @@
-require_relative "incremental_scanner"
-
 module Fontist
   module Indexes
     # Value object representing the state of a directory at a point in time

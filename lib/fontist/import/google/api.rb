@@ -1,12 +1,3 @@
-require_relative "models/axis"
-require_relative "models/font_variant"
-require_relative "models/font_family"
-require_relative "data_sources/base"
-require_relative "data_sources/ttf"
-require_relative "data_sources/vf"
-require_relative "data_sources/woff2"
-require_relative "font_database"
-
 module Fontist
   module Import
     module Google

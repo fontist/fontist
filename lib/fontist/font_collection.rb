@@ -1,5 +1,4 @@
 require "lutaml/model"
-require_relative "font_model"
 
 module Fontist
   class FontCollection < Lutaml::Model::Serializable

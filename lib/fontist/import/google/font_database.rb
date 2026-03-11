@@ -1,12 +1,3 @@
-require_relative "models/font_family"
-require_relative "models/axis"
-require_relative "data_sources/ttf"
-require_relative "data_sources/vf"
-require_relative "data_sources/woff2"
-require_relative "data_sources/github"
-require_relative "../font_metadata_extractor"
-require_relative "../../utils/downloader"
-require_relative "../../google_import_source"
 require "yaml"
 require "fileutils"
 
@@ -404,7 +395,6 @@ github_data: nil, version: 4, source_path: nil)
           path = File.join(output_dir, filename)
 
           # Use HashHelper to convert keys to strings (preserves import_source object)
-          require_relative "../helpers/hash_helper"
           formula_with_string_keys = Helpers::HashHelper.stringify_keys(formula_hash)
 
           File.write(path, YAML.dump(formula_with_string_keys))

@@ -1,5 +1,3 @@
-require_relative "base"
-
 module Fontist
   module Import
     module Google

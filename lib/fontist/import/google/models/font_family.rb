@@ -1,5 +1,4 @@
 require "lutaml/model"
-require_relative "axis"
 
 module Fontist
   module Import

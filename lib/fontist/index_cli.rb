@@ -1,6 +1,4 @@
 require "thor"
-require_relative "../fontist"
-require_relative "cli/class_options"
 
 module Fontist
   class IndexCLI < Thor

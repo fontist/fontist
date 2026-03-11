@@ -1,5 +1,3 @@
-require_relative "../../macos_import_source"
-
 module Fontist
   module Macos
     module Catalog

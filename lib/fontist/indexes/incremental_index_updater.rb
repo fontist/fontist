@@ -1,7 +1,3 @@
-require_relative "directory_snapshot"
-require_relative "directory_change"
-require_relative "incremental_scanner"
-
 module Fontist
   module Indexes
     # Service for performing incremental index updates

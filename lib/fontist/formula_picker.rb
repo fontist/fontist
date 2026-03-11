@@ -1,5 +1,3 @@
-require "fontist/style_version"
-
 module Fontist
   class FormulaPicker
     def initialize(font_name, size_limit:, version:, smallest:, newest:)

@@ -1,5 +1,3 @@
-require_relative "import/google"
-
 module Fontist
   class ImportCLI < Thor
     include CLI::ClassOptions

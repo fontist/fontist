@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "validation"
-require_relative "system_font"
 require "parallel"
 
 module Fontist

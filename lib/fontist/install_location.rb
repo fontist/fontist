@@ -1,8 +1,4 @@
 require "pathname"
-require_relative "install_locations/base_location"
-require_relative "install_locations/fontist_location"
-require_relative "install_locations/user_location"
-require_relative "install_locations/system_location"
 
 module Fontist
   # Factory for creating font installation location objects

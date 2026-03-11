@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 require "lutaml/model"
-require_relative "font_file_metadata"
-require_relative "axis_metadata"
-require_relative "source_metadata"
 
 module Fontist
   module Import
@@ -75,7 +72,6 @@ module Fontist
           # @raise [ParseError] if file cannot be parsed
           def self.from_file(file_path)
             require "unibuf"
-            require_relative "../metadata_adapter"
 
             unibuf_message = Unibuf.parse_textproto_file(file_path)
             MetadataAdapter.adapt(unibuf_message)
@@ -88,7 +84,6 @@ module Fontist
           # @raise [ParseError] if content cannot be parsed
           def self.from_content(content)
             require "unibuf"
-            require_relative "../metadata_adapter"
 
             unibuf_message = Unibuf.parse_textproto(content)
             MetadataAdapter.adapt(unibuf_message)

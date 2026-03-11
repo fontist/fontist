@@ -1,5 +1,3 @@
-require_relative "base_font_collection_index"
-
 module Fontist
   module Indexes
     # Index for fonts installed in the user font directory

@@ -1,5 +1,4 @@
 require "fontisan"
-require_relative "../otf/font_file"
 
 module Fontist
   module Import

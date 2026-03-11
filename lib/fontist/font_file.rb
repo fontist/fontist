@@ -1,6 +1,5 @@
 require "fontisan"
 require "tempfile"
-require_relative "errors"
 
 module Fontist
   class FontFile

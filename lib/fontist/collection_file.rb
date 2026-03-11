@@ -1,5 +1,4 @@
 require "fontisan"
-require_relative "errors"
 
 module Fontist
   class CollectionFile

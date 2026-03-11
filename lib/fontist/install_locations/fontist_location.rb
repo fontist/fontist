@@ -1,5 +1,3 @@
-require_relative "base_location"
-
 module Fontist
   module InstallLocations
     # Fontist library location (default installation location)

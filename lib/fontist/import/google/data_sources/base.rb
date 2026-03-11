@@ -1,7 +1,6 @@
 require "net/http"
 require "json"
 require "uri"
-require_relative "../models/font_family"
 
 module Fontist
   module Import

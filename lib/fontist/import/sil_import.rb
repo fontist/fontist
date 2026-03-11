@@ -1,7 +1,4 @@
 require "nokogiri"
-require "fontist/import/create_formula"
-require_relative "../sil_import_source"
-require_relative "import_display"
 require "paint"
 
 module Fontist
