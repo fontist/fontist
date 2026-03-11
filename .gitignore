@@ -33,3 +33,4 @@ CLAUDE.md
 # macOS font catalogs (downloaded via rake task)
 /spec/fixtures/macos_catalogs/com_apple_MobileAsset_Font*.xml
 
+.lycheecache

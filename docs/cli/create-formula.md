@@ -41,6 +41,12 @@ fontist create-formula https://example.com/fonts/myfont.zip --file-pattern "*.ot
 
 # Add mirror URLs
 fontist create-formula https://example.com/fonts/myfont.zip --mirror https://mirror.example.com/fonts/myfont.zip
+
+# Create formula with name prefix (for compatibility fonts)
+fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz \
+  --subdir fonts \
+  --file-pattern "*.ttf" \
+  --name-prefix "Wine "
 ```
 
 ## How It Works

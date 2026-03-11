@@ -2,6 +2,10 @@
 
 Import fonts from external sources and create Fontist formulas.
 
+::: warning Maintainer Only
+These commands are for Fontist formula maintainers only. End users should use [`fontist install`](/cli/install) to install fonts from the official repository.
+:::
+
 ## Subcommands
 
 | Command | Description |
