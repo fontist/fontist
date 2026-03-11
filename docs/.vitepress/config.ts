@@ -125,6 +125,23 @@ export default defineConfig({
             },
           ],
         },
+        {
+          text: "Platforms",
+          collapsed: true,
+          items: [
+            { text: "Overview", link: "/guide/platforms/" },
+            { text: "macOS", link: "/guide/platforms/macos" },
+            { text: "Windows", link: "/guide/platforms/windows" },
+          ],
+        },
+        {
+          text: "Maintainer Docs",
+          collapsed: true,
+          items: [
+            { text: "Overview", link: "/guide/maintainer/" },
+            { text: "Importing Fonts", link: "/guide/maintainer/import" },
+          ],
+        },
       ],
       "/cli/": [
         {

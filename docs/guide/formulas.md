@@ -184,6 +184,79 @@ Private repos are stored alongside the main formulas:
 
 See the [repo command reference](/cli/repo) for complete command documentation.
 
+---
+
+## Advanced Formula Features
+
+### Overriding Font Metadata
+
+Some fonts (especially older ones) contain inconsistent or imperfect metadata. For example, some fonts apply different OTF `Family` values for different font styles, which prevents all styles from being registered under the same family.
+
+The `override:` key allows you to correct metadata without modifying the font files:
+
+```yaml
+fonts:
+- name: Frutiger 45 Light
+  styles:
+  - family_name: Frutiger 45 Light
+    type: Regular
+    full_name: Frutiger-Light
+    post_script_name: Frutiger-Light
+    override:
+      preferred_family_name: Frutiger
+```
+
+This override:
+- Does not modify the actual font file
+- Only affects Fontist's internal indexing
+- Allows all Frutiger fonts to be installed together:
+
+```sh
+fontist install "Frutiger" --preferred-family
+```
+
+### HTTP Authentication
+
+Private formula repositories may require authentication. Configure this when setting up the repository:
+
+```sh
+# GitLab example with private token
+fontist repo setup company-fonts \
+  "https://user:${PRIVATE_TOKEN}@gitlab.com/company/font-formulas.git"
+```
+
+### Authorization Headers
+
+For private archives (e.g., GitHub releases), add authorization headers to the formula:
+
+```yaml
+resources:
+  fonts.zip:
+    urls:
+    - url: https://github.com/company/fonts/releases/assets/12345
+      headers:
+        Accept: application/octet-stream
+        Authorization: token ghp_your_token_here
+```
+
+::: warning Token Scopes
+GitHub tokens need at least the `repo` scope for access to release assets. Generate tokens at [GitHub Settings > Tokens](https://github.com/settings/tokens).
+:::
+
+### Name Prefix Option
+
+When creating formulas for compatibility or replacement fonts, use `--name-prefix` to distinguish them:
+
+```sh
+# Create formula for Wine compatibility fonts
+fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz \
+  --subdir fonts \
+  --file-pattern '*.ttf' \
+  --name-prefix 'Wine '
+```
+
+This generates a formula where all fonts have names prefixed with "Wine ", making it clear these are Wine compatibility fonts rather than the original Microsoft fonts.
+
 ## Related
 
 - [How Fontist Works](/guide/how-it-works) - Internal architecture and indexes

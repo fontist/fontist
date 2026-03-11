@@ -43,6 +43,34 @@ macOS comes with Ruby pre-installed. If you encounter permission issues, conside
 
 On Windows, we recommend using [RubyInstaller](https://rubyinstaller.org/) which includes the DevKit needed for native extensions.
 
+#### Windows Installation Steps
+
+1. **Download RubyInstaller** from [rubyinstaller.org](https://rubyinstaller.org/downloads/)
+   - Select the **"Ruby+Devkit"** version (not the plain Ruby version)
+   - Example: `Ruby+Devkit 3.2.X (x64)`
+
+2. **Run the installer**
+   - Check "Add Ruby executables to your PATH"
+   - Check "Associate .rb files with this Ruby installation"
+
+3. **Set up MSYS2** (required for native extensions):
+   ```powershell
+   ridk install
+   ```
+   Select option **3** (MSYS2 and MINGW development toolchain) when prompted.
+
+4. **Install Git for Windows** from [git-scm.com](https://git-scm.com/download/win)
+   - Required for `fontist update` and `fontist repo` commands
+
+5. **Verify installation**:
+   ```powershell
+   ruby --version
+   gem install fontist
+   fontist version
+   ```
+
+See the [Windows Platform Guide](/guide/platforms/windows) for Windows-specific considerations.
+
 ### Linux
 
 Most Linux distributions have Ruby available through their package managers:
@@ -93,6 +121,40 @@ sudo dnf install gcc ruby-devel
 # macOS (with Xcode Command Line Tools)
 xcode-select --install
 ```
+
+## Native Dependencies
+
+Fontist depends on several gems with native C/C++ extensions. The following table shows what's required:
+
+| Gem | Compiler | Purpose |
+|-----|----------|---------|
+| `json` | gcc | JSON parsing |
+| `brotli` (via fontisan) | gcc | WOFF2 font decompression |
+| `seven-zip` (via excavate) | g++ | 7z archive extraction |
+| `libmspack` (via excavate) | gcc | CAB/CHM archive extraction |
+| `ffi-libarchive-binary` (via excavate) | gcc | Archive extraction (zip, tar, etc.) |
+
+::: note Prebuilt Binaries
+Some gems like `nokogiri` and `ffi` provide prebuilt binaries for common platforms, so they typically don't require compilation.
+:::
+
+### Windows DevKit Setup
+
+On Windows, native extensions require the RubyInstaller DevKit:
+
+1. Download [RubyInstaller](https://rubyinstaller.org/downloads/) with DevKit (select "Ruby+Devkit" version)
+
+2. Run the installer, checking "Add Ruby executables to your PATH"
+
+3. After installation, run the following in a command prompt:
+
+   ```cmd
+   ridk install
+   ```
+
+4. Select option **3** (MSYS2 and MINGW development toolchain) when prompted
+
+5. Install [Git for Windows](https://git-scm.com/download/win) for `fontist update` and `fontist repo` commands
 
 ### Proxy Configuration
 
