@@ -2,8 +2,6 @@ require "lutaml/model"
 require "git"
 
 module Fontist
-  require "lutaml/model"
-
   class Resource < Lutaml::Model::Serializable
     attribute :name, :string
     attribute :source, :string
