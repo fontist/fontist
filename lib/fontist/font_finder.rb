@@ -1,5 +1,6 @@
 require_relative "format_spec"
 require_relative "format_matcher"
+require_relative "utils/google_css_url"
 
 module Fontist
   # Find fonts by their capabilities (axes, formats, etc.)
@@ -52,8 +53,10 @@ module Fontist
 
     # Get CSS URL for a font (web-enabled format support)
     def css_url_for(font_name)
+      normalized = font_name.downcase.gsub(/[\s_-]+/, "_")
       Formula.all.each do |formula|
-        next unless formula.name&.casecmp?(font_name)
+        formula_normalized = formula.name&.downcase&.gsub(/[\s_-]+/, "_")
+        next unless formula_normalized == normalized
 
         Array(formula.resources).each do |resource|
           return resource.css_url if resource.css_url
@@ -62,7 +65,7 @@ module Fontist
         # Auto-generate Google Fonts CSS URL if source is google
         Array(formula.resources).each do |resource|
           if resource.source == "google" && resource.family
-            return "https://fonts.googleapis.com/css2?family=#{resource.family.gsub(' ', '+')}"
+            return build_google_css_url(resource.family, formula)
           end
         end
       end
@@ -140,6 +143,28 @@ module Fontist
 
       matcher = FormatMatcher.new(@format_spec)
       matcher.filter_resources(resources)
+    end
+
+    def build_google_css_url(family, formula)
+      variants = Utils::GoogleCssUrl.variants_from_weights(
+        weights_from_formula(formula),
+      )
+      Utils::GoogleCssUrl.build(family, variants)
+    end
+
+    def weights_from_formula(formula)
+      styles = []
+      formula.all_fonts.each do |font|
+        styles.concat(Array(font.styles)) if font.respond_to?(:styles)
+      end
+
+      styles.filter_map do |style|
+        type = (style.respond_to?(:preferred_type) && style.preferred_type) ||
+               (style.respond_to?(:type) && style.type)
+        next unless type
+
+        Utils::GoogleCssUrl.weight_from_name(type)
+      end
     end
   end
 

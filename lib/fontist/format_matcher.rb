@@ -90,6 +90,10 @@ module Fontist
       return resources.first if resources.empty?
       return resources.first unless @spec.has_constraints?
 
+      # Match exact format first (e.g. format: "ttf" selects the ttf resource)
+      exact = find_exact_format(resources)
+      return exact if exact
+
       preferred = find_preferred_format(resources)
       return preferred if preferred
 
@@ -142,6 +146,12 @@ module Fontist
     end
 
     private
+
+    def find_exact_format(resources)
+      return nil unless @spec.format
+
+      resources.find { |r| r.format == @spec.format }
+    end
 
     def find_preferred_format(resources)
       return nil unless @spec.prefer_format

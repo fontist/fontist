@@ -1,5 +1,7 @@
 require "fileutils"
+require "json"
 require "yaml"
+require_relative "../utils/google_css_url"
 
 module Fontist
   module Import
@@ -66,14 +68,15 @@ module Fontist
       # @param path [String] path to formula file
       # @return [Symbol] :migrated, :verified, or :skipped
       def migrate_file(path)
-        formula_data = YAML.load_file(path)
+        formula_data = load_yaml_without_aliases(path)
         already_v5 = formula_data["schema_version"] == 5
 
         # Add schema_version: 5 if not present
         formula_data = add_schema_version(formula_data) unless already_v5
 
-        # Upgrade/verify resources
-        changed = false
+        # Check if the raw file contains YAML aliases that need resolving
+        changed = file_has_yaml_aliases?(path)
+
         if formula_data["resources"]
           changed |= upgrade_resources(formula_data)
           changed |= verify_resources(formula_data)
@@ -104,6 +107,19 @@ module Fontist
       end
 
       private
+
+      # Load YAML and break any anchor/alias object sharing so that
+      # YAML.dump won't emit anchors (&1) and aliases (*1).
+      def load_yaml_without_aliases(path)
+        data = YAML.safe_load(File.read(path), aliases: true, permitted_classes: [Date])
+        JSON.parse(JSON.generate(data))
+      end
+
+      # Check if the raw YAML file contains aliases (*N) that would
+      # cause Psych::BadAlias errors when loaded without aliases: true.
+      def file_has_yaml_aliases?(path)
+        File.read(path).match?(/^\s*- \*\d+/)
+      end
 
       def formula_files
         if File.file?(@input_path)
@@ -199,16 +215,39 @@ module Fontist
         return false unless resource_data["family"]
         return false unless resource_data["format"] == "woff2"
 
-        family = resource_data["family"].gsub(" ", "+")
-        resource_data["css_url"] = "https://fonts.googleapis.com/css2?family=#{family}"
+        variants = variants_from_resource_urls(resource_data)
+        resource_data["css_url"] = Utils::GoogleCssUrl.build(resource_data["family"], variants)
         true
+      end
+
+      # Extract Google-style variant strings from URL filenames.
+      # e.g. "Buda-Light.ttf" → "300", "Molle-Italic.ttf" → "italic"
+      def variants_from_resource_urls(resource_data)
+        variants = Array(resource_data["urls"]).filter_map do |url|
+          basename = File.basename(url.split("?").first, ".*")
+          suffix = basename.split("-").last&.downcase
+          next nil unless suffix
+
+          is_italic = suffix.include?("italic")
+          weight_name = suffix.gsub("italic", "").strip
+          weight = weight_name.empty? ? 400 : Utils::GoogleCssUrl.weight_from_name(weight_name)
+          next nil unless weight
+
+          if is_italic
+            weight == 400 ? "italic" : "#{weight}italic"
+          else
+            Utils::GoogleCssUrl.variant_from_weight(weight)
+          end
+        end
+
+        variants.empty? ? ["regular"] : variants.uniq
       end
 
       def migrate_styles(formula_data)
         changed = false
         resource_meta = build_resource_metadata(formula_data["resources"])
 
-        all_style_containers = Array(formula_data["fonts"])
+        all_style_containers = Array(formula_data["fonts"]).dup
         Array(formula_data["font_collections"]).each do |collection|
           next unless collection.is_a?(Hash)
 

@@ -3,6 +3,7 @@
 require_relative "formula_builder_v4"
 require_relative "../../font_metadata_extractor"
 require_relative "../../../utils/downloader"
+require_relative "../../../utils/google_css_url"
 
 module Fontist
   module Import
@@ -95,21 +96,39 @@ module Fontist
           end
 
           def build_resource_entry(files, format:, variable:, axes: nil)
+            actual_format = detect_actual_format(files.values, format)
+
             entry = {
               "source" => "google",
               "family" => family.family,
               "files" => files.values.map { |url| url.split("/").last },
               "urls" => files.values,
-              "format" => format,
+              "format" => actual_format,
             }
 
             entry["variable_axes"] = axes.map(&:tag) if variable && axes
 
-            if format == "woff2"
-              entry["css_url"] = "https://fonts.googleapis.com/css2?family=#{family.family.gsub(' ', '+')}"
+            if actual_format == "woff2"
+              entry["css_url"] = build_css_url
             end
 
             entry
+          end
+
+          # Check URL extensions and override declared format when all URLs
+          # unanimously have a different font extension (e.g., Google serves
+          # .otf for Material Icons even from the TTF endpoint).
+          def detect_actual_format(urls, declared_format)
+            extensions = urls.map { |url| url.split("/").last[/\.(\w+)$/, 1]&.downcase }.compact.uniq
+            if extensions.size == 1 && %w[ttf otf woff woff2].include?(extensions.first)
+              extensions.first
+            else
+              declared_format
+            end
+          end
+
+          def build_css_url
+            Fontist::Utils::GoogleCssUrl.build(family.family, family.variant_names)
           end
 
           def filter_static_files(files)
