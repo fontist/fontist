@@ -85,6 +85,8 @@ module Fontist
                          Resources::GoogleResource
                        elsif @formula.source == "apple_cdn"
                          Resources::AppleCDNResource
+                       elsif @formula.source == "windows_fod"
+                         Resources::WindowsFodResource
                        else
                          Resources::ArchiveResource
                        end

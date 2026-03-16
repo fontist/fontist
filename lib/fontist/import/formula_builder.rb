@@ -81,6 +81,15 @@ family_id:)
         )
       end
 
+      # Convenience method to set Windows import source
+      def set_windows_import_source(capability_name:, min_windows_version: "10.0")
+        @import_source = WindowsImportSource.new(
+          type: "windows",
+          capability_name: capability_name,
+          min_windows_version: min_windows_version,
+        )
+      end
+
       private
 
       def formula_attributes

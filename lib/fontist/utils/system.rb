@@ -179,6 +179,14 @@ module Fontist
         true
       end
 
+      def self.run_powershell(command)
+        require "open3"
+        stdout, stderr, status = Open3.capture3(
+          "powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command
+        )
+        OpenStruct.new(stdout: stdout, stderr: stderr, success?: status.success?)
+      end
+
       def self.catalog_version_for_macos
         # Check for platform override first
         if platform_override?

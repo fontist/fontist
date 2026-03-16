@@ -15,8 +15,11 @@ module Fontist
     attribute :format, :string                              # ttf, otf, woff2, ttc, otc
     attribute :variable_axes, :string, collection: true     # [wght], [ital,wght], etc.
 
+    # Windows FOD support
+    attribute :capability_name, :string                     # e.g. "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0"
+
     def empty?
-      Array(urls).empty? && Array(files).empty?
+      Array(urls).empty? && Array(files).empty? && capability_name.nil?
     end
 
     def variable_font?
@@ -67,6 +70,7 @@ module Fontist
       "MacosImportSource",
       "GoogleImportSource",
       "SilImportSource",
+      "WindowsImportSource",
     ]
     attribute :font_version, :string
 
@@ -99,6 +103,7 @@ module Fontist
           "macos" => "Fontist::MacosImportSource",
           "google" => "Fontist::GoogleImportSource",
           "sil" => "Fontist::SilImportSource",
+          "windows" => "Fontist::WindowsImportSource",
         },
       }
       map "font_version", to: :font_version
@@ -227,8 +232,16 @@ module Fontist
       import_source.is_a?(SilImportSource)
     end
 
+    def windows_import?
+      import_source.is_a?(WindowsImportSource)
+    end
+
     def manual_formula?
       import_source.nil?
+    end
+
+    def windows_fod?
+      source == "windows_fod" && platforms&.any? { |p| p == "windows" || p.start_with?("windows-") }
     end
 
     def compatible_with_current_platform?

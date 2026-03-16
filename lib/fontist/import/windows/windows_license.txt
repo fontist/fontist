@@ -1,0 +1,4 @@
+Licensed under the Microsoft Software License Terms for Windows.
+These fonts are provided as part of the Windows operating system
+and are subject to the Windows license agreement accepted during
+installation. No additional license agreement is required.

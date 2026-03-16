@@ -16,6 +16,7 @@ module Fontist
         "macos" => "Fontist::MacosImportSource",
         "google" => "Fontist::GoogleImportSource",
         "sil" => "Fontist::SilImportSource",
+        "windows" => "Fontist::WindowsImportSource",
       }
     end
 
