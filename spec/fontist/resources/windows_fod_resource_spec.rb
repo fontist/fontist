@@ -1,10 +1,9 @@
 require "spec_helper"
-require "ostruct"
 
 RSpec.describe Fontist::Resources::WindowsFodResource do
   let(:capability_name) { "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0" }
   let(:resource) do
-    OpenStruct.new(capability_name: capability_name)
+    Struct.new(:capability_name).new(capability_name)
   end
 
   subject(:fod_resource) { described_class.new(resource) }
@@ -14,7 +13,7 @@ RSpec.describe Fontist::Resources::WindowsFodResource do
       before do
         allow(Fontist::Utils::System).to receive(:run_powershell)
           .with("(Get-WindowsCapability -Online -Name '#{capability_name}').State")
-          .and_return(OpenStruct.new(stdout: "Installed\n", stderr: "", success?: true))
+          .and_return(Fontist::Utils::System::PowerShellResult.new(stdout: "Installed\n", stderr: "", success: true))
       end
 
       it "yields paths for existing font files" do
@@ -59,13 +58,13 @@ RSpec.describe Fontist::Resources::WindowsFodResource do
       before do
         allow(Fontist::Utils::System).to receive(:run_powershell)
           .with("(Get-WindowsCapability -Online -Name '#{capability_name}').State")
-          .and_return(OpenStruct.new(stdout: "NotPresent\n", stderr: "", success?: true))
+          .and_return(Fontist::Utils::System::PowerShellResult.new(stdout: "NotPresent\n", stderr: "", success: true))
 
         allow(Fontist).to receive_message_chain(:ui, :say)
       end
 
       it "installs the capability via PowerShell" do
-        install_result = OpenStruct.new(stdout: "", stderr: "", success?: true)
+        install_result = Fontist::Utils::System::PowerShellResult.new(stdout: "", stderr: "", success: true)
         expect(Fontist::Utils::System).to receive(:run_powershell)
           .with("Add-WindowsCapability -Online -Name '#{capability_name}'")
           .and_return(install_result)
@@ -78,10 +77,10 @@ RSpec.describe Fontist::Resources::WindowsFodResource do
       end
 
       it "raises WindowsFodInstallError on failure" do
-        install_result = OpenStruct.new(
+        install_result = Fontist::Utils::System::PowerShellResult.new(
           stdout: "",
           stderr: "Access denied",
-          success?: false,
+          success: false,
         )
         allow(Fontist::Utils::System).to receive(:run_powershell)
           .with("Add-WindowsCapability -Online -Name '#{capability_name}'")

@@ -23,7 +23,7 @@ module Fontist
 
         Fontist.ui.say("Installing Windows font capability: #{cap_name}")
         result = Utils::System.run_powershell(
-          "Add-WindowsCapability -Online -Name '#{cap_name}'",
+          "Add-WindowsCapability -Online -Name '#{ps_escape(cap_name)}'",
         )
         unless result.success?
           raise Errors::WindowsFodInstallError.new(cap_name, result.stderr)
@@ -32,9 +32,14 @@ module Fontist
 
       def capability_installed?(name)
         result = Utils::System.run_powershell(
-          "(Get-WindowsCapability -Online -Name '#{name}').State",
+          "(Get-WindowsCapability -Online -Name '#{ps_escape(name)}').State",
         )
         result.stdout.strip == "Installed"
+      end
+
+      # Escape single quotes for PowerShell single-quoted strings
+      def ps_escape(str)
+        str.gsub("'", "''")
       end
 
       def system_fonts_dir

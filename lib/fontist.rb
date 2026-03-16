@@ -52,6 +52,8 @@ module Fontist
   autoload :MacosImportSource, "#{__dir__}/fontist/macos_import_source"
   autoload :SilImportSource, "#{__dir__}/fontist/sil_import_source"
   autoload :MacosFrameworkMetadata, "#{__dir__}/fontist/macos_framework_metadata"
+  autoload :WindowsImportSource, "#{__dir__}/fontist/windows_import_source"
+  autoload :WindowsFodMetadata, "#{__dir__}/fontist/windows_fod_metadata"
 
   # Manifest classes
   autoload :Manifest, "#{__dir__}/fontist/manifest"

@@ -1,7 +1,5 @@
 require "yaml"
 require "fileutils"
-require_relative "../windows_fod_metadata"
-require_relative "../windows_import_source"
 
 module Fontist
   module Import
@@ -42,8 +40,6 @@ module Fontist
       end
 
       def build_formula(cap_name, description, fonts_data)
-        all_files = fonts_data.flat_map { |_, data| data["files"] }.uniq
-
         {
           name: description,
           description: "#{description} for Windows",
