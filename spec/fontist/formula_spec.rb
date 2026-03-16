@@ -1,6 +1,48 @@
 require "spec_helper"
 
 RSpec.describe Fontist::Formula do
+  describe "#licensed_for_current_platform?" do
+    let(:formula) { Fontist::Formula.new }
+
+    context "when platforms is nil" do
+      it "returns false" do
+        formula.platforms = nil
+        expect(formula.licensed_for_current_platform?).to be false
+      end
+    end
+
+    context "when platforms is empty" do
+      it "returns false" do
+        formula.platforms = []
+        expect(formula.licensed_for_current_platform?).to be false
+      end
+    end
+
+    context "when current OS matches a platform" do
+      it "returns true" do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:macos)
+        formula.platforms = ["macos"]
+        expect(formula.licensed_for_current_platform?).to be true
+      end
+    end
+
+    context "when current OS matches a prefixed platform" do
+      it "returns true" do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:macos)
+        formula.platforms = ["macos-10.15"]
+        expect(formula.licensed_for_current_platform?).to be true
+      end
+    end
+
+    context "when current OS does not match any platform" do
+      it "returns false" do
+        allow(Fontist::Utils::System).to receive(:user_os).and_return(:linux)
+        formula.platforms = ["windows", "macos"]
+        expect(formula.licensed_for_current_platform?).to be false
+      end
+    end
+  end
+
   describe ".from_file" do
     formula_paths = Dir.glob("spec/examples/formulas/*.yml")
 
