@@ -67,5 +67,29 @@ RSpec.describe Fontist::Font, "license confirmation" do
         end.to raise_error(Fontist::Errors::LicensingError)
       end
     end
+
+    context "when the font is already licensed for the current platform" do
+      it "proceeds without prompting or raising even if confirmation is 'no'" do
+        allow_any_instance_of(Fontist::Formula).to receive(:licensed_for_current_platform?).and_return(true)
+        allow_any_instance_of(Fontist::FontInstaller).to receive(:install).and_return(["/fake/font.ttf"])
+
+        expect(Fontist::Utils::UI).not_to receive(:ask)
+
+        expect do
+          Fontist::Font.install(test_font, confirmation: "no")
+        end.not_to raise_error
+      end
+
+      it "proceeds without prompting or raising even if confirmation is nil" do
+        allow_any_instance_of(Fontist::Formula).to receive(:licensed_for_current_platform?).and_return(true)
+        allow_any_instance_of(Fontist::FontInstaller).to receive(:install).and_return(["/fake/font.ttf"])
+
+        expect(Fontist::Utils::UI).not_to receive(:ask)
+
+        expect do
+          Fontist::Font.install(test_font, confirmation: nil)
+        end.not_to raise_error
+      end
+    end
   end
 end
