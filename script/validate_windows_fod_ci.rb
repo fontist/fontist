@@ -14,6 +14,7 @@
 # 5. Exits 0 on success, 1 on critical mismatches
 
 require "yaml"
+require "set"
 
 FONTS_DIR = 'C:\Windows\Fonts'
 YAML_PATH = File.expand_path(
