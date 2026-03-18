@@ -174,7 +174,7 @@ module Fontist
 
         # Try to detect from filename pattern (e.g., Font[wght].ttf)
         path = font_file.path.to_s
-        if path =~ /\[([^\]]+)\]/
+        if path =~ /\[([a-zA-Z][a-zA-Z0-9,\s]*)\]/
           Regexp.last_match(1).split(",").map(&:strip)
         end
       rescue StandardError
