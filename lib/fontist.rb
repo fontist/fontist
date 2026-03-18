@@ -1,6 +1,7 @@
 require "down"
 require "digest"
 require "singleton"
+require "pathname"
 require "lutaml/model"
 
 require_relative "fontist/errors"
