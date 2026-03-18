@@ -193,7 +193,8 @@ module Fontist
           formula.path = path
           formula.name = titleize(formula.key_from_path) if formula.name.nil?
         end
-      rescue Lutaml::Model::Error, TypeError, ArgumentError => e
+      rescue Lutaml::Model::Error, TypeError, ArgumentError,
+             Psych::BadAlias, Psych::SyntaxError => e
         Fontist.ui.error("WARN: Could not load formula #{path}: #{e.message}")
         nil
       end

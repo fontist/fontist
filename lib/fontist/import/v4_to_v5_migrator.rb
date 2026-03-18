@@ -1,4 +1,5 @@
 require "fileutils"
+require "json"
 require "yaml"
 
 module Fontist
@@ -40,8 +41,6 @@ module Fontist
             results[:migrated] += 1
           when :skipped
             results[:skipped] += 1
-          when :failed
-            results[:failed] += 1
           end
         rescue StandardError => e
           results[:failed] += 1
@@ -56,22 +55,24 @@ module Fontist
       # Migrate a single formula file
       #
       # @param path [String] path to formula file
-      # @return [Symbol] :migrated, :skipped, or :failed
+      # @return [Symbol] :migrated or :skipped
       def migrate_file(path)
-        # Load formula
-        formula_data = YAML.load_file(path)
+        formula_data = load_yaml_without_aliases(path)
+        already_v5 = formula_data["schema_version"] == 5
 
-        # Skip if already v5
-        if formula_data["schema_version"] == 5
+        # Add schema_version: 5
+        formula_data = add_schema_version(formula_data) unless already_v5
+
+        # Check if the raw file contains YAML aliases that need resolving
+        changed = file_has_yaml_aliases?(path)
+
+        changed |= upgrade_resources(formula_data) if formula_data["resources"]
+
+        # Nothing to do if already v5 and no fixes needed
+        if already_v5 && !changed
           log "  Already v5: #{File.basename(path)}"
           return :skipped
         end
-
-        # Add schema_version: 5
-        formula_data = add_schema_version(formula_data)
-
-        # Upgrade resources with format metadata
-        formula_data = upgrade_resources(formula_data) if formula_data["resources"]
 
         # Calculate output path
         output_file = output_path_for(path)
@@ -89,6 +90,15 @@ module Fontist
       end
 
       private
+
+      def load_yaml_without_aliases(path)
+        data = YAML.safe_load(File.read(path), aliases: true, permitted_classes: [Date])
+        JSON.parse(JSON.generate(data))
+      end
+
+      def file_has_yaml_aliases?(path)
+        File.read(path).match?(/^\s*- \*\d+/)
+      end
 
       def formula_files
         if File.file?(@input_path)
@@ -119,6 +129,8 @@ module Fontist
       end
 
       def upgrade_resources(formula_data)
+        changed = false
+
         formula_data["resources"].each do |resource_name, resource_data|
           next unless resource_data.is_a?(Hash)
 
@@ -128,17 +140,23 @@ module Fontist
           # Add format if missing
           unless resource_data["format"]
             format = detect_format(resource_name, resource_data)
-            resource_data["format"] = format if format
+            if format
+              resource_data["format"] = format
+              changed = true
+            end
           end
 
           # Add variable_axes if missing and detected
           unless resource_data["variable_axes"]
             axes = detect_variable_axes(resource_name, resource_data)
-            resource_data["variable_axes"] = axes if axes&.any?
+            if axes&.any?
+              resource_data["variable_axes"] = axes
+              changed = true
+            end
           end
         end
 
-        formula_data
+        changed
       end
 
       def archive_resource?(resource_name, resource_data)

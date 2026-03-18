@@ -102,13 +102,14 @@ module Fontist
     end
 
     def resource_options
-      return @formula.resources.first if @formula.resources.size == 1
-      return @formula.resources.first unless @format_spec&.has_constraints?
-      return @formula.resources.first unless @formula.v5?
-
-      matcher = FormatMatcher.new(@format_spec)
-      selected = matcher.select_preferred_resource(@formula.resources)
-      selected.is_a?(Array) ? selected[1] : selected
+      @resource_options ||= begin
+        if @formula.resources.size == 1 || !@format_spec&.has_constraints? || !@formula.v5?
+          @formula.resources.first
+        else
+          matcher = FormatMatcher.new(@format_spec)
+          matcher.select_preferred_resource(@formula.resources)
+        end
+      end
     end
 
     def font_file?(path)
@@ -129,7 +130,16 @@ module Fontist
           styles = matcher.filter_styles(styles)
         end
 
-        styles.map { |s| s.source_font || s.font }
+        file_names = styles.map { |s| s.source_font || s.font }
+
+        if @formula.v5? && resource_options&.source == "google" && file_names.any?
+          resource_basenames = Array(resource_options.files).map { |f| File.basename(f) }
+          unless file_names.any? { |f| resource_basenames.include?(f) }
+            return resource_basenames
+          end
+        end
+
+        file_names
       end
     end
 

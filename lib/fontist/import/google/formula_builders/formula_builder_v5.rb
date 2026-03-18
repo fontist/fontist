@@ -95,17 +95,28 @@ module Fontist
           end
 
           def build_resource_entry(files, format:, variable:, axes: nil)
+            actual_format = detect_actual_format(files.values, format)
+
             entry = {
               "source" => "google",
               "family" => family.family,
               "files" => files.values,
               "urls" => files.values,
-              "format" => format,
+              "format" => actual_format,
             }
 
             entry["variable_axes"] = axes.map(&:tag) if variable && axes
 
             entry
+          end
+
+          def detect_actual_format(urls, declared_format)
+            extensions = urls.map { |url| url.split("/").last[/\.(\w+)$/, 1]&.downcase }.compact.uniq
+            if extensions.size == 1 && %w[ttf otf woff woff2].include?(extensions.first)
+              extensions.first
+            else
+              declared_format
+            end
           end
 
           def filter_static_files(files)
@@ -129,7 +140,7 @@ module Fontist
             parsed_fonts = []
 
             # V5: Download and parse ALL TTF files (including variable fonts)
-            ttf_files[family.family]&.each_value do |url|
+            ttf_files[family.family]&.each do |variant, url|
               sleep(0.05) # Throttle API requests
 
               begin
@@ -142,7 +153,7 @@ module Fontist
                 style_data = build_style_data(metadata, filename)
 
                 # Add v5-specific attributes
-                add_v5_style_attributes(style_data, metadata)
+                add_v5_style_attributes(style_data, metadata, variant)
 
                 parsed_fonts << style_data
               rescue StandardError => e
@@ -155,69 +166,24 @@ module Fontist
             group_fonts_by_subfamily(parsed_fonts)
           end
 
-          def build_style_data(metadata, filename)
-            style_data = {
-              family_name: metadata.family_name,
-              type: metadata.subfamily_name,
-              full_name: metadata.full_name,
-              post_script_name: metadata.postscript_name,
-              version: metadata.version,
-              copyright: metadata.copyright,
-              font: filename,
-            }
-
-            if metadata.preferred_family_name
-              style_data[:preferred_family_name] =
-                metadata.preferred_family_name
-            end
-            if metadata.preferred_subfamily_name
-              style_data[:preferred_type] =
-                metadata.preferred_subfamily_name
-            end
-            if metadata.description
-              style_data[:description] =
-                metadata.description
-            end
-
-            style_data
-          end
-
-          def add_v5_style_attributes(style, _metadata = nil)
+          def add_v5_style_attributes(style, _metadata = nil, variant = nil)
             # Add formats available for this style
-            style["formats"] = determine_formats_for_style
+            style["formats"] = determine_formats_for_style(variant)
 
             # Add variable font info
             # For variable fonts, ALL styles should be marked as variable
             if family.variable_font?
               style["variable_font"] = true
-              style["variable_axes"] = 
-family.axes.map(&:tag) if family.axes&.any?
+              style["variable_axes"] = family.axes.map(&:tag) if family.axes&.any?
             else
               style["variable_font"] = false
             end
           end
 
-          def group_fonts_by_subfamily(fonts)
-            fonts_by_subfamily = fonts.group_by { |f| f[:family_name] }
-
-            fonts_by_subfamily.map do |subfamily_name, styles|
-              {
-                "name" => subfamily_name,
-                "styles" => styles.map { |s| stringify_style(s) },
-              }
-            end
-          end
-
-          def stringify_style(style)
-            style.transform_keys(&:to_s).transform_values do |v|
-              v.is_a?(Symbol) ? v.to_s : v
-            end
-          end
-
-          def determine_formats_for_style
+          def determine_formats_for_style(variant)
             formats = []
-            formats << "ttf" if ttf_files[family.family]&.any?
-            formats << "woff2" if woff2_files[family.family]&.any?
+            formats << "ttf" if variant && ttf_files[family.family]&.key?(variant)
+            formats << "woff2" if variant && woff2_files[family.family]&.key?(variant)
             formats.uniq
           end
         end

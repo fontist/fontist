@@ -27,10 +27,12 @@ module Fontist
       matching_formulas.flat_map do |formula|
         next [] unless formula.v5?
 
-        each_resource(formula).select do |_name, resource|
+        resources = each_resource(formula)
+        resources = apply_format_filter(resources)
+        resources.select do |resource|
           resource.variable_font? && axes_supported?(resource, axes)
-        end.map do |name, resource|
-          build_font_match(formula, name, resource)
+        end.map do |resource|
+          build_font_match(formula, resource.name, resource)
         end
       end.flatten
     end
@@ -40,10 +42,10 @@ module Fontist
       matching_formulas.flat_map do |formula|
         next [] unless formula.v5?
 
-        each_resource(formula).select do |_, r|
-          r.variable_font?
-        end.map do |name, resource|
-          build_font_match(formula, name, resource)
+        resources = each_resource(formula)
+        resources = apply_format_filter(resources)
+        resources.select(&:variable_font?).map do |resource|
+          build_font_match(formula, resource.name, resource)
         end
       end.flatten
     end
@@ -64,31 +66,16 @@ module Fontist
 
     private
 
-    # Helper to iterate over resources as [name, resource] pairs
     def each_resource(formula)
       return [] unless formula.resources
 
-      # ResourceCollection has a resources attribute that contains the array
-      resources_array = if formula.resources.is_a?(ResourceCollection)
-                          formula.resources.resources
-                        else
-                          formula.resources
-                        end
-
-      Array(resources_array).map { |r| [r.name, r] }
+      Array(formula.resources)
     end
 
     def extract_resource_names(formula)
       return [] unless formula.resources
 
-      # ResourceCollection has a resources attribute that contains the array
-      resources_array = if formula.resources.is_a?(ResourceCollection)
-                          formula.resources.resources
-                        else
-                          formula.resources
-                        end
-
-      Array(resources_array).map(&:name).compact
+      Array(formula.resources).map(&:name).compact
     end
 
     def build_font_match(formula, name, resource)
@@ -124,10 +111,19 @@ module Fontist
     def detect_category_from_name(name)
       # Heuristics for common patterns
       return "monospace" if name.match?(/mono/i)
+      return "sans-serif" if name.match?(/sans[-\s]?serif/i)
       return "serif" if name.match?(/serif/i)
 
       "sans-serif"
     end
+
+    def apply_format_filter(resources)
+      return resources unless @format_spec&.has_constraints?
+
+      matcher = FormatMatcher.new(@format_spec)
+      matcher.filter_resources(resources)
+    end
+
   end
 
   # Result object for font matches
