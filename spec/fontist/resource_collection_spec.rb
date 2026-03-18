@@ -18,8 +18,8 @@ RSpec.describe Fontist::ResourceCollection do
       rc = described_class.from_yaml(resources_yaml)
       expect(rc.resources).to be_an(Array)
       expect(rc.resources.size).to eq(1)
-      expect(rc.resources.first.name).to eq("Lato.zip")
-      expect(rc.resources.first.urls).to include("https://www.latofonts.com/files/Lato2OFL.zip")
+      expect(rc.resources.first.name).to eq("lato-source-1.0.0.zip")
+      expect(rc.resources.first.urls).to include("https://github.com/latofonts/lato-source/archive/refs/tags/v1.0.0.zip")
     end
   end
 end
