@@ -1,14 +1,6 @@
 require "thor"
-require_relative "../fontist"
 require_relative "cli/class_options"
 require_relative "cli/thor_ext"
-require_relative "repo_cli"
-require_relative "cache_cli"
-require_relative "import_cli"
-require_relative "fontconfig_cli"
-require_relative "config_cli"
-require_relative "index_cli"
-require_relative "manifest_cli"
 
 module Fontist
   class CLI < Thor
@@ -348,7 +340,6 @@ module Fontist
                                "e.g. 'Wine ' for compatibility fonts"
     def create_formula(url)
       handle_class_options(options)
-      require "fontist/import/create_formula"
       name = Fontist::Import::CreateFormula.new(url, options).call
       Fontist.ui.say("#{name} formula has been successfully created")
       success
@@ -371,7 +362,6 @@ module Fontist
     desc "macos-catalogs", "List available macOS font catalogs"
     def macos_catalogs
       handle_class_options(options)
-      require_relative "macos/catalog/catalog_manager"
 
       catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
 

@@ -1,16 +1,4 @@
 require "lutaml/model"
-require_relative "resource"
-require_relative "resource_collection"
-require_relative "font_collection"
-require_relative "font_model"
-require_relative "extract"
-require_relative "index"
-require_relative "helpers"
-require_relative "update"
-require_relative "import_source"
-require_relative "macos_import_source"
-require_relative "google_import_source"
-require_relative "sil_import_source"
 require_relative "format_matcher"
 require "git"
 
@@ -284,7 +272,6 @@ module Fontist
         # Check if framework exists for this macOS version
         framework = Utils::System.catalog_version_for_macos
         if framework.nil?
-          require_relative "macos_framework_metadata"
           raise Errors::UnsupportedMacOSVersionError.new(
             current_macos,
             MacosFrameworkMetadata.metadata,

@@ -1,8 +1,3 @@
-require "fontist/font_installer"
-require "fontist/font_path"
-require "fontist/formula_picker"
-require "fontist/fontconfig"
-require "fontist/formula_suggestion"
 require_relative "format_spec"
 
 module Fontist

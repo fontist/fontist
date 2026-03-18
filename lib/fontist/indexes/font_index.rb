@@ -1,6 +1,3 @@
-require_relative "default_family_font_index"
-require_relative "preferred_family_font_index"
-
 module Fontist
   module Indexes
     class FontIndex

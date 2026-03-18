@@ -1,4 +1,3 @@
-require "fontist/style_version"
 require_relative "format_matcher"
 
 module Fontist

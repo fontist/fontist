@@ -1,6 +1,4 @@
 require "lutaml/model"
-require_relative "index_mixin"
-require_relative "formula_key_to_path"
 
 module Fontist
   module Indexes

@@ -15,11 +15,13 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
 jobs:
   release:
     permissions:
       contents: write
+      packages: write
       id-token: write
     uses: fontist/support/.github/workflows/release.yml@main
     with:

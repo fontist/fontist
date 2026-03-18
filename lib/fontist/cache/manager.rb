@@ -1,5 +1,3 @@
-require_relative "store"
-
 module Fontist
   module Cache
     # Central cache manager for font index caching operations

@@ -1,0 +1,44 @@
+{
+  "features": [
+    {
+      "title": "Cross-Platform",
+      "icon": "🌐",
+      "description": "Same commands work identically on Windows, macOS, and Linux. No platform-specific paths to remember."
+    },
+    {
+      "title": "Formula-Based",
+      "icon": "📦",
+      "description": "3000+ fonts available through community-maintained formulas with automatic download and license handling."
+    },
+    {
+      "title": "Manifest Support",
+      "icon": "📋",
+      "description": "Define font requirements in YAML for reproducible installations across environments."
+    },
+    {
+      "title": "CI/CD Ready",
+      "icon": "🔄",
+      "description": "Perfect for automated environments with non-interactive installation and GitHub Action available."
+    },
+    {
+      "title": "System Font Detection",
+      "icon": "🔍",
+      "description": "Detects and indexes fonts already installed on your system. No redundant downloads."
+    },
+    {
+      "title": "Multiple Locations",
+      "icon": "📁",
+      "description": "Install to fontist directory, user fonts, or system fonts. Flexible for different use cases."
+    },
+    {
+      "title": "Fontconfig Integration",
+      "icon": "⚡",
+      "description": "Optional fontconfig integration for seamless font discovery in Linux environments."
+    },
+    {
+      "title": "Custom Repositories",
+      "icon": "🔗",
+      "description": "Add private formula repositories for internal or custom fonts."
+    }
+  ]
+}

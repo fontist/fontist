@@ -2,7 +2,7 @@ require "fileutils"
 require "yaml"
 require "tmpdir"
 require "find"
-require_relative "../formula"
+require "rubygems/package"
 
 module Fontist
   module Import
@@ -251,9 +251,6 @@ module Fontist
       # @param url [String] the URL to download
       # @return [String, nil] path to downloaded file or nil
       def download_resource(url)
-        # Lazy load downloader to avoid dependency issues
-        require_relative "../utils/downloader" unless defined?(Fontist::Utils::Downloader)
-
         Fontist::Utils::Downloader.download(url)
       rescue StandardError => e
         log "  Warning: Download failed for #{url}: #{e.message}"
@@ -299,9 +296,6 @@ module Fontist
 
         # Try to parse with Otf::FontFile
         begin
-          # Lazy load Otf::FontFile to avoid dependency issues
-          require_relative "otf/font_file" unless defined?(Fontist::Import::Otf::FontFile)
-
           Otf::FontFile.new(path)
           # If it parses, it's likely a font file
           # Guess ttf if we can't determine
@@ -392,7 +386,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar_gz(archive_path, extract_dir)
-        require "rubygems/package"
         require "zlib"
 
         File.open(archive_path, "rb") do |file|
@@ -410,7 +403,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar_bz2(archive_path, extract_dir)
-        require "rubygems/package"
         require "bzip2/ffi"
 
         File.open(archive_path, "rb") do |file|
@@ -428,8 +420,6 @@ module Fontist
       # @param extract_dir [String] directory to extract to
       # @return [void]
       def extract_tar(archive_path, extract_dir)
-        require "rubygems/package"
-
         File.open(archive_path, "rb") do |file|
           Gem::Package::TarReader.new(file) do |tar|
             extract_tar_entries(tar, extract_dir)

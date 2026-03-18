@@ -1,5 +1,3 @@
-require_relative "import/google"
-
 module Fontist
   class ImportCLI < Thor
     include CLI::ClassOptions
@@ -30,8 +28,6 @@ module Fontist
 
     def google
       handle_class_options(options)
-
-      require "fontist/import/google_fonts_importer"
 
       # Support both --font-name and --font-family (backward compatibility)
       font_name = options[:font_name] || options[:font_family]
@@ -195,8 +191,6 @@ module Fontist
     end
 
     def detect_latest_catalog
-      require_relative "macos/catalog/catalog_manager"
-
       catalogs = Fontist::Macos::Catalog::CatalogManager.available_catalogs
 
       if catalogs.empty?

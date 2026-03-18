@@ -1,5 +1,4 @@
 require "plist"
-require_relative "asset"
 
 module Fontist
   module Macos

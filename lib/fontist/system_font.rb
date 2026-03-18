@@ -1,5 +1,3 @@
-require_relative "system_index"
-
 module Fontist
   # TODO: This is actually a SystemIndex font entry
   class SystemFont < Lutaml::Model::Serializable

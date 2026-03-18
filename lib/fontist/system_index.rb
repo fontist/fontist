@@ -1,5 +1,3 @@
-require_relative "font_file"
-require_relative "collection_file"
 require "paint"
 
 module Fontist
@@ -448,8 +446,6 @@ module Fontist
     def extract_font_directories
       # Extract base directories from the paths that will be globbed
       # This uses the actual system configuration it will scan
-      require_relative "system_font"
-
       os = Fontist::Utils::System.user_os.to_s
       templates = SystemFont.system_config["system"][os]["paths"]
 

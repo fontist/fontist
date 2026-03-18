@@ -1,12 +1,6 @@
 require "plist"
 require "nokogiri"
 require "paint"
-require_relative "create_formula"
-require_relative "recursive_extraction"
-require_relative "../macos/catalog/catalog_manager"
-require_relative "../macos_import_source"
-require_relative "../google_import_source"
-require_relative "../sil_import_source"
 
 module Fontist
   module Import

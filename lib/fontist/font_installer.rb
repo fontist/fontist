@@ -1,9 +1,4 @@
-require "fontist/utils"
 require "excavate"
-require_relative "resources/archive_resource"
-require_relative "resources/google_resource"
-require_relative "resources/apple_cdn_resource"
-require_relative "install_location"
 require_relative "format_matcher"
 
 module Fontist

@@ -1,14 +1,96 @@
 require "down"
 require "digest"
 require "singleton"
+require "pathname"
+require "lutaml/model"
 
 require_relative "fontist/errors"
 require_relative "fontist/version"
-require_relative "fontist/cache/manager"
+require_relative "fontist/cache"
 require_relative "fontist/memoizable"
 require_relative "fontist/path_scanning"
+require_relative "fontist/utils"
 
 module Fontist
+  # Core classes
+  autoload :Config, "#{__dir__}/fontist/config"
+  autoload :Font, "#{__dir__}/fontist/font"
+  autoload :FontCollection, "#{__dir__}/fontist/font_collection"
+  autoload :FontFile, "#{__dir__}/fontist/font_file"
+  autoload :FontInstaller, "#{__dir__}/fontist/font_installer"
+  autoload :FontModel, "#{__dir__}/fontist/font_model"
+  autoload :FontPath, "#{__dir__}/fontist/font_path"
+  autoload :FontStyle, "#{__dir__}/fontist/font_style"
+  autoload :Fontconfig, "#{__dir__}/fontist/fontconfig"
+  autoload :Formula, "#{__dir__}/fontist/formula"
+  autoload :FormulaCollection, "#{__dir__}/fontist/formula"
+  autoload :FormulaPicker, "#{__dir__}/fontist/formula_picker"
+  autoload :FormulaSuggestion, "#{__dir__}/fontist/formula_suggestion"
+  autoload :Helpers, "#{__dir__}/fontist/helpers"
+  autoload :Import, "#{__dir__}/fontist/import"
+  autoload :ImportSource, "#{__dir__}/fontist/import_source"
+  autoload :InstallLocation, "#{__dir__}/fontist/install_location"
+  autoload :StyleVersion, "#{__dir__}/fontist/style_version"
+  autoload :Update, "#{__dir__}/fontist/update"
+
+  # Index classes
+  autoload :Index, "#{__dir__}/fontist/index"
+  autoload :IndexEntry, "#{__dir__}/fontist/index"
+  autoload :IndexStats, "#{__dir__}/fontist/system_index"
+  autoload :SystemIndexFont, "#{__dir__}/fontist/system_index"
+  autoload :SystemIndexFontCollection, "#{__dir__}/fontist/system_index"
+  autoload :SystemIndex, "#{__dir__}/fontist/system_index"
+
+  # Data models
+  autoload :CollectionFile, "#{__dir__}/fontist/collection_file"
+  autoload :Extract, "#{__dir__}/fontist/extract"
+  autoload :ExtractOptions, "#{__dir__}/fontist/extract"
+  autoload :Resource, "#{__dir__}/fontist/resource"
+  autoload :ResourceCollection, "#{__dir__}/fontist/resource_collection"
+
+  # Font sources
+  autoload :GoogleImportSource, "#{__dir__}/fontist/google_import_source"
+  autoload :MacosImportSource, "#{__dir__}/fontist/macos_import_source"
+  autoload :SilImportSource, "#{__dir__}/fontist/sil_import_source"
+  autoload :MacosFrameworkMetadata, "#{__dir__}/fontist/macos_framework_metadata"
+
+  # Manifest classes
+  autoload :Manifest, "#{__dir__}/fontist/manifest"
+  autoload :ManifestFont, "#{__dir__}/fontist/manifest"
+  autoload :ManifestRequest, "#{__dir__}/fontist/manifest_request"
+  autoload :ManifestRequestFont, "#{__dir__}/fontist/manifest_request"
+  autoload :ManifestResponse, "#{__dir__}/fontist/manifest_response"
+  autoload :ManifestResponseFont, "#{__dir__}/fontist/manifest_response"
+  autoload :ManifestResponseFontStyle, "#{__dir__}/fontist/manifest_response"
+
+  # System
+  autoload :Info, "#{__dir__}/fontist/repo"
+  autoload :Repo, "#{__dir__}/fontist/repo"
+  autoload :SystemFont, "#{__dir__}/fontist/system_font"
+
+  # CLI
+  autoload :CLI, "#{__dir__}/fontist/cli"
+  autoload :CacheCLI, "#{__dir__}/fontist/cache_cli"
+  autoload :ConfigCLI, "#{__dir__}/fontist/config_cli"
+  autoload :FontconfigCLI, "#{__dir__}/fontist/fontconfig_cli"
+  autoload :ImportCLI, "#{__dir__}/fontist/import_cli"
+  autoload :IndexCLI, "#{__dir__}/fontist/index_cli"
+  autoload :ManifestCLI, "#{__dir__}/fontist/manifest_cli"
+  autoload :RepoCLI, "#{__dir__}/fontist/repo_cli"
+  autoload :ThorExt, "#{__dir__}/fontist/cli/thor_ext"
+  autoload :Validation, "#{__dir__}/fontist/validation"
+  autoload :ValidationReport, "#{__dir__}/fontist/validation"
+  autoload :ValidationCache, "#{__dir__}/fontist/validation"
+  autoload :FontValidationResult, "#{__dir__}/fontist/validation"
+  autoload :Validator, "#{__dir__}/fontist/validator"
+  autoload :ValidateCLI, "#{__dir__}/fontist/validate_cli"
+
+  # Namespace modules
+  autoload :Indexes, "#{__dir__}/fontist/indexes"
+  autoload :InstallLocations, "#{__dir__}/fontist/install_locations"
+  autoload :Resources, "#{__dir__}/fontist/resources"
+  autoload :Macos, "#{__dir__}/fontist/macos"
+
   def self.ui
     Fontist::Utils::UI
   end
@@ -196,38 +278,3 @@ module Fontist
     true
   end
 end
-
-require_relative "fontist/repo"
-require_relative "fontist/font"
-require_relative "fontist/formula"
-require_relative "fontist/system_font"
-require_relative "fontist/manifest"
-require_relative "fontist/manifest_response"
-require_relative "fontist/manifest_request"
-require_relative "fontist/helpers"
-require_relative "fontist/config"
-require_relative "fontist/update"
-require_relative "fontist/index"
-require_relative "fontist/indexes/incremental_scanner"
-require_relative "fontist/indexes/directory_snapshot"
-require_relative "fontist/indexes/directory_change"
-require_relative "fontist/indexes/incremental_index_updater"
-require_relative "fontist/indexes/font_index"
-require_relative "fontist/indexes/filename_index"
-require_relative "fontist/indexes/fontist_index"
-require_relative "fontist/indexes/user_index"
-require_relative "fontist/indexes/system_index"
-require_relative "fontist/cli"
-require_relative "fontist/font_installer"
-require_relative "fontist/fontconfig"
-require_relative "fontist/formula_picker"
-require_relative "fontist/formula_suggestion"
-require_relative "fontist/extract"
-require_relative "fontist/font_style"
-require_relative "fontist/font_collection"
-require_relative "fontist/import"
-require_relative "fontist/import_source"
-require_relative "fontist/macos_import_source"
-require_relative "fontist/google_import_source"
-require_relative "fontist/sil_import_source"
-require_relative "fontist/macos_framework_metadata"

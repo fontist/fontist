@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "unibuf"
-require_relative "models/metadata"
 
 module Fontist
   module Import

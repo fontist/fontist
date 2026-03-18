@@ -1,5 +1,3 @@
-require_relative "../font_metadata_extractor"
-
 module Fontist
   module Import
     module Otf

@@ -1,5 +1,3 @@
-require_relative "import_source"
-
 module Fontist
   # Import source for Google Fonts
   #

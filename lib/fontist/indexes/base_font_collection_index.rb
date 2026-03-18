@@ -1,5 +1,4 @@
 require "singleton"
-require_relative "../system_index"
 
 module Fontist
   module Indexes

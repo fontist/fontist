@@ -1,13 +1,15 @@
-require_relative "utils/system"
-require_relative "utils/file_magic"
-require_relative "utils/locking"
-require_relative "utils/downloader"
-require_relative "utils/cache"
-require_relative "utils/ui"
-require_relative "utils/file_ops"
-
 module Fontist
   module Utils
+    autoload :Cache, "#{__dir__}/utils/cache"
+    autoload :Downloader, "#{__dir__}/utils/downloader"
+    autoload :FileMagic, "#{__dir__}/utils/file_magic"
+    autoload :FileOps, "#{__dir__}/utils/file_ops"
+    autoload :GitHubClient, "#{__dir__}/utils/github_client"
+    autoload :GitHubUrl, "#{__dir__}/utils/github_url"
+    autoload :Locking, "#{__dir__}/utils/locking"
+    autoload :System, "#{__dir__}/utils/system"
+    autoload :UI, "#{__dir__}/utils/ui"
+
     # Converts a glob pattern to case-insensitive by replacing each
     # alphabetic character with a character class [aA]
     #

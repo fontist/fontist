@@ -1,0 +1,33 @@
+# Lychee Link Checker Configuration
+# https://github.com/lycheeverse/lychee
+
+# Cache results to avoid re-checking same URLs
+cache = true
+max_cache_age = "1d"
+
+# Check verbatim URLs in code blocks
+include_verbatim = false
+
+# Exclude patterns for URLs (regex)
+exclude = [
+  ".git",
+  ".github",
+  "node_modules",
+  # Exclude GitHub issues (may require authentication)
+  'github\.com/fontist/fontist/issues',
+  # Exclude internal /fontist/ links - these are deployment base paths
+  # that work correctly when deployed but fail in local file:// checking
+  '^file://.*/fontist/',
+  # Exclude malformed escaped URLs (VitePress footer issue)
+  '%22https://',
+  # Exclude proxy placeholder examples
+  'proxyhost:port',
+  '\*\*\*proxy',
+  # Exclude trailing slash version of formulas guide (VitePress clean URL issue)
+  'fontist\.org/formulas/guide/create-formula/$',
+]
+
+# Exclude paths from checking
+exclude_path = [
+  "node_modules",
+]
