@@ -98,13 +98,19 @@ module Fontist
 
     def resource_options
       @resource_options ||= begin
-        if @formula.resources.size == 1 || !@format_spec&.has_constraints? || !@formula.v5?
+        if @formula.resources.size == 1 || !@formula.v5?
           @formula.resources.first
-        else
+        elsif @format_spec&.has_constraints?
           matcher = FormatMatcher.new(@format_spec)
           matcher.select_preferred_resource(@formula.resources)
+        else
+          find_desktop_resource || @formula.resources.first
         end
       end
+    end
+
+    def find_desktop_resource
+      @formula.resources.find { |r| FormatMatcher::DESKTOP_FORMATS.include?(r.format) }
     end
 
     def font_file?(path)

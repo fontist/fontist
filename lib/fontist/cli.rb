@@ -338,6 +338,7 @@ module Fontist
                                 "Uses `fnmatch` patterns."
     option :name_prefix, desc: "Prefix to add to all font family names, " \
                                "e.g. 'Wine ' for compatibility fonts"
+    option :schema_version, type: :numeric, default: 5, desc: "Formula schema version (default: 5)"
     def create_formula(url)
       handle_class_options(options)
       name = Fontist::Import::CreateFormula.new(url, options).call

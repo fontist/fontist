@@ -66,7 +66,7 @@ module Fontist
     #   #   "/fonts/**/*.otc"
     #   # ]
     def self.font_file_patterns(prefix)
-      extensions = %w[ttf otf ttc otc]
+      extensions = %w[ttf otf ttc otc woff2]
 
       # On case-insensitive filesystems (Windows, macOS), use simple patterns
       # On case-sensitive filesystems (Linux), use character class patterns
