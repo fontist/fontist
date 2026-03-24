@@ -110,7 +110,7 @@ module Fontist
     end
 
     def find_desktop_resource
-      @formula.resources.find { |r| FormatMatcher::DESKTOP_FORMATS.include?(r.format) }
+      @formula.resources.find { |r| r.format && FormatMatcher::DESKTOP_FORMATS.include?(r.format) }
     end
 
     def font_file?(path)

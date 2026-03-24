@@ -144,6 +144,7 @@ module Fontist
       {
         name: name,
         resource: resource,
+        resources: resources,
         axes: axes,
         format: format,
         category: category,

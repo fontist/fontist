@@ -115,11 +115,12 @@ module Fontist
         return { strategy: :install, format: requested }
       end
 
-      # Check if Fontisan can convert between formats
-      if self.class.can_convert?(available_formats.first, requested)
+      # Check if Fontisan can convert from any available format
+      convertible = available_formats.find { |f| self.class.can_convert?(f, requested) }
+      if convertible
         return {
           strategy: :convert,
-          from: available_formats.first,
+          from: convertible,
           to: requested,
         }
       end

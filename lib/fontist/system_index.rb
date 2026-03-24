@@ -310,12 +310,6 @@ module Fontist
       self
     end
 
-    def update
-      tap do |col|
-        col.fonts = detect_paths(@paths_loader&.call || [])
-      end
-    end
-
     def update(verbose: false, stats: nil)
       tap do |col|
         col.fonts = detect_paths(@paths_loader&.call || [], verbose: verbose,
@@ -652,9 +646,9 @@ spinner_index = nil)
 
     def gather_fonts(path)
       case File.extname(path).gsub(/^\./, "").downcase
-      when "ttf", "otf"
+      when "ttf", "otf", "woff", "woff2"
         detect_file_font(path)
-      when "ttc"
+      when "ttc", "otc"
         detect_collection_fonts(path)
       else
         print_recognition_error(Errors::UnknownFontTypeError.new(path), path)

@@ -22,7 +22,12 @@ module Fontist
       return [] if list.empty?
 
       # Use FormatMatcher for format filtering
-      list = filter_by_format_spec(list) if @format_spec&.has_constraints?
+      if @format_spec&.has_constraints?
+        filtered = filter_by_format_spec(list)
+        raise_format_not_available_error(list) if filtered.empty? && !list.empty?
+
+        list = filtered
+      end
 
       choose(list)
     end
@@ -91,6 +96,15 @@ module Fontist
 
     def formulas_versions(formulas)
       formulas.map { |f| "#{f.key} (#{f.min_fontist})" }.join(", ")
+    end
+
+    def raise_format_not_available_error(formulas)
+      available = formulas.flat_map { |f| Array(f.resources).map(&:format) }.compact.uniq
+      raise Errors::FormatNotAvailableError.new(
+        @font_name,
+        @format_spec.format || @format_spec.prefer_format,
+        available,
+      )
     end
 
     def filter_by_passed_version(formulas)
