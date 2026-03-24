@@ -49,9 +49,9 @@ module Fontist
 
           file_content = File.read(file_path).strip
 
-          if file_content.empty?
-            raise Fontist::Errors::FontIndexCorrupted,
-                  "Index file is empty: #{file_path}"
+          if file_content.empty? || file_content == "---"
+            # Return empty collection for empty index files
+            return new
           end
 
           from_yaml(file_content)
@@ -105,7 +105,11 @@ module Fontist
       end
 
       def add_formula(formula)
-        raise unless formula.is_a?(Formula)
+        # Accept FormulaV4, FormulaV5, or any object that responds to all_fonts
+        unless formula.respond_to?(:all_fonts) && formula.respond_to?(:path)
+          raise ArgumentError,
+                "Expected formula-like object, got #{formula.class}"
+        end
 
         formula.all_fonts.each do |font|
           font.styles.each do |style|

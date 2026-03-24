@@ -1,3 +1,5 @@
+require "excavate"
+
 module Fontist
   module Import
     class RecursiveExtraction

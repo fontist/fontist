@@ -1,0 +1,65 @@
+---
+schema_version: 5
+name: Roboto
+description: Roboto is a neo-grotesque sans-serif typeface family
+homepage: https://fonts.google.com/specimen/Roboto
+resources:
+  ttf_static:
+    source: google
+    urls:
+    - https://fonts.gstatic.com/s/roboto/v30/Roboto-Regular.ttf
+    - https://fonts.gstatic.com/s/roboto/v30/Roboto-Bold.ttf
+    family: Roboto
+    files:
+    - Roboto-Regular.ttf
+    - Roboto-Bold.ttf
+    format: ttf
+  woff2_static:
+    source: google
+    urls:
+    - https://fonts.gstatic.com/s/roboto/v30/Roboto-Regular.woff2
+    - https://fonts.gstatic.com/s/roboto/v30/Roboto-Bold.woff2
+    family: Roboto
+    files:
+    - Roboto-Regular.woff2
+    - Roboto-Bold.woff2
+    format: woff2
+  woff2_variable:
+    source: google
+    urls:
+    - https://fonts.gstatic.com/s/roboto/v30/Roboto[wght,wdth].woff2
+    family: Roboto
+    files:
+    - Roboto[wght,wdth].woff2
+    format: woff2
+    variable_axes:
+    - wght
+    - wdth
+fonts:
+- name: Roboto
+  styles:
+  - family_name: Roboto
+    type: Regular
+    full_name: Roboto Regular
+    post_script_name: Roboto-Regular
+    version: '3.004'
+    copyright: Copyright 2011 Google Inc. All Rights Reserved.
+    font: Roboto-Regular.ttf
+    formats:
+    - ttf
+    - woff2
+    variable_font: false
+  - family_name: Roboto
+    type: Bold
+    full_name: Roboto Bold
+    post_script_name: Roboto-Bold
+    version: '3.004'
+    copyright: Copyright 2011 Google Inc. All Rights Reserved.
+    font: Roboto-Bold.ttf
+    formats:
+    - ttf
+    - woff2
+    variable_font: false
+copyright: Copyright 2011 Google Inc. All Rights Reserved.
+license_url: http://www.apache.org/licenses/LICENSE-2.0
+open_license: Apache License, Version 2.0

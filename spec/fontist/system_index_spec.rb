@@ -211,7 +211,8 @@ RSpec.describe Fontist::SystemIndex do
 
     context "when font has incomplete English metadata" do
       let(:font_paths) do
-        [Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf").to_s]
+        [Fontist.root_path.join("spec", "fixtures", "fonts",
+                                "DejaVuSerif.ttf").to_s]
       end
 
       let(:instance) do
@@ -233,8 +234,8 @@ RSpec.describe Fontist::SystemIndex do
             family: nil,
             subfamily: "Regular",
             preferred_family: nil,
-            preferred_subfamily: nil
-          )
+            preferred_subfamily: nil,
+          ),
         )
 
         expect(Fontist.ui).to receive(:error).with(/Skipping font with incomplete metadata/)
@@ -246,7 +247,8 @@ RSpec.describe Fontist::SystemIndex do
 
     context "when all fonts have complete metadata" do
       let(:font_paths) do
-        [Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf").to_s]
+        [Fontist.root_path.join("spec", "fixtures", "fonts",
+                                "DejaVuSerif.ttf").to_s]
       end
 
       let(:instance) do
@@ -280,7 +282,9 @@ RSpec.describe Fontist::SystemIndex do
   end
 
   context "Bengali Rupali font metadata handling" do
-    let(:rupali_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "Rupali.ttf").to_s }
+    let(:rupali_path) do
+      Fontist.root_path.join("spec", "fixtures", "fonts", "Rupali.ttf").to_s
+    end
 
     describe "FontFile extraction" do
       it "extracts non-English (Bengali) font names" do
@@ -339,7 +343,7 @@ RSpec.describe Fontist::SystemIndex do
         # Reload from file
         reloaded = Fontist::SystemIndexFontCollection.from_file(
           path: index_path,
-          paths_loader: -> { font_paths }
+          paths_loader: -> { font_paths },
         )
 
         expect(reloaded.fonts).not_to be_empty

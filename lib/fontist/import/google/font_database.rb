@@ -171,7 +171,21 @@ github_data: nil, version: 4, source_path: nil)
           family = font_by_name(family_name)
           return nil unless family
 
-          build_formula_v4(family)
+          # Use FormulaBuilder class for version-aware building
+          require_relative "formula_builder"
+          formula = FormulaBuilder.build(
+            family,
+            version: @version,
+            github_index: @github_index,
+            ttf_files: @ttf_files,
+            woff2_files: @woff2_files,
+          )
+
+          # Add import_source if available (requires commit_id from source_path)
+          import_source = create_import_source(family)
+          formula[:import_source] = import_source if import_source
+
+          formula
         end
 
         # Generate formulas for all fonts
@@ -190,158 +204,6 @@ github_data: nil, version: 4, source_path: nil)
 
             save_formula(formula, family.family, output_dir)
           end.compact
-        end
-
-        # Build v4 formula from API data
-        def build_formula_v4(family)
-          github_family = @github_index[family.family]
-
-          # Read license from GitHub if available
-          license_url, license_text = if github_family&.license_text
-                                        [
-                                          "https://scripts.sil.org/OFL",
-                                          github_family.license_text,
-                                        ]
-                                      else
-                                        [
-                                          "https://scripts.sil.org/OFL",
-                                          "SIL Open Font License v1.1",
-                                        ]
-                                      end
-
-          # Build fonts first to get copyright
-          fonts_data = build_fonts_v4(family)
-
-          # Extract copyright from first font style, or use license_text as fallback
-          copyright = fonts_data.dig(0, "styles", 0,
-                                     "copyright") || github_family&.license_text
-
-          # Use GitHub description if available
-          description = github_family&.description || default_description(family)
-
-          # Create import_source if available
-          import_source = create_import_source(family)
-
-          formula = {
-            name: formula_name(family),
-            description: description,
-            homepage: default_homepage(family),
-            resources: build_resources_v4(family),
-            fonts: fonts_data,
-            extract: {},
-            copyright: copyright,
-            license_url: license_url,
-            license: license_text, # Changed from open_license
-            open_license: license_text,
-          }
-
-          # Add import_source if available
-          formula[:import_source] = import_source if import_source
-
-          formula.compact
-        end
-
-        # Build resources from API URLs (v4: TTF only, no WOFF2)
-        def build_resources_v4(family)
-          files = []
-
-          # V4: Collect ONLY TTF URLs from API (no WOFF2)
-          @ttf_files[family.family]&.each_value do |url|
-            files << url
-          end
-
-          return nil if files.empty?
-
-          # V4: Always use "ttf" format (no variable fonts in v4)
-          format = "ttf"
-
-          resource = {
-            "source" => "google",
-            "family" => family.family,
-            "files" => files,
-            "format" => format,
-          }
-
-          # Add variable_axes if present
-          if family.variable_font? && family.axes
-            resource["variable_axes"] = family.axes.map(&:tag)
-          end
-
-          { family.family => resource }
-        end
-
-        # Build fonts from API variant data with full metadata (v4: TTF only)
-        def build_fonts_v4(family)
-          parsed_fonts = []
-
-          # V4: Download and parse ONLY TTF files to get complete metadata
-          @ttf_files[family.family]&.each_value do |url|
-            sleep(0.05) # Throttle API requests
-
-            begin
-              # Download font
-              downloaded = Fontist::Utils::Downloader.download(url)
-
-              # Parse with Fontisan
-              metadata = Fontist::Import::FontMetadataExtractor.new(downloaded.path).extract
-
-              # V4: Skip variable fonts
-              if metadata.is_variable
-                next
-              end
-
-              # Get filename from URL
-              filename = url.split("/").last
-
-              # Create style with complete metadata
-              style_data = {
-                family_name: metadata.family_name,
-                type: metadata.subfamily_name,
-                full_name: metadata.full_name,
-                post_script_name: metadata.postscript_name,
-                version: metadata.version,
-                copyright: metadata.copyright,
-                font: filename,
-              }
-
-              # Add preferred names if present
-              if metadata.preferred_family_name
-                style_data[:preferred_family_name] =
-                  metadata.preferred_family_name
-              end
-              if metadata.preferred_subfamily_name
-                style_data[:preferred_type] = metadata.preferred_subfamily_name
-              end
-
-              # Add description if present
-              if metadata.description
-                style_data[:description] = metadata.description
-              end
-
-              parsed_fonts << style_data
-            rescue StandardError => e
-              warn "Warning: Failed to download/parse #{url}: #{e.message}"
-            end
-          end
-
-          return [] if parsed_fonts.empty?
-
-          # Group by subfamily (family_name from font, not API family)
-          fonts_by_subfamily = parsed_fonts.group_by { |f| f[:family_name] }
-
-          fonts_by_subfamily.map do |subfamily_name, styles|
-            {
-              "name" => subfamily_name,
-              "styles" => styles.map { |s| stringify_style(s) },
-            }
-          end
-        end
-
-        # Convert style hash to string keys
-        def stringify_style(style)
-          style.transform_keys(&:to_s).transform_values do |v|
-            v.is_a?(Symbol) ? v.to_s : v
-          end
         end
 
         # Find filename for a variant

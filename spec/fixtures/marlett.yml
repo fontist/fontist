@@ -1,4 +1,5 @@
 ---
+schema_version: 4
 name: Marlett
 description: Marlett
 resources:
@@ -25,5 +26,5 @@ fonts:
 extract: {}
 copyright: "© 2005 Microsoft Corporation. All Rights Reserved."
 license_url: http://www.microsoft.com/typography/fonts
-command: ''
+command: spec/fontist --format progress
 font_version: '1.11'
