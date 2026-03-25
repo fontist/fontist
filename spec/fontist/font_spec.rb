@@ -450,17 +450,16 @@ RSpec.describe Fontist::Font do
         font_files += Dir.glob(File.join(fonts_path_str, "**", "*.OTF"))
 
         font_files.each do |f|
-          begin
-            File.delete(f)
-          rescue StandardError => e
-            # On Windows, files might be locked. Log and continue.
-            puts "  Warning: Could not delete #{f}: #{e.message}" if File.exist?(f)
-          end
+          File.delete(f)
+        rescue StandardError => e
+          # On Windows, files might be locked. Log and continue.
+          puts "  Warning: Could not delete #{f}: #{e.message}" if File.exist?(f)
         end
 
         # Clean up empty directories
         Dir.glob(File.join(fonts_path_str, "**", "*")).reverse.each do |d|
           next unless File.directory?(d)
+
           begin
             Dir.rmdir(d) if Dir.empty?(d)
           rescue StandardError
@@ -593,7 +592,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "preferred family with option", :windows => false do
+    context "preferred family with option", windows: false do
       let(:font) { "texgyrechorus" }
       before { example_formula("tex_gyre_chorus.yml") }
 
@@ -632,7 +631,7 @@ RSpec.describe Fontist::Font do
       end
     end
 
-    context "has min_fontist attribute", :windows => false do
+    context "has min_fontist attribute", windows: false do
       context "higher min_fontist" do
         let(:font) { "texgyrechorus" }
         before { example_formula("tex_gyre_chorus_min_fontist_and_font.yml") }
@@ -1030,7 +1029,8 @@ RSpec.describe Fontist::Font do
                                                  "system.yml"))
       end
 
-      it "auto-updates and raises UnsupportedFontError for nonexistent font", slow: true do
+      it "auto-updates and raises UnsupportedFontError for nonexistent font",
+         slow: true do
         expect { command }.to raise_error(Fontist::Errors::UnsupportedFontError)
       end
     end

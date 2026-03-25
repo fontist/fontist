@@ -53,6 +53,13 @@ module Fontist
       end
     end
 
+    class UnsupportedSchemaVersionError < GeneralError
+      def initialize(version)
+        super("Unsupported formula schema version: #{version}. " \
+              "Supported versions: 4, 5")
+      end
+    end
+
     class MainRepoNotFoundError < FormulaIndexNotFoundError; end
 
     class InvalidConfigAttributeError < GeneralError; end
@@ -216,6 +223,60 @@ module Fontist
           max = meta["max_macos_version"] || "+"
           "  Font#{num}: #{min}-#{max} (#{meta['description']})"
         end.join("\n")
+      end
+    end
+
+    # Format not available for font
+    class FormatNotAvailableError < GeneralError
+      def initialize(font_name, requested_format, available_formats)
+        super("Format '#{requested_format}' not available for font " \
+              "'#{font_name}'. Available formats: #{available_formats.join(', ')}")
+      end
+    end
+
+    # Variable axes not supported
+    class VariableAxesNotSupportedError < GeneralError
+      def initialize(font_name, requested_axes)
+        super("Variable axes #{requested_axes.join(', ')} not supported by " \
+              "font '#{font_name}'")
+      end
+    end
+
+    # Transcoding errors
+    class UnsupportedTranscodeError < GeneralError
+      def initialize(source_format, target_format)
+        super("Cannot transcode from '#{source_format}' to '#{target_format}'. " \
+              "Supported: TTF/OTF to WOFF/WOFF2")
+      end
+    end
+
+    class TranscodeToolNotFoundError < GeneralError
+      def initialize(tool_name)
+        super("Transcode tool '#{tool_name}' not found. " \
+              "Please install the required package.")
+      end
+    end
+
+    class SourceNotFoundError < GeneralError
+      def initialize(path)
+        super("Source font file not found: #{path}")
+      end
+    end
+
+    class CollectionIndexError < GeneralError
+      def initialize(index, max_index)
+        super("Collection index #{index} out of range. " \
+              "Valid range: 0-#{max_index}")
+      end
+    end
+
+    # License-related transcoding error
+    class TranscodeLicenseNotAcceptedError < GeneralError
+      def initialize(font_name)
+        super("Font '#{font_name}' requires license agreement. " \
+              "Transcoding is a form of modification that may not be permitted " \
+              "by all licenses. Please accept the license with " \
+              "--accept-all-licenses to proceed with transcoding.")
       end
     end
   end

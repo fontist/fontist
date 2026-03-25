@@ -2,7 +2,7 @@ module Fontist
   module Utils
     class GitHubUrl
       GITHUB_RELEASE_PATTERN =
-        %r{^https?://github\.com/(?<owner>[^/]+)/(?<repo>[^/]+)/releases/download/(?<tag>[^/]+)/(?<asset>.+)$}
+        %r{^https?://github\.com/(?<owner>[^/]+)/(?<repo>[^/]+)/releases/download/(?<tag>[^/]+)/(?<asset>.+)$}.freeze
 
       class << self
         def match?(url)
@@ -19,7 +19,7 @@ module Fontist
               repo: match[:repo],
               tag: match[:tag],
               asset: match[:asset],
-              original_url: url_string
+              original_url: url_string,
             )
           else
             ParsedUrl.from_non_github_url(url_string)
@@ -39,7 +39,8 @@ module Fontist
         end
 
         def self.from_non_github_url(original_url)
-          new(owner: nil, repo: nil, tag: nil, asset: nil, original_url: original_url)
+          new(owner: nil, repo: nil, tag: nil, asset: nil,
+              original_url: original_url)
         end
 
         def matched?

@@ -4,7 +4,7 @@ module Fontist
   module PathScanning
     FONT_EXTENSIONS = [
       ".ttf", ".TTF", ".ttc", ".TTC",
-      ".otf", ".OTF",
+      ".otf", ".OTF", ".otc", ".OTC",
       ".woff", ".woff2", ".WOFF", ".WOFF2"
     ].freeze
 

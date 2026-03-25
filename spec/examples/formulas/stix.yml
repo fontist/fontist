@@ -141,7 +141,6 @@ fonts:
       available royalty-free under the SIL Open Font License.
     copyright: Copyright 2001-2021 The STIX Fonts Project Authors (https://github.com/stipub/stixfonts)
     font: STIXTwoText-SemiBold.otf
-extract: {}
 copyright: Copyright 2001-2021 The STIX Fonts Project Authors (https://github.com/stipub/stixfonts)
 license_url: https://scripts.sil.org/OFL
 open_license: |-

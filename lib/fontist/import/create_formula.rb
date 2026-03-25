@@ -98,11 +98,88 @@ module Fontist
       end
 
       def resource_options
-        if @options[:skip_sha]
-          resource_options_without_sha
+        base_options = if @options[:skip_sha]
+                         resource_options_without_sha
+                       else
+                         resource_options_with_sha
+                       end
+
+        # Add v5 format metadata if schema_version is 5
+        base_options = add_v5_metadata(base_options) if v5?
+
+        base_options
+      end
+
+      def v5?
+        @options[:schema_version] == 5
+      end
+
+      def add_v5_metadata(options)
+        # Detect format from font files
+        format = detect_format_from_fonts
+        options[:format] = format if format
+
+        # Detect variable axes from font files
+        variable_axes = detect_variable_axes_from_fonts
+        options[:variable_axes] = variable_axes if variable_axes&.any?
+
+        options
+      end
+
+      def detect_format_from_fonts
+        # Try to get format from extracted font files
+        font_file = extractor.font_files.first
+        return nil unless font_file
+
+        # Extract format from file path extension
+        path = font_file.path
+        ext = File.extname(path).downcase.delete(".")
+
+        # Map to standard format names
+        case ext
+        when "ttf", "otf", "woff", "woff2", "ttc", "otc", "dfont"
+          ext
         else
-          resource_options_with_sha
+          # Default to ttf for unknown formats
+          "ttf"
         end
+      rescue StandardError
+        nil
+      end
+
+      def detect_variable_axes_from_fonts
+        # Check font files for variable axes using fvar table
+        extractor.font_files.each do |font_file|
+          axes = extract_variable_axes_from_font(font_file)
+          return axes if axes&.any?
+        end
+
+        # Also check collection files
+        extractor.font_collection_files.flat_map(&:fonts).each do |font|
+          axes = extract_variable_axes_from_font(font)
+          return axes if axes&.any?
+        end
+
+        nil
+      end
+
+      def extract_variable_axes_from_font(font_file)
+        # Use the metadata extractor to get variable axes
+        # The font_file should have a method to access fvar table
+        return nil unless font_file
+
+        # Try to get axes from metadata
+        if font_file.respond_to?(:variable_axes)
+          return font_file.variable_axes
+        end
+
+        # Try to detect from filename pattern (e.g., Font[wght].ttf)
+        path = font_file.path.to_s
+        if path =~ /\[([a-zA-Z][a-zA-Z0-9,\s]*)\]/
+          Regexp.last_match(1).split(",").map(&:strip)
+        end
+      rescue StandardError
+        nil
       end
 
       def resource_options_without_sha

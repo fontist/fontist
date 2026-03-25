@@ -1,3 +1,5 @@
+require_relative "format_spec"
+
 module Fontist
   class Font
     def initialize(options = {})
@@ -13,6 +15,9 @@ module Fontist
       @by_formula = options[:formula]
       @update_fontconfig = options[:update_fontconfig]
       @install_location = options[:location] || options[:install_location]
+
+      # Accept FormatSpec or create from options
+      @format_spec = options[:format_spec] || FormatSpec.from_options(options)
 
       validate_location_parameter!
       check_or_create_fontist_path!
@@ -179,6 +184,8 @@ module Fontist
       options = {
         no_progress: @no_progress,
         location: @install_location,
+        format_spec: @format_spec,
+        confirmation: @confirmation,
       }
 
       if @by_formula
@@ -194,7 +201,8 @@ module Fontist
                           size_limit: @size_limit,
                           version: @version,
                           smallest: @smallest,
-                          newest: @newest)
+                          newest: @newest,
+                          format_spec: @format_spec)
           .call(downloadable_formulas)
     end
 

@@ -1,51 +1,26 @@
 require "lutaml/model"
+require_relative "format_matcher"
 require "git"
 
 module Fontist
-  class Resource < Lutaml::Model::Serializable
-    attribute :name, :string
-    attribute :source, :string
-    attribute :urls, :string, collection: true
-    attribute :sha256, :string, collection: true
-    attribute :file_size, :integer
-    attribute :family, :string
-    attribute :files, :string, collection: true
-
-    # v4 schema upgrade - optional for backward compatibility
-    attribute :format, :string                              # ttf, otf, woff2, ttc, otc
-    attribute :variable_axes, :string, collection: true     # [wght], [ital,wght], etc.
-
-    # Windows FOD support
-    attribute :capability_name, :string                     # e.g. "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0"
-
-    def empty?
-      Array(urls).empty? && Array(files).empty? && capability_name.nil?
-    end
-
-    def variable_font?
-      variable_axes && !variable_axes.empty?
-    end
-  end
-
-  class ResourceCollection < Lutaml::Model::Collection
-    instances :resources, Resource
-
-    key_value do
-      root "resources"
-      map to: :resources
-      map_key to_instance: :name
-    end
-
-    def empty?
-      resources.nil? || Array(resources).all?(&:empty?)
-    end
-  end
-
+  # Formula - v5 schema with multi-format font support
+  #
+  # This class handles formulas with schema_version 5, which supports:
+  # - Multiple font formats (TTF, WOFF2, variable fonts)
+  # - Format metadata on resources
+  # - Variable axes for variable font filtering
+  #
+  # For v4 formulas, use the migration script to convert to v5 format.
+  #
   class Formula < Lutaml::Model::Serializable
     NAMESPACES = {
       "sil" => "SIL",
       "macos" => "macOS",
     }.freeze
+
+    # v5 schema version for multi-format support
+    # No default to avoid serialization of v4 formulas
+    attribute :schema_version, :integer
 
     attribute :name, :string
     attribute :path, :string
@@ -61,10 +36,10 @@ module Fontist
     attribute :min_fontist, :string
     attribute :digest, :string
     attribute :instructions, :string
-    attribute :resources, ResourceCollection, collection: true
-    attribute :font_collections, FontCollection, collection: true
+    attribute :resources, Resource, collection: true, default: []
+    attribute :font_collections, FontCollection, collection: true, default: []
     attribute :fonts, FontModel, collection: true, default: []
-    attribute :extract, Extract, collection: true
+    attribute :extract, Extract, collection: true, default: []
     attribute :command, :string
     attribute :import_source, ImportSource, polymorphic: [
       "MacosImportSource",
@@ -75,22 +50,30 @@ module Fontist
     attribute :font_version, :string
 
     key_value do
+      # Only serialize schema_version if it's v5 (5), not for v4 formulas
+      map "schema_version", to: :schema_version, render_nil: false, render_default: false
       map "name", to: :name
       map "description", to: :description
       map "homepage", to: :homepage
       map "display_progress_bar", to: :display_progress_bar
       map "repository", to: :repository
       map "platforms", to: :platforms
-      map "resources", to: :resources, value_map: {
-        to: { empty: :empty, omitted: :omitted, nil: :nil },
+      map "resources", to: :resources, child_mappings: {
+        name: :key,
+        source: :source,
+        urls: :urls,
+        sha256: :sha256,
+        file_size: :file_size,
+        family: :family,
+        files: :files,
+        format: :format,
+        variable_axes: :variable_axes,
       }
       map "digest", to: :digest
       map "instructions", to: :instructions
       map "font_collections", to: :font_collections
       map "fonts", to: :fonts
-      map "extract", to: :extract, value_map: {
-        to: { empty: :empty, omitted: :omitted, nil: :nil },
-      }
+      map "extract", to: :extract, render_nil: false, render_empty: false
       map "min_fontist", to: :min_fontist
       map "copyright", to: :copyright
       map "requires_license_agreement", to: :requires_license_agreement
@@ -109,106 +92,126 @@ module Fontist
       map "font_version", to: :font_version
     end
 
-    def self.update_formulas_repo
-      Update.call
-    end
-
-    def self.all
-      formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
-        Formula.from_file(path)
-      end.compact
-
-      FormulaCollection.new(formulas)
-    end
-
-    def self.all_keys
-      Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
-        path.sub("#{Fontist.formulas_path}/", "").sub(".yml", "")
+    class << self
+      def update_formulas_repo
+        Update.call
       end
-    end
 
-    def self.find(font_name)
-      Indexes::FontIndex.from_file.load_formulas(font_name).first
-    end
+      def all
+        formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+          Formula.from_file(path)
+        end.compact
 
-    def self.find_many(font_name)
-      Indexes::FontIndex.from_file.load_formulas(font_name)
-    end
+        FormulaCollection.new(formulas)
+      end
 
-    def self.find_fonts(font_name)
-      formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
-
-      formulas.map do |formula|
-        formula.all_fonts.select do |f|
-          f.name.casecmp?(font_name)
+      def all_keys
+        Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+          path.sub("#{Fontist.formulas_path}/", "").sub(".yml", "")
         end
-      end.flatten
-    end
+      end
 
-    def self.find_styles(font_name, style_name)
-      formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
+      def find(font_name)
+        Indexes::FontIndex.from_file.load_formulas(font_name).first
+      end
 
-      formulas.map do |formula|
-        formula.all_fonts.map do |f|
-          f.styles.select do |s|
-            f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
+      def find_many(font_name)
+        Indexes::FontIndex.from_file.load_formulas(font_name)
+      end
+
+      def find_fonts(font_name)
+        formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
+
+        formulas.map do |formula|
+          formula.all_fonts.select do |f|
+            f.name.casecmp?(font_name)
           end
+        end.flatten
+      end
+
+      def find_styles(font_name, style_name)
+        formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
+
+        formulas.map do |formula|
+          formula.all_fonts.map do |f|
+            f.styles.select do |s|
+              f.name.casecmp?(font_name) && s.type.casecmp?(style_name)
+            end
+          end
+        end.flatten
+      end
+
+      def find_by_key_or_name(name)
+        find_by_key(name) || find_by_name(name)
+      end
+
+      def find_by_key(key)
+        path = Fontist.formulas_path.join("#{key}.yml")
+        return unless File.exist?(path)
+
+        from_file(path)
+      end
+
+      def find_by_name(name)
+        key = name_to_key(name)
+
+        find_by_key(key)
+      end
+
+      def name_to_key(name)
+        name.downcase.gsub(" ", "_")
+      end
+
+      def find_by_font_file(font_file)
+        key = Indexes::FilenameIndex.from_file
+          .load_index_formulas(File.basename(font_file))
+          .flat_map(&:name)
+          .first
+
+        find_by_key(key)
+      end
+
+      def from_file(path)
+        unless File.exist?(path)
+          raise Fontist::Errors::FormulaNotFoundError,
+                "Formula file not found: #{path}"
         end
-      end.flatten
-    end
 
-    def self.find_by_key_or_name(name)
-      find_by_key(name) || find_by_name(name)
-    end
+        content = File.read(path)
 
-    def self.find_by_key(key)
-      path = Fontist.formulas_path.join("#{key}.yml")
-      return unless File.exist?(path)
-
-      from_file(path)
-    end
-
-    def self.find_by_name(name)
-      key = name_to_key(name)
-
-      find_by_key(key)
-    end
-
-    def self.name_to_key(name)
-      name.downcase.gsub(" ", "_")
-    end
-
-    def self.find_by_font_file(font_file)
-      key = Indexes::FilenameIndex.from_file
-        .load_index_formulas(File.basename(font_file))
-        .flat_map(&:name)
-        .first
-
-      find_by_key(key)
-    end
-
-    def self.from_file(path)
-      unless File.exist?(path)
-        raise Fontist::Errors::FormulaNotFoundError,
-              "Formula file not found: #{path}"
+        from_yaml(content).tap do |formula|
+          formula.path = path
+          formula.name = titleize(formula.key_from_path) if formula.name.nil?
+        end
+      rescue Lutaml::Model::Error, TypeError, ArgumentError,
+             Psych::BadAlias, Psych::SyntaxError => e
+        Fontist.ui.error("WARN: Could not load formula #{path}: #{e.message}")
+        nil
       end
 
-      content = File.read(path)
-
-      from_yaml(content).tap do |formula|
-        formula.path = path
-        formula.name = titleize(formula.key_from_path) if formula.name.nil?
+      def titleize(str)
+        str.split("/").map do |part|
+          part.tr("_", " ").split.map(&:capitalize).join(" ")
+        end.join("/")
       end
-    rescue Lutaml::Model::Error, TypeError, ArgumentError => e
-      # Handle schema mismatch errors (e.g., nil values in polymorphic attributes)
-      Fontist.ui.error("WARN: Could not load formula #{path}: #{e.message}")
-      nil
     end
 
-    def self.titleize(str)
-      str.split("/").map do |part|
-        part.tr("_", " ").split.map(&:capitalize).join(" ")
-      end.join("/")
+    # Check if formula uses v5 schema (multi-format support)
+    # Returns true only if schema_version is explicitly 5
+    def v5?
+      schema_version == 5
+    end
+
+    # Get the effective schema version (default to 4 if not set)
+    def effective_schema_version
+      schema_version || 4
+    end
+
+    # Filter resources based on format specification
+    def matching_resources(format_spec)
+      return resources if format_spec.nil?
+
+      FormatMatcher.new(format_spec).filter_resources(resources)
     end
 
     def manual?
@@ -219,7 +222,6 @@ module Fontist
       !resources.nil? && !resources.empty?
     end
 
-    # Convenience methods for import source type checking
     def macos_import?
       import_source.is_a?(MacosImportSource)
     end
@@ -266,7 +268,6 @@ module Fontist
       return true if platforms.nil? || platforms.empty?
 
       # Check if platform matches - support both exact matches and prefixed matches
-      # e.g., "macos" matches "macos", "macos-font7", "macos-font8"
       platform_matches = platforms.any? do |p|
         p == target || p.start_with?("#{target}-")
       end
@@ -298,11 +299,9 @@ module Fontist
 
       current = Utils::System.user_os
 
-      # Build base message
       message = "Font '#{name}' is only available for: #{platforms.join(', ')}. "
       message += "Your current platform is: #{current}."
 
-      # Add version information for macOS using import source
       if current == :macos && macos_import?
         current_version = Utils::System.macos_version
         if current_version
@@ -371,9 +370,6 @@ module Fontist
 
     def collection_fonts
       Array(font_collections).flat_map do |c|
-        { "font" => c.filename,
-          "source_font" => c.source_filename }
-
         c.fonts.flat_map do |f|
           f.styles.each do |s|
             s.font = c.filename
@@ -390,97 +386,9 @@ module Fontist
         .flatten
         .detect { |s| s.family_name == font }&.override || {}
     end
-
-    private
-
-    def real_path
-      Dir.glob(path).first
-    end
-
-    def namespace
-      namespace_from_mappings || namespace_from_key
-    end
-
-    def namespace_from_mappings
-      parts = key.split("/")
-      namespace_from_key = parts.take(parts.size - 1).join("/")
-      NAMESPACES[namespace_from_key]
-    end
-
-    def namespace_from_key
-      parts = key.downcase.gsub("_", " ").split("/")
-      parts.take(parts.size - 1).map do |namespace|
-        namespace.split.map(&:capitalize).join(" ")
-      end.join("/")
-    end
-
-    def base_name
-      @data["name"] || base_name_from_key
-    end
-
-    def base_name_from_key
-      key.split("/").last
-        .downcase.gsub("_", " ")
-        .split.map(&:capitalize).join(" ")
-    end
-
-    def fonts_by_family(data)
-      return hash_all_fonts(data) unless Fontist.preferred_family?
-
-      preferred_family_fonts(data)
-    end
-
-    def preferred_family_fonts(data)
-      groups = preferred_family_styles(data).group_by do |style|
-        style["family_name"]
-      end
-
-      groups.map do |font_name, font_styles|
-        { "name" => font_name, "styles" => font_styles }
-      end
-    end
-
-    def preferred_family_styles(data)
-      hash_all_fonts(data).flat_map do |font|
-        font["styles"].map do |style|
-          style.merge(preferred_style(style))
-        end
-      end
-    end
-
-    def preferred_style(style)
-      {
-        "family_name" => style["preferred_family_name"] || style["family_name"],
-        "type" => style["preferred_type"] || style["type"],
-        "default_family_name" => style["family_name"],
-        "default_type" => style["type"],
-      }
-    end
-
-    def hash_all_fonts(data)
-      hash_collection_fonts(data) + hash_fonts(data)
-    end
-
-    def hash_collection_fonts(data)
-      return [] unless data["font_collections"]
-
-      data["font_collections"].flat_map do |coll|
-        filenames = { "font" => coll["filename"],
-                      "source_font" => coll["source_filename"] }
-
-        coll["fonts"].map do |font|
-          font.merge("styles" => font["styles"].map { |s| filenames.merge(s) })
-        end
-      end
-    end
-
-    def hash_fonts(data)
-      return [] unless data["fonts"]
-
-      data["fonts"]
-    end
   end
 
+  # FormulaCollection holds multiple formulas
   class FormulaCollection < Lutaml::Model::Collection
     instances :formulas, Formula
 

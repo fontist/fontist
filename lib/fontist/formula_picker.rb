@@ -1,13 +1,18 @@
+require_relative "format_matcher"
+
 module Fontist
   class FormulaPicker
-    def initialize(font_name, size_limit:, version:, smallest:, newest:)
+    def initialize(font_name,
+                   size_limit: nil, version: nil, smallest: nil, newest: nil,
+                   format_spec: nil)
       @font_name = font_name
       @size_limit = size_limit || Fontist.formula_size_limit_in_megabytes
+      @format_spec = format_spec
 
-      @options  = {}
-      @version  = @options[:version]  = version  if version
+      @options = {}
+      @version = @options[:version] = version if version
       @smallest = @options[:smallest] = smallest if smallest
-      @newest   = @options[:newest]   = newest   if newest
+      @newest = @options[:newest] = newest if newest
     end
 
     def call(formulas)
@@ -15,6 +20,14 @@ module Fontist
 
       list = filter(formulas)
       return [] if list.empty?
+
+      # Use FormatMatcher for format filtering
+      if @format_spec&.has_constraints?
+        filtered = filter_by_format_spec(list)
+        raise_format_not_available_error(list) if filtered.empty? && !list.empty?
+
+        list = filtered
+      end
 
       choose(list)
     end
@@ -30,6 +43,19 @@ module Fontist
       list = ensure_size_limit(list) if @options.empty?
 
       ensure_fontist_version(list)
+    end
+
+    def filter_by_format_spec(formulas)
+      matcher = FormatMatcher.new(@format_spec)
+
+      formulas.map do |formula|
+        next formula unless formula.v5?
+
+        matching = matcher.filter_resources(formula.resources)
+        if matching.any?
+          formula.dup.tap { |f| f.resources = matching }
+        end
+      end.compact
     end
 
     def ensure_fontist_version(formulas)
@@ -70,6 +96,15 @@ module Fontist
 
     def formulas_versions(formulas)
       formulas.map { |f| "#{f.key} (#{f.min_fontist})" }.join(", ")
+    end
+
+    def raise_format_not_available_error(formulas)
+      available = formulas.flat_map { |f| Array(f.resources).map(&:format) }.compact.uniq
+      raise Errors::FormatNotAvailableError.new(
+        @font_name,
+        @format_spec.format || @format_spec.prefer_format,
+        available,
+      )
     end
 
     def filter_by_passed_version(formulas)

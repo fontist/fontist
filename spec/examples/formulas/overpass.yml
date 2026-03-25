@@ -25,5 +25,4 @@ fonts:
     post_script_name: OverpassMono-Regular
     version: '3.0'
     font: overpass-mono-regular.otf
-extract:
 open_license: OFL-1.1

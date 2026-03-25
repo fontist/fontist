@@ -30,13 +30,12 @@ Gem::Specification.new do |spec|
   spec.executables   = ["fontist"]
 
   spec.add_dependency "down", "~> 5.0"
-  spec.add_dependency "excavate", "~> 0.3", ">= 0.3.8"
+  spec.add_dependency "excavate", "~> 1.0", ">= 1.0.3"
   spec.add_dependency "fontisan", "~> 0.2", ">= 0.2.11"
   spec.add_dependency "fuzzy_match", "~> 2.1"
   spec.add_dependency "git", "> 1.0"
   spec.add_dependency "json", "~> 2.0"
   spec.add_dependency "lutaml-model", "~> 0.7"
-  spec.add_dependency "lutaml-xsd", "~> 1.0"
   spec.add_dependency "marcel", "~> 1.0"
   spec.add_dependency "nokogiri", "~> 1.0"
   spec.add_dependency "octokit", "~> 4.0"

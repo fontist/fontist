@@ -84,7 +84,7 @@ RSpec.describe Fontist::Utils::GitHubClient do
         repo: "FiraCode",
         tag: "5.2",
         asset: "Fira_Code_v5.2.zip",
-        original_url: "https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip"
+        original_url: "https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip",
       )
     end
 
@@ -101,7 +101,7 @@ RSpec.describe Fontist::Utils::GitHubClient do
       it "falls back to original URL on API errors" do
         # Mock a scenario where the asset is not found in the release
         allow_any_instance_of(Octokit::Client).to receive(:release_for_tag).and_return(
-          double("release", assets: [])
+          double("release", assets: []),
         )
 
         result = described_class.authenticated_download_url(parsed_url)
@@ -121,4 +121,3 @@ RSpec.describe Fontist::Utils::GitHubClient do
     end
   end
 end
-

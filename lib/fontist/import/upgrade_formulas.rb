@@ -19,7 +19,7 @@ module Fontist
     # - Detects variable font axes from filenames
     class UpgradeFormulas
       ARCHIVE_EXTENSIONS = %w[zip tar gz tgz bz2 7z rar].freeze
-      FONT_EXTENSIONS = %w[ttf otf woff2 ttc otc].freeze
+      FONT_EXTENSIONS = %w[ttf otf woff woff2 ttc otc].freeze
 
       def initialize(formulas_path, options = {})
         @formulas_path = formulas_path
