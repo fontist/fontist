@@ -41,16 +41,12 @@ module Fontist
 
       def build_formula(cap_name, description, fonts_data)
         {
+          schema_version: 5,
           name: description,
           description: "#{description} for Windows",
           homepage: HOMEPAGE,
           platforms: ["windows"],
-          resources: {
-            normalize_key(description) => {
-              source: "windows_fod",
-              capability_name: cap_name,
-            },
-          },
+          resources: build_resources(cap_name, description, fonts_data),
           fonts: build_fonts(fonts_data),
           open_license: license_text,
           import_source: {
@@ -61,18 +57,40 @@ module Fontist
         }
       end
 
+      def build_resources(cap_name, description, fonts_data)
+        all_fonts = fonts_data.flat_map { |_, data| data["styles"].map { |s| s["font"] } }
+        formats = all_fonts.map { |f| detect_format(f) }.uniq
+
+        resource = {
+          source: "windows_fod",
+          capability_name: cap_name,
+        }
+        resource[:format] = formats.first if formats.size == 1
+
+        { normalize_key(description) => resource }
+      end
+
       def build_fonts(fonts_data)
         fonts_data.map do |family_name, data|
           {
             name: family_name,
             styles: data["styles"].map do |style|
+              fmt = detect_format(style["font"])
               {
                 family_name: family_name,
                 type: style["type"],
                 font: style["font"],
+                formats: [fmt],
+                variable_font: false,
               }
             end,
           }
+        end
+      end
+
+      def detect_format(filename)
+        File.extname(filename).downcase.delete(".").then do |ext|
+          %w[ttf ttc otf otc].include?(ext) ? ext : "ttf"
         end
       end
 

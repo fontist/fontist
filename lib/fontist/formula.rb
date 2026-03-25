@@ -68,6 +68,7 @@ module Fontist
         files: :files,
         format: :format,
         variable_axes: :variable_axes,
+        capability_name: :capability_name,
       }
       map "digest", to: :digest
       map "instructions", to: :instructions
