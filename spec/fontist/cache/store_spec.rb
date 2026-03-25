@@ -1,5 +1,4 @@
 require "spec_helper"
-require "ostruct"
 
 RSpec.describe Fontist::Cache::Store do
   let(:cache_dir) { Fontist.root_path.join("cache", "store_spec") }
@@ -134,13 +133,13 @@ RSpec.describe Fontist::Cache::Store do
 
   describe "serialization" do
     it "properly serializes Ruby objects" do
-      value = OpenStruct.new(name: "Test", nested: { data: [1, 2, 3] })
+      value = { name: "Test", nested: { data: [1, 2, 3] } }
 
-      store.set("ostruct", value)
-      retrieved = store.get("ostruct")
+      store.set("hash_obj", value)
+      retrieved = store.get("hash_obj")
 
-      expect(retrieved.name).to eq "Test"
-      expect(retrieved.nested[:data]).to eq [1, 2, 3]
+      expect(retrieved[:name]).to eq "Test"
+      expect(retrieved[:nested][:data]).to eq [1, 2, 3]
     end
 
     it "handles frozen objects" do

@@ -47,6 +47,11 @@ module Fontist
               version: @options[:import_source].version,
               release_date: @options[:import_source].release_date,
             )
+          when WindowsImportSource
+            builder.set_windows_import_source(
+              capability_name: @options[:import_source].capability_name,
+              min_windows_version: @options[:import_source].min_windows_version,
+            )
           end
         else
           # Legacy support for backward compatibility

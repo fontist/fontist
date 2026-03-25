@@ -45,6 +45,7 @@ module Fontist
       "MacosImportSource",
       "GoogleImportSource",
       "SilImportSource",
+      "WindowsImportSource",
     ]
     attribute :font_version, :string
 
@@ -67,6 +68,7 @@ module Fontist
         files: :files,
         format: :format,
         variable_axes: :variable_axes,
+        capability_name: :capability_name,
       }
       map "digest", to: :digest
       map "instructions", to: :instructions
@@ -85,6 +87,7 @@ module Fontist
           "macos" => "Fontist::MacosImportSource",
           "google" => "Fontist::GoogleImportSource",
           "sil" => "Fontist::SilImportSource",
+          "windows" => "Fontist::WindowsImportSource",
         },
       }
       map "font_version", to: :font_version
@@ -232,8 +235,16 @@ module Fontist
       import_source.is_a?(SilImportSource)
     end
 
+    def windows_import?
+      import_source.is_a?(WindowsImportSource)
+    end
+
     def manual_formula?
       import_source.nil?
+    end
+
+    def windows_fod?
+      source == "windows_fod" && platforms&.any? { |p| p == "windows" || p.start_with?("windows-") }
     end
 
     def compatible_with_current_platform?

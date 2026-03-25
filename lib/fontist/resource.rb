@@ -15,6 +15,9 @@ module Fontist
     attribute :format, :string # ttf, otf, woff2, ttc, otc
     attribute :variable_axes, :string, collection: true # [wght], [ital,wght], etc.
 
+    # Windows FOD support
+    attribute :capability_name, :string # e.g. "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0"
+
     key_value do
       map "name", to: :name
       map "source", to: :source
@@ -25,10 +28,11 @@ module Fontist
       map "files", to: :files
       map "format", to: :format
       map "variable_axes", to: :variable_axes
+      map "capability_name", to: :capability_name
     end
 
     def empty?
-      Array(urls).empty? && Array(files).empty?
+      Array(urls).empty? && Array(files).empty? && capability_name.nil?
     end
 
     def variable_font?

@@ -1,0 +1,654 @@
+---
+capabilities:
+  "Language.Fonts.Arab~~~und-ARAB~0.0.1.0":
+    description: Arabic Script Supplemental Fonts
+    fonts:
+      Aldhabi:
+        files: [Aldhabi.ttf]
+        styles:
+          - { type: Regular, font: Aldhabi.ttf }
+      Andalus:
+        files: [Andlso.ttf]
+        styles:
+          - { type: Regular, font: Andlso.ttf }
+      Arabic Typesetting:
+        files: [Arabtype.ttf]
+        styles:
+          - { type: Regular, font: Arabtype.ttf }
+      Microsoft Uighur:
+        files: [Msuighur.ttf, MSUighub.ttf]
+        styles:
+          - { type: Regular, font: Msuighur.ttf }
+          - { type: Bold, font: MSUighub.ttf }
+      Sakkal Majalla:
+        files: [Majalla.ttf, Majallab.ttf]
+        styles:
+          - { type: Regular, font: Majalla.ttf }
+          - { type: Bold, font: Majallab.ttf }
+      Simplified Arabic:
+        files: [Simpo.ttf, Simpbdo.ttf, Simpfxo.ttf]
+        styles:
+          - { type: Regular, font: Simpo.ttf }
+          - { type: Bold, font: Simpbdo.ttf }
+      Simplified Arabic Fixed:
+        files: [Simpfxo.ttf]
+        styles:
+          - { type: Regular, font: Simpfxo.ttf }
+      Traditional Arabic:
+        files: [Trado.ttf, Tradbdo.ttf]
+        styles:
+          - { type: Regular, font: Trado.ttf }
+          - { type: Bold, font: Tradbdo.ttf }
+      Urdu Typesetting:
+        files: [UrdType.ttf, UrdTypeb.ttf]
+        styles:
+          - { type: Regular, font: UrdType.ttf }
+          - { type: Bold, font: UrdTypeb.ttf }
+
+  "Language.Fonts.Beng~~~und-BENG~0.0.1.0":
+    description: Bangla Script Supplemental Fonts
+    fonts:
+      Shonar Bangla:
+        files: [Shonar.ttf, Shonarb.ttf]
+        styles:
+          - { type: Regular, font: Shonar.ttf }
+          - { type: Bold, font: Shonarb.ttf }
+      Vrinda:
+        files: [Vrinda.ttf, Vrindab.ttf]
+        styles:
+          - { type: Regular, font: Vrinda.ttf }
+          - { type: Bold, font: Vrindab.ttf }
+
+  "Language.Fonts.Cher~~~und-CHER~0.0.1.0":
+    description: Cherokee Supplemental Fonts
+    fonts:
+      Plantagenet Cherokee:
+        files: [Plantc.ttf]
+        styles:
+          - { type: Regular, font: Plantc.ttf }
+
+  "Language.Fonts.Deva~~~und-DEVA~0.0.1.0":
+    description: Devanagari Supplemental Fonts
+    fonts:
+      Aparajita:
+        files: [Aparaj.ttf, Aparaji.ttf, Aparajb.ttf, Aparajbi.ttf]
+        styles:
+          - { type: Regular, font: Aparaj.ttf }
+          - { type: Italic, font: Aparaji.ttf }
+          - { type: Bold, font: Aparajb.ttf }
+          - { type: Bold Italic, font: Aparajbi.ttf }
+      Kokila:
+        files: [Kokila.ttf, Kokilai.ttf, Kokilab.ttf, Kokilabi.ttf]
+        styles:
+          - { type: Regular, font: Kokila.ttf }
+          - { type: Italic, font: Kokilai.ttf }
+          - { type: Bold, font: Kokilab.ttf }
+          - { type: Bold Italic, font: Kokilabi.ttf }
+      Mangal:
+        files: [Mangal.ttf, MangalB.ttf]
+        styles:
+          - { type: Regular, font: Mangal.ttf }
+          - { type: Bold, font: MangalB.ttf }
+      Sanskrit Text:
+        files: [Sanskr.ttf]
+        styles:
+          - { type: Regular, font: Sanskr.ttf }
+      Utsaah:
+        files: [Utsaah.ttf, Utsaahi.ttf, Utsaahb.ttf, Utsaahbi.ttf]
+        styles:
+          - { type: Regular, font: Utsaah.ttf }
+          - { type: Italic, font: Utsaahi.ttf }
+          - { type: Bold, font: Utsaahb.ttf }
+          - { type: Bold Italic, font: Utsaahbi.ttf }
+
+  "Language.Fonts.Ethi~~~und-ETHI~0.0.1.0":
+    description: Ethiopic Supplemental Fonts
+    fonts:
+      Nyala:
+        files: [Nyala.ttf]
+        styles:
+          - { type: Regular, font: Nyala.ttf }
+
+  "Language.Fonts.Gujr~~~und-GUJR~0.0.1.0":
+    description: Gujarati Supplemental Fonts
+    fonts:
+      Shruti:
+        files: [Shruti.ttf, Shrutib.ttf]
+        styles:
+          - { type: Regular, font: Shruti.ttf }
+          - { type: Bold, font: Shrutib.ttf }
+
+  "Language.Fonts.Guru~~~und-GURU~0.0.1.0":
+    description: Gurmukhi Supplemental Fonts
+    fonts:
+      Raavi:
+        files: [Raavi.ttf, Raavib.ttf]
+        styles:
+          - { type: Regular, font: Raavi.ttf }
+          - { type: Bold, font: Raavib.ttf }
+
+  "Language.Fonts.Hans~~~und-HANS~0.0.1.0":
+    description: Chinese (Simplified) Supplemental Fonts
+    fonts:
+      DengXian:
+        files: [Dengl.ttf, Deng.ttf, Dengb.ttf]
+        styles:
+          - { type: Light, font: Dengl.ttf }
+          - { type: Regular, font: Deng.ttf }
+          - { type: Bold, font: Dengb.ttf }
+      FangSong:
+        files: [Simfang.ttf]
+        styles:
+          - { type: Regular, font: Simfang.ttf }
+      KaiTi:
+        files: [Simkai.ttf]
+        styles:
+          - { type: Regular, font: Simkai.ttf }
+      SimHei:
+        files: [Simhei.ttf]
+        styles:
+          - { type: Regular, font: Simhei.ttf }
+
+  "Language.Fonts.Hant~~~und-HANT~0.0.1.0":
+    description: Chinese (Traditional) Supplemental Fonts
+    fonts:
+      DFKai-SB:
+        files: [Kaiu.ttf]
+        styles:
+          - { type: Regular, font: Kaiu.ttf }
+      MingLiU:
+        files: [Mingliu.ttc]
+        styles:
+          - { type: Regular, font: Mingliu.ttc }
+      MingLiU_HKSCS:
+        files: [Mingliu.ttc]
+        styles:
+          - { type: Regular, font: Mingliu.ttc }
+      PMingLiU:
+        files: [Mingliu.ttc]
+        styles:
+          - { type: Regular, font: Mingliu.ttc }
+
+  "Language.Fonts.Hebr~~~und-HEBR~0.0.1.0":
+    description: Hebrew Supplemental Fonts
+    fonts:
+      Aharoni Bold:
+        files: [Ahronbd.ttf]
+        styles:
+          - { type: Bold, font: Ahronbd.ttf }
+      David:
+        files: [David.ttf, Davidbd.ttf]
+        styles:
+          - { type: Regular, font: David.ttf }
+          - { type: Bold, font: Davidbd.ttf }
+      FrankRuehl:
+        files: [Frank.ttf]
+        styles:
+          - { type: Regular, font: Frank.ttf }
+      Gisha:
+        files: [Gisha.ttf, Gishabd.ttf]
+        styles:
+          - { type: Regular, font: Gisha.ttf }
+          - { type: Bold, font: Gishabd.ttf }
+      Levenim MT:
+        files: [Lvnm.ttf, Lvnmbd.ttf]
+        styles:
+          - { type: Regular, font: Lvnm.ttf }
+          - { type: Bold, font: Lvnmbd.ttf }
+      Miriam:
+        files: [Mriam.ttf]
+        styles:
+          - { type: Regular, font: Mriam.ttf }
+      Miriam Fixed:
+        files: [Mriamc.ttf]
+        styles:
+          - { type: Regular, font: Mriamc.ttf }
+      Narkisim:
+        files: [Nrkis.ttf]
+        styles:
+          - { type: Regular, font: Nrkis.ttf }
+      Rod:
+        files: [Rod.ttf]
+        styles:
+          - { type: Regular, font: Rod.ttf }
+
+  "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0":
+    description: Japanese Supplemental Fonts
+    fonts:
+      BIZ UDGothic:
+        files: [BIZ-UDGothicR.ttc, BIZ-UDGothicB.ttc]
+        styles:
+          - { type: Regular, font: BIZ-UDGothicR.ttc }
+          - { type: Bold, font: BIZ-UDGothicB.ttc }
+      BIZ UDPGothic:
+        files: [BIZ-UDGothicR.ttc, BIZ-UDGothicB.ttc]
+        styles:
+          - { type: Regular, font: BIZ-UDGothicR.ttc }
+          - { type: Bold, font: BIZ-UDGothicB.ttc }
+      BIZ UDMincho Medium:
+        files: [BIZ-UDMinchoM.ttc]
+        styles:
+          - { type: Medium, font: BIZ-UDMinchoM.ttc }
+      BIZ UDPMincho Medium:
+        files: [BIZ-UDMinchoM.ttc]
+        styles:
+          - { type: Medium, font: BIZ-UDMinchoM.ttc }
+      Meiryo:
+        files: [Meiryo.ttc, Meiryob.ttc]
+        styles:
+          - { type: Regular, font: Meiryo.ttc }
+          - { type: Italic, font: Meiryo.ttc }
+          - { type: Bold, font: Meiryob.ttc }
+          - { type: Bold Italic, font: Meiryob.ttc }
+      Meiryo UI:
+        files: [Meiryo.ttc, Meiryob.ttc]
+        styles:
+          - { type: Regular, font: Meiryo.ttc }
+          - { type: Italic, font: Meiryo.ttc }
+          - { type: Bold, font: Meiryob.ttc }
+          - { type: Bold Italic, font: Meiryob.ttc }
+      MS Mincho:
+        files: [Msmincho.ttc]
+        styles:
+          - { type: Regular, font: Msmincho.ttc }
+      MS PMincho:
+        files: [Msmincho.ttc]
+        styles:
+          - { type: Regular, font: Msmincho.ttc }
+      UD Digi Kyokasho N-B:
+        files: [UDDigiKyokashoN-B.ttc]
+        styles:
+          - { type: Bold, font: UDDigiKyokashoN-B.ttc }
+      UD Digi Kyokasho NK-B:
+        files: [UDDigiKyokashoN-B.ttc]
+        styles:
+          - { type: Bold, font: UDDigiKyokashoN-B.ttc }
+      UD Digi Kyokasho NK-R:
+        files: [UDDigiKyokashoN-R.ttc]
+        styles:
+          - { type: Regular, font: UDDigiKyokashoN-R.ttc }
+      UD Digi Kyokasho NP-B:
+        files: [UDDigiKyokashoN-B.ttc]
+        styles:
+          - { type: Bold, font: UDDigiKyokashoN-B.ttc }
+      UD Digi Kyokasho NP-R:
+        files: [UDDigiKyokashoN-R.ttc]
+        styles:
+          - { type: Regular, font: UDDigiKyokashoN-R.ttc }
+      UD Digi Kyokasho N-R:
+        files: [UDDigiKyokashoN-R.ttc]
+        styles:
+          - { type: Regular, font: UDDigiKyokashoN-R.ttc }
+      Yu Mincho:
+        files: [Yuminl.ttf, Yumin.ttf, Yumindb.ttf]
+        styles:
+          - { type: Light, font: Yuminl.ttf }
+          - { type: Regular, font: Yumin.ttf }
+          - { type: Demibold, font: Yumindb.ttf }
+
+  "Language.Fonts.Khmr~~~und-KHMR~0.0.1.0":
+    description: Khmer Supplemental Fonts
+    fonts:
+      DaunPenh:
+        files: [Daunpenh.ttf]
+        styles:
+          - { type: Regular, font: Daunpenh.ttf }
+      Khmer UI:
+        files: [KhmerUI.ttf, KhmerUIB.ttf]
+        styles:
+          - { type: Regular, font: KhmerUI.ttf }
+          - { type: Bold, font: KhmerUIB.ttf }
+      MoolBoran:
+        files: [Moolbor.ttf]
+        styles:
+          - { type: Regular, font: Moolbor.ttf }
+
+  "Language.Fonts.Knda~~~und-KNDA~0.0.1.0":
+    description: Kannada Supplemental Fonts
+    fonts:
+      Tunga:
+        files: [Tunga.ttf, Tungab.ttf]
+        styles:
+          - { type: Regular, font: Tunga.ttf }
+          - { type: Bold, font: Tungab.ttf }
+
+  "Language.Fonts.Kore~~~und-KORE~0.0.1.0":
+    description: Korean Supplemental Fonts
+    fonts:
+      Batang:
+        files: [Batang.ttc]
+        styles:
+          - { type: Regular, font: Batang.ttc }
+      BatangChe:
+        files: [Batang.ttc]
+        styles:
+          - { type: Regular, font: Batang.ttc }
+      Dotum:
+        files: [Gulim.ttc]
+        styles:
+          - { type: Regular, font: Gulim.ttc }
+      DotumChe:
+        files: [Gulim.ttc]
+        styles:
+          - { type: Regular, font: Gulim.ttc }
+      Gulim:
+        files: [Gulim.ttc]
+        styles:
+          - { type: Regular, font: Gulim.ttc }
+      GulimChe:
+        files: [Gulim.ttc]
+        styles:
+          - { type: Regular, font: Gulim.ttc }
+      Gungsuh:
+        files: [Batang.ttc]
+        styles:
+          - { type: Regular, font: Batang.ttc }
+      GungsuhChe:
+        files: [Batang.ttc]
+        styles:
+          - { type: Regular, font: Batang.ttc }
+
+  "Language.Fonts.Laoo~~~und-LAOO~0.0.1.0":
+    description: Lao Supplemental Fonts
+    fonts:
+      DokChampa:
+        files: [Dokchamp.ttf]
+        styles:
+          - { type: Regular, font: Dokchamp.ttf }
+      Lao UI:
+        files: [Laoui.ttf, Laouib.ttf]
+        styles:
+          - { type: Regular, font: Laoui.ttf }
+          - { type: Bold, font: Laouib.ttf }
+
+  "Language.Fonts.Mlym~~~und-MLYM~0.0.1.0":
+    description: Malayalam Supplemental Fonts
+    fonts:
+      Kartika:
+        files: [Kartika.ttf, Kartikab.ttf]
+        styles:
+          - { type: Regular, font: Kartika.ttf }
+          - { type: Bold, font: Kartikab.ttf }
+
+  "Language.Fonts.Orya~~~und-ORYA~0.0.1.0":
+    description: Odia Supplemental Fonts
+    fonts:
+      Kalinga:
+        files: [Kalinga.ttf, Kalingab.ttf]
+        styles:
+          - { type: Regular, font: Kalinga.ttf }
+          - { type: Bold, font: Kalingab.ttf }
+
+  "Language.Fonts.Sinh~~~und-SINH~0.0.1.0":
+    description: Sinhala Supplemental Fonts
+    fonts:
+      Iskoola Pota:
+        files: [Iskpota.ttf, Iskpotab.ttf]
+        styles:
+          - { type: Regular, font: Iskpota.ttf }
+          - { type: Bold, font: Iskpotab.ttf }
+
+  "Language.Fonts.Syrc~~~und-SYRC~0.0.1.0":
+    description: Syriac Supplemental Fonts
+    fonts:
+      Estrangelo Edessa:
+        files: [Estre.ttf]
+        styles:
+          - { type: Regular, font: Estre.ttf }
+
+  "Language.Fonts.Taml~~~und-TAML~0.0.1.0":
+    description: Tamil Supplemental Fonts
+    fonts:
+      Latha:
+        files: [Latha.ttf, Lathab.ttf]
+        styles:
+          - { type: Regular, font: Latha.ttf }
+          - { type: Bold, font: Lathab.ttf }
+      Vijaya:
+        files: [Vijaya.ttf, Vijayab.ttf]
+        styles:
+          - { type: Regular, font: Vijaya.ttf }
+          - { type: Bold, font: Vijayab.ttf }
+
+  "Language.Fonts.Telu~~~und-TELU~0.0.1.0":
+    description: Telugu Supplemental Fonts
+    fonts:
+      Gautami:
+        files: [Gautami.ttf, Gautamib.ttf]
+        styles:
+          - { type: Regular, font: Gautami.ttf }
+          - { type: Bold, font: Gautamib.ttf }
+      Vani:
+        files: [Vani.ttf, Vanib.ttf]
+        styles:
+          - { type: Regular, font: Vani.ttf }
+          - { type: Bold, font: Vanib.ttf }
+
+  "Language.Fonts.Thai~~~und-THAI~0.0.1.0":
+    description: Thai Supplemental Fonts
+    fonts:
+      Angsana New:
+        files: [Angsana.ttc]
+        styles:
+          - { type: Regular, font: Angsana.ttc }
+          - { type: Italic, font: Angsana.ttc }
+          - { type: Bold, font: Angsana.ttc }
+          - { type: Bold Italic, font: Angsana.ttc }
+      AngsanaUPC:
+        files: [Angsana.ttc]
+        styles:
+          - { type: Regular, font: Angsana.ttc }
+          - { type: Italic, font: Angsana.ttc }
+          - { type: Bold, font: Angsana.ttc }
+          - { type: Bold Italic, font: Angsana.ttc }
+      Browallia New:
+        files: [Browalia.ttc]
+        styles:
+          - { type: Regular, font: Browalia.ttc }
+          - { type: Italic, font: Browalia.ttc }
+          - { type: Bold, font: Browalia.ttc }
+          - { type: Bold Italic, font: Browalia.ttc }
+      BrowalliaUPC:
+        files: [Browalia.ttc]
+        styles:
+          - { type: Regular, font: Browalia.ttc }
+          - { type: Italic, font: Browalia.ttc }
+          - { type: Bold, font: Browalia.ttc }
+          - { type: Bold Italic, font: Browalia.ttc }
+      Cordia New:
+        files: [Cordia.ttc]
+        styles:
+          - { type: Regular, font: Cordia.ttc }
+          - { type: Italic, font: Cordia.ttc }
+          - { type: Bold, font: Cordia.ttc }
+          - { type: Bold Italic, font: Cordia.ttc }
+      CordiaUPC:
+        files: [Cordia.ttc]
+        styles:
+          - { type: Regular, font: Cordia.ttc }
+          - { type: Italic, font: Cordia.ttc }
+          - { type: Bold, font: Cordia.ttc }
+          - { type: Bold Italic, font: Cordia.ttc }
+      DilleniaUPC:
+        files: [Upcdl.ttf, Upcdi.ttf, Upcdb.ttf, Upcdbi.ttf]
+        styles:
+          - { type: Regular, font: Upcdl.ttf }
+          - { type: Italic, font: Upcdi.ttf }
+          - { type: Bold, font: Upcdb.ttf }
+          - { type: Bold Italic, font: Upcdbi.ttf }
+      EucrosiaUPC:
+        files: [Upcel.ttf, Upcei.ttf, Upceb.ttf, Upcebi.ttf]
+        styles:
+          - { type: Regular, font: Upcel.ttf }
+          - { type: Italic, font: Upcei.ttf }
+          - { type: Bold, font: Upceb.ttf }
+          - { type: Bold Italic, font: Upcebi.ttf }
+      FreesiaUPC:
+        files: [Upcfl.ttf, Upcfi.ttf, Upcfb.ttf, Upcfbi.ttf]
+        styles:
+          - { type: Regular, font: Upcfl.ttf }
+          - { type: Italic, font: Upcfi.ttf }
+          - { type: Bold, font: Upcfb.ttf }
+          - { type: Bold Italic, font: Upcfbi.ttf }
+      IrisUPC:
+        files: [Upcil.ttf, Upcii.ttf, Upcib.ttf, Upcibi.ttf]
+        styles:
+          - { type: Regular, font: Upcil.ttf }
+          - { type: Italic, font: Upcii.ttf }
+          - { type: Bold, font: Upcib.ttf }
+          - { type: Bold Italic, font: Upcibi.ttf }
+      JasmineUPC:
+        files: [Upcjl.ttf, Upcji.ttf, Upcjb.ttf, Upcjbi.ttf]
+        styles:
+          - { type: Regular, font: Upcjl.ttf }
+          - { type: Italic, font: Upcji.ttf }
+          - { type: Bold, font: Upcjb.ttf }
+          - { type: Bold Italic, font: Upcjbi.ttf }
+      KodchiangUPC:
+        files: [Upckl.ttf, Upcki.ttf, Upckb.ttf, Upckbi.ttf]
+        styles:
+          - { type: Regular, font: Upckl.ttf }
+          - { type: Italic, font: Upcki.ttf }
+          - { type: Bold, font: Upckb.ttf }
+          - { type: Bold Italic, font: Upckbi.ttf }
+      Leelawadee:
+        files: [Leelawad.ttf, Leelawdb.ttf]
+        styles:
+          - { type: Regular, font: Leelawad.ttf }
+          - { type: Bold, font: Leelawdb.ttf }
+      LilyUPC:
+        files: [Upcll.ttf, Upcli.ttf, Upclb.ttf, Upclbi.ttf]
+        styles:
+          - { type: Regular, font: Upcll.ttf }
+          - { type: Italic, font: Upcli.ttf }
+          - { type: Bold, font: Upclb.ttf }
+          - { type: Bold Italic, font: Upclbi.ttf }
+
+  "Language.Fonts.Cans~~~und-CANS~0.0.1.0":
+    description: Canadian Aboriginal Syllabics Supplemental Fonts
+    fonts:
+      Euphemia:
+        files: [Euphemia.ttf]
+        styles:
+          - { type: Regular, font: Euphemia.ttf }
+
+  "Language.Fonts.PanEuropeanSupplementalFonts~~~~0.0.1.0":
+    description: Pan-European Supplemental Fonts
+    fonts:
+      Arial Nova:
+        files: [ArialNova-Light.ttf, ArialNova-LightItalic.ttf, ArialNova.ttf, ArialNova-Italic.ttf, ArialNova-Bold.ttf, ArialNova-BoldItalic.ttf]
+        styles:
+          - { type: Light, font: ArialNova-Light.ttf }
+          - { type: Light Italic, font: ArialNova-LightItalic.ttf }
+          - { type: Regular, font: ArialNova.ttf }
+          - { type: Italic, font: ArialNova-Italic.ttf }
+          - { type: Bold, font: ArialNova-Bold.ttf }
+          - { type: Bold Italic, font: ArialNova-BoldItalic.ttf }
+      Arial Nova Cond:
+        files: [ArialNovaCond-Light.ttf, ArialNovaCond-LightItalic.ttf, ArialNovaCond.ttf, ArialNovaCond-Italic.ttf, ArialNovaCond-Bold.ttf, ArialNovaCond-BoldItalic.ttf]
+        styles:
+          - { type: Light, font: ArialNovaCond-Light.ttf }
+          - { type: Light Italic, font: ArialNovaCond-LightItalic.ttf }
+          - { type: Regular, font: ArialNovaCond.ttf }
+          - { type: Italic, font: ArialNovaCond-Italic.ttf }
+          - { type: Bold, font: ArialNovaCond-Bold.ttf }
+          - { type: Bold Italic, font: ArialNovaCond-BoldItalic.ttf }
+      Georgia Pro:
+        files: [GeorgiaPro-Light.ttf, GeorgiaPro-LightItalic.ttf, GeorgiaPro-Regular.ttf, GeorgiaPro-Italic.ttf, GeorgiaPro-SemiBold.ttf, GeorgiaPro-SemiBoldItalic.ttf, GeorgiaPro-Bold.ttf, GeorgiaPro-BoldItalic.ttf, GeorgiaPro-Black.ttf, GeorgiaPro-BlackItalic.ttf]
+        styles:
+          - { type: Light, font: GeorgiaPro-Light.ttf }
+          - { type: Light Italic, font: GeorgiaPro-LightItalic.ttf }
+          - { type: Regular, font: GeorgiaPro-Regular.ttf }
+          - { type: Italic, font: GeorgiaPro-Italic.ttf }
+          - { type: Semibold, font: GeorgiaPro-SemiBold.ttf }
+          - { type: Semibold Italic, font: GeorgiaPro-SemiBoldItalic.ttf }
+          - { type: Bold, font: GeorgiaPro-Bold.ttf }
+          - { type: Bold Italic, font: GeorgiaPro-BoldItalic.ttf }
+          - { type: Black, font: GeorgiaPro-Black.ttf }
+          - { type: Black Italic, font: GeorgiaPro-BlackItalic.ttf }
+      Georgia Pro Cond:
+        files: [GeorgiaPro-CondLight.ttf, GeorgiaPro-CondLightItalic.ttf, GeorgiaPro-CondRegular.ttf, GeorgiaPro-CondItalic.ttf, GeorgiaPro-CondSemiBold.ttf, GeorgiaPro-CondSemiBoldItalic.ttf, GeorgiaPro-CondBold.ttf, GeorgiaPro-CondBoldItalic.ttf, GeorgiaPro-CondBlack.ttf, GeorgiaPro-CondBlackItalic.ttf]
+        styles:
+          - { type: Light, font: GeorgiaPro-CondLight.ttf }
+          - { type: Light Italic, font: GeorgiaPro-CondLightItalic.ttf }
+          - { type: Regular, font: GeorgiaPro-CondRegular.ttf }
+          - { type: Italic, font: GeorgiaPro-CondItalic.ttf }
+          - { type: Semibold, font: GeorgiaPro-CondSemiBold.ttf }
+          - { type: Semibold Italic, font: GeorgiaPro-CondSemiBoldItalic.ttf }
+          - { type: Bold, font: GeorgiaPro-CondBold.ttf }
+          - { type: Bold Italic, font: GeorgiaPro-CondBoldItalic.ttf }
+          - { type: Black, font: GeorgiaPro-CondBlack.ttf }
+          - { type: Black Italic, font: GeorgiaPro-CondBlackItalic.ttf }
+      Gill Sans Nova:
+        files: [GillSansLightNova.ttf, GillSansLightItNova.ttf, GillSansNova.ttf, GillSansItNova.ttf, GillSansBoNova.ttf, GillSansBoItNova.ttf, GillSansUltraBoNova.ttf]
+        styles:
+          - { type: Light, font: GillSansLightNova.ttf }
+          - { type: Light Italic, font: GillSansLightItNova.ttf }
+          - { type: Regular, font: GillSansNova.ttf }
+          - { type: Italic, font: GillSansItNova.ttf }
+          - { type: Bold, font: GillSansBoNova.ttf }
+          - { type: Bold Italic, font: GillSansBoItNova.ttf }
+          - { type: Ultra Bold, font: GillSansUltraBoNova.ttf }
+      Gill Sans Nova Cond:
+        files: [GillSansCondLightNova.ttf, GillSansCondLightItNova.ttf, GillSansCondNova.ttf, GillSansCondItNova.ttf, GillSansCondBoNova.ttf, GillSansCondBoItNova.ttf, GillSansCondExtraNova.ttf, GillSansCondExtraItNova.ttf, GillSansCondUltraBoNova.ttf]
+        styles:
+          - { type: Light, font: GillSansCondLightNova.ttf }
+          - { type: Light Italic, font: GillSansCondLightItNova.ttf }
+          - { type: Regular, font: GillSansCondNova.ttf }
+          - { type: Italic, font: GillSansCondItNova.ttf }
+          - { type: Bold, font: GillSansCondBoNova.ttf }
+          - { type: Bold Italic, font: GillSansCondBoItNova.ttf }
+          - { type: Extra Bold, font: GillSansCondExtraNova.ttf }
+          - { type: Extra Bold Italic, font: GillSansCondExtraItNova.ttf }
+          - { type: Ultra Bold, font: GillSansCondUltraBoNova.ttf }
+      Neue Haas Grotesk Text Pro:
+        files: [NHaasGroteskTXPro-Rg.ttf, NHaasGroteskTXPro-It.ttf]
+        styles:
+          - { type: Regular, font: NHaasGroteskTXPro-Rg.ttf }
+          - { type: Italic, font: NHaasGroteskTXPro-It.ttf }
+      Rockwell Nova:
+        files: [RockwellNova.ttf, RockwellNova-Italic.ttf, RockwellNova-Bold.ttf, RockwellNova-BoldItalic.ttf, RockwellNova-ExtraBold.ttf, RockwellNova-ExtraBoldItalic.ttf, RockwellNova-Light.ttf, RockwellNova-LightItalic.ttf]
+        styles:
+          - { type: Regular, font: RockwellNova.ttf }
+          - { type: Italic, font: RockwellNova-Italic.ttf }
+          - { type: Bold, font: RockwellNova-Bold.ttf }
+          - { type: Bold Italic, font: RockwellNova-BoldItalic.ttf }
+          - { type: Extra Bold, font: RockwellNova-ExtraBold.ttf }
+          - { type: Extra Bold Italic, font: RockwellNova-ExtraBoldItalic.ttf }
+          - { type: Light, font: RockwellNova-Light.ttf }
+          - { type: Light Italic, font: RockwellNova-LightItalic.ttf }
+      Rockwell Nova Cond:
+        files: [RockwellNovaCond.ttf, RockwellNovaCond-Italic.ttf, RockwellNovaCond-Bold.ttf, RockwellNovaCond-BoldItalic.ttf, RockwellNovaCond-Light.ttf, RockwellNovaCond-LightItalic.ttf]
+        styles:
+          - { type: Regular, font: RockwellNovaCond.ttf }
+          - { type: Italic, font: RockwellNovaCond-Italic.ttf }
+          - { type: Bold, font: RockwellNovaCond-Bold.ttf }
+          - { type: Bold Italic, font: RockwellNovaCond-BoldItalic.ttf }
+          - { type: Light, font: RockwellNovaCond-Light.ttf }
+          - { type: Light Italic, font: RockwellNovaCond-LightItalic.ttf }
+      Verdana Pro:
+        files: [VerdanaPro-Light.ttf, VerdanaPro-LightItalic.ttf, VerdanaPro-Regular.ttf, VerdanaPro-Italic.ttf, VerdanaPro-SemiBold.ttf, VerdanaPro-SemiBoldItalic.ttf, VerdanaPro-Bold.ttf, VerdanaPro-BoldItalic.ttf, VerdanaPro-Black.ttf, VerdanaPro-BlackItalic.ttf]
+        styles:
+          - { type: Light, font: VerdanaPro-Light.ttf }
+          - { type: Light Italic, font: VerdanaPro-LightItalic.ttf }
+          - { type: Regular, font: VerdanaPro-Regular.ttf }
+          - { type: Italic, font: VerdanaPro-Italic.ttf }
+          - { type: SemiBold, font: VerdanaPro-SemiBold.ttf }
+          - { type: SemiBold Italic, font: VerdanaPro-SemiBoldItalic.ttf }
+          - { type: Bold, font: VerdanaPro-Bold.ttf }
+          - { type: Bold Italic, font: VerdanaPro-BoldItalic.ttf }
+          - { type: Black, font: VerdanaPro-Black.ttf }
+          - { type: Black Italic, font: VerdanaPro-BlackItalic.ttf }
+      Verdana Pro Cond:
+        files: [VerdanaPro-CondLight.ttf, VerdanaPro-CondLightItalic.ttf, VerdanaPro-CondRegular.ttf, VerdanaPro-CondItalic.ttf, VerdanaPro-CondSemiBold.ttf, VerdanaPro-CondSemiBoldItalic.ttf, VerdanaPro-CondBold.ttf, VerdanaPro-CondBoldItalic.ttf, VerdanaPro-CondBlack.ttf, VerdanaPro-CondBlackItalic.ttf]
+        styles:
+          - { type: Light, font: VerdanaPro-CondLight.ttf }
+          - { type: Light Italic, font: VerdanaPro-CondLightItalic.ttf }
+          - { type: Regular, font: VerdanaPro-CondRegular.ttf }
+          - { type: Italic, font: VerdanaPro-CondItalic.ttf }
+          - { type: SemiBold, font: VerdanaPro-CondSemiBold.ttf }
+          - { type: SemiBold Italic, font: VerdanaPro-CondSemiBoldItalic.ttf }
+          - { type: Bold, font: VerdanaPro-CondBold.ttf }
+          - { type: Bold Italic, font: VerdanaPro-CondBoldItalic.ttf }
+          - { type: Black, font: VerdanaPro-CondBlack.ttf }
+          - { type: Black Italic, font: VerdanaPro-CondBlackItalic.ttf }

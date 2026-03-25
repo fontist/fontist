@@ -22,6 +22,7 @@ module Fontist
     autoload :TemplateHelper, "#{__dir__}/import/template_helper"
     autoload :TextHelper, "#{__dir__}/import/text_helper"
     autoload :UpgradeFormulas, "#{__dir__}/import/upgrade_formulas"
+    autoload :Windows, "#{__dir__}/import/windows"
 
     class << self
       def name_to_filename(name)

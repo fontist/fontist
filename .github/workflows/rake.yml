@@ -214,6 +214,104 @@ jobs:
           echo "   Test Complete"
           echo "========================================================================="
 
+      - name: Test Windows FOD font installation
+        if: startsWith(matrix.os, 'windows')
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          Write-Host "========================================================================="
+          Write-Host "   Windows FOD (Features on Demand) Font Installation Test"
+          Write-Host "========================================================================="
+          Write-Host ""
+          Write-Host "Platform: Windows $(([System.Environment]::OSVersion.Version).ToString())"
+          Write-Host "Runner: ${{ matrix.os }}"
+          Write-Host ""
+
+          Write-Host "--- Step 1: Generate Windows FOD Formulas into formulas repo ---"
+          $formulasRepo = bundle exec ruby -e "require 'fontist'; puts Fontist.formulas_path"
+          $formulasRepo = $formulasRepo.Trim()
+          $windowsDir = Join-Path $formulasRepo "windows"
+          Write-Host "Formulas path: $formulasRepo"
+          Write-Host "Generating FOD formulas into: $windowsDir"
+          bundle exec ruby script/generate_windows_formulas.rb $windowsDir
+          $formulaCount = (Get-ChildItem -Path $windowsDir -Filter "*.yml" -ErrorAction SilentlyContinue).Count
+          Write-Host "Generated $formulaCount formula files"
+          Write-Host ""
+
+          Write-Host "--- Step 2: Rebuild formula index to include FOD formulas ---"
+          bundle exec ruby -e "require 'fontist'; Fontist::Index.rebuild; puts 'Formula index rebuilt'; f = Fontist::Formula.find('Arial Nova'); puts f ? 'Verified: Arial Nova found -> ' + f.name : 'WARNING: Arial Nova NOT found in index'"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "WARNING: Formula index rebuild failed with exit code $LASTEXITCODE"
+          }
+          Write-Host ""
+
+          Write-Host "--- Step 2b: Verify formula index ---"
+          $indexPath = bundle exec ruby -e "require 'fontist'; puts Fontist.formula_index_path"
+          $indexPath = $indexPath.Trim()
+          Write-Host "Formula index path: $indexPath"
+          if (Test-Path $indexPath) {
+            $lineCount = (Get-Content $indexPath).Count
+            Write-Host "Formula index exists: $lineCount lines"
+            Write-Host "First 20 lines:"
+            Get-Content $indexPath -Head 20
+          } else {
+            Write-Host "WARNING: Formula index file does NOT exist at $indexPath"
+          }
+          Write-Host ""
+
+          Write-Host "--- Step 2c: Verify formula files on disk ---"
+          $formulasDir = bundle exec ruby -e "require 'fontist'; puts Fontist.formulas_path"
+          $formulasDir = $formulasDir.Trim()
+          Write-Host "Formulas directory: $formulasDir"
+          if (Test-Path $formulasDir) {
+            $ymlFiles = Get-ChildItem -Path $formulasDir -Filter "*.yml" -Recurse
+            Write-Host "Total .yml files: $($ymlFiles.Count)"
+            $ymlFiles | Select-Object -First 30 | ForEach-Object { Write-Host "  $($_.FullName)" }
+          } else {
+            Write-Host "WARNING: Formulas directory does NOT exist"
+          }
+          Write-Host ""
+
+          Write-Host "--- Step 3: List FOD Font Capabilities ---"
+          $caps = Get-WindowsCapability -Online -Name "Language.Fonts.*"
+          $installed = ($caps | Where-Object { $_.State -eq "Installed" })
+          $notPresent = ($caps | Where-Object { $_.State -eq "NotPresent" })
+          Write-Host "Installed: $($installed.Count)"
+          Write-Host "NotPresent: $($notPresent.Count)"
+          Write-Host "Total: $($caps.Count)"
+          Write-Host ""
+
+          Write-Host "--- Step 4: Run Cross-Check Validation ---"
+          bundle exec ruby script/validate_windows_fod_ci.rb
+          Write-Host ""
+
+          Write-Host "--- Step 5: Install Plantagenet Cherokee via fontist (small FOD) ---"
+          Write-Host "Running: fontist install 'Plantagenet Cherokee' --accept-all-licenses"
+          bundle exec fontist install "Plantagenet Cherokee" --accept-all-licenses
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "fontist install succeeded"
+          } else {
+            Write-Host "WARNING: fontist install exited with code $LASTEXITCODE"
+          }
+          Write-Host ""
+
+          Write-Host "--- Step 6: Verify Plantagenet Cherokee via fontist list ---"
+          bundle exec fontist list "Plantagenet Cherokee"
+          Write-Host ""
+
+          Write-Host "--- Step 7: Verify font file on disk ---"
+          $path = Join-Path "C:\Windows\Fonts" "Plantc.ttf"
+          if (Test-Path $path) {
+            Write-Host "  OK: Plantc.ttf"
+          } else {
+            Write-Host "  MISSING: Plantc.ttf"
+          }
+          Write-Host ""
+
+          Write-Host "========================================================================="
+          Write-Host "   Test Complete"
+          Write-Host "========================================================================="
+
       - name: Upload system index as artifact
         if: always()
         uses: actions/upload-artifact@v4
