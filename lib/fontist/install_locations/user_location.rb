@@ -1,5 +1,3 @@
-require_relative "base_location"
-
 module Fontist
   module InstallLocations
     # User font directory location

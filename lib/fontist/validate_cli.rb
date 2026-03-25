@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require "thor"
-require_relative "../fontist"
-require_relative "cli/class_options"
-require_relative "validation"
-require_relative "validator"
 require "paint"
 
 module Fontist

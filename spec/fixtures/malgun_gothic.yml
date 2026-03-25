@@ -1,4 +1,5 @@
 ---
+schema_version: 4
 name: Malgun Gothic
 description: Malgun Gothic
 homepage: http://www.microsoft.com
@@ -41,5 +42,5 @@ fonts:
 extract: {}
 copyright: "© 2006 Microsoft Corporation. All Rights Reserved."
 license_url: http://www.microsoft.com/typography/fonts
-command: spec/fontist/import/ --format progress
+command: spec/fontist --format progress
 font_version: '5.00'

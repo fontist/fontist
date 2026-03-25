@@ -1,6 +1,5 @@
 require "lutaml/model"
 require "marcel"
-require_relative "locking"
 
 module Fontist
   module Utils
@@ -189,7 +188,6 @@ module Fontist
 
       def response_to_filename(source)
         if File.extname(source.original_filename).empty? && source.content_type
-          require "marcel"
           ext = extension_from_mime(source.content_type)
           return "#{source.original_filename}.#{ext}" if ext
         end

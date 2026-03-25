@@ -1,5 +1,4 @@
 require "fontisan"
-require_relative "errors"
 
 module Fontist
   class CollectionFile
@@ -18,8 +17,6 @@ module Fontist
       def build_collection(path)
         # Validate collection by checking it can be loaded
         # This uses fontisan's collection validation infrastructure
-        require "fontisan"
-
         # First check if it's a valid collection file
         unless Fontisan::FontLoader.collection?(path)
           raise Errors::FontFileError,

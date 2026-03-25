@@ -1,5 +1,3 @@
-require_relative "import_source"
-require_relative "macos_framework_metadata"
 
 module Fontist
   # Import source for macOS supplementary fonts

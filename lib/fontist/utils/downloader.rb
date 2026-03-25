@@ -1,7 +1,3 @@
-require_relative "cache"
-require_relative "github_url"
-require_relative "github_client"
-
 module Fontist
   module Utils
     class Downloader
@@ -144,8 +140,6 @@ module Fontist
           obj.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
           {}
       end
-
-      private
 
       def extract_raw_url
         obj = Helpers.url_object(@file)

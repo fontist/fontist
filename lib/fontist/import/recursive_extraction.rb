@@ -1,7 +1,4 @@
-require_relative "otf/font_file"
-require_relative "files/collection_file"
-require_relative "files/font_detector"
-require_relative "font_parsing_error_collector"
+require "excavate"
 
 module Fontist
   module Import

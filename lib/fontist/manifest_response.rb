@@ -1,5 +1,4 @@
 require "lutaml/model"
-require_relative "manifest"
 
 module Fontist
   class ManifestResponseFontStyle < Lutaml::Model::Serializable

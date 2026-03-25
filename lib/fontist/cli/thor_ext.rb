@@ -1,5 +1,3 @@
-require "fontist/utils/ui"
-
 module Fontist
   module ThorExt
     # Sources:

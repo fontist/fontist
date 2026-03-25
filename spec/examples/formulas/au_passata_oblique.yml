@@ -40,6 +40,6 @@ fonts:
     copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
     font: AUPassLight_Oblique.ttf
 extract:
-  format: zip
+- format: zip
 copyright: Copyright (c) 2008 by 1508 A/S. All rights reserved.
 open_license: Passata requires no licences.

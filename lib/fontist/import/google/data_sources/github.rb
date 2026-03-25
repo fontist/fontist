@@ -1,7 +1,4 @@
 require "unibuf"
-require_relative "../metadata_adapter"
-require_relative "../../otf/font_file"
-require_relative "../models/font_family"
 require "pathname"
 
 module Fontist

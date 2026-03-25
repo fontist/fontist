@@ -1,6 +1,13 @@
 module Fontist
   module Import
     module Google
+      autoload :Api, "#{__dir__}/google/api"
+      autoload :DataSources, "#{__dir__}/google/data_sources"
+      autoload :FontDatabase, "#{__dir__}/google/font_database"
+      autoload :MetadataAdapter, "#{__dir__}/google/metadata_adapter"
+      autoload :MetadataParser, "#{__dir__}/google/metadata_parser"
+      autoload :Models, "#{__dir__}/google/models"
+
       DEFAULT_MAX_COUNT = 100
 
       def self.metadata_name(path)
@@ -35,5 +42,3 @@ module Fontist
     end
   end
 end
-
-require_relative "google/api"

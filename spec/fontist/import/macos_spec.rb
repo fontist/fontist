@@ -1,18 +1,18 @@
 require "spec_helper"
 
-RSpec.describe "Fontist::Import::Macos", slow: true, dev: true do
+RSpec.describe "Fontist::Import::MacosImporter", slow: true, dev: true do
   include_context "fresh home"
-  before(:context) { require "fontist/import/macos" }
+  before(:context) { require "fontist/import/macos_importer" }
   let(:font_xml) { "spec/examples/com_apple_MobileAsset_Font6.xml" }
 
   it "generates formula with necessary attributes" do
-    allow_any_instance_of(Fontist::Import::Macos).to(receive(:links)
+    allow_any_instance_of(Fontist::Import::MacosImporter).to(receive(:links)
       .and_wrap_original { |m, *args| m.call(*args).take(5) })
 
     formulas_path_pattern = Fontist.formulas_path.join("macos", "*")
     expect(Dir.glob(formulas_path_pattern)).to be_empty
 
-    Fontist::Import::Macos.new(font_xml).call
+    Fontist::Import::MacosImporter.new(font_xml).call
 
     expect(Dir.glob(formulas_path_pattern).size).to eq 5
 

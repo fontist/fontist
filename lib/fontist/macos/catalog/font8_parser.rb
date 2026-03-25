@@ -1,5 +1,3 @@
-require_relative "base_parser"
-
 module Fontist
   module Macos
     module Catalog

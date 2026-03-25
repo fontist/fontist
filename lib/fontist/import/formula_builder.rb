@@ -1,15 +1,9 @@
 require "shellwords"
-require_relative "text_helper"
-require_relative "helpers/hash_helper"
-require_relative "recursive_extraction"
-require_relative "../macos_import_source"
-require_relative "../google_import_source"
-require_relative "../sil_import_source"
 
 module Fontist
   module Import
     class FormulaBuilder
-      FORMULA_ATTRIBUTES = %i[name platforms description homepage resources
+      FORMULA_ATTRIBUTES = %i[schema_version name platforms description homepage resources
                               font_collections fonts extract copyright
                               license_url requires_license_agreement
                               open_license digest command
@@ -46,6 +40,10 @@ module Fontist
         yaml = YAML.dump(Helpers::HashHelper.stringify_keys(formula))
         File.write(path, yaml)
         path
+      end
+
+      def schema_version
+        @options[:schema_version] || 4
       end
 
       def import_source

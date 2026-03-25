@@ -1,0 +1,461 @@
+{
+  "install": {
+    "description": "Install one or more fonts",
+    "syntax": "fontist install FONT... [options]",
+    "arguments": [
+      { "name": "FONT", "description": "One or more font names to install", "required": true, "variadic": true }
+    ],
+    "options": [
+      { "name": "force", "alias": "f", "type": "boolean", "description": "Install even if already installed in system" },
+      { "name": "formula", "alias": "F", "type": "boolean", "description": "Install whole formula instead of a font" },
+      { "name": "accept-all-licenses", "alias": "a", "type": "boolean", "description": "Accept all license agreements" },
+      { "name": "hide-licenses", "alias": "h", "type": "boolean", "description": "Hide license texts" },
+      { "name": "no-progress", "alias": "p", "type": "boolean", "description": "Hide download progress" },
+      { "name": "version", "alias": "V", "type": "string", "description": "Specify particular version of a font" },
+      { "name": "smallest", "alias": "s", "type": "boolean", "description": "Install the smallest font by file size if several" },
+      { "name": "newest", "alias": "n", "type": "boolean", "description": "Install the newest version of a font if several" },
+      { "name": "size-limit", "alias": "S", "type": "numeric", "description": "Specify upper limit for file size of a formula to be installed (default is 500 MB)" },
+      { "name": "update-fontconfig", "alias": "u", "type": "boolean", "description": "Update fontconfig" },
+      { "name": "location", "alias": "l", "type": "string", "enum": ["fontist", "user", "system"], "description": "Install location: fontist (default), user, system" }
+    ],
+    "examples": [
+      { "description": "Install a single font", "command": "fontist install \"Roboto\"" },
+      { "description": "Install multiple fonts", "command": "fontist install \"Fira Code\" \"Open Sans\"" },
+      { "description": "Force reinstall", "command": "fontist install \"Roboto\" --force" },
+      { "description": "Install to user directory", "command": "fontist install \"Roboto\" --location user" },
+      { "description": "Accept licenses automatically (for CI)", "command": "fontist install \"Roboto\" --accept-all-licenses --hide-licenses" },
+      { "description": "Install a specific version", "command": "fontist install \"Roboto\" --version 2.0" },
+      { "description": "Install whole formula", "command": "fontist install \"Roboto\" --formula" }
+    ],
+    "related": ["uninstall", "list", "status"]
+  },
+  "uninstall": {
+    "description": "Uninstall font by font or formula name",
+    "syntax": "fontist uninstall FONT",
+    "aliases": ["remove"],
+    "arguments": [
+      { "name": "FONT", "description": "Font or formula name to uninstall", "required": true }
+    ],
+    "options": [],
+    "examples": [
+      { "description": "Uninstall a font", "command": "fontist uninstall \"Roboto\"" },
+      { "description": "Using the remove alias", "command": "fontist remove \"Roboto\"" }
+    ],
+    "related": ["install", "status"]
+  },
+  "status": {
+    "description": "Show paths of installed fonts",
+    "syntax": "fontist status [FONT]",
+    "arguments": [
+      { "name": "FONT", "description": "Optional font name to filter results", "required": false }
+    ],
+    "options": [],
+    "examples": [
+      { "description": "Show all installed fonts", "command": "fontist status" },
+      { "description": "Show paths for a specific font", "command": "fontist status \"Open Sans\"" }
+    ],
+    "related": ["list", "install"]
+  },
+  "list": {
+    "description": "List installation status of fonts in fontist",
+    "syntax": "fontist list [FONT]",
+    "arguments": [
+      { "name": "FONT", "description": "Optional font name to filter results", "required": false }
+    ],
+    "options": [],
+    "examples": [
+      { "description": "List all fonts and their status", "command": "fontist list" },
+      { "description": "Check status of a specific font", "command": "fontist list \"Fira Mono\"" }
+    ],
+    "related": ["status", "install"]
+  },
+  "update": {
+    "description": "Update formulas from the repository",
+    "syntax": "fontist update",
+    "arguments": [],
+    "options": [],
+    "examples": [
+      { "description": "Update all formulas", "command": "fontist update" }
+    ],
+    "related": ["version"]
+  },
+  "version": {
+    "description": "Show fontist version and formulas repository information",
+    "syntax": "fontist version",
+    "arguments": [],
+    "options": [],
+    "examples": [
+      { "description": "Show version information", "command": "fontist version" }
+    ],
+    "related": ["update"]
+  },
+  "create-formula": {
+    "description": "Create a new formula with fonts from a URL",
+    "syntax": "fontist create-formula URL [options]",
+    "arguments": [
+      { "name": "URL", "description": "URL to download fonts from", "required": true }
+    ],
+    "options": [
+      { "name": "name", "alias": null, "type": "string", "description": "Font name, e.g., 'Times New Roman'" },
+      { "name": "mirror", "alias": null, "type": "array", "description": "Mirror URLs (can be repeated)" },
+      { "name": "subdir", "alias": null, "type": "string", "description": "Subdirectory to take fonts from, e.g., 'fonts/static_otf'" },
+      { "name": "file-pattern", "alias": null, "type": "string", "description": "File pattern to match, e.g., '*.otf'" },
+      { "name": "name-prefix", "alias": null, "type": "string", "description": "Prefix to add to all font family names" }
+    ],
+    "examples": [
+      { "description": "Create a formula from a font archive", "command": "fontist create-formula https://example.com/fonts.zip --name \"Custom Font\"" },
+      { "description": "Create formula with subdirectory filter", "command": "fontist create-formula https://example.com/fonts.zip --subdir \"fonts/otf\"" }
+    ],
+    "related": []
+  },
+  "rebuild-index": {
+    "description": "Rebuild formula index (used by formulas maintainers)",
+    "syntax": "fontist rebuild-index",
+    "arguments": [],
+    "options": [],
+    "examples": [
+      { "description": "Rebuild the formula index", "command": "fontist rebuild-index" }
+    ],
+    "related": []
+  },
+  "macos-catalogs": {
+    "description": "List available macOS font catalogs",
+    "syntax": "fontist macos-catalogs",
+    "arguments": [],
+    "options": [],
+    "examples": [
+      { "description": "List available macOS font catalogs", "command": "fontist macos-catalogs" }
+    ],
+    "related": ["import macos"]
+  },
+  "manifest": {
+    "description": "Manage font manifests",
+    "syntax": "fontist manifest SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "install": {
+        "description": "Install fonts from a manifest file (YAML)",
+        "syntax": "fontist manifest install MANIFEST [options]",
+        "arguments": [
+          { "name": "MANIFEST", "description": "Path to manifest YAML file", "required": true }
+        ],
+        "options": [
+          { "name": "accept-all-licenses", "alias": "a", "type": "boolean", "description": "Accept all license agreements" },
+          { "name": "hide-licenses", "alias": "h", "type": "boolean", "description": "Hide license texts" },
+          { "name": "location", "alias": "l", "type": "string", "enum": ["fontist", "user", "system"], "description": "Install location: fontist (default), user, system" }
+        ],
+        "examples": [
+          { "description": "Install fonts from manifest", "command": "fontist manifest install fonts.yml" },
+          { "description": "Install with auto-accept licenses", "command": "fontist manifest install fonts.yml --accept-all-licenses --hide-licenses" }
+        ]
+      },
+      "locations": {
+        "description": "Get locations of fonts from a manifest file",
+        "syntax": "fontist manifest locations MANIFEST [options]",
+        "arguments": [
+          { "name": "MANIFEST", "description": "Path to manifest YAML file", "required": true }
+        ],
+        "options": [
+          { "name": "show-timing", "alias": "t", "type": "boolean", "description": "Show timing information for manifest resolution" }
+        ],
+        "examples": [
+          { "description": "Get font locations from manifest", "command": "fontist manifest locations fonts.yml" }
+        ]
+      }
+    }
+  },
+  "repo": {
+    "description": "Manage custom font repositories",
+    "syntax": "fontist repo SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "setup": {
+        "description": "Setup a custom fontist repo and fetch its formulas",
+        "syntax": "fontist repo setup NAME URL",
+        "arguments": [
+          { "name": "NAME", "description": "Name for the repository", "required": true },
+          { "name": "URL", "description": "Git repository URL", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Setup a custom repository", "command": "fontist repo setup my-fonts https://github.com/user/font-formulas" }
+        ]
+      },
+      "update": {
+        "description": "Update formulas in a fontist repo",
+        "syntax": "fontist repo update NAME",
+        "arguments": [
+          { "name": "NAME", "description": "Name of the repository", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Update a custom repository", "command": "fontist repo update my-fonts" }
+        ]
+      },
+      "remove": {
+        "description": "Remove a fontist repo",
+        "syntax": "fontist repo remove NAME",
+        "arguments": [
+          { "name": "NAME", "description": "Name of the repository", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Remove a custom repository", "command": "fontist repo remove my-fonts" }
+        ]
+      },
+      "list": {
+        "description": "List all fontist repos",
+        "syntax": "fontist repo list",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "List all repositories", "command": "fontist repo list" }
+        ]
+      },
+      "info": {
+        "description": "Show information about a repo",
+        "syntax": "fontist repo info NAME",
+        "arguments": [
+          { "name": "NAME", "description": "Name of the repository", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Get info about a repository", "command": "fontist repo info my-fonts" }
+        ]
+      }
+    }
+  },
+  "import": {
+    "description": "Import fonts from external sources",
+    "syntax": "fontist import SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "google": {
+        "description": "Import Google fonts",
+        "syntax": "fontist import google [options]",
+        "arguments": [],
+        "options": [
+          { "name": "source-path", "alias": null, "type": "string", "description": "Path to checked-out google/fonts repository" },
+          { "name": "output-path", "alias": null, "type": "string", "description": "Output path for generated formulas (default: ./Formulas/google)" },
+          { "name": "font-name", "alias": "f", "type": "string", "description": "Import specific font family by name" },
+          { "name": "force", "alias": null, "type": "boolean", "description": "Overwrite existing formulas" },
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Enable verbose output" },
+          { "name": "import-cache", "alias": null, "type": "string", "description": "Directory for import cache (default: ~/.fontist/import_cache)" }
+        ],
+        "examples": [
+          { "description": "Import all Google fonts", "command": "fontist import google" },
+          { "description": "Import specific font", "command": "fontist import google --font-name \"Roboto\"" }
+        ]
+      },
+      "macos": {
+        "description": "Import macOS supplementary fonts",
+        "syntax": "fontist import macos [options]",
+        "arguments": [],
+        "options": [
+          { "name": "plist", "alias": null, "type": "string", "description": "Path to macOS font catalog XML" },
+          { "name": "output-path", "alias": null, "type": "string", "description": "Output directory for generated formulas (default: formulas/macos)" },
+          { "name": "font-name", "alias": "f", "type": "string", "description": "Import specific font by name" },
+          { "name": "force", "alias": null, "type": "boolean", "description": "Overwrite existing formulas" },
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Enable verbose output" }
+        ],
+        "examples": [
+          { "description": "Import macOS fonts", "command": "fontist import macos --plist /path/to/catalog.xml" }
+        ]
+      },
+      "sil": {
+        "description": "Import formulas from SIL International",
+        "syntax": "fontist import sil [options]",
+        "arguments": [],
+        "options": [
+          { "name": "output-path", "alias": null, "type": "string", "description": "Output directory for generated formulas" },
+          { "name": "font-name", "alias": "f", "type": "string", "description": "Import specific font by name" },
+          { "name": "force", "alias": null, "type": "boolean", "description": "Overwrite existing formulas" },
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Enable verbose output" }
+        ],
+        "examples": [
+          { "description": "Import SIL fonts", "command": "fontist import sil" }
+        ]
+      }
+    }
+  },
+  "fontconfig": {
+    "description": "Manage fontconfig configuration",
+    "syntax": "fontist fontconfig SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "update": {
+        "description": "Update fontconfig configuration to use fontist fonts",
+        "syntax": "fontist fontconfig update",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Update fontconfig", "command": "fontist fontconfig update" }
+        ]
+      },
+      "remove": {
+        "description": "Remove fontist file from fontconfig configuration",
+        "syntax": "fontist fontconfig remove [options]",
+        "arguments": [],
+        "options": [
+          { "name": "force", "alias": "f", "type": "boolean", "description": "Proceed even if file does not exist" }
+        ],
+        "examples": [
+          { "description": "Remove fontconfig integration", "command": "fontist fontconfig remove" }
+        ]
+      }
+    }
+  },
+  "config": {
+    "description": "Manage fontist configuration",
+    "syntax": "fontist config SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "show": {
+        "description": "Show values of the current config",
+        "syntax": "fontist config show",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Show current config", "command": "fontist config show" }
+        ]
+      },
+      "set": {
+        "description": "Set a config attribute to a value",
+        "syntax": "fontist config set KEY VALUE",
+        "arguments": [
+          { "name": "KEY", "description": "Config key to set", "required": true },
+          { "name": "VALUE", "description": "Value to set", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Set fonts path", "command": "fontist config set fonts_path /var/myfonts" }
+        ]
+      },
+      "delete": {
+        "description": "Delete a config attribute (reset to default)",
+        "syntax": "fontist config delete KEY",
+        "arguments": [
+          { "name": "KEY", "description": "Config key to delete", "required": true }
+        ],
+        "options": [],
+        "examples": [
+          { "description": "Reset fonts path to default", "command": "fontist config delete fonts_path" }
+        ]
+      },
+      "keys": {
+        "description": "Print all available config attributes",
+        "syntax": "fontist config keys",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "List available config keys", "command": "fontist config keys" }
+        ]
+      }
+    },
+    "config_keys": [
+      { "key": "fonts_path", "default": "~/.fontist/fonts", "description": "Where to put font files" },
+      { "key": "open_timeout", "default": "60", "description": "HTTP open timeout in seconds" },
+      { "key": "read_timeout", "default": "60", "description": "HTTP read timeout in seconds" }
+    ]
+  },
+  "cache": {
+    "description": "Manage fontist cache",
+    "syntax": "fontist cache SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "clear": {
+        "description": "Clear fontist download cache",
+        "syntax": "fontist cache clear",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Clear download cache", "command": "fontist cache clear" }
+        ]
+      },
+      "clear-import": {
+        "description": "Clear import cache",
+        "syntax": "fontist cache clear-import [options]",
+        "arguments": [],
+        "options": [
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Show detailed output" }
+        ],
+        "examples": [
+          { "description": "Clear import cache", "command": "fontist cache clear-import" }
+        ]
+      },
+      "info": {
+        "description": "Show cache information",
+        "syntax": "fontist cache info",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Show cache size and location", "command": "fontist cache info" }
+        ]
+      }
+    }
+  },
+  "index": {
+    "description": "Manage system font index",
+    "syntax": "fontist index SUBCOMMAND ...ARGS",
+    "subcommands": {
+      "rebuild": {
+        "description": "Rebuild system font index from scratch (cold build)",
+        "syntax": "fontist index rebuild [options]",
+        "arguments": [],
+        "options": [
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Show detailed progress and statistics" },
+          { "name": "output", "alias": "o", "type": "string", "description": "Save index to specified path (for inspection)" }
+        ],
+        "examples": [
+          { "description": "Rebuild system font index", "command": "fontist index rebuild" },
+          { "description": "Rebuild with verbose output", "command": "fontist index rebuild --verbose" }
+        ]
+      },
+      "update": {
+        "description": "Update system font index incrementally",
+        "syntax": "fontist index update [options]",
+        "arguments": [],
+        "options": [
+          { "name": "verbose", "alias": "v", "type": "boolean", "description": "Show detailed progress and statistics" }
+        ],
+        "examples": [
+          { "description": "Update system font index", "command": "fontist index update" }
+        ]
+      },
+      "info": {
+        "description": "Show system font index information",
+        "syntax": "fontist index info",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Show index info", "command": "fontist index info" }
+        ]
+      },
+      "path": {
+        "description": "Show the system font index file path",
+        "syntax": "fontist index path",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Show index file path", "command": "fontist index path" }
+        ]
+      },
+      "list": {
+        "description": "List all system fonts from the index",
+        "syntax": "fontist index list [options]",
+        "arguments": [],
+        "options": [
+          { "name": "format", "alias": null, "type": "string", "default": "yaml", "description": "Output format: yaml or json" },
+          { "name": "limit", "alias": null, "type": "numeric", "description": "Limit number of fonts to display" }
+        ],
+        "examples": [
+          { "description": "List all system fonts", "command": "fontist index list" },
+          { "description": "List as JSON", "command": "fontist index list --format json" }
+        ]
+      },
+      "clear": {
+        "description": "Delete system font index (will be rebuilt on next use)",
+        "syntax": "fontist index clear",
+        "arguments": [],
+        "options": [],
+        "examples": [
+          { "description": "Clear system font index", "command": "fontist index clear" }
+        ]
+      }
+    }
+  }
+}

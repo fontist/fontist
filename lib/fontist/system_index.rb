@@ -1,5 +1,3 @@
-require_relative "font_file"
-require_relative "collection_file"
 require "paint"
 
 module Fontist
@@ -119,6 +117,11 @@ module Fontist
     attribute :file_size, :integer
     attribute :file_mtime, :integer
 
+    # Format tracking (v5 schema support)
+    attribute :format, :string
+    attribute :variable_font, :boolean, default: false
+    attribute :variable_axes, :string, collection: true
+
     alias :type :subfamily
 
     key_value do
@@ -130,6 +133,9 @@ module Fontist
       map "preferred_subfamily_name", to: :preferred_subfamily_name
       map "file_size", to: :file_size
       map "file_mtime", to: :file_mtime
+      map "format", to: :format
+      map "variable_font", to: :variable_font
+      map "variable_axes", to: :variable_axes
     end
   end
 
@@ -197,7 +203,7 @@ module Fontist
       File.write(path, to_yaml)
     end
 
-    def find(font, style)
+    def find(font, style, format_spec: nil)
       current_fonts = index
 
       return nil if current_fonts.nil? || current_fonts.empty?
@@ -210,6 +216,13 @@ module Fontist
         found_fonts = current_fonts.select do |file|
           file.family_name&.casecmp?(font) && file.type&.casecmp?(style)
         end
+      end
+
+      # Apply format filtering if specified
+      if format_spec&.has_constraints? && found_fonts
+        require_relative "format_matcher"
+        matcher = FormatMatcher.new(format_spec)
+        found_fonts = matcher.filter_indexed_fonts(found_fonts)
       end
 
       found_fonts.empty? ? nil : found_fonts
@@ -295,12 +308,6 @@ module Fontist
       @index_check_done = false
       @cached_current_paths = nil
       self
-    end
-
-    def update
-      tap do |col|
-        col.fonts = detect_paths(@paths_loader&.call || [])
-      end
     end
 
     def update(verbose: false, stats: nil)
@@ -433,8 +440,6 @@ module Fontist
     def extract_font_directories
       # Extract base directories from the paths that will be globbed
       # This uses the actual system configuration it will scan
-      require_relative "system_font"
-
       os = Fontist::Utils::System.user_os.to_s
       templates = SystemFont.system_config["system"][os]["paths"]
 
@@ -641,9 +646,9 @@ spinner_index = nil)
 
     def gather_fonts(path)
       case File.extname(path).gsub(/^\./, "").downcase
-      when "ttf", "otf"
+      when "ttf", "otf", "woff", "woff2"
         detect_file_font(path)
-      when "ttc"
+      when "ttc", "otc"
         detect_collection_fonts(path)
       else
         print_recognition_error(Errors::UnknownFontTypeError.new(path), path)

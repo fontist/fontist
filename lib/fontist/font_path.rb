@@ -1,5 +1,3 @@
-require "fontist/indexes/filename_index"
-
 module Fontist
   class FontPath
     def initialize(path)
@@ -39,10 +37,10 @@ module Fontist
 
       # On Windows, use case-insensitive comparison; on Unix, case-sensitive
       result = if Fontist::Utils::System.windows?
-        normalized_path.downcase.start_with?(normalized_fonts_path.downcase)
-      else
-        normalized_path.start_with?(normalized_fonts_path)
-      end
+                 normalized_path.downcase.start_with?(normalized_fonts_path.downcase)
+               else
+                 normalized_path.start_with?(normalized_fonts_path)
+               end
 
       puts "  result: #{result.inspect}" if ENV["DEBUG_FONT_PATH"]
       result

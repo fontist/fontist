@@ -2117,7 +2117,7 @@ fontist import sil --import-cache /custom/path ...
 Fontist.import_cache_path = "/custom/import/cache"
 
 # Per-import setting
-Fontist::Import::Macos.new(
+Fontist::Import::MacosImporter.new(
   plist_path,
   import_cache: "/custom/cache"
 ).call

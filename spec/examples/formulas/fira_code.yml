@@ -61,7 +61,7 @@ fonts:
     copyright: Copyright 2014-2020 The Fira Code Project Authors (https://github.com/tonsky/FiraCode)
     font: FiraCode-VF.ttf
 extract:
-  format: zip
+- format: zip
 copyright: Copyright 2014-2020 The Fira Code Project Authors (https://github.com/tonsky/FiraCode)
 license_url: http://scripts.sil.org/OFL
 open_license: |-

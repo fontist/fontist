@@ -1,3 +1,7 @@
+---
+title: CI/CD Integration
+---
+
 # Using Fontist in CI
 
 Fontist works well in CI environments too! You can just `gem install fontist` like normal to get up and running. Hoever, if you don't like waiting for it to compile the native Ruby extensions each time you `gem install fontist` then you might be interested in our premade custom CI helpers.
