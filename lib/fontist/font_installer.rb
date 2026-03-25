@@ -58,6 +58,7 @@ module Fontist
 
     def license_is_accepted?(confirmation)
       return true unless @formula.license_required?
+      return true if @formula.licensed_for_current_platform?
 
       "yes".casecmp?(confirmation)
     end

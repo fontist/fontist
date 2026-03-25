@@ -31,6 +31,21 @@ RSpec.describe Fontist::FontInstaller do
       end
     end
 
+    context "when formula is licensed for current platform" do
+      it "skips license check even without confirmation" do
+        fresh_fonts_and_formulas do
+          example_formula_to(test_formula, Fontist.formulas_path)
+          formula = Fontist::Formula.find(test_font_downcase)
+          allow(formula).to receive(:license_required?).and_return(true)
+          allow(formula).to receive(:licensed_for_current_platform?).and_return(true)
+
+          expect {
+            described_class.new(formula).install(confirmation: "no")
+          }.not_to raise_error
+        end
+      end
+    end
+
     context "first mirror fails" do
       let(:first_mirror) do
         "https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe"

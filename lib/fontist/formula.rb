@@ -336,6 +336,13 @@ module Fontist
       requires_license_agreement ? true : false
     end
 
+    def licensed_for_current_platform?
+      return false unless platforms && !platforms.empty?
+
+      current_os = Utils::System.user_os.to_s
+      platforms.any? { |p| p == current_os || p.start_with?("#{current_os}-") }
+    end
+
     def file_size
       return nil if resources.nil? || resources.empty?
 
