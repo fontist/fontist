@@ -124,7 +124,7 @@ module Fontist
   end
 
   def self.formulas_version
-    "v4"
+    "v5"
   end
 
   def self.formulas_repo_url

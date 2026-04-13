@@ -55,7 +55,7 @@ jobs:
           echo ""
           echo "=== Fontist Home Path ==="
           echo "Fontist home: $HOME/.fontist"
-          echo "Formulas path: $HOME/.fontist/versions/v4/formulas"
+          echo "Formulas path: $HOME/.fontist/versions/v5/formulas"
 
       # CRITICAL: Remove any existing formulas directory to simulate fresh CI environment
       # This ensures we're testing lazy initialization from a clean state
@@ -64,16 +64,16 @@ jobs:
         run: |
           echo "=== Simulating Fresh CI Environment ==="
           echo "Removing any existing formulas directory..."
-          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+          if [ -d "$HOME/.fontist/versions/v5/formulas" ]; then
             echo "  ✓ Found existing formulas directory, removing..."
-            rm -rf "$HOME/.fontist/versions/v4/formulas"
+            rm -rf "$HOME/.fontist/versions/v5/formulas"
             echo "  ✓ Formulas directory removed"
           else
             echo "  ✓ No existing formulas directory (clean state)"
           fi
           echo ""
           echo "Verifying formulas directory does not exist:"
-          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+          if [ -d "$HOME/.fontist/versions/v5/formulas" ]; then
             echo "  ✗ ERROR: Formulas directory still exists!"
             exit 1
           else
@@ -85,7 +85,7 @@ jobs:
         run: |
           echo "=== Pre-test State Verification ==="
           echo "Checking formulas directory status:"
-          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          FORMULAS_DIR="$HOME/.fontist/versions/v5/formulas/Formulas"
           if [ -d "$FORMULAS_DIR" ]; then
             echo "  ✗ ERROR: Formulas directory exists at $FORMULAS_DIR"
             echo "  This will invalidate the test!"
@@ -106,11 +106,11 @@ jobs:
         shell: bash
         run: |
           echo "=== Force removing formulas directory before test ==="
-          rm -rf "$HOME/.fontist/versions/v4/formulas"
+          rm -rf "$HOME/.fontist/versions/v5/formulas"
           echo "✓ Formulas directory removed"
           echo ""
           echo "Verifying removal:"
-          if [ -d "$HOME/.fontist/versions/v4/formulas" ]; then
+          if [ -d "$HOME/.fontist/versions/v5/formulas" ]; then
             echo "  ✗ ERROR: Formulas directory still exists!"
             exit 1
           else
@@ -136,7 +136,7 @@ jobs:
           echo "Ruby: $(ruby --version)"
           echo ""
           echo "--- Step 1: Verify formulas don't exist yet ---"
-          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          FORMULAS_DIR="$HOME/.fontist/versions/v5/formulas/Formulas"
           if [ -d "$FORMULAS_DIR" ]; then
             echo "  ✗ ERROR: Formulas directory already exists!"
             echo "  This invalidates the test - lazy initialization won't be tested."
@@ -234,16 +234,16 @@ jobs:
           find "$HOME/.fontist" -type d 2>/dev/null || true
           echo ""
           echo "Formulas directory:"
-          ls -la "$HOME/.fontist/versions/v4/formulas/" 2>/dev/null || echo "  (Does not exist)"
+          ls -la "$HOME/.fontist/versions/v5/formulas/" 2>/dev/null || echo "  (Does not exist)"
           echo ""
           echo "Formulas/Formulas directory:"
-          ls -la "$HOME/.fontist/versions/v4/formulas/Formulas/" 2>/dev/null || echo "  (Does not exist)"
+          ls -la "$HOME/.fontist/versions/v5/formulas/Formulas/" 2>/dev/null || echo "  (Does not exist)"
           echo ""
           echo "Fonts directory:"
           ls -la "$HOME/.fontist/fonts/" 2>/dev/null || echo "  (Does not exist)"
           echo ""
           echo "Andale Mono formula file:"
-          cat "$HOME/.fontist/versions/v4/formulas/Formulas/andale.yml" 2>/dev/null || echo "  (Does not exist)"
+          cat "$HOME/.fontist/versions/v5/formulas/Formulas/andale.yml" 2>/dev/null || echo "  (Does not exist)"
 
   # Additional test: Verify that explicit 'fontist update' still works
   test-explicit-update-still-works:
@@ -264,7 +264,7 @@ jobs:
 
       - name: Remove existing formulas directory
         shell: bash
-        run: rm -rf "$HOME/.fontist/versions/v4/formulas"
+        run: rm -rf "$HOME/.fontist/versions/v5/formulas"
 
       - name: Run explicit fontist update
         shell: bash
@@ -277,7 +277,7 @@ jobs:
           echo "✓ Explicit update completed"
           echo ""
           echo "Verifying formulas directory exists:"
-          FORMULAS_DIR="$HOME/.fontist/versions/v4/formulas/Formulas"
+          FORMULAS_DIR="$HOME/.fontist/versions/v5/formulas/Formulas"
           if [ -d "$FORMULAS_DIR" ]; then
             echo "  ✓ Formulas directory exists"
             echo "  Formula count: $(ls -1 "$FORMULAS_DIR" | wc -l)"

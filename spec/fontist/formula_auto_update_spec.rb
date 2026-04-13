@@ -200,8 +200,8 @@ RSpec.describe "Formula auto-update (lazy initialization)" do
       git.add("Formulas/.keep")
       git.commit("Initial commit")
 
-      # Create v4 branch and switch to it
-      git.checkout("v4", new_branch: true)
+      # Create v5 branch and switch to it
+      git.checkout("v5", new_branch: true)
 
       yield dir
     end
@@ -228,8 +228,8 @@ RSpec.describe "Formula auto-update (lazy initialization)" do
       git.add("Formulas/#{example_formula}")
       git.commit("Add formula")
 
-      # Create v4 branch and switch to it
-      git.checkout("v4", new_branch: true)
+      # Create v5 branch and switch to it
+      git.checkout("v5", new_branch: true)
 
       yield dir
     end

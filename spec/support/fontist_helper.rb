@@ -182,7 +182,7 @@ module Fontist
 
       # Create formulas directory structure to satisfy check_index
       # formulas_repo_path = fontist_path/versions/v4/formulas/Formulas
-      versions_dir = File.join(@fontist_parent_dir, "versions", "v4",
+      versions_dir = File.join(@fontist_parent_dir, "versions", "v5",
                                "formulas")
       FileUtils.mkdir_p(File.join(versions_dir, "Formulas"))
 
