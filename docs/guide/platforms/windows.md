@@ -78,6 +78,73 @@ fontist install "Roboto" --location=system
 
 ---
 
+## Windows Features on Demand (FOD) Fonts
+
+Windows includes supplementary fonts that aren't pre-installed but can be enabled through **Features on Demand** (FOD). These include fonts for Japanese, Korean, Arabic, Pan-European, and other scripts.
+
+### What Are FOD Fonts?
+
+Windows FOD fonts are installed using `Add-WindowsCapability`, which downloads font packages from Windows Update. Fontist automates this process — when a formula specifies `source: windows_fod`, Fontist calls the appropriate PowerShell command to install the capability.
+
+### Installing FOD Fonts
+
+```powershell
+# Install a specific supplemental font
+fontist install "Meiryo"
+
+# Install Pan-European supplemental fonts
+fontist install "Arial Nova"
+```
+
+Fontist checks whether the capability is already installed. If not, it runs:
+
+```powershell
+Add-WindowsCapability -Online -Name 'Language.Fonts.Jpan~~~und-JPAN~0.0.1.0'
+```
+
+### Requirements
+
+| Requirement | Details |
+|-------------|---------|
+| Windows version | Windows 10 or later |
+| Internet connection | Required (fonts download from Windows Update) |
+| Administrator | Required on Windows 10 for system-wide installation |
+| WSUS/SCCM | Must not block Features on Demand |
+
+### Available FOD Fonts
+
+Fontist includes metadata for all Windows FOD font capabilities. Some common ones:
+
+| Capability | Fonts Included |
+|------------|---------------|
+| Japanese Supplemental Fonts | Meiryo, MS Gothic, MS Mincho |
+| Korean Supplemental Fonts | Batang, Dotum, Gulim |
+| Arabic Script Supplemental Fonts | Sakkal Majalla, Simplified Arabic |
+| Pan-European Supplemental Fonts | Arial Nova, Georgia Pro, Gill Sans Nova |
+| Traditional Chinese Supplemental Fonts | MingLiU, DFKai-SB |
+
+### FOD Font Installation Flow
+
+1. Fontist looks up the font in the formula index
+2. Checks if the Windows FOD capability is already installed via `Get-WindowsCapability`
+3. If not installed, runs `Add-WindowsCapability` to download and install it
+4. Returns paths to the installed font files in `C:\Windows\Fonts`
+
+### Troubleshooting FOD Installation
+
+If you see a `WindowsFodInstallError`:
+
+1. **No internet connection** — FOD fonts require Windows Update access
+2. **Insufficient permissions** — Run as Administrator on Windows 10
+3. **WSUS/SCCM policy** — Your organization may block FOD downloads; contact your IT administrator
+4. **Capability not found** — The capability name may differ on your Windows version; run `Get-WindowsCapability -Online -Name 'Language.Fonts.*'` to list available capabilities
+
+::: info Platform Restriction
+Windows FOD fonts are only installable on Windows. Fontist will raise a `PlatformMismatchError` if you attempt to install them on macOS or Linux.
+:::
+
+---
+
 ## Windows-Specific Considerations
 
 ### File Locking

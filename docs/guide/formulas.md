@@ -26,7 +26,7 @@ The main formula repository is [fontist/formulas](https://github.com/fontist/for
 - Google Fonts (Roboto, Open Sans, etc.)
 - SIL Fonts
 - macOS system fonts
-- Windows fonts
+- Windows fonts (including Windows Features on Demand)
 - Many other open source fonts
 
 ### Local Storage
@@ -256,6 +256,42 @@ fontist create-formula https://dl.winehq.org/wine/source/10.x/wine-10.18.tar.xz 
 ```
 
 This generates a formula where all fonts have names prefixed with "Wine ", making it clear these are Wine compatibility fonts rather than the original Microsoft fonts.
+
+### Windows Features on Demand (FOD) Formulas
+
+Windows FOD formulas use `source: windows_fod` to install fonts via PowerShell's `Add-WindowsCapability`. These formulas don't have download URLs — instead, they specify a Windows capability name:
+
+```yaml
+schema_version: 5
+name: Japanese Supplemental Fonts
+platforms:
+  - windows
+resources:
+  japanese_supplemental_fonts:
+    source: windows_fod
+    capability_name: "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0"
+fonts:
+  - name: Meiryo
+    styles:
+      - family_name: Meiryo
+        type: Regular
+        font: Meiryo.ttc
+import_source:
+  type: windows
+  capability_name: "Language.Fonts.Jpan~~~und-JPAN~0.0.1.0"
+  min_windows_version: "10.0"
+```
+
+Key fields for Windows FOD formulas:
+
+| Field | Description |
+|-------|-------------|
+| `resources.*.source` | Must be `windows_fod` |
+| `resources.*.capability_name` | The Windows FOD capability identifier (e.g., `Language.Fonts.Jpan~~~und-JPAN~0.0.1.0`) |
+| `import_source.type` | Must be `windows` |
+| `import_source.min_windows_version` | Minimum Windows version required (default: `10.0`) |
+
+These formulas are restricted to the `windows` platform. Attempting to install them on macOS or Linux raises a `PlatformMismatchError`.
 
 ## Related
 

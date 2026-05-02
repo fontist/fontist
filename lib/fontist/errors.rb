@@ -165,6 +165,27 @@ module Fontist
       end
     end
 
+    class WindowsFodInstallError < GeneralError
+      attr_reader :capability_name
+
+      def initialize(capability_name, stderr_output = nil)
+        @capability_name = capability_name
+        super(build_message(capability_name, stderr_output))
+      end
+
+      private
+
+      def build_message(cap_name, stderr)
+        msg = "Failed to install Windows font capability '#{cap_name}'."
+        msg += "\n#{stderr}" if stderr && !stderr.strip.empty?
+        msg += "\n\nPossible causes:" \
+               "\n  - No internet connection (Windows Update required)" \
+               "\n  - Insufficient permissions (admin required on Windows 10)" \
+               "\n  - WSUS/SCCM policy blocking Features on Demand"
+        msg
+      end
+    end
+
     class UnsupportedMacOSVersionError < GeneralError
       def initialize(detected_version, available_frameworks)
         super(build_message(detected_version, available_frameworks))

@@ -69,6 +69,8 @@ jobs:
         version: [2022, 2025]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v6
+
       - name: List ALL Windows Fonts
         shell: pwsh
         run: |
@@ -77,6 +79,80 @@ jobs:
           Write-Host ""
           Write-Host "=== Total Count ==="
           (Get-ChildItem -Path "C:\Windows\Fonts\" -Include *.ttf,*.ttc,*.otf -Recurse).Count
+
+      - name: List FOD font capabilities
+        shell: pwsh
+        run: |
+          Write-Host "=== Windows FOD Font Capabilities ==="
+          $caps = Get-WindowsCapability -Online -Name "Language.Fonts.*"
+          $caps | Format-Table -AutoSize Name, State
+          Write-Host ""
+          Write-Host "=== Summary ==="
+          $installed = ($caps | Where-Object { $_.State -eq "Installed" }).Count
+          $notPresent = ($caps | Where-Object { $_.State -eq "NotPresent" }).Count
+          $staged = ($caps | Where-Object { $_.State -eq "Staged" }).Count
+          Write-Host "Installed: $installed"
+          Write-Host "NotPresent: $notPresent"
+          Write-Host "Staged: $staged"
+          Write-Host "Total: $($caps.Count)"
+          Write-Host ""
+          Write-Host "=== Saving results ==="
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+          $caps | Select-Object Name, State | ConvertTo-Csv -NoTypeInformation | Out-File -FilePath artifacts/fod-capabilities.csv
+          $caps | ConvertTo-Json | Out-File -FilePath artifacts/fod-capabilities.json
+          Write-Host "Saved to artifacts/fod-capabilities.csv and artifacts/fod-capabilities.json"
+
+      - name: Cross-check FOD capabilities with our YAML
+        shell: pwsh
+        run: |
+          Write-Host "=== Cross-checking fod_capabilities.yml against live Windows ==="
+
+          # Get live capabilities from Windows
+          $liveCaps = Get-WindowsCapability -Online -Name "Language.Fonts.*"
+          $liveNames = $liveCaps | ForEach-Object { $_.Name }
+
+          # Parse our YAML capability names (simple text extraction)
+          $yamlPath = "lib/fontist/import/windows/fod_capabilities.yml"
+          $yamlContent = Get-Content $yamlPath -Raw
+          $yamlNames = [regex]::Matches($yamlContent, '^\s+"([^"]+)":', [System.Text.RegularExpressions.RegexOptions]::Multiline) |
+            ForEach-Object { $_.Groups[1].Value }
+
+          Write-Host ""
+          Write-Host "Live capabilities: $($liveNames.Count)"
+          Write-Host "YAML capabilities: $($yamlNames.Count)"
+          Write-Host ""
+
+          # Find matches
+          $matched = $yamlNames | Where-Object { $liveNames -contains $_ }
+          Write-Host "=== Matched ($($matched.Count)) ==="
+          $matched | ForEach-Object { Write-Host "  OK: $_" }
+
+          # Find missing from our YAML (present on Windows but not in our file)
+          $missingFromYaml = $liveNames | Where-Object { $yamlNames -notcontains $_ }
+          if ($missingFromYaml.Count -gt 0) {
+            Write-Host ""
+            Write-Host "=== Missing from our YAML ($($missingFromYaml.Count)) ==="
+            $missingFromYaml | ForEach-Object { Write-Host "  MISSING: $_" }
+          }
+
+          # Find extra in our YAML (in our file but not on Windows)
+          $extraInYaml = $yamlNames | Where-Object { $liveNames -notcontains $_ }
+          if ($extraInYaml.Count -gt 0) {
+            Write-Host ""
+            Write-Host "=== Extra in our YAML ($($extraInYaml.Count)) ==="
+            $extraInYaml | ForEach-Object { Write-Host "  EXTRA: $_" }
+          }
+
+          Write-Host ""
+          Write-Host "=== Cross-check complete ==="
+
+      - name: Upload FOD capability results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-fod-capabilities-${{ matrix.version }}
+          path: artifacts/
+          if-no-files-found: warn
 
   discover-linux:
     name: Linux fonts
