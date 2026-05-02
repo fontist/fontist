@@ -4,7 +4,8 @@ module Fontist
     autoload :CreateFormula, "#{__dir__}/import/create_formula"
     autoload :Files, "#{__dir__}/import/files"
     autoload :FontMetadataExtractor, "#{__dir__}/import/font_metadata_extractor"
-    autoload :FontParsingErrorCollector, "#{__dir__}/import/font_parsing_error_collector"
+    autoload :FontParsingErrorCollector,
+             "#{__dir__}/import/font_parsing_error_collector"
     autoload :FontStyle, "#{__dir__}/import/font_style"
     autoload :FormulaBuilder, "#{__dir__}/import/formula_builder"
     autoload :FormulaSerializer, "#{__dir__}/import/formula_serializer"

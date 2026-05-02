@@ -135,7 +135,7 @@ module Fontist
           Dir.glob(File.join(temp_base, "*fontist*.tmp"))
 
         lock_files.each do |file|
-          FileUtils.remove_entry(file) if File.exist?(file)
+          FileUtils.rm_rf(file)
         rescue StandardError => e
           # Log but don't fail - cleanup is best effort
           warn "Warning: Could not remove lock file #{file}: #{e.message}"

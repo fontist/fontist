@@ -7,7 +7,7 @@ RSpec.describe Fontist::Utils::FileOps do
     after do
       # Unstub FileUtils to allow real cleanup
       RSpec::Mocks.space.proxy_for(FileUtils).reset
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     context "on all platforms" do
@@ -120,7 +120,7 @@ RSpec.describe Fontist::Utils::FileOps do
     let(:test_dir) { Dir.mktmpdir }
 
     after do
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     it "executes the block" do
@@ -169,7 +169,7 @@ RSpec.describe Fontist::Utils::FileOps do
     after do
       # Unstub FileUtils to allow real cleanup
       RSpec::Mocks.space.proxy_for(FileUtils).reset
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     it "copies files successfully" do
@@ -205,7 +205,7 @@ RSpec.describe Fontist::Utils::FileOps do
     after do
       # Unstub FileUtils to allow real cleanup
       RSpec::Mocks.space.proxy_for(FileUtils).reset
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     it "creates directories successfully" do

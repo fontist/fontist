@@ -43,7 +43,7 @@ module Fontist
               files_value = attributes.delete(:files)
               attributes[:files_data] = files_value
             end
-            super(**attributes)
+            super
           end
 
           # Get files as a Hash

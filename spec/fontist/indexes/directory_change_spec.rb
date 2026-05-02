@@ -137,7 +137,7 @@ RSpec.describe Fontist::Indexes::DirectoryChange do
     end
 
     after do
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
       Fontist::Cache::Manager.clear(namespace: :indexes)
     end
 

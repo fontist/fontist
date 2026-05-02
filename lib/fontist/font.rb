@@ -338,9 +338,9 @@ module Fontist
       all_fonts = [fontist_fonts, user_fonts, system_fonts].compact.flatten
       return unless all_fonts && !all_fonts.empty?
 
-      uninstalled_paths = all_fonts.map do |font|
+      uninstalled_paths = all_fonts.filter_map do |font|
         uninstall_font_at_location(font.path)
-      end.compact
+      end
 
       return if uninstalled_paths.empty?
 

@@ -111,7 +111,7 @@ force: false, verbose: false, import_cache: nil, schema_version: 4)
         Fontist.ui.say("#{Paint[progress,
                                 :white]} #{Paint["#{percentage}%",
                                                  :yellow]} | #{Paint[family_name, :cyan,
-                                                                     :bright]} #{Paint["(#{fonts_count} font#{fonts_count > 1 ? 's' : ''})", :black,
+                                                                     :bright]} #{Paint["(#{fonts_count} font#{'s' if fonts_count > 1})", :black,
                                                                                        :bright]}")
 
         start_time = Time.now

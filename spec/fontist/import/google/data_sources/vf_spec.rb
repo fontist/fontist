@@ -2,7 +2,7 @@ require "spec_helper"
 require "fontist/import/google/data_sources/vf"
 
 RSpec.describe Fontist::Import::Google::DataSources::Vf do
-  let(:api_key) { ENV["GOOGLE_FONTS_API_KEY"] }
+  let(:api_key) { ENV.fetch("GOOGLE_FONTS_API_KEY", nil) }
   let(:client) { described_class.new(api_key: api_key) }
 
   before do
@@ -36,8 +36,7 @@ RSpec.describe Fontist::Import::Google::DataSources::Vf do
         expect(url).to end_with(".ttf")
 
         # Verify mix of variable and static fonts
-        variable_fonts = families.select(&:variable_font?)
-        static_fonts = families.reject(&:variable_font?)
+        variable_fonts, static_fonts = families.partition(&:variable_font?)
         expect(variable_fonts).not_to be_empty
         expect(static_fonts).not_to be_empty
 

@@ -63,8 +63,8 @@ module Fontist
           FileUtils.mkdir_p(user_fonts_temp)
           FileUtils.mkdir_p(system_fonts_temp)
 
-          orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
-          orig_system_path = ENV["FONTIST_SYSTEM_FONTS_PATH"]
+          orig_user_path = ENV.fetch("FONTIST_USER_FONTS_PATH", nil)
+          orig_system_path = ENV.fetch("FONTIST_SYSTEM_FONTS_PATH", nil)
 
           ENV["FONTIST_USER_FONTS_PATH"] = user_fonts_temp
           ENV["FONTIST_SYSTEM_FONTS_PATH"] = system_fonts_temp
@@ -385,7 +385,7 @@ module Fontist
       # On Windows, the SystemIndex might use a cached index file from a previous
       # test run due to file locking preventing proper cleanup.
       system_index_path = Fontist.system_index_path
-      File.delete(system_index_path) if File.exist?(system_index_path)
+      FileUtils.rm_f(system_index_path)
 
       # Rebuild system index so fonts are findable
       # Reset cache first to ensure we pick up the new stub

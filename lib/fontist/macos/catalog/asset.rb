@@ -29,11 +29,11 @@ module Fontist
         end
 
         def postscript_names
-          fonts.map(&:postscript_name).compact
+          fonts.filter_map(&:postscript_name)
         end
 
         def font_families
-          fonts.map(&:font_family_name).compact.uniq
+          fonts.filter_map(&:font_family_name).uniq
         end
 
         def primary_family_name

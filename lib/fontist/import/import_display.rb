@@ -113,7 +113,7 @@ module Fontist
       # @param title [String] Section title (deprecated - use header instead)
       def self.section(title)
         Fontist.ui.say("")
-        Fontist.ui.say("── #{title} " + "─" * (76 - title.length))
+        Fontist.ui.say("── #{title} " + ("─" * (76 - title.length)))
         Fontist.ui.say("")
       end
 
@@ -247,7 +247,7 @@ module Fontist
           return unless results[:errors]&.any?
 
           Fontist.ui.say("  #{Paint['⚠',
-                                    :yellow]} Note: #{results[:failed]} font#{results[:failed] > 1 ? 's' : ''} failed during import.")
+                                    :yellow]} Note: #{results[:failed]} font#{'s' if results[:failed] > 1} failed during import.")
           Fontist.ui.say("")
         end
 
@@ -266,10 +266,10 @@ module Fontist
           return if total.zero?
 
           if results[:successful] > (total * 0.5)
-            Fontist.ui.say(Paint["  🎉 Great success! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created!",
+            Fontist.ui.say(Paint["  🎉 Great success! #{results[:successful]} formula#{'s' if results[:successful] > 1} created!",
                                  :green, :bright])
           elsif results[:successful].positive?
-            Fontist.ui.say(Paint["  👍 Keep going! #{results[:successful]} formula#{results[:successful] > 1 ? 's' : ''} created.",
+            Fontist.ui.say(Paint["  👍 Keep going! #{results[:successful]} formula#{'s' if results[:successful] > 1} created.",
                                  :yellow, :bright])
           end
 
@@ -277,7 +277,7 @@ module Fontist
         end
 
         def calculate_total(results)
-          results[:total] || (results[:successful] || 0) + (results[:failed] || 0) + (results[:skipped] || 0)
+          results[:total] || ((results[:successful] || 0) + (results[:failed] || 0) + (results[:skipped] || 0))
         end
       end
     end

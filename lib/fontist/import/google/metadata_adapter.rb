@@ -77,7 +77,7 @@ module Fontist
           font_fields = message.find_fields("fonts")
           return nil if font_fields.empty?
 
-          font_fields.map do |field|
+          font_fields.filter_map do |field|
             next unless field.message_field?
 
             # field.value is a Hash for message fields in unibuf
@@ -94,7 +94,7 @@ module Fontist
               "full_name" => field_value(font_msg, "full_name"),
               "copyright" => field_value(font_msg, "copyright"),
             }.compact
-          end.compact
+          end
         end
 
         # Extract axes array
@@ -102,7 +102,7 @@ module Fontist
           axis_fields = message.find_fields("axes")
           return nil if axis_fields.empty?
 
-          axis_fields.map do |field|
+          axis_fields.filter_map do |field|
             next unless field.message_field?
 
             axis_hash = field.value
@@ -115,7 +115,7 @@ module Fontist
               "max_value" => field_float(axis_msg, "max_value"),
               "default_value" => field_float(axis_msg, "default_value"),
             }.compact
-          end.compact
+          end
         end
 
         # Extract source information
@@ -142,7 +142,7 @@ module Fontist
           file_fields = source_msg.find_fields("files")
           return nil if file_fields.empty?
 
-          file_fields.map do |field|
+          file_fields.filter_map do |field|
             next unless field.message_field?
 
             file_hash = field.value
@@ -153,7 +153,7 @@ module Fontist
               "source_file" => field_value(file_msg, "source_file"),
               "dest_file" => field_value(file_msg, "dest_file"),
             }.compact
-          end.compact
+          end
         end
 
         # Extract registry default overrides as hash

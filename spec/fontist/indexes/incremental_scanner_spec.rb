@@ -10,7 +10,7 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
   end
 
   after do
-    FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+    FileUtils.rm_rf(test_dir)
     Fontist::Cache::Manager.clear(namespace: :indexes)
   end
 
@@ -180,9 +180,9 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
       first_results = described_class.scan_batch(fonts)
 
       # Simulate cached data (hash of path => cached_version)
-      cached_data = first_results.map do |r|
+      cached_data = first_results.to_h do |r|
         [r[:path], { signature: r[:signature] }]
-      end.to_h
+      end
 
       # Second pass with cache (should be faster)
       start = Time.now
@@ -205,7 +205,7 @@ RSpec.describe Fontist::Indexes::IncrementalScanner do
 
   def create_test_font(dir, filename)
     path = File.join(dir, filename)
-    FileUtils.mkdir_p(File.dirname(path)) unless Dir.exist?(File.dirname(path))
+    FileUtils.mkdir_p(File.dirname(path))
 
     # Create minimal TTF header
     content = case File.extname(filename)

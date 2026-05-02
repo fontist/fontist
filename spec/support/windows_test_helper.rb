@@ -40,7 +40,7 @@ module WindowsTestHelper
     ENV["TMPDIR"] ||= ENV["TEMP"] || ENV["TMP"] || "C:/Windows/Temp"
 
     # Ensure temp directory exists
-    FileUtils.mkdir_p(ENV["TMPDIR"]) unless Dir.exist?(ENV["TMPDIR"])
+    FileUtils.mkdir_p(ENV.fetch("TMPDIR", nil))
   end
 
   # Configure console encoding for Windows

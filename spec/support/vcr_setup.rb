@@ -14,7 +14,7 @@ VCR.configure do |config|
 
   # Filter sensitive API keys in both requests and responses
   config.filter_sensitive_data("<GOOGLE_FONTS_API_KEY>") do
-    ENV["GOOGLE_FONTS_API_KEY"]
+    ENV.fetch("GOOGLE_FONTS_API_KEY", nil)
   end
 
   # Additional filtering for URL-encoded API keys and Windows path normalization

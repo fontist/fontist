@@ -203,7 +203,7 @@ family_id:)
             result[k] = compacted unless compacted.nil?
           end
         when Array
-          value.map { |item| deep_compact(item) }.compact
+          value.filter_map { |item| deep_compact(item) }
         else
           value
         end

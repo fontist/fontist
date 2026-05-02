@@ -47,7 +47,7 @@ module Fontist
       return nil if value.nil?
       return value if value.is_a?(Array)
 
-      value.to_s.split(",").map(&:strip).compact
+      value.to_s.split(",").filter_map(&:strip)
     end
 
     # Check if any format constraints are specified

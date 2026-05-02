@@ -101,12 +101,12 @@ RSpec.describe Fontist::Import::V4ToV5Migrator do
       resource = migrated["resources"]["vf_resource"]
       expect(resource["variable_axes"]).to eq(%w[wght ital])
     end
-
   end
 
   describe "#migrate_all" do
     it "returns migration summary" do
-      write_formula({ "name" => "Font A", "resources" => {}, "fonts" => [] }, "a.yml")
+      write_formula({ "name" => "Font A", "resources" => {}, "fonts" => [] },
+                    "a.yml")
       write_formula({ "schema_version" => 5, "name" => "Font B" }, "b.yml")
 
       migrator = described_class.new(tmpdir)

@@ -3,7 +3,7 @@ module Fontist
     module System
       # Platform override from environment (ONLY platform tags supported)
       def self.platform_override
-        ENV["FONTIST_PLATFORM_OVERRIDE"]
+        ENV.fetch("FONTIST_PLATFORM_OVERRIDE", nil)
       end
 
       def self.platform_override?
@@ -154,7 +154,7 @@ module Fontist
 
         # Convert to comparable integer: major * 10000 + minor * 100 + patch
         # This allows: 10.11.6 = 101106, 26.0.0 = 260000
-        major * 10000 + minor * 100 + patch
+        (major * 10000) + (minor * 100) + patch
       end
 
       def self.version_in_range?(min_version, max_version)
