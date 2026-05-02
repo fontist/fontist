@@ -116,7 +116,9 @@ module Fontist
       end
 
       # Check if Fontisan can convert from any available format
-      convertible = available_formats.find { |f| self.class.can_convert?(f, requested) }
+      convertible = available_formats.find do |f|
+        self.class.can_convert?(f, requested)
+      end
       if convertible
         return {
           strategy: :convert,
@@ -163,7 +165,7 @@ module Fontist
     def find_variable_resource(resources)
       return nil unless @spec.prefer_variable
 
-      resources.find { |r| r.variable_font? }
+      resources.find(&:variable_font?)
     end
 
     def axes_match?(available_axes)

@@ -46,7 +46,7 @@ RSpec.shared_context "system fonts" do
     # Delete the system index file that was created during the test
     # This prevents the next test from finding fonts that were installed to the temp system dir
     system_index_path = Fontist.system_index_path
-    File.delete(system_index_path) if File.exist?(system_index_path)
+    FileUtils.rm_f(system_index_path)
 
     # Reset indexes to clear any cached system font data
     Fontist::Indexes::SystemIndex.reset_cache

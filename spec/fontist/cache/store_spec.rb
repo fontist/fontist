@@ -5,11 +5,11 @@ RSpec.describe Fontist::Cache::Store do
   let(:cache_dir) { Fontist.root_path.join("cache", "store_spec") }
 
   before do
-    FileUtils.rm_rf(cache_dir) if Dir.exist?(cache_dir)
+    FileUtils.rm_rf(cache_dir)
   end
 
   after do
-    FileUtils.rm_rf(cache_dir) if Dir.exist?(cache_dir)
+    FileUtils.rm_rf(cache_dir)
   end
 
   subject(:store) { described_class.new(cache_dir) }

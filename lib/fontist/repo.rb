@@ -194,7 +194,7 @@ module Fontist
 
         # Normalize git@ style to https style for comparison
         # git@github.com:user/repo -> github.com/user/repo
-        normalized.sub(/:/, "/")
+        normalized.sub(":", "/")
       end
 
       def ensure_private_formulas_path_exists

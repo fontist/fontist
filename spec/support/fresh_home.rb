@@ -47,8 +47,8 @@ RSpec.shared_context "fresh home" do
       .and_return(Pathname.new(temp_dir))
 
     # Stub user and system font paths via ENV to temp directories
-    @orig_user_path = ENV["FONTIST_USER_FONTS_PATH"]
-    @orig_system_path = ENV["FONTIST_SYSTEM_FONTS_PATH"]
+    @orig_user_path = ENV.fetch("FONTIST_USER_FONTS_PATH", nil)
+    @orig_system_path = ENV.fetch("FONTIST_SYSTEM_FONTS_PATH", nil)
 
     user_fonts_temp = File.join(temp_dir, "user_fonts")
     system_fonts_temp = File.join(temp_dir, "system_fonts")

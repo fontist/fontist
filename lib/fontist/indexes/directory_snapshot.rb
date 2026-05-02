@@ -57,8 +57,8 @@ module Fontist
       def initialize(directory_path, files, scanned_at)
         @directory_path = directory_path
         @files = files.freeze # Immutable
-        @files_by_filename = files.each_with_object({}) do |f, h|
-          h[f[:filename]] = f
+        @files_by_filename = files.to_h do |f|
+          [f[:filename], f]
         end.freeze
         @scanned_at = scanned_at
       end

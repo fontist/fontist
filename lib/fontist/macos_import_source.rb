@@ -1,4 +1,3 @@
-
 module Fontist
   # Import source for macOS supplementary fonts
   #

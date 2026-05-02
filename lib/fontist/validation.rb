@@ -58,7 +58,7 @@ module Fontist
       self.valid_fonts = results.count(&:valid)
       self.invalid_fonts = total_fonts - valid_fonts
 
-      times = results.map(&:time_taken).compact
+      times = results.filter_map(&:time_taken)
       self.total_time = times.sum
       self.avg_time_per_font = times.empty? ? 0.0 : (total_time / times.size)
       self.min_time = times.min || 0.0

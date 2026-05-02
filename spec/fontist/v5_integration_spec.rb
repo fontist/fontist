@@ -5,7 +5,9 @@ require "fontist/format_matcher"
 require "fontist/font_finder"
 
 RSpec.describe "V5 Integration" do
-  let(:fixture_path) { File.expand_path("../examples/formulas/roboto_v5.yml", __dir__) }
+  let(:fixture_path) do
+    File.expand_path("../examples/formulas/roboto_v5.yml", __dir__)
+  end
   let(:formula) { Fontist::Formula.from_file(fixture_path) }
 
   describe "v5 formula loading" do
@@ -26,9 +28,10 @@ RSpec.describe "V5 Integration" do
 
     it "loads resources with separate files and urls" do
       ttf_resource = formula.resources.find { |r| r.name == "ttf_static" }
-      expect(ttf_resource.files).to eq(["Roboto-Regular.ttf", "Roboto-Bold.ttf"])
+      expect(ttf_resource.files).to eq(["Roboto-Regular.ttf",
+                                        "Roboto-Bold.ttf"])
       expect(ttf_resource.urls).to include(
-        "https://fonts.gstatic.com/s/roboto/v30/Roboto-Regular.ttf"
+        "https://fonts.gstatic.com/s/roboto/v30/Roboto-Regular.ttf",
       )
     end
 
@@ -44,7 +47,6 @@ RSpec.describe "V5 Integration" do
       expect(style.variable_font).to eq(false)
       expect(style.variable_font?).to be false
     end
-
   end
 
   describe "format-specific resource selection" do

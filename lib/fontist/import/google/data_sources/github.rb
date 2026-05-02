@@ -69,7 +69,7 @@ module Fontist
 
             unless ofl_path.exist? || apache_path.exist? || ufl_path.exist?
               raise ArgumentError,
-                    "Source path does not contain expected font directories: "\
+                    "Source path does not contain expected font directories: " \
                     "#{@source_path}"
             end
           end
@@ -183,7 +183,7 @@ module Fontist
                   description: font_file.description,
                 }
               rescue StandardError => e
-                warn "Warning: Failed to parse font file #{filename}: "\
+                warn "Warning: Failed to parse font file #{filename}: " \
                      "#{e.message}"
               end
             end
@@ -199,11 +199,11 @@ module Fontist
             return [] unless metadata.fonts
 
             fonts_array = metadata.fonts.is_a?(Array) ? metadata.fonts : [metadata.fonts]
-            fonts_array.map do |font|
+            fonts_array.filter_map do |font|
               weight = font.respond_to?(:weight) ? font.weight : font["weight"]
               style = font.respond_to?(:style) ? font.style : font["style"]
               variant_name(weight, style)
-            end.compact.uniq
+            end.uniq
           end
 
           # Generate variant name from weight and style

@@ -50,7 +50,8 @@ module Fontist
 
     key_value do
       # Only serialize schema_version if it's v5 (5), not for v4 formulas
-      map "schema_version", to: :schema_version, render_nil: false, render_default: false
+      map "schema_version", to: :schema_version, render_nil: false,
+                            render_default: false
       map "name", to: :name
       map "description", to: :description
       map "homepage", to: :homepage
@@ -96,9 +97,9 @@ module Fontist
       end
 
       def all
-        formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].map do |path|
+        formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].filter_map do |path|
           Formula.from_file(path)
-        end.compact
+        end
 
         FormulaCollection.new(formulas)
       end

@@ -438,9 +438,7 @@ module Fontist
 
           entry_path = File.join(extract_dir, entry.full_name)
           FileUtils.mkdir_p(File.dirname(entry_path))
-          File.open(entry_path, "wb") do |f|
-            f.write(entry.read)
-          end
+          File.binwrite(entry_path, entry.read)
         end
       end
 

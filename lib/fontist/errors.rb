@@ -159,9 +159,9 @@ module Fontist
 
       def build_message(font_name)
         "Font '#{font_name}' is only available for: #{@required_platforms.join(', ')}. " \
-        "Your current platform is: #{@current_platform}. " \
-        "This font is licensed exclusively for the specified platform(s) and " \
-        "cannot be installed on your system."
+          "Your current platform is: #{@current_platform}. " \
+          "This font is licensed exclusively for the specified platform(s) and " \
+          "cannot be installed on your system."
       end
     end
 

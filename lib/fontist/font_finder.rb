@@ -75,7 +75,7 @@ module Fontist
     def extract_resource_names(formula)
       return [] unless formula.resources
 
-      Array(formula.resources).map(&:name).compact
+      Array(formula.resources).filter_map(&:name)
     end
 
     def build_font_match(formula, name, resource)
@@ -123,7 +123,6 @@ module Fontist
       matcher = FormatMatcher.new(@format_spec)
       matcher.filter_resources(resources)
     end
-
   end
 
   # Result object for font matches

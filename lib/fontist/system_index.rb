@@ -426,7 +426,7 @@ module Fontist
 
     def scan_directory_mtimes
       dirs = extract_font_directories
-      dirs.map { |dir| [dir, directory_mtime(dir)] }.to_h
+      dirs.to_h { |dir| [dir, directory_mtime(dir)] }
     end
 
     def directory_mtime(dir)
@@ -444,10 +444,10 @@ module Fontist
       templates = SystemFont.system_config["system"][os]["paths"]
 
       # Extract directory part before wildcards
-      base_dirs = templates.map do |pattern|
+      base_dirs = templates.filter_map do |pattern|
         # Remove glob patterns to get base directory
         pattern.split("/*").first
-      end.compact.uniq
+      end.uniq
 
       # Add fontist fonts directory
       base_dirs << Fontist.fonts_path.to_s
@@ -458,10 +458,10 @@ module Fontist
     def parse_directory_mtimes
       return {} unless directory_mtimes
 
-      Hash[directory_mtimes.map do |entry|
+      directory_mtimes.to_h do |entry|
         dir, mtime = entry.split(":", 2)
         [dir, mtime.to_i]
-      end]
+      end
     end
 
     def save_metadata

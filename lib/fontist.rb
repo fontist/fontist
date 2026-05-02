@@ -52,7 +52,8 @@ module Fontist
   autoload :GoogleImportSource, "#{__dir__}/fontist/google_import_source"
   autoload :MacosImportSource, "#{__dir__}/fontist/macos_import_source"
   autoload :SilImportSource, "#{__dir__}/fontist/sil_import_source"
-  autoload :MacosFrameworkMetadata, "#{__dir__}/fontist/macos_framework_metadata"
+  autoload :MacosFrameworkMetadata,
+           "#{__dir__}/fontist/macos_framework_metadata"
 
   # Manifest classes
   autoload :Manifest, "#{__dir__}/fontist/manifest"

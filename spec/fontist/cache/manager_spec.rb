@@ -6,14 +6,14 @@ RSpec.describe Fontist::Cache::Manager do
 
   before do
     # Clean up any existing test cache
-    FileUtils.rm_rf(cache_dir) if Dir.exist?(cache_dir)
-    FileUtils.rm_rf(custom_cache_dir) if Dir.exist?(custom_cache_dir)
+    FileUtils.rm_rf(cache_dir)
+    FileUtils.rm_rf(custom_cache_dir)
   end
 
   after do
     # Clean up test cache
-    FileUtils.rm_rf(cache_dir) if Dir.exist?(cache_dir)
-    FileUtils.rm_rf(custom_cache_dir) if Dir.exist?(custom_cache_dir)
+    FileUtils.rm_rf(cache_dir)
+    FileUtils.rm_rf(custom_cache_dir)
   end
 
   describe ".get and .set" do

@@ -172,9 +172,9 @@ module Fontist
 
     # Validate fonts sequentially with cache lookup.
     def validate_sequential(font_paths, cache_lookup:, verbose:)
-      font_paths.map do |path|
+      font_paths.filter_map do |path|
         validate_with_cache_lookup(path, cache_lookup)
-      end.compact
+      end
     end
 
     # Validate single font, using cache if available and file unchanged.

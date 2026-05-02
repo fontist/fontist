@@ -32,6 +32,7 @@ module Fontist
       return true if options.nil?
       return options.empty? if options.respond_to?(:empty?)
       return options.file.nil? && options.fonts_sub_dir.nil? if options.is_a?(ExtractOptions)
+
       false
     end
   end

@@ -39,9 +39,9 @@ RSpec.describe Fontist::FontInstaller do
           allow(formula).to receive(:license_required?).and_return(true)
           allow(formula).to receive(:licensed_for_current_platform?).and_return(true)
 
-          expect {
+          expect do
             described_class.new(formula).install(confirmation: "no")
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
     end

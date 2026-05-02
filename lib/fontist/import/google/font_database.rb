@@ -136,7 +136,7 @@ github_data: nil, version: 4, source_path: nil)
 
         # Get all unique categories
         def categories
-          all_fonts.map(&:category).compact.uniq.sort
+          all_fonts.filter_map(&:category).uniq.sort
         end
 
         # Get fonts available in TTF format
@@ -190,7 +190,7 @@ github_data: nil, version: 4, source_path: nil)
 
         # Generate formulas for all fonts
         def to_formulas
-          all_fonts.map { |f| to_formula(f.family) }.compact
+          all_fonts.filter_map { |f| to_formula(f.family) }
         end
 
         # Save formulas to disk
@@ -198,12 +198,12 @@ github_data: nil, version: 4, source_path: nil)
           families = family_name ? [font_by_name(family_name)] : all_fonts
           families = families.compact
 
-          families.map do |family|
+          families.filter_map do |family|
             formula = to_formula(family.family)
             next unless formula
 
             save_formula(formula, family.family, output_dir)
-          end.compact
+          end
         end
 
         # Find filename for a variant
@@ -322,8 +322,8 @@ github_data: nil, version: 4, source_path: nil)
         def index_github_data
           return {} if @github_data_raw.empty?
 
-          @github_data_raw.each_with_object({}) do |family, hash|
-            hash[family.family] = family
+          @github_data_raw.to_h do |family|
+            [family.family, family]
           end
         end
 
@@ -367,8 +367,8 @@ github_data: nil, version: 4, source_path: nil)
 
         # Index fonts by family name
         def index_by_family(fonts)
-          fonts.each_with_object({}) do |font, hash|
-            hash[font.family] = font
+          fonts.to_h do |font|
+            [font.family, font]
           end
         end
 

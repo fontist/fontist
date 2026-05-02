@@ -47,7 +47,7 @@ RSpec.describe Fontist::Manifest do
       # state pollution from previous tests in the same fresh_home context
       before do
         font_path = Fontist.fonts_path.join("andale")
-        FileUtils.rm_rf(font_path) if File.exist?(font_path)
+        FileUtils.rm_rf(font_path)
 
         # Also remove any Andale font files by globbing
         Dir.glob(Fontist.fonts_path.join("**", "*.ttf")).each do |file|

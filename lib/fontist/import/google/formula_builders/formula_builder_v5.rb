@@ -111,8 +111,11 @@ module Fontist
           end
 
           def detect_actual_format(urls, declared_format)
-            extensions = urls.map { |url| url.split("/").last[/\.(\w+)$/, 1]&.downcase }.compact.uniq
-            if extensions.size == 1 && %w[ttf otf woff woff2].include?(extensions.first)
+            extensions = urls.filter_map do |url|
+              url.split("/").last[/\.(\w+)$/, 1]&.downcase
+            end.uniq
+            if extensions.size == 1 && %w[ttf otf woff
+                                          woff2].include?(extensions.first)
               extensions.first
             else
               declared_format
@@ -174,7 +177,10 @@ module Fontist
             # For variable fonts, ALL styles should be marked as variable
             if family.variable_font?
               style["variable_font"] = true
-              style["variable_axes"] = family.axes.map(&:tag) if family.axes&.any?
+              if family.axes&.any?
+                style["variable_axes"] =
+                  family.axes.map(&:tag)
+              end
             else
               style["variable_font"] = false
             end

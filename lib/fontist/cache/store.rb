@@ -57,7 +57,7 @@ module Fontist
       attr_reader :cache_dir
 
       def ensure_cache_dir
-        FileUtils.mkdir_p(@cache_dir) unless Dir.exist?(@cache_dir)
+        FileUtils.mkdir_p(@cache_dir)
       end
 
       def cache_path(key)

@@ -9,7 +9,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
   end
 
   after do
-    FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+    FileUtils.rm_rf(test_dir)
     Fontist::Cache::Manager.clear(namespace: :indexes)
   end
 
@@ -265,7 +265,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
 
   def create_test_font(dir, filename)
     path = File.join(dir, filename)
-    FileUtils.mkdir_p(File.dirname(path)) unless Dir.exist?(File.dirname(path))
+    FileUtils.mkdir_p(File.dirname(path))
 
     content = case File.extname(filename)
               when ".ttf", ".TTF"

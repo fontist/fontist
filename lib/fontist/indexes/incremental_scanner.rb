@@ -53,14 +53,14 @@ module Fontist
       # cache: Optional hash of path => cached_version
       # Returns: Array of font metadata hashes
       def self.scan_batch(paths, cache: {})
-        paths.map do |path|
+        paths.filter_map do |path|
           cached = cache[path]
           if cached
             scan_with_cache(path, cached)
           else
             scan_font_file(path)
           end
-        end.compact
+        end
       end
 
       # Compute SHA256 signature of first 1KB for quick change detection

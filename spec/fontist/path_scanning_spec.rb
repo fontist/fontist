@@ -10,7 +10,7 @@ RSpec.describe Fontist::PathScanning do
     end
 
     after do
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     it "returns empty array for non-existent directory" do
@@ -114,7 +114,7 @@ RSpec.describe Fontist::PathScanning do
     end
 
     after do
-      FileUtils.rm_rf(test_dir) if Dir.exist?(test_dir)
+      FileUtils.rm_rf(test_dir)
     end
 
     it "returns matching font files" do

@@ -48,14 +48,14 @@ module Fontist
     def filter_by_format_spec(formulas)
       matcher = FormatMatcher.new(@format_spec)
 
-      formulas.map do |formula|
+      formulas.filter_map do |formula|
         next formula unless formula.v5?
 
         matching = matcher.filter_resources(formula.resources)
         if matching.any?
           formula.dup.tap { |f| f.resources = matching }
         end
-      end.compact
+      end
     end
 
     def ensure_fontist_version(formulas)
@@ -99,7 +99,9 @@ module Fontist
     end
 
     def raise_format_not_available_error(formulas)
-      available = formulas.flat_map { |f| Array(f.resources).map(&:format) }.compact.uniq
+      available = formulas.flat_map do |f|
+        Array(f.resources).map(&:format)
+      end.compact.uniq
       raise Errors::FormatNotAvailableError.new(
         @font_name,
         @format_spec.format || @format_spec.prefer_format,

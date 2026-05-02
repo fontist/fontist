@@ -75,7 +75,7 @@ RSpec.describe Fontist::Formula do
 
     it "has resources with format metadata" do
       expect(formula.resources).to be_kind_of(Array)
-      formats = formula.resources.map(&:format).compact
+      formats = formula.resources.filter_map(&:format)
       expect(formats).to include("ttf", "woff2")
     end
 

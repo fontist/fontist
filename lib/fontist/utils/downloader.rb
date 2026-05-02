@@ -135,9 +135,9 @@ module Fontist
 
       def headers
         obj = Helpers.url_object(@file)
-        obj.respond_to?(:headers) &&
+        (obj.respond_to?(:headers) &&
           obj.headers &&
-          obj.headers.to_h.map { |k, v| [k.to_s, v] }.to_h || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
+          obj.headers.to_h.to_h { |k, v| [k.to_s, v] }) || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
           {}
       end
 

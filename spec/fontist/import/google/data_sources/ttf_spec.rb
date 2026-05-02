@@ -2,7 +2,7 @@ require "spec_helper"
 require "fontist/import/google/data_sources/ttf"
 
 RSpec.describe Fontist::Import::Google::DataSources::Ttf do
-  let(:api_key) { ENV["GOOGLE_FONTS_API_KEY"] }
+  let(:api_key) { ENV.fetch("GOOGLE_FONTS_API_KEY", nil) }
   let(:client) { described_class.new(api_key: api_key) }
 
   before do

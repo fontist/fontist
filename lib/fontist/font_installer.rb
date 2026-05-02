@@ -98,16 +98,14 @@ module Fontist
     end
 
     def resource_options
-      @resource_options ||= begin
-        if @formula.resources.size == 1 || !@formula.v5?
-          @formula.resources.first
-        elsif @format_spec&.has_constraints?
-          matcher = FormatMatcher.new(@format_spec)
-          matcher.select_preferred_resource(@formula.resources)
-        else
-          find_desktop_resource || @formula.resources.first
-        end
-      end
+      @resource_options ||= if @formula.resources.size == 1 || !@formula.v5?
+                              @formula.resources.first
+                            elsif @format_spec&.has_constraints?
+                              matcher = FormatMatcher.new(@format_spec)
+                              matcher.select_preferred_resource(@formula.resources)
+                            else
+                              find_desktop_resource || @formula.resources.first
+                            end
     end
 
     def find_desktop_resource
@@ -135,7 +133,9 @@ module Fontist
         file_names = styles.map { |s| s.source_font || s.font }
 
         if @formula.v5? && resource_options&.source == "google" && file_names.any?
-          resource_basenames = Array(resource_options.files).map { |f| File.basename(f) }
+          resource_basenames = Array(resource_options.files).map do |f|
+            File.basename(f)
+          end
           unless file_names.any? { |f| resource_basenames.include?(f) }
             return resource_basenames
           end
@@ -169,7 +169,7 @@ module Fontist
       @subdirectories ||= begin
         extracts = [@formula.extract].flatten.compact
         # options is a collection, so we need to flatten it too
-        options = extracts.flat_map { |e| e.options }.compact
+        options = extracts.flat_map(&:options).compact
         options.filter_map(&:fonts_sub_dir)
       end
     end
@@ -296,12 +296,12 @@ module Fontist
     def temp_path_for(source_path, format)
       base = File.basename(source_path, ".*")
       dir = @format_spec&.transcode_path || Dir.mktmpdir
-      FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+      FileUtils.mkdir_p(dir)
       File.join(dir, "#{base}.#{format}")
     end
 
     def cleanup_temp_file(path)
-      File.delete(path) if File.exist?(path)
+      FileUtils.rm_f(path)
     rescue StandardError
       # Ignore cleanup errors
     end
