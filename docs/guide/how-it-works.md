@@ -291,6 +291,19 @@ When you run `fontist install "Open Sans"`:
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### Resource Dispatch
+
+Fontist selects a download strategy based on the formula's `source` field:
+
+| Source | Resource Class | Behavior |
+|--------|---------------|----------|
+| `google` | `GoogleResource` | Downloads from Google Fonts API |
+| `apple_cdn` | `AppleCDNResource` | Downloads from Apple CDN |
+| `windows_fod` | `WindowsFodResource` | Installs via PowerShell `Add-WindowsCapability` |
+| (default) | `ArchiveResource` | Downloads and extracts archive via excavate |
+
+For Windows FOD fonts, the flow differs from archives — instead of downloading a file, Fontist checks if the Windows capability is installed and installs it via PowerShell if needed. Font files are then read from `C:\Windows\Fonts`.
+
 ---
 
 ## Index Management
