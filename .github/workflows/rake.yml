@@ -335,17 +335,14 @@ jobs:
 
     steps:
       - name: Setup packages
-        run: pacman -Syu --noconfirm git binutils gcc autoconf make libffi libyaml gmp
+        run: |
+          pacman -Syu --noconfirm git binutils gcc autoconf make libffi libyaml gmp ruby ruby-stdlib
 
       - uses: actions/checkout@v4
 
-      - uses: asdf-vm/actions/install@v3
-        with:
-          tool_versions: ruby ${{ needs.prepare.outputs.default-ruby-version }}
-
       - run: |
-          gem install bundler
-          bundle install
+          gem install --no-document --user-install bundler
+          PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH" bundle install
 
       - name: Test
-        run: bundle exec rake
+        run: PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH" bundle exec rake
