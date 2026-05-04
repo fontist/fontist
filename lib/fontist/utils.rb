@@ -9,6 +9,7 @@ module Fontist
     autoload :Locking, "#{__dir__}/utils/locking"
     autoload :System, "#{__dir__}/utils/system"
     autoload :UI, "#{__dir__}/utils/ui"
+    autoload :UserAgent, "#{__dir__}/utils/user_agent"
 
     # Converts a glob pattern to case-insensitive by replacing each
     # alphabetic character with a character class [aA]

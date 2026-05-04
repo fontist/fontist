@@ -117,6 +117,22 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
     end
+
+    context "browser headers" do
+      it "sends browser-like headers with the download" do
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download).and_wrap_original do |m, *args, **kwargs|
+            headers = kwargs[:headers]
+            expect(headers["User-Agent"]).to start_with("Mozilla/5.0")
+            expect(headers).to have_key("Sec-Ch-Ua")
+            expect(headers).to have_key("Sec-Fetch-Dest")
+            m.call(*args, **kwargs)
+          end
+
+          described_class.download(sample_file[:file])
+        end
+      end
+    end
   end
 
   def sample_file
