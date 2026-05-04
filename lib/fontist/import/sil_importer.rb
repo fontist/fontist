@@ -272,7 +272,7 @@ module Fontist
       end
 
       def font_links
-        html = URI.parse(ROOT).open.read
+        html = URI.parse(ROOT).open("User-Agent" => Fontist::Utils::UserAgent.random_user_agent).read
         document = Nokogiri::HTML.parse(html)
         document.css("table.products div.title > a")
       end
@@ -392,7 +392,7 @@ module Fontist
       end
 
       def find_archive_url_by_page_uri(uri)
-        response = uri.open
+        response = uri.open("User-Agent" => Fontist::Utils::UserAgent.random_user_agent)
         current_url = response.base_uri
         html = response.read
         document = Nokogiri::HTML.parse(html)
