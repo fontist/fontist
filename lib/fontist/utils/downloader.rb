@@ -1,6 +1,10 @@
 module Fontist
   module Utils
     class Downloader
+      DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " \
+                           "AppleWebKit/537.36 (KHTML, like Gecko) " \
+                           "Chrome/131.0.0.0 Safari/537.36".freeze
+
       class << self
         def download(*args)
           new(*args).download
@@ -135,10 +139,11 @@ module Fontist
 
       def headers
         obj = Helpers.url_object(@file)
-        (obj.respond_to?(:headers) &&
+        formula_headers = (obj.respond_to?(:headers) &&
           obj.headers &&
-          obj.headers.to_h.to_h { |k, v| [k.to_s, v] }) || # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
-          {}
+          obj.headers.to_h.to_h { |k, v| [k.to_s, v] }) || {} # rubocop:disable Style/HashTransformKeys, Metrics/LineLength
+
+        { "User-Agent" => DEFAULT_USER_AGENT }.merge(formula_headers)
       end
 
       def extract_raw_url
