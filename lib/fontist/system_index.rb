@@ -229,11 +229,12 @@ module Fontist
     end
 
     def index
-      # Fast path: if read_only mode is set, skip index_changed? check entirely
-      # But we still need to build if fonts is nil (first time access)
-      if @read_only_mode && !fonts.nil?
+      # Fast path: if read_only mode is set, skip index_changed? check entirely.
+      # But we still need to build on first access — treat an empty fonts list
+      # the same as nil, since Lutaml initializes `instances :fonts` to `[]`
+      # rather than nil when the on-disk index file is absent.
+      if @read_only_mode && !fonts.nil? && !fonts.empty?
         return fonts
-        # Fall through to build the index on first access
       end
 
       return fonts unless index_changed?
@@ -254,6 +255,14 @@ module Fontist
     # This is used during manifest compilation to avoid expensive index checks
     def read_only_mode
       @read_only_mode = true
+      self
+    end
+
+    # Disable read-only mode so future `index` calls go through
+    # `index_changed?` again. Paired with `read_only_mode` to scope the
+    # optimization to a single block (see Manifest.with_performance_optimizations).
+    def disable_read_only_mode
+      @read_only_mode = false
       self
     end
 

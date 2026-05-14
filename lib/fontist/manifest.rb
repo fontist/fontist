@@ -183,7 +183,11 @@ module Fontist
 
       yield
     ensure
-      # Always disable caching after the operation
+      # Always restore normal mode after the operation so the read-only flag
+      # does not leak across calls and turn the singletons effectively stale.
+      Fontist::Indexes::FontistIndex.instance.disable_read_only_mode
+      Fontist::Indexes::UserIndex.instance.disable_read_only_mode
+      Fontist::Indexes::SystemIndex.instance.disable_read_only_mode
       Fontist::SystemFont.disable_find_styles_cache
     end
 
