@@ -33,9 +33,15 @@ module Fontist
     def style_paths(locations: false)
       ary = Array(styles)
       (ary.empty? ? [nil] : ary).flat_map do |style|
-        find_font_with_name(name, style).tap do |x|
-          raise Errors::MissingFontError.new(name, style) if x.nil? && locations
+        paths = find_font_with_name(name, style)
+
+        if paths.nil? && locations
+          try_install_missing_font
+          paths = find_font_with_name(name, style)
+          raise Errors::MissingFontError.new(name, style) if paths.nil?
         end
+
+        paths
       end.compact
     end
 
@@ -95,6 +101,27 @@ module Fontist
     end
 
     private
+
+    def try_install_missing_font
+      Fontist.ui.debug("self-healing install attempt for #{name.inspect}")
+      Fontist::Font.install(
+        name,
+        force: true,
+        confirmation: "no",
+        no_progress: true,
+        hide_licenses: true,
+        format_spec: format_spec,
+      )
+    rescue Fontist::Errors::FontError,
+           Fontist::Errors::LicensingError,
+           Fontist::Errors::PlatformMismatchError,
+           Fontist::Errors::FormulaIndexNotFoundError => e
+      Fontist.ui.debug(
+        "self-healing install for #{name.inspect} " \
+        "failed: #{e.class}: #{e.message}",
+      )
+      nil
+    end
 
     def validate_location_parameter!(location)
       return unless location
