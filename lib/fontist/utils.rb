@@ -71,7 +71,7 @@ module Fontist
 
       # On case-insensitive filesystems (Windows, macOS), use simple patterns
       # On case-sensitive filesystems (Linux), use character class patterns
-      if %i[windows macosx].include?(Fontist::Utils::System.user_os)
+      if %i[windows macos].include?(Fontist::Utils::System.user_os)
         # Case-insensitive filesystem - simple patterns work fine
         extensions.map { |ext| File.join(prefix, "*.#{ext}") }
       else

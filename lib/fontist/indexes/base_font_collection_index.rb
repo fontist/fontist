@@ -60,6 +60,14 @@ module Fontist
         self
       end
 
+      # Disable read-only mode, restoring normal index_changed? checks.
+      #
+      # @return [self] Returns self for chaining
+      def disable_read_only_mode
+        collection.disable_read_only_mode
+        self
+      end
+
       # Returns all fonts in the index
       #
       # @return [Array<SystemIndexFont>] All indexed fonts

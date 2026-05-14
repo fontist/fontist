@@ -274,16 +274,12 @@ RSpec.describe Fontist::Manifest do
     before { example_formula("andale.yml") }
 
     describe ".with_performance_optimizations" do
-      it "enables read-only mode on all indexes" do
-        # Track the initial state
+      it "enables read-only mode during the block and clears it afterwards" do
         fontist_index = Fontist::Indexes::FontistIndex.instance
         user_index = Fontist::Indexes::UserIndex.instance
         system_index = Fontist::Indexes::SystemIndex.instance
 
-        # Run the optimization block
         described_class.with_performance_optimizations do
-          # Verify indexes are in read-only mode during execution
-          # The collection object has @read_only_mode set
           expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
             .to be true
           expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
@@ -292,13 +288,32 @@ RSpec.describe Fontist::Manifest do
             .to be true
         end
 
-        # After execution, read-only mode persists in the collection
+        # After the block, the flag must be cleared so subsequent index
+        # operations re-check whether the on-disk index is up to date.
+        # See: https://github.com/fontist/fontist/issues/418
         expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(system_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
+      end
+
+      it "clears read-only mode even when the block raises" do
+        fontist_index = Fontist::Indexes::FontistIndex.instance
+        user_index = Fontist::Indexes::UserIndex.instance
+        system_index = Fontist::Indexes::SystemIndex.instance
+
+        expect do
+          described_class.with_performance_optimizations { raise "boom" }
+        end.to raise_error(RuntimeError, "boom")
+
+        expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
+          .to be false
+        expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
+          .to be false
+        expect(system_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
+          .to be false
       end
 
       it "enables caching for find_styles lookups" do
@@ -347,41 +362,38 @@ RSpec.describe Fontist::Manifest do
         manifest_path = File.join("spec", "examples", "manifests",
                                   "mscorefonts.yml")
 
-        # Verify the operation completes successfully
-        # (optimizations are applied automatically)
         expect { described_class.from_file(manifest_path) }.not_to raise_error
 
-        # Verify that indexes were set to read-only mode during compilation
+        # Read-only mode is scoped to the compilation block and must be
+        # cleared after the call so later operations don't see a stale flag.
+        # See: https://github.com/fontist/fontist/issues/418
         fontist_index = Fontist::Indexes::FontistIndex.instance
         user_index = Fontist::Indexes::UserIndex.instance
         system_index = Fontist::Indexes::SystemIndex.instance
 
         expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(system_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
       end
 
       it "compiles from_hash successfully with optimizations" do
         manifest = { "Andale Mono" => "Regular" }
 
-        # Verify the operation completes successfully
-        # (optimizations are applied automatically)
         expect { described_class.from_hash(manifest) }.not_to raise_error
 
-        # Verify that indexes were set to read-only mode during compilation
         fontist_index = Fontist::Indexes::FontistIndex.instance
         user_index = Fontist::Indexes::UserIndex.instance
         system_index = Fontist::Indexes::SystemIndex.instance
 
         expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
         expect(system_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-          .to be true
+          .to be false
       end
 
       it "uses performance optimizations during to_response" do
@@ -394,27 +406,116 @@ RSpec.describe Fontist::Manifest do
           # (to_response returns early if fonts aren't installed)
           example_font_to_fontist("AndaleMo.TTF")
 
-          # Reset index read-only mode to verify it gets enabled by to_response
           Fontist::Indexes::FontistIndex.instance.reset_cache
           Fontist::Indexes::UserIndex.instance.reset_cache
           Fontist::Indexes::SystemIndex.instance.reset_cache
 
-          # Call to_response and verify it completes successfully
           expect { manifest.to_response }.not_to raise_error
 
-          # Verify that indexes were set to read-only mode during to_response
           fontist_index = Fontist::Indexes::FontistIndex.instance
           user_index = Fontist::Indexes::UserIndex.instance
           system_index = Fontist::Indexes::SystemIndex.instance
 
           expect(fontist_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-            .to be true
+            .to be false
           expect(user_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-            .to be true
+            .to be false
           expect(system_index.instance_variable_get(:@collection).instance_variable_get(:@read_only_mode))
-            .to be true
+            .to be false
         end
       end
+    end
+  end
+
+  # Regression tests for https://github.com/fontist/fontist/issues/418
+  #
+  # The bug: when the on-disk system/fontist index file doesn't exist yet,
+  # `SystemIndexFontCollection.from_file` returns a collection with
+  # `fonts == []`. `Manifest.with_performance_optimizations` then sets the
+  # read-only flag *before* anything has been built, and the read-only fast
+  # path returned the empty fonts array without ever building the index —
+  # so `find("Arial", nil)` returned nil, and `style_paths` raised
+  # `MissingFontError`. This was the actual cause of spurious "font is
+  # missing" reports in metanorma CI on Windows.
+  describe "fresh-index lookup (issue #418)" do
+    include_context "fresh home"
+
+    before { example_formula("andale.yml") }
+
+    it "builds the index and finds the font on the first locations lookup" do
+      # Make AndaleMo.TTF visible as a system font in the stubbed system dir.
+      stub_system_fonts_path_to_new_path do
+        example_font_to_system("AndaleMo.TTF")
+
+        # Force a truly cold state: no index file on disk, fresh singletons,
+        # so the collection starts with fonts == [] rather than a populated
+        # array. This is the exact condition the bug triggers under.
+        FileUtils.rm_f(Fontist.system_index_path.to_s)
+        FileUtils.rm_f(Fontist.fontist_index_path.to_s)
+        FileUtils.rm_f(Fontist.user_index_path.to_s)
+        Fontist::Indexes::FontistIndex.reset_cache
+        Fontist::Indexes::UserIndex.reset_cache
+        Fontist::Indexes::SystemIndex.reset_cache
+
+        expect do
+          described_class.from_hash({ "Andale Mono" => nil }, locations: true)
+        end.not_to raise_error
+      end
+    end
+
+    it "lets a subsequent locations lookup see freshly installed fonts" do
+      # Simulates the metanorma flow: install first, then immediately call
+      # from_hash(locations: true) for the same manifest. Before the fix,
+      # the read-only-mode leak from the install call could leave the
+      # singletons stale and the lookup would fail on Windows.
+      described_class.from_hash({ "Andale Mono" => "Regular" })
+        .install(confirmation: "yes")
+
+      expect do
+        described_class.from_hash({ "Andale Mono" => "Regular" },
+                                  locations: true)
+      end.not_to raise_error
+    end
+
+    # Defensive fix for the metanorma v2.4.1 flow:
+    # `gather_and_install_fonts` calls `location_manifest` (locations: true)
+    # before `font_install` runs. style_paths now attempts a best-effort
+    # install before raising MissingFontError. See defensive-fix.md.
+    it "auto-installs an open-licensed font when locations:true and it is missing" do
+      example_formula("tex_gyre_chorus.yml")
+
+      FileUtils.rm_f(Fontist.system_index_path.to_s)
+      FileUtils.rm_f(Fontist.fontist_index_path.to_s)
+      FileUtils.rm_f(Fontist.user_index_path.to_s)
+      FileUtils.rm_rf(Fontist.fonts_path.to_s)
+      Fontist::Indexes::FontistIndex.reset_cache
+      Fontist::Indexes::UserIndex.reset_cache
+      Fontist::Indexes::SystemIndex.reset_cache
+
+      expect do
+        described_class.from_hash({ "TeXGyreChorus" => nil }, locations: true)
+      end.not_to raise_error
+
+      files = Dir.glob(Fontist.fonts_path.join("**/*.{ttf,otf,ttc,otc}").to_s)
+      expect(files.any? { |p| p.downcase.include?("texgyrechorus") })
+        .to be(true)
+    end
+
+    it "still raises MissingFontError when self-healing install can't satisfy the font" do
+      FileUtils.rm_f(Fontist.system_index_path.to_s)
+      FileUtils.rm_f(Fontist.fontist_index_path.to_s)
+      FileUtils.rm_f(Fontist.user_index_path.to_s)
+      Fontist::Indexes::FontistIndex.reset_cache
+      Fontist::Indexes::UserIndex.reset_cache
+      Fontist::Indexes::SystemIndex.reset_cache
+
+      expect do
+        described_class.from_hash(
+          { "Definitely Not A Real Font 12345" => nil },
+          locations: true,
+        )
+      end.to raise_error(Fontist::Errors::MissingFontError,
+                         /Definitely Not A Real Font/)
     end
   end
 end
