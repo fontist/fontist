@@ -229,11 +229,7 @@ module Fontist
     end
 
     def index
-      # Fast path: if read_only mode is set, skip index_changed? check entirely.
-      # But we still need to build on first access — treat an empty fonts list
-      # the same as nil, since Lutaml initializes `instances :fonts` to `[]`
-      # rather than nil when the on-disk index file is absent.
-      if @read_only_mode && !fonts.nil? && !fonts.empty?
+      if @read_only_mode && !fonts.nil?
         return fonts
       end
 

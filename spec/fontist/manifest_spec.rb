@@ -477,4 +477,58 @@ RSpec.describe Fontist::Manifest do
       end.not_to raise_error
     end
   end
+
+  # Regression test: under the read-only fast path used by
+  # `with_performance_optimizations`, repeated manifest lookups in the same
+  # process must not re-invoke `SystemIndexFontCollection#build` for each
+  # font/style row. Before the fix, an index whose `fonts` was empty (e.g.
+  # `FontistIndex` on a fresh runner) would fall through the fast path and
+  # rebuild on every lookup, multiplying CI render time by 10-25x. See the
+  # bipm-ubuntu run on metanorma-cli PR #413 vs the prior baseline.
+  describe "read-only fast path does not rebuild indexes per lookup" do
+    include_context "fresh home"
+
+    before { example_formula("andale.yml") }
+
+    it "calls build at most once per index across many locations lookups" do
+      stub_system_fonts_path_to_new_path do
+        example_font_to_system("AndaleMo.TTF")
+
+        # Cold state — no on-disk index files, fresh singletons.
+        FileUtils.rm_f(Fontist.system_index_path.to_s)
+        FileUtils.rm_f(Fontist.fontist_index_path.to_s)
+        FileUtils.rm_f(Fontist.user_index_path.to_s)
+        Fontist::Indexes::FontistIndex.reset_cache
+        Fontist::Indexes::UserIndex.reset_cache
+        Fontist::Indexes::SystemIndex.reset_cache
+
+        # Spy on every SystemIndexFontCollection instance for the duration
+        # of this example.
+        build_calls = 0
+        allow_any_instance_of(Fontist::SystemIndexFontCollection)
+          .to receive(:build).and_wrap_original do |orig, *args, **kw|
+            build_calls += 1
+            orig.call(*args, **kw)
+          end
+
+        manifest = { "Andale Mono" => nil }
+
+        # First call primes the indexes via the eager cold-start build in
+        # BaseFontCollectionIndex#collection.
+        described_class.from_hash(manifest, locations: true)
+        primed_calls = build_calls
+
+        # Subsequent calls must not trigger additional builds. We do 10
+        # rounds to amplify any per-lookup rebuild regression.
+        10.times do
+          described_class.from_hash(manifest, locations: true)
+        end
+
+        expect(build_calls).to eq(primed_calls),
+                               "expected no additional `build` calls after the cold-start " \
+                               "prime, got #{build_calls - primed_calls} extra " \
+                               "(primed=#{primed_calls}, total=#{build_calls})"
+      end
+    end
+  end
 end

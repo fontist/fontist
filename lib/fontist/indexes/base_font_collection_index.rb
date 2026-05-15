@@ -41,14 +41,21 @@ module Fontist
       # Get the collection, initializing it lazily if nil
       #
       # Uses lazy initialization so that the collection is created with fresh
-      # font_paths each time it's accessed after reset_cache
+      # font_paths each time it's accessed after reset_cache.
+      #
+      # On cold start (no on-disk index file), eagerly build the index once
+      # so that `fonts` reflects an authoritative scan. This lets callers in
+      # read-only mode trust the cached `fonts` without re-running `build` on
+      # every lookup.
       #
       # @return [SystemIndexFontCollection] The collection object
       def collection
         @collection ||= SystemIndexFontCollection.from_file(
           path: index_path,
           paths_loader: -> { font_paths },
-        )
+        ).tap do |coll|
+          coll.build unless File.exist?(index_path)
+        end
       end
 
       # Enable read-only mode for operations that don't need index rebuilding
