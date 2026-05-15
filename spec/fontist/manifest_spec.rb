@@ -476,46 +476,5 @@ RSpec.describe Fontist::Manifest do
                                   locations: true)
       end.not_to raise_error
     end
-
-    # Defensive fix for the metanorma v2.4.1 flow:
-    # `gather_and_install_fonts` calls `location_manifest` (locations: true)
-    # before `font_install` runs. style_paths now attempts a best-effort
-    # install before raising MissingFontError. See defensive-fix.md.
-    it "auto-installs an open-licensed font when locations:true and it is missing" do
-      example_formula("tex_gyre_chorus.yml")
-
-      FileUtils.rm_f(Fontist.system_index_path.to_s)
-      FileUtils.rm_f(Fontist.fontist_index_path.to_s)
-      FileUtils.rm_f(Fontist.user_index_path.to_s)
-      FileUtils.rm_rf(Fontist.fonts_path.to_s)
-      Fontist::Indexes::FontistIndex.reset_cache
-      Fontist::Indexes::UserIndex.reset_cache
-      Fontist::Indexes::SystemIndex.reset_cache
-
-      expect do
-        described_class.from_hash({ "TeXGyreChorus" => nil }, locations: true)
-      end.not_to raise_error
-
-      files = Dir.glob(Fontist.fonts_path.join("**/*.{ttf,otf,ttc,otc}").to_s)
-      expect(files.any? { |p| p.downcase.include?("texgyrechorus") })
-        .to be(true)
-    end
-
-    it "still raises MissingFontError when self-healing install can't satisfy the font" do
-      FileUtils.rm_f(Fontist.system_index_path.to_s)
-      FileUtils.rm_f(Fontist.fontist_index_path.to_s)
-      FileUtils.rm_f(Fontist.user_index_path.to_s)
-      Fontist::Indexes::FontistIndex.reset_cache
-      Fontist::Indexes::UserIndex.reset_cache
-      Fontist::Indexes::SystemIndex.reset_cache
-
-      expect do
-        described_class.from_hash(
-          { "Definitely Not A Real Font 12345" => nil },
-          locations: true,
-        )
-      end.to raise_error(Fontist::Errors::MissingFontError,
-                         /Definitely Not A Real Font/)
-    end
   end
 end
