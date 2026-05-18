@@ -4,7 +4,7 @@ module Fontist
   class Font
     def initialize(options = {})
       @name = options[:name]
-      @confirmation = options[:confirmation] || "no"
+      @confirmation = options[:confirmation]
       @hide_licenses = options[:hide_licenses]
       @no_progress = options[:no_progress] || false
       @force = options[:force] || false
@@ -270,7 +270,14 @@ module Fontist
       return @confirmation if formula.licensed_for_current_platform?
 
       show_license(formula) unless @hide_licenses
-      return @confirmation if @confirmation.casecmp?("yes")
+      return @confirmation if @confirmation&.casecmp?("yes")
+
+      # Explicit rejection: raise immediately without interactive prompt
+      if @confirmation&.casecmp?("no")
+        raise Fontist::Errors::LicensingError.new(
+          "Fontist will not download these fonts unless you accept the terms.",
+        )
+      end
 
       confirmation = ask_for_agreement
       if confirmation&.casecmp?("yes")

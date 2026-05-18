@@ -11,7 +11,6 @@ RSpec.describe Fontist::Font, "license confirmation" do
 
     context "when confirmation is not provided (defaults to 'no')" do
       it "raises LicensingError" do
-        # Stub UI.ask to return "no" (simulating user rejection)
         allow(Fontist::Utils::UI).to receive(:ask).and_return("no")
 
         expect do
@@ -21,9 +20,8 @@ RSpec.describe Fontist::Font, "license confirmation" do
     end
 
     context "when confirmation is explicitly set to 'no'" do
-      it "raises LicensingError" do
-        # Stub UI.ask to return "no" (simulating user rejection)
-        allow(Fontist::Utils::UI).to receive(:ask).and_return("no")
+      it "raises LicensingError without prompting interactively" do
+        expect(Fontist::Utils::UI).not_to receive(:ask)
 
         expect do
           Fontist::Font.install(test_font, confirmation: "no")

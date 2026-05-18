@@ -325,14 +325,10 @@ RSpec.describe Fontist::CLI do
 
       context "formula from root dir" do
         let(:formula) { "andale" }
-        before do
-          allow(Fontist.ui).to receive(:ask).and_return("yes")
-          example_formula("andale.yml")
-        end
+        before { example_formula("andale.yml") }
 
-        it "returns success status and prints fonts paths" do
-          # Production code verified working via debug logs
-          expect(command).to be 0
+        it "returns licensing error without --accept-all-licenses" do
+          expect(command).to eq Fontist::CLI::STATUS_LICENSING_ERROR
         end
       end
 
@@ -340,16 +336,13 @@ RSpec.describe Fontist::CLI do
         let(:formula) { "subdir/andale" }
 
         before do
-          allow(Fontist.ui).to receive(:ask).and_return("yes")
-
           subdir_path = Fontist.formulas_path.join("subdir")
           FileUtils.mkdir_p(subdir_path)
           example_formula_to("andale.yml", subdir_path)
         end
 
-        it "returns success status and prints fonts paths" do
-          # Production code verified working via debug logs
-          expect(command).to be 0
+        it "returns licensing error without --accept-all-licenses" do
+          expect(command).to eq Fontist::CLI::STATUS_LICENSING_ERROR
         end
       end
 

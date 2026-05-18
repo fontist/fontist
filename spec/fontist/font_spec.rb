@@ -576,9 +576,9 @@ RSpec.describe Fontist::Font do
       let(:font) { test_font_downcase }
       before { example_formula(test_formula) }
 
-      it "asks for acceptance for each formula" do
-        expect(Fontist.ui).to receive(:ask).and_return("yes").once
-        command
+      it "raises LicensingError without prompting when confirmation is 'no'" do
+        expect(Fontist.ui).not_to receive(:ask)
+        expect { command }.to raise_error(Fontist::Errors::LicensingError)
       end
     end
 
