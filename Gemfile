@@ -3,6 +3,10 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in fontist.gemspec
 gemspec
 
+# TODO: Remove this fontisan pin after https://github.com/fontist/fontisan/pull/28
+# is merged and released.
+gem "fontisan", github: "fontist/fontisan", branch: "font-file-detection"
+
 gem "bundler"
 gem "openssl", "~> 3.0"
 gem "ostruct"

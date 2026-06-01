@@ -20,6 +20,12 @@ module Fontist
 
     class FontFileError < GeneralError; end
 
+    # Raised when a font is structurally readable but fails the indexability
+    # profile (missing required tables, incomplete name records, etc.).
+    # Distinct from FontFileError so callers can tell "we don't recognise this
+    # file" apart from "this file is a font but unusable as an index entry".
+    class FontIndexabilityValidationError < FontFileError; end
+
     class FontExtractError < GeneralError; end
 
     class FontistVersionError < GeneralError; end
