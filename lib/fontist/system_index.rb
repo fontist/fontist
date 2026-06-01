@@ -653,32 +653,18 @@ spinner_index = nil)
     # `SauberScript.ttc` inside its private FontServices framework). Trusting
     # the extension causes such files to be routed through the collection
     # parser, which correctly rejects them, producing spurious "not recognized"
-    # warnings. The fallback to the extension preserves the previous behavior
-    # for files we cannot open (permission errors, etc.).
+    # warnings.
     def gather_fonts(path)
-      format = detect_font_format(path)
-
-      case format
-      when :ttc, :otc, :dfont
+      case Fontisan::FontLoader.detect_format(path)
+      when :ttc, :otc
         detect_collection_fonts(path)
       when :ttf, :otf, :woff, :woff2
         detect_file_font(path)
       else
         print_recognition_error(Errors::UnknownFontTypeError.new(path), path)
       end
-    end
-
-    def detect_font_format(path)
-      Fontisan::FontLoader.detect_format(path) || extension_format(path)
-    rescue Errno::ENOENT, Errno::EACCES
-      extension_format(path)
-    end
-
-    def extension_format(path)
-      ext = File.extname(path).gsub(/^\./, "").downcase
-      return nil if ext.empty?
-
-      ext.to_sym
+    rescue Errno::ENOENT, Errno::EACCES, IOError => e
+      print_recognition_error(Errors::FontFileError.new(e.message), path)
     end
 
     def print_validation_error(exception, path)
