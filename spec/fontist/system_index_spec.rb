@@ -92,6 +92,34 @@ RSpec.describe Fontist::SystemIndex do
     end
   end
 
+  context "when a font file's extension misrepresents its content" do
+    # Regression for the SauberScript.ttc case: Apple's private FontServices
+    # framework ships a single OpenType-CFF font (magic 'OTTO') with a .ttc
+    # extension. The index dispatcher must trust the magic bytes, not the
+    # extension, so the font is indexed instead of producing a "not
+    # recognized as a font file" warning.
+    let(:tmp_dir) { create_tmp_dir }
+    let(:masquerading_path) do
+      path = File.join(tmp_dir, "SauberScript.ttc")
+      FileUtils.cp(examples_font_path("overpass-mono-regular.otf"), path)
+      path
+    end
+    let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+    let(:instance) do
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { [masquerading_path] })
+      end
+    end
+
+    it "indexes the font based on its actual format" do
+      expect(Fontist.ui).not_to receive(:error)
+      instance.find("Overpass Mono", nil)
+      expect(instance.fonts).not_to be_empty
+      expect(instance.fonts.first.path).to eq(masquerading_path)
+    end
+  end
+
   context "preferred family index" do
     let(:tmp_dir) { Fontist.temp_fontist_path }
     let(:font_file) do

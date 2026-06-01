@@ -43,15 +43,20 @@ module Fontist
             "#{e.category}: #{e.message}"
           end.join("; ")
           # rubocop:disable Layout/LineLength
-          raise Errors::FontFileError,
+          raise Errors::FontIndexabilityValidationError,
                 "Font collection failed indexability validation (first font): #{error_messages}"
           # rubocop:enable Layout/LineLength
         end
 
         collection
+      rescue Errors::FontFileError
+        # Already a FontFileError with a clean message we authored above
+        # (e.g. "File is not a recognized font collection"). Re-raise as-is
+        # so the message isn't double-wrapped into a Ruby #inspect string.
+        raise
       rescue StandardError => e
         raise Errors::FontFileError,
-              "Font collection could not be loaded: #{e.inspect}."
+              "Font collection could not be loaded: #{e.message}"
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 

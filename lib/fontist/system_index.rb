@@ -1,4 +1,5 @@
 require "paint"
+require "fontisan"
 
 module Fontist
   # Statistics tracking for index building (thread-safe)
@@ -630,15 +631,12 @@ spinner_index = nil)
       return if excluded?(path)
 
       gather_fonts(path)
+    rescue Errors::FontIndexabilityValidationError => e
+      stats&.record_validation_failure
+      print_validation_error(e, path)
     rescue Errors::FontFileError => e
-      # Check if this is a validation failure
-      if e.message.include?("indexability validation")
-        stats&.record_validation_failure
-        print_validation_error(e, path)
-      else
-        stats&.record_error
-        print_recognition_error(e, path)
-      end
+      stats&.record_error
+      print_recognition_error(e, path)
     end
 
     def excluded?(path)
@@ -649,15 +647,38 @@ spinner_index = nil)
       @excluded_fonts ||= YAML.load_file(Fontist.excluded_fonts_path)
     end
 
+    # Dispatch a file to the file-font or collection parser based on its actual
+    # magic bytes, not its extension. Some vendors ship files with misleading
+    # extensions (notably macOS ships a single OpenType-CFF font as
+    # `SauberScript.ttc` inside its private FontServices framework). Trusting
+    # the extension causes such files to be routed through the collection
+    # parser, which correctly rejects them, producing spurious "not recognized"
+    # warnings. The fallback to the extension preserves the previous behavior
+    # for files we cannot open (permission errors, etc.).
     def gather_fonts(path)
-      case File.extname(path).gsub(/^\./, "").downcase
-      when "ttf", "otf", "woff", "woff2"
-        detect_file_font(path)
-      when "ttc", "otc"
+      format = detect_font_format(path)
+
+      case format
+      when :ttc, :otc, :dfont
         detect_collection_fonts(path)
+      when :ttf, :otf, :woff, :woff2
+        detect_file_font(path)
       else
         print_recognition_error(Errors::UnknownFontTypeError.new(path), path)
       end
+    end
+
+    def detect_font_format(path)
+      Fontisan::FontLoader.detect_format(path) || extension_format(path)
+    rescue Errno::ENOENT, Errno::EACCES
+      extension_format(path)
+    end
+
+    def extension_format(path)
+      ext = File.extname(path).gsub(/^\./, "").downcase
+      return nil if ext.empty?
+
+      ext.to_sym
     end
 
     def print_validation_error(exception, path)
