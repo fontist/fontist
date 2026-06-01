@@ -49,10 +49,7 @@ module Fontist
         end
 
         collection
-      rescue Errors::FontFileError
-        # Already a FontFileError with a clean message we authored above
-        # (e.g. "File is not a recognized font collection"). Re-raise as-is
-        # so the message isn't double-wrapped into a Ruby #inspect string.
+      rescue Errors::FontIndexabilityValidationError
         raise
       rescue StandardError => e
         raise Errors::FontFileError,

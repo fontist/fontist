@@ -118,6 +118,15 @@ RSpec.describe Fontist::SystemIndex do
       expect(instance.fonts).not_to be_empty
       expect(instance.fonts.first.path).to eq(masquerading_path)
     end
+
+    it "dispatches via magic-byte detection, not file extension" do
+      expect(Fontisan::FontLoader)
+        .to receive(:detect_format).with(masquerading_path)
+        .once.and_call_original
+
+      instance.find("Overpass Mono", nil)
+      expect(instance.fonts.first.path).to eq(masquerading_path)
+    end
   end
 
   context "preferred family index" do
