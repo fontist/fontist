@@ -57,9 +57,26 @@ RSpec.describe Fontist::Fontconfig do
       context "some font installed" do
         before { example_font("texgyrechorus-mediumitalic.otf") }
 
-        it "fc-match returns installed font", fontconfig: true do
+        # Verifies what Fontconfig#update actually controls: writing the
+        # XDG config and rebuilding the cache so fontconfig discovers the
+        # font. The before/after pair proves command did the work — without
+        # it, fc-list would still show the font on fontconfig 2.17 by
+        # auto-scanning a configured dir, masking a missing fc-cache call.
+        # We assert via fc-list rather than fc-match because fc-match's
+        # selection is influenced by system-wide configs (e.g. fontconfig
+        # 2.18's 05-macos.conf adds macOS asset directories) and may
+        # prefer a higher-coverage system font over our single-style test
+        # font even on an exact family query.
+        it "registers font with fontconfig", fontconfig: true do
+          allow(Fontist::Helpers).to receive(:run)
+            .with("fc-cache -f").and_call_original
+          # Precondition: no XDG config exists yet, fontconfig has no
+          # way to discover the font in our temp fonts_path.
+          expect(`fc-list :family='TeX Gyre Chorus'`)
+            .not_to include("TeX Gyre Chorus")
           command
-          expect(`fc-match 'texgyrechorus'`).to include("texgyrechorus")
+          expect(`fc-list :family='TeX Gyre Chorus'`)
+            .to include("TeX Gyre Chorus")
         end
       end
     end
@@ -117,9 +134,19 @@ RSpec.describe Fontist::Fontconfig do
         context "some font installed" do
           before { example_font("texgyrechorus-mediumitalic.otf") }
 
-          it "fc-match does not return installed font", fontconfig: true do
+          # See note on the matching update example for why fc-list is used
+          # instead of fc-match. Seeds fontconfig's cache up front so the
+          # precondition (font is visible) holds regardless of fontconfig
+          # version's auto-scan behaviour, then verifies command makes it
+          # invisible.
+          it "unregisters font from fontconfig", fontconfig: true do
+            allow(Fontist::Helpers).to receive(:run)
+              .with("fc-cache -f").and_call_original
+            expect(`fc-list :family='TeX Gyre Chorus'`)
+              .to include("TeX Gyre Chorus")
             command
-            expect(`fc-match 'texgyrechorus'`).not_to include("texgyrechorus")
+            expect(`fc-list :family='TeX Gyre Chorus'`)
+              .not_to include("TeX Gyre Chorus")
           end
         end
       end
