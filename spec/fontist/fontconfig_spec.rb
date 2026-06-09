@@ -15,6 +15,12 @@ RSpec.describe Fontist::Fontconfig do
     File.join(@xdg_config_home, "fontconfig", "conf.d", "10-fontist.conf")
   end
 
+  let(:font_filename) { "texgyrechorus-mediumitalic.otf" }
+
+  let(:installed_font_path) do
+    Fontist.fonts_path.join("tex_gyre_chorus", font_filename).to_s
+  end
+
   shared_context "no fontconfig installed" do
     before { allow(Fontist::Helpers).to receive(:run).and_raise(Errno::ENOENT) }
   end
@@ -55,7 +61,7 @@ RSpec.describe Fontist::Fontconfig do
       end
 
       context "some font installed" do
-        before { example_font("texgyrechorus-mediumitalic.otf") }
+        before { example_font(font_filename) }
 
         # Verifies what Fontconfig#update actually controls: writing the
         # XDG config and rebuilding the cache so fontconfig discovers the
@@ -66,17 +72,20 @@ RSpec.describe Fontist::Fontconfig do
         # selection is influenced by system-wide configs (e.g. fontconfig
         # 2.18's 05-macos.conf adds macOS asset directories) and may
         # prefer a higher-coverage system font over our single-style test
-        # font even on an exact family query.
+        # font even on an exact family query. We match on the full
+        # installed path (not just family or filename) because TeX
+        # distributions ship the same family AND the same filename — only
+        # the per-test mktmpdir prefix is uniquely ours.
         it "registers font with fontconfig", fontconfig: true do
           allow(Fontist::Helpers).to receive(:run)
             .with("fc-cache -f").and_call_original
           # Precondition: no XDG config exists yet, fontconfig has no
           # way to discover the font in our temp fonts_path.
           expect(`fc-list :family='TeX Gyre Chorus'`)
-            .not_to include("TeX Gyre Chorus")
+            .not_to include(installed_font_path)
           command
           expect(`fc-list :family='TeX Gyre Chorus'`)
-            .to include("TeX Gyre Chorus")
+            .to include(installed_font_path)
         end
       end
     end
@@ -132,21 +141,26 @@ RSpec.describe Fontist::Fontconfig do
         include_examples "fc-cache regenerator"
 
         context "some font installed" do
-          before { example_font("texgyrechorus-mediumitalic.otf") }
+          before { example_font(font_filename) }
 
-          # See note on the matching update example for why fc-list is used
-          # instead of fc-match. Seeds fontconfig's cache up front so the
-          # precondition (font is visible) holds regardless of fontconfig
-          # version's auto-scan behaviour, then verifies command makes it
-          # invisible.
+          # See note on the matching update example for why fc-list (not
+          # fc-match) and why we assert on the full installed path. The
+          # precondition (font is visible) relies on fontconfig's
+          # auto-scan of the <dir> element written to config_path by the
+          # enclosing before block, which already names Fontist.fonts_path
+          # — so no explicit fc-cache seed is needed. Auto-scan is a
+          # hazard for the #update example (it can mask a missing
+          # fc-cache call), but here it's load-bearing in the opposite
+          # direction: the postcondition still has to prove command makes
+          # the font invisible.
           it "unregisters font from fontconfig", fontconfig: true do
             allow(Fontist::Helpers).to receive(:run)
               .with("fc-cache -f").and_call_original
             expect(`fc-list :family='TeX Gyre Chorus'`)
-              .to include("TeX Gyre Chorus")
+              .to include(installed_font_path)
             command
             expect(`fc-list :family='TeX Gyre Chorus'`)
-              .not_to include("TeX Gyre Chorus")
+              .not_to include(installed_font_path)
           end
         end
       end
