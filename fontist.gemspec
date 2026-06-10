@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "down", "~> 5.0"
   spec.add_dependency "excavate", "~> 1.0", ">= 1.0.3"
-  spec.add_dependency "fontisan", "~> 0.2", ">= 0.2.16"
+  spec.add_dependency "fontisan", "~> 0.2", ">= 0.2.17"
   spec.add_dependency "fuzzy_match", "~> 2.1"
   spec.add_dependency "git", "> 1.0"
   spec.add_dependency "json", "~> 2.0"
