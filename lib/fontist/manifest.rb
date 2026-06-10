@@ -215,10 +215,9 @@ location: nil)
           installed_any = true
         end
       end
-      # Only reset fontist index (not system index) if we actually installed fonts
       if installed_any
-        # Reset only the fontist font cache, not system fonts
         Fontist::SystemFont.reset_fontist_font_paths_cache
+        Fontist::SystemFont.reset_find_styles_cache
       end
       to_response
     end
