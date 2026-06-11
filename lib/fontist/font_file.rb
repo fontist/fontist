@@ -150,26 +150,9 @@ module Fontist
       end
       # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
-      # rubocop:disable Metrics/MethodLength
       def detect_font_format(path)
-        # Open file and check SFNT version to determine actual format
-        File.open(path, "rb") do |io|
-          signature = io.read(4)
-          io.rewind
-
-          case signature
-          when "\x00\x01\x00\x00", "true"
-            "ttf"
-          when "OTTO"
-            "otf"
-          when "wOFF"
-            "woff"
-          when "wOF2"
-            "woff2"
-          else
-            "unknown"
-          end
-        end
+        format = Fontisan::FontLoader.detect_format(path)
+        format ? format.to_s : "unknown"
       rescue StandardError
         "unknown"
       end
