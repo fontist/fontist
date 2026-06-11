@@ -119,13 +119,52 @@ RSpec.describe Fontist::SystemIndex do
       expect(instance.fonts.first.path).to eq(masquerading_path)
     end
 
-    it "dispatches via magic-byte detection, not file extension" do
-      expect(Fontisan::FontLoader)
-        .to receive(:detect_format).with(masquerading_path)
-        .once.and_call_original
-
+    it "indexes the font despite .ttc extension signaling collection" do
+      # The file has .ttc extension (collection) but magic bytes say OTF (single).
+      # Verify it is indexed as a single font, not rejected as an invalid collection.
       instance.find("Overpass Mono", nil)
-      expect(instance.fonts.first.path).to eq(masquerading_path)
+      expect(instance.fonts.size).to eq(1)
+      expect(instance.fonts.first.full_name).to include("Overpass Mono")
+    end
+  end
+
+  context "when a TTC collection is mislabeled with a single-font extension" do
+    let(:tmp_dir) { create_tmp_dir }
+    let(:mislabeled_ttc_path) do
+      path = File.join(tmp_dir, "FakeSingle.otf")
+      FileUtils.cp(examples_font_path("Times.ttc"), path)
+      path
+    end
+    let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+    let(:instance) do
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { [mislabeled_ttc_path] })
+      end
+    end
+
+    it "indexes all fonts from the collection based on magic bytes" do
+      instance.find("Times", nil)
+      expect(instance.fonts.size).to be > 1
+      instance.fonts.each { |f| expect(f.path).to eq(mislabeled_ttc_path) }
+    end
+  end
+
+  context "when format detection encounters an I/O error" do
+    let(:tmp_dir) { create_tmp_dir }
+    let(:missing_path) { File.join(tmp_dir, "vanished.ttf") }
+    let(:index_path) { File.join(tmp_dir, "system_index.yml") }
+    let(:instance) do
+      Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(index_path)
+        x.set_path_loader(-> { [missing_path] })
+      end
+    end
+
+    it "prints a recognition error without raising" do
+      expect(Fontist.ui).to receive(:error).with(/not recognized as a font file/)
+      expect { instance.find("anything", nil) }.not_to raise_error
+      expect(instance.fonts).to be_empty
     end
   end
 
@@ -264,21 +303,24 @@ RSpec.describe Fontist::SystemIndex do
       end
 
       it "filters out fonts with incomplete metadata" do
-        # Mock a font file that returns nil for required fields
-        allow(Fontist::FontFile).to receive(:from_path).and_return(
-          double(
-            full_name: nil,
-            family: nil,
-            subfamily: "Regular",
-            preferred_family: nil,
-            preferred_subfamily: nil,
-          ),
-        )
+        # Create a minimal TTF binary with no name table.
+        # This exercises the real code path: detect_format → FontFile.from_path
+        # → extract_names_from_font → parse_font → incomplete metadata check.
+        # No stubbing — the font genuinely produces nil metadata.
+        no_names_path = File.join(tmp_dir, "no_names.ttf")
+        sfnt_header = [0x00010000, 1, 16, 0, 0].pack("Nnnnn")
+        table_dir = ["head".b, 0, 28, 54].pack("a4NNN")
+        File.binwrite(no_names_path, sfnt_header + table_dir + ("\x00" * 54))
+
+        no_names_instance = Fontist::SystemIndexFontCollection.new.tap do |x|
+          x.set_path(index_path)
+          x.set_path_loader(-> { [no_names_path] })
+        end
 
         expect(Fontist.ui).to receive(:error).with(/Skipping font with incomplete metadata/)
 
-        instance.build
-        expect(instance.fonts).to be_empty
+        no_names_instance.build
+        expect(no_names_instance.fonts).to be_empty
       end
     end
 
