@@ -2,171 +2,272 @@
 
 ## Goal
 
-When running on Windows and the Ruby `Net::HTTP`/OpenSSL socket layer raises an
-`Errno::ENOTSOCK` (confirmed MinGW/servercore:ltsc2025 defect), fall back to
-`curl.exe` for both the GitHub asset-URL resolution and the actual download,
-leaving all non-Windows behavior byte-for-byte unchanged.
+On Windows, when the Ruby SSL/socket layer raises the confirmed MinGW
+`Errno::ENOTSOCK` defect, transparently fall back to `curl.exe` for the download
+(and for GitHub release-asset URL resolution), leaving all non-Windows behavior
+byte-for-byte unchanged.
 
-## Root cause (confirmed, not re-investigated)
+## Root cause (confirmed via CI probe — NOT re-investigated)
 
-On Windows Server 2025 containers with RubyInstaller/MinGW Ruby, every outbound
-HTTPS through `Net::HTTP`/OpenSSL fails with `Errno::ENOTSOCK` at
-`SSLSocket#connect_nonblock`. Plain `TCPSocket` and native `curl.exe` both work.
-This affects two code paths in fontist:
+In Windows Server 2025 `servercore:ltsc2025` containers with RubyInstaller/MinGW
+Ruby (probed under 3.4.9), every outbound HTTPS through `Net::HTTP`/OpenSSL fails
+with `Errno::ENOTSOCK` at `OpenSSL::SSL::SSLSocket#connect_nonblock`. Plain
+`TCPSocket` connect works; native `curl.exe` works (302). The fault is the
+OpenSSL <-> socket fd handoff on MinGW; a native process sidesteps it. The same
+Ruby works on normal Windows — this only manifests in these containers.
 
-1. The download itself — `Down.download` in `Downloader#do_download_file_with_progress_bar`.
-2. GitHub release-asset URL **resolution** — `GitHubClient.authenticated_download_url`
-   (Octokit -> Faraday -> Net::HTTP), which ENOTSOCKs *before* any download for
-   `github.com/.../releases/download/...` URLs.
+This breaks two fontist code paths:
 
-The Down failure surfaces wrapped as `Down::ConnectionError` (message contains
-"not a socket" / "SSL_connect"); the Octokit failure surfaces as a bare
-`Errno::ENOTSOCK` (or a `Faraday::ConnectionFailed`/`Octokit::Error` wrapping it).
+1. The download itself — `Down.download` in
+   `Downloader#do_download_file_with_progress_bar`. Down flattens the OpenSSL
+   error; it surfaces as a `Down::ConnectionError` whose message contains
+   "not a socket" / "ENOTSOCK" (the errno is NOT preserved as a typed `#cause`).
+2. GitHub release-asset URL **resolution** —
+   `GitHubClient.authenticated_download_url` (Octokit -> Faraday -> Net::HTTP),
+   which ENOTSOCKs *before* any download for `releases/download/...` URLs. Here
+   the bare `Errno::ENOTSOCK` is preserved (typed, possibly wrapped via `#cause`).
+
+So the detector must handle BOTH a typed `Errno::ENOTSOCK` (walked via the
+`#cause` chain) AND a message-only `Down::ConnectionError`.
+
+## Design (the tightened design requested by the prior plan review)
+
+The single gate everywhere is `CurlDownloader.fallback?(error)` =
+`available? && enotsock?(error)`. Both call sites (the download rescue and the
+GitHub-URL rescue) use ONLY this gate. `GitHubClient` is NOT touched.
 
 ## Scope
 
 IN scope:
-- A small, focused Windows-only curl fallback used **only** when (a) `Gem.win_platform?`
-  and (b) the Ruby path raised a failure whose signature is `Errno::ENOTSOCK`.
-- Cover both the download path and the GitHub-URL-resolution path.
+- A Windows-only curl fallback, invoked **only** when `CurlDownloader.fallback?`
+  (i.e. `Gem.win_platform?` AND the error is the ENOTSOCK signature).
+- The download path and the GitHub-URL-resolution path, both inside
+  `downloader.rb`.
 
 OUT of scope (do NOT touch):
+- `github_client.rb` — left completely untouched. The GitHub fallback lives in
+  `downloader.rb#github_aware_url` by returning the raw `releases/download/...`
+  URL (curl's `-L` follows the redirect).
 - Any non-Windows behavior.
 - The retry/backoff loop semantics for non-ENOTSOCK errors.
-- Progress-bar accuracy for the curl path (a no-op/Null bar is fine).
-- Migrating away from Down/Octokit in general; this is a guarded fallback only.
+- Progress-bar accuracy for the curl path.
+- Migrating away from Down/Octokit in general.
 - Existing unrelated downloader/cache bugs.
 - README/CHANGELOG.
 
-## Files to touch (4: 2 lib + 1 new lib + 1 spec)
+## Files to touch (3: 1 new lib + 1 modified lib + 1 new spec; small touch to downloader_spec.rb)
 
 ### 1. NEW `lib/fontist/utils/curl_downloader.rb`
 
-A tiny value-object-ish class that knows how to: detect the ENOTSOCK signature,
-build the curl argv, and run curl to a temp file. Pure-ish; the only I/O is the
-`system`/`Open3` call and tempfile creation.
+Owns ALL curl logic. Public surface:
+
+- `CurlDownloader.fallback?(error)` => `available? && enotsock?(error)`. The ONE
+  gate used by every call site.
+- `CurlDownloader.available?` => `Gem.win_platform?`. On servercore `curl.exe`
+  lives in System32 (always on PATH), so the platform check is sufficient — keep
+  it simple, no separate presence probe.
+- `CurlDownloader.enotsock?(error)` => walk the `#cause` chain returning true on
+  any `Errno::ENOTSOCK`. If no typed errno is found, fall back to a documented
+  string match ("not a socket" / "ENOTSOCK") on the message — this covers the
+  case where Down flattens the errno into a message-only `Down::ConnectionError`.
+  The WHY comment goes ONLY on the string branch. No redundant pre-loop
+  `is_a?` check (the loop's first iteration already inspects the top error).
+- Instance download method: build argv as an ARRAY (no shell interpolation of the
+  URL), download to a `Tempfile`, return that Tempfile decorated with
+  `original_filename` and `content_type`.
+
+argv shape (array; URL after `--` so it can never be parsed as a flag):
 
 ```ruby
+["curl.exe", "-fSL", "--retry", "3", "-A", user_agent, "-o", tmp.path, "--", url]
+```
+
+- `-f` fail on HTTP >= 400, `-S` show errors, `-L` follow redirects,
+  `--retry 3`, `-A <user_agent>` (same browser UA Down would send), `-o <tmp>`.
+- Run via `Open3.capture3(*argv)` (matches the existing `system.rb` idiom). On
+  non-zero exit raise `Fontist::Errors::InvalidResourceError`.
+- Returns a `Tempfile` (binmode) decorated so it satisfies the cache's duck-type
+  contract. Document that contract in a comment: the cache needs
+  `#original_filename`, `#content_type`, `#path`, `#close`.
+- `content_type` may be nil. One-line comment stating the invariant:
+  `cache.rb` only consults `content_type` when the URL has no extname, and font
+  asset URLs always carry an extension — so nil is safe.
+- `original_filename` = basename of the (post-`--`) URL path.
+
+Sketch:
+
+```ruby
+require "open3"
+require "tempfile"
+
 module Fontist
   module Utils
     class CurlDownloader
       CURL = "curl.exe".freeze
 
-      # True when this is the confirmed MinGW ENOTSOCK socket-handoff defect,
-      # in any of its wrapped forms.
-      def self.enotsock?(error)
-        return true if error.is_a?(Errno::ENOTSOCK)
-
-        cause = error
-        while cause
-          return true if cause.is_a?(Errno::ENOTSOCK)
-          msg = cause.message.to_s
-          return true if msg.include?("not a socket") || msg.include?("ENOTSOCK")
-          cause = cause.cause
-        end
-        false
+      def self.fallback?(error)
+        available? && enotsock?(error)
       end
 
       def self.available?
         Gem.win_platform?
       end
 
-      def initialize(url, headers: {})
-        @url = url
-        @headers = headers
+      def self.enotsock?(error)
+        node = error
+        while node
+          return true if node.is_a?(Errno::ENOTSOCK)
+
+          node = node.cause
+        end
+
+        # Down flattens the MinGW OpenSSL errno into a message-only
+        # Down::ConnectionError (no typed #cause), so match the text as a
+        # last resort.
+        msg = error.message.to_s
+        msg.include?("not a socket") || msg.include?("ENOTSOCK")
       end
 
-      # Downloads to a fresh Tempfile and returns it (closed-for-write,
-      # responding to #path / #original_filename / #content_type) so the
-      # existing Cache#move + extension logic keeps working.
+      def initialize(url, user_agent:)
+        @url = url
+        @user_agent = user_agent
+      end
+
+      # Returns a Tempfile that satisfies the cache duck type:
+      # #original_filename, #content_type, #path, #close.
       def download
-        tempfile = Tempfile.new(...)  # binmode
-        run(argv(tempfile.path))      # raise InvalidResourceError on non-zero
+        tempfile = Tempfile.new("fontist-curl", binmode: true)
+        run(argv(tempfile.path))
         decorate(tempfile)
       end
 
       def argv(output_path)
-        cmd = [CURL, "-fSL", "--retry", "3", "-o", output_path]
-        @headers.each { |k, v| cmd.push("-H", "#{k}: #{v}") }
-        cmd.push("--", @url)
+        [CURL, "-fSL", "--retry", "3", "-A", @user_agent,
+         "-o", output_path, "--", @url]
       end
-      ...
+
+      private
+
+      def run(argv)
+        _out, err, status = Open3.capture3(*argv)
+        return if status.success?
+
+        raise Fontist::Errors::InvalidResourceError,
+              "curl failed for #{@url}: #{err.strip}"
+      end
+
+      def decorate(tempfile)
+        filename = File.basename(URI(@url).path)
+        tempfile.define_singleton_method(:original_filename) { filename }
+        # content_type is nil: cache.rb only uses it when the URL has no
+        # extname, and font asset URLs always carry one.
+        tempfile.define_singleton_method(:content_type) { nil }
+        tempfile
+      end
     end
   end
 end
 ```
 
-- argv built as an array; URL passed after `--` so it is never treated as a flag.
-- `-f` fail on HTTP >= 400, `-S` show errors, `-L` follow redirects, `--retry 3`.
-- Header flags carry the same browser User-Agent etc. that Down would send.
-- On non-zero exit -> raise `Fontist::Errors::InvalidResourceError`.
-- Returns a Tempfile decorated with `original_filename` (basename from resolved
-  URL path) and `content_type` (nil — cache falls back to the filename's
-  extension, which font asset URLs always have).
-
 ### 2. `lib/fontist/utils/downloader.rb`
 
-- In `download_file`: keep the existing `rescue Down::Error` retry/backoff path
-  unchanged for the normal case. Add an **earlier, immediate** fallback: if the
-  raised error is the ENOTSOCK signature AND `CurlDownloader.available?`, do the
-  curl download immediately (skip burning the retry budget). The returned file
-  flows through the same `@cache.fetch` + `check_tampered` path because the
-  fallback is invoked from inside `download_file` / `do_download_file`, before
-  the file leaves the cache block.
+Two guarded edits, both routing through the SAME cache/SHA path; no SHA logic
+duplicated.
 
-  Concretely: rescue both `Down::Error` and `Errno::ENOTSOCK`; if
-  `CurlDownloader.enotsock?(e) && CurlDownloader.available?`, return
-  `curl_download` (no retry); else keep existing retry/raise behavior.
+(a) `download_file` rescue restructured so the curl fallback short-circuits
+cleanly BEFORE the existing retry logic, preserving EXACT non-Windows behavior
+for both `Down::Error` and any bare `Errno::ENOTSOCK`:
 
-- In `github_aware_url`: for a matched GitHub release-download URL on Windows,
-  the Octokit resolution will ENOTSOCK. Wrap `GitHubClient.authenticated_download_url`
-  so that when it raises the ENOTSOCK signature on Windows, we fall back to the
-  raw `/releases/download/<tag>/<asset>` URL directly (curl's `-L` handles the
-  redirect to the asset host). Non-Windows path unchanged.
+```ruby
+def download_file
+  @tries ||= 0
+  @tries += 1
+  print_download_start if @verbose
+  do_download_file
+rescue => e
+  return curl_download if CurlDownloader.fallback?(e)
+  raise unless e.is_a?(Down::Error)
 
-  Minimal change: only github.com release URLs already match `GitHubUrl`, and the
-  `original_url` IS the `/releases/download/...` form, so the fallback is simply
-  "return `parsed.original_url` when resolution ENOTSOCKs on Windows."
+  if @tries < max_retries
+    sleep(backoff_time(@tries))
+    retry
+  end
 
-- Add private `curl_download` helper that constructs `CurlDownloader.new(url,
-  headers: headers).download`.
+  raise Fontist::Errors::InvalidResourceError,
+        "Invalid URL: #{@file}. Error: #{e.inspect}."
+end
+```
 
-### 3. `lib/fontist/utils/github_client.rb`
+Note: the bare `rescue => e` now catches everything, but `raise unless
+e.is_a?(Down::Error)` re-raises any non-Down, non-fallback error immediately,
+so off-Windows behavior is identical to today (Down::Error retries; everything
+else propagates unchanged — today a bare non-Down error already escaped the
+`rescue Down::Error`).
 
-- `authenticated_download_url` currently rescues only `Octokit::Error`. The
-  ENOTSOCK can surface as `Errno::ENOTSOCK` / `Faraday::ConnectionFailed` which
-  are NOT `Octokit::Error`, so they'd escape. On Windows, rescue the ENOTSOCK
-  signature too and return `parsed_url.original_url` (the direct
-  `/releases/download/...` URL). Use `CurlDownloader.enotsock?` for the signature
-  check to avoid duplicating logic. Non-Windows behavior unchanged (only triggers
-  under `CurlDownloader.available?`).
+(b) `github_aware_url(raw_url)`: wrap the
+`GitHubClient.authenticated_download_url(parsed)` call so that when it raises the
+ENOTSOCK signature on Windows, we return `raw_url` (which is the
+`releases/download/...` form; curl's `-L` resolves the redirect itself).
+Re-raise otherwise. `GitHubClient` stays untouched.
 
-### 4. NEW `spec/fontist/utils/curl_downloader_spec.rb`
+```ruby
+def github_aware_url(raw_url)
+  parsed = GitHubUrl.parse(raw_url)
+  return raw_url unless parsed.matched?
 
-Covers (all off-Windows, by stubbing the platform + Ruby-path failure):
-- `enotsock?`: true for bare `Errno::ENOTSOCK`, true for a wrapped error whose
-  message contains "not a socket", true via `#cause` chain, false for an
-  unrelated error (`Down::NotFound`, `Down::TimeoutError`).
-- `available?`: gated on `Gem.win_platform?` (stub both true/false).
-- `argv`: includes `curl.exe -fSL --retry 3 -o <path>`, a `-H` per header,
-  and the URL placed after `--`; URL never appears before `--` (no flag injection).
-- That a non-zero curl exit raises `Fontist::Errors::InvalidResourceError`
-  (stub the runner).
+  GitHubClient.authenticated_download_url(parsed)
+rescue => e
+  raise unless CurlDownloader.fallback?(e)
 
-Plus, in the existing `downloader_spec.rb` (touched as part of file #2's tests,
-but kept minimal — added as a new `context` block, not a rewrite):
-- When `Down.download` raises an ENOTSOCK-signature error AND the platform is
-  stubbed to Windows, the downloader invokes the curl path (stubbed) instead of
-  retrying, and the result still goes through `check_tampered`
-  (SHA verification runs — assert mismatch warning fires).
-- When the same error is raised but platform is NOT Windows, behavior is the
-  existing retry-then-`InvalidResourceError` (no curl).
+  raw_url
+end
+```
 
-(Whether the downloader assertions live in `downloader_spec.rb` or
-`curl_downloader_spec.rb` will be decided at implementation; default is to keep
-`CurlDownloader` unit tests in the new spec and the gating/integration tests in
-`downloader_spec.rb`. That keeps it to one new spec file + a small addition to an
-existing one — still within the 2-3 file + specs budget.)
+(c) New private `curl_download` helper:
+
+```ruby
+def curl_download
+  CurlDownloader.new(url, user_agent: headers["User-Agent"]).download
+end
+```
+
+`curl_download` is called from inside `download_file`, which is the block passed
+to `@cache.fetch` in `download`; the curl Tempfile therefore flows through the
+exact same `@cache.fetch` (move/extension) + `check_tampered` (SHA256) path as a
+normal Down result. No SHA logic is reimplemented.
+
+### 3. NEW `spec/fontist/utils/curl_downloader_spec.rb`
+
+All off-Windows (real ENOTSOCK can't be reproduced here), by stubbing
+`Gem.win_platform?` and the runner. Covers:
+
+- `.fallback?` gating: true ONLY when `Gem.win_platform?` is true AND the error
+  is an ENOTSOCK signature; false when platform is non-Windows even with an
+  ENOTSOCK error; false when platform is Windows but the error is unrelated
+  (e.g. `Down::NotFound`).
+- `.enotsock?` TYPED path: true for a bare `Errno::ENOTSOCK`; true for an error
+  whose `#cause` chain contains `Errno::ENOTSOCK`; tested SEPARATELY from...
+- `.enotsock?` MESSAGE-ONLY path: true for a `Down::ConnectionError` (no typed
+  cause) whose message contains "not a socket" / "ENOTSOCK"; false for an
+  unrelated message.
+- `#argv` construction: starts with `curl.exe -fSL --retry 3`, includes
+  `-A <user_agent>`, `-o <path>`, and the URL placed AFTER `--` (assert the URL
+  never appears before `--`, i.e. no flag injection).
+- A non-zero curl exit raises `Fontist::Errors::InvalidResourceError`
+  (stub `Open3.capture3`).
+
+### 4. `spec/fontist/utils/downloader_spec.rb` (small addition — new context only)
+
+A focused context proving the curl path still runs SHA verification:
+
+- Stub `Gem.win_platform?` to true and make `Down.download` raise an
+  ENOTSOCK-signature error; stub `CurlDownloader#download` to return a fixture
+  Tempfile. Assert the downloader takes the curl path (no retry burned) AND that
+  `check_tampered` still fires (SHA mismatch warning on `Fontist.ui.error`).
+- Stub `Gem.win_platform?` to false with the same error: existing
+  retry-then-`InvalidResourceError` behavior, no curl.
+
+This is added as new `context` blocks, NOT a rewrite of the file.
 
 ## Test commands
 
@@ -175,14 +276,17 @@ bundle exec rspec spec/fontist/utils/curl_downloader_spec.rb \
                   spec/fontist/utils/downloader_spec.rb
 bundle exec rubocop lib/fontist/utils/curl_downloader.rb \
                     lib/fontist/utils/downloader.rb \
-                    lib/fontist/utils/github_client.rb
+                    spec/fontist/utils/curl_downloader_spec.rb
 ```
 
 ## Risks / notes
 
-- The two new lib edits are guarded strictly by `Gem.win_platform?`, so the
-  non-Windows suite (the only suite we can run here) must show identical behavior;
-  the existing downloader specs must still pass untouched.
-- Real ENOTSOCK can't be reproduced off-Windows, so the curl runner itself is
-  stubbed in specs; we test the *decision* (platform + signature) and the
-  *argv construction*, which is where the logic lives.
+- Both lib edits are gated strictly by `Gem.win_platform?` via
+  `CurlDownloader.fallback?`, so the non-Windows suite (the only one runnable
+  here) must show identical behavior; existing downloader specs must still pass.
+- Real ENOTSOCK can't be reproduced off-Windows, so the curl runner is stubbed;
+  the specs assert the *decision* (platform + signature), the *argv*, and that
+  the curl result still flows through SHA verification — which is where the logic
+  lives.
+- This reframes the earlier "no curl" stance as a Windows-only, signature-gated
+  fallback; for user review.
