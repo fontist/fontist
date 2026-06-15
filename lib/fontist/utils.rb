@@ -1,6 +1,7 @@
 module Fontist
   module Utils
     autoload :Cache, "#{__dir__}/utils/cache"
+    autoload :CurlDownloader, "#{__dir__}/utils/curl_downloader"
     autoload :Downloader, "#{__dir__}/utils/downloader"
     autoload :FileMagic, "#{__dir__}/utils/file_magic"
     autoload :FileOps, "#{__dir__}/utils/file_ops"

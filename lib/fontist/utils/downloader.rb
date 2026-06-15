@@ -106,15 +106,20 @@ module Fontist
         options[:download_path] || Fontist.root_path.join("tmp")
       end
 
+      # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
       def download_file
         print_download_start if @verbose
         do_download_file
-      rescue Down::Error => e
+      rescue StandardError => e
+        return curl_download if CurlDownloader.fallback?(e)
+        raise unless e.is_a?(Down::Error)
+
         retry if retry_download?(e)
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
 
       def retry_download?(error)
         response = http_response(error)
@@ -256,11 +261,19 @@ module Fontist
 
       def github_aware_url(raw_url)
         parsed = GitHubUrl.parse(raw_url)
-        if parsed.matched?
-          GitHubClient.authenticated_download_url(parsed)
-        else
-          raw_url
-        end
+        return raw_url unless parsed.matched?
+
+        GitHubClient.authenticated_download_url(parsed)
+      rescue StandardError => e
+        raise unless CurlDownloader.fallback?(e)
+
+        # raw_url is the releases/download/... form; curl's -L resolves the
+        # redirect itself, so we skip the API-based asset resolution.
+        raw_url
+      end
+
+      def curl_download
+        CurlDownloader.new(url, headers: headers).download
       end
     end
 
