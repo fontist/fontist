@@ -133,6 +133,50 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
     end
+
+    context "ENOTSOCK on the download" do
+      let(:enotsock) { Down::ConnectionError.new("not a socket") }
+
+      context "on Windows" do
+        it "falls back to curl and still verifies the SHA" do
+          allow(Gem).to receive(:win_platform?).and_return(true)
+          expect(Down).to receive(:download).and_raise(enotsock).once
+          curl_file = curl_fixture_file
+          expect_any_instance_of(Fontist::Utils::CurlDownloader)
+            .to receive(:download).and_return(curl_file)
+
+          expect(Fontist.ui).to receive(:error).with(/SHA256 checksum mismatch/)
+
+          avoid_cache(sample_file[:file]) do
+            described_class.download(sample_file[:file], sha: "deadbeef")
+          end
+        end
+      end
+
+      context "off Windows" do
+        it "does not use curl and retries then raises InvalidResourceError" do
+          allow(Gem).to receive(:win_platform?).and_return(false)
+          expect(Down).to receive(:download)
+            .and_raise(enotsock).exactly(3).times
+          expect(Fontist::Utils::CurlDownloader).not_to receive(:new)
+
+          avoid_cache(sample_file[:file]) do
+            expect do
+              described_class.download(sample_file[:file])
+            end.to raise_error(Fontist::Errors::InvalidResourceError)
+          end
+        end
+      end
+    end
+  end
+
+  def curl_fixture_file
+    file = Tempfile.new(["curl-fixture", ".csv"], binmode: true)
+    file.write("content")
+    file.rewind
+    file.define_singleton_method(:original_filename) { "sample.csv" }
+    file.define_singleton_method(:content_type) { nil }
+    file
   end
 
   def sample_file
