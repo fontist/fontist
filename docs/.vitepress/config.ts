@@ -1,5 +1,20 @@
-import { defineConfig } from "vitepress";
+import { defineConfig, type HeadConfig } from "vitepress";
 import { fileURLToPath, URL } from "node:url";
+
+const SITE_ORIGIN = "https://www.fontist.org";
+const BASE_PATH = "/fontist/";
+const DEFAULT_DESCRIPTION =
+  "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS. Free and open source.";
+const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
+
+// Map a page's source path to its canonical public URL (origin + base + clean path).
+function pathToUrl(relativePath: string): string {
+  const bare = relativePath.replace(/\.md$/, "").replace(/\\/g, "/");
+  if (bare === "index") return `${SITE_ORIGIN}${BASE_PATH}`;
+  if (bare.endsWith("/index"))
+    return `${SITE_ORIGIN}${BASE_PATH}${bare.slice(0, -6)}/`;
+  return `${SITE_ORIGIN}${BASE_PATH}${bare}`;
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -22,6 +37,11 @@ export default defineConfig({
 
   lastUpdated: true,
 
+  // https://vitepress.dev/reference/site-config#sitemap
+  sitemap: {
+    hostname: SITE_ORIGIN,
+  },
+
   // Base path for deployment (e.g., /fontist/ for fontist.org/fontist/)
   base: process.env.BASE_PATH || "/fontist/",
 
@@ -38,18 +58,30 @@ export default defineConfig({
     ],
     ["link", { rel: "manifest", href: "/site.webmanifest" }],
     ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:title", content: "Fontist" }],
-    [
-      "meta",
-      {
-        property: "og:description",
-        content:
-          "Fontist brings cross-platform font management to the command line for Windows, Linux, and macOS.",
-      },
-    ],
-    ["meta", { property: "og:image", content: "/logo-full.svg" }],
-    ["meta", { name: "twitter:card", content: "summary_large_image" }],
   ],
+
+  // Per-page og:* and twitter:* tags are derived from each page's frontmatter.
+  // https://vitepress.dev/reference/site-config#transformhead
+  transformHead(ctx) {
+    const { pageData } = ctx;
+    const url = pathToUrl(pageData.relativePath);
+    const title = pageData.title || "Fontist";
+    const description = pageData.description || DEFAULT_DESCRIPTION;
+    const image = pageData.frontmatter.image || DEFAULT_OG_IMAGE;
+
+    const tags: HeadConfig[] = [
+      ["meta", { property: "og:title", content: title }],
+      ["meta", { property: "og:description", content: description }],
+      ["meta", { property: "og:url", content: url }],
+      ["meta", { property: "og:image", content: image }],
+      ["meta", { name: "twitter:card", content: "summary_large_image" }],
+      ["meta", { name: "twitter:title", content: title }],
+      ["meta", { name: "twitter:description", content: description }],
+      ["meta", { name: "twitter:image", content: image }],
+    ];
+
+    return tags;
+  },
 
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {

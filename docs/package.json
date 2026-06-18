@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "vitepress dev",
-    "build": "vitepress build",
+    "build": "vitepress build && node scripts/post-build.mjs",
     "preview": "vitepress preview",
     "format": "prettier -w ."
   },
