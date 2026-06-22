@@ -58,6 +58,15 @@ export default defineConfig({
     ],
     ["link", { rel: "manifest", href: "/site.webmanifest" }],
     ["meta", { property: "og:type", content: "website" }],
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    [
+      "link",
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap",
+      },
+    ],
   ],
 
   // Per-page og:* and twitter:* tags are derived from each page's frontmatter.
