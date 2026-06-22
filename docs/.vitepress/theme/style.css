@@ -426,13 +426,6 @@ html.dark .vp-doc [class*="language-"] {
   font-size: 13px;
 }
 
-/* ── Homepage palette (pageClass: specimen-home) ──────────────── */
-/* Specimen tokens are now global (above); the pageClass remains on
-   index.md for any homepage-only tweaks, but inherits the system. */
-.specimen-home {
-  background-color: var(--spec-paper);
-}
-
 /* ── 404 page — specimen ───────────────────────────────────────── */
 .NotFound {
   text-align: center;
