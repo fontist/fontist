@@ -1,5 +1,12 @@
+/* ================================================================
+   Fontist — Type Specimen design system (site-wide)
+   One palette + type system applied across every surface:
+   body, VPNav, VPFooter, and .vp-doc (all content pages).
+   ================================================================ */
+
+/* ── Brand + specimen palette ─────────────────────────────────── */
 :root {
-  /* Brand Colors from Logo */
+  /* Brand colors from the logo */
   --fontist-rose: #bf4e6a;
   --fontist-rose-light: #d4718a;
   --fontist-dark: #4d4b54;
@@ -8,145 +15,474 @@
   --fontist-beige: #bebbac;
   --fontist-pale: #dddac8;
 
-  /* VitePress Theme Overrides - Light Mode */
-  --vp-c-brand-1: var(--fontist-rose);
+  /* Specimen tokens — LIGHT (default) */
+  --spec-paper: #f1ece1;
+  --spec-paper-deep: #e7e0d1;
+  --spec-ink: #1c1a18;
+  --spec-ink-soft: #4a4744;
+  --spec-mute: #75716c;
+  --spec-rose: #b8475f;
+  --spec-rose-soft: #d4718a;
+  --spec-rule: rgba(28, 26, 24, 0.16);
+  --spec-rule-strong: rgba(28, 26, 24, 0.5);
+  --spec-term-bg: #1c1a18;
+  --spec-term-ink: #ecdfd0;
+
+  /* VitePress brand wiring */
+  --vp-c-brand-1: var(--spec-rose);
   --vp-c-brand-2: #a3435a;
-  --vp-c-brand-3: var(--fontist-dark);
-  --vp-c-brand-soft: rgba(191, 78, 106, 0.14);
+  --vp-c-brand-3: var(--spec-ink);
+  --vp-c-brand-soft: rgba(184, 71, 95, 0.12);
+  --vp-c-text-1: var(--spec-ink);
+  --vp-c-text-2: var(--spec-ink-soft);
+  --vp-c-text-3: var(--spec-mute);
+  --vp-c-bg: var(--spec-paper);
+  --vp-c-bg-soft: var(--spec-paper-deep);
+  --vp-c-bg-alt: var(--spec-paper-deep);
+  --vp-c-divider: var(--spec-rule);
+  --vp-c-gutter: var(--spec-rule);
 
-  /* Text Colors */
-  --vp-c-text-1: var(--fontist-dark);
-  --vp-c-text-2: var(--fontist-gray);
-  --vp-c-text-3: #8a8888;
+  /* Nav bg must be opaque (paper) so scrolled content doesn't leak through */
+  --vp-nav-bg-color: var(--spec-paper);
+  --vp-sidebar-bg-color: var(--spec-paper);
 
-  /* Background Colors */
-  --vp-c-bg-soft: #f8f7f4;
-  --vp-c-bg-alt: #f2f1ed;
-  --vp-c-bg: #ffffff;
-
-  /* Hero */
-  --vp-home-hero-name-color: var(--fontist-rose);
-  --vp-home-hero-name-background: linear-gradient(
-    120deg,
-    var(--fontist-rose) 30%,
-    #d4718a
-  );
+  /* Type */
+  --spec-font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --spec-font-body: "IBM Plex Sans", -apple-system, system-ui, sans-serif;
+  --spec-font-mono: "IBM Plex Mono", ui-monospace, "JetBrains Mono", monospace;
 
   /* Buttons */
-  --vp-button-brand-border: var(--fontist-rose);
+  --vp-button-brand-border: var(--spec-rose);
   --vp-button-brand-text: #ffffff;
-  --vp-button-brand-bg: var(--fontist-rose);
+  --vp-button-brand-bg: var(--spec-rose);
   --vp-button-brand-hover-border: #a3435a;
   --vp-button-brand-hover-text: #ffffff;
   --vp-button-brand-hover-bg: #a3435a;
-  --vp-button-brand-active-border: #8a3849;
-  --vp-button-brand-active-text: #ffffff;
-  --vp-button-brand-active-bg: #8a3849;
 
-  /* Sidebar */
-  --vp-sidebar-bg-color: var(--vp-c-bg-soft);
-
-  /* Nav */
-  --vp-nav-bg-color: var(--vp-c-bg);
+  --vp-button-alt-border: var(--spec-rule-strong);
+  --vp-button-alt-text: var(--spec-ink);
+  --vp-button-alt-bg: transparent;
+  --vp-button-alt-hover-border: var(--spec-rose);
+  --vp-button-alt-hover-text: var(--spec-rose);
+  --vp-button-alt-hover-bg: transparent;
 }
 
-/* Dark Mode */
+/* ── Dark mode specimen ───────────────────────────────────────── */
 html.dark {
-  --vp-c-brand-1: var(--fontist-rose-light);
+  --spec-paper: #161513;
+  --spec-paper-deep: #211f1c;
+  --spec-ink: #ecdfd0;
+  --spec-ink-soft: #b8ada0;
+  --spec-mute: #8a857f;
+  --spec-rose: #d4718a;
+  --spec-rose-soft: #e08a9e;
+  --spec-rule: rgba(236, 223, 208, 0.14);
+  --spec-rule-strong: rgba(236, 223, 208, 0.42);
+  --spec-term-bg: #0d0c0c;
+  --spec-term-ink: #ecdfd0;
+
+  --vp-c-brand-1: var(--spec-rose);
   --vp-c-brand-2: var(--fontist-rose);
-  --vp-c-brand-3: #e1dfd2;
+  --vp-c-brand-3: var(--spec-ink);
   --vp-c-brand-soft: rgba(212, 113, 138, 0.14);
+  --vp-c-text-1: var(--spec-ink);
+  --vp-c-text-2: var(--spec-ink-soft);
+  --vp-c-text-3: var(--spec-mute);
+  --vp-c-bg: var(--spec-paper);
+  --vp-c-bg-soft: var(--spec-paper-deep);
+  --vp-c-bg-alt: var(--spec-paper-deep);
+  --vp-c-divider: var(--spec-rule);
+  --vp-c-gutter: var(--spec-rule);
 
-  /* Text Colors - Dark Mode */
-  --vp-c-text-1: #e1dfd2;
-  --vp-c-text-2: #bebbac;
-  --vp-c-text-3: #8a8888;
-
-  /* Background Colors - Dark Mode */
-  --vp-c-bg: #1a1918;
-  --vp-c-bg-soft: #222120;
-  --vp-c-bg-alt: #2a2826;
-  --vp-c-bg-elv: #2a2826;
-
-  /* Hero - Dark Mode */
-  --vp-home-hero-name-background: linear-gradient(
-    120deg,
-    var(--fontist-rose-light) 30%,
-    #e08a9e
-  );
-
-  /* Buttons - Dark Mode */
-  --vp-button-brand-border: var(--fontist-rose-light);
-  --vp-button-brand-text: #1a1918;
-  --vp-button-brand-bg: var(--fontist-rose-light);
+  --vp-button-brand-border: var(--spec-rose);
+  --vp-button-brand-text: #161513;
+  --vp-button-brand-bg: var(--spec-rose);
   --vp-button-brand-hover-border: var(--fontist-rose);
-  --vp-button-brand-hover-text: #1a1918;
+  --vp-button-brand-hover-text: #161513;
   --vp-button-brand-hover-bg: var(--fontist-rose);
-  --vp-button-brand-active-border: #a3435a;
-  --vp-button-brand-active-text: #1a1918;
-  --vp-button-brand-active-bg: #a3435a;
 }
 
-/* Feature cards on home page - Light */
-.VPFeature .title {
-  color: var(--fontist-dark);
+/* ── Site-wide body: paper + grain + base type ────────────────── */
+body {
+  background-color: var(--spec-paper);
+  font-family: var(--spec-font-body);
+  color: var(--spec-ink);
+}
+/* paper grain overlay (every page) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+}
+html.dark body::before {
+  opacity: 0.06;
+  mix-blend-mode: screen;
 }
 
-.VPFeature .details {
-  color: var(--fontist-gray);
+/* ── Top navigation (VPNav) — specimen restyle ─────────────────── */
+.VPNavBar {
+  background-color: var(--spec-paper) !important;
+  border-bottom: 1px solid var(--spec-rule) !important;
+}
+.VPNavBar.has-sidebar .content,
+.VPNavBar .content {
+  background-color: var(--spec-paper) !important;
+}
+.VPNavBar .content .curtain {
+  display: none !important;
 }
 
-.VPFeature:hover {
-  border-color: var(--fontist-rose);
+/* Nav links + dropdown groups: mono, tracked */
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--spec-ink-soft) !important;
+  font-weight: 500 !important;
+  transition: color 0.2s ease;
+}
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuGroup:hover {
+  color: var(--spec-rose) !important;
+}
+.VPNavBarMenuLink .text,
+.VPNavBarMenuGroup .text {
+  font-family: inherit !important;
+}
+/* Dropdown button — VitePress styles .button directly, so inheritance isn't enough */
+.VPNavBarMenuGroup .button,
+.VPNavBarExtra .button {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  color: var(--spec-ink-soft) !important;
+  line-height: 64px !important;
+  transition: color 0.2s ease;
+}
+.VPNavBarMenuGroup:hover .button,
+.VPNavBarExtra:hover .button {
+  color: var(--spec-rose) !important;
+}
+/* VitePress renders the visible text in an inner .text span with its own
+   font-size (14px) and color — must target it directly, not via .button */
+.VPNavBarMenuGroup .button .text,
+.VPNavBarExtra .button .text {
+  font-size: 12px !important;
+  color: var(--spec-ink-soft) !important;
+  font-weight: 500 !important;
+}
+.VPNavBarMenuGroup:hover .button .text,
+.VPNavBarExtra:hover .button .text {
+  color: var(--spec-rose) !important;
 }
 
-/* Feature cards - Dark */
-html.dark .VPFeature .title {
-  color: var(--fontist-cream);
+/* Flyout menu panel (shared by Integrations dropdown + ellipsis extra menu) */
+.VPMenu {
+  background: var(--spec-paper) !important;
+  border: 1px solid var(--spec-rule) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.VPMenu .group-title {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--spec-mute) !important;
+}
+/* Menu links — must out-specify VitePress's .VPLink.link (0-2-0),
+   so we chain .VPMenu parent to reach 0-2-1. Actual DOM:
+   .VPMenu > .items > .VPMenuLink > a.VPLink.link > span */
+.VPMenu .VPMenuLink a,
+.VPMenu .VPMenuLink a span {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  color: var(--spec-ink-soft) !important;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.VPMenu .VPMenuLink a:hover {
+  color: var(--spec-rose) !important;
+  background: var(--spec-paper-deep) !important;
+}
+.VPMenu .VPMenuLink a:hover span {
+  color: var(--spec-rose) !important;
+}
+/* Ellipsis menu: Appearance label + item labels — .VPMenu parent
+   boosts specificity above VitePress's scoped component styles */
+.VPMenu .item .label,
+.VPMenu .group .item {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  color: var(--spec-ink-soft) !important;
 }
 
-html.dark .VPFeature .details {
-  color: var(--fontist-beige);
+/* Logo / title */
+.VPNavBar .VPNavBarTitle .title {
+  font-family: var(--spec-font-display) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  letter-spacing: 0.02em !important;
+  color: var(--spec-ink) !important;
 }
-
-/* Links */
-.vp-doc a {
-  color: var(--fontist-rose);
-}
-
-.vp-doc a:hover {
-  color: #a3435a;
-}
-
-html.dark .vp-doc a {
-  color: var(--fontist-rose-light);
-}
-
-html.dark .vp-doc a:hover {
-  color: var(--fontist-rose);
-}
-
-/* Footer */
-.VPFooter {
-  background-color: var(--vp-c-bg-soft);
-  border-top: 1px solid var(--fontist-pale);
-}
-
-html.dark .VPFooter {
-  border-top-color: #3a3836;
-}
-
-/* Code blocks - Light */
-.vp-doc [class*="language-"] {
-  background-color: var(--fontist-dark);
-}
-
-/* Code blocks - Dark */
-html.dark .vp-doc [class*="language-"] {
-  background-color: #0d0c0c;
-}
-
-/* Logo sizing */
 .VPNav .VPImage {
-  height: 39px;
+  height: 32px;
+}
+
+/* Social links + appearance toggle + search: quieter */
+.VPNavBar .VPNavBarSocialLinks .social-link,
+.VPNavBar .VPSocialLink,
+.VPNavBarAppearance,
+.VPNavBarExtra {
+  color: var(--spec-ink-soft) !important;
+}
+.VPNavBar .VPNavBarSearch {
+  --vp-nav-height: 56px;
+}
+.VPNavBarSearch .DocSearch-Button {
+  background: transparent !important;
+  border: 1px solid var(--spec-rule) !important;
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
+}
+.VPNavBarSearch .DocSearch-Button:hover {
+  border-color: var(--spec-rose) !important;
+}
+
+/* ── Footer — specimen colophon ───────────────────────────────── */
+.VPFooter {
+  border-top: 1px solid var(--spec-rule) !important;
+  background-color: transparent !important;
+  padding: 28px 24px 40px !important;
+}
+.VPFooter .copyright,
+.VPFooter .message {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  color: var(--spec-mute) !important;
+}
+.VPFooter .message a {
+  color: var(--spec-ink-soft) !important;
+  border-bottom: 1px solid var(--spec-rule-strong);
+  text-decoration: none;
+}
+.VPFooter .message a:hover {
+  color: var(--spec-rose) !important;
+}
+
+/* ── .vp-doc typography — every content page (about, blog, docs) ─ */
+.vp-doc {
+  font-family: var(--spec-font-body);
+  color: var(--spec-ink);
+}
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-family: var(--spec-font-display);
+  color: var(--spec-ink);
+  letter-spacing: -0.018em;
+  font-weight: 380;
+}
+.vp-doc h1 {
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 360;
+  font-variation-settings: "opsz" 120;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-top: 0;
+}
+.vp-doc h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-variation-settings: "opsz" 60;
+  border-top: 1px solid var(--spec-rule);
+  padding-top: 1.6em;
+  margin-top: 2.2em;
+}
+.vp-doc h3 {
+  font-size: clamp(20px, 2vw, 24px);
+  font-variation-settings: "opsz" 36;
+}
+.vp-doc p,
+.vp-doc li {
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--spec-ink-soft);
+}
+.vp-doc p {
+  margin: 1.1em 0;
+}
+.vp-doc a {
+  color: var(--spec-rose);
+  text-decoration: none;
+  border-bottom: 1px solid var(--spec-rule);
+  transition: color 0.2s, border-color 0.2s;
+}
+.vp-doc a:hover {
+  color: var(--spec-rose);
+  border-color: var(--spec-rose);
+}
+.vp-doc strong {
+  color: var(--spec-ink);
+  font-weight: 600;
+}
+.vp-doc blockquote {
+  font-family: var(--spec-font-display);
+  font-style: italic;
+  font-weight: 380;
+  font-size: 1.25em;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  border-left: 3px solid var(--spec-rose);
+  padding-left: 1.5em;
+  margin: 2em 0;
+}
+.vp-doc hr {
+  border: none;
+  border-top: 1px solid var(--spec-rule-strong);
+  width: 48px;
+  margin: 3em auto;
+}
+/* Drop cap — rose Newsreader italic on the first paragraph of content pages */
+.vp-doc > p:first-of-type::first-letter {
+  font-family: var(--spec-font-display);
+  font-style: italic;
+  font-weight: 460;
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.8;
+  padding: 0.04em 0.1em 0 0;
+  color: var(--spec-rose);
+  font-variation-settings: "opsz" 72, "wght" 520;
+}
+/* Code blocks — light: warm paper-deep (matches Shiki light tokens);
+   dark: terminal ink (matches Shiki dark tokens) */
+.vp-doc [class*="language-"] {
+  background-color: var(--spec-paper-deep) !important;
+  border: 1px solid var(--spec-rule);
+  font-family: var(--spec-font-mono);
+  font-size: 13.5px;
+}
+html.dark .vp-doc [class*="language-"] {
+  background-color: var(--spec-term-bg) !important;
+}
+.vp-doc :not(pre) > code {
+  font-family: var(--spec-font-mono);
+  font-size: 0.9em;
+  background: var(--spec-paper-deep);
+  border: 1px solid var(--spec-rule);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  color: var(--spec-ink);
+}
+/* Tables */
+.vp-doc table {
+  font-size: 14px;
+  border-collapse: collapse;
+}
+.vp-doc table th,
+.vp-doc table td {
+  border: 1px solid var(--spec-rule);
+  padding: 8px 12px;
+}
+.vp-doc table th {
+  font-family: var(--spec-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--spec-mute);
+  background: var(--spec-paper-deep);
+}
+
+/* ── Sidebar (if used) ────────────────────────────────────────── */
+.VPSidebar {
+  background-color: var(--spec-paper) !important;
+  border-right: 1px solid var(--spec-rule) !important;
+  font-family: var(--spec-font-mono);
+}
+.VPSidebar .VPSidebarItem .text {
+  font-size: 13px;
+}
+
+/* ── Homepage palette (pageClass: specimen-home) ──────────────── */
+/* Specimen tokens are now global (above); the pageClass remains on
+   index.md for any homepage-only tweaks, but inherits the system. */
+.specimen-home {
+  background-color: var(--spec-paper);
+}
+
+/* ── 404 page — specimen ───────────────────────────────────────── */
+.NotFound {
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(4rem, 10vw, 8rem);
+  font-family: var(--spec-font-body);
+}
+.NotFound .code {
+  font-family: var(--spec-font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(120px, 24vw, 280px);
+  line-height: 1;
+  color: var(--spec-rose);
+  opacity: 0.9;
+  margin: 0 0 0.5rem;
+}
+.NotFound .title {
+  font-family: var(--spec-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--spec-ink-soft);
+  margin: 0;
+}
+.NotFound .divider {
+  width: 60px;
+  border-top: 1px solid var(--spec-rule-strong);
+  margin: 2rem auto;
+}
+.NotFound .quote {
+  font-family: var(--spec-font-display);
+  font-style: italic;
+  font-weight: 380;
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.5;
+  color: var(--spec-ink);
+  border: none;
+  max-width: 32ch;
+  margin: 0 auto 2rem;
+  padding: 0;
+}
+.NotFound .action .link {
+  font-family: var(--spec-font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--spec-paper);
+  background: var(--spec-ink);
+  padding: 12px 22px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.25s ease;
+}
+.NotFound .action .link:hover {
+  background: var(--spec-rose);
 }
