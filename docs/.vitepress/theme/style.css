@@ -483,3 +483,140 @@ html.dark .vp-doc [class*="language-"] {
 .NotFound .action .link:hover {
   background: var(--spec-rose);
 }
+
+/* ================================================================
+   VitePress home layout — VPHero + VPFeatures specimen restyle
+   Used by the fontist/docs and fontisan/docs homepages.
+   ================================================================ */
+
+/* ── VPHero ───────────────────────────────────────────────────── */
+.VPHero .container { gap: 48px; }
+.VPHero .heading {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+.VPHero .name {
+  font-family: var(--spec-font-display) !important;
+  font-weight: 360 !important;
+  font-variation-settings: "opsz" 72;
+  font-size: clamp(40px, 6vw, 72px) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: var(--spec-ink) !important;
+  color: var(--spec-ink) !important;
+}
+.VPHero .text {
+  font-family: var(--spec-font-display) !important;
+  font-weight: 340 !important;
+  font-size: clamp(28px, 4vw, 44px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--spec-rose) !important;
+  margin-top: 0.1em !important;
+  display: block !important;
+}
+.VPHero .tagline {
+  font-family: var(--spec-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: var(--spec-ink-soft) !important;
+  max-width: 480px !important;
+}
+.VPHero .actions { gap: 12px; }
+.VPHero .VPButton {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+.VPHero .VPButton.brand {
+  border: 1px solid var(--spec-ink) !important;
+  background: var(--spec-ink) !important;
+  color: var(--spec-paper) !important;
+}
+.VPHero .VPButton.brand:hover {
+  background: var(--spec-rose) !important;
+  border-color: var(--spec-rose) !important;
+}
+.VPHero .VPButton.alt {
+  border: 1px solid var(--spec-rule-strong) !important;
+  background: transparent !important;
+  color: var(--spec-ink) !important;
+}
+.VPHero .VPButton.alt:hover {
+  border-color: var(--spec-rose) !important;
+  color: var(--spec-rose) !important;
+  background: transparent !important;
+}
+
+/* ── HeroCodeBlock → specimen terminal plate ──────────────────── */
+.hero-code-block {
+  background: var(--spec-term-bg) !important;
+  border: 1px solid var(--spec-rule) !important;
+  border-radius: 0 !important;
+  box-shadow: 12px 12px 0 -1px var(--spec-paper-deep), 12px 12px 0 var(--spec-rule) !important;
+  max-width: 520px !important;
+}
+.code-header {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.code-title {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--spec-rose-soft) !important;
+}
+.code-content {
+  font-family: var(--spec-font-mono) !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  color: var(--spec-term-ink) !important;
+}
+.code-content .prompt { color: var(--spec-rose-soft) !important; font-weight: 500; }
+.code-content .cmd { color: #93c5fd !important; }
+.code-content .success { color: #8fb98a !important; }
+.code-content .comment { color: rgba(236, 223, 208, 0.45) !important; }
+.code-content .line { padding: 1px 0; }
+
+/* ── VPFeatures ───────────────────────────────────────────────── */
+.VPFeatures .container { padding-top: 2rem; }
+.VPFeatures .items {
+  display: grid !important;
+  gap: 1px !important;
+  background: var(--spec-rule) !important;
+}
+@media (min-width: 512px) { .VPFeatures .items { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (min-width: 768px) { .VPFeatures .items { grid-template-columns: repeat(3, 1fr) !important; } }
+
+.VPFeature {
+  background: var(--spec-paper) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: background 0.2s ease !important;
+}
+.VPFeature:hover {
+  background: var(--spec-paper-deep) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.VPFeature .title {
+  font-family: var(--spec-font-display) !important;
+  font-weight: 400 !important;
+  font-size: 1.1rem !important;
+  color: var(--spec-ink) !important;
+}
+.VPFeature .details {
+  font-family: var(--spec-font-body) !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: var(--spec-ink-soft) !important;
+}
+html.dark .VPFeature { background: var(--spec-paper) !important; }
+
