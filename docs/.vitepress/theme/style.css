@@ -129,13 +129,17 @@ html.dark body::before {
 }
 
 /* ── Top navigation (VPNav) — specimen restyle ─────────────────── */
+/* Use box-shadow for the rule, not border-bottom — VPNavBar is height:64px
+   with box-sizing:border-box, so border-bottom is inside the 64px and gets
+   overlapped by .content (also 64px). box-shadow renders outside the box. */
 .VPNavBar {
   background-color: var(--spec-paper) !important;
-  border-bottom: 1px solid var(--spec-rule) !important;
+  border-bottom: none !important;
+  box-shadow: 0 1px 0 var(--spec-rule) !important;
 }
 .VPNavBar.has-sidebar .content,
 .VPNavBar .content {
-  background-color: var(--spec-paper) !important;
+  background-color: transparent !important;
 }
 .VPNavBar .content .curtain {
   display: none !important;
@@ -595,16 +599,22 @@ html.dark .vp-doc [class*="language-"] {
 @media (min-width: 768px) { .VPFeatures .items { grid-template-columns: repeat(3, 1fr) !important; } }
 
 .VPFeature {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+/* Target the inner .box — VitePress renders the visible card here, not on .VPFeature */
+.VPFeature .box {
   background: var(--spec-paper) !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+  height: 100% !important;
   transition: background 0.2s ease !important;
 }
-.VPFeature:hover {
+.VPFeature .box:hover {
   background: var(--spec-paper-deep) !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
 }
 .VPFeature .title {
   font-family: var(--spec-font-display) !important;
@@ -618,5 +628,3 @@ html.dark .vp-doc [class*="language-"] {
   line-height: 1.55 !important;
   color: var(--spec-ink-soft) !important;
 }
-html.dark .VPFeature { background: var(--spec-paper) !important; }
-
