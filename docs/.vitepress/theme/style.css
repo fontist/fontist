@@ -588,15 +588,10 @@ html.dark .vp-doc [class*="language-"] {
 .code-content .comment { color: rgba(236, 223, 208, 0.45) !important; }
 .code-content .line { padding: 1px 0; }
 
-/* ── VPFeatures ───────────────────────────────────────────────── */
+/* ── VPFeatures — only style cards, DON'T override grid layout ─── */
+/* VitePress renders responsive columns on .item.grid-N (child of .items).
+   Overriding .items as a grid fights VitePress's own engine. Only style .box. */
 .VPFeatures .container { padding-top: 2rem; }
-.VPFeatures .items {
-  display: grid !important;
-  gap: 1px !important;
-  background: var(--spec-rule) !important;
-}
-@media (min-width: 512px) { .VPFeatures .items { grid-template-columns: repeat(2, 1fr) !important; } }
-@media (min-width: 768px) { .VPFeatures .items { grid-template-columns: repeat(3, 1fr) !important; } }
 
 .VPFeature {
   background: transparent !important;
@@ -604,17 +599,17 @@ html.dark .vp-doc [class*="language-"] {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-/* Target the inner .box — VitePress renders the visible card here, not on .VPFeature */
 .VPFeature .box {
   background: var(--spec-paper) !important;
-  border: none !important;
+  border: 1px solid var(--spec-rule) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   height: 100% !important;
-  transition: background 0.2s ease !important;
+  transition: border-color 0.2s ease, background 0.2s ease !important;
 }
 .VPFeature .box:hover {
   background: var(--spec-paper-deep) !important;
+  border-color: var(--spec-rose) !important;
 }
 .VPFeature .title {
   font-family: var(--spec-font-display) !important;
@@ -628,3 +623,6 @@ html.dark .vp-doc [class*="language-"] {
   line-height: 1.55 !important;
   color: var(--spec-ink-soft) !important;
 }
+html.dark .VPFeature .box { background: var(--spec-paper) !important; }
+html.dark .VPFeature .box:hover { background: var(--spec-paper-deep) !important; }
+
