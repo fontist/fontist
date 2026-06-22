@@ -47,9 +47,13 @@
   --vp-sidebar-bg-color: var(--spec-paper);
 
   /* Type */
-  --spec-font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --spec-font-display: "Spectral", Georgia, serif;
   --spec-font-body: "IBM Plex Sans", -apple-system, system-ui, sans-serif;
   --spec-font-mono: "IBM Plex Mono", ui-monospace, "JetBrains Mono", monospace;
+
+  /* Override VitePress's default Inter with our specimen fonts everywhere */
+  --vp-font-family-base: var(--spec-font-body);
+  --vp-font-family-mono: var(--spec-font-mono);
 
   /* Buttons */
   --vp-button-brand-border: var(--spec-rose);
@@ -361,7 +365,7 @@ html.dark body::before {
   width: 48px;
   margin: 3em auto;
 }
-/* Drop cap — rose Newsreader italic on the first paragraph of content pages */
+/* Drop cap — rose Spectral italic on the first paragraph of content pages */
 .vp-doc > p:first-of-type::first-letter {
   font-family: var(--spec-font-display);
   font-style: italic;
