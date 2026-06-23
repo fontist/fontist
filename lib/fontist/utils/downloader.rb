@@ -25,27 +25,43 @@ module Fontist
       end
 
       def download
-        file = @cache.fetch(url) do
-          download_file
-        end
-
-        check_tampered(file)
-
-        file
+        @tries = 0
+        fetch_and_verify
       end
 
       private
 
       attr_reader :file, :sha, :file_size
 
-      def check_tampered(file)
-        file_checksum = Digest::SHA256.file(file).to_s
-        if !sha.empty? && !sha.include?(file_checksum)
-          Fontist.ui.error(
-            "SHA256 checksum mismatch for #{url}: #{file_checksum}, " \
-            "should be #{sha.join(', or ')}.",
-          )
+      # Verifies the file whether it came fresh from the network or from the
+      # download cache. A mismatch (including a previously poisoned cache entry)
+      # drops the cached file and re-downloads, rather than silently accepting
+      # a corrupt archive that later surfaces as a missing font.
+      def fetch_and_verify
+        file = @cache.fetch(url) { download_file }
+        verify_checksum!(file)
+        file
+      rescue Down::Error, Fontist::Errors::TamperedFileError => e
+        @cache.delete(url)
+        @tries += 1
+        if @tries < max_retries
+          sleep(backoff_time(@tries))
+          retry
         end
+
+        raise Fontist::Errors::InvalidResourceError,
+              "Invalid URL: #{@file}. Error: #{e.inspect}."
+      end
+
+      def verify_checksum!(file)
+        return if sha.empty?
+
+        file_checksum = Digest::SHA256.file(file).to_s
+        return if sha.include?(file_checksum)
+
+        raise Fontist::Errors::TamperedFileError,
+              "SHA256 checksum mismatch for #{url}: #{file_checksum}, " \
+              "should be #{sha.join(', or ')}."
       end
 
       def byte_to_megabyte
@@ -57,18 +73,8 @@ module Fontist
       end
 
       def download_file
-        @tries ||= 0
-        @tries += 1
         print_download_start if @verbose
         do_download_file
-      rescue Down::Error => e
-        if @tries < max_retries
-          sleep(backoff_time(@tries))
-          retry
-        end
-
-        raise Fontist::Errors::InvalidResourceError,
-              "Invalid URL: #{@file}. Error: #{e.inspect}."
       end
 
       def max_retries
