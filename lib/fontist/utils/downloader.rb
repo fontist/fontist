@@ -25,7 +25,7 @@ module Fontist
       end
 
       def download
-        cached = cached?
+        cached = use_cached_file?
         file = fetch_file
         verify_checksum!(file)
         file
@@ -53,8 +53,8 @@ module Fontist
         @cache.fetch(url) { download_file }
       end
 
-      def cached?
-        !!@cache.already_fetched?([url])
+      def use_cached_file?
+        Fontist.use_cache? && !!@cache.already_fetched?([url])
       end
 
       def delete_cached_file(file)

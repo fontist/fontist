@@ -32,6 +32,30 @@ RSpec.describe Fontist::Utils::Downloader do
           )
         end
       end
+
+      it "ignores existing cache entries when cache is disabled" do
+        avoid_cache(sample_file[:file]) do
+          Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
+
+          allow(Fontist).to receive(:use_cache?).and_return(false)
+          expect(Down).to receive(:download).and_call_original.once
+
+          expect do
+            Fontist::Utils::Downloader.download(
+              sample_file[:file],
+              sha: "#{sample_file[:sha]}123",
+              file_size: sample_file[:file_size],
+            )
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
+        end
+      end
     end
 
     context "cached file checksum mismatch" do
