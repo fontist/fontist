@@ -105,6 +105,7 @@ RSpec.describe Fontist::Utils::Downloader do
             file_size: sample_file[:file_size],
           )
           cached_path = Pathname.new(cached_file.path)
+          cached_file.close
 
           allow(Digest::SHA256).to receive(:file).and_return("0" * 64)
           expect(Down).to receive(:download).and_call_original.once
