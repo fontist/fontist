@@ -25,27 +25,61 @@ module Fontist
       end
 
       def download
-        file = @cache.fetch(url) do
-          download_file
-        end
-
-        check_tampered(file)
-
+        cached = use_cached_file?
+        file = fetch_file
+        verify_checksum!(file)
         file
+      rescue Fontist::Errors::TamperedFileError => e
+        delete_cached_file(file)
+        raise invalid_resource_error(e) unless cached
+
+        retry_download_after_cache_mismatch
       end
 
       private
 
       attr_reader :file, :sha, :file_size
 
-      def check_tampered(file)
+      def retry_download_after_cache_mismatch
+        file = fetch_file
+        verify_checksum!(file)
+        file
+      rescue Fontist::Errors::TamperedFileError => e
+        delete_cached_file(file)
+        raise invalid_resource_error(e)
+      end
+
+      def fetch_file
+        @cache.fetch(url) { download_file }
+      end
+
+      def use_cached_file?
+        Fontist.use_cache? && !!@cache.already_fetched?([url])
+      end
+
+      def delete_cached_file(file)
+        cached_path = file&.path
+        file&.close unless file&.closed?
+        @cache.delete(url)
+
+        FileUtils.rm_rf(Pathname.new(cached_path).dirname) if cached_path
+      end
+
+      def verify_checksum!(file)
+        return if sha.empty?
+
         file_checksum = Digest::SHA256.file(file).to_s
-        if !sha.empty? && !sha.include?(file_checksum)
-          Fontist.ui.error(
-            "SHA256 checksum mismatch for #{url}: #{file_checksum}, " \
-            "should be #{sha.join(', or ')}.",
-          )
-        end
+        return if sha.include?(file_checksum)
+
+        raise Fontist::Errors::TamperedFileError,
+              "SHA256 checksum mismatch for #{url}: #{file_checksum}, " \
+              "should be #{sha.join(', or ')}."
+      end
+
+      def invalid_resource_error(error)
+        Fontist::Errors::InvalidResourceError.new(
+          "Invalid resource: #{@file}. Error: #{error.message}.",
+        )
       end
 
       def byte_to_megabyte
@@ -62,13 +96,17 @@ module Fontist
         print_download_start if @verbose
         do_download_file
       rescue Down::Error => e
-        if @tries < max_retries
-          sleep(backoff_time(@tries))
-          retry
-        end
+        retry if retry_download?
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
+      end
+
+      def retry_download?
+        return false unless @tries < max_retries
+
+        sleep(backoff_time(@tries))
+        true
       end
 
       def max_retries

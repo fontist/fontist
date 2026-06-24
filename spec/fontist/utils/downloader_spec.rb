@@ -15,24 +15,114 @@ RSpec.describe Fontist::Utils::Downloader do
       expect(tempfile.size).to eq(sample_file[:file_size])
     end
 
-    context "tampered file" do
-      it "prints warning and returns file" do
-        url = sample_file[:file]
-        sha = sample_file[:sha]
-        original_sha = "#{sample_file[:sha]}123"
+    context "checksum mismatch" do
+      it "raises the invalid resource error" do
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download).and_call_original.once
 
-        expect(Fontist.ui).to receive(:error).with(
-          "SHA256 checksum mismatch for #{url}: #{sha}, " \
-          "should be #{original_sha}.",
-        )
+          expect do
+            Fontist::Utils::Downloader.download(
+              sample_file[:file],
+              sha: "#{sample_file[:sha]}123",
+              file_size: sample_file[:file_size],
+            )
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
+        end
+      end
 
-        file = Fontist::Utils::Downloader.download(
-          url,
-          sha: original_sha,
-          file_size: sample_file[:file_size],
-        )
+      it "ignores existing cache entries when cache is disabled" do
+        avoid_cache(sample_file[:file]) do
+          Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
 
-        expect(file).not_to be_nil
+          allow(Fontist).to receive(:use_cache?).and_return(false)
+          expect(Down).to receive(:download).and_call_original.once
+
+          expect do
+            Fontist::Utils::Downloader.download(
+              sample_file[:file],
+              sha: "#{sample_file[:sha]}123",
+              file_size: sample_file[:file_size],
+            )
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
+        end
+      end
+    end
+
+    context "cached file checksum mismatch" do
+      it "discards the cached file and retries with a fresh download" do
+        avoid_cache(sample_file[:file]) do
+          Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
+
+          expect(Down).to receive(:download).and_call_original.once
+
+          attempt = 0
+          allow(Digest::SHA256).to receive(:file).and_wrap_original do |m, *a|
+            attempt += 1
+            attempt == 1 ? "0" * 64 : m.call(*a)
+          end
+
+          file = Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
+
+          expect(file).not_to be_nil
+        end
+      end
+    end
+
+    context "no checksum given" do
+      it "skips verification and returns the file" do
+        avoid_cache(sample_file[:file]) do
+          file = Fontist::Utils::Downloader.download(sample_file[:file])
+
+          expect(file).not_to be_nil
+        end
+      end
+    end
+
+    context "cached file no longer matches its checksum" do
+      it "discards the cached file instead of returning it" do
+        avoid_cache(sample_file[:file]) do
+          cached_file = Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
+          cached_path = Pathname.new(cached_file.path)
+          cached_file.close
+
+          allow(Digest::SHA256).to receive(:file).and_return("0" * 64)
+          expect(Down).to receive(:download).and_call_original.once
+
+          expect do
+            Fontist::Utils::Downloader.download(
+              sample_file[:file],
+              sha: sample_file[:sha],
+              file_size: sample_file[:file_size],
+            )
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
+
+          expect(cached_path.dirname).not_to exist
+        end
       end
     end
 
