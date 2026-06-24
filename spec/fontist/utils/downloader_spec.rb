@@ -15,10 +15,10 @@ RSpec.describe Fontist::Utils::Downloader do
       expect(tempfile.size).to eq(sample_file[:file_size])
     end
 
-    context "checksum mismatch on every attempt" do
-      it "retries then raises the invalid resource error" do
+    context "checksum mismatch" do
+      it "raises the invalid resource error" do
         avoid_cache(sample_file[:file]) do
-          expect(Down).to receive(:download).and_call_original.exactly(3).times
+          expect(Down).to receive(:download).and_call_original.once
 
           expect do
             Fontist::Utils::Downloader.download(
@@ -26,15 +26,24 @@ RSpec.describe Fontist::Utils::Downloader do
               sha: "#{sample_file[:sha]}123",
               file_size: sample_file[:file_size],
             )
-          end.to raise_error(Fontist::Errors::InvalidResourceError)
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
         end
       end
     end
 
-    context "transient checksum mismatch" do
-      it "retries and returns the file once it matches" do
+    context "cached file checksum mismatch" do
+      it "discards the cached file and retries with a fresh download" do
         avoid_cache(sample_file[:file]) do
-          expect(Down).to receive(:download).and_call_original.twice
+          Fontist::Utils::Downloader.download(
+            sample_file[:file],
+            sha: sample_file[:sha],
+            file_size: sample_file[:file_size],
+          )
+
+          expect(Down).to receive(:download).and_call_original.once
 
           attempt = 0
           allow(Digest::SHA256).to receive(:file).and_wrap_original do |m, *a|
@@ -66,14 +75,15 @@ RSpec.describe Fontist::Utils::Downloader do
     context "cached file no longer matches its checksum" do
       it "discards the cached file instead of returning it" do
         avoid_cache(sample_file[:file]) do
-          Fontist::Utils::Downloader.download(
+          cached_file = Fontist::Utils::Downloader.download(
             sample_file[:file],
             sha: sample_file[:sha],
             file_size: sample_file[:file_size],
           )
+          cached_path = Pathname.new(cached_file.path)
 
           allow(Digest::SHA256).to receive(:file).and_return("0" * 64)
-          expect(Down).to receive(:download).and_call_original.at_least(:once)
+          expect(Down).to receive(:download).and_call_original.once
 
           expect do
             Fontist::Utils::Downloader.download(
@@ -81,7 +91,12 @@ RSpec.describe Fontist::Utils::Downloader do
               sha: sample_file[:sha],
               file_size: sample_file[:file_size],
             )
-          end.to raise_error(Fontist::Errors::InvalidResourceError)
+          end.to raise_error(
+            Fontist::Errors::InvalidResourceError,
+            /SHA256 checksum mismatch/,
+          )
+
+          expect(cached_path.dirname).not_to exist
         end
       end
     end
