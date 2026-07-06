@@ -23,6 +23,7 @@ fontist create-formula URL [options]
 | `--subdir` | string | Subdirectory to extract fonts from |
 | `--file-pattern` | string | File pattern to match (e.g., "*.otf") |
 | `--name-prefix` | string | Prefix for font family names |
+| `--schema-version N | numeric | Formula schema version (default: 5) |
 
 ## Examples
 
