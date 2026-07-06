@@ -18,14 +18,6 @@ function pathToUrl(relativePath: string): string {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  // Register custom components
-  vite: {
-    resolve: {
-      alias: {
-        "@components": fileURLToPath(new URL("../components", import.meta.url)),
-      },
-    },
-  },
   lang: "en-US",
 
   // https://vitepress.dev/guide/routing#generating-clean-url
