@@ -1,4 +1,5 @@
 require "spec_helper"
+require "tempfile"
 
 RSpec.describe Fontist::Utils::Downloader do
   let(:url) { sample_file[:file] }
@@ -165,6 +166,78 @@ RSpec.describe Fontist::Utils::Downloader do
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
           end.to raise_error(Fontist::Errors::InvalidResourceError)
+        end
+      end
+    end
+
+    context "rate limited requests" do
+      let(:error_class) { Class.new(Down::Error) }
+      let(:rate_limit_error) do
+        error_class.new("429 Too Many Requests")
+      end
+
+      it "backs off for longer before raising the invalid resource error" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = []
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error).exactly(6).times
+
+          allow_any_instance_of(described_class)
+            .to receive(:sleep) { |_, value| sleeps << value }
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq([10, 20, 40, 60, 90])
+        end
+      end
+
+      it "honors retry-after headers when available" do
+        response = double(
+          "response",
+          status: 429,
+          headers: { "retry-after" => "45" },
+        )
+        error = error_class.new("Too Many Requests")
+        allow(error).to receive(:response).and_return(response)
+
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download).and_raise(error).once
+          expect(Down).to receive(:download).and_call_original.once
+
+          expect_any_instance_of(described_class).to receive(:sleep).with(45)
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.not_to raise_error
+        end
+      end
+
+      it "recovers when a rate limited request succeeds after three failures" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = []
+          attempts = 0
+
+          allow(Down).to receive(:download) do
+            attempts += 1
+            raise rate_limit_error if attempts <= 3
+
+            Tempfile.new("fontist-rate-limit-recovery").tap do |file|
+              file.write("ok")
+              file.rewind
+              file.define_singleton_method(:original_filename) { "ok.txt" }
+              file.define_singleton_method(:content_type) { "text/plain" }
+            end
+          end
+          allow_any_instance_of(described_class)
+            .to receive(:sleep) { |_, value| sleeps << value }
+
+          file = Fontist::Utils::Downloader.download(sample_file[:file])
+
+          expect(file.read).to eq("ok")
+          expect(attempts).to eq(4)
+          expect(sleeps).to eq([10, 20, 40])
         end
       end
     end
