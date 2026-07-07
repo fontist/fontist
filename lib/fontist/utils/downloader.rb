@@ -1,6 +1,12 @@
 module Fontist
   module Utils
     class Downloader
+      RATE_LIMITED_HTTP_STATUS = 429
+      DEFAULT_MAX_RETRIES = 3
+      RATE_LIMITED_MAX_RETRIES = 6
+      RATE_LIMITED_BACKOFF = [10, 20, 40, 60, 90].freeze
+      MAX_RETRY_AFTER = 120
+
       class << self
         def download(*args)
           new(*args).download
@@ -96,27 +102,81 @@ module Fontist
         print_download_start if @verbose
         do_download_file
       rescue Down::Error => e
-        retry if retry_download?
+        retry if retry_download?(e)
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
       end
 
-      def retry_download?
-        return false unless @tries < max_retries
+      def retry_download?(error)
+        return false unless @tries < max_retries(error)
 
-        sleep(backoff_time(@tries))
+        sleep(backoff_time(@tries, error))
         true
       end
 
-      def max_retries
-        @max_retries ||= 3
+      def max_retries(error = nil)
+        return RATE_LIMITED_MAX_RETRIES if rate_limited_error?(error)
+
+        DEFAULT_MAX_RETRIES
       end
 
-      def backoff_time(attempt)
+      def backoff_time(attempt, error = nil)
+        if rate_limited_error?(error)
+          return rate_limited_backoff_time(attempt, error)
+        end
+
         # Exponential backoff: 2^attempt seconds, max 30 seconds
         # 1st retry: 2s, 2nd: 4s, 3rd: 8s
         [2**attempt, 30].min
+      end
+
+      def rate_limited_error?(error)
+        return false unless error
+
+        http_status(error) == RATE_LIMITED_HTTP_STATUS ||
+          error.inspect.include?(RATE_LIMITED_HTTP_STATUS.to_s)
+      end
+
+      def http_status(error)
+        response = error.respond_to?(:response) && error.response
+        return unless response
+
+        status = if response.respond_to?(:status)
+                   response.status
+                 elsif response.respond_to?(:code)
+                   response.code
+                 end
+
+        status&.to_i
+      end
+
+      def rate_limited_backoff_time(attempt, error)
+        retry_after(error) ||
+          RATE_LIMITED_BACKOFF.fetch(
+            attempt - 1,
+            RATE_LIMITED_BACKOFF.last,
+          )
+      end
+
+      def retry_after(error)
+        value = retry_after_header(error)
+        return unless value
+
+        retry_after = value.to_i
+        return if retry_after <= 0
+
+        [retry_after, MAX_RETRY_AFTER].min
+      end
+
+      def retry_after_header(error)
+        headers = response_headers(error)
+        headers && (headers["retry-after"] || headers["Retry-After"])
+      end
+
+      def response_headers(error)
+        response = error.respond_to?(:response) && error.response
+        response.respond_to?(:headers) && response.headers
       end
 
       def print_download_start
