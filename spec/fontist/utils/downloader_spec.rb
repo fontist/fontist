@@ -170,41 +170,71 @@ RSpec.describe Fontist::Utils::Downloader do
       end
     end
 
-    context "rate limited requests" do
-      let(:error_class) { Class.new(Down::Error) }
-      let(:rate_limit_error) do
-        error_class.new("429 Too Many Requests")
+    context "retry policy" do
+      # Built the way down's Net::HTTP backend builds it: the Net::HTTPResponse
+      # is passed positionally. Doubles carrying #status or #headers are shapes
+      # this backend never produces.
+      def http_error(klass, code, message, retry_after: nil)
+        response_class = Net::HTTPResponse::CODE_TO_OBJ.fetch(code)
+        response = response_class.new("1.1", code, message)
+        response.add_field("Retry-After", retry_after) if retry_after
+        klass.new("#{code} #{message}", response)
       end
 
-      it "backs off for longer before raising the invalid resource error" do
-        avoid_cache(sample_file[:file]) do
-          sleeps = []
-          expect(Down).to receive(:download)
-            .and_raise(rate_limit_error).exactly(6).times
+      def rate_limit_error(retry_after: nil)
+        http_error(Down::ClientError, "429", "Too Many Requests",
+                   retry_after: retry_after)
+      end
 
+      # Pin rand so jittered delays are exact. Bounds assertions would let a
+      # broken (or deleted) jitter pass, since the base value is always
+      # in range.
+      # With rand at 0.8 the tables become:
+      #   [10, 20, 40, 60, 90] -> [12, 24, 48, 72, 108]
+      #   [2, 4]               -> [2, 5]
+      before do
+        allow_any_instance_of(described_class).to receive(:rand).and_return(0.8)
+      end
+
+      let(:jittered_table) { [12, 24, 48, 72, 108] }
+      let(:jittered_transient) { [2, 5] }
+
+      def record_sleeps
+        [].tap do |sleeps|
           allow_any_instance_of(described_class)
             .to receive(:sleep) { |_, value| sleeps << value }
+        end
+      end
+
+      # Stands in for a successful download without reaching the network.
+      def downloaded_file
+        Tempfile.new("fontist-download").tap do |file|
+          file.write("ok")
+          file.rewind
+          file.define_singleton_method(:original_filename) { "ok.txt" }
+          file.define_singleton_method(:content_type) { "text/plain" }
+        end
+      end
+
+      it "backs off through the whole table before raising" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = record_sleeps
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error).exactly(6).times
 
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
           end.to raise_error(Fontist::Errors::InvalidResourceError)
 
-          expect(sleeps).to eq([10, 20, 40, 60, 90])
+          expect(sleeps).to eq(jittered_table)
         end
       end
 
-      it "honors retry-after headers when available" do
-        response = double(
-          "response",
-          status: 429,
-          headers: { "retry-after" => "45" },
-        )
-        error = error_class.new("Too Many Requests")
-        allow(error).to receive(:response).and_return(response)
-
+      it "honors a retry-after header exactly, without jitter" do
         avoid_cache(sample_file[:file]) do
-          expect(Down).to receive(:download).and_raise(error).once
-          expect(Down).to receive(:download).and_call_original.once
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: "45")).once
+          expect(Down).to receive(:download).and_return(downloaded_file).once
 
           expect_any_instance_of(described_class).to receive(:sleep).with(45)
 
@@ -214,9 +244,35 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
 
+      it "caps a retry-after above the maximum" do
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: "9999")).once
+          expect(Down).to receive(:download).and_return(downloaded_file).once
+
+          expect_any_instance_of(described_class).to receive(:sleep).with(120)
+
+          Fontist::Utils::Downloader.download(sample_file[:file])
+        end
+      end
+
+      it "tells the user why it is waiting and for how long" do
+        avoid_cache(sample_file[:file]) do
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: "45")).once
+          expect(Down).to receive(:download).and_return(downloaded_file).once
+          allow_any_instance_of(described_class).to receive(:sleep)
+
+          expect(Fontist.ui).to receive(:say)
+            .with("Server asked us to wait. Retrying in 45s...")
+
+          Fontist::Utils::Downloader.download(sample_file[:file])
+        end
+      end
+
       it "recovers when a rate limited request succeeds after three failures" do
         avoid_cache(sample_file[:file]) do
-          sleeps = []
+          sleeps = record_sleeps
           attempts = 0
 
           allow(Down).to receive(:download) do
@@ -230,14 +286,144 @@ RSpec.describe Fontist::Utils::Downloader do
               file.define_singleton_method(:content_type) { "text/plain" }
             end
           end
-          allow_any_instance_of(described_class)
-            .to receive(:sleep) { |_, value| sleeps << value }
 
           file = Fontist::Utils::Downloader.download(sample_file[:file])
 
           expect(file.read).to eq("ok")
           expect(attempts).to eq(4)
-          expect(sleeps).to eq([10, 20, 40])
+          expect(sleeps).to eq(jittered_table.first(3))
+        end
+      end
+
+      it "does not treat a connection failure as a rate limit" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = record_sleeps
+          expect(Down).to receive(:download).and_raise(
+            Down::ConnectionError.new(
+              "Failed to open TCP connection to cdn.example.com:4291",
+            ),
+          ).exactly(3).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq(jittered_transient)
+        end
+      end
+
+      it "does not crash on a redirect error carrying a hash response" do
+        avoid_cache(sample_file[:file]) do
+          response = Net::HTTPFound.new("1.1", "302", "Found")
+          error = Down::ResponseError.new("Invalid Redirect URI: x",
+                                          response: response)
+          # down passes `response:` to a keyword-less initializer, so this
+          # lands as a Hash. If that ever changes, fail here rather than
+          # silently stop covering the case.
+          expect(error.response).to be_a(Hash)
+          allow_any_instance_of(described_class).to receive(:sleep)
+          expect(Down).to receive(:download).and_raise(error).exactly(3).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+        end
+      end
+
+      context "each policy keeps its own counter" do
+        it "gives a 429 its first delay after transient failures" do
+          avoid_cache(sample_file[:file]) do
+            sleeps = record_sleeps
+            attempts = 0
+            allow(Down).to receive(:download) do
+              attempts += 1
+              raise Down::TimeoutError, "timed out" if attempts <= 2
+
+              raise rate_limit_error
+            end
+
+            expect do
+              Fontist::Utils::Downloader.download(sample_file[:file])
+            end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+            expect(sleeps.first(2)).to eq(jittered_transient)
+            expect(sleeps.drop(2)).to eq(jittered_table)
+          end
+        end
+
+        it "keeps the transient budget intact after a rate limit" do
+          avoid_cache(sample_file[:file]) do
+            sleeps = record_sleeps
+            attempts = 0
+            allow(Down).to receive(:download) do
+              attempts += 1
+              raise rate_limit_error if attempts == 1
+
+              raise Down::TimeoutError, "timed out"
+            end
+
+            expect do
+              Fontist::Utils::Downloader.download(sample_file[:file])
+            end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+            expect(sleeps.first(1)).to eq(jittered_table.first(1))
+            expect(sleeps.drop(1)).to eq(jittered_transient)
+          end
+        end
+      end
+
+      context "the server asks us to wait without sending a 429" do
+        [["503", "Service Unavailable", Down::ServerError],
+         ["403", "Forbidden", Down::ClientError]].each do |code, msg, klass|
+          it "backs off on a #{code} carrying retry-after" do
+            avoid_cache(sample_file[:file]) do
+              expect(Down).to receive(:download).and_raise(
+                http_error(klass, code, msg, retry_after: "30"),
+              ).once
+              expect(Down).to receive(:download)
+                .and_return(downloaded_file).once
+              expect_any_instance_of(described_class)
+                .to receive(:sleep).with(30)
+
+              Fontist::Utils::Downloader.download(sample_file[:file])
+            end
+          end
+        end
+
+        it "stays transient for a 404 with no retry-after" do
+          avoid_cache(sample_file[:file]) do
+            sleeps = record_sleeps
+            expect(Down).to receive(:download)
+              .and_raise(http_error(Down::NotFound, "404", "Not Found"))
+              .exactly(3).times
+
+            expect do
+              Fontist::Utils::Downloader.download(sample_file[:file])
+            end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+            expect(sleeps).to eq(jittered_transient)
+          end
+        end
+
+        it "follows the header appearing and disappearing mid-sequence" do
+          avoid_cache(sample_file[:file]) do
+            sleeps = record_sleeps
+            attempts = 0
+            allow(Down).to receive(:download) do
+              attempts += 1
+              raise http_error(Down::ServerError, "503", "Service Unavailable",
+                               retry_after: attempts.odd? ? "30" : nil)
+            end
+
+            expect do
+              Fontist::Utils::Downloader.download(sample_file[:file])
+            end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+            # Header waits are exact; table waits are jittered.
+            expect(sleeps.size).to eq(5)
+            expect(sleeps.values_at(0, 2, 4)).to eq([30, 30, 30])
+            expect(sleeps.values_at(1, 3)).to eq(jittered_transient)
+          end
         end
       end
     end
