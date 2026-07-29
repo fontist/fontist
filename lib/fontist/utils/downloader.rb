@@ -1,6 +1,16 @@
+require "time"
+
 module Fontist
   module Utils
     class Downloader
+      RATE_LIMITED_HTTP_STATUS = 429
+      BACKOFF = {
+        rate_limited: [10, 20, 40, 60, 90].freeze,
+        transient: [2, 4].freeze,
+      }.freeze
+      MAX_RETRY_AFTER = 120
+      JITTER_RATIO = 0.25
+
       class << self
         def download(*args)
           new(*args).download
@@ -22,6 +32,7 @@ module Fontist
         @verbose = progress_bar == :verbose
         @use_content_length = use_content_length
         @cache = Cache.new(cache_path: cache_path)
+        @tries = Hash.new(0)
       end
 
       def download
@@ -91,32 +102,85 @@ module Fontist
       end
 
       def download_file
-        @tries ||= 0
-        @tries += 1
         print_download_start if @verbose
         do_download_file
       rescue Down::Error => e
-        retry if retry_download?
+        retry if retry_download?(e)
 
         raise Fontist::Errors::InvalidResourceError,
               "Invalid URL: #{@file}. Error: #{e.inspect}."
       end
 
-      def retry_download?
-        return false unless @tries < max_retries
+      def retry_download?(error)
+        response = http_response(error)
+        requested = retry_after(response)
+        backing_off = requested || rate_limited?(response)
+        kind = backing_off ? :rate_limited : :transient
+        delays = BACKOFF.fetch(kind)
+        attempt = (@tries[kind] += 1)
+        return false if attempt > delays.length
 
-        sleep(backoff_time(@tries))
+        wait(kind, requested || jitter(delays[attempt - 1]))
         true
       end
 
-      def max_retries
-        @max_retries ||= 3
+      def wait(kind, seconds)
+        reason = if kind == :rate_limited
+                   "Server asked us to slow down"
+                 else
+                   "Download failed"
+                 end
+
+        Fontist.ui.say("#{reason}. Retrying in #{seconds}s...")
+        sleep(seconds)
       end
 
-      def backoff_time(attempt)
-        # Exponential backoff: 2^attempt seconds, max 30 seconds
-        # 1st retry: 2s, 2nd: 4s, 3rd: 8s
-        [2**attempt, 30].min
+      # Spread retrying clients apart so they do not all return at once.
+      # Rounding the bound rather than the draw keeps the smallest delays
+      # spread too. Drawing first and rounding after loses them: a two second
+      # delay scales to half a second, and any fraction of that rounds to
+      # nothing, so every client would return at exactly two seconds.
+      def jitter(seconds)
+        seconds + rand(0..(seconds * JITTER_RATIO).round)
+      end
+
+      # down attaches the response to status errors, but its redirect errors
+      # pass `response:` as a keyword to a keyword-less initializer (5.4.2), so
+      # those carry a Hash instead. Requiring both methods we go on to use drops
+      # the Hash, and drops any backend we could not read a status or header
+      # from, which then falls back to the transient policy.
+      def http_response(error)
+        return unless error.is_a?(Down::ResponseError)
+
+        response = error.response
+        response if response.respond_to?(:code) && response.respond_to?(:[])
+      end
+
+      def rate_limited?(response)
+        response && response.code.to_i == RATE_LIMITED_HTTP_STATUS
+      end
+
+      # nil unless the server asked for a wait we can use.
+      def retry_after(response)
+        return unless response
+
+        seconds = retry_after_seconds(response["Retry-After"])
+        [seconds, MAX_RETRY_AFTER].min if seconds&.positive?
+      end
+
+      # RFC 7231 allows delta-seconds or an HTTP date. Most responses carry no
+      # header at all and most that do use digits, so both leave before the
+      # date parse, which is the only branch that needs a rescue. A date
+      # already past gives a negative delay, which the caller drops the same
+      # way it drops a zero.
+      def retry_after_seconds(value)
+        header = value.to_s.strip
+        return if header.empty?
+        return header.to_i if header.match?(/\A\d+\z/)
+
+        (Time.httpdate(header) - Time.now).round
+      rescue ArgumentError
+        nil
       end
 
       def print_download_start
