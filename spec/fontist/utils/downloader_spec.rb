@@ -174,10 +174,15 @@ RSpec.describe Fontist::Utils::Downloader do
       # Built the way down's Net::HTTP backend builds it: the Net::HTTPResponse
       # is passed positionally. Doubles carrying #status or #headers are shapes
       # this backend never produces.
-      def http_error(klass, code, message, retry_after: nil)
+      def net_response(code, message, retry_after: nil)
         response_class = Net::HTTPResponse::CODE_TO_OBJ.fetch(code)
-        response = response_class.new("1.1", code, message)
-        response.add_field("Retry-After", retry_after) if retry_after
+        response_class.new("1.1", code, message).tap do |response|
+          response.add_field("Retry-After", retry_after) if retry_after
+        end
+      end
+
+      def http_error(klass, code, message, retry_after: nil)
+        response = net_response(code, message, retry_after: retry_after)
         klass.new("#{code} #{message}", response)
       end
 
@@ -186,18 +191,29 @@ RSpec.describe Fontist::Utils::Downloader do
                    retry_after: retry_after)
       end
 
-      # Pin rand so jittered delays are exact. Bounds assertions would let a
-      # broken (or deleted) jitter pass, since the base value is always
-      # in range.
-      # With rand at 0.8 the tables become:
-      #   [10, 20, 40, 60, 90] -> [12, 24, 48, 72, 108]
-      #   [2, 4]               -> [2, 5]
+      # Pin rand to the top of its range so jittered delays are exact. Bounds
+      # assertions would let a broken (or deleted) jitter pass, since the base
+      # value is always in range.
+      # At the maximum draw the tables become:
+      #   [10, 20, 40, 60, 90] -> [13, 25, 50, 75, 113]
+      #   [2, 4]               -> [3, 5]
       before do
-        allow_any_instance_of(described_class).to receive(:rand).and_return(0.8)
+        allow_any_instance_of(described_class)
+          .to receive(:rand) { |_, range| range.max }
       end
 
-      let(:jittered_table) { [12, 24, 48, 72, 108] }
-      let(:jittered_transient) { [2, 5] }
+      let(:jittered_table) { [13, 25, 50, 75, 113] }
+      let(:jittered_transient) { [3, 5] }
+
+      # A date header is a delay from now, so now has to be pinned the way
+      # rand is. Building the header off the same instant keeps the expected
+      # delay exact; httpdate drops sub-second precision, so a header built
+      # from a live clock would round a second either way.
+      let(:frozen_now) { Time.utc(2026, 1, 1, 12, 0, 0) }
+
+      def freeze_now
+        allow(Time).to receive(:now).and_return(frozen_now)
+      end
 
       def record_sleeps
         [].tap do |sleeps|
@@ -256,6 +272,78 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
 
+      it "honors a retry-after sent as an http date" do
+        avoid_cache(sample_file[:file]) do
+          freeze_now
+          header = (frozen_now + 45).httpdate
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: header)).once
+          expect(Down).to receive(:download).and_return(downloaded_file).once
+
+          expect_any_instance_of(described_class).to receive(:sleep).with(45)
+
+          Fontist::Utils::Downloader.download(sample_file[:file])
+        end
+      end
+
+      it "caps an http date that is far in the future" do
+        avoid_cache(sample_file[:file]) do
+          freeze_now
+          header = (frozen_now + 9999).httpdate
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: header)).once
+          expect(Down).to receive(:download).and_return(downloaded_file).once
+
+          expect_any_instance_of(described_class).to receive(:sleep).with(120)
+
+          Fontist::Utils::Downloader.download(sample_file[:file])
+        end
+      end
+
+      it "falls back to the table when the http date has already passed" do
+        avoid_cache(sample_file[:file]) do
+          freeze_now
+          sleeps = record_sleeps
+          header = (frozen_now - 45).httpdate
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: header)).exactly(6).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq(jittered_table)
+        end
+      end
+
+      it "falls back to the table when the retry-after is zero" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = record_sleeps
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: "0")).exactly(6).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq(jittered_table)
+        end
+      end
+
+      it "falls back to the table when the retry-after is unparseable" do
+        avoid_cache(sample_file[:file]) do
+          sleeps = record_sleeps
+          expect(Down).to receive(:download)
+            .and_raise(rate_limit_error(retry_after: "soon")).exactly(6).times
+
+          expect do
+            Fontist::Utils::Downloader.download(sample_file[:file])
+          end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq(jittered_table)
+        end
+      end
+
       it "tells the user why it is waiting and for how long" do
         avoid_cache(sample_file[:file]) do
           expect(Down).to receive(:download)
@@ -264,7 +352,7 @@ RSpec.describe Fontist::Utils::Downloader do
           allow_any_instance_of(described_class).to receive(:sleep)
 
           expect(Fontist.ui).to receive(:say)
-            .with("Server asked us to wait. Retrying in 45s...")
+            .with("Server asked us to slow down. Retrying in 45s...")
 
           Fontist::Utils::Downloader.download(sample_file[:file])
         end
@@ -312,21 +400,25 @@ RSpec.describe Fontist::Utils::Downloader do
         end
       end
 
-      it "does not crash on a redirect error carrying a hash response" do
+      it "treats a redirect error carrying a hash response as transient" do
         avoid_cache(sample_file[:file]) do
-          response = Net::HTTPFound.new("1.1", "302", "Found")
+          sleeps = record_sleeps
+          # A 429 inside the hash, so misclassifying it would be visible: the
+          # rate limited table would run instead of the transient one.
+          response = net_response("429", "Too Many Requests")
           error = Down::ResponseError.new("Invalid Redirect URI: x",
                                           response: response)
           # down passes `response:` to a keyword-less initializer, so this
           # lands as a Hash. If that ever changes, fail here rather than
           # silently stop covering the case.
           expect(error.response).to be_a(Hash)
-          allow_any_instance_of(described_class).to receive(:sleep)
           expect(Down).to receive(:download).and_raise(error).exactly(3).times
 
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
           end.to raise_error(Fontist::Errors::InvalidResourceError)
+
+          expect(sleeps).to eq(jittered_transient)
         end
       end
 
