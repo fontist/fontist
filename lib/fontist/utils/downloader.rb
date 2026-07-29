@@ -1,3 +1,5 @@
+require "time"
+
 module Fontist
   module Utils
     class Downloader
@@ -124,7 +126,7 @@ module Fontist
 
       def wait(kind, seconds)
         reason = if kind == :rate_limited
-                   "Server asked us to wait"
+                   "Server asked us to slow down"
                  else
                    "Download failed"
                  end
@@ -134,8 +136,12 @@ module Fontist
       end
 
       # Spread retrying clients apart so they do not all return at once.
+      # Rounding the bound rather than the draw keeps the smallest delays
+      # spread too. Drawing first and rounding after loses them: a two second
+      # delay scales to half a second, and any fraction of that rounds to
+      # nothing, so every client would return at exactly two seconds.
       def jitter(seconds)
-        seconds + (seconds * JITTER_RATIO * rand).round
+        seconds + rand(0..(seconds * JITTER_RATIO).round)
       end
 
       # down attaches the response to status errors, but its redirect errors
@@ -154,13 +160,27 @@ module Fontist
         response && response.code.to_i == RATE_LIMITED_HTTP_STATUS
       end
 
-      # nil unless the server asked for a wait we can use. A Retry-After sent as
-      # an HTTP date parses to 0, so we fall back to our own backoff.
+      # nil unless the server asked for a wait we can use.
       def retry_after(response)
         return unless response
 
-        seconds = response["Retry-After"].to_i
-        [seconds, MAX_RETRY_AFTER].min if seconds.positive?
+        seconds = retry_after_seconds(response["Retry-After"])
+        [seconds, MAX_RETRY_AFTER].min if seconds&.positive?
+      end
+
+      # RFC 7231 allows delta-seconds or an HTTP date. Most responses carry no
+      # header at all and most that do use digits, so both leave before the
+      # date parse, which is the only branch that needs a rescue. A date
+      # already past gives a negative delay, which the caller drops the same
+      # way it drops a zero.
+      def retry_after_seconds(value)
+        header = value.to_s.strip
+        return if header.empty?
+        return header.to_i if header.match?(/\A\d+\z/)
+
+        (Time.httpdate(header) - Time.now).round
+      rescue ArgumentError
+        nil
       end
 
       def print_download_start
