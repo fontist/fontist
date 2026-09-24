@@ -125,7 +125,7 @@ module Fontist
     desc "sil", "Import formulas from SIL International"
     option :output_path,
            type: :string,
-           desc: "Output directory for generated formulas (default: ~/.fontist/versions/v4/formulas/Formulas/sil)"
+           desc: "Output directory for generated formulas (default: ~/.fontist/versions/v5/formulas/Formulas/sil)"
     option :font_name,
            type: :string, aliases: :f,
            desc: "Import specific font by name (optional)"
