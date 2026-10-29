@@ -229,8 +229,16 @@ module Fontist
           Fontist.ui.say(Paint["Cloning repository '#{name}' from #{url}...",
                                :cyan])
           repo = Git.clone(url, path, depth: 1)
-          if repo.branches[:main].name != repo.current_branch
-            # https://github.com/ruby-git/ruby-git/issues/531
+          # The clone's HEAD is the remote's default branch; restore it to
+          # `main` when the remote defaults elsewhere (the shallow clone of
+          # ruby-git#531). git 6.0 removed the `branches` collection —
+          # `branch?` is its replacement on the 6.x line.
+          main_exists = if Gem::Version.new(Git::VERSION) >= Gem::Version.new("6")
+            repo.branch?(:main)
+          else
+            !repo.branches[:main].nil?
+          end
+          if main_exists && repo.current_branch != "main"
             repo.checkout(:main).pull
           end
           Fontist.ui.say(Paint["Repository '#{name}' cloned successfully.",
