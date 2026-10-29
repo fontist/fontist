@@ -56,8 +56,7 @@ RSpec.describe "formulas isolation" do
     Dir.mktmpdir do |dir|
       # Initialize a Git repo with a minimal structure
       git = Git.init(dir)
-      git.config("user.name", "Test")
-      git.config("user.email", "test@example.com")
+      GitTestConfig.set_test_identity(git)
 
       # Create Formulas directory
       formulas_dir = File.join(dir, "Formulas")
