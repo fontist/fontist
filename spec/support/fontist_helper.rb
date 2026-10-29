@@ -148,8 +148,7 @@ module Fontist
     def init_repo(dir, branch)
       git = Git.init(dir)
       git.checkout(branch, new_branch: true)
-      git.config("user.name", "Test")
-      git.config("user.email", "test@example.com")
+      GitTestConfig.set_test_identity(git)
 
       yield git
 
