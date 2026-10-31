@@ -156,4 +156,46 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       index.send(:font_paths)
     end
   end
+
+  describe "when a font is installed into a scanned system directory" do
+    let(:fixture_font) do
+      File.expand_path("../../fixtures/fonts/ArialBd.ttf", __dir__)
+    end
+
+    around do |example|
+      Dir.mktmpdir do |dir|
+        @fonts_dir = File.join(dir, "fonts")
+        FileUtils.mkdir_p(@fonts_dir)
+        @system_file = File.join(dir, "system.yml")
+
+        example.run
+      end
+    end
+
+    before do
+      File.write(@system_file, YAML.dump(system_paths(@fonts_dir)))
+      allow(Fontist).to receive(:system_file_path).and_return(@system_file)
+    end
+
+    after do
+      allow(Fontist).to receive(:system_file_path).and_call_original
+      FileUtils.rm_f(Fontist.system_index_path)
+      described_class.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+    end
+
+    it "includes the font in the index after add_font" do
+      index = described_class.instance
+
+      # Warm the system-directory scan before the font exists, the way
+      # `Font#install` does with its initial `find_system_font` lookup.
+      expect(index.find("NonexistentFont")).to be_nil
+
+      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      FileUtils.cp(fixture_font, installed_path)
+      index.add_font(installed_path)
+
+      expect(index.font_exists?(installed_path)).to be(true)
+    end
+  end
 end

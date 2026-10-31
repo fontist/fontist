@@ -50,6 +50,13 @@ module Fontist
       def font_paths
         SystemFont.load_system_font_paths
       end
+
+      # The system-directory scan on SystemFont is memoized, so font
+      # installs and removals (e.g. `--location=system`) must drop it
+      # before the index rescans, or the rescan sees pre-change paths
+      def reset_scan_cache
+        SystemFont.reset_system_font_paths_cache
+      end
     end
   end
 end
