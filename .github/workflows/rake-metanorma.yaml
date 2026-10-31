@@ -43,7 +43,9 @@ jobs:
         with:
           path: "fontist"
 
-      - run: 'echo ''gem "fontist", path: "./fontist"'' > Gemfile.devel'
+      # Append rather than overwrite: metanorma's own Gemfile.devel carries
+      # the taste-stack gems its compile specs need (metanorma/issues/630)
+      - run: 'echo ''gem "fontist", path: "./fontist"'' >> Gemfile.devel'
 
       - uses: ruby/setup-ruby@v1
         with:
