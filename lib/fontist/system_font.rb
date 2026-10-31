@@ -10,14 +10,22 @@ module Fontist
     end
 
     # This detects all fonts on the system from the configuration file.
+    #
+    # Memoized because index rebuilds (`index_changed?` checks and
+    # collection updates) call this repeatedly, and each call re-globs
+    # every system font directory; on a document compile the rescans
+    # dominated CPU time. Invalidate through
+    # `reset_system_font_paths_cache`.
     def self.load_system_font_paths
-      os = Fontist::Utils::System.user_os.to_s
-      templates = system_config["system"][os]["paths"]
-      patterns = expand_paths(templates)
+      @load_system_font_paths ||= begin
+        os = Fontist::Utils::System.user_os.to_s
+        templates = system_config["system"][os]["paths"]
+        patterns = expand_paths(templates)
 
-      Dir.glob(patterns)
-      # File::FNM_CASEFOLD is officially ignored -- see https://ruby-doc.org/core-3.1.1/Dir.html#method-c-glob
-      # "Case sensitivity depends on your system"
+        Dir.glob(patterns)
+        # File::FNM_CASEFOLD is officially ignored -- see https://ruby-doc.org/core-3.1.1/Dir.html#method-c-glob
+        # "Case sensitivity depends on your system"
+      end
     end
 
     def self.system_config
@@ -26,6 +34,7 @@ module Fontist
 
     def self.reset_system_font_paths_cache
       @system_font_paths = nil
+      @load_system_font_paths = nil
     end
 
     def self.expand_paths(paths)
