@@ -99,6 +99,11 @@ module Fontist
       # @param path [String] Full path to installed font file
       # @return [void]
       def add_font(_path)
+        # The font lands in a directory covered by font_paths, so any
+        # memoized scan must be invalidated before the forced rebuild,
+        # or the rebuild would miss the new font
+        reset_scan_cache
+
         # Reset verification flag to force re-check
         collection.reset_verification!
 
@@ -113,6 +118,7 @@ module Fontist
       # @param path [String] Full path to font file to remove
       # @return [void]
       def remove_font(path)
+        reset_scan_cache
         return if collection.fonts.nil?
 
         collection.fonts.delete_if { |f| f.path == path }
@@ -140,6 +146,11 @@ module Fontist
       end
 
       private
+
+      # Invalidates any memoized font_paths scan, called when fonts are
+      # written to or removed from directories covered by this index.
+      # Subclasses whose font_paths is memoized must override this.
+      def reset_scan_cache; end
 
       # Returns the path to the index file
       #
