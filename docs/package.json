@@ -6,6 +6,9 @@
     "format": "prettier -w ."
   },
   "type": "module",
+  "overrides": {
+    "vite": "^6.4.4"
+  },
   "devDependencies": {
     "@types/node": "^22.15.0",
     "prettier": "^3.8.1",
