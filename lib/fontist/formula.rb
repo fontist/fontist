@@ -181,9 +181,15 @@ module Fontist
 
         content = File.read(path)
 
-        from_yaml(content).tap do |formula|
-          formula.path = path
-          formula.name = titleize(formula.key_from_path) if formula.name.nil?
+        # Parsing a formula costs ~10-20ms and the same formula is
+        # re-read on every lookup, so the parsed instance is memoized
+        # (mtime-validated) and shared between callers; treat as
+        # read-only
+        formula = Fontist::FromFileCache.memoize(path) { from_yaml(content) }
+
+        formula.tap do |f|
+          f.path = path
+          f.name = titleize(f.key_from_path) if f.name.nil?
         end
       rescue Lutaml::Model::Error, TypeError, ArgumentError,
              Psych::BadAlias, Psych::SyntaxError => e

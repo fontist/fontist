@@ -95,6 +95,11 @@ RSpec.configure do |config|
       rescue StandardError
         nil
       end
+      begin
+        Fontist::FromFileCache.clear
+      rescue StandardError
+        nil
+      end
 
       # Reset new OOP index singletons
       begin

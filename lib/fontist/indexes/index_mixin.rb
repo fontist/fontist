@@ -49,12 +49,13 @@ module Fontist
 
           file_content = File.read(file_path).strip
 
-          if file_content.empty? || file_content == "---"
-            # Return empty collection for empty index files
-            return new
-          end
+          # Return empty collection for empty index files
+          return new if file_content.empty? || file_content == "---"
 
-          from_yaml(file_content)
+          # Parsing the index YAML costs hundreds of milliseconds and
+          # happens on every font lookup, so the parsed instance is
+          # memoized (mtime-validated) and shared between callers
+          Fontist::FromFileCache.memoize(file_path) { from_yaml(file_content) }
         end
 
         def rebuild
@@ -67,6 +68,10 @@ module Fontist
         end
 
         def reset_cache
+          # Drop the memoized parsed instance along with the index file,
+          # to force a fresh parse on next access
+          Fontist::FromFileCache.clear
+
           # Delete the index file to force rebuild on next access
           # This is important for tests to ensure clean state
           FileUtils.rm_f(path)

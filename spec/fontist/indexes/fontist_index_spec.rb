@@ -149,4 +149,46 @@ RSpec.describe Fontist::Indexes::FontistIndex do
       expect(Fontist.fonts_path.to_s).to include("fonts")
     end
   end
+
+  describe "when a font is installed into the fontist library" do
+    let(:fixture_font) do
+      File.expand_path("../../fixtures/fonts/ArialBd.ttf", __dir__)
+    end
+
+    around do |example|
+      Dir.mktmpdir do |dir|
+        @fonts_dir = File.join(dir, "fonts")
+        FileUtils.mkdir_p(@fonts_dir)
+        FileUtils.mkdir_p(Fontist.fontist_path)
+
+        example.run
+      end
+    end
+
+    before do
+      fonts = Pathname.new(@fonts_dir)
+      allow(Fontist).to receive(:fonts_path).and_return(fonts)
+    end
+
+    after do
+      FileUtils.rm_f(Fontist.fontist_index_path)
+      described_class.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+    end
+
+    it "includes the font in the scan after add_font" do
+      index = described_class.instance
+
+      # Warm the memoized scan before the font exists, the way
+      # `Font#install` does with its initial `find_system_font` lookup.
+      expect(index.find("NonexistentFont")).to be_nil
+      expect(index.send(:font_paths)).to be_empty
+
+      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      FileUtils.cp(fixture_font, installed_path)
+      index.add_font(installed_path)
+
+      expect(index.send(:font_paths)).to include(installed_path)
+    end
+  end
 end
