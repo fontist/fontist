@@ -38,11 +38,9 @@ module Fontist
       # including Linux where File::FNM_CASEFOLD is ignored
       #
       # @return [Array<String>] Array of font file paths
-      # Delegates to the memoized fontist-repo scan on SystemFont; a fresh
-      # glob here re-listed the whole fontist fonts tree on every index
-      # rebuild during document compiles.
       def font_paths
-        SystemFont.fontist_font_paths
+        patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
+        patterns.flat_map { |pattern| Dir.glob(pattern) }
       end
     end
   end
