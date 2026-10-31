@@ -132,6 +132,10 @@ module Fontist
       # @param verbose [Boolean] Show detailed progress information
       # @return [void]
       def rebuild(verbose: false)
+        # A rebuild is an explicit request for a fresh scan, so any
+        # memoized font_paths must be dropped first
+        reset_scan_cache
+
         collection.rebuild(verbose: verbose)
       end
 

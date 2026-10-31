@@ -37,10 +37,17 @@ module Fontist
       # Uses case-insensitive glob patterns that work on all platforms,
       # including Linux where File::FNM_CASEFOLD is ignored
       #
+      # Delegates to the memoized fontist-repo scan on SystemFont; the
+      # memo is invalidated through reset_scan_cache when fonts are
+      # installed or removed mid-process
+      #
       # @return [Array<String>] Array of font file paths
       def font_paths
-        patterns = Fontist::Utils.font_file_patterns(Fontist.fonts_path.join("**").to_s)
-        patterns.flat_map { |pattern| Dir.glob(pattern) }
+        SystemFont.fontist_font_paths
+      end
+
+      def reset_scan_cache
+        SystemFont.reset_fontist_font_paths_cache
       end
     end
   end
