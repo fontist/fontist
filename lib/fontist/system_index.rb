@@ -559,16 +559,21 @@ stats:)
                                  verbose: verbose, stats: stats,
                                  num_workers: num_cores)
       else
-        # Measured on 600 system fonts: single thread 2.3s, 8 threads
-        # 3.3s (GVL-bound, mutex contention), 8 processes 0.6s. The
-        # silent build path therefore forks instead of threading.
-        # split_paths_by_reuse keeps cached entries out of the workers:
-        # see its comment for the marshal constraint.
+        # Threads, not forked processes: a silent scan runs from inside
+        # long-lived host processes (e.g. metanorma, whose heap reaches
+        # hundreds of MB by the time fonts are looked up). Each fork
+        # inherits that heap, and its RSS is charged to the process group
+        # while it lives, so an 8-process scan transiently multiplies the
+        # host's footprint by up to 9x — measured 3.6GB against a 0.9GB
+        # parent during a metanorma compile (OOMs under cgroup caps).
+        # The ~1s-per-600-fonts scan penalty is bounded and paid only on
+        # cache-miss rebuilds. split_paths_by_reuse keeps cached entries
+        # in the parent: see its comment for the marshal constraint.
         to_scan, cached_results = split_paths_by_reuse(
           sorted_paths,
           existing_fonts_by_path)
 
-        results = Parallel.map(to_scan, in_processes: num_cores) do |path|
+        results = Parallel.map(to_scan, in_threads: num_cores) do |path|
           detect_fonts(path, stats: nil)
         end.flatten.compact
 
