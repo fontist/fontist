@@ -561,15 +561,39 @@ stats:)
       else
         # Measured on 600 system fonts: single thread 2.3s, 8 threads
         # 3.3s (GVL-bound, mutex contention), 8 processes 0.6s. The
-        # silent build path therefore forks instead of threading
-        results = Parallel.map(sorted_paths, in_processes: num_cores) do |path|
-          detect_font_with_cache(path, existing_fonts_by_path[path],
-                                 stats: nil)
+        # silent build path therefore forks instead of threading.
+        # split_paths_by_reuse keeps cached entries out of the workers:
+        # see its comment for the marshal constraint.
+        to_scan, cached_results = split_paths_by_reuse(
+          sorted_paths,
+          existing_fonts_by_path)
+
+        results = Parallel.map(to_scan, in_processes: num_cores) do |path|
+          detect_fonts(path, stats: nil)
         end.flatten.compact
 
-        stats&.total_fonts = results.size
-        results
+        stats&.total_fonts = cached_results.size + results.size
+        cached_results + results
       end
+    end
+
+    # The stat-only reuse check runs in the parent: cached entries can
+    # carry backrefs to their SystemIndexFontCollection (whose
+    # paths_loader is a Proc), and worker results are Marshal.dump'ed
+    # back across the fork boundary — crossing it with cached
+    # collections raises "no _dump_data is defined for class Proc".
+    # Workers therefore receive only to-scan paths, and the block
+    # handed to Parallel closes over nothing but its argument.
+    def split_paths_by_reuse(sorted_paths, existing_fonts_by_path)
+      unchanged, to_scan = sorted_paths.partition do |path|
+        cached = existing_fonts_by_path[path]
+        cached&.any? && file_unchanged?(path, cached.first)
+      end
+      cached_results = unchanged.flat_map do |path|
+        existing_fonts_by_path[path].to_a
+      end
+
+      [to_scan, cached_results]
     end
 
     def process_paths_in_threads(sorted_paths, existing_fonts_by_path,
