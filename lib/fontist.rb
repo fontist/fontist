@@ -11,6 +11,8 @@ require_relative "fontist/from_file_cache"
 require_relative "fontist/memoizable"
 require_relative "fontist/path_scanning"
 require_relative "fontist/utils"
+require_relative "fontist/yaml"
+require_relative "fontist/yaml_backend"
 
 module Fontist
   # Core classes
@@ -282,3 +284,5 @@ module Fontist
     true
   end
 end
+
+Fontist::YamlBackend.activate!

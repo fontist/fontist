@@ -18,6 +18,11 @@ gem "simplecov"
 gem "vcr"
 gem "webmock"
 
+# Optional YAML engine (consumer-side dependency; needs Ruby >= 3.0,
+# which is above fontist's gemspec floor, so it stays out of the
+# gemspec). When installed, model YAML parses route through it.
+gem "yeptris", require: false
+
 # Profiling tools (development only)
 # gem "ruby-prof", "~> 1.7"
 # stackprof uses Unix-specific system calls and doesn't compile on Windows
