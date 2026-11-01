@@ -21,6 +21,9 @@ RSpec.describe Fontist::Utils::System, ".run_powershell" do
 
   describe ".run_powershell" do
     it "returns a failed result when powershell.exe is not found" do
+      # the lib requires open3 lazily inside run_powershell
+      require "open3"
+
       allow(Open3).to receive(:capture3)
         .and_raise(Errno::ENOENT, "powershell.exe")
 

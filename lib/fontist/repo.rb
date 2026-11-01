@@ -1,4 +1,5 @@
 require "git"
+require "open3"
 require "paint"
 
 module Fontist
@@ -26,7 +27,7 @@ module Fontist
       repo = Git.open(path)
 
       {
-        url: repo.config["remote.origin.url"],
+        url: repo.config_get("remote.origin.url")&.value,
         revision: revision(repo),
         created: created(repo),
         updated: updated(repo),
@@ -42,19 +43,24 @@ module Fontist
     end
 
     def revision(repo)
-      repo.log.first.sha[0..6]
+      repo.gcommit("HEAD").sha[0..6]
     end
 
     def created(repo)
-      repo.gcommit(repo.log.last.sha).date
+      # git 6.0's Commands::Log clobbers the public Git::Log, breaking
+      # log#first/#last (ruby-git regression); ask the git binary for
+      # the root commit instead
+      root, _err = Open3.capture2("git", "-C", repo.dir.to_s,
+                                  "rev-list", "--max-parents=0", "HEAD")
+      repo.gcommit(root.lines.first.strip).date
     end
 
     def updated(repo)
-      repo.gcommit(repo.log.first.sha).date
+      repo.gcommit("HEAD").date
     end
 
     def dirty?(repo)
-      !repo.status.changed.empty?
+      !repo.status_info.changed.empty?
     end
   end
 
@@ -122,7 +128,8 @@ module Fontist
       rescue StandardError => e
         # Catch all git-related errors
         if e.class.name.include?("Git") || e.message.match?(/git|pull|repository/i)
-          handle_git_error(name, git.config["remote.origin.url"], e, :update)
+          url = git.config_get("remote.origin.url")&.value
+          handle_git_error(name, url, e, :update)
         else
           raise
         end
@@ -164,7 +171,7 @@ module Fontist
 
           begin
             git = Git.open(repo_path_obj)
-            existing_url = git.config["remote.origin.url"]
+            existing_url = git.config_get("remote.origin.url")&.value
             return repo_name if normalize_git_url(existing_url) == normalized_target
           rescue StandardError
             # Skip repos that can't be opened
