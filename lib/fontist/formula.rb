@@ -105,8 +105,10 @@ module Fontist
 
         # Parsing thousands of formula files dominates index rebuilds;
         # worker threads overlap the libyaml C parse, which releases
-        # the GVL
-        formulas = Parallel.map(paths) do |path|
+        # the GVL. The pool is capped like every other fontist pool, so
+        # worker counts never scale with host core counts
+        workers = [Parallel.processor_count, 8].min
+        formulas = Parallel.map(paths, in_threads: workers) do |path|
           Formula.from_file(path)
         end.compact
 

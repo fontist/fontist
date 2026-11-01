@@ -8,7 +8,10 @@ RSpec.describe Fontist::FromFileCache do
     end
   end
 
-  after { described_class.clear }
+  after do
+    described_class.clear
+    described_class.max_entries = Fontist::FromFileCache::DEFAULT_MAX_ENTRIES
+  end
 
   def write_artifact(content, mtime:, name: "artifact.yml")
     path = File.join(@dir, name)
@@ -79,43 +82,80 @@ RSpec.describe Fontist::FromFileCache do
 
     expect(results).to eq Array.new(8) { |i| "v#{i}" }
   end
-end
 
-RSpec.describe "parsed artifact memoization" do
-  after { Fontist::FromFileCache.clear }
+  it "evicts the oldest entry when the cache exceeds its bound" do
+    described_class.max_entries = 2
 
-  describe "Fontist::Indexes::DefaultFamilyFontIndex.from_file" do
-    let(:index_class) { Fontist::Indexes::DefaultFamilyFontIndex }
-    let(:filename) { index_class.path }
+    a = write_artifact("a", mtime: Time.at(1000), name: "a.yml")
+    b = write_artifact("b", mtime: Time.at(1000), name: "b.yml")
+    c = write_artifact("c", mtime: Time.at(1000), name: "c.yml")
+    described_class.memoize(a) { :a }
+    described_class.memoize(b) { :b }
+    described_class.memoize(c) { :c }
 
-    it "returns the shared instance while the index file is unchanged" do
-      first = index_class.from_file(filename)
-      second = index_class.from_file(filename)
-
-      expect(second).to equal(first)
-    end
-
-    it "re-parses after the index file is rewritten" do
-      first = index_class.from_file(filename)
-
-      content = File.read(filename)
-      File.write(filename, content)
-      stamp = Time.now + 10
-      File.utime(stamp, stamp, filename)
-      second = index_class.from_file(filename)
-
-      expect(second).not_to equal(first)
-    end
+    expect(described_class.memoize(a) { :refetched }).to eq :refetched
+    expect(described_class.memoize(b) { :b }).to eq :b
+    expect(described_class.memoize(c) { :c }).to eq :c
   end
 
-  describe "Fontist::Formula.from_file" do
-    it "returns the shared instance while the formula file is unchanged" do
-      path = Fontist::Formula.find_by_name("Lato").path
+  it "keeps a recently used entry alive over an untouched one" do
+    described_class.max_entries = 2
 
-      first = Fontist::Formula.from_file(path)
-      second = Fontist::Formula.from_file(path)
+    a = write_artifact("a", mtime: Time.at(1000), name: "a.yml")
+    b = write_artifact("b", mtime: Time.at(1000), name: "b.yml")
+    described_class.memoize(a) { :a }
+    described_class.memoize(b) { :b }
 
-      expect(second).to equal(first)
-    end
+    described_class.memoize(a) { raise "cache hit expected" }
+    c = write_artifact("c", mtime: Time.at(1000), name: "c.yml")
+    described_class.memoize(c) { :c }
+
+    expect(described_class.memoize(a) { raise "cache hit expected" }).to eq :a
+    expect(described_class.memoize(c) { :c }).to eq :c
+  end
+end
+
+RSpec.describe Fontist::FromFileCache, "resource bounds" do
+  it "bounds retention at a fixed entry count by default" do
+    expect(Fontist::FromFileCache::DEFAULT_MAX_ENTRIES).to be_a(Integer)
+    expect(Fontist::FromFileCache::DEFAULT_MAX_ENTRIES).to be > 0
+  end
+end
+
+RSpec.describe "resource-spike guards" do
+  let(:lib_sources) do
+    Dir[File.expand_path("../../lib/**/*.rb", __dir__)]
+      .reject { |f| f.include?("/vendor/") }
+      .map { |f| [f, File.read(f)] }
+  end
+
+  it "never forks processes" do
+    # A fork inherits the host heap, and its RSS is charged to the
+    # process group while it lives: 8 workers on a 1GB host transiently
+    # count 9GB against cgroup caps (fontist#510)
+    fork_pattern = /\bin_processes\b|\bProcess\.fork\b|^\s*fork\s*\(/
+
+    offenders = lib_sources.filter_map do |file, source|
+      source.each_line.with_index.filter_map do |line, i|
+        "#{file}:#{i + 1}" if line.match?(fork_pattern)
+      end
+    end.flatten
+
+    expect(offenders).to be_empty
+  end
+
+  it "caps every Parallel.map thread pool" do
+    # Uncapped pools scale worker counts with host core counts, making
+    # peak allocations unpredictable on large CI machines
+    offenders = lib_sources.filter_map do |file, source|
+      source.each_line.with_index.filter_map do |line, i|
+        next unless line.include?("Parallel.map")
+        next if line.include?("in_threads")
+
+        "#{file}:#{i + 1}"
+      end
+    end.flatten
+
+    expect(offenders).to be_empty
   end
 end

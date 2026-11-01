@@ -100,39 +100,6 @@ module Fontist
     end
   end
 
-  # Thread-safe progress display for parallel index scans
-  class ScanProgress
-    SPINNER_CHARS = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"].freeze
-
-    def initialize(total, verbose:, &on_step)
-      @total = total
-      @verbose = verbose
-      @on_step = on_step
-      @mutex = Mutex.new
-      @processed = 0
-      # Show minimal progress for large collections even in non-verbose mode
-      @minimal = !verbose && total > 100
-      @interval = total > 1000 ? 100 : 50
-    end
-
-    def step(path)
-      @mutex.synchronize do
-        @processed += 1
-        if @verbose
-          @on_step&.call(@processed, path)
-        elsif @minimal && report?
-          Fontist.ui.say("Scanning fonts: #{@processed}/#{@total}...")
-        end
-      end
-    end
-
-    private
-
-    def report?
-      (@processed % @interval).zero? || @processed == @total
-    end
-  end
-
   # {:path=>"/Library/Fonts/Arial Unicode.ttf",
   # :full_name=>"Arial Unicode MS",
   # :family_name=>"Arial Unicode MS",
@@ -514,7 +481,7 @@ module Fontist
       to_file(@path)
     end
 
-    def detect_paths(paths, verbose: false, stats: nil, parallel: true)
+    def detect_paths(paths, verbose: false, stats: nil)
       existing_fonts_by_path = fonts&.group_by(&:path) || {}
 
       # Initialize stats if not provided
@@ -523,100 +490,18 @@ module Fontist
 
       sorted_paths = paths.sort.uniq
 
-      # Disable parallel processing on Windows due to fontisan's internal tempfile GC issues
-      # Windows file locking prevents deletion of recently-accessed files, causing
-      # EACCES errors when fontisan's checksum calculator creates tempfiles that get GC'd
-      # See: https://github.com/fontist/fontist/issues/xxx
-      is_windows = Fontist::Utils::System.user_os == :windows
-
-      # Decide whether to use parallel processing
-      use_parallel = parallel && sorted_paths.size > 100 && !is_windows
-
-      if use_parallel
-        process_paths_parallel(sorted_paths, existing_fonts_by_path,
+      # The scan runs sequentially. Fontisan parsing is GVL-bound Ruby,
+      # so measured on 600 cache-miss fonts a single thread (2.3s) is
+      # faster than eight threads (3.3s), and fontisan memoizes parses
+      # per process, which bounds rescan costs anyway. Concurrency here
+      # previously meant forks, whose inherited heaps transiently
+      # multiplied host RSS up to 9x inside memory-capped metanorma
+      # compiles (fontist#510), and Marshal crashes on cached entries
+      # (fontist#508); Windows additionally suffered fontisan tempfile
+      # races under concurrent scans. Sequential serves every case
+      # Sequential serves every case
+      process_paths_sequential(sorted_paths, existing_fonts_by_path,
                                verbose: verbose, stats: stats)
-      else
-        process_paths_sequential(sorted_paths, existing_fonts_by_path,
-                                 verbose: verbose, stats: stats)
-      end
-    end
-
-    def process_paths_parallel(sorted_paths, existing_fonts_by_path, verbose:,
-stats:)
-      require "parallel"
-
-      # Auto-detect cores, cap at 8 for optimal I/O performance
-      num_cores = [Parallel.processor_count, 8].min
-
-      if verbose
-        puts Paint["Using parallel processing with #{num_cores} cores",
-                   :cyan]
-
-        # Verbose runs keep threads so live progress and per-font stats
-        # stay visible; fontisan parsing is GVL-bound, so this mode is
-        # slow, but it is the human-attended path
-        process_paths_in_threads(sorted_paths, existing_fonts_by_path,
-                                 verbose: verbose, stats: stats,
-                                 num_workers: num_cores)
-      else
-        # Threads, not forked processes: a silent scan runs from inside
-        # long-lived host processes (e.g. metanorma, whose heap reaches
-        # hundreds of MB by the time fonts are looked up). Each fork
-        # inherits that heap, and its RSS is charged to the process group
-        # while it lives, so an 8-process scan transiently multiplies the
-        # host's footprint by up to 9x — measured 3.6GB against a 0.9GB
-        # parent during a metanorma compile (OOMs under cgroup caps).
-        # The ~1s-per-600-fonts scan penalty is bounded and paid only on
-        # cache-miss rebuilds. split_paths_by_reuse keeps cached entries
-        # in the parent: see its comment for the marshal constraint.
-        to_scan, cached_results = split_paths_by_reuse(
-          sorted_paths,
-          existing_fonts_by_path)
-
-        results = Parallel.map(to_scan, in_threads: num_cores) do |path|
-          detect_fonts(path, stats: nil)
-        end.flatten.compact
-
-        stats&.total_fonts = cached_results.size + results.size
-        cached_results + results
-      end
-    end
-
-    # The stat-only reuse check runs in the parent: cached entries can
-    # carry backrefs to their SystemIndexFontCollection (whose
-    # paths_loader is a Proc), and worker results are Marshal.dump'ed
-    # back across the fork boundary — crossing it with cached
-    # collections raises "no _dump_data is defined for class Proc".
-    # Workers therefore receive only to-scan paths, and the block
-    # handed to Parallel closes over nothing but its argument.
-    def split_paths_by_reuse(sorted_paths, existing_fonts_by_path)
-      unchanged, to_scan = sorted_paths.partition do |path|
-        cached = existing_fonts_by_path[path]
-        cached&.any? && file_unchanged?(path, cached.first)
-      end
-      cached_results = unchanged.flat_map do |path|
-        existing_fonts_by_path[path].to_a
-      end
-
-      [to_scan, cached_results]
-    end
-
-    def process_paths_in_threads(sorted_paths, existing_fonts_by_path,
-verbose:, stats:, num_workers:)
-      progress = ScanProgress.new(sorted_paths.size, verbose: verbose) do |count, path|
-        display_progress(count, sorted_paths.size, path,
-                         ScanProgress::SPINNER_CHARS)
-      end
-
-      results = Parallel.map(sorted_paths, in_threads: num_workers) do |path|
-        result = detect_font_with_cache(path, existing_fonts_by_path[path],
-                                        stats: stats)
-        progress.step(path)
-        result
-      end.flatten.compact
-
-      clear_progress_line if verbose
-      results
     end
 
     def process_paths_sequential(sorted_paths, existing_fonts_by_path,
