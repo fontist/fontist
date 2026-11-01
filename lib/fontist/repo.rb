@@ -47,9 +47,9 @@ module Fontist
     end
 
     def created(repo)
-      # git 6.0's Commands::Log clobbers the public Git::Log, breaking
-      # log#first/#last (ruby-git regression); ask the git binary for
-      # the root commit instead
+      # The git 6.0 log builder (Git::Log) exposes no raw-argument
+      # escape hatch, so a root-commit query (--max-parents=0) cannot
+      # be expressed through it; the git binary serves the query
       root, _err = Open3.capture2("git", "-C", repo.dir.to_s,
                                   "rev-list", "--max-parents=0", "HEAD")
       repo.gcommit(root.lines.first.strip).date
