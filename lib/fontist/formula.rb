@@ -1,4 +1,5 @@
 require "lutaml/model"
+require "parallel"
 require_relative "format_matcher"
 require "git"
 
@@ -100,9 +101,14 @@ module Fontist
       end
 
       def all
-        formulas = Dir[Fontist.formulas_path.join("**/*.yml").to_s].filter_map do |path|
+        paths = Dir[Fontist.formulas_path.join("**/*.yml").to_s]
+
+        # Parsing thousands of formula files dominates index rebuilds;
+        # worker threads overlap the libyaml C parse, which releases
+        # the GVL
+        formulas = Parallel.map(paths) do |path|
           Formula.from_file(path)
-        end
+        end.compact
 
         FormulaCollection.new(formulas)
       end

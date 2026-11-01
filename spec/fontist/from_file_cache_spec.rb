@@ -10,8 +10,8 @@ RSpec.describe Fontist::FromFileCache do
 
   after { described_class.clear }
 
-  def write_artifact(content, mtime:)
-    path = File.join(@dir, "artifact.yml")
+  def write_artifact(content, mtime:, name: "artifact.yml")
+    path = File.join(@dir, name)
     File.write(path, content)
     File.utime(mtime, mtime, path)
     path
@@ -52,6 +52,32 @@ RSpec.describe Fontist::FromFileCache do
     described_class.memoize(path) { calls += 1 }
 
     expect(calls).to eq 1
+  end
+
+  it "serves correct values when called from parallel threads" do
+    paths = Array.new(8) do |i|
+      name = "artifact-#{i}.yml"
+      write_artifact("v#{i}", mtime: Time.at(1000 + i), name: name)
+    end
+    parses = Queue.new
+
+    threads = paths.map do |path|
+      Thread.new do
+        described_class.memoize(path) do
+          parses << 1
+          File.read(path)
+        end
+      end
+    end
+    threads.each(&:join)
+
+    expect(parses.size).to eq 8
+
+    results = paths.map do |path|
+      described_class.memoize(path) { raise "cache hit expected" }
+    end
+
+    expect(results).to eq Array.new(8) { |i| "v#{i}" }
   end
 end
 
