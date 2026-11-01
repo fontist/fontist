@@ -32,14 +32,14 @@ module Fontist
               Git.open(Fontist.formulas_repo_path)
             else
               Git.init(Fontist.formulas_repo_path.to_s).tap do |g|
-                g.add_remote("origin", Fontist.formulas_repo_url)
+                g.remote_add("origin", Fontist.formulas_repo_url)
               end
             end
 
       return git.pull("origin", @branch) if git.current_branch == @branch
 
-      git.config("remote.origin.fetch",
-                 "+refs/heads/#{@branch}:refs/remotes/origin/#{@branch}")
+      git.config_set("remote.origin.fetch",
+                     "+refs/heads/#{@branch}:refs/remotes/origin/#{@branch}")
       git.fetch
       git.checkout(@branch)
       git.pull("origin", @branch)

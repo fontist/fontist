@@ -119,7 +119,7 @@ RSpec.describe Fontist::RepoCLI do
             Fontist::Repo.setup("acme", dir)
 
             # Simulate git error
-            allow_any_instance_of(Git::Base).to receive(:pull).and_raise(
+            allow_any_instance_of(Git::Repository).to receive(:pull).and_raise(
               Git::GitExecuteError, "Unable to fetch"
             )
 
