@@ -461,4 +461,43 @@ RSpec.describe Fontist::SystemIndex do
       end
     end
   end
+
+  context "parallel index rebuild keeps cached entries out of forked workers" do
+    it "does not raise a Proc marshal error when the index carries loaded collections" do
+      skip "parallel branch needs POSIX fork" if Fontist::Utils::System.user_os == :windows
+
+      tmp_dir = create_tmp_dir
+      # 101 paths trip the parallel gate (size > 100); garbage files are
+      # skipped by detect_fonts with a logged error, like any corrupt file
+      paths = 101.times.map do |i|
+        p = File.join(tmp_dir, "font_#{i}.ttf")
+        File.write(p, "not a font #{i}")
+        p
+      end
+
+      instance = Fontist::SystemIndexFontCollection.new.tap do |x|
+        x.set_path(File.join(tmp_dir, "system_index.yml"))
+        x.set_path_loader(-> { paths })
+      end
+
+      # A cache entry whose graph carries a Proc — what a real loaded
+      # index can hand back across the worker result boundary
+      poison = Fontist::SystemIndexFont.new(
+        name: "Cached", path: paths.first,
+        file_size: File.size(paths.first),
+        file_mtime: File.mtime(paths.first).to_i,
+      )
+      poison.instance_variable_set(:@marshal_poison, -> {})
+      instance.fonts = [poison]
+      # mutation after assignment: the graph now really carries a proc,
+      # so any worker crossing it in a result payload would raise
+      expect do
+        Marshal.dump(instance.fonts.group_by(&:path))
+      end.to raise_error(TypeError)
+
+
+      expect { instance.update }.not_to raise_error
+      expect(instance.fonts.map(&:path)).to include(paths.first)
+    end
+  end
 end
