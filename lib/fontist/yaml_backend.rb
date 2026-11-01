@@ -3,20 +3,21 @@
 module Fontist
   # Model YAML engine selection.
   #
-  # When the yeptris gem is available, model YAML (formula and index
-  # documents, via lutaml-model) is parsed through its native loader -
-  # measured 4x faster than Psych on those artifacts. The gem is an
-  # optional consumer-side dependency (it needs Ruby >= 3.0, above
-  # fontist's floor), so absence falls back to Psych silently.
-  # FONTIST_YAML=psych forces the standard engine.
+  # The yeptris engine (native loader, measured 4x faster than Psych on
+  # large documents) activates only when explicitly enabled with
+  # FONTIST_YAML=yeptris. It is off by default because the yeptris
+  # x86_64-linux and Windows builds currently mis-parse some plain
+  # scalars as single-element Arrays (leptris/yeptris#863); flip the
+  # default once that parity fix lands.
   module YamlBackend
     ENV_KEY = "FONTIST_YAML"
+    ENABLED_VALUE = "yeptris"
 
     class << self
       # Returns the activated adapter class, or nil when the standard
-      # engine stays in place (flag set, or yeptris unavailable)
+      # engine stays in place (flag unset, or yeptris unavailable)
       def activate!
-        return nil if forced_standard?
+        return nil unless enabled?
         return nil unless yeptris_available?
 
         adapter = Yaml::YeptrisAdapter
@@ -25,8 +26,8 @@ module Fontist
         adapter
       end
 
-      def forced_standard?
-        ENV[ENV_KEY] == "psych"
+      def enabled?
+        ENV[ENV_KEY] == ENABLED_VALUE
       end
 
       def yeptris_available?

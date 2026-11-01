@@ -10,16 +10,22 @@ RSpec.describe Fontist::YamlBackend do
   end
 
   describe ".activate!" do
-    context "when yeptris is available" do
+    it "keeps the standard engine by default" do
+      ENV.delete("FONTIST_YAML")
+
+      expect(described_class.activate!).to be_nil
+    end
+
+    context "when FONTIST_YAML=yeptris" do
       before do
         skip "yeptris not installed" unless described_class.yeptris_available?
       end
 
       it "routes model YAML parsing through the yeptris adapter" do
-        ENV.delete("FONTIST_YAML")
+        ENV["FONTIST_YAML"] = "yeptris"
 
-        described_class.activate!
-
+        expect(described_class.activate!)
+          .to eq Fontist::Yaml::YeptrisAdapter
         expect(Lutaml::Model::Config.instance.yaml_adapter)
           .to eq Fontist::Yaml::YeptrisAdapter
       end
@@ -30,14 +36,6 @@ RSpec.describe Fontist::YamlBackend do
 
         expect(Fontist::Yaml::YeptrisAdapter.parse(content))
           .to eq Lutaml::Yaml::Adapter::StandardAdapter.parse(content)
-      end
-    end
-
-    context "when FONTIST_YAML=psych" do
-      it "does not activate" do
-        ENV["FONTIST_YAML"] = "psych"
-
-        expect(described_class.activate!).to be_nil
       end
     end
   end
