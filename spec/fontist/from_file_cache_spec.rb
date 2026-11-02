@@ -158,4 +158,19 @@ RSpec.describe "resource-spike guards" do
 
     expect(offenders).to be_empty
   end
+
+  it "never Marshal-serializes on-disk files" do
+    # Marshal.load of a file from a user-writable path executes
+    # arbitrary object instantiation on tampered content; on-disk
+    # interchange uses inert formats (JSON, lutaml key_value)
+    marshal_pattern = /^\s*[^#\s].*Marshal\.(load|dump|restore)/
+
+    offenders = lib_sources.filter_map do |file, source|
+      source.each_line.with_index.filter_map do |line, i|
+        "#{file}:#{i + 1}" if line.match?(marshal_pattern)
+      end
+    end.flatten
+
+    expect(offenders).to be_empty
+  end
 end

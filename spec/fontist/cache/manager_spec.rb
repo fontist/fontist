@@ -26,10 +26,10 @@ RSpec.describe Fontist::Cache::Manager do
       expect(described_class.get("non_existent")).to be_nil
     end
 
-    it "handles complex Ruby objects" do
+    it "handles complex JSON-native values" do
       complex_value = {
         "fonts" => ["Arial.ttf", "Times.ttf"],
-        "metadata" => { count: 2, scanned_at: Time.now },
+        "metadata" => { "count" => 2, "scanned_at" => "2026-11-02" },
       }
 
       described_class.set("complex", complex_value)
@@ -40,7 +40,7 @@ RSpec.describe Fontist::Cache::Manager do
     end
 
     it "handles arrays" do
-      array_value = [1, 2, 3, "four", { five: 5 }]
+      array_value = [1, 2, 3, "four", { "five" => 5 }]
 
       described_class.set("array_key", array_value)
       expect(described_class.get("array_key")).to eq array_value
