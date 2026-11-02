@@ -218,6 +218,23 @@ module Fontist
       schema_version == 5
     end
 
+    # Formats of the style files, as recorded or read from file extensions.
+    # Archive resources often carry no format of their own.
+    def style_formats
+      fonts.flat_map(&:styles).flat_map do |style|
+        extension = File.extname(style.font.to_s).delete(".").downcase
+        Array(style.formats) + [extension]
+      end.reject(&:empty?).uniq
+    end
+
+    # Whether a resource offers a format, falling back to the style files
+    # when the resource records none.
+    def resource_offers_format?(resource, format)
+      return resource.format == format if resource.format
+
+      style_formats.include?(format)
+    end
+
     # Get the effective schema version (default to 4 if not set)
     def effective_schema_version
       schema_version || 4

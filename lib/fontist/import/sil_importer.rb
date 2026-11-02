@@ -5,6 +5,9 @@ module Fontist
   module Import
     class SilImporter
       ROOT = "https://software.sil.org/fonts/".freeze
+      CARD_LINK_SELECTOR = "a.inner-card".freeze
+      CARD_TITLE_SELECTOR = ".title-text".freeze
+      LEGACY_LINK_SELECTOR = "table.products div.title > a".freeze
 
       def initialize(options = {})
         @output_path = options[:output_path]
@@ -99,7 +102,7 @@ module Fontist
       end
 
       def process_single_font(link, current, total)
-        family_name = link.content
+        family_name = link_name(link)
 
         # Display progress
         ImportDisplay.progress(current, total, family_name) if @verbose
@@ -257,7 +260,8 @@ module Fontist
       end
 
       def empty_result
-        { successful: 0, failed: 0, errors: [], duration: 0 }
+        { successful: 0, failed: 0, errors: [], duration: 0,
+          no_fonts_found: true }
       end
 
       def build_results(duration)
@@ -274,12 +278,21 @@ module Fontist
       def font_links
         html = URI.parse(ROOT).open("User-Agent" => Fontist::Utils::UserAgent.random_user_agent).read
         document = Nokogiri::HTML.parse(html)
-        document.css("table.products div.title > a")
+        links = document.css(CARD_LINK_SELECTOR)
+        links = document.css(LEGACY_LINK_SELECTOR) if links.empty?
+        links
+      end
+
+      # Font name of a product link. Cards on the current site also carry a
+      # description, so the name is taken from the card title only.
+      def link_name(link)
+        title = link.at_css(CARD_TITLE_SELECTOR)
+        (title || link).text.strip
       end
 
       def filter_by_name(links)
         links.select do |link|
-          link.content.downcase.include?(@font_name.downcase)
+          link_name(link).downcase.include?(@font_name.downcase)
         end
       end
 
@@ -342,7 +355,7 @@ module Fontist
       end
 
       def find_archive_url_by_page_link(link)
-        family_name = link.content
+        family_name = link_name(link)
 
         # Skip known index pages that just link to other fonts
         if index_page?(family_name)

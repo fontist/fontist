@@ -50,6 +50,19 @@ module Fontist
       end.flatten
     end
 
+    # Find fonts offered in a format (ttf, otf, woff, woff2, ttc, otc)
+    def by_format(format)
+      matching_formulas.flat_map do |formula|
+        next [] unless formula.v5?
+
+        each_resource(formula).select do |resource|
+          formula.resource_offers_format?(resource, format)
+        end.map do |resource|
+          build_font_match(formula, resource.name, resource, format: format)
+        end
+      end
+    end
+
     # Find fonts by category
     def by_category(category)
       matching_formulas.select do |formula|
@@ -78,12 +91,12 @@ module Fontist
       Array(formula.resources).filter_map(&:name)
     end
 
-    def build_font_match(formula, name, resource)
+    def build_font_match(formula, name, resource, format: resource.format)
       FontMatch.new(
         name: formula.name,
         resource: name,
         axes: resource.axes_tags,
-        format: resource.format,
+        format: format,
         category: extract_category(formula),
       )
     end

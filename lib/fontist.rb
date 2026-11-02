@@ -17,6 +17,7 @@ require_relative "fontist/yaml_backend"
 module Fontist
   # Core classes
   autoload :Config, "#{__dir__}/fontist/config"
+  autoload :Css, "#{__dir__}/fontist/css"
   autoload :Font, "#{__dir__}/fontist/font"
   autoload :FontCollection, "#{__dir__}/fontist/font_collection"
   autoload :FontFile, "#{__dir__}/fontist/font_file"
@@ -25,6 +26,7 @@ module Fontist
   autoload :FontPath, "#{__dir__}/fontist/font_path"
   autoload :FontStyle, "#{__dir__}/fontist/font_style"
   autoload :Fontconfig, "#{__dir__}/fontist/fontconfig"
+  autoload :FontOperations, "#{__dir__}/fontist/font_operations"
   autoload :FormatSpec, "#{__dir__}/fontist/format_spec"
   autoload :Formula, "#{__dir__}/fontist/formula"
   autoload :FormulaCollection, "#{__dir__}/fontist/formula"

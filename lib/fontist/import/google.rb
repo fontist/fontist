@@ -7,6 +7,7 @@ module Fontist
       autoload :MetadataAdapter, "#{__dir__}/google/metadata_adapter"
       autoload :MetadataParser, "#{__dir__}/google/metadata_parser"
       autoload :Models, "#{__dir__}/google/models"
+      autoload :VariableFontSource, "#{__dir__}/google/variable_font_source"
 
       DEFAULT_MAX_COUNT = 100
 

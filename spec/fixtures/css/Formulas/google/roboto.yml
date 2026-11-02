@@ -1,0 +1,547 @@
+---
+name: roboto
+schema_version: 5
+description: 'Roboto has a dual nature. It has a mechanical skeleton and the forms
+  are largely geometric. At the same time, the font features friendly and open curves.
+  While some grotesks distort their letterforms to force a rigid rhythm, Roboto doesn’t
+  compromise, allowing letters to be settled into their natural width. This makes
+  for a more natural reading rhythm more commonly found in humanist and serif types.
+  Updated July 2020: Upgraded to a variable font with Weight and Width axes, that
+  closely match the previous static fonts released as two families, this one and a
+  sibling Roboto Condensed family. Roboto is part of a superfamily set that includes
+  Roboto Slab and Roboto Mono To report issues or contribute, see github.com/TypeNetwork/Roboto
+  . This repository also contains further font builds for different platforms.'
+homepage: https://fonts.google.com/specimen/Roboto
+resources:
+  woff2_variable:
+    source: google
+    family: Roboto
+    files:
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEbWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuaabWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYaammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZtammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHRiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLt_QiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLrPQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLl_XiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLmbXiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHXiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLijXiAr0klQnx24.woff2
+    urls:
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEbWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuaabWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYaammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZtammWggvWl0Qn.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHRiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLt_QiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLrPQiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLl_XiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLmbXiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHXiAr0klQnx24.woff2
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLijXiAr0klQnx24.woff2
+    format: woff2
+    variable_axes:
+    - wdth
+    - wght
+  ttf_variable:
+    source: google
+    family: Roboto
+    files:
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEbWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuaabWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYaammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZtammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHRiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLt_QiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLrPQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLl_XiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLmbXiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHXiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLijXiA_0klQnx24.ttf
+    urls:
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEbWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuaabWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYaammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZtammTggvWl0Qn.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHRiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLt_QiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLrPQiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLl_XiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLmbXiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHXiA_0klQnx24.ttf
+    - https://fonts.gstatic.com/s/roboto/v50/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLijXiA_0klQnx24.ttf
+    format: ttf
+    variable_axes:
+    - wdth
+    - wght
+fonts:
+- name: Roboto Thin
+  styles:
+  - family_name: Roboto Thin
+    type: Regular
+    full_name: Roboto Thin
+    post_script_name: Roboto-Thin
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbGmTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: Thin
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto Thin
+    type: Italic
+    full_name: Roboto Thin Italic
+    post_script_name: Roboto-ThinItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHRiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: Thin Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto ExtraLight
+  styles:
+  - family_name: Roboto ExtraLight
+    type: Regular
+    full_name: Roboto ExtraLight
+    post_script_name: Roboto-ExtraLight
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEbWmTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: ExtraLight
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto ExtraLight
+    type: Italic
+    full_name: Roboto ExtraLight Italic
+    post_script_name: Roboto-ExtraLightItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHQiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: ExtraLight Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto Light
+  styles:
+  - family_name: Roboto Light
+    type: Regular
+    full_name: Roboto Light
+    post_script_name: Roboto-Light
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuaabWmTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: Light
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto Light
+    type: Italic
+    full_name: Roboto Light Italic
+    post_script_name: Roboto-LightItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLt_QiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: Light Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto
+  styles:
+  - family_name: Roboto
+    type: Regular
+    full_name: Roboto Regular
+    post_script_name: Roboto-Regular
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmTggvWl0Qn.ttf
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto
+    type: Bold
+    full_name: Roboto Bold
+    post_script_name: Roboto-Bold
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammTggvWl0Qn.ttf
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto
+    type: Italic
+    full_name: Roboto Italic
+    post_script_name: Roboto-Italic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQiA_0klQnx24.ttf
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto
+    type: Bold Italic
+    full_name: Roboto Bold Italic
+    post_script_name: Roboto-BoldItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLmbXiA_0klQnx24.ttf
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto Medium
+  styles:
+  - family_name: Roboto Medium
+    type: Regular
+    full_name: Roboto Medium
+    post_script_name: Roboto-Medium
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: Medium
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto Medium
+    type: Italic
+    full_name: Roboto Medium Italic
+    post_script_name: Roboto-MediumItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLrPQiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: Medium Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto SemiBold
+  styles:
+  - family_name: Roboto SemiBold
+    type: Regular
+    full_name: Roboto SemiBold
+    post_script_name: Roboto-SemiBold
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYaammTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: SemiBold
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto SemiBold
+    type: Italic
+    full_name: Roboto SemiBold Italic
+    post_script_name: Roboto-SemiBoldItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLl_XiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: SemiBold Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto ExtraBold
+  styles:
+  - family_name: Roboto ExtraBold
+    type: Regular
+    full_name: Roboto ExtraBold
+    post_script_name: Roboto-ExtraBold
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZEammTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: ExtraBold
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto ExtraBold
+    type: Italic
+    full_name: Roboto ExtraBold Italic
+    post_script_name: Roboto-ExtraBoldItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLgHXiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: ExtraBold Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+- name: Roboto Black
+  styles:
+  - family_name: Roboto Black
+    type: Regular
+    full_name: Roboto Black
+    post_script_name: Roboto-Black
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuZtammTggvWl0Qn.ttf
+    preferred_family_name: Roboto
+    preferred_type: Black
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+  - family_name: Roboto Black
+    type: Italic
+    full_name: Roboto Black Italic
+    post_script_name: Roboto-BlackItalic
+    version: 3.009; 2024
+    copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+    font: KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLijXiA_0klQnx24.ttf
+    preferred_family_name: Roboto
+    preferred_type: Black Italic
+    description: 'This Font Software is licensed under the SIL Open Font License,
+      Version 1.1. This license is available with a FAQ at: https://openfontlicense.org'
+    formats:
+    - ttf
+    - woff2
+    variable_font: true
+    variable_axes:
+    - wdth
+    - wght
+extract: {}
+copyright: Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+spdx_license: OFL-1.1-no-RFN
+license_url: https://scripts.sil.org/OFL
+license: "Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)\n\nThis
+  Font Software is licensed under the SIL Open Font License, Version 1.1.\nThis license
+  is copied below, and is also available with a FAQ at:\nhttps://openfontlicense.org\n\n\n-----------------------------------------------------------\nSIL
+  OPEN FONT LICENSE Version 1.1 - 26 February 2007\n-----------------------------------------------------------\n\nPREAMBLE\nThe
+  goals of the Open Font License (OFL) are to stimulate worldwide\ndevelopment of
+  collaborative font projects, to support the font creation\nefforts of academic and
+  linguistic communities, and to provide a free and\nopen framework in which fonts
+  may be shared and improved in partnership\nwith others.\n\nThe OFL allows the licensed
+  fonts to be used, studied, modified and\nredistributed freely as long as they are
+  not sold by themselves. The\nfonts, including any derivative works, can be bundled,
+  embedded, \nredistributed and/or sold with any software provided that any reserved\nnames
+  are not used by derivative works. The fonts and derivatives,\nhowever, cannot be
+  released under any other type of license. The\nrequirement for fonts to remain under
+  this license does not apply\nto any document created using the fonts or their derivatives.\n\nDEFINITIONS\n\"Font
+  Software\" refers to the set of files released by the Copyright\nHolder(s) under
+  this license and clearly marked as such. This may\ninclude source files, build scripts
+  and documentation.\n\n\"Reserved Font Name\" refers to any names specified as such
+  after the\ncopyright statement(s).\n\n\"Original Version\" refers to the collection
+  of Font Software components as\ndistributed by the Copyright Holder(s).\n\n\"Modified
+  Version\" refers to any derivative made by adding to, deleting,\nor substituting
+  -- in part or in whole -- any of the components of the\nOriginal Version, by changing
+  formats or by porting the Font Software to a\nnew environment.\n\n\"Author\" refers
+  to any designer, engineer, programmer, technical\nwriter or other person who contributed
+  to the Font Software.\n\nPERMISSION & CONDITIONS\nPermission is hereby granted,
+  free of charge, to any person obtaining\na copy of the Font Software, to use, study,
+  copy, merge, embed, modify,\nredistribute, and sell modified and unmodified copies
+  of the Font\nSoftware, subject to the following conditions:\n\n1) Neither the Font
+  Software nor any of its individual components,\nin Original or Modified Versions,
+  may be sold by itself.\n\n2) Original or Modified Versions of the Font Software
+  may be bundled,\nredistributed and/or sold with any software, provided that each
+  copy\ncontains the above copyright notice and this license. These can be\nincluded
+  either as stand-alone text files, human-readable headers or\nin the appropriate
+  machine-readable metadata fields within text or\nbinary files as long as those fields
+  can be easily viewed by the user.\n\n3) No Modified Version of the Font Software
+  may use the Reserved Font\nName(s) unless explicit written permission is granted
+  by the corresponding\nCopyright Holder. This restriction only applies to the primary
+  font name as\npresented to the users.\n\n4) The name(s) of the Copyright Holder(s)
+  or the Author(s) of the Font\nSoftware shall not be used to promote, endorse or
+  advertise any\nModified Version, except to acknowledge the contribution(s) of the\nCopyright
+  Holder(s) and the Author(s) or with their explicit written\npermission.\n\n5) The
+  Font Software, modified or unmodified, in part or in whole,\nmust be distributed
+  entirely under this license, and must not be\ndistributed under any other license.
+  The requirement for fonts to\nremain under this license does not apply to any document
+  created\nusing the Font Software.\n\nTERMINATION\nThis license becomes null and
+  void if any of the above conditions are\nnot met.\n\nDISCLAIMER\nTHE FONT SOFTWARE
+  IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING
+  BUT NOT LIMITED TO ANY WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR
+  PURPOSE AND NONINFRINGEMENT\nOF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN
+  NO EVENT SHALL THE\nCOPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\nINCLUDING
+  ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL\nDAMAGES, WHETHER IN
+  AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF THE USE OR INABILITY
+  TO USE THE FONT SOFTWARE OR FROM\nOTHER DEALINGS IN THE FONT SOFTWARE.\n"
+open_license: "Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)\n\nThis
+  Font Software is licensed under the SIL Open Font License, Version 1.1.\nThis license
+  is copied below, and is also available with a FAQ at:\nhttps://openfontlicense.org\n\n\n-----------------------------------------------------------\nSIL
+  OPEN FONT LICENSE Version 1.1 - 26 February 2007\n-----------------------------------------------------------\n\nPREAMBLE\nThe
+  goals of the Open Font License (OFL) are to stimulate worldwide\ndevelopment of
+  collaborative font projects, to support the font creation\nefforts of academic and
+  linguistic communities, and to provide a free and\nopen framework in which fonts
+  may be shared and improved in partnership\nwith others.\n\nThe OFL allows the licensed
+  fonts to be used, studied, modified and\nredistributed freely as long as they are
+  not sold by themselves. The\nfonts, including any derivative works, can be bundled,
+  embedded, \nredistributed and/or sold with any software provided that any reserved\nnames
+  are not used by derivative works. The fonts and derivatives,\nhowever, cannot be
+  released under any other type of license. The\nrequirement for fonts to remain under
+  this license does not apply\nto any document created using the fonts or their derivatives.\n\nDEFINITIONS\n\"Font
+  Software\" refers to the set of files released by the Copyright\nHolder(s) under
+  this license and clearly marked as such. This may\ninclude source files, build scripts
+  and documentation.\n\n\"Reserved Font Name\" refers to any names specified as such
+  after the\ncopyright statement(s).\n\n\"Original Version\" refers to the collection
+  of Font Software components as\ndistributed by the Copyright Holder(s).\n\n\"Modified
+  Version\" refers to any derivative made by adding to, deleting,\nor substituting
+  -- in part or in whole -- any of the components of the\nOriginal Version, by changing
+  formats or by porting the Font Software to a\nnew environment.\n\n\"Author\" refers
+  to any designer, engineer, programmer, technical\nwriter or other person who contributed
+  to the Font Software.\n\nPERMISSION & CONDITIONS\nPermission is hereby granted,
+  free of charge, to any person obtaining\na copy of the Font Software, to use, study,
+  copy, merge, embed, modify,\nredistribute, and sell modified and unmodified copies
+  of the Font\nSoftware, subject to the following conditions:\n\n1) Neither the Font
+  Software nor any of its individual components,\nin Original or Modified Versions,
+  may be sold by itself.\n\n2) Original or Modified Versions of the Font Software
+  may be bundled,\nredistributed and/or sold with any software, provided that each
+  copy\ncontains the above copyright notice and this license. These can be\nincluded
+  either as stand-alone text files, human-readable headers or\nin the appropriate
+  machine-readable metadata fields within text or\nbinary files as long as those fields
+  can be easily viewed by the user.\n\n3) No Modified Version of the Font Software
+  may use the Reserved Font\nName(s) unless explicit written permission is granted
+  by the corresponding\nCopyright Holder. This restriction only applies to the primary
+  font name as\npresented to the users.\n\n4) The name(s) of the Copyright Holder(s)
+  or the Author(s) of the Font\nSoftware shall not be used to promote, endorse or
+  advertise any\nModified Version, except to acknowledge the contribution(s) of the\nCopyright
+  Holder(s) and the Author(s) or with their explicit written\npermission.\n\n5) The
+  Font Software, modified or unmodified, in part or in whole,\nmust be distributed
+  entirely under this license, and must not be\ndistributed under any other license.
+  The requirement for fonts to\nremain under this license does not apply to any document
+  created\nusing the Font Software.\n\nTERMINATION\nThis license becomes null and
+  void if any of the above conditions are\nnot met.\n\nDISCLAIMER\nTHE FONT SOFTWARE
+  IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING
+  BUT NOT LIMITED TO ANY WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR
+  PURPOSE AND NONINFRINGEMENT\nOF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN
+  NO EVENT SHALL THE\nCOPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\nINCLUDING
+  ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL\nDAMAGES, WHETHER IN
+  AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF THE USE OR INABILITY
+  TO USE THE FONT SOFTWARE OR FROM\nOTHER DEALINGS IN THE FONT SOFTWARE.\n"
+import_source: {}

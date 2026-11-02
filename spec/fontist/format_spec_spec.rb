@@ -196,4 +196,29 @@ RSpec.describe Fontist::FormatSpec do
       expect(spec.collection_index).to eq(2)
     end
   end
+
+  describe "font operation options" do
+    it "reads subset and fallback options" do
+      spec = described_class.from_options(
+        subset_unicodes: "U+0041", subset_text: "ab",
+        fallback_to_original: true
+      )
+
+      expect(spec.subset_requested?).to be true
+      expect(spec.fallback_to_original).to be true
+    end
+
+    it "defaults to no subset and no fallback" do
+      spec = described_class.from_options({})
+
+      expect(spec.subset_requested?).to be false
+      expect(spec.fallback_to_original).to be false
+    end
+
+    it "does not treat a subset as a format constraint" do
+      spec = described_class.from_options(subset_text: "ab")
+
+      expect(spec.has_constraints?).to be false
+    end
+  end
 end

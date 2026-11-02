@@ -51,6 +51,14 @@ module Fontist
 
           private
 
+          # HEAD commit of the google/fonts clone, used to pin raw file URLs
+          def repository_commit
+            return @repository_commit if defined?(@repository_commit)
+
+            sha = Dir.chdir(@source_path) { `git rev-parse HEAD 2>/dev/null` }
+            @repository_commit = sha.strip[/\A\h{40}\z/]
+          end
+
           # Validate that the source path exists and contains fonts
           def validate_source_path!
             unless @source_path.exist?
@@ -155,6 +163,17 @@ module Fontist
               description: description,
               homepage: license_info[:homepage],
               font_file_data: font_files_data,
+            ).tap do |family|
+              family.variable_source = variable_source_for(metadata, family_dir)
+            end
+          end
+
+          # Real variable font files of the family, pinned to the clone's commit
+          def variable_source_for(metadata, family_dir)
+            VariableFontSource.from_metadata(
+              metadata,
+              directory: "#{family_dir.parent.basename}/#{family_dir.basename}",
+              commit: repository_commit,
             )
           end
 

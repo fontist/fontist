@@ -122,6 +122,24 @@ module Fontist
       CLI::STATUS_UNKNOWN_ERROR
     end
 
+    desc "windows", "Import Windows font extension packs (Features on Demand)"
+    option :output_path,
+           type: :string,
+           desc: "Output directory for generated formulas " \
+                 "(default: formulas/windows)"
+
+    def windows
+      handle_class_options(options)
+      require_relative "import/windows"
+
+      Import::Windows.new(formulas_dir: options[:output_path]).call
+
+      CLI::STATUS_SUCCESS
+    rescue StandardError => e
+      Fontist.ui.error("Import error: #{e.message}")
+      CLI::STATUS_UNKNOWN_ERROR
+    end
+
     desc "sil", "Import formulas from SIL International"
     option :output_path,
            type: :string,
@@ -158,6 +176,7 @@ module Fontist
       )
 
       result = importer.call
+      return CLI::STATUS_UNKNOWN_ERROR if result[:no_fonts_found]
 
       # Report results only in non-verbose mode (verbose mode already has rich summary)
       unless options[:verbose]
