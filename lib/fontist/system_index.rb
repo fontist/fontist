@@ -140,6 +140,33 @@ module Fontist
     end
   end
 
+  # Scan metadata for a system index collection, persisted in a
+  # companion file beside the index (an index file is a flat entry
+  # list and cannot carry scalars). Restoring it across processes is
+  # what makes the 30-minute scan threshold and the directory-mtime
+  # change check work at all.
+  class SystemIndexMetadata < Lutaml::Model::Serializable
+    attribute :last_scan_time, :integer, default: -> { 0 }
+    attribute :directory_mtimes, :string, collection: true, default: -> { [] }
+
+    key_value do
+      map "last_scan_time", to: :last_scan_time
+      map "directory_mtimes", to: :directory_mtimes
+    end
+
+    def self.load(path)
+      return new unless File.exist?(path)
+
+      from_yaml(File.read(path))
+    rescue Lutaml::Model::Error, Psych::SyntaxError, TypeError
+      new
+    end
+
+    def save(path)
+      File.write(path, to_yaml)
+    end
+  end
+
   class SystemIndexFontCollection < Lutaml::Model::Collection
     include Utils::Locking
 
@@ -151,13 +178,39 @@ module Fontist
     attribute :directory_mtimes, :string, collection: true, default: -> { [] }
 
     key_value do
+      # A bare entry list: the scan metadata lives in a companion
+      # metadata file (see SystemIndexMetadata), because a flat list
+      # cannot carry scalars and lutaml ignores scalar maps declared
+      # alongside map_instances
       map_instances to: :fonts
-      map "last_scan_time", to: :last_scan_time
-      map "directory_mtimes", to: :directory_mtimes
     end
 
     # Don't rebuild index more frequently than this (in seconds)
     INDEX_REBUILD_THRESHOLD = 30 * 60 # 30 minutes
+
+    def metadata_path
+      "#{@path}.metadata.yml"
+    end
+
+    def persist_metadata
+      return unless @path
+
+      SystemIndexMetadata
+        .new(last_scan_time: last_scan_time,
+             directory_mtimes: directory_mtimes)
+        .save(metadata_path)
+    end
+
+    def restore_metadata
+      return unless @path
+      return unless last_scan_time.to_i.zero?
+
+      meta = SystemIndexMetadata.load(metadata_path)
+      return unless meta.last_scan_time.to_i.positive?
+
+      self.last_scan_time = meta.last_scan_time
+      self.directory_mtimes = meta.directory_mtimes
+    end
 
     def set_path(path)
       @path = path
@@ -172,12 +225,17 @@ module Fontist
       return new.set_content(path, paths_loader) unless File.exist?(path)
 
       from_yaml(File.read(path)).set_content(path, paths_loader)
+    rescue Lutaml::Model::Error, Psych::SyntaxError, TypeError
+      # Corrupt or unreadable index files degrade to an empty
+      # collection; the next rebuild rewrites them
+      new.set_content(path, paths_loader)
     end
 
     def set_content(path, paths_loader)
       tap do |content|
         content.set_path(path)
         content.set_path_loader(paths_loader)
+        content.restore_metadata
       end
     end
 
@@ -351,7 +409,8 @@ module Fontist
 
     def build(forced: false, verbose: false, stats: nil)
       if forced
-        return rebuild_with_lock(verbose: verbose, stats: stats)
+        return rebuild_with_lock(verbose: verbose, stats: stats,
+                                 honor_recent: false)
       end
 
       previous_index = load_index
@@ -372,14 +431,18 @@ module Fontist
 
     private
 
-    def rebuild_with_lock(verbose: false, stats: nil)
+    def rebuild_with_lock(verbose: false, stats: nil, honor_recent: true)
       # Use file locking to prevent concurrent rebuilds across processes
       lock_path = index_lock_path
       start_time = Time.now
 
       lock(lock_path) do
-        # Re-check if another process already rebuilt while we waited for lock
-        if File.exist?(@path)
+        # Re-check if another process already rebuilt while we waited
+        # for lock. Forced rebuilds (add_font, explicit rebuild) carry
+        # write intent and must always rescan: honoring the recent
+        # rebuild here served the pre-write index and silently dropped
+        # the font that triggered the rebuild
+        if honor_recent && File.exist?(@path)
           existing = self.class.from_file(path: @path,
                                           paths_loader: @paths_loader)
 
@@ -407,6 +470,7 @@ module Fontist
         self.last_scan_time = Time.now.to_i
         self.directory_mtimes = scan_directory_mtimes.map { |k, v| "#{k}:#{v}" }
         to_file(@path)
+        persist_metadata
 
         # Show completion message for large collections
         elapsed = Time.now - start_time
@@ -505,6 +569,7 @@ module Fontist
 
       # Save to file
       to_file(@path)
+      persist_metadata
     end
 
     def detect_paths(paths, verbose: false, stats: nil)

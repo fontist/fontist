@@ -25,6 +25,7 @@ module Fontist
   autoload :FontPath, "#{__dir__}/fontist/font_path"
   autoload :FontStyle, "#{__dir__}/fontist/font_style"
   autoload :Fontconfig, "#{__dir__}/fontist/fontconfig"
+  autoload :FormatSpec, "#{__dir__}/fontist/format_spec"
   autoload :Formula, "#{__dir__}/fontist/formula"
   autoload :FormulaCollection, "#{__dir__}/fontist/formula"
   autoload :FormulaPicker, "#{__dir__}/fontist/formula_picker"

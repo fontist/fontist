@@ -235,5 +235,97 @@ RSpec.describe Fontist::Indexes::SystemIndex do
 
       expect(index.find("Arial")).to be_nil
     end
+
+    it "indexes every font in a multi-font install sequence" do
+      # A forced rebuild triggered by add_font must not reuse another
+      # rebuild's fresh output: the cross-process dedup early-return
+      # previously served a stale index and silently dropped every
+      # font installed after the first one
+      index = described_class.instance
+      second_font = Dir[File.expand_path("../../fixtures/fonts/*.otf", __dir__)]
+        .first
+
+      first_path = File.join(@fonts_dir, "ArialBd.ttf")
+      FileUtils.cp(fixture_font, first_path)
+      index.add_font(first_path)
+      expect(index.find("Arial")).not_to be_nil
+
+      second_path = File.join(@fonts_dir, File.basename(second_font))
+      FileUtils.cp(second_font, second_path)
+      index.add_font(second_path)
+
+      collection = index.instance_variable_get(:@collection)
+      expect(Array(collection.fonts).any? { |f| f.path == second_path })
+        .to be(true)
+    end
+
+    it "restores metadata from the companion file on load" do
+      # A fresh process loads the collection without in-memory
+      # metadata; the companion file is what keeps the 30-minute
+      # cross-process smart check alive
+      index = described_class.instance
+      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      FileUtils.cp(fixture_font, installed_path)
+      index.add_font(installed_path)
+      collection = index.instance_variable_get(:@collection)
+      collection.last_scan_time = Time.now.to_i - 10
+      collection.persist_metadata
+
+      described_class.reset_cache
+      Fontist::SystemFont.reset_font_paths_cache
+      reloaded = described_class.instance
+      reloaded_collection = reloaded.collection
+
+      expect(reloaded_collection.last_scan_time).to be > 0
+      expect(reloaded_collection.index_changed?).to be(false)
+    end
+  end
+
+  describe "scan metadata persistence" do
+    around do |example|
+      Dir.mktmpdir do |dir|
+        @fonts_dir = dir
+        example.run
+      end
+    end
+
+    def sample_metadata
+      Fontist::SystemIndexMetadata.new(
+        last_scan_time: 1_793_613_506,
+        directory_mtimes: ["/x:123"],
+      )
+    end
+
+    it "round-trips scan metadata through the companion file" do
+      meta = sample_metadata
+      path = File.join(@fonts_dir, "index.metadata.yml")
+      meta.save(path)
+
+      expect(File.exist?(path)).to be(true)
+
+      loaded = Fontist::SystemIndexMetadata.load(path)
+      expect(loaded.last_scan_time).to eq(1_793_613_506)
+      expect(loaded.directory_mtimes).to eq(["/x:123"])
+    end
+
+    it "keeps legacy flat-list index files loadable" do
+      legacy = <<~YAML
+        ---
+        - path: "/x/Arial.ttf"
+          full_name: Arial
+          family_name: Arial
+          type: Regular
+      YAML
+
+      loaded = Fontist::SystemIndexFontCollection.from_yaml(legacy)
+
+      expect(Array(loaded.fonts).size).to eq(1)
+      expect(loaded.fonts.first.family_name).to eq("Arial")
+    end
+
+    it "treats an empty or unparseable index file as empty" do
+      loaded = Fontist::SystemIndexFontCollection.from_yaml("---\n")
+      expect(Array(loaded.fonts)).to be_empty
+    end
   end
 end

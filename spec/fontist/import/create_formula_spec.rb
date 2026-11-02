@@ -3,7 +3,13 @@ require "spec_helper"
 RSpec.describe "Fontist::Import::CreateFormula" do
   let(:formula) { YAML.load_file(formula_file) }
   let(:formula_file) { Fontist::Import::CreateFormula.new(url, options).call }
-  let(:url) { "../examples/archives/#{archive_name}" }
+  # Absolute: the generator writes into the working directory, and this
+  # suite deliberately runs inside a temp dir so generated formulas
+  # never overwrite the source fixtures (the old chdir-into-fixtures
+  # setup regenerated lato.yml and friends over the committed sources)
+  let(:url) do
+    File.expand_path("../../examples/archives/#{archive_name}", __dir__)
+  end
   let(:options) { {} }
 
   let(:example) { YAML.load_file(example_file) }
@@ -13,7 +19,13 @@ RSpec.describe "Fontist::Import::CreateFormula" do
 
   before(:context) { require "fontist/import/create_formula" }
 
-  around(:example) { |example| fixtures_dir { example.run } }
+  # Generate into a temp working directory: the generator writes the
+  # formula into the CWD, and spec/fixtures holds source fixtures
+  around(:example) do |example|
+    Dir.mktmpdir do |tmp|
+      Dir.chdir(tmp) { example.run }
+    end
+  end
 
   context "zip archive" do
     let(:archive_name) { "_2.6.6 Euphemia UCAS.zip" }
