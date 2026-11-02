@@ -44,12 +44,30 @@ RSpec.describe Fontist::Cache::Store do
       store.set("string", "text")
       store.set("number", 42)
       store.set("array", [1, 2, 3])
-      store.set("hash", { key: "value" })
+      store.set("hash", { "key" => "value" })
 
       expect(store.get("string")).to eq "text"
       expect(store.get("number")).to eq 42
       expect(store.get("array")).to eq [1, 2, 3]
-      expect(store.get("hash")).to eq({ key: "value" })
+      expect(store.get("hash")).to eq({ "key" => "value" })
+    end
+
+    it "stores values as inert JSON, never as Marshal payloads" do
+      store.set("inspect_me", "value")
+
+      raw = File.read(cache_dir.join("inspect_me.json"))
+      expect(raw).not_to include("Marshal")
+
+      parsed = JSON.parse(raw)
+      expect(parsed).to have_key("value")
+    end
+
+    it "treats legacy Marshal files as nonexistent" do
+      legacy_path = cache_dir.join("legacy.marshal")
+      FileUtils.mkdir_p(cache_dir)
+      File.binwrite(legacy_path, Marshal.dump("old"))
+
+      expect(store.get("legacy")).to be_nil
     end
   end
 
@@ -58,19 +76,16 @@ RSpec.describe Fontist::Cache::Store do
       store.set("no_ttl", "value")
       entry = read_raw_entry("no_ttl")
 
-      expect(entry.expires_at).to be_nil
+      expect(entry["expires_at"]).to be_nil
     end
 
     it "creates entry with expiration when TTL given" do
       store.set("with_ttl", "value", ttl: 60)
 
-      # Sleep a tiny bit to ensure time passed
-      sleep(0.01)
-
       entry = read_raw_entry("with_ttl")
 
-      expect(entry.expires_at).to be_a(Integer)
-      expect(entry.expires_at).to be > Time.now.to_i
+      expect(entry["expires_at"]).to be_a(Integer)
+      expect(entry["expires_at"]).to be > Time.now.to_i
     end
 
     it "does not return expired entries" do
@@ -117,11 +132,21 @@ RSpec.describe Fontist::Cache::Store do
     it "removes all cache files" do
       10.times { |i| store.set("key#{i}", "value#{i}") }
 
-      expect(Dir.glob(File.join(cache_dir, "*.marshal")).count).to eq 10
+      expect(Dir.glob(File.join(cache_dir, "*.json")).count).to eq 10
 
       store.clear
 
-      expect(Dir.glob(File.join(cache_dir, "*.marshal")).count).to eq 0
+      expect(Dir.glob(File.join(cache_dir, "*.json")).count).to eq 0
+    end
+
+    it "removes legacy Marshal files too" do
+      FileUtils.mkdir_p(cache_dir)
+      legacy = cache_dir.join("old.marshal")
+      File.binwrite(legacy, Marshal.dump("x"))
+
+      store.clear
+
+      expect(File.exist?(legacy)).to be false
     end
 
     it "doesn't remove the cache directory itself" do
@@ -132,44 +157,43 @@ RSpec.describe Fontist::Cache::Store do
   end
 
   describe "serialization" do
-    it "properly serializes Ruby objects" do
-      value = { name: "Test", nested: { data: [1, 2, 3] } }
+    it "properly serializes JSON-native values" do
+      value = { "name" => "Test", "nested" => { "data" => [1, 2, 3] } }
 
       store.set("hash_obj", value)
       retrieved = store.get("hash_obj")
 
-      expect(retrieved[:name]).to eq "Test"
-      expect(retrieved[:nested][:data]).to eq [1, 2, 3]
+      expect(retrieved["name"]).to eq "Test"
+      expect(retrieved["nested"]["data"]).to eq [1, 2, 3]
     end
 
-    it "handles frozen objects" do
+    it "converts symbol hash keys to strings, like any JSON store" do
+      store.set("symbols", { key: "value" })
+
+      expect(store.get("symbols")).to eq({ "key" => "value" })
+    end
+
+    it "handles frozen values" do
       value = ["immutable", "array"].freeze
 
       store.set("frozen", value)
       retrieved = store.get("frozen")
 
       expect(retrieved).to eq ["immutable", "array"]
-      # Note: Marshal doesn't preserve frozen state by default
-      # This is expected behavior
     end
 
-    it "handles Time objects" do
-      time = Time.now
-
-      store.set("time", time)
-      retrieved = store.get("time")
-
-      expect(retrieved).to be_a(Time)
-      expect(retrieved.to_i).to eq time.to_i
+    it "degrades non-JSON objects to strings instead of crashing" do
+      # json's Object#to_json falls back to to_s; the store never
+      # crashes on arbitrary values
+      expect { store.set("object", Object.new) }.not_to raise_error
+      expect(store.get("object")).to be_a(String)
     end
 
-    it "handles Date objects" do
-      date = Date.today
-
-      store.set("date", date)
-      retrieved = store.get("date")
-
-      expect(retrieved).to eq date
+    it "degrades Time values to their JSON string form" do
+      # the json gem defines Time#to_json, so Time persists as a
+      # string; the type is not restored on read
+      store.set("time", Time.now)
+      expect(store.get("time")).to be_a(String)
     end
   end
 
@@ -279,12 +303,20 @@ RSpec.describe Fontist::Cache::Store do
       store.set("zero_value", 0)
       expect(store.get("zero_value")).to eq 0
     end
+
+    it "degrades a corrupt JSON file to a miss and deletes it" do
+      store.set("corrupt", "value")
+      File.write(cache_dir.join("corrupt.json"), "{truncated")
+
+      expect(store.get("corrupt")).to be_nil
+      expect(cache_file_exists?("corrupt")).to be false
+    end
   end
 
   private
 
   def cache_file_exists?(key)
-    File.exist?(File.join(cache_dir, "#{sanitize_key(key)}.marshal"))
+    File.exist?(File.join(cache_dir, "#{sanitize_key(key)}.json"))
   end
 
   def sanitize_key(key)
@@ -292,9 +324,9 @@ RSpec.describe Fontist::Cache::Store do
   end
 
   def read_raw_entry(key)
-    path = File.join(cache_dir, "#{sanitize_key(key)}.marshal")
+    path = File.join(cache_dir, "#{sanitize_key(key)}.json")
     return nil unless File.exist?(path)
 
-    Marshal.load(File.read(path))
+    JSON.parse(File.read(path))
   end
 end

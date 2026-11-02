@@ -1,10 +1,24 @@
 require "fileutils"
 require "digest"
+require "json"
 
 module Fontist
   module Cache
-    # Backend store using Marshal for serialization
+    # Backend store persisting entries as inert JSON.
+    #
+    # The previous Marshal backend was removed deliberately: Marshal
+    # load of a file from a user-writable path executes arbitrary
+    # object instantiation on tampered content, and fontist runs
+    # embedded in long-lived host processes where that escalation
+    # lands. Values must be
+    # JSON-native (hashes with string keys, arrays, strings, numbers,
+    # booleans, nil); anything else skips the write and reads back as
+    # a miss. Files written by the previous Marshal backend carry a
+    # different extension and are simply never read; #clear removes
+    # them.
     class Store
+      FORMAT_VERSION = 1
+
       def initialize(cache_dir)
         @cache_dir = cache_dir.to_s
         ensure_cache_dir
@@ -26,6 +40,10 @@ module Fontist
         ensure_cache_dir
         entry = CacheEntry.new(value, ttl)
         write_entry(key, entry)
+      rescue TypeError, JSON::GeneratorError
+        # Values outside the JSON type system (Time, Date, arbitrary
+        # objects) skip the write and read back as a miss
+        false
       end
 
       def delete(key)
@@ -35,20 +53,29 @@ module Fontist
       end
 
       def clear
-        Dir.glob(File.join(@cache_dir, "*.marshal")).each do |f|
-          File.delete(f)
-        rescue StandardError
-          nil
-        end
+        glob_delete("*.json")
+        # Sweep entries written by the pre-JSON Marshal backend
+        glob_delete("*.marshal")
       end
 
       def cleanup_temp_files
-        # Clean up orphaned .tmp files from interrupted writes
-        # This can happen if the process crashes between File.write and File.rename
-        Dir.glob(File.join(@cache_dir, "*.tmp")).each do |tmp|
-          File.delete(tmp)
-        rescue StandardError
-          nil
+        # Clean up orphaned .tmp files from interrupted writes: this
+        # happens when a process crashes between write and rename
+        glob_delete("*.tmp")
+      end
+
+      # Cache entry with TTL support
+      class CacheEntry
+        attr_reader :value, :expires_at
+
+        def initialize(value, ttl = nil, expires_at: nil)
+          @value = value
+          @expires_at = expires_at
+          @expires_at ||= (Time.now + ttl).to_i if ttl
+        end
+
+        def expired?
+          !!(@expires_at && Time.now.to_i > @expires_at)
         end
       end
 
@@ -61,7 +88,7 @@ module Fontist
       end
 
       def cache_path(key)
-        File.join(@cache_dir, "#{sanitize_key(key)}.marshal")
+        File.join(@cache_dir, "#{sanitize_key(key)}.json")
       end
 
       def sanitize_key(key)
@@ -75,57 +102,44 @@ module Fontist
         end
       end
 
-      def read_entry(key)
-        return nil unless File.exist?(cache_path(key))
-
-        begin
-          # Use binary read mode for Marshal data - critical on Windows
-          Marshal.load(File.binread(cache_path(key)))
-        rescue ArgumentError, TypeError, EOFError
-          # Cache file is corrupted - delete it and return nil
-          # This can happen on Windows when file is read while being written,
-          # or when cache files from previous runs are corrupted
-          begin
-            File.delete(cache_path(key))
-          rescue StandardError
-            nil
-          end
-          nil
-        end
-      end
-
-      def write_entry(key, entry)
-        # Use temp file + atomic rename to prevent race conditions
-        # This ensures readers never see partial writes, even on Windows
-        temp_path = "#{cache_path(key)}.tmp"
-
-        # Use binary write mode for Marshal data - critical on Windows
-        File.binwrite(temp_path, Marshal.dump(entry))
-        # Atomic rename (overwrites target atomically)
-        # File.rename is atomic on all platforms for same filesystem
-        File.rename(temp_path, cache_path(key))
-      rescue StandardError => e
-        # Clean up temp file if rename fails
-        begin
-          File.delete(temp_path)
+      def glob_delete(pattern)
+        Dir.glob(File.join(@cache_dir, pattern)).each do |f|
+          File.delete(f)
         rescue StandardError
           nil
         end
+      end
+
+      def read_entry(key)
+        return nil unless File.exist?(cache_path(key))
+
+        payload = JSON.parse(File.read(cache_path(key)))
+        CacheEntry.new(payload["value"], expires_at: payload["expires_at"])
+      rescue JSON::ParserError, TypeError, EOFError
+        # Corrupted file - delete it and return nil. This can happen
+        # on Windows when a file is read while being written, or when
+        # cache files from previous runs are corrupted
+        delete(key)
+        nil
+      end
+
+      def write_entry(key, entry)
+        payload = entry_payload(entry)
+
+        # Temp file + atomic rename: readers never see partial writes
+        temp_path = "#{cache_path(key)}.tmp"
+        File.write(temp_path, payload)
+        File.rename(temp_path, cache_path(key))
+      rescue StandardError => e
+        # Clean up temp file if the write or rename fails
+        delete(temp_path)
         raise e
       end
 
-      # Cache entry with TTL support
-      class CacheEntry
-        attr_reader :value, :expires_at
-
-        def initialize(value, ttl)
-          @value = value
-          @expires_at = ttl ? (Time.now + ttl).to_i : nil
-        end
-
-        def expired?
-          !!(@expires_at && Time.now.to_i > @expires_at)
-        end
+      def entry_payload(entry)
+        JSON.dump("version" => FORMAT_VERSION,
+                  "expires_at" => entry.expires_at,
+                  "value" => entry.value)
       end
     end
   end

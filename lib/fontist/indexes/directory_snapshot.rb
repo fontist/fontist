@@ -13,11 +13,15 @@ module Fontist
         new(directory_path, files, Time.now.to_i)
       end
 
-      # Create from existing data (for cache restoration)
+      # Create from existing data (for cache restoration). The cache
+      # store serializes to JSON, so keys arrive as strings; normalize
+      # them back to the symbol-keyed shape used throughout this class
       def self.from_hash(hash)
+        hash = (hash || {}).transform_keys(&:to_sym)
+        files = Array(hash[:files]).map { |file| file.transform_keys(&:to_sym) }
         new(
           hash[:directory_path].to_s,
-          hash[:files],
+          files,
           hash[:scanned_at],
         )
       end

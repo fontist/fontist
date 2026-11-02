@@ -52,7 +52,7 @@ RSpec.describe Fontist::Indexes::IncrementalIndexUpdater do
           namespace: :indexes,
         )
         expect(cached).not_to be_nil
-        expect(cached[:files].size).to eq 1
+        expect(cached["files"].size).to eq 1
       end
 
       it "handles empty directories" do
