@@ -245,6 +245,15 @@ module Fontist
       build
       check_index
 
+      # A completed rebuild is the scan verification for this session,
+      # and it must also land the scan metadata: index files written by
+      # older fontist versions predate last_scan_time and
+      # directory_mtimes, and without them recently_scanned? and
+      # directories_unchanged? stay false forever, so every lookup
+      # rescans and re-parses the whole index
+      save_metadata
+      mark_verified!
+
       fonts
     end
 

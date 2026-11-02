@@ -175,6 +175,11 @@ RSpec.describe Fontist::Indexes::SystemIndex do
     before do
       File.write(@system_file, YAML.dump(system_paths(@fonts_dir)))
       allow(Fontist).to receive(:system_file_path).and_return(@system_file)
+
+      # The isolation layer may have frozen the scan memo against the
+      # default fixture fonts; the stub's directory must be scanned
+      # fresh
+      Fontist::SystemFont.reset_font_paths_cache
     end
 
     after do
@@ -196,6 +201,39 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       index.add_font(installed_path)
 
       expect(index.font_exists?(installed_path)).to be(true)
+    end
+
+    it "verifies the index once when scanned paths cannot all be indexed" do
+      # A non-font file with a font extension is seen by the scan but
+      # cannot be indexed, so the scan and index path lists differ
+      # permanently; the rebuild must still latch the verification
+      # instead of repeating it on every lookup
+      index = described_class.instance
+      FileUtils.cp(fixture_font, File.join(@fonts_dir, "ArialBd.ttf"))
+      File.write(File.join(@fonts_dir, "Broken.ttf"), "not a font")
+
+      result = index.find("Arial")
+      collection = index.instance_variable_get(:@collection)
+      expect(result).not_to be_nil
+
+      expect(collection.instance_variable_get(:@index_check_done)).to be(true)
+    end
+
+    it "does not find a font after removal" do
+      # The uninstall flow deletes the file first, then drops the
+      # index entry; a removal that leaves the file in place is
+      # legitimately re-indexed by the next scan
+      index = described_class.instance
+      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      FileUtils.cp(fixture_font, installed_path)
+      index.add_font(installed_path)
+
+      expect(index.find("Arial")).not_to be_nil
+
+      File.delete(installed_path)
+      index.remove_font(installed_path)
+
+      expect(index.find("Arial")).to be_nil
     end
   end
 end
