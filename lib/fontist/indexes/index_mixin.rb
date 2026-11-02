@@ -209,7 +209,21 @@ module Fontist
       def create_and_add_entry(key, paths)
         entry = FormulaKeyToPath.new(key: key, formula_path: paths)
         entries << entry
+        @entries_lookup_id = nil
         @index_build_cache[key] = entry if @index_build_cache
+      end
+
+      # O(1) key lookup over the entries; rebuilt whenever the entries
+      # array identity changes (rebuilds parse fresh instances, and
+      # in-place additions drop the cached hash)
+      def entries_lookup
+        entries_id = Array(entries).object_id
+        if @entries_lookup_id != entries_id
+          @entries_lookup_id = entries_id
+          @entries_lookup = Array(entries)
+            .group_by { |entry| normalize_key(entry.key) }
+        end
+        @entries_lookup
       end
 
       def index_formula(key)
@@ -217,7 +231,7 @@ module Fontist
       end
 
       def index_formulas(key)
-        Array(entries).select { |f| normalize_key(f.key) == normalize_key(key) }
+        entries_lookup[normalize_key(key)] || []
       end
 
       def relative_formula_path(path)

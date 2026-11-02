@@ -122,6 +122,7 @@ module Fontist
         return if collection.fonts.nil?
 
         collection.fonts.delete_if { |f| f.path == path }
+        collection.invalidate_lookups!
         collection.to_file(index_path)
       end
 
