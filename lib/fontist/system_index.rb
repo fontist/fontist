@@ -209,15 +209,13 @@ module Fontist
 
       return nil if current_fonts.nil? || current_fonts.empty?
 
-      if style.nil?
-        found_fonts = current_fonts.select do |file|
-          file.family_name&.casecmp?(font)
+      bucket = family_lookup(current_fonts)[font.to_s.downcase] || []
+      found_fonts =
+        if style.nil?
+          bucket
+        else
+          bucket.select { |file| file.type&.casecmp?(style) }
         end
-      else
-        found_fonts = current_fonts.select do |file|
-          file.family_name&.casecmp?(font) && file.type&.casecmp?(style)
-        end
-      end
 
       # Apply format filtering if specified
       if format_spec&.has_constraints? && found_fonts
@@ -227,6 +225,25 @@ module Fontist
       end
 
       found_fonts.empty? ? nil : found_fonts
+    end
+
+    # Drops the cached family lookup; called when fonts are removed in
+    # place (a rebuild replaces the fonts array, which re-keys the
+    # lookup by itself)
+    def invalidate_lookups!
+      @family_lookup_fonts_id = nil
+    end
+
+    # O(1) family-name lookup over the indexed fonts; rebuilt whenever
+    # the fonts array identity changes
+    def family_lookup(current_fonts)
+      fonts_id = Array(current_fonts).object_id
+      if @family_lookup_fonts_id != fonts_id
+        @family_lookup_fonts_id = fonts_id
+        @family_lookup = Array(current_fonts)
+          .group_by { |file| file.family_name&.downcase }
+      end
+      @family_lookup
     end
 
     def index
