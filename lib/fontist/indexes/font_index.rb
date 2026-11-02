@@ -8,6 +8,14 @@ module Fontist
           DefaultFamilyFontIndex.from_file
         end
       end
+
+      def self.lookup_index
+        if Fontist.preferred_family?
+          PreferredFamilyFontIndex.lookup_index
+        else
+          DefaultFamilyFontIndex.lookup_index
+        end
+      end
     end
   end
 end

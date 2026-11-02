@@ -122,15 +122,15 @@ module Fontist
       end
 
       def find(font_name)
-        Indexes::FontIndex.from_file.load_formulas(font_name).first
+        Indexes::FontIndex.lookup_index.load_formulas(font_name).first
       end
 
       def find_many(font_name)
-        Indexes::FontIndex.from_file.load_formulas(font_name)
+        Indexes::FontIndex.lookup_index.load_formulas(font_name)
       end
 
       def find_fonts(font_name)
-        formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
+        formulas = Indexes::FontIndex.lookup_index.load_formulas(font_name)
 
         formulas.map do |formula|
           formula.all_fonts.select do |f|
@@ -140,7 +140,7 @@ module Fontist
       end
 
       def find_styles(font_name, style_name)
-        formulas = Indexes::FontIndex.from_file.load_formulas(font_name)
+        formulas = Indexes::FontIndex.lookup_index.load_formulas(font_name)
 
         formulas.map do |formula|
           formula.all_fonts.map do |f|
@@ -173,7 +173,7 @@ module Fontist
       end
 
       def find_by_font_file(font_file)
-        key = Indexes::FilenameIndex.from_file
+        key = Indexes::FilenameIndex.lookup_index
           .load_index_formulas(File.basename(font_file))
           .flat_map(&:name)
           .first

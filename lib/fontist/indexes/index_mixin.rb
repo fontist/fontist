@@ -1,5 +1,9 @@
+require "json"
+
 module Fontist
   module Indexes
+    autoload :LookupIndex, "#{__dir__}/lookup_index"
+
     # IndexMixin provides common functionality for font index classes.
     #
     # == Performance Optimization (Tech Debt)
@@ -72,9 +76,38 @@ module Fontist
           # to force a fresh parse on next access
           Fontist::FromFileCache.clear
 
-          # Delete the index file to force rebuild on next access
-          # This is important for tests to ensure clean state
+          # Delete the index file and its lookup sidecar to force a
+          # rebuild on next access. This is important for tests to
+          # ensure clean state
           FileUtils.rm_f(path)
+          FileUtils.rm_f("#{path}.json")
+        end
+
+        # Read-only lookups over the sidecar JSON beside the index
+        # file, which skips binding every entry into model objects. The
+        # sidecar is (re)written whenever the index file is written,
+        # and regenerated here when it is missing or stale.
+        def lookup_index
+          entries_hash = sidecar_entries || rebuild_sidecar_entries
+          normalizer = new.method(:normalize_key)
+          LookupIndex.new(entries_hash, normalizer: normalizer)
+        end
+
+        def sidecar_entries
+          sidecar_path = "#{path}.json"
+          return unless File.exist?(sidecar_path)
+          return if File.exist?(path) &&
+            File.mtime(sidecar_path) < File.mtime(path)
+
+          JSON.parse(File.read(sidecar_path))["entries"]
+        rescue JSON::ParserError, TypeError
+          nil
+        end
+
+        def rebuild_sidecar_entries
+          entries_hash = from_file(path).entries_hash
+          File.write("#{path}.json", JSON.dump("entries" => entries_hash))
+          entries_hash
         end
       end
 
@@ -158,6 +191,19 @@ module Fontist
 
         FileUtils.mkdir_p(File.dirname(file_path))
         File.write(file_path, to_yaml)
+        write_lookup_sidecar(file_path)
+      end
+
+      def write_lookup_sidecar(file_path)
+        File.write("#{file_path}.json",
+                   JSON.dump("entries" => entries_hash))
+      end
+
+      # key -> formula paths, in the sidecar's JSON-friendly shape
+      def entries_hash
+        Array(entries).to_h do |entry|
+          [normalize_key(entry.key), entry.formula_path]
+        end
       end
 
       private
