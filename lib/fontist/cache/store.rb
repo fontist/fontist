@@ -40,7 +40,7 @@ module Fontist
         ensure_cache_dir
         entry = CacheEntry.new(value, ttl)
         write_entry(key, entry)
-      rescue TypeError, JSON::GeneratorError
+      rescue TypeError, Fontist::JSON::DumpError
         # Values outside the JSON type system (Time, Date, arbitrary
         # objects) skip the write and read back as a miss
         false
@@ -113,9 +113,9 @@ module Fontist
       def read_entry(key)
         return nil unless File.exist?(cache_path(key))
 
-        payload = JSON.parse(File.read(cache_path(key)))
+        payload = Fontist::JSON.parse(File.read(cache_path(key)))
         CacheEntry.new(payload["value"], expires_at: payload["expires_at"])
-      rescue JSON::ParserError, TypeError, EOFError
+      rescue Fontist::JSON::ParseError, TypeError, EOFError
         # Corrupted file - delete it and return nil. This can happen
         # on Windows when a file is read while being written, or when
         # cache files from previous runs are corrupted
@@ -137,9 +137,16 @@ module Fontist
       end
 
       def entry_payload(entry)
-        JSON.dump("version" => FORMAT_VERSION,
-                  "expires_at" => entry.expires_at,
-                  "value" => entry.value)
+        Fontist::JSON.dump("version" => FORMAT_VERSION,
+                           "expires_at" => entry.expires_at,
+                           "value" => entry.value)
+      rescue Fontist::JSON::DumpError
+        # Values outside the JSON type system (Time, Date, arbitrary
+        # objects) degrade to their string form, keeping the cache a
+        # best-effort store instead of a source of crashes
+        Fontist::JSON.dump("version" => FORMAT_VERSION,
+                           "expires_at" => entry.expires_at,
+                           "value" => entry.value.to_s)
       end
     end
   end
