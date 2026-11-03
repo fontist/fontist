@@ -63,13 +63,29 @@ module Fontist
           font = validate_and_load_single_font(path)
         end
         names = extract_names_from_font(font)
-        # WOFF and WOFF2 fonts from Fontisan hold no open file to close.
+        # `has_table?` consults the table directory, which survives the
+        # metadata-mode load, so the fvar check is cheap; only an actual
+        # variable font pays for the follow-up full read. WOFF and WOFF2
+        # fonts from Fontisan hold no open file to close.
+        variable = font.has_table?("fvar")
         font.close if font.respond_to?(:close)
+        names[:variable_instances] = extract_variable_instances_from_path(path) if
+          variable && names[:family_name]
         names
       rescue StandardError => e
         raise_font_file_error(e)
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+      def extract_variable_instances_from_path(path)
+        # Full mode: the metadata-mode loader gates fvar data out, so the
+        # instance pass needs the real table read; this runs only for
+        # fonts already identified as variable by the cheap directory check.
+        font = Fontisan::FontLoader.load(path, mode: :full, lazy: true)
+        extract_variable_instances(font)
+      ensure
+        font.close if font.respond_to?(:close)
+      end
 
       # rubocop:disable Metrics/MethodLength
       def validate_and_load_single_font(path)
@@ -183,6 +199,62 @@ module Fontist
       end
       # rubocop:enable Metrics/MethodLength
 
+      # Named instances of a variable font, as `{family:, style:, full_name:}`
+      # triples. A variable file carries every named instance in one fvar
+      # table, but its name table exposes only the default instance's
+      # family, so an index built from the name table alone registers the
+      # file under a single family ("Fira Code Light") and every lookup of
+      # the other families/styles misses it. The RIBBI mapping follows the
+      # convention static families use: Regular/Bold live on the base
+      # family, every other weight becomes its own "Base Weight" family.
+      #
+      # @return [Array<Hash>] empty for a static font
+      # rubocop:disable Metrics/MethodLength
+      def extract_variable_instances(font)
+        return [] unless font.has_table?("fvar")
+
+        fvar = font.table("fvar")
+        name_table = font.table(Fontisan::Constants::NAME_TAG)
+        return [] unless name_table
+
+        base = name_table.english_name(Fontisan::Tables::Name::PREFERRED_FAMILY) ||
+          extract_any_name(name_table, Fontisan::Tables::Name::PREFERRED_FAMILY) ||
+          name_table.english_name(Fontisan::Tables::Name::FAMILY)
+        return [] unless base
+
+        ribbi = ["regular", "bold", "italic", "bold italic"]
+
+        fvar.instances.filter_map do |instance|
+          # fvar yields plain hashes ({name_id:, flags:, coordinates:,
+          # postscript_name_id:}), not message objects.
+          style = name_table.english_name(instance[:name_id]) ||
+            extract_any_name(name_table, instance[:name_id])
+          next unless style
+
+          if ribbi.include?(style.downcase)
+            family = base
+            type = style
+            full_name = "#{family} #{style}"
+          else
+            family = "#{base} #{style}"
+            type = "Regular"
+            full_name = family
+          end
+
+          {
+            family: family,
+            style: type,
+            full_name: full_name,
+          }
+        end
+      rescue StandardError => e
+        Fontist.ui.debug(
+          "Could not read variable instances: #{e.message}",
+        )
+        []
+      end
+      # rubocop:enable Metrics/MethodLength
+
       # Extract any available name for a given name ID by manually decoding the name record
       def extract_any_name(name_table, name_id)
         # Find any name record with the matching name_id
@@ -255,6 +327,12 @@ module Fontist
 
     def preferred_subfamily_name
       @info[:preferred_subfamily]
+    end
+
+    # Named instances of a variable font (`{family:, style:, full_name:}`
+    # triples); empty for a static font.
+    def variable_instances
+      @info[:variable_instances] || []
     end
   end
 end
