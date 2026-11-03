@@ -729,7 +729,46 @@ spinner_index = nil)
     def detect_file_font(path)
       font_file = FontFile.from_path(path)
 
+      entries = variable_font_entries(font_file, path)
+      return entries unless entries.empty?
+
       parse_font(font_file, path)
+    end
+
+    # One index entry per named instance of a variable font: a variable
+    # file answers every lookup only if each family/style pair it carries
+    # is indexed separately — the name table alone registers just the
+    # default instance ("Fira Code Light"), leaving find_styles blind to
+    # the rest of the set.
+    def variable_font_entries(font_file, path)
+      instances = font_file.variable_instances
+      return [] if instances.empty?
+
+      file_size = begin
+        File.size(path)
+      rescue StandardError
+        0
+      end
+      file_mtime = begin
+        File.mtime(path).to_i
+      rescue StandardError
+        0
+      end
+
+      base = font_file.preferred_family_name || font_file.family
+      instances.map do |instance|
+        family = instance[:family]
+        SystemIndexFont.new(
+          path: path,
+          full_name: instance[:full_name],
+          family_name: family,
+          subfamily: instance[:style],
+          preferred_family_name: base,
+          preferred_subfamily_name: instance[:style],
+          file_size: file_size,
+          file_mtime: file_mtime,
+        )
+      end
     end
 
     def detect_collection_fonts(path)
