@@ -122,15 +122,22 @@ module Fontist
       source_files.include?(File.basename(path))
     end
 
+    # Styles already in the requested format. When none is, a plain format
+    # request keeps every style so the files can be converted.
+    def styles_in_requested_format(styles)
+      return styles unless @format_spec&.has_constraints?
+
+      matching = FormatMatcher.new(@format_spec).filter_styles(styles)
+      return matching if matching.any? || @format_spec.variable_requested?
+
+      @format_spec.format ? styles : matching
+    end
+
     def source_files
       @source_files ||= begin
         styles = filtered_styles
 
-        # Use FormatMatcher for filtering
-        if @format_spec&.has_constraints? && @formula.v5?
-          matcher = FormatMatcher.new(@format_spec)
-          styles = matcher.filter_styles(styles)
-        end
+        styles = styles_in_requested_format(styles) if @formula.v5?
 
         file_names = styles.map { |s| s.source_font || s.font }
 
@@ -177,17 +184,80 @@ module Fontist
     end
 
     def install_font_file(source)
-      source_basename = File.basename(source)
-      target_name = target_filename(source_basename) || source_basename
-      source_format = detect_font_format(source)
-
-      # Check if transcoding is needed (format requested but not available)
-      if @format_spec&.format && @format_spec.format != source_format
-        check_transcode_license_warning!
-        install_with_conversion(source, target_name, source_format)
-      else
-        @location.install_font(source, target_name)
+      Dir.mktmpdir("fontist-ops") do |workdir|
+        original_name = target_filename(File.basename(source)) ||
+          File.basename(source)
+        prepared, target_name = prepare_font(source, original_name, workdir)
+        result = @location.install_font(prepared, target_name)
+        install_original_too(source, original_name) if
+          converted?(source, prepared)
+        result
       end
+    end
+
+    def converted?(source, prepared)
+      requested = @format_spec&.format
+      requested && detect_font_format(prepared) == requested &&
+        detect_font_format(source) != requested
+    end
+
+    # Keeps the untouched original alongside converted output when the user
+    # asked for it with a transcode_path (existing --keep-original behavior).
+    def install_original_too(source, name)
+      return unless @format_spec&.keep_original && @format_spec.transcode_path
+
+      @location.install_font(source, name)
+    end
+
+    # Applies the requested operations (collection member extraction,
+    # subsetting, conversion) and returns the file to install and its name.
+    def prepare_font(source, target_name, workdir)
+      if @format_spec&.specific_collection_index? &&
+          FontOperations::Extract.collection?(source)
+        source = FontOperations::Extract.call(
+          source, index: @format_spec.collection_index, output_dir: workdir
+        )
+        target_name = File.basename(source)
+      end
+
+      source, target_name = apply_subset(source, target_name, workdir)
+      apply_conversion(source, target_name, workdir)
+    end
+
+    def apply_subset(source, target_name, workdir)
+      return [source, target_name] unless @format_spec&.subset_requested?
+
+      check_transcode_license_warning!
+      output = File.join(workdir, "subset-#{File.basename(source)}")
+      FontOperations::Subset.call(
+        source, output,
+        unicodes: @format_spec.subset_unicodes,
+        text: @format_spec.subset_text
+      )
+      [output, target_name]
+    end
+
+    def apply_conversion(source, target_name, workdir)
+      requested = @format_spec&.format
+      source_format = detect_font_format(source)
+      return [source, target_name] if [nil, source_format].include?(requested)
+
+      check_transcode_license_warning!
+      name = target_name.sub(/\.[^.]+\z/, ".#{requested}")
+      output = File.join(@format_spec.transcode_path || workdir, name)
+      convert_or_fallback(source, target_name, output, name)
+    end
+
+    def convert_or_fallback(source, original_name, output, name)
+      FontOperations::Convert.call(source, @format_spec.format, output)
+      Fontist.ui.success("Converted to #{@format_spec.format}: #{name}")
+      [output, name]
+    rescue Errors::GeneralError => e
+      raise unless @format_spec.fallback_to_original
+
+      Fontist.ui.warn("Could not convert: #{e.message}")
+      Fontist.ui.warn("Installing original format (--fallback-to-original)")
+      [source, original_name]
     end
 
     def detect_font_format(path)
@@ -226,86 +296,6 @@ module Fontist
       )
       Fontist.ui.warn("this font complies with the license terms.")
       Fontist.ui.warn("#{'=' * 60}\n")
-    end
-
-    def install_with_conversion(source, target_name, source_format)
-      target_format = @format_spec.format
-
-      # Check if Fontisan can convert between formats
-      matcher = FormatMatcher.new(@format_spec)
-      unless matcher.can_convert?(source_format, target_format)
-        Fontist.ui.warn(
-          "Cannot convert from #{source_format} to #{target_format}",
-        )
-        Fontist.ui.warn("Installing original format instead")
-        return @location.install_font(source, target_name)
-      end
-
-      begin
-        converted_path = convert_with_fontisan(source, target_format)
-
-        # Determine where to save converted font
-        converted_name = target_name.sub(/\.[^.]+$/, ".#{target_format}")
-
-        Fontist.ui.success(
-          "Converted #{source_format} to #{target_format}: #{converted_name}",
-        )
-
-        # Install converted font
-        result = @location.install_font(converted_path, converted_name)
-
-        # Keep original if requested and transcode_path specified
-        if @format_spec.keep_original && @format_spec.transcode_path
-          @location.install_font(source, target_name)
-        end
-
-        # Clean up temp converted file if Fontisan created one
-        cleanup_temp_file(converted_path) if converted_path != source
-
-        result
-      rescue StandardError => e
-        Fontist.ui.warn("Could not convert to #{target_format}: #{e.message}")
-        Fontist.ui.warn("Installing original format instead")
-        @location.install_font(source, target_name)
-      end
-    end
-
-    # Convert font using Fontisan library
-    def convert_with_fontisan(source_path, target_format)
-      require "fontisan"
-
-      font = Fontisan::FontLoader.load(source_path)
-
-      case target_format
-      when "woff"
-        font.to_woff(path: temp_path_for(source_path, "woff"))
-      when "woff2"
-        font.to_woff2(path: temp_path_for(source_path, "woff2"))
-      else
-        raise Errors::UnsupportedTranscodeError.new(
-          File.extname(source_path),
-          target_format,
-        )
-      end
-    rescue LoadError
-      Fontist.ui.error(
-        "Fontisan gem not found. Transcoding requires the fontisan gem.",
-      )
-      Fontist.ui.error("Add it to your Gemfile or run: gem install fontisan")
-      raise
-    end
-
-    def temp_path_for(source_path, format)
-      base = File.basename(source_path, ".*")
-      dir = @format_spec&.transcode_path || Dir.mktmpdir
-      FileUtils.mkdir_p(dir)
-      File.join(dir, "#{base}.#{format}")
-    end
-
-    def cleanup_temp_file(path)
-      FileUtils.rm_f(path)
-    rescue StandardError
-      # Ignore cleanup errors
     end
 
     def macos_asset_directory

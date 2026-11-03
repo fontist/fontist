@@ -18,6 +18,11 @@ module Fontist
     # Collection options
     attribute :collection_index, :integer
 
+    # Font operations (subsetting, conversion failure handling)
+    attribute :subset_unicodes, :string
+    attribute :subset_text, :string
+    attribute :fallback_to_original, :boolean, default: false
+
     # Build FormatSpec from attributes
     def format_spec
       FormatSpec.new(
@@ -27,6 +32,9 @@ module Fontist
         transcode_path: transcode_path,
         keep_original: keep_original,
         collection_index: collection_index,
+        subset_unicodes: subset_unicodes,
+        subset_text: subset_text,
+        fallback_to_original: fallback_to_original,
       )
     end
 
@@ -129,6 +137,57 @@ module Fontist
       }
     end
 
+    # Font options a manifest entry can carry next to its styles:
+    #
+    #   Roboto:
+    #     styles: [Regular, Bold]
+    #     format: woff2
+    #
+    # The plain form `Roboto: [Regular, Bold]` stays valid.
+    FONT_OPTIONS = %w[format variable_axes prefer_variable transcode_path
+                      keep_original collection_index subset_unicodes
+                      subset_text fallback_to_original].freeze
+
+    def self.from_yaml(content, options = {})
+      data = YAML.safe_load(content)
+      return super unless data.is_a?(Hash) && data.values.any?(Hash)
+
+      plain, font_options = split_font_options(data)
+      super(plain.to_yaml, options).tap do |manifest|
+        manifest.apply_font_options(font_options)
+      end
+    end
+
+    def self.split_font_options(data)
+      font_options = {}
+      plain = data.to_h do |name, value|
+        next [name, value] unless value.is_a?(Hash)
+
+        font_options[name] = font_options_of(name, value)
+        [name, value["styles"] || value[:styles]]
+      end
+      [plain, font_options]
+    end
+
+    def self.font_options_of(name, value)
+      value = value.transform_keys(&:to_s)
+      unknown = value.keys - FONT_OPTIONS - ["styles"]
+      unless unknown.empty?
+        raise Fontist::Errors::ManifestCouldNotBeReadError,
+              "Unknown option(s) for '#{name}': #{unknown.join(', ')}"
+      end
+
+      value.slice(*FONT_OPTIONS)
+    end
+
+    def apply_font_options(font_options)
+      Array(fonts).each do |font|
+        font_options.fetch(font.name, {}).each do |key, value|
+          font.public_send(:"#{key}=", value)
+        end
+      end
+    end
+
     def self.from_file(path, locations: false)
       Fontist.ui.debug("Manifest: #{path}")
 
@@ -159,8 +218,10 @@ module Fontist
 
     def self.from_hash(data, options = {})
       locations = options.delete(:locations) || false
+      data, font_options = split_font_options(data) if data.is_a?(Hash)
 
       model = super
+      model.apply_font_options(font_options) if font_options
 
       # Use performance optimizations for faster manifest compilation
       with_performance_optimizations do

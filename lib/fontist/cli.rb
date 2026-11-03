@@ -29,6 +29,10 @@ module Fontist
     ERROR_TO_STATUS = {
       Fontist::Errors::UnsupportedFontError => [STATUS_NON_SUPPORTED_FONT_ERROR],
       Fontist::Errors::MissingFontError => [STATUS_MISSING_FONT_ERROR],
+      Fontist::FontOperations::Error => [STATUS_UNKNOWN_ERROR],
+      Fontist::Errors::CollectionIndexError => [STATUS_UNKNOWN_ERROR],
+      Fontist::Errors::UnsupportedTranscodeError => [STATUS_UNKNOWN_ERROR],
+      Fontist::Errors::SourceNotFoundError => [STATUS_UNKNOWN_ERROR],
       Fontist::Errors::SizeLimitError => [
         STATUS_SIZE_LIMIT_ERROR,
         :append,
@@ -119,8 +123,12 @@ module Fontist
     # Format selection options
     option :format,
            type: :string,
-           desc: "Font format to install (ttf, otf, woff, woff2, ttc, otc). " \
-                 "If format not available, will transcode from available formats."
+           desc: "Font format to install (ttf, otf, woff, woff2). " \
+                 "If format not available, will convert via Fontisan " \
+                 "(fails with an error unless --fallback-to-original)."
+    option :fallback_to_original,
+           type: :boolean,
+           desc: "If conversion fails, install the original format instead"
     option :variable_axes,
            type: :string,
            desc: "Variable axes to match (comma-separated, e.g., 'wght,wdth')"
@@ -140,7 +148,15 @@ module Fontist
     # Collection options
     option :collection_index,
            type: :numeric,
-           desc: "Extract specific font from TTC/OTC collection (0-indexed)"
+           desc: "Install only this member of a TTC/OTC collection " \
+                 "as a standalone font (0-indexed)"
+    # Subsetting options
+    option :subset_unicodes,
+           type: :string,
+           desc: "Keep only these codepoints (e.g., 'U+0020-007E,U+00E9')"
+    option :subset_text,
+           type: :string,
+           desc: "Keep only the glyphs for these characters"
     def install(*fonts)
       handle_class_options(options)
 
@@ -201,6 +217,18 @@ module Fontist
       first_error = result[:failures].first[:error]
       status, = ERROR_TO_STATUS[first_error.class]
       status || STATUS_UNKNOWN_ERROR
+    rescue Fontist::Errors::GeneralError => e
+      handle_error(e)
+    end
+
+    desc "pack OUTPUT FONT_FILE...",
+         "Bundle two or more font files into a TTC/OTC collection"
+    def pack(output, *files)
+      handle_class_options(options)
+
+      Fontist::FontOperations::Pack.call(output, files)
+      Fontist.ui.success("Collection written to #{output}")
+      STATUS_SUCCESS
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
     end
@@ -270,9 +298,11 @@ module Fontist
                   finder.by_axes(axes)
                 elsif options[:category]
                   finder.by_category(options[:category])
+                elsif options[:format]
+                  finder.by_format(options[:format])
                 else
-                  error("Please specify --axes, --variable, or --category",
-                        STATUS_UNKNOWN_ERROR)
+                  error("Please specify --axes, --variable, --category " \
+                        "or --format", STATUS_UNKNOWN_ERROR)
                   return
                 end
 
@@ -285,6 +315,39 @@ module Fontist
       success
     rescue Fontist::Errors::GeneralError => e
       handle_error(e)
+    end
+
+    desc "css FAMILY", "Print a Google Fonts CSS URL, or build local CSS"
+    long_desc <<-LONGDESC
+      Prints the Google Fonts CSS2 URL for FAMILY (no network, no install).
+      With --local, copies installed font files into --output-dir and writes
+      fonts.css there.
+    LONGDESC
+    option :styles, type: :string,
+                    desc: "Comma-separated weights, 'i' for italic " \
+                          "(e.g., 300,300i,600,600i)"
+    option :display, type: :string, default: "swap",
+                     desc: "font-display: auto, block, swap, fallback, optional"
+    option :format, type: :string, default: "url",
+                    desc: "Output: url or link (HTML <link> tag)"
+    option :local, type: :boolean, desc: "Build CSS from installed fonts"
+    option :output_dir, type: :string, desc: "Directory for --local output"
+    option :url_prefix, type: :string,
+                        desc: "URL prefix of font files in --local fonts.css"
+    option :font_format, type: :string,
+                         desc: "Font file format for --local (woff2, woff, " \
+                               "ttf, otf)"
+    def css(family)
+      handle_class_options(options)
+      return css_local(family) if options[:local]
+
+      css_google(family)
+    rescue Fontist::Css::UnknownFamilyError
+      css_error($!, STATUS_NON_SUPPORTED_FONT_ERROR)
+    rescue Fontist::Errors::MissingFontError
+      css_error($!, STATUS_MISSING_FONT_ERROR)
+    rescue Fontist::Css::Error
+      css_error($!, STATUS_UNKNOWN_ERROR)
     end
 
     desc "update", "Update formulas"
@@ -412,6 +475,38 @@ module Fontist
 
     def success
       STATUS_SUCCESS
+    end
+
+    def css_google(family)
+      kind = options[:format]
+      unless %w[url link].include?(kind)
+        raise Fontist::Css::InvalidOptionError,
+              "Invalid format '#{kind}'. Use url or link."
+      end
+
+      $stdout.puts Fontist::Css.public_send(
+        kind, family, styles: options[:styles], display: options[:display]
+      )
+      success
+    end
+
+    def css_local(family)
+      unless options[:output_dir]
+        raise Fontist::Css::InvalidOptionError, "--local requires --output-dir."
+      end
+
+      path = Fontist::Css.local(family, output_dir: options[:output_dir],
+                                        url_prefix: options[:url_prefix],
+                                        styles: options[:styles],
+                                        font_format: options[:font_format])
+      $stdout.puts path
+      success
+    end
+
+    # Errors go to stderr so stdout carries only the result.
+    def css_error(exception, status)
+      warn exception.message
+      status
     end
 
     def handle_error(exception)

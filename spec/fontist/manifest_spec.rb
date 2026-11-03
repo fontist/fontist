@@ -531,4 +531,55 @@ RSpec.describe Fontist::Manifest do
       end
     end
   end
+
+  describe "font options in an entry" do
+    let(:manifest) do
+      <<~YAML
+        Lato:
+        - Regular
+        Space Mono:
+          styles: [Regular]
+          format: woff2
+          collection_index: 1
+      YAML
+    end
+
+    it "reads the options next to the styles" do
+      fonts = described_class.from_yaml(manifest).fonts
+
+      expect(fonts.map { |f| [f.name, f.styles, f.format, f.collection_index] })
+        .to eq([["Lato", ["Regular"], nil, nil],
+                ["Space Mono", ["Regular"], "woff2", 1]])
+    end
+
+    it "passes the options to the font install" do
+      allow(Fontist::Formula).to receive(:find_many).and_return([])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(manifest).install(confirmation: "yes")
+
+      woff2_spec = having_attributes(format: "woff2", collection_index: 1)
+      expect(Fontist::Font).to have_received(:install)
+        .with("Space Mono", hash_including(format_spec: woff2_spec))
+      expect(Fontist::Font).to have_received(:install)
+        .with("Lato", hash_including(
+                        format_spec: having_attributes(format: nil),
+                      ))
+    end
+
+    it "accepts the same entry from a Ruby hash with symbol keys" do
+      allow_any_instance_of(described_class)
+        .to receive(:to_response) { |manifest, **| manifest }
+
+      manifest = described_class.from_hash("Space Mono" => { format: "woff2" })
+
+      expect(manifest.fonts.map { |f| [f.name, f.format] })
+        .to eq([["Space Mono", "woff2"]])
+    end
+
+    it "rejects an unknown option" do
+      expect { described_class.from_yaml("Lato:\n  formt: woff2\n") }
+        .to raise_error(Fontist::Errors::ManifestCouldNotBeReadError, /formt/)
+    end
+  end
 end

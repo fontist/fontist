@@ -30,6 +30,13 @@ module Fontist
     # Collection handling
     attribute :collection_index, :integer
 
+    # Subsetting: keep only these characters (U+0020-007E,U+00E9 / literal text)
+    attribute :subset_unicodes, :string
+    attribute :subset_text, :string
+
+    # Explicit opt-in: install the original format when conversion fails
+    attribute :fallback_to_original, :boolean, default: false
+
     # Convenience constructor for CLI
     def self.from_options(options = {})
       new(
@@ -40,7 +47,16 @@ module Fontist
         transcode_path: options[:transcode_path],
         keep_original: options.fetch(:keep_original, true),
         collection_index: options[:collection_index],
+        **operation_options(options),
       )
+    end
+
+    def self.operation_options(options)
+      {
+        subset_unicodes: options[:subset_unicodes],
+        subset_text: options[:subset_text],
+        fallback_to_original: options[:fallback_to_original] || false,
+      }
     end
 
     def self.parse_variable_axes(value)
@@ -70,6 +86,11 @@ module Fontist
       return false unless format
 
       !available_formats.include?(format)
+    end
+
+    # Check if a subset of characters was requested
+    def subset_requested?
+      !(subset_unicodes.to_s.strip.empty? && subset_text.to_s.empty?)
     end
 
     # Check if we need a specific collection index

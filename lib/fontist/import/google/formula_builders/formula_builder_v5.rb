@@ -50,48 +50,32 @@ module Fontist
           def build_resources
             resources = {}
 
-            # Check if this is a variable font (has axes)
-            is_variable = family.variable_font?
-
-            if is_variable
-              # Variable fonts: the single file IS the variable font
-              # Google Fonts variable fonts are WOFF2 only
-              if woff2_files[family.family]&.any?
-                resources["woff2_variable"] = build_resource_entry(
-                  woff2_files[family.family],
-                  format: "woff2",
-                  variable: true,
-                  axes: family.axes,
-                )
-              end
-
-              # Also include TTF if available (for desktop use)
-              if ttf_files[family.family]&.any?
-                resources["ttf_variable"] = build_resource_entry(
-                  ttf_files[family.family],
-                  format: "ttf",
-                  variable: true,
-                  axes: family.axes,
-                )
-              end
-            else
-              # Static fonts: separate TTF and WOFF2
-              static_ttf = filter_static_files(ttf_files[family.family])
-              if static_ttf.any?
-                resources["ttf_static"] = build_resource_entry(
-                  static_ttf, format: "ttf", variable: false
-                )
-              end
-
-              static_woff2 = filter_static_files(woff2_files[family.family])
-              if static_woff2.any?
-                resources["woff2_static"] = build_resource_entry(
-                  static_woff2, format: "woff2", variable: false
-                )
-              end
+            # The only genuine variable files are the ones in google/fonts.
+            # The API serves static per-weight instances for every family,
+            # including variable ones, so those always go to *_static.
+            if variable_source
+              resources["ttf_variable"] =
+                variable_source.resource(family.family)
             end
 
-            resources
+            resources.merge(static_resources)
+          end
+
+          def static_resources
+            static_resource("ttf_static", "ttf", ttf_files)
+              .merge(static_resource("woff2_static", "woff2", woff2_files))
+          end
+
+          def static_resource(key, format, files_by_family)
+            files = filter_static_files(files_by_family[family.family])
+            return {} if files.empty?
+
+            { key => build_resource_entry(files, format: format,
+                                                 variable: false) }
+          end
+
+          def variable_source
+            github_family&.variable_source
           end
 
           def build_resource_entry(files, format:, variable:, axes: nil)
@@ -132,17 +116,13 @@ module Fontist
 
           def is_variable_variant?(variant)
             # Variable fonts often have axes in the filename like "VariableFont_wght"
-            return true if variant.include?("Variable")
-
-            return false unless family.variable_font?
-
-            family.axes.any? { |axis| variant.include?(axis.tag) }
+            variant.include?("Variable")
           end
 
           def build_fonts
             parsed_fonts = []
 
-            # V5: Download and parse ALL TTF files (including variable fonts)
+            # V5: Download and parse the API's static TTF files
             ttf_files[family.family]&.each do |variant, url|
               sleep(0.05) # Throttle API requests
 
@@ -150,7 +130,6 @@ module Fontist
                 downloaded = Fontist::Utils::Downloader.download(url)
                 metadata = Fontist::Import::FontMetadataExtractor.new(downloaded.path).extract
 
-                # V5: Include both static and variable fonts
                 filename = url.split("/").last
 
                 style_data = build_style_data(metadata, filename)
@@ -164,6 +143,7 @@ module Fontist
               end
             end
 
+            parsed_fonts.concat(variable_source.styles) if variable_source
             return [] if parsed_fonts.empty?
 
             group_fonts_by_subfamily(parsed_fonts)
@@ -173,17 +153,10 @@ module Fontist
             # Add formats available for this style
             style["formats"] = determine_formats_for_style(variant)
 
-            # Add variable font info
-            # For variable fonts, ALL styles should be marked as variable
-            if family.variable_font?
-              style["variable_font"] = true
-              if family.axes&.any?
-                style["variable_axes"] =
-                  family.axes.map(&:tag)
-              end
-            else
-              style["variable_font"] = false
-            end
+            # Styles built from API files are static instances; the real
+            # variable styles come from variable_source.
+            style["variable_font"] = false
+            style["source_resource"] = "ttf_static" if variable_source
           end
 
           def determine_formats_for_style(variant)

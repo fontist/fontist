@@ -36,6 +36,63 @@ RSpec.describe Fontist::FontFinder do
       expect(result).to be_an(Array)
     end
   end
+
+  describe "#by_format" do
+    let(:woff2_formula) do
+      Fontist::Formula.from_yaml(<<~YAML)
+        name: Space Mono
+        schema_version: 5
+        resources:
+          woff2_static:
+            source: google
+            family: Space Mono
+            files: ["https://fonts.gstatic.com/space-mono.woff2"]
+            format: woff2
+          ttf_static:
+            source: google
+            family: Space Mono
+            files: ["https://fonts.gstatic.com/space-mono.ttf"]
+            format: ttf
+        fonts: []
+      YAML
+    end
+
+    let(:archive_formula) do
+      Fontist::Formula.from_yaml(<<~YAML)
+        name: Lato
+        schema_version: 5
+        resources:
+          lato.zip:
+            urls: ["https://example.com/lato.zip"]
+        fonts:
+        - name: Lato
+          styles:
+          - family_name: Lato
+            type: Regular
+            font: Lato-Regular.ttf
+      YAML
+    end
+
+    before do
+      allow(Fontist::Formula).to receive(:all)
+        .and_return([woff2_formula, archive_formula])
+    end
+
+    it "returns the resources recorded in that format" do
+      matches = described_class.new.by_format("woff2")
+
+      expect(matches.map { |m| [m.name, m.resource, m.format] })
+        .to eq([["Space Mono", "woff2_static", "woff2"]])
+    end
+
+    it "includes archives whose font files are in that format" do
+      matches = described_class.new.by_format("ttf")
+
+      expect(matches.map { |m| [m.name, m.resource, m.format] })
+        .to eq([["Space Mono", "ttf_static", "ttf"],
+                ["Lato", "lato.zip", "ttf"]])
+    end
+  end
 end
 
 RSpec.describe Fontist::FontMatch do

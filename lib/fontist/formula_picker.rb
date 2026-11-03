@@ -21,10 +21,9 @@ module Fontist
       list = filter(formulas)
       return [] if list.empty?
 
-      # Use FormatMatcher for format filtering
       if @format_spec&.has_constraints?
         filtered = filter_by_format_spec(list)
-        raise_format_not_available_error(list) if filtered.empty? && !list.empty?
+        raise_format_not_available_error(list) if filtered.empty?
 
         list = filtered
       end
@@ -45,17 +44,37 @@ module Fontist
       ensure_fontist_version(list)
     end
 
+    # Formulas offering the requested format come first. When none does, a
+    # plain format request falls back to every formula so the installer can
+    # convert; a variable-font request cannot be met by conversion.
     def filter_by_format_spec(formulas)
       matcher = FormatMatcher.new(@format_spec)
-
-      formulas.filter_map do |formula|
-        next formula unless formula.v5?
-
-        matching = matcher.filter_resources(formula.resources)
-        if matching.any?
-          formula.dup.tap { |f| f.resources = matching }
-        end
+      offering = formulas.filter_map do |formula|
+        narrow_to_offered_format(formula, matcher)
       end
+      return offering if offering.any?
+      return formulas if convertible_request?
+
+      []
+    end
+
+    def narrow_to_offered_format(formula, matcher)
+      return formula unless formula.v5?
+
+      matching = formula.resources.select do |resource|
+        offers_format?(formula, resource) && matcher.matches_resource?(resource)
+      end
+      formula.dup.tap { |f| f.resources = matching } if matching.any?
+    end
+
+    def offers_format?(formula, resource)
+      return true unless @format_spec.format
+
+      formula.resource_offers_format?(resource, @format_spec.format)
+    end
+
+    def convertible_request?
+      !@format_spec.format.nil? && !@format_spec.variable_requested?
     end
 
     def ensure_fontist_version(formulas)

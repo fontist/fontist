@@ -311,10 +311,72 @@ Supported options:
 `-S, [--size-limit=N]`:: Specify upper limit for file size of a formula to be installed
                        (default is 300 MB)
 `-u, [--update-fontconfig]`:: Update Fontconfig
+`--collection-index=N`, `--format=FORMAT`, `--fallback-to-original`,
+`--subset-unicodes=LIST`, `--subset-text=TEXT`:: See <<Font operations>>
 
 
 NOTE: The `install` command is similar to the `Font.install` library call.
 
+
+=== Font operations
+
+Fontist can transform fonts with the https://github.com/fontist/fontisan[Fontisan]
+gem while installing, and bundle fonts into collections. Without any of these
+options, `install` copies fonts unchanged.
+
+==== Install one member of a TTC/OTC collection
+
+[source,sh]
+----
+fontist install "Noto Sans Oriya" --collection-index 1
+----
+
+Installs member 1 (zero-based) as a standalone font. An index outside the
+collection fails with `Collection index N out of range. Valid range: 0-M`.
+
+==== Convert formats
+
+[source,sh]
+----
+fontist install "Lato" --format woff2
+----
+
+Targets: `ttf`, `otf`, `woff`, `woff2`. If Fontisan cannot convert the font,
+the install fails with an error. Pass `--fallback-to-original` to install the
+original format instead.
+
+==== Subset
+
+[source,sh]
+----
+fontist install "Lato" --subset-unicodes "U+0020-007E,U+00E9"
+fontist install "Lato" --subset-text "Hello"
+----
+
+Keeps only the glyphs for those characters. Options can be combined with
+`--format`.
+
+==== Bundle a collection
+
+[source,sh]
+----
+fontist pack family.ttc Regular.ttf Bold.ttf
+----
+
+==== Ruby API
+
+[source,ruby]
+----
+Fontist::FontOperations::Extract.call("family.ttc", index: 1, output_dir: "out")
+Fontist::FontOperations::Pack.call("family.ttc", ["a.ttf", "b.ttf"])
+Fontist::FontOperations::Convert.call("a.ttf", "woff2", "a.woff2")
+Fontist::FontOperations::Subset.call("a.ttf", "sub.ttf", unicodes: "U+0041-005A")
+
+Fontist::Font.install("Lato", format: "woff2", subset_text: "Hello")
+----
+
+NOTE: Variable-font instancing (`--instance wght=300`) is not available: the
+bundled Fontisan (0.4.46) does not produce a genuine static instance.
 
 === Install locations
 
@@ -1082,6 +1144,73 @@ Fontist::Fontconfig.remove              # disable detection
 Fontist::Fontconfig.remove(force: true) # do not fail if no config exists
 ----
 
+
+== Web fonts
+
+=== Google Fonts CSS URL: `fontist css`
+
+Prints the Google Fonts CSS2 URL for a Google family. It reads the formula
+only: no network access and no font installation.
+
+[source,sh]
+----
+$ fontist css "Source Sans 3" --styles 300,300i,600,600i
+https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,600;1,300;1,600&display=swap
+
+$ fontist css "Space Mono" --styles 400,700 --format link
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap">
+----
+
+Options:
+
+`--styles`:: Comma-separated weights from 100 to 900; add `i` for italic
+(`300,300i,600`). Weights are checked against the styles the formula lists
+(for example Thin, ExtraLight, Light, Regular, Medium, SemiBold, Bold,
+ExtraBold, Black). Without `--styles` the URL asks for the provider default.
+`--display`:: `auto`, `block`, `swap` (default), `fallback` or `optional`.
+`--format`:: `url` (default) or `link` (an HTML `<link>` tag with `&` escaped
+as `&amp;`).
+
+Only the URL (or tag) goes to stdout. Errors go to stderr with a nonzero
+exit status, for an unknown family, a family that is not served by Google
+Fonts, an unlisted style or an invalid `--display`.
+
+The family name sent to Google is the formula's Google resource `family`; it
+is never derived from the formula name. So `Source Sans Pro` is not renamed to
+`Source Sans 3`: use the name the formula lists.
+
+From Ruby:
+
+[source,ruby]
+----
+Fontist::Css.url("Source Sans 3", styles: %w[300 300i 600 600i])
+Fontist::Css.link("Space Mono", styles: "400,700", display: "swap")
+----
+
+=== Self-hosted CSS: `fontist css --local`
+
+Builds a CSS bundle from fonts already installed by fontist: one file per
+style is copied into `--output-dir`, and `fonts.css` gets one `@font-face` per
+style (`font-family`, `src` with `format()`, `font-weight`, `font-style`).
+
+[source,sh]
+----
+$ fontist install "Space Mono"
+$ fontist css "Space Mono" --local --output-dir public/fonts \
+    --url-prefix /fonts --styles 400,700
+public/fonts/fonts.css
+----
+
+`--url-prefix`:: Prefix for the font URLs in `fonts.css` (default: relative
+file names).
+`--font-format`:: `woff2`, `woff`, `ttf` or `otf`. Selects an installed file of
+that format; the file must already be installed (for example with
+`fontist install "Space Mono" --format woff2`). There is no silent fallback
+to another format.
+
+Limits: only fonts installed in the fontist fonts directory are used, and no
+Google unicode-range subset files are produced. If the font is not installed
+the command tells you to run `fontist install`.
 
 == Platform-specific features
 

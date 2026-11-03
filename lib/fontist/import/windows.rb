@@ -53,7 +53,7 @@ module Fontist
       def base_attrs(description)
         {
           schema_version: 5,
-          name: description,
+          name: formula_name(description),
           description: "#{description} for Windows",
           homepage: HOMEPAGE,
           platforms: ["windows"],
@@ -119,7 +119,7 @@ module Fontist
       end
 
       def formula_path(description)
-        filename = "#{normalize_key(description)}.yml"
+        filename = "#{formula_key(description)}.yml"
         formula_dir.join(filename)
       end
 
@@ -133,6 +133,17 @@ module Fontist
                              FileUtils.mkdir_p(path)
                            end
                          end
+      end
+
+      # Formula names keep to letters, digits and spaces, so the file key the
+      # formulas repository derives from them (lowercase, spaces as
+      # underscores) needs no shell escaping in its CI.
+      def formula_name(description)
+        description.tr("-", " ").delete("^A-Za-z0-9 ").squeeze(" ").strip
+      end
+
+      def formula_key(description)
+        formula_name(description).downcase.tr(" ", "_")
       end
 
       def normalize_key(name)

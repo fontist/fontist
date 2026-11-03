@@ -69,11 +69,14 @@ RSpec.describe Fontist::Import::SilImporter do
 
   describe "#filter_by_name" do
     let(:links) do
-      [
-        double("Link", content: "Charis SIL"),
-        double("Link", content: "Andika"),
-        double("Link", content: "Apparatus SIL"),
-      ]
+      html = <<~HTML
+        <table class="products">
+          <tr><td><div class="title"><a href="/charis">Charis SIL</a></div></td></tr>
+          <tr><td><div class="title"><a href="/andika">Andika</a></div></td></tr>
+          <tr><td><div class="title"><a href="/apparatus">Apparatus SIL</a></div></td></tr>
+        </table>
+      HTML
+      Nokogiri::HTML.parse(html).css("table.products div.title > a")
     end
 
     it "filters links by font name (case insensitive)" do
@@ -87,6 +90,79 @@ RSpec.describe Fontist::Import::SilImporter do
       importer = described_class.new(font_name: "sil")
       filtered = importer.send(:filter_by_name, links)
       expect(filtered.size).to eq(2)
+    end
+  end
+
+  describe "#font_links" do
+    let(:fonts_page) { instance_double(URI::HTTPS) }
+
+    before do
+      allow(URI).to receive(:parse).and_call_original
+      allow(URI).to receive(:parse)
+        .with(described_class::ROOT).and_return(fonts_page)
+      allow(fonts_page).to receive(:open).and_return(StringIO.new(page_html))
+    end
+
+    let(:page_html) do
+      <<~HTML
+        <div class="inner-wrapper cust-card all-cards">
+          <div class="card"><a class="inner-card Supported" href="https://software.sil.org/charis">
+            <div class="title-txt"><h2 class="title-text notranslate">Charis</h2></div>
+            <div class="content"><p>A serif Latin and Cyrillic script font, similar to Bitstream Charter.</p></div>
+          </a></div>
+          <div class="card"><a class="inner-card Supported" href="https://software.sil.org/andika">
+            <div class="title-txt"><h2 class="title-text notranslate">Andika</h2></div>
+            <div class="content"><p>A sans serif font designed for literacy use.</p></div>
+          </a></div>
+        </div>
+      HTML
+    end
+
+    it "reads the font cards of the current SIL fonts page" do
+      importer = described_class.new
+
+      links = importer.send(:font_links)
+
+      expect(links.map { |link| importer.send(:link_name, link) })
+        .to eq(%w[Charis Andika])
+      expect(links.map { |link| link[:href] })
+        .to eq(%w[https://software.sil.org/charis https://software.sil.org/andika])
+    end
+
+    it "matches a font name against the card title, not its description" do
+      importer = described_class.new(font_name: "serif")
+
+      links = importer.send(:filter_by_name, importer.send(:font_links))
+
+      expect(links).to be_empty
+    end
+
+    context "with the legacy products table" do
+      let(:page_html) do
+        <<~HTML
+          <table class="products"><tr><td>
+            <div class="title"><a href="/charis">Charis SIL</a></div>
+          </td></tr></table>
+        HTML
+      end
+
+      it "reads the product links" do
+        importer = described_class.new
+
+        names = importer.send(:font_links)
+          .map { |link| importer.send(:link_name, link) }
+
+        expect(names).to eq(["Charis SIL"])
+      end
+    end
+  end
+
+  describe "#call with no matching fonts" do
+    it "reports that no fonts were found" do
+      importer = described_class.new(font_name: "NoSuchFont")
+      allow(importer).to receive(:font_links).and_return([])
+
+      expect(importer.call).to include(no_fonts_found: true, successful: 0)
     end
   end
 

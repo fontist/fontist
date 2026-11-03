@@ -24,6 +24,9 @@ module Fontist
           attribute :homepage, :string
           attribute :font_file_data, :string
 
+          # Real variable font files from google/fonts (VariableFontSource)
+          attr_accessor :variable_source
+
           json do
             map "family", to: :family
             map "variants", to: :variants
