@@ -4,7 +4,7 @@ module Fontist
       module HashHelper
         class << self
           def stringify_keys(hash)
-            JSON.parse(hash.to_json)
+            Fontist::JSON.parse(Fontist::JSON.dump(hash))
           end
         end
       end

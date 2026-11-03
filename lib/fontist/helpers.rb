@@ -3,7 +3,7 @@ module Fontist
     def self.url_object(request)
       return request unless request.include?("\"url\"")
 
-      obj = JSON.parse(request.gsub("=>", ":"))
+      obj = Fontist::JSON.parse(request.gsub("=>", ":"))
       Struct.new(:url, :headers).new(obj["url"], obj["headers"])
     end
 

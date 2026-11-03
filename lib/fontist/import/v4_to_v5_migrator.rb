@@ -95,7 +95,7 @@ module Fontist
       def load_yaml_without_aliases(path)
         data = YAML.safe_load(File.read(path), aliases: true,
                                                permitted_classes: [Date])
-        JSON.parse(JSON.generate(data))
+        Fontist::JSON.parse(Fontist::JSON.dump(data))
       end
 
       def file_has_yaml_aliases?(path)

@@ -103,13 +103,13 @@ module Fontist
           return entries if entries
 
           parse_sidecar_entries(sidecar_path)
-        rescue JSON::ParserError, TypeError
+        rescue Fontist::JSON::ParseError, TypeError
           nil
         end
 
         def rebuild_sidecar_entries
           entries_hash = from_file(path).entries_hash
-          File.write("#{path}.json", JSON.dump("entries" => entries_hash))
+          File.write("#{path}.json", Fontist::JSON.dump("entries" => entries_hash))
           entries_hash
         end
 
@@ -135,7 +135,7 @@ module Fontist
         # as read-only
         def parse_sidecar_entries(sidecar_path)
           mtime = File.mtime(sidecar_path)
-          entries = JSON.parse(File.read(sidecar_path))["entries"]
+          entries = Fontist::JSON.parse(File.read(sidecar_path))["entries"]
 
           sidecar_cache_mutex.synchronize do
             sidecar_cache[sidecar_path] = { mtime: mtime, entries: entries }
@@ -244,7 +244,7 @@ module Fontist
 
       def write_lookup_sidecar(file_path)
         File.write("#{file_path}.json",
-                   JSON.dump("entries" => entries_hash))
+                   Fontist::JSON.dump("entries" => entries_hash))
       end
 
       # key -> formula paths, in the sidecar's JSON-friendly shape

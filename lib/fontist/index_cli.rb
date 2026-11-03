@@ -205,7 +205,7 @@ module Fontist
       case options[:format].downcase
       when "json"
         require "json"
-        puts JSON.pretty_generate(fonts_data)
+        puts Fontist::JSON.pretty(fonts_data)
       when "yaml"
         require "yaml"
         puts YAML.dump(fonts_data)

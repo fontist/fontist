@@ -18,6 +18,7 @@ module Fontist
   # Core classes
   autoload :Config, "#{__dir__}/fontist/config"
   autoload :Css, "#{__dir__}/fontist/css"
+  autoload :JSON, "#{__dir__}/fontist/json"
   autoload :Font, "#{__dir__}/fontist/font"
   autoload :FontCollection, "#{__dir__}/fontist/font_collection"
   autoload :FontFile, "#{__dir__}/fontist/font_file"

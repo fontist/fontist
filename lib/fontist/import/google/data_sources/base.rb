@@ -58,8 +58,8 @@ module Fontist
               raise "API request failed: #{response.code} #{response.message}"
             end
 
-            JSON.parse(response.body)
-          rescue JSON::ParserError => e
+            Fontist::JSON.parse(response.body)
+          rescue Fontist::JSON::ParseError => e
             raise "Failed to parse API response: #{e.message}"
           rescue StandardError => e
             raise "Failed to fetch from API: #{e.message}"
@@ -90,7 +90,7 @@ module Fontist
           # @param item [Hash] the raw item data
           # @return [FontFamily] the parsed font family
           def parse_item(item)
-            Models::FontFamily.from_json(item.to_json)
+            Models::FontFamily.from_json(Fontist::JSON.dump(item))
           end
         end
       end

@@ -189,7 +189,7 @@ module Fontist
 
     def output_json_report(report, output_file)
       require "json"
-      json_content = JSON.pretty_generate(report.to_hash)
+      json_content = Fontist::JSON.pretty(report.to_hash)
 
       if output_file
         File.write(output_file, json_content)

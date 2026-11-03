@@ -312,7 +312,7 @@ module Fontist
                 end
 
       if options[:json]
-        Fontist.ui.say(JSON.pretty_generate(results.map(&:to_h)))
+        Fontist.ui.say(Fontist::JSON.pretty(results.map(&:to_h)))
       else
         print_find_results(results)
       end

@@ -59,15 +59,15 @@ module Fontist
 
             # Try to parse as JSON first
             begin
-              JSON.parse(files_data)
-            rescue JSON::ParserError, TypeError
+              Fontist::JSON.parse(files_data)
+            rescue Fontist::JSON::ParseError, TypeError
               # If it fails, convert Ruby hash syntax to JSON and parse
               if files_data.is_a?(String)
                 # Convert Ruby hash syntax (=>) to JSON syntax (:)
                 json_str = files_data.gsub("=>", ":")
                 begin
-                  return JSON.parse(json_str)
-                rescue JSON::ParserError
+                  return Fontist::JSON.parse(json_str)
+                rescue Fontist::JSON::ParseError
                   {}
                 end
               end
