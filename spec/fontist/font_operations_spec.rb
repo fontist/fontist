@@ -69,10 +69,18 @@ RSpec.describe Fontist::FontOperations do
     end
 
     it "raises when Fontisan cannot convert the font" do
-      otf = File.expand_path("../fixtures/fonts/overpass-regular.otf", __dir__)
+      broken = File.join(out, "broken.ttf")
+      File.binwrite(broken, "\x00\x01\x00\x00#{'garbage' * 20}")
 
-      expect { described_class.call(otf, "ttf", File.join(out, "o.ttf")) }
-        .to raise_error(Fontist::FontOperations::Error, /to ttf failed/)
+      expect { described_class.call(broken, "woff", File.join(out, "b.woff")) }
+        .to raise_error(Fontist::FontOperations::Error, /to woff failed/)
+    end
+
+    it "converts a CFF font to ttf (fixed in Fontisan)" do
+      otf = File.expand_path("../fixtures/fonts/overpass-regular.otf", __dir__)
+      target = described_class.call(otf, "ttf", File.join(out, "o.ttf"))
+
+      expect(font_magic(target)).to eq("\x00\x01\x00\x00".b)
     end
 
     it "rejects unsupported target formats" do

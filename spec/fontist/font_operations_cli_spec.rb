@@ -40,7 +40,8 @@ RSpec.describe Fontist::CLI do
       described_class.start(
         ["install", "Some Font", "--collection-index", "1",
          "--subset-unicodes", "U+0020-007E", "--subset-text", "abc",
-         "--format", "woff2", "--fallback-to-original"],
+         "--format", "woff2", "--fallback-to-original",
+         "--instance", "wght=300,wdth=90"],
       )
 
       expect(received.collection_index).to eq(1)
@@ -48,6 +49,8 @@ RSpec.describe Fontist::CLI do
       expect(received.subset_text).to eq("abc")
       expect(received.format).to eq("woff2")
       expect(received.fallback_to_original).to be true
+      expect(received.instance_coordinates)
+        .to eq("wght" => 300.0, "wdth" => 90.0)
     end
   end
 end

@@ -34,6 +34,9 @@ module Fontist
     attribute :subset_unicodes, :string
     attribute :subset_text, :string
 
+    # Static instance of a variable font: "wght=300,wdth=90"
+    attribute :instance, :string
+
     # Explicit opt-in: install the original format when conversion fails
     attribute :fallback_to_original, :boolean, default: false
 
@@ -55,6 +58,7 @@ module Fontist
       {
         subset_unicodes: options[:subset_unicodes],
         subset_text: options[:subset_text],
+        instance: options[:instance],
         fallback_to_original: options[:fallback_to_original] || false,
       }
     end
@@ -91,6 +95,16 @@ module Fontist
     # Check if a subset of characters was requested
     def subset_requested?
       !(subset_unicodes.to_s.strip.empty? && subset_text.to_s.empty?)
+    end
+
+    # Check if a static instance of a variable font was requested
+    def instance_requested?
+      !instance.to_s.strip.empty?
+    end
+
+    # Axis coordinates of the requested instance: {"wght" => 300.0}
+    def instance_coordinates
+      FontOperations::Instance.parse(instance)
     end
 
     # Check if we need a specific collection index
