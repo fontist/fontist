@@ -248,6 +248,9 @@ module Fontist
       end
     end
 
+    # Variable-font instancing errors
+    class InstanceError < GeneralError; end
+
     # Transcoding errors
     class UnsupportedTranscodeError < GeneralError
       def initialize(source_format, target_format)

@@ -210,7 +210,8 @@ module Fontist
     end
 
     # Applies the requested operations (collection member extraction,
-    # subsetting, conversion) and returns the file to install and its name.
+    # instancing, subsetting, conversion) and returns the file to install and
+    # its name.
     def prepare_font(source, target_name, workdir)
       if @format_spec&.specific_collection_index? &&
           FontOperations::Extract.collection?(source)
@@ -220,8 +221,20 @@ module Fontist
         target_name = File.basename(source)
       end
 
+      source, target_name = apply_instance(source, target_name, workdir)
       source, target_name = apply_subset(source, target_name, workdir)
       apply_conversion(source, target_name, workdir)
+    end
+
+    def apply_instance(source, target_name, workdir)
+      return [source, target_name] unless @format_spec&.instance_requested?
+
+      check_transcode_license_warning!
+      coordinates = @format_spec.instance_coordinates
+      name = FontOperations::Instance.file_name(target_name, coordinates)
+      output = File.join(workdir, name)
+      FontOperations::Instance.call(source, output, coordinates: coordinates)
+      [output, name]
     end
 
     def apply_subset(source, target_name, workdir)

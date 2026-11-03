@@ -22,6 +22,7 @@ module Fontist
     attribute :subset_unicodes, :string
     attribute :subset_text, :string
     attribute :fallback_to_original, :boolean, default: false
+    attribute :instance, :string
 
     # Build FormatSpec from attributes
     def format_spec
@@ -35,6 +36,7 @@ module Fontist
         subset_unicodes: subset_unicodes,
         subset_text: subset_text,
         fallback_to_original: fallback_to_original,
+        instance: instance,
       )
     end
 
@@ -146,7 +148,7 @@ module Fontist
     # The plain form `Roboto: [Regular, Bold]` stays valid.
     FONT_OPTIONS = %w[format variable_axes prefer_variable transcode_path
                       keep_original collection_index subset_unicodes
-                      subset_text fallback_to_original].freeze
+                      subset_text fallback_to_original instance].freeze
 
     def self.from_yaml(content, options = {})
       data = YAML.safe_load(content)

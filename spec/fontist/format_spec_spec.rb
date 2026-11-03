@@ -208,6 +208,14 @@ RSpec.describe Fontist::FormatSpec do
       expect(spec.fallback_to_original).to be true
     end
 
+    it "reads the instance option" do
+      spec = described_class.from_options(instance: "wght=300")
+
+      expect(spec.instance_requested?).to be true
+      expect(spec.instance_coordinates).to eq("wght" => 300.0)
+      expect(described_class.from_options({}).instance_requested?).to be false
+    end
+
     it "defaults to no subset and no fallback" do
       spec = described_class.from_options({})
 

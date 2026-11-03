@@ -10,9 +10,15 @@ RSpec.describe Fontist::FontInstaller do
   let(:fonts) { File.expand_path("../examples/fonts", __dir__) }
   let(:ttc) { File.join(fonts, "NotoSansOriya.ttc") }
   let(:lato) { File.join(fonts, "Lato-Heavy.ttf") }
-  let(:overpass) do
-    File.expand_path("../fixtures/fonts/overpass-regular.otf", __dir__)
+  let(:broken_dir) { Dir.mktmpdir("fontist-broken-font") }
+  # Not a font: Fontisan cannot convert it.
+  let(:broken) do
+    File.join(broken_dir, "broken.ttf").tap do |path|
+      File.binwrite(path, "\x00\x01\x00\x00#{'garbage' * 20}")
+    end
   end
+
+  after { FileUtils.rm_rf(broken_dir) }
   let(:formula) do
     example_formula(test_formula)
     Fontist::Formula.find(test_font_downcase)
@@ -55,17 +61,17 @@ RSpec.describe Fontist::FontInstaller do
     end
 
     home_it "does not silently install the original when conversion fails" do
-      expect { install_with_operations(overpass, format: "ttf") }
+      expect { install_with_operations(broken, format: "woff") }
         .to raise_error(Fontist::FontOperations::Error)
-      expect(Dir.glob(File.join(Fontist.fonts_path, "**", "overpass*")))
+      expect(Dir.glob(File.join(Fontist.fonts_path, "**", "broken*")))
         .to be_empty
     end
 
     home_it "installs the original only with fallback_to_original" do
-      path = install_with_operations(overpass, format: "ttf",
-                                               fallback_to_original: true)
+      path = install_with_operations(broken, format: "woff",
+                                             fallback_to_original: true)
 
-      expect(File.binread(path, 4)).to eq("OTTO")
+      expect(File.binread(path)).to eq(File.binread(broken))
     end
 
     home_it "does not touch the font when its format already matches" do
@@ -90,6 +96,32 @@ RSpec.describe Fontist::FontInstaller do
       expect(File.binread(path, 4)).to eq("wOFF")
       expect(Fontisan::FontLoader.load(path).table("cmap")
         .unicode_mappings.keys).to contain_exactly(0x48, 0x69)
+    end
+  end
+
+  describe "--instance" do
+    let(:vf) do
+      File.expand_path("../fixtures/fonts/MonaSansVF/MonaSansMonoVF[wght].ttf",
+                       __dir__)
+    end
+
+    home_it "installs a static instance named after the axis values" do
+      path = install_with_operations(vf, instance: "wght=300")
+      font = Fontisan::FontLoader.load(path)
+
+      expect(File.basename(path)).to eq("MonaSansMonoVF-wght300.ttf")
+      expect(font.has_table?("fvar")).to be false
+      expect(font.table("OS/2").us_weight_class).to eq(300)
+    end
+
+    home_it "fails clearly for an out-of-range axis value" do
+      expect { install_with_operations(vf, instance: "wght=50") }
+        .to raise_error(Fontist::Errors::InstanceError, /out of range/)
+    end
+
+    home_it "fails clearly for a non-variable font" do
+      expect { install_with_operations(lato, instance: "wght=300") }
+        .to raise_error(Fontist::Errors::InstanceError, /not a variable font/)
     end
   end
 

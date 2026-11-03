@@ -375,8 +375,27 @@ Fontist::FontOperations::Subset.call("a.ttf", "sub.ttf", unicodes: "U+0041-005A"
 Fontist::Font.install("Lato", format: "woff2", subset_text: "Hello")
 ----
 
-NOTE: Variable-font instancing (`--instance wght=300`) is not available: the
-bundled Fontisan (0.4.46) does not produce a genuine static instance.
+==== Variable-font instancing
+
+`--instance` installs a static instance of a variable font at the given axis
+values. Tags and ranges are checked against the font's `fvar` table; an
+unknown axis, an out-of-range value or a non-variable font is an error.
+
+[source,sh]
+----
+fontist install "Mona Sans" --instance wght=300
+fontist install "Mona Sans" --instance wght=300,wdth=90
+----
+
+[source,ruby]
+----
+Fontist::FontOperations::Instance.call("Font[wght].ttf", "light.ttf",
+                                       coordinates: { "wght" => 300 })
+Fontist::Font.install("Mona Sans", instance: "wght=300")
+----
+
+NOTE: Instancing needs a Fontisan release that includes static instancing
+(fontisan commit `b06fab3` or later; not in 0.4.46).
 
 === Install locations
 
