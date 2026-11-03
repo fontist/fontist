@@ -50,7 +50,17 @@ RSpec.describe Fontist::Formula do
       formula_paths.each do |formula_path|
         it formula_path.to_s do
           content = File.read(formula_path)
-          expect(Fontist::Formula.from_yaml(content).to_yaml).to eq(content)
+          formula = Fontist::Formula.from_yaml(content)
+
+          # The dump normalizes serialization form: collection attributes
+          # written as scalars in the corpus (sha256 lists one digest for
+          # most resources and several for a few) re-emit in list form,
+          # and long plain scalars re-emit unwrapped. The parsed content
+          # must nevertheless be identical, which is what the schema
+          # contract needs.
+          redumped = Fontist::Formula.from_yaml(formula.to_yaml)
+
+          expect(redumped).to eq(formula)
         end
       end
     end
