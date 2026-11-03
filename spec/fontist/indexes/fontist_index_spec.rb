@@ -29,10 +29,10 @@ RSpec.describe Fontist::Indexes::FontistIndex do
 
       it "works without style parameter" do
         expect(index.instance_variable_get(:@collection)).to receive(:find)
-          .with("Arial", nil)
+          .with("DejaVu Serif", nil)
           .and_return([])
 
-        index.find("Arial")
+        index.find("DejaVu Serif")
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe Fontist::Indexes::FontistIndex do
 
   describe "when a font is installed into the fontist library" do
     let(:fixture_font) do
-      File.expand_path("../../fixtures/fonts/ArialBd.ttf", __dir__)
+      File.expand_path("../../fixtures/fonts/DejaVuSerif.ttf", __dir__)
     end
 
     around do |example|
@@ -184,7 +184,7 @@ RSpec.describe Fontist::Indexes::FontistIndex do
       expect(index.find("NonexistentFont")).to be_nil
       expect(index.send(:font_paths)).to be_empty
 
-      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      installed_path = File.join(@fonts_dir, "DejaVuSerif.ttf")
       FileUtils.cp(fixture_font, installed_path)
       index.add_font(installed_path)
 

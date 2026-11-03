@@ -29,10 +29,10 @@ RSpec.describe Fontist::Indexes::SystemIndex do
 
       it "works without style parameter" do
         expect(index.instance_variable_get(:@collection)).to receive(:find)
-          .with("Arial", nil)
+          .with("DejaVu Serif", nil)
           .and_return([])
 
-        index.find("Arial")
+        index.find("DejaVu Serif")
       end
     end
 
@@ -159,7 +159,7 @@ RSpec.describe Fontist::Indexes::SystemIndex do
 
   describe "when a font is installed into a scanned system directory" do
     let(:fixture_font) do
-      File.expand_path("../../fixtures/fonts/ArialBd.ttf", __dir__)
+      File.expand_path("../../fixtures/fonts/DejaVuSerif.ttf", __dir__)
     end
 
     around do |example|
@@ -196,7 +196,7 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       # `Font#install` does with its initial `find_system_font` lookup.
       expect(index.find("NonexistentFont")).to be_nil
 
-      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      installed_path = File.join(@fonts_dir, "DejaVuSerif.ttf")
       FileUtils.cp(fixture_font, installed_path)
       index.add_font(installed_path)
 
@@ -209,10 +209,10 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       # permanently; the rebuild must still latch the verification
       # instead of repeating it on every lookup
       index = described_class.instance
-      FileUtils.cp(fixture_font, File.join(@fonts_dir, "ArialBd.ttf"))
+      FileUtils.cp(fixture_font, File.join(@fonts_dir, "DejaVuSerif.ttf"))
       File.write(File.join(@fonts_dir, "Broken.ttf"), "not a font")
 
-      result = index.find("Arial")
+      result = index.find("DejaVu Serif")
       collection = index.instance_variable_get(:@collection)
       expect(result).not_to be_nil
 
@@ -224,16 +224,16 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       # index entry; a removal that leaves the file in place is
       # legitimately re-indexed by the next scan
       index = described_class.instance
-      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      installed_path = File.join(@fonts_dir, "DejaVuSerif.ttf")
       FileUtils.cp(fixture_font, installed_path)
       index.add_font(installed_path)
 
-      expect(index.find("Arial")).not_to be_nil
+      expect(index.find("DejaVu Serif")).not_to be_nil
 
       File.delete(installed_path)
       index.remove_font(installed_path)
 
-      expect(index.find("Arial")).to be_nil
+      expect(index.find("DejaVu Serif")).to be_nil
     end
 
     it "indexes every font in a multi-font install sequence" do
@@ -245,10 +245,10 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       second_font = Dir[File.expand_path("../../fixtures/fonts/*.otf", __dir__)]
         .first
 
-      first_path = File.join(@fonts_dir, "ArialBd.ttf")
+      first_path = File.join(@fonts_dir, "DejaVuSerif.ttf")
       FileUtils.cp(fixture_font, first_path)
       index.add_font(first_path)
-      expect(index.find("Arial")).not_to be_nil
+      expect(index.find("DejaVu Serif")).not_to be_nil
 
       second_path = File.join(@fonts_dir, File.basename(second_font))
       FileUtils.cp(second_font, second_path)
@@ -264,7 +264,7 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       # metadata; the companion file is what keeps the 30-minute
       # cross-process smart check alive
       index = described_class.instance
-      installed_path = File.join(@fonts_dir, "ArialBd.ttf")
+      installed_path = File.join(@fonts_dir, "DejaVuSerif.ttf")
       FileUtils.cp(fixture_font, installed_path)
       index.add_font(installed_path)
       collection = index.instance_variable_get(:@collection)
@@ -312,15 +312,15 @@ RSpec.describe Fontist::Indexes::SystemIndex do
       legacy = <<~YAML
         ---
         - path: "/x/Arial.ttf"
-          full_name: Arial
-          family_name: Arial
+          full_name: DejaVu Serif
+          family_name: DejaVu Serif
           type: Regular
       YAML
 
       loaded = Fontist::SystemIndexFontCollection.from_yaml(legacy)
 
       expect(Array(loaded.fonts).size).to eq(1)
-      expect(loaded.fonts.first.family_name).to eq("Arial")
+      expect(loaded.fonts.first.family_name).to eq("DejaVu Serif")
     end
 
     it "treats an empty or unparseable index file as empty" do
