@@ -55,8 +55,17 @@ module Fontist
           def repository_commit
             return @repository_commit if defined?(@repository_commit)
 
-            sha = Dir.chdir(@source_path) { `git rev-parse HEAD 2>/dev/null` }
-            @repository_commit = sha.strip[/\A\h{40}\z/]
+            @repository_commit = git_head_commit
+          end
+
+          # No shell involved, so this also works on Windows, where
+          # `2>/dev/null` is not a valid redirect.
+          def git_head_commit
+            sha = IO.popen(%w[git rev-parse HEAD], chdir: @source_path.to_s,
+                                                   err: File::NULL, &:read)
+            sha.strip[/\A\h{40}\z/]
+          rescue SystemCallError
+            nil
           end
 
           # Validate that the source path exists and contains fonts
