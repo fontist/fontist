@@ -75,6 +75,7 @@ module Fontist
           # Drop the memoized parsed instance along with the index file,
           # to force a fresh parse on next access
           Fontist::FromFileCache.clear
+          reset_sidecar_cache
 
           # Delete the index file and its lookup sidecar to force a
           # rebuild on next access. This is important for tests to
@@ -96,10 +97,12 @@ module Fontist
         def sidecar_entries
           sidecar_path = "#{path}.json"
           return unless File.exist?(sidecar_path)
-          return if File.exist?(path) &&
-            File.mtime(sidecar_path) < File.mtime(path)
+          return if sidecar_stale?(sidecar_path)
 
-          JSON.parse(File.read(sidecar_path))["entries"]
+          entries = cached_sidecar_entries(sidecar_path)
+          return entries if entries
+
+          parse_sidecar_entries(sidecar_path)
         rescue JSON::ParserError, TypeError
           nil
         end
@@ -108,6 +111,51 @@ module Fontist
           entries_hash = from_file(path).entries_hash
           File.write("#{path}.json", JSON.dump("entries" => entries_hash))
           entries_hash
+        end
+
+        private
+
+        def sidecar_stale?(sidecar_path)
+          File.exist?(path) && File.mtime(sidecar_path) < File.mtime(path)
+        end
+
+        def cached_sidecar_entries(sidecar_path)
+          mtime = File.mtime(sidecar_path)
+          entry = nil
+          sidecar_cache_mutex.synchronize do
+            entry = sidecar_cache[sidecar_path]
+          end
+          entry[:entries] if entry&.fetch(:mtime, nil) == mtime
+        end
+
+        # Parsing the sidecar costs tens of milliseconds per call and
+        # lookups re-enter many times per operation (every printed font
+        # path consults the filename sidecar), so parsed entries are
+        # memoized per sidecar mtime and shared between callers; treat
+        # as read-only
+        def parse_sidecar_entries(sidecar_path)
+          mtime = File.mtime(sidecar_path)
+          entries = JSON.parse(File.read(sidecar_path))["entries"]
+
+          sidecar_cache_mutex.synchronize do
+            sidecar_cache[sidecar_path] = { mtime: mtime, entries: entries }
+          end
+
+          entries
+        end
+
+        # Class-level cache of parsed sidecar entries, invalidated by
+        # sidecar mtime so `fontist update` rewrites are picked up
+        def sidecar_cache
+          @sidecar_cache ||= {}
+        end
+
+        def sidecar_cache_mutex
+          @sidecar_cache_mutex ||= Mutex.new
+        end
+
+        def reset_sidecar_cache
+          sidecar_cache_mutex.synchronize { sidecar_cache.clear }
         end
       end
 
