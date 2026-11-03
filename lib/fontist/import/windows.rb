@@ -119,7 +119,7 @@ module Fontist
       end
 
       def formula_path(description)
-        filename = "#{normalize_key(description)}.yml"
+        filename = "#{formula_key(description)}.yml"
         formula_dir.join(filename)
       end
 
@@ -133,6 +133,12 @@ module Fontist
                              FileUtils.mkdir_p(path)
                            end
                          end
+      end
+
+      # File key rule of the formulas repository (test/test_name.rb): the
+      # formula name, lowercased, with spaces as underscores.
+      def formula_key(name)
+        name.downcase.tr(" ", "_")
       end
 
       def normalize_key(name)

@@ -16,6 +16,8 @@ RSpec.describe Fontist::ImportCLI do
           .to eq(Fontist::WindowsFodMetadata.all_capabilities.size)
         expect(formulas.map { |f| [f.schema_version, f.platforms] }.uniq)
           .to eq([[5, ["windows"]]])
+        keys = formulas.map { |f| "#{f.name.downcase.tr(' ', '_')}.yml" }
+        expect(Dir.children(dir).sort).to eq(keys.sort)
       end
     end
   end
