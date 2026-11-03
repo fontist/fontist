@@ -10,10 +10,15 @@ RSpec.describe Fontist::YamlBackend do
   end
 
   describe ".activate!" do
-    it "keeps the standard engine by default" do
+    it "pins the standard engine by default" do
       ENV.delete("FONTIST_YAML")
 
-      expect(described_class.activate!).to be_nil
+      # The pin is explicit because lutaml-model would otherwise
+      # auto-select yeptris whenever the gem is merely in the bundle
+      expect(described_class.activate!)
+        .to eq Lutaml::Yaml::Adapter::StandardAdapter
+      expect(Lutaml::Model::Config.instance.yaml_adapter)
+        .to eq Lutaml::Yaml::Adapter::StandardAdapter
     end
 
     context "when FONTIST_YAML=yeptris" do

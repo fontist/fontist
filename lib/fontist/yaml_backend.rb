@@ -14,13 +14,26 @@ module Fontist
     ENABLED_VALUE = "yeptris"
 
     class << self
-      # Returns the activated adapter class, or nil when the standard
-      # engine stays in place (flag unset, or yeptris unavailable)
+      # Pins the YAML adapter explicitly: lutaml-model auto-selects
+      # yeptris for a format whenever the yeptris gem is in the bundle,
+      # which would silently switch YAML parsing and dumping (and its
+      # line-wrap behavior) for every model in the process. The yeptris
+      # YAML engine activates only when explicitly enabled with
+      # FONTIST_YAML=yeptris; otherwise the standard Psych engine is
+      # pinned, because the yeptris x86_64-linux and Windows builds
+      # currently mis-parse some plain scalars as single-element Arrays
+      # (leptris/yeptris#863). Flip the default once that parity fix
+      # lands.
+      #
+      # Returns the activated adapter class.
       def activate!
-        return nil unless enabled?
-        return nil unless yeptris_available?
+        adapter =
+          if enabled? && yeptris_available?
+            Yaml::YeptrisAdapter
+          else
+            Lutaml::Yaml::Adapter::StandardAdapter
+          end
 
-        adapter = Yaml::YeptrisAdapter
         Lutaml::Model::AdapterResolver.set_adapter_class(:yaml, adapter)
 
         adapter
