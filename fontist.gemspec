@@ -8,8 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
+  # rubocop:disable Layout/LineLength
   spec.summary       = "Install openly-licensed fonts on Windows, Linux and Mac!"
   spec.description   = "Install openly-licensed fonts on Windows, Linux and Mac!"
+  # rubocop:enable Layout/LineLength
   spec.homepage      = "https://github.com/fontist/fontist"
   spec.license       = "BSD-2-Clause"
 
