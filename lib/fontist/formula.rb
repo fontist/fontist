@@ -106,10 +106,16 @@ module Fontist
         # Parsing thousands of formula files dominates index rebuilds;
         # worker threads overlap the libyaml C parse, which releases
         # the GVL. The pool is capped like every other fontist pool, so
-        # worker counts never scale with host core counts
+        # worker counts never scale with host core counts.
+        #
+        # The parses bypass the shared parse cache: a corpus sweep never
+        # hits it (the LRU holds 64 entries against thousands of files),
+        # so caching would only evict entries that lookups re-use and
+        # pin dozens of parsed formulas in long-lived host processes
+        # after the sweep ends
         workers = [Parallel.processor_count, 8].min
         formulas = Parallel.map(paths, in_threads: workers) do |path|
-          Formula.from_file(path)
+          Formula.from_file(path, cache: false)
         end.compact
 
         FormulaCollection.new(formulas)
@@ -181,7 +187,7 @@ module Fontist
         find_by_key(key)
       end
 
-      def from_file(path)
+      def from_file(path, cache: true)
         unless File.exist?(path)
           raise Fontist::Errors::FormulaNotFoundError,
                 "Formula file not found: #{path}"
@@ -192,8 +198,13 @@ module Fontist
         # Parsing a formula costs ~10-20ms and the same formula is
         # re-read on every lookup, so the parsed instance is memoized
         # (mtime-validated) and shared between callers; treat as
-        # read-only
-        formula = Fontist::FromFileCache.memoize(path) { from_yaml(content) }
+        # read-only. Callers that sweep the whole corpus pass
+        # cache: false, since their parses would only thrash the cache
+        formula = if cache
+                    Fontist::FromFileCache.memoize(path) { from_yaml(content) }
+                  else
+                    from_yaml(content)
+                  end
 
         formula.tap do |f|
           f.path = path
