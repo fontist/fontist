@@ -157,6 +157,11 @@ module Fontist
     option :subset_text,
            type: :string,
            desc: "Keep only the glyphs for these characters"
+    # Variable-font instancing
+    option :instance,
+           type: :string,
+           desc: "Install a static instance of a variable font " \
+                 "(e.g., 'wght=300,wdth=90')"
     def install(*fonts)
       handle_class_options(options)
 

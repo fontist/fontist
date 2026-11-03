@@ -1,14 +1,13 @@
 module Fontist
   # Font file operations backed by the Fontisan gem: collection member
-  # extraction, collection bundling, format conversion and subsetting.
-  #
-  # Variable-font instancing is deliberately absent: Fontisan 0.4.46 cannot
-  # produce a genuine static instance (see the README "Font operations").
+  # extraction, collection bundling, format conversion, subsetting and
+  # variable-font instancing.
   module FontOperations
     class Error < Errors::GeneralError; end
 
     autoload :Convert, "#{__dir__}/font_operations/convert"
     autoload :Extract, "#{__dir__}/font_operations/extract"
+    autoload :Instance, "#{__dir__}/font_operations/instance"
     autoload :Pack, "#{__dir__}/font_operations/pack"
     autoload :Subset, "#{__dir__}/font_operations/subset"
 

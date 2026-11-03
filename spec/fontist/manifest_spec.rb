@@ -541,6 +541,8 @@ RSpec.describe Fontist::Manifest do
           styles: [Regular]
           format: woff2
           collection_index: 1
+        Mona Sans:
+          instance: wght=300
       YAML
     end
 
@@ -549,7 +551,9 @@ RSpec.describe Fontist::Manifest do
 
       expect(fonts.map { |f| [f.name, f.styles, f.format, f.collection_index] })
         .to eq([["Lato", ["Regular"], nil, nil],
-                ["Space Mono", ["Regular"], "woff2", 1]])
+                ["Space Mono", ["Regular"], "woff2", 1],
+                ["Mona Sans", nil, nil, nil]])
+      expect(fonts.last.format_spec.instance).to eq("wght=300")
     end
 
     it "passes the options to the font install" do

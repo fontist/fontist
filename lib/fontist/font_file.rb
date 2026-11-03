@@ -63,7 +63,8 @@ module Fontist
           font = validate_and_load_single_font(path)
         end
         names = extract_names_from_font(font)
-        font.close
+        # WOFF and WOFF2 fonts from Fontisan hold no open file to close.
+        font.close if font.respond_to?(:close)
         names
       rescue StandardError => e
         raise_font_file_error(e)
