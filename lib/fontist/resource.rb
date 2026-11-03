@@ -6,7 +6,12 @@ module Fontist
     attribute :name, :string
     attribute :source, :string
     attribute :urls, :string, collection: true
-    attribute :sha256, :string, collection: true
+    # Declared scalar: the corpus writes one digest per resource almost
+    # everywhere, and consumers render it verbatim. A handful of
+    # resources pair one digest with each mirror URL and write a list;
+    # a scalar-typed attribute keeps both forms as written instead of
+    # normalizing every single digest into a one-element Array.
+    attribute :sha256, :string
     attribute :file_size, :integer
     attribute :family, :string
     attribute :files, :string, collection: true
