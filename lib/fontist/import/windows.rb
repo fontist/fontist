@@ -53,7 +53,7 @@ module Fontist
       def base_attrs(description)
         {
           schema_version: 5,
-          name: description,
+          name: formula_name(description),
           description: "#{description} for Windows",
           homepage: HOMEPAGE,
           platforms: ["windows"],
@@ -135,10 +135,15 @@ module Fontist
                          end
       end
 
-      # File key rule of the formulas repository (test/test_name.rb): the
-      # formula name, lowercased, with spaces as underscores.
-      def formula_key(name)
-        name.downcase.tr(" ", "_")
+      # Formula names keep to letters, digits and spaces, so the file key the
+      # formulas repository derives from them (lowercase, spaces as
+      # underscores) needs no shell escaping in its CI.
+      def formula_name(description)
+        description.tr("-", " ").delete("^A-Za-z0-9 ").squeeze(" ").strip
+      end
+
+      def formula_key(description)
+        formula_name(description).downcase.tr(" ", "_")
       end
 
       def normalize_key(name)

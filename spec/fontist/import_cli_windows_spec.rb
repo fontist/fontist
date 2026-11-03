@@ -18,6 +18,7 @@ RSpec.describe Fontist::ImportCLI do
           .to eq([[5, ["windows"]]])
         keys = formulas.map { |f| "#{f.name.downcase.tr(' ', '_')}.yml" }
         expect(Dir.children(dir).sort).to eq(keys.sort)
+        expect(keys).to all(match(/\A[a-z0-9_]+\.yml\z/))
       end
     end
   end
