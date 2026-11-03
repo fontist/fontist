@@ -57,5 +57,35 @@ RSpec.describe Fontist::Indexes::DefaultFamilyFontIndex do
 
       expect(fast.map(&:name)).to eq(["Lato"])
     end
+
+    it "memoizes parsed sidecar entries between lookups" do
+      first = index_class.sidecar_entries
+      second = index_class.sidecar_entries
+
+      expect(first).not_to be_nil
+      expect(second).to equal(first)
+    end
+
+    it "picks up sidecar rewrites on the next lookup" do
+      index_class.sidecar_entries
+
+      rewritten = JSON.parse(File.read(sidecar_path))
+      rewritten["entries"]["zzz-custom"] = ["x.yml"]
+      File.write(sidecar_path, JSON.dump(rewritten))
+
+      entries = index_class.sidecar_entries
+
+      expect(entries["zzz-custom"]).to eq(["x.yml"])
+    end
+
+    it "drops the memo when the index cache is reset" do
+      first = index_class.sidecar_entries
+      index_class.reset_cache
+
+      index_class.from_file(yaml_path)
+      second = index_class.sidecar_entries
+
+      expect(second).not_to equal(first)
+    end
   end
 end
