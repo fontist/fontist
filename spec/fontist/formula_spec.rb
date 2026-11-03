@@ -251,3 +251,54 @@ RSpec.describe Fontist::Formula do
     end
   end
 end
+
+RSpec.describe "formula parse caching" do
+  let(:formula_path) { "spec/examples/formulas/andale.yml" }
+
+  after { Fontist::FromFileCache.clear }
+
+  it "shares the parsed instance between from_file calls" do
+    first = Fontist::Formula.from_file(formula_path)
+    second = Fontist::Formula.from_file(formula_path)
+
+    expect(second).to equal(first)
+  end
+
+  it "bypasses the cache when cache is false" do
+    cached = Fontist::Formula.from_file(formula_path)
+    uncached = Fontist::Formula.from_file(formula_path, cache: false)
+
+    expect(uncached).not_to equal(cached)
+    expect(uncached.name).to eq(cached.name)
+  end
+
+  it "leaves the cache empty after a corpus sweep through .all" do
+    Fontist.formulas_path = Pathname.new("spec/examples/formulas")
+    Fontist::Formula.all
+
+    expect(Fontist::FromFileCache.size).to eq(0)
+  ensure
+    Fontist.formulas_path = nil
+    Fontist::FromFileCache.clear
+  end
+
+  it "keeps the cache populated for single-formula lookups" do
+    Fontist::Formula.from_file(formula_path)
+
+    expect(Fontist::FromFileCache.size).to eq(1)
+  ensure
+    Fontist::FromFileCache.clear
+  end
+
+  it "returns formulas from .all with paths and names resolved" do
+    Fontist.formulas_path = Pathname.new("spec/examples/formulas")
+    formulas = Fontist::Formula.all.formulas
+    andale = formulas.find { |f| f.path.end_with?("andale.yml") }
+  ensure
+    Fontist.formulas_path = nil
+    Fontist::FromFileCache.clear
+
+    expect(andale).not_to be_nil
+    expect(andale.name).to eq("Andale")
+  end
+end

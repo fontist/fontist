@@ -41,6 +41,10 @@ module Fontist
         mutex.synchronize { cache.clear }
       end
 
+      def size
+        mutex.synchronize { cache.size }
+      end
+
       private
 
       attr_reader :mutex
