@@ -73,8 +73,8 @@ RSpec.describe "variable font index entries" do
       found = index.find("Mona Sans Mono VF", "Bold")
 
       expect(found).not_to be_nil
-      expect(found.map(&:path).uniq).to eq([File.join(temp_dir,
-                                                      "MonaSansMonoVF[wght].ttf")])
+      expect(found.map(&:path).uniq)
+        .to eq([File.join(temp_dir, "MonaSansMonoVF[wght].ttf")])
     end
 
     it "finds a non-RIBBI weight under its own family" do
@@ -129,7 +129,7 @@ RSpec.describe "stale v1 index self-heal" do
 end
 
 RSpec.describe "stale format detection scoping" do
-  it "does not flag an in-process collection without a persisted metadata file" do
+  it "does not flag an in-process collection as stale" do
     collection = Fontist::SystemIndexFontCollection.new
 
     expect(collection.stale_format?).to be false
