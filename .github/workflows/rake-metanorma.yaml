@@ -55,6 +55,7 @@ jobs:
           else
             echo 'gem "fontist", path: "./fontist"' >> Gemfile.devel
           fi
+        shell: bash
 
       - uses: ruby/setup-ruby@v1
         with:
