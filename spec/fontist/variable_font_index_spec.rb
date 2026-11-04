@@ -90,3 +90,40 @@ RSpec.describe "variable font index entries" do
     end
   end
 end
+
+RSpec.describe "stale v1 index self-heal" do
+  include_context "fresh home"
+
+  let(:vf_path) do
+    File.expand_path("../fixtures/fonts/MonaSansVF/MonaSansMonoVF[wght].ttf",
+                     __dir__)
+  end
+
+  def index
+    Fontist::Indexes::FontistIndex.instance
+  end
+
+  it "rebuilds a v1-generation index on the first lookup" do
+    FileUtils.cp(vf_path, File.join(temp_dir, "MonaSansMonoVF[wght].ttf"))
+    allow(Fontist).to receive(:fonts_path).and_return(Pathname.new(temp_dir))
+    index.rebuild
+    expect(index.fonts.size).to be > 1
+
+    # Simulate a volume persisted by a pre-v2 fontist: one entry per
+    # file, generation stamp absent (0).
+    v1 = index.fonts.select { |f| f.family_name.include?("ExtraLight") }
+    expect(v1).not_to be_empty
+    index.collection.fonts = v1
+    index.collection.persist_metadata
+    metadata = YAML.load_file(index.collection.metadata_path.to_s)
+    metadata["format_version"] = 1
+    File.write(index.collection.metadata_path, YAML.dump(metadata))
+    Fontist::Indexes::FontistIndex.reset_cache
+
+    healed = Fontist::Indexes::FontistIndex.instance
+    found = healed.find("Mona Sans Mono VF", "Bold")
+
+    expect(found).not_to be_nil
+    expect(healed.fonts.size).to be > 1
+  end
+end
