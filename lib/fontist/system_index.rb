@@ -148,10 +148,12 @@ module Fontist
   class SystemIndexMetadata < Lutaml::Model::Serializable
     attribute :last_scan_time, :integer, default: -> { 0 }
     attribute :directory_mtimes, :string, collection: true, default: -> { [] }
+    attribute :format_version, :integer, default: -> { 0 }
 
     key_value do
       map "last_scan_time", to: :last_scan_time
       map "directory_mtimes", to: :directory_mtimes
+      map "format_version", to: :format_version
     end
 
     def self.load(path)
@@ -173,9 +175,12 @@ module Fontist
     instances :fonts, SystemIndexFont
     attr_accessor :path, :paths_loader
 
-    # Metadata for smart change detection
+    # Metadata for smart change detection. The format generation lives
+    # only in the companion metadata file (see restore_metadata); it is
+    # never serialized into the entry list itself.
     attribute :last_scan_time, :integer, default: -> { 0 }
     attribute :directory_mtimes, :string, collection: true, default: -> { [] }
+    attribute :format_version, :integer, default: -> { 0 }
 
     key_value do
       # A bare entry list: the scan metadata lives in a companion
@@ -188,6 +193,13 @@ module Fontist
     # Don't rebuild index more frequently than this (in seconds)
     INDEX_REBUILD_THRESHOLD = 30 * 60 # 30 minutes
 
+    # Index entry shape generation. v1 stored one entry per font file;
+    # v2 stores one entry per named instance of variable fonts (the
+    # FiraCode[wght].ttf class of files). Bump when the entry shape
+    # changes again: persisted indexes carrying an older generation
+    # cannot answer the current lookups and force a rebuild.
+    INDEX_FORMAT_VERSION = 2
+
     def metadata_path
       "#{@path}.metadata.yml"
     end
@@ -197,19 +209,28 @@ module Fontist
 
       SystemIndexMetadata
         .new(last_scan_time: last_scan_time,
-             directory_mtimes: directory_mtimes)
+             directory_mtimes: directory_mtimes,
+             format_version: INDEX_FORMAT_VERSION)
         .save(metadata_path)
     end
 
     def restore_metadata
       return unless @path
-      return unless last_scan_time.to_i.zero?
 
       meta = SystemIndexMetadata.load(metadata_path)
-      return unless meta.last_scan_time.to_i.positive?
-
       self.last_scan_time = meta.last_scan_time
       self.directory_mtimes = meta.directory_mtimes
+      self.format_version = meta.format_version
+    end
+
+    # Whether the persisted index predates the current entry shape. A
+    # v1 index answers every lookup of a variable font's non-default
+    # families with "missing" (the file registered only under its
+    # default instance), and the directory-mtime fast paths would keep
+    # trusting it forever, so the generation mismatch itself is the
+    # staleness signal.
+    def stale_format?
+      format_version.to_i != INDEX_FORMAT_VERSION
     end
 
     def set_path(path)
@@ -263,6 +284,7 @@ module Fontist
     end
 
     def find(font, style, format_spec: nil)
+      rebuild_if_stale_format!
       current_fonts = index
 
       return nil if current_fonts.nil? || current_fonts.empty?
@@ -283,6 +305,35 @@ module Fontist
       end
 
       found_fonts.empty? ? nil : found_fonts
+    end
+
+    # Rebuild once per process when the persisted index predates
+    # INDEX_FORMAT_VERSION. Runs even under read_only_mode: a stale
+    # generation answers every lookup of a variable font's non-default
+    # families with "missing", which is worse than a one-off rebuild.
+    # Only a VALID, non-empty persisted index heals: a fresh environment
+    # (no file yet) and a corrupt file (the corruption path explains the
+    # removal fix) take their normal routes.
+    def rebuild_if_stale_format!
+      return if @format_check_done
+
+      @format_check_done = true
+      return unless @path && File.exist?(@path.to_s)
+      return if fonts.nil? || fonts.empty?
+
+      # A corrupt index keeps its documented contract: the corruption
+      # error with the removal hint, not a silent heal.
+      check_index
+
+      restore_metadata
+      return unless stale_format?
+
+      Fontist.ui.warn(
+        "Font index format changed (v#{format_version.to_i} -> " \
+        "v#{INDEX_FORMAT_VERSION}); rebuilding once.",
+      )
+      build(forced: true)
+      mark_verified!
     end
 
     # Drops the cached family lookup; called when fonts are removed in
@@ -573,7 +624,12 @@ module Fontist
     end
 
     def detect_paths(paths, verbose: false, stats: nil)
-      existing_fonts_by_path = fonts&.group_by(&:path) || {}
+      # A generation change invalidates every cached parse in one sweep:
+      # v1 entries (one per file) cannot be reused to build v2 lookups
+      # (one per named instance), and the per-file cache fast path would
+      # otherwise keep serving the stale entry for every unchanged file.
+      existing_fonts_by_path =
+        stale_format? ? {} : (fonts&.group_by(&:path) || {})
 
       # Initialize stats if not provided
       stats ||= IndexStats.new if verbose
