@@ -115,16 +115,19 @@ module Fontist
         end
       end
 
-      def update(name)
+      def update(name, rebuild: true)
         path = repo_path(name)
         unless Dir.exist?(path)
           raise(Errors::RepoNotFoundError, "No such repo '#{name}'.")
         end
 
         git = Git.open(path)
+        before = git.rev_parse("HEAD")
         git.pull("origin", git.current_branch)
+        changed = git.rev_parse("HEAD") != before
 
-        rebuild_index_if_needed
+        rebuild_index_if_needed if rebuild && changed
+        changed
       rescue StandardError => e
         # Catch all git-related errors
         if e.class.name.include?("Git") || e.message.match?(/git|pull|repository/i)
