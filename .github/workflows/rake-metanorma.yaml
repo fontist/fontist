@@ -43,9 +43,18 @@ jobs:
         with:
           path: "fontist"
 
-      # Append rather than overwrite: metanorma's own Gemfile.devel carries
-      # the taste-stack gems its compile specs need (metanorma/issues/630)
-      - run: 'echo ''gem "fontist", path: "./fontist"'' >> Gemfile.devel'
+      # Point any existing fontist line at this checkout, appending only
+      # when the host Gemfile declares none (metanorma/issues/630 keeps
+      # the taste-stack gems it carries; since metanorma#652 its
+      # Gemfile.devel also pins fontist, which a blind append would
+      # duplicate into a version-conflict error).
+      - run: |
+          if grep -q '^gem "fontist"' Gemfile.devel Gemfile 2>/dev/null; then
+            sed -i.bak 's/^gem "fontist".*/gem "fontist", path: ".\/fontist"/' Gemfile.devel Gemfile 2>/dev/null || true
+            rm -f Gemfile.devel.bak Gemfile.bak
+          else
+            echo 'gem "fontist", path: "./fontist"' >> Gemfile.devel
+          fi
 
       - uses: ruby/setup-ruby@v1
         with:
