@@ -1,5 +1,4 @@
 require "plist"
-require "nokogiri"
 require "paint"
 
 module Fontist

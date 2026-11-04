@@ -1,4 +1,4 @@
-require "nokogiri"
+require "moxml"
 require "paint"
 
 module Fontist
@@ -277,7 +277,7 @@ module Fontist
 
       def font_links
         html = URI.parse(ROOT).open("User-Agent" => Fontist::Utils::UserAgent.random_user_agent).read
-        document = Nokogiri::HTML.parse(html)
+        document = Moxml.new.parse(html)
         links = document.css(CARD_LINK_SELECTOR)
         links = document.css(LEGACY_LINK_SELECTOR) if links.empty?
         links
@@ -408,7 +408,7 @@ module Fontist
         response = uri.open("User-Agent" => Fontist::Utils::UserAgent.random_user_agent)
         current_url = response.base_uri
         html = response.read
-        document = Nokogiri::HTML.parse(html)
+        document = Moxml.new.parse(html)
 
         if @verbose
           # Debug: Show what selectors find using standardized method

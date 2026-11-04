@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "git", "~> 6.0"
   spec.add_dependency "lutaml-model", "~> 0.8.162"
   spec.add_dependency "marcel", "~> 1.0"
-  spec.add_dependency "nokogiri", "~> 1.0"
+  spec.add_dependency "moxml", "~> 0.6"
   spec.add_dependency "octokit", "~> 10.0"
   spec.add_dependency "paint", "~> 2.3"
   spec.add_dependency "parallel", "~> 1.24"
