@@ -117,4 +117,42 @@ RSpec.describe Fontist::Update do
       end
     end
   end
+
+  context "index rebuild skipping" do
+    it "skips the rebuild when the pull brings no changes" do
+      fresh_fontist_home do
+        fresh_main_repo("v5") do
+          described_class.call
+          index_path = Fontist.formula_filename_index_path
+          expect(File.exist?(index_path)).to be true
+          mtime = File.mtime(index_path)
+
+          described_class.call
+
+          expect(File.mtime(index_path)).to eq(mtime)
+        end
+      end
+    end
+
+    it "rebuilds the index when the remote gains a new formula" do
+      fresh_fontist_home do
+        fresh_main_repo("v5") do |remote_dir|
+          described_class.call
+          index_path = Fontist.formula_filename_index_path
+          mtime = File.mtime(index_path)
+
+          File.write(File.join(remote_dir, "Formulas", "newfont.yml"),
+                     "name: New Font\n")
+          git = Git.open(remote_dir)
+          GitTestConfig.set_test_identity(git)
+          git.add(File.join("Formulas", "newfont.yml"))
+          git.commit("Add new font")
+
+          described_class.call
+
+          expect(File.mtime(index_path)).to be > mtime
+        end
+      end
+    end
+  end
 end
