@@ -127,3 +127,31 @@ RSpec.describe "stale v1 index self-heal" do
     expect(healed.fonts.size).to be > 1
   end
 end
+
+RSpec.describe "stale format detection scoping" do
+  it "does not flag an in-process collection without a persisted metadata file" do
+    collection = Fontist::SystemIndexFontCollection.new
+
+    expect(collection.stale_format?).to be false
+  end
+
+  it "flags a persisted index whose metadata predates the current generation" do
+    Dir.mktmpdir do |dir|
+      index_path = File.join(dir, "system_index.yml")
+      collection = Fontist::SystemIndexFontCollection.new
+      collection.set_path(index_path)
+      collection.persist_metadata
+
+      metadata = YAML.load_file(collection.metadata_path.to_s)
+      metadata["format_version"] = 1
+      File.write(collection.metadata_path, YAML.dump(metadata))
+
+      reloaded = Fontist::SystemIndexFontCollection.from_file(
+        path: index_path,
+        paths_loader: -> { [] },
+      )
+
+      expect(reloaded.stale_format?).to be true
+    end
+  end
+end

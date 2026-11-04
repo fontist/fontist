@@ -228,8 +228,12 @@ module Fontist
     # families with "missing" (the file registered only under its
     # default instance), and the directory-mtime fast paths would keep
     # trusting it forever, so the generation mismatch itself is the
-    # staleness signal.
+    # staleness signal. A collection with no companion metadata file is
+    # fresh or in-process memory, not a persisted v1 volume: treating
+    # it as stale would discard every cached entry on the next rebuild.
     def stale_format?
+      return false unless @path && File.exist?(metadata_path.to_s)
+
       format_version.to_i != INDEX_FORMAT_VERSION
     end
 
