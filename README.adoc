@@ -73,8 +73,13 @@ xattr -d com.apple.quarantine ./fontist-<version>-macos-arm64
 Each run prints a notice from the packager that the executable is unsigned.
 It is harmless.
 
+fontist needs git 2.43 or newer to fetch formulas. The git that ships with
+macOS is older, so install a current one first (for example
+`brew install git`).
+
 On Debian and Ubuntu, install the `.deb` package. On Fedora and RHEL, install
-the `.rpm` package. Both put `fontist` in `/usr/bin` and depend on `git`.
+the `.rpm` package. Both put `fontist` in `/usr/bin` and depend on git 2.43 or
+newer, which Ubuntu 24.04, Debian 13, Fedora and RHEL 9 provide.
 
 [source,sh]
 ----

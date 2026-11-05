@@ -109,12 +109,15 @@ jobs:
           path: out/fontist-${{ matrix.name }}
           if-no-files-found: error
 
-      # Only the system directories stay on PATH, so the Ruby set up above is
-      # out of reach. (macOS keeps a system ruby in /usr/bin; the fresh distro
-      # containers in package-smoke are the no-Ruby-at-all check.)
+      # Only the system directories and git stay on PATH, so the Ruby set up
+      # above is out of reach. (macOS keeps a system ruby in /usr/bin; the
+      # fresh distro containers in package-smoke are the no-Ruby-at-all
+      # check.) fontist's git gem needs git >= 2.43, newer than Apple's, so
+      # the runner's own git is kept.
       - name: Smoke test without the build Ruby
         run: |
-          env -i HOME="$HOME" PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+          git_dir="$(dirname "$(command -v git)")"
+          env -i HOME="$HOME" PATH="$git_dir:/usr/bin:/bin:/usr/sbin:/sbin" \
             script/tebako/smoke.sh "out/fontist-${{ matrix.name }}"
 
   packages:
@@ -161,7 +164,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [ 'ubuntu:22.04', 'ubuntu:24.04', 'debian:12', 'fedora:latest', 'rockylinux:9' ]
+        # Distros whose git meets the git gem's >= 2.43; older ones refuse
+        # the package on its git dependency.
+        image: [ 'ubuntu:24.04', 'debian:13', 'fedora:latest', 'rockylinux:9' ]
         arch: [ amd64 ]
         runner: [ ubuntu-24.04 ]
         include:
