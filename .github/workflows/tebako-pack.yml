@@ -189,17 +189,9 @@ jobs:
         include:
           - { image: 'ubuntu:24.04', arch: arm64, runner: ubuntu-24.04-arm }
     steps:
+      # Only the smoke scripts are used here, so the dispatching commit is
+      # enough (these containers have no git to check out a tag with).
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # A release build packs the validated release tag, not the dispatching
-      # commit (release.yml bumps the version after this run's commit).
-      - name: Check out the release tag
-        if: needs.resolve.outputs.tag != ''
-        env:
-          TAG: ${{ needs.resolve.outputs.tag }}
-        run: git checkout --detach "refs/tags/$TAG"
 
       - uses: actions/download-artifact@v4
         with:
