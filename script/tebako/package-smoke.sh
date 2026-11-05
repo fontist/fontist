@@ -6,6 +6,8 @@
 set -euo pipefail
 
 dir="${1:?usage: package-smoke.sh <package-dir>}"
+# apt reads a bare relative path as a package name; give it an absolute one.
+dir="$(cd "$dir" && pwd)"
 here="$(cd "$(dirname "$0")" && pwd)"
 
 if command -v apt-get >/dev/null; then
