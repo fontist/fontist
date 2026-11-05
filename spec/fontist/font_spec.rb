@@ -1288,6 +1288,70 @@ RSpec.describe Fontist::Font do
       end
     end
 
+    context "with a font present only in a system location",
+            :platform_test_fonts do
+      let(:font) { test_font_downcase }
+
+      it "returns the found system paths as its status" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to(test_formula, Fontist.formulas_path)
+            example_font_to_system(test_font_file)
+
+            statuses = unpack_statuses(command)
+            expect(statuses).to include(
+              [File.join(@system_dir, test_font_file)],
+            )
+            expect(statuses).not_to include(false)
+          end
+        end
+      end
+
+      it "matches the font name case-insensitively" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to(test_formula, Fontist.formulas_path)
+            example_font_to_system(test_font_file)
+
+            statuses = unpack_statuses(Fontist::Font.list(font.upcase))
+            expect(statuses).to include(an_instance_of(Array))
+          end
+        end
+      end
+
+      it "looks the font up once, not once per style" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to(test_formula, Fontist.formulas_path)
+            example_font_to_system(test_font_file)
+
+            expect(Fontist::SystemFont).to receive(:find_styles)
+              .with(satisfy { |n| n.casecmp?(font) }).once.and_call_original
+            command
+          end
+        end
+      end
+    end
+
+    context "with a font present both in fontist and system locations",
+            :platform_test_fonts do
+      let(:font) { test_font_downcase }
+
+      it "reports the fontist-managed status" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to(test_formula, Fontist.formulas_path)
+            example_font_to_fontist(test_font_file)
+            example_font_to_system(test_font_file)
+
+            statuses = unpack_statuses(command)
+            expect(statuses).to include(true)
+            expect(statuses).to all(be(true).or(be(false)))
+          end
+        end
+      end
+    end
+
     context "with no font and nothing installed" do
       let(:font) { nil }
 

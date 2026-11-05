@@ -446,8 +446,9 @@ module Fontist
     def list_styles(formulas)
       map_to_hash(formulas) do |formula|
         map_to_hash(requested_fonts(formula.all_fonts)) do |font|
+          external = external_paths_by_type(font)
           map_to_hash(font.styles) do |style|
-            installed(style)
+            installed(style, external)
           end
         end
       end
@@ -465,8 +466,25 @@ module Fontist
       end
     end
 
-    def installed(style)
-      path(style) ? true : false
+    # A font found only outside the fontist directory reports its paths
+    # instead of true, so callers can tell the copies fontist cannot
+    # update or remove from the managed ones.
+    def installed(style, external)
+      return true if path(style)
+
+      external.fetch(style.type.to_s.downcase, false)
+    end
+
+    # One index lookup per font name, grouped by lower-cased style type.
+    def external_paths_by_type(font)
+      entries = SystemFont.find_styles(font.name) || []
+      entries.reject { |entry| in_fontist_dir?(entry.path) }
+        .group_by { |entry| entry.type.to_s.downcase }
+        .transform_values { |group| group.map(&:path) }
+    end
+
+    def in_fontist_dir?(path)
+      path.start_with?(Fontist.fonts_path.to_s)
     end
 
     def raise_non_supported_font
