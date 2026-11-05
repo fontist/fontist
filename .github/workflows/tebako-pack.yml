@@ -45,7 +45,6 @@ jobs:
     name: resolve tag
     runs-on: ubuntu-24.04
     outputs:
-      ref: ${{ steps.tag.outputs.ref }}
       tag: ${{ steps.tag.outputs.tag }}
     steps:
       # After release.yml the default branch carries the released version.
@@ -65,10 +64,12 @@ jobs:
             tag="$INPUT_TAG"
           fi
           if [ -n "$tag" ]; then
+            # Only a version tag that is a published release of this repo.
+            if ! printf '%s' "$tag" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+              echo "not a release tag: $tag" >&2
+              exit 1
+            fi
             gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json tagName >/dev/null
-            echo "ref=$tag" >> "$GITHUB_OUTPUT"
-          else
-            echo "ref=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "building ${tag:-$GITHUB_SHA}"
@@ -90,7 +91,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.resolve.outputs.ref }}
+          fetch-depth: 0
+
+      # A release build packs the validated release tag, not the dispatching
+      # commit (release.yml bumps the version after this run's commit).
+      - name: Check out the release tag
+        if: needs.resolve.outputs.tag != ''
+        env:
+          TAG: ${{ needs.resolve.outputs.tag }}
+        run: git checkout --detach "refs/tags/$TAG"
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -127,7 +136,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.resolve.outputs.ref }}
+          fetch-depth: 0
+
+      # A release build packs the validated release tag, not the dispatching
+      # commit (release.yml bumps the version after this run's commit).
+      - name: Check out the release tag
+        if: needs.resolve.outputs.tag != ''
+        env:
+          TAG: ${{ needs.resolve.outputs.tag }}
+        run: git checkout --detach "refs/tags/$TAG"
 
       - uses: actions/download-artifact@v4
         with:
@@ -174,7 +191,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.resolve.outputs.ref }}
+          fetch-depth: 0
+
+      # A release build packs the validated release tag, not the dispatching
+      # commit (release.yml bumps the version after this run's commit).
+      - name: Check out the release tag
+        if: needs.resolve.outputs.tag != ''
+        env:
+          TAG: ${{ needs.resolve.outputs.tag }}
+        run: git checkout --detach "refs/tags/$TAG"
 
       - uses: actions/download-artifact@v4
         with:
