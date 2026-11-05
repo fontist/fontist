@@ -42,6 +42,51 @@ And then execute:
 bundle install
 ----
 
+=== Install without Ruby
+
+Each release on the
+https://github.com/fontist/fontist/releases[GitHub Releases] page has a
+self-contained `fontist` executable. It does not need a Ruby installation.
+Linux and macOS are supported.
+
+Download the file for your system, check it, and make it executable. The
+names are `fontist-<version>-linux-x86_64`, `-linux-arm64`, `-macos-arm64`
+and `-macos-x86_64`.
+
+[source,sh]
+----
+curl -LO https://github.com/fontist/fontist/releases/download/v<version>/fontist-<version>-linux-x86_64
+curl -LO https://github.com/fontist/fontist/releases/download/v<version>/SHA256SUMS
+sha256sum --ignore-missing -c SHA256SUMS   # on macOS: shasum -a 256 -c --ignore-missing SHA256SUMS
+chmod +x fontist-<version>-linux-x86_64
+./fontist-<version>-linux-x86_64 version
+----
+
+The executables are not signed. On macOS, remove the quarantine flag before
+the first run:
+
+[source,sh]
+----
+xattr -d com.apple.quarantine ./fontist-<version>-macos-arm64
+----
+
+Each run prints a notice from the packager that the executable is unsigned.
+It is harmless.
+
+On Debian and Ubuntu, install the `.deb` package. On Fedora and RHEL, install
+the `.rpm` package. Both put `fontist` in `/usr/bin` and depend on `git`.
+
+[source,sh]
+----
+sudo apt install ./fontist_<version>_amd64.deb
+sudo dnf install ./fontist-<version>-1.x86_64.rpm
+----
+
+For ARM64, use `_arm64.deb` and `.aarch64.rpm`.
+
+This build uses the same home directory as the gem (`~/.fontist`, or
+`FONTIST_PATH` if set), so the two can be used side by side.
+
 === Fetch formulas
 
 After installation, please fetch formulas via the `fontist` command:

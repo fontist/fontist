@@ -211,5 +211,7 @@ jobs:
           for name in linux-x86_64 linux-arm64 macos-arm64 macos-x86_64; do
             mv "fontist-$name" "fontist-$version-$name"
           done
-          sha256sum fontist-* > SHA256SUMS
-          gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber fontist-* SHA256SUMS
+          # Executables and .rpm files are fontist-*, .deb files fontist_*.
+          sha256sum fontist-* fontist_* > SHA256SUMS
+          gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber \
+            fontist-* fontist_* SHA256SUMS
