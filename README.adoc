@@ -363,6 +363,20 @@ Keeps only the glyphs for those characters. Options can be combined with
 fontist pack family.ttc Regular.ttf Bold.ttf
 ----
 
+==== Transform a font file you already have
+
+`fontist convert` runs the same operations on a local file, without
+installing anything. Each output is written next to the source unless
+`--output` (or `--output-dir`) is given, and the source is never overwritten.
+
+[source,sh]
+----
+fontist convert format Lato-Regular.ttf woff2
+fontist convert extract NotoSansCJK.ttc --index 1 --output-dir out
+fontist convert instance "Roboto[wdth,wght].ttf" wght=300,wdth=90
+fontist convert subset Lato-Regular.ttf --unicodes "U+0020-007E" --text "é"
+----
+
 ==== Ruby API
 
 [source,ruby]

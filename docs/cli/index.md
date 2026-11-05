@@ -23,6 +23,7 @@ Complete command-line interface reference for Fontist.
 | [`fontist repo`](/cli/repo) | Custom repositories |
 | [`fontist fontconfig`](/cli/fontconfig) | Fontconfig integration |
 | [`fontist import`](/cli/import) | Import fonts |
+| [`fontist convert`](/cli/convert) | Convert, extract, instance or subset a font file |
 | [`fontist index`](/cli/index-cmd) | System font index |
 | [`fontist create-formula`](/cli/create-formula) | Create formulas |
 
