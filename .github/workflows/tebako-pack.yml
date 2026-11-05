@@ -101,6 +101,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: script/tebako/press.sh "${{ matrix.triplet }}" "out/fontist-${{ matrix.name }}"
 
+      # Uploaded before the smoke test so a failing binary can be fetched
+      # and inspected.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fontist-${{ matrix.name }}
+          path: out/fontist-${{ matrix.name }}
+          if-no-files-found: error
+
       # Only the system directories stay on PATH, so the Ruby set up above is
       # out of reach. (macOS keeps a system ruby in /usr/bin; the fresh distro
       # containers in package-smoke are the no-Ruby-at-all check.)
@@ -108,12 +116,6 @@ jobs:
         run: |
           env -i HOME="$HOME" PATH=/usr/bin:/bin:/usr/sbin:/sbin \
             script/tebako/smoke.sh "out/fontist-${{ matrix.name }}"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fontist-${{ matrix.name }}
-          path: out/fontist-${{ matrix.name }}
-          if-no-files-found: error
 
   packages:
     name: deb and rpm

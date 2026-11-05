@@ -32,12 +32,7 @@ source "https://rubygems.org"
 gem "fontist", path: "vendor/fontist"
 GEMFILE
 
-cat > "$stage/bin/fontist" <<'ENTRY'
-#!/usr/bin/env ruby
-ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
-require "bundler/setup"
-load File.expand_path("../vendor/fontist/exe/fontist", __dir__)
-ENTRY
+cp "$root/script/tebako/entry.rb" "$stage/bin/fontist"
 chmod +x "$stage/bin/fontist"
 
 (cd "$stage" && bundle lock >/dev/null)
