@@ -14,12 +14,20 @@ vendor: Ribose Inc.
 homepage: https://www.fontist.org
 license: BSD-2-Clause
 
-# fontist clones its formula repository with git.
-depends:
-  - git
+# fontist clones its formula repository with git, and its git gem (~> 6.0)
+# refuses a host git older than 2.43. Debian and Ubuntu version git with
+# epoch 1 (1:2.43.0-1), RPM distros do not, hence one dependency per packager.
+overrides:
+  deb:
+    depends:
+      - git (>= 1:2.43)
+  rpm:
+    depends:
+      - git >= 2.43
 
 contents:
   - src: ${BINARY}
     dst: /usr/bin/fontist
+    expand: true  # nfpm leaves ${BINARY} in src alone without this
     file_info:
       mode: 0755

@@ -13,6 +13,16 @@
 # host's dlopen, which cannot see inside the package. Each one is copied
 # once to a host cache keyed by its content, and FFI is handed that copy.
 
+# The packed gems are the only gems this program may see. rubygems also
+# searches the host's GEM_HOME, GEM_PATH and user gem dir (~/.gem/ruby/<abi>),
+# so a Ruby manager such as rvm, or a `gem install --user-install`, would
+# shadow the locked gems. Pin rubygems to the package's gem dir before
+# anything is required.
+packed_gem_dir = Gem.default_dir
+ENV.delete("GEM_HOME")
+ENV.delete("GEM_PATH")
+Gem.use_paths(packed_gem_dir, [packed_gem_dir])
+
 require "digest"
 require "fileutils"
 require "ffi"
