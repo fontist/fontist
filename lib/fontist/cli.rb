@@ -33,6 +33,7 @@ module Fontist
       Fontist::Errors::CollectionIndexError => [STATUS_UNKNOWN_ERROR],
       Fontist::Errors::UnsupportedTranscodeError => [STATUS_UNKNOWN_ERROR],
       Fontist::Errors::SourceNotFoundError => [STATUS_UNKNOWN_ERROR],
+      Fontist::Errors::InstanceError => [STATUS_UNKNOWN_ERROR],
       Fontist::Errors::SizeLimitError => [
         STATUS_SIZE_LIMIT_ERROR,
         :append,
@@ -469,6 +470,10 @@ module Fontist
 
     desc "config SUBCOMMAND ...ARGS", "Manage fontist config"
     subcommand "config", Fontist::ConfigCLI
+
+    desc "convert SUBCOMMAND ...ARGS",
+         "Convert, extract, instance or subset a font file"
+    subcommand "convert", Fontist::ConvertCLI
 
     desc "cache SUBCOMMAND ...ARGS", "Manage fontist cache"
     subcommand "cache", Fontist::CacheCLI

@@ -204,6 +204,7 @@ export default defineConfig({
             { text: "repo", link: "/cli/repo" },
             { text: "fontconfig", link: "/cli/fontconfig" },
             { text: "import", link: "/cli/import" },
+            { text: "convert", link: "/cli/convert" },
             { text: "index", link: "/cli/index-cmd" },
             { text: "create-formula", link: "/cli/create-formula" },
           ],

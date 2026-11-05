@@ -82,6 +82,7 @@ module Fontist
   autoload :CLI, "#{__dir__}/fontist/cli"
   autoload :CacheCLI, "#{__dir__}/fontist/cache_cli"
   autoload :ConfigCLI, "#{__dir__}/fontist/config_cli"
+  autoload :ConvertCLI, "#{__dir__}/fontist/convert_cli"
   autoload :FontconfigCLI, "#{__dir__}/fontist/fontconfig_cli"
   autoload :ImportCLI, "#{__dir__}/fontist/import_cli"
   autoload :IndexCLI, "#{__dir__}/fontist/index_cli"
