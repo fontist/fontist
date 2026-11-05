@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "fontisan", "~> 0.4", ">= 0.4.47"
   spec.add_dependency "fuzzy_match", "~> 2.1"
   spec.add_dependency "git", "~> 6.0"
-  spec.add_dependency "lutaml-model", "~> 0.8.162"
+  spec.add_dependency "lutaml-model", "~> 0.8.164"
   spec.add_dependency "marcel", "~> 1.0"
   spec.add_dependency "moxml", "~> 0.6"
   spec.add_dependency "octokit", "~> 10.0"
