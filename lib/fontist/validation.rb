@@ -93,7 +93,7 @@ module Fontist
 
     # Build lookup hash for fast O(1) access by path (non-shared state)
     def to_lookup
-      entries.index_by(&:path)
+      entries.to_h { |entry| [entry.path, entry] }
     end
 
     # Get validation result for a path, checking if file has changed

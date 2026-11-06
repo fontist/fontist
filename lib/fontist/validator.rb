@@ -78,8 +78,7 @@ module Fontist
       end
 
       # Validate the font
-      font_file = FontFile.from_path(path, validate: true,
-                                           check_extension: false)
+      font_file = FontFile.from_path(path)
 
       time_taken = Time.now - start_time
 
