@@ -500,4 +500,26 @@ RSpec.describe Fontist::SystemIndex do
       expect(instance.fonts.map(&:path)).to include(paths.first)
     end
   end
+
+  describe "#find on a location that holds no fonts" do
+    let(:tmp_dir) { create_tmp_dir }
+
+    it "does not rescan the location on later lookups" do
+      scans = 0
+      collection = Fontist::SystemIndexFontCollection.from_file(
+        path: File.join(tmp_dir, "empty_index.yml"),
+        paths_loader: lambda {
+          scans += 1
+          []
+        },
+      )
+
+      collection.find("Calibri", nil)
+      scans_after_first_lookup = scans
+
+      2.times { collection.find("Calibri", nil) }
+
+      expect(scans).to eq(scans_after_first_lookup)
+    end
+  end
 end
