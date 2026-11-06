@@ -1,3 +1,5 @@
+require "fontisan"
+
 module Fontist
   # Turns `Fontisan.scan` rows into the font objects the indexes already
   # consume (`FontFile` for single fonts, a `FontFile` over the english-only
