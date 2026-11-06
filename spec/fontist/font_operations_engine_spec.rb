@@ -16,8 +16,19 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
   let(:out) { Dir.mktmpdir("fontist-engine-spec") }
   let(:tier) { ENV.fetch("FONTISAN_ENGINE", "ruby").to_sym }
 
-  before { Fontisan::Engine.reset! }
+  before do
+    skip "fontisan #{tier} tier unavailable" unless tier_available?
+    Fontisan::Engine.reset!
+  end
   after { FileUtils.rm_rf(out) }
+
+  def tier_available?
+    case tier
+    when :native then Fontisan::Native.available?
+    when :ffi then Fontisan::Ffi.available?
+    else true
+    end
+  end
 
   def served(operation)
     Fontisan::Engine.served_by(operation)
