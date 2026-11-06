@@ -92,6 +92,12 @@ RSpec.describe Fontist::Font do
     end
 
     context "with windows system fonts", windows: true, slow: true do
+      # The system index is persisted under the fontist home. Without an
+      # isolated home, an index already built from the runner's real font
+      # directories is trusted (recently scanned) and the stubbed
+      # system.yml paths are never scanned.
+      include_context "fresh home"
+
       before do
         # Use minimal fixture that only includes the specific fonts being tested
         minimal_system_file = Fontist.root_path.join("spec", "fixtures",
@@ -119,6 +125,10 @@ RSpec.describe Fontist::Font do
     end
 
     context "with windows user fonts", windows: true do
+      # See "with windows system fonts": needs a cold system index so the
+      # stubbed user fonts path is scanned.
+      include_context "fresh home"
+
       let(:font) { "dejavu serif" }
       let(:fixture_path) { Fontist.root_path.join("spec", "fixtures", "fonts", "DejaVuSerif.ttf") } # rubocop:disable Layout/LineLength
       let(:user_path) { File.join("AppData", "Local", "Microsoft", "Windows", "Fonts", "DejaVuSerif.ttf") } # rubocop:disable Layout/LineLength

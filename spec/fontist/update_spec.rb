@@ -1,4 +1,5 @@
 require "spec_helper"
+require "git" # Git::Base is referenced by allow_any_instance_of below
 
 RSpec.describe Fontist::Update do
   let(:command) { described_class.new }
