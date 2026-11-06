@@ -4,6 +4,7 @@ module Fontist
   module FontOperations
     # Keeps only the glyphs for the given characters.
     module Subset
+      NO_GLYPHS = "None of the requested characters exist in".freeze
       UNICODE_PART = /\A(u\+)?\h+(-(u\+)?\h+)?\z/i
 
       module_function
@@ -28,21 +29,16 @@ module Fontist
       end
 
       def write(source, output, codepoints)
-        font = Fontisan::FontLoader.load(source)
-        gids = glyph_ids(font, codepoints, File.basename(source))
-        options = Fontisan::Subset::Options.new(profile: "web")
-        binary = Fontisan::Subset::Builder.new(font, gids, options).build
+        binary = Fontisan::Reference.subset(
+          source, unicodes: codepoints, profile: "web"
+        )
         FileUtils.mkdir_p(File.dirname(output))
         File.binwrite(output, binary)
         output
-      end
+      rescue Fontisan::Error => e
+        raise unless e.message.start_with?(NO_GLYPHS)
 
-      def glyph_ids(font, codepoints, name)
-        mappings = font.table("cmap").unicode_mappings
-        gids = codepoints.uniq.filter_map { |cp| mappings[cp] }.uniq.sort
-        return gids if gids.any?
-
-        raise Error, "None of the requested characters exist in #{name}"
+        raise Error, e.message
       end
 
       # "U+0020-007E,U+00E9" => [32..126, 233].flatten

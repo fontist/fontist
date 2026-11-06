@@ -39,9 +39,7 @@ module Fontist
 
       def run(source, target, output)
         FileUtils.mkdir_p(File.dirname(output))
-        Fontisan::Commands::ConvertCommand.new(
-          source, to: target, output: output, quiet: true
-        ).run
+        Fontisan::Reference.convert(source, to: target, output: output)
       end
 
       def verify!(path, target)

@@ -59,11 +59,15 @@ module Fontist
                 "#{File.basename(source)} is not a variable font"
         end
 
-        instancer = Fontisan::Variable::Instancer.new(font)
-        validate!(instancer, coords, File.basename(source))
+        validate!(Fontisan::Variable::Instancer.new(font), coords,
+                  File.basename(source))
         FileUtils.mkdir_p(File.dirname(output))
-        File.binwrite(output, instancer.instance(coords))
+        File.binwrite(output, instance_bytes(source, coords))
         output
+      end
+
+      def instance_bytes(source, coords)
+        Fontisan::Reference.instance(source, coords: coords)
       end
 
       def validate!(instancer, coords, name)
