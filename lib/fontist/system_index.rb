@@ -664,7 +664,8 @@ verbose:, stats:)
       show_minimal_progress = !verbose && sorted_paths.size > 100
       progress_interval = sorted_paths.size > 1000 ? 100 : 50
 
-      results = sorted_paths.flat_map.with_index do |path, index|
+      misses = []
+      slots = sorted_paths.each_with_index.map do |path, index|
         if verbose && stats
           display_progress(index + 1, sorted_paths.size, path, spinner_chars,
                            spinner_index)
@@ -675,22 +676,63 @@ verbose:, stats:)
         spinner_index += 1
 
         cached = existing_fonts_by_path[path]
-        detect_font_with_cache(path, cached, stats: stats)
+        if reusable_cache?(path, cached, stats: stats)
+          cached
+        else
+          misses << path unless excluded?(path)
+          path
+        end
+      end
+
+      rows = scan_rows_by_path(misses)
+      results = slots.flat_map do |slot|
+        slot.is_a?(String) ? entries_for_miss(slot, rows[slot], stats) : slot
       end.compact
 
       clear_progress_line if verbose
       results
     end
 
-    def detect_font_with_cache(path, cached, stats:)
+    def reusable_cache?(path, cached, stats:)
       # Fast path: reuse cached metadata if file unchanged
       if cached&.any? && file_unchanged?(path, cached.first)
         stats&.record_cache_hit
-        cached
+        true
       else
-        # Slow path: parse font file
         stats&.record_cache_miss
+        false
+      end
+    end
+
+    # One batch scan for every cache miss. The digest and name decoding run
+    # inside Fontisan.scan; no forks, no threads here.
+    def scan_rows_by_path(paths)
+      return {} if paths.empty?
+
+      Fontisan.scan(paths).group_by { |row| row["path"] }
+    end
+
+    def entries_for_miss(path, rows, stats)
+      return if excluded?(path)
+
+      if ScanRowFonts.usable?(rows)
+        build_entries_from_rows(path, rows)
+      else
+        # A failing or unusual file keeps the per-file path, so its error
+        # text and stats are exactly what they were before batching.
         detect_fonts(path, stats: stats)
+      end
+    end
+
+    def build_entries_from_rows(path, rows)
+      if rows.first["is_collection"]
+        ScanRowFonts.warn_collection_extension(path)
+        rows.map { |row| parse_font(ScanRowFonts.collection_face(row), path) }
+      else
+        ScanRowFonts.warn_file_extension(path, rows.first)
+        font_file = ScanRowFonts.file_font(rows.first)
+        entries = variable_font_entries(font_file, path)
+        entries.empty? ? parse_font(font_file, path) : entries
       end
     end
 
