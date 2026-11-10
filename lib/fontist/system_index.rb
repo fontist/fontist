@@ -403,8 +403,11 @@ module Fontist
     end
 
     def index_changed?
+      # Verified first: a location that holds no fonts leaves the index
+      # empty after its rebuild, and treating empty as unbuilt would rescan
+      # the disk on every lookup. Installs reach the index via add_font.
+      return false if @index_check_done # already verified in this session
       return true if fonts.nil? || fonts.empty?
-      return false if @index_check_done # Skip if already verified in this session
 
       # Quick check: if index was scanned recently, trust it
       if recently_scanned?

@@ -1,0 +1,33 @@
+# Linux packages that wrap the tebako-packed fontist executable.
+# Built by script/tebako/package.sh, which sets ARCH, VERSION and BINARY.
+name: fontist
+arch: ${ARCH}
+platform: linux
+version: ${VERSION}
+section: utils
+priority: optional
+maintainer: Ribose Inc. <open.source@ribose.com>
+description: |
+  Install openly-licensed fonts on Windows, Linux and Mac.
+  Self-contained build: no Ruby installation is needed.
+vendor: Ribose Inc.
+homepage: https://www.fontist.org
+license: BSD-2-Clause
+
+# fontist clones its formula repository with git, and its git gem (~> 6.0)
+# refuses a host git older than 2.43. Debian and Ubuntu version git with
+# epoch 1 (1:2.43.0-1), RPM distros do not, hence one dependency per packager.
+overrides:
+  deb:
+    depends:
+      - git (>= 1:2.43)
+  rpm:
+    depends:
+      - git >= 2.43
+
+contents:
+  - src: ${BINARY}
+    dst: /usr/bin/fontist
+    expand: true  # nfpm leaves ${BINARY} in src alone without this
+    file_info:
+      mode: 0755

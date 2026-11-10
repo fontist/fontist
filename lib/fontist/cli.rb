@@ -564,7 +564,7 @@ module Fontist
           styles.each do |style, installed|
             opts = []
             opts << "manual" if formula.manual?
-            opts << (installed ? "installed" : "not installed")
+            opts << install_label(installed)
             msg = "  #{style.type} (#{opts.join(', ')})"
 
             if installed
@@ -577,6 +577,14 @@ module Fontist
       end
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+    def install_label(status)
+      case status
+      when true then "installed"
+      when false then "not installed"
+      else "installed (system)"
+      end
+    end
 
     def print_find_results(results)
       if results.empty?

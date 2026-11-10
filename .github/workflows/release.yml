@@ -28,3 +28,13 @@ jobs:
       next_version: ${{ github.event.inputs.next_version }}
     secrets:
       rubygems-api-key: ${{ secrets.FONTIST_CI_RUBYGEMS_API_KEY }}
+
+  # Self-contained executables and .deb/.rpm packages for the new version,
+  # attached to its GitHub Release (fontist/fontist#463).
+  packages:
+    needs: release
+    permissions:
+      contents: write
+    uses: ./.github/workflows/tebako-pack.yml
+    with:
+      publish: true

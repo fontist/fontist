@@ -609,6 +609,35 @@ RSpec.describe Fontist::CLI do
         end
       end
 
+      it "prints `installed (system)` for a font only in a system location" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            example_font_to_system("AndaleMo.TTF")
+
+            expect(Fontist.ui).to receive(:success)
+              .with(/^  Regular \(installed \(system\)\)/)
+            status = described_class.start(["list", "andale mono"])
+            expect(status).to be 0
+          end
+        end
+      end
+
+      it "prints plain `installed` when the font is also in system" do
+        stub_fonts_path_to_new_path do
+          stub_system_fonts_path_to_new_path do
+            example_formula_to("andale.yml", Fontist.formulas_path)
+            example_font_to_fontist("AndaleMo.TTF")
+            example_font_to_system("AndaleMo.TTF")
+
+            expect(Fontist.ui).to receive(:success)
+              .with(/^  Regular \(installed\)/)
+            status = described_class.start(["list", "andale mono"])
+            expect(status).to be 0
+          end
+        end
+      end
+
       it "shows formula and font names" do
         fresh_fonts_and_formulas do
           example_formula("andale.yml")
