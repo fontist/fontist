@@ -66,6 +66,12 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
     [font.table_names.sort, font.table("maxp").num_glyphs]
   end
 
+  # WOFF 1.0 zlib streams differ between Ruby's zlib and the Rust deflater
+  # at the same level, so compare every decompressed table byte for byte.
+  def tables_of(path)
+    Fontisan::FontLoader.load(path).table_data.sort.to_h
+  end
+
   def tier_available?
     case tier
     when :native then Fontisan::Native.available?
@@ -168,8 +174,11 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
           )
         end
 
-        if target == "woff2"
+        case target
+        when "woff2"
           expect(structure_of(mine)).to eq(structure_of(theirs))
+        when "woff"
+          expect(tables_of(mine)).to eq(tables_of(theirs))
         else
           expect(bytes_of(mine)).to eq(bytes_of(theirs))
         end
