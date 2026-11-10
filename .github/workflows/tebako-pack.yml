@@ -55,8 +55,11 @@ jobs:
       - id: tag
         env:
           GH_TOKEN: ${{ github.token }}
-          CALLED: ${{ github.event_name != 'workflow_dispatch' && github.event_name != 'pull_request' && inputs.publish }}
-          INPUT_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || '' }}
+          # A called workflow sees the caller's event (release.yml runs on
+          # workflow_dispatch), so tell the triggers apart by their inputs:
+          # only workflow_call has `publish`, only workflow_dispatch has `tag`.
+          CALLED: ${{ inputs.publish == true }}
+          INPUT_TAG: ${{ inputs.tag || '' }}
         run: |
           if [ "$CALLED" = true ]; then
             tag="v$(sed -n 's/.*VERSION = "\(.*\)".*/\1/p' lib/fontist/version.rb)"
