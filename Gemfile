@@ -4,9 +4,6 @@ source "https://rubygems.org"
 gemspec
 
 gem "bundler"
-# TEMPORARY (draft CI only): fontisan engine tiers and served_by routing are
-# unreleased (fontisan#162). Revert to the released gem before merge.
-gem "fontisan", github: "fontist/fontisan", branch: "issue-156/phase2-prep"
 gem "openssl", "~> 3.0"
 gem "ostruct"
 gem "pry"

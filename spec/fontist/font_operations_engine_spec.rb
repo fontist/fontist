@@ -14,7 +14,14 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
                      __dir__)
   end
   let(:out) { Dir.mktmpdir("fontist-engine-spec") }
-  let(:tier) { ENV.fetch("FONTISAN_ENGINE", "ruby").to_sym }
+  # Unset or "auto" means fontisan's own default: the first available of
+  # native, ffi, ruby.
+  let(:tier) do
+    forced = ENV.fetch("FONTISAN_ENGINE", "")
+    next forced.to_sym unless ["", "auto"].include?(forced)
+
+    %i[native ffi ruby].find { |name| tier_available?(name) }
+  end
 
   before do
     ensure_tier_available
@@ -72,8 +79,8 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
     Fontisan::FontLoader.load(path).table_data.sort.to_h
   end
 
-  def tier_available?
-    case tier
+  def tier_available?(name = tier)
+    case name
     when :native then Fontisan::Native.available?
     when :ffi then Fontisan::Ffi.available?
     else true
