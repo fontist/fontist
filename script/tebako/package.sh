@@ -14,6 +14,9 @@ version="$(sed -n 's/.*VERSION = "\(.*\)".*/\1/p' "$root/lib/fontist/version.rb"
 
 mkdir -p "$out"
 BINARY="$(cd "$(dirname "$binary")" && pwd)/$(basename "$binary")"
+out="$(cd "$out" && pwd)"
+# nfpm resolves the script paths in nfpm.yaml against the working directory.
+cd "$root"
 export ARCH="$arch" VERSION="$version" BINARY
 
 for packager in deb rpm; do

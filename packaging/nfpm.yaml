@@ -27,7 +27,12 @@ overrides:
 
 contents:
   - src: ${BINARY}
-    dst: /usr/bin/fontist
+    dst: /usr/lib/fontist/fontist
     expand: true  # nfpm leaves ${BINARY} in src alone without this
     file_info:
       mode: 0755
+
+# The postinstall script links the binary into /usr/local/bin.
+scripts:
+  postinstall: packaging/scripts/postinstall.sh
+  preremove: packaging/scripts/preremove.sh

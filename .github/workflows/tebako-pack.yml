@@ -186,7 +186,10 @@ jobs:
       matrix:
         # Distros whose git meets the git gem's >= 2.43; older ones refuse
         # the package on its git dependency.
-        image: [ 'ubuntu:24.04', 'debian:13', 'fedora:latest', 'rockylinux:9' ]
+        # ubuntu:22.04 ships an older git and first gets a newer one the
+        # documented way (git-prep.sh, see README.adoc). debian:12 has no leg:
+        # bookworm-backports carries no git package, so no >= 2.43 exists there.
+        image: [ 'ubuntu:24.04', 'debian:13', 'fedora:latest', 'rockylinux:9', 'ubuntu:22.04' ]
         arch: [ amd64 ]
         runner: [ ubuntu-24.04 ]
         include:
@@ -210,13 +213,46 @@ jobs:
           fi
           ls -l pkg
 
+      - name: Get git 2.43 or newer
+        if: matrix.image == 'ubuntu:22.04'
+        run: script/tebako/git-prep.sh
+
       - name: Install, use, remove
         run: script/tebako/package-smoke.sh pkg
+
+  # Test-only: the packed executables again, on runners other than the ones
+  # that packed them. No macOS leg: macos-14 is not offered to this repo
+  # (run 42989415969: "The configuration 'macos-14-arm64-us-default' is not
+  # supported") and macos-13 is a label GitHub has retired; the macOS
+  # binaries are smoke-tested on their packing runners in `pack`.
+  binary-smoke:
+    name: run ${{ matrix.name }} on ${{ matrix.os }}
+    needs: pack
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04, name: linux-x86_64 }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: fontist-${{ matrix.name }}
+          path: out
+
+      - name: Smoke test
+        run: |
+          chmod +x "out/fontist-${{ matrix.name }}"
+          git_dir="$(dirname "$(command -v git)")"
+          env -i HOME="$HOME" PATH="$git_dir:/usr/bin:/bin:/usr/sbin:/sbin" \
+            script/tebako/smoke.sh "out/fontist-${{ matrix.name }}"
 
   publish:
     name: attach to release
     if: needs.resolve.outputs.tag != ''
-    needs: [ resolve, pack, package-smoke ]
+    needs: [ resolve, pack, package-smoke, binary-smoke ]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
