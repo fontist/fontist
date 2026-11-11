@@ -186,9 +186,10 @@ jobs:
       matrix:
         # Distros whose git meets the git gem's >= 2.43; older ones refuse
         # the package on its git dependency.
-        # ubuntu:22.04 and debian:12 ship an older git and first get a newer
-        # one the documented way (git-prep.sh, see README.adoc).
-        image: [ 'ubuntu:24.04', 'debian:13', 'fedora:latest', 'rockylinux:9', 'ubuntu:22.04', 'debian:12' ]
+        # ubuntu:22.04 ships an older git and first gets a newer one the
+        # documented way (git-prep.sh, see README.adoc). debian:12 has no leg:
+        # bookworm-backports carries no git package, so no >= 2.43 exists there.
+        image: [ 'ubuntu:24.04', 'debian:13', 'fedora:latest', 'rockylinux:9', 'ubuntu:22.04' ]
         arch: [ amd64 ]
         runner: [ ubuntu-24.04 ]
         include:
@@ -213,14 +214,17 @@ jobs:
           ls -l pkg
 
       - name: Get git 2.43 or newer
-        if: matrix.image == 'ubuntu:22.04' || matrix.image == 'debian:12'
+        if: matrix.image == 'ubuntu:22.04'
         run: script/tebako/git-prep.sh
 
       - name: Install, use, remove
         run: script/tebako/package-smoke.sh pkg
 
   # Test-only: the packed executables again, on runners other than the ones
-  # that packed them: ubuntu-24.04 (x86_64) and macos-14 (arm64).
+  # that packed them. No macOS leg: macos-14 is not offered to this repo
+  # (run 42989415969: "The configuration 'macos-14-arm64-us-default' is not
+  # supported") and macos-13 is a label GitHub has retired; the macOS
+  # binaries are smoke-tested on their packing runners in `pack`.
   binary-smoke:
     name: run ${{ matrix.name }} on ${{ matrix.os }}
     needs: pack
@@ -230,7 +234,6 @@ jobs:
       matrix:
         include:
           - { os: ubuntu-24.04, name: linux-x86_64 }
-          - { os: macos-14,     name: macos-arm64 }
     steps:
       - uses: actions/checkout@v4
 
