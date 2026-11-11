@@ -18,9 +18,9 @@ module Fontist
       end
 
       def unpack(collection_path, index, output_dir)
-        Fontisan::Commands::UnpackCommand.new(
-          collection_path, output_dir: output_dir, font_index: index
-        ).run[:extracted_files].first
+        Fontisan::Reference.extract(
+          collection_path, index: index, output_dir: output_dir
+        )
       end
 
       def check_index!(path, index)

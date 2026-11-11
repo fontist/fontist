@@ -50,6 +50,7 @@ module Fontist
 
   # Data models
   autoload :CollectionFile, "#{__dir__}/fontist/collection_file"
+  autoload :ScanRowFonts, "#{__dir__}/fontist/scan_row_fonts"
   autoload :Extract, "#{__dir__}/fontist/extract"
   autoload :ExtractOptions, "#{__dir__}/fontist/extract"
   autoload :Resource, "#{__dir__}/fontist/resource"

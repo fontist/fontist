@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "fontisan"
 require "parallel"
 
 module Fontist
@@ -43,14 +44,11 @@ module Fontist
       # Build read-only lookup from cache (non-shared state)
       cache_lookup = cache&.to_lookup || {}
 
-      # Validate in parallel or sequential
-      results = if use_parallel && font_paths.size > 10
-                  validate_parallel(font_paths, cache_lookup: cache_lookup,
-                                                verbose: verbose)
-                else
-                  validate_sequential(font_paths, cache_lookup: cache_lookup,
-                                                  verbose: verbose)
-                end
+      # Cache hits are reused; every miss goes through one batch scan.
+      parallel = use_parallel && font_paths.size > 10
+      results = validate_batched(font_paths, cache_lookup: cache_lookup,
+                                             parallel: parallel,
+                                             verbose: verbose)
 
       @report.results = results
       @report.calculate_summary!
@@ -153,41 +151,74 @@ module Fontist
 
     private
 
-    # Validate fonts in parallel using non-shared state.
-    # Each thread gets read-only cache_lookup (no shared writes)
-    def validate_parallel(font_paths, cache_lookup:, verbose:)
-      num_cores = [Parallel.processor_count, 8].min
-
-      if verbose
-        Fontist.ui.say("Using parallel processing with #{num_cores} cores")
+    # Reuse unchanged cache entries, then validate the misses with a single
+    # Fontisan.scan. Results keep the order of +font_paths+.
+    def validate_batched(font_paths, cache_lookup:, parallel:, verbose:)
+      hits, misses = font_paths.partition do |path|
+        cached = cache_lookup[path]
+        cached && file_unchanged?(path, cached)
       end
 
-      # Map: Each thread validates independently (non-shared state)
-      # cache_lookup is read-only, no mutex needed
-      Parallel.map(font_paths, in_threads: num_cores) do |path|
-        validate_with_cache_lookup(path, cache_lookup)
-      end.compact
-    end
-
-    # Validate fonts sequentially with cache lookup.
-    def validate_sequential(font_paths, cache_lookup:, verbose:)
+      fresh = validate_misses(misses, parallel: parallel, verbose: verbose)
+      hit_set = hits.to_set
       font_paths.filter_map do |path|
-        validate_with_cache_lookup(path, cache_lookup)
+        hit_set.include?(path) ? cache_lookup[path] : fresh[path]
       end
     end
 
-    # Validate single font, using cache if available and file unchanged.
-    def validate_with_cache_lookup(path, cache_lookup)
-      cached = cache_lookup[path]
+    # @return [Hash{String => FontValidationResult}]
+    def validate_misses(paths, parallel:, verbose:)
+      return {} if paths.empty?
 
-      # Check if cached result is still valid (file unchanged)
-      if cached && file_unchanged?(path, cached)
-        # Return cached result without re-validating
-        return cached
+      fresh = scan_results(paths)
+      # Failing files keep the per-file path so their messages are unchanged.
+      leftovers = fresh.select { |_, result| result.nil? }.keys
+      validate_leftovers(leftovers, parallel: parallel, verbose: verbose)
+        .each { |result| fresh[result.path] = result }
+      fresh
+    end
+
+    # One scan for all paths; nil marks a file the scan could not read.
+    def scan_results(paths)
+      started = Time.now
+      rows = Fontisan.scan(paths).group_by { |row| row["path"] }
+      share = ((Time.now - started) / paths.size).round(4)
+
+      paths.to_h do |path|
+        [path, result_from_rows(path, rows[path], share)]
       end
+    end
 
-      # No cache or file changed - validate
-      validate_single(path)
+    def validate_leftovers(paths, parallel:, verbose:)
+      if parallel && paths.size > 1
+        num_cores = [Parallel.processor_count, 8].min
+        if verbose
+          Fontist.ui.say("Using parallel processing with #{num_cores} cores")
+        end
+        Parallel.map(paths, in_threads: num_cores) { |p| validate_single(p) }
+      else
+        paths.map { |path| validate_single(path) }
+      end
+    end
+
+    # A passing result when the scan row for +path+ read cleanly, else nil.
+    def result_from_rows(path, rows, time_taken)
+      row = rows&.first
+      return unless row && row["names"] && row["errors"]["font_file"].nil?
+
+      names = row["names"]
+      FontValidationResult.new(
+        path: path, valid: true, time_taken: time_taken,
+        family_name: names["family_name"], full_name: names["full_name"],
+        file_size: safe_stat { File.size(path) },
+        file_mtime: safe_stat { File.mtime(path).to_i }
+      )
+    end
+
+    def safe_stat
+      yield
+    rescue StandardError
+      0
     end
 
     # Check if file has unchanged metadata compared to cached result.

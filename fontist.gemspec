@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "down", "~> 5.0"
   spec.add_dependency "excavate", "~> 1.0", ">= 1.0.3"
-  spec.add_dependency "fontisan", "~> 0.4", ">= 0.4.47"
+  spec.add_dependency "fontisan", "~> 0.4", ">= 0.4.48"
   spec.add_dependency "fuzzy_match", "~> 2.1"
   spec.add_dependency "git", "~> 6.0"
   spec.add_dependency "lutaml-model", "~> 0.8.164"
