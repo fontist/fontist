@@ -78,8 +78,17 @@ macOS is older, so install a current one first (for example
 `brew install git`).
 
 On Debian and Ubuntu, install the `.deb` package. On Fedora and RHEL, install
-the `.rpm` package. Both put `fontist` in `/usr/bin` and depend on git 2.43 or
-newer, which Ubuntu 24.04, Debian 13, Fedora and RHEL 9 provide.
+the `.rpm` package. Both install the executable to `/usr/lib/fontist/fontist` and link it from
+`/usr/local/bin/fontist` (the link is removed with the package). They depend on
+git 2.43 or newer, which Ubuntu 24.04, Debian 13, Fedora and RHEL 9 provide.
+
+Ubuntu 22.04 and Debian 12 ship an older git, so get a newer one once before
+installing the `.deb`:
+
+* Ubuntu 22.04: `sudo add-apt-repository ppa:git-core/ppa && sudo apt-get update && sudo apt-get install git`
+* Debian 12: enable `bookworm-backports`, then `sudo apt-get -t bookworm-backports install git`
+
+`script/tebako/git-prep.sh` does exactly this and is what CI runs.
 
 [source,sh]
 ----

@@ -24,10 +24,15 @@ if command -v ruby >/dev/null; then
   echo "package-smoke: this image has no business carrying ruby" >&2
   exit 1
 fi
+link="$(readlink /usr/local/bin/fontist || true)"
+if [ "$link" != /usr/lib/fontist/fontist ]; then
+  echo "package-smoke: /usr/local/bin/fontist links to '$link'" >&2
+  exit 1
+fi
 "$here/smoke.sh" "$(command -v fontist)"
 remove
-if command -v fontist >/dev/null; then
-  echo "package-smoke: fontist still on PATH after removal" >&2
+if [ -e /usr/local/bin/fontist ] || [ -L /usr/local/bin/fontist ] || command -v fontist >/dev/null; then
+  echo "package-smoke: fontist still present after removal" >&2
   exit 1
 fi
 echo "package-smoke: ok"
