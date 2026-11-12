@@ -1,6 +1,26 @@
 require "spec_helper"
 
 RSpec.describe Fontist::JSON do
+  it "round-trips and preserves error classes when yeptris is unavailable" do
+    sandbox = Module.new
+    allow(sandbox).to receive(:require).and_call_original
+    allow(sandbox).to receive(:require).with("yeptris")
+      .and_raise(LoadError, "cannot load such file -- yeptris")
+    hide_const("Yeptris")
+    path = File.expand_path("../../lib/fontist/json.rb", __dir__)
+
+    sandbox.module_eval(File.read(path), path)
+    json = sandbox::Fontist::JSON
+    value = { "name" => "Lato", "styles" => ["Regular", nil, true, 12] }
+
+    expect(json.parse(json.dump(value))).to eq(value)
+    expect(json.parse(json.pretty(value))).to eq(value)
+    expect { json.parse("{not json") }.to raise_error(json::ParseError)
+    expect { json.parse(nil) }.to raise_error(json::ParseError)
+    expect { json.dump(Object.new) }.to raise_error(json::DumpError)
+    expect { json.pretty(Object.new) }.to raise_error(json::DumpError)
+  end
+
   describe ".parse and .dump" do
     it "round-trips plain Ruby structures with string keys" do
       value = { "a" => 1, "b" => [1, 2, { "c" => nil }], "d" => "text" }
