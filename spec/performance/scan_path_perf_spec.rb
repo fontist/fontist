@@ -350,6 +350,33 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
+  describe "card implementation layout" do
+    it "keeps helpers and their regression specs in the card files" do
+      %w[script/performance/report-status.rb
+         script/performance/without-rust.rb
+         spec/performance/publication_spec.rb].each do |path|
+        expect(File).not_to exist(path), "#{path} is outside the card file list"
+      end
+    end
+
+    it "runs publication and toolchain isolation from the card files" do
+      jobs = YAML.load_file(".github/workflows/perf-gate.yml").fetch("jobs")
+      report_steps = jobs.fetch("report-engine-availability").fetch("steps")
+      report = report_steps.find do |step|
+        step["name"] == "Report published engines on the PR"
+      end
+      expect(report.fetch("run")).to include("spec/support/performance.rb",
+                                             "--report", "--publish")
+      guards = %w[scan-path-base scan-path-performance].map do |job|
+        jobs.fetch(job).fetch("steps").find do |step|
+          step["name"] == "Exclude Rust toolchains from the job"
+        end.fetch("run")
+      end
+      expect(guards.uniq.size).to eq 1
+      expect(Shellwords.split(guards.first).first(2)).to eq ["ruby", "-e"]
+    end
+  end
+
   describe "workflow platform preflight" do
     let(:directory) { Dir.mktmpdir("fontist-perf-lock") }
     let(:output_path) { File.join(directory, "github-output") }
@@ -438,6 +465,16 @@ RSpec.describe ScanPathPerformance do
     let(:directory) { Dir.mktmpdir("fontist-perf-path") }
     let(:toolchain) { File.join(directory, "rust bin") }
     let(:environment_file) { File.join(directory, "github-env") }
+    let(:guard_command) do
+      steps = YAML.load_file(".github/workflows/perf-gate.yml")
+        .fetch("jobs").fetch("scan-path-base").fetch("steps")
+      guard = steps.find do |step|
+        step["name"] == "Exclude Rust toolchains from the job"
+      end
+      args = Shellwords.split(guard.fetch("run"))
+      args[0] = RbConfig.ruby
+      args
+    end
 
     after { FileUtils.remove_entry(directory) }
 
@@ -453,9 +490,7 @@ RSpec.describe ScanPathPerformance do
         File.chmod(0o755, executable)
         env = { "PATH" => [toolchain, ENV.fetch("PATH")].join(File::PATH_SEPARATOR),
                 "GITHUB_ENV" => environment_file }
-        stdout, stderr, status = Open3.capture3(
-          env, RbConfig.ruby, "script/performance/without-rust.rb"
-        )
+        stdout, stderr, status = Open3.capture3(env, *guard_command)
 
         expect(status.exitstatus).to eq(0), stdout + stderr
         clean_path = File.read(environment_file).delete_prefix("PATH=").strip
@@ -957,5 +992,274 @@ RSpec.describe ScanPathPerformance do
       RSpec.configuration.failure_exit_code = 2
       raise
     end
+  end
+end
+
+RSpec.describe "Performance gate publication" do
+  it "reports missing published engines on the PR for its exact head" do
+    workflow = YAML.load_file(".github/workflows/perf-gate.yml")
+    job = workflow.fetch("jobs")["report-engine-availability"]
+
+    expect(job).not_to be_nil,
+                       "missing engines are only reported in CI logs"
+    expect(job.fetch("permissions")).to include("pull-requests" => "write")
+    group = "scan-path-publication-" \
+            "${{ github.event.pull_request.number }}"
+    expect(job.fetch("concurrency")).to include(
+      "group" => group,
+      "cancel-in-progress" => false,
+    )
+    report = job.fetch("steps").find do |step|
+      step["name"] == "Report published engines on the PR"
+    end
+    expect(report.fetch("env")).to include(
+      "FONTIST_PERF_HEAD" => "${{ github.event.pull_request.head.sha }}",
+      "FONTIST_PERF_COMMENT_AUTHOR" => "github-actions[bot]",
+    )
+    expect(report.fetch("run")).to include("spec/support/performance.rb",
+                                           "--publish")
+  end
+
+  it "runs the report CLI without loading optional benchmark gems" do
+    Tempfile.create(["fontist-report-bootstrap", ".rb"]) do |file|
+      file.write(<<~RUBY)
+        module MissingBenchmarkGems
+          def require(name)
+            if %w[rspec-benchmark benchmark-perf].include?(name)
+              raise LoadError, "optional benchmark gem unavailable"
+            end
+            super
+          end
+        end
+        Kernel.prepend(MissingBenchmarkGems)
+      RUBY
+      file.flush
+      stdout, stderr, status = Open3.capture3(
+        RbConfig.ruby, "-r", file.path, "spec/support/performance.rb",
+        "--report", "--help"
+      )
+
+      expect(status.exitstatus).to eq(0), stdout + stderr
+      expect(stdout).to include("--publish")
+    end
+  end
+end
+
+RSpec.describe ScanPathPublication::Report do
+  let(:expected_head) { "a" * 40 }
+  let(:remote_head) { expected_head }
+  let(:platforms) { ["ruby"] }
+  let(:report) do
+    described_class.new(expected_head: expected_head, remote_head: remote_head,
+                        version: "0.4.48", platforms: platforms)
+  end
+
+  it "names the missing version and every affected platform in the PR report" do
+    expect(report.to_markdown).to include(
+      "fontisan 0.4.48", "Linux x86_64", "x86_64-linux-gnu",
+      "macOS arm64", "arm64-darwin", "macOS x86_64", "x86_64-darwin",
+      "2 (error)", "D4", "ruby"
+    )
+    expect(report.exit_status).to eq 2
+  end
+
+  context "when the remote PR head is stale" do
+    let(:remote_head) { "b" * 40 }
+    let(:platforms) { %w[x86_64-linux-gnu arm64-darwin x86_64-darwin] }
+
+    it "rejects CI on an older head even when all binaries are published" do
+      expect(report).not_to be_current
+      expect(report.exit_status).to eq 2
+      expect(report.to_markdown).to include("stale", expected_head, remote_head,
+                                            "does not validate")
+    end
+  end
+
+  context "when all required platform gems are published" do
+    let(:platforms) do
+      %w[ruby x86_64-linux x86_64-linux-gnu arm64-darwin x86_64-darwin]
+    end
+
+    it "accepts the current head and available platform aliases" do
+      expect(report).to be_current
+      expect(report.missing_platforms).to be_empty
+      expect(report.exit_status).to eq 0
+    end
+  end
+end
+
+RSpec.describe ScanPathPublication do
+  let(:head) { "a" * 40 }
+  let(:report) do
+    described_class::Report.new(expected_head: head, remote_head: head,
+                                version: "0.4.48", platforms: ["ruby"])
+  end
+
+  it "creates a marked PR comment when no owned publication exists" do
+    success = instance_double(Process::Status, success?: true)
+    expect(Open3).to receive(:capture3).exactly(3).times do |*args|
+      case args
+      when ["gh", "api", "user", "--jq", ".login"]
+        ["ci-bot", "", success]
+      when ["gh", "api", "--paginate", "--slurp",
+            "repos/fontist/fontist/issues/552/comments"]
+        ["[]", "", success]
+      else
+        expect(args.first(7)).to eq ["gh", "pr", "comment", "552", "--repo",
+                                     "fontist/fontist", "--body-file"]
+        expect(File.read(args.last)).to eq report.to_markdown
+        ["https://github.com/fontist/fontist/pull/552#issuecomment-1", "",
+         success]
+      end
+    end
+
+    expect(described_class.publish(report, "fontist/fontist", "552"))
+      .to include("issuecomment-1")
+  end
+
+  it "updates the owned marked comment on repeated publication" do
+    success = instance_double(Process::Status, success?: true)
+    created_comment = {
+      "id" => 41, "user" => { "login" => "ci-bot" },
+      "body" => "<!-- fontist-scan-path-publication -->\nold report"
+    }
+    lookup_count = 0
+    create_count = 0
+    patch_count = 0
+    allow(Open3).to receive(:capture3) do |*args|
+      case args
+      when ["gh", "api", "user", "--jq", ".login"]
+        ["ci-bot", "", success]
+      when ["gh", "api", "--paginate", "--slurp",
+            "repos/fontist/fontist/issues/552/comments"]
+        lookup_count += 1
+        comments = lookup_count == 1 ? [] : [[created_comment]]
+        [JSON.generate(comments), "", success]
+      else
+        case args.first(6)
+        when ["gh", "pr", "comment", "552", "--repo", "fontist/fontist"]
+          create_count += 1
+          expect(File.read(args.last)).to eq report.to_markdown
+          ["created", "", success]
+        when ["gh", "api", "--method", "PATCH",
+              "repos/fontist/fontist/issues/comments/41", "--input"]
+          patch_count += 1
+          expect(JSON.parse(File.read(args.last))).to eq(
+            "body" => report.to_markdown,
+          )
+          ["updated", "", success]
+        else
+          raise "unexpected command: #{args.inspect}"
+        end
+      end
+    end
+
+    2.times { described_class.publish(report, "fontist/fontist", "552") }
+    expect(lookup_count).to eq 2
+    expect(create_count).to eq 1
+    expect(patch_count).to eq 1
+  end
+
+  it "uses an explicitly configured CI comment author" do
+    success = instance_double(Process::Status, success?: true)
+    comments = [
+      [{ "id" => 40, "user" => { "login" => "other-bot" },
+         "body" => "unrelated" }],
+      [{ "id" => 41, "user" => { "login" => "github-actions[bot]" },
+         "body" => "<!-- fontist-scan-path-publication -->\nold report" }],
+    ]
+    expect(Open3).not_to receive(:capture3).with("gh", "api", "user", "--jq",
+                                                 ".login")
+    expect(Open3).to receive(:capture3).with(
+      "gh", "api", "--paginate", "--slurp",
+      "repos/fontist/fontist/issues/552/comments"
+    ).and_return([JSON.generate(comments), "", success])
+    expect(Open3).to receive(:capture3) do |*args|
+      expect(args.first(6)).to eq ["gh", "api", "--method", "PATCH",
+                                   "repos/fontist/fontist/issues/comments/41",
+                                   "--input"]
+      ["updated", "", success]
+    end
+
+    described_class.publish(report, "fontist/fontist", "552",
+                            author: "github-actions[bot]")
+  end
+
+  it "does not update a marked comment owned by another actor" do
+    success = instance_double(Process::Status, success?: true)
+    comments = [
+      { "id" => 41, "user" => { "login" => "human" },
+        "body" => "<!-- fontist-scan-path-publication -->\nprivate note" },
+    ]
+    allow(Open3).to receive(:capture3) do |*args|
+      case args
+      when ["gh", "api", "user", "--jq", ".login"]
+        ["ci-bot", "", success]
+      when ["gh", "api", "--paginate", "--slurp",
+            "repos/fontist/fontist/issues/552/comments"]
+        [JSON.generate([comments]), "", success]
+      else
+        expect(args.first(7)).to eq ["gh", "pr", "comment", "552", "--repo",
+                                     "fontist/fontist", "--body-file"]
+        expect(File.read(args.last)).to eq report.to_markdown
+        ["created", "", success]
+      end
+    end
+
+    described_class.publish(report, "fontist/fontist", "552")
+  end
+
+  it "does not treat a marker embedded in unrelated comment text as a match" do
+    success = instance_double(Process::Status, success?: true)
+    comments = [
+      { "id" => 41, "user" => { "login" => "ci-bot" },
+        "body" => "An unrelated note mentions " \
+                  "<!-- fontist-scan-path-publication -->" },
+    ]
+    allow(Open3).to receive(:capture3) do |*args|
+      case args
+      when ["gh", "api", "user", "--jq", ".login"]
+        ["ci-bot", "", success]
+      when ["gh", "api", "--paginate", "--slurp",
+            "repos/fontist/fontist/issues/552/comments"]
+        [JSON.generate([comments]), "", success]
+      else
+        expect(args.first(7)).to eq ["gh", "pr", "comment", "552", "--repo",
+                                     "fontist/fontist", "--body-file"]
+        ["created", "", success]
+      end
+    end
+
+    described_class.publish(report, "fontist/fontist", "552")
+  end
+
+  it "uses the PR head supplied by CI instead of its synthetic merge commit" do
+    lock = <<~LOCK
+      GEM
+        remote: https://rubygems.org/
+        specs:
+          fontisan (0.4.48)
+    LOCK
+    allow(File).to receive(:read).and_call_original
+    allow(File).to receive(:read).with("Gemfile.lock").and_return(lock)
+    expect(described_class).not_to receive(:command).with("git", "rev-parse",
+                                                          "HEAD")
+    allow(described_class).to receive(:command)
+      .with("gh", "pr", "view", "552", "--repo", "fontist/fontist",
+            "--json", "headRefOid")
+      .and_return(JSON.generate("headRefOid" => head))
+    metadata = [
+      { "number" => "0.4.48", "platform" => "ruby" },
+      { "number" => "0.4.47", "platform" => "arm64-darwin" },
+    ]
+    stub_request(:get, "https://rubygems.org/api/v1/versions/fontisan.json")
+      .to_return(body: JSON.generate(metadata))
+
+    collected = described_class.collect("fontist/fontist", "552",
+                                        expected_head: head)
+
+    expect(collected).to be_current
+    expect(collected.to_markdown).to include("fontisan 0.4.48", "macOS arm64")
+    expect(collected.exit_status).to eq 2
   end
 end

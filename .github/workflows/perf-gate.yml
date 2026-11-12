@@ -13,6 +13,9 @@ jobs:
     name: Report published engine availability
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
+    concurrency:
+      group: scan-path-publication-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
     permissions:
       contents: read
       pull-requests: write
@@ -29,10 +32,11 @@ jobs:
       - name: Report published engines on the PR
         env:
           GH_TOKEN: ${{ github.token }}
+          FONTIST_PERF_COMMENT_AUTHOR: github-actions[bot]
           FONTIST_PERF_HEAD: ${{ github.event.pull_request.head.sha }}
           PERF_REPOSITORY: ${{ github.repository }}
           PERF_PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: ruby script/performance/report-status.rb "$PERF_REPOSITORY" "$PERF_PR_NUMBER" --publish
+        run: ruby spec/support/performance.rb --report "$PERF_REPOSITORY" "$PERF_PR_NUMBER" --publish
 
   scan-path-base:
     name: Ruby scan path PR vs base
@@ -64,7 +68,33 @@ jobs:
           ruby-version: "3.3"
 
       - name: Exclude Rust toolchains from the job
-        run: ruby script/performance/without-rust.rb
+        run: |
+          ruby -e '
+            paths = ENV.fetch("PATH").split(File::PATH_SEPARATOR)
+            extensions = [""] + ENV.fetch("PATHEXT", "").split(";")
+            tools = %w[cargo rustc rustup].product(extensions).map(&:join)
+            paths.reject! do |directory|
+              tools.any? { |tool| File.executable?(File.join(directory, tool)) }
+            end
+            clean_path = paths.join(File::PATH_SEPARATOR)
+
+            %w[ruby bundle].each do |tool|
+              available = paths.any? do |directory|
+                extensions.any? do |extension|
+                  File.executable?(File.join(directory, "#{tool}#{extension}"))
+                end
+              end
+              next if available
+
+              warn "ERROR: removing Rust from PATH also removed #{tool}."
+              exit 2
+            end
+
+            File.open(ENV.fetch("GITHUB_ENV"), "a") do |output|
+              output.puts "PATH=#{clean_path}"
+            end
+            puts "Rust excluded from PATH for bundle installation and performance checks."
+          '
 
       - name: Install bundle from RubyGems
         run: |
@@ -141,7 +171,33 @@ jobs:
           ruby-version: "3.3"
 
       - name: Exclude Rust toolchains from the job
-        run: ruby script/performance/without-rust.rb
+        run: |
+          ruby -e '
+            paths = ENV.fetch("PATH").split(File::PATH_SEPARATOR)
+            extensions = [""] + ENV.fetch("PATHEXT", "").split(";")
+            tools = %w[cargo rustc rustup].product(extensions).map(&:join)
+            paths.reject! do |directory|
+              tools.any? { |tool| File.executable?(File.join(directory, tool)) }
+            end
+            clean_path = paths.join(File::PATH_SEPARATOR)
+
+            %w[ruby bundle].each do |tool|
+              available = paths.any? do |directory|
+                extensions.any? do |extension|
+                  File.executable?(File.join(directory, "#{tool}#{extension}"))
+                end
+              end
+              next if available
+
+              warn "ERROR: removing Rust from PATH also removed #{tool}."
+              exit 2
+            end
+
+            File.open(ENV.fetch("GITHUB_ENV"), "a") do |output|
+              output.puts "PATH=#{clean_path}"
+            end
+            puts "Rust excluded from PATH for bundle installation and performance checks."
+          '
 
       - name: Resolve bundle without installing gems
         run: bundle lock
