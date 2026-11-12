@@ -63,10 +63,11 @@ jobs:
           TARGET_OS: ${{ matrix.target_os }}
           TARGET_CPU: ${{ matrix.target_cpu }}
         run: |
-          ruby -rjson -rnet/http -ruri -rrubygems/platform -e '
+          ruby -rbundler -rjson -rnet/http -ruri -rrubygems/platform -e '
             lock = File.read("Gemfile.lock")
-            version = lock[/^    fontisan \(([^ )]+)/, 1]
-            abort "fontisan version missing from Gemfile.lock" unless version
+            fontisan = Bundler::LockfileParser.new(lock).specs.find { |spec| spec.name == "fontisan" }
+            abort "fontisan version missing from Gemfile.lock" unless fontisan
+            version = fontisan.version.to_s
 
             uri = URI("https://rubygems.org/api/v1/versions/fontisan.json")
             response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.get(uri.request_uri) }

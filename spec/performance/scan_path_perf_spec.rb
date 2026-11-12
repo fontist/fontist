@@ -1,5 +1,6 @@
 require "spec_helper"
 require "stringio"
+require "shellwords"
 
 RSpec.describe ScanPathPerformance do
   let(:calls) { [] }
@@ -110,6 +111,64 @@ RSpec.describe ScanPathPerformance do
       described_class.peak_rss("")
     end.to raise_error(described_class::Error,
                        /missing peak RSS/)
+  end
+
+  describe "workflow platform preflight" do
+    let(:directory) { Dir.mktmpdir("fontist-perf-lock") }
+    let(:output_path) { File.join(directory, "github-output") }
+    let(:command) do
+      workflow = YAML.load_file(".github/workflows/perf-gate.yml")
+      steps = workflow.fetch("jobs").fetch("scan-path-performance")
+        .fetch("steps")
+      preflight = steps.find { |step| step["id"] == "fontisan_platform" }
+      args = Shellwords.split(preflight.fetch("run"))
+      args[0] = RbConfig.ruby
+      args[-1] = metadata_stub + args.last
+      args
+    end
+    let(:metadata_stub) do
+      <<~RUBY
+        response = Net::HTTPOK.new("1.1", "200", "OK")
+        response.define_singleton_method(:body) do
+          JSON.generate([
+            { "number" => "0.4.48", "platform" => "arm64-darwin" }
+          ])
+        end
+        Net::HTTP.define_singleton_method(:start) do |*, **, &block|
+          client = Object.new
+          client.define_singleton_method(:get) { |_| response }
+          block.call(client)
+        end
+      RUBY
+    end
+
+    after { FileUtils.remove_entry(directory) }
+
+    %w[0.4.48 0.4.48-arm64-darwin 0.4.48-x86_64-darwin
+       0.4.48-x86_64-linux-gnu].each do |entry|
+      it "looks up the release version from fontisan (#{entry})" do
+        File.write(File.join(directory, "Gemfile.lock"), <<~LOCK)
+          GEM
+            remote: https://rubygems.org/
+            specs:
+              fontisan (#{entry})
+
+          PLATFORMS
+            ruby
+
+          DEPENDENCIES
+            fontisan
+        LOCK
+        env = { "TARGET_OS" => "darwin", "TARGET_CPU" => "arm64",
+                "GITHUB_OUTPUT" => output_path }
+
+        stdout, stderr, status = Open3.capture3(env, *command, chdir: directory)
+
+        expect(status.exitstatus).to eq(0), stderr
+        expect(stdout).to include("fontisan 0.4.48 for arm64-darwin")
+        expect(File.read(output_path)).to eq "platform=arm64-darwin\n"
+      end
+    end
   end
 
   describe ".sample" do
