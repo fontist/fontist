@@ -45,6 +45,7 @@ module ScanPathPerformance
       2.times do |attempt|
         ratios = measure_ratios(workload, attempt)
         report(workload, ratios, attempt)
+        return false unless ratios.fetch("batch_contract")
         return true if within_floor?(ratios)
       end
       false
@@ -54,10 +55,21 @@ module ScanPathPerformance
 
     def measure_ratios(workload, attempt)
       samples = collect_samples(workload, attempt)
-      %w[elapsed rss].to_h do |metric|
+      ratios = %w[elapsed rss].to_h do |metric|
         reference = median(samples.fetch(@reference), metric)
         [metric, median(samples.fetch(@candidate), metric) / reference]
       end
+
+      unless batch_contract?(samples.fetch(@reference))
+        raise Error, "#{@reference} did not preserve the batch contract"
+      end
+
+      candidate_batch = batch_contract?(samples.fetch(@candidate))
+      ratios.merge("batch_contract" => candidate_batch)
+    end
+
+    def batch_contract?(samples)
+      samples.all? { |sample| sample.fetch("batch_contract", true) }
     end
 
     def collect_samples(workload, attempt)
@@ -80,6 +92,7 @@ module ScanPathPerformance
       @output.puts "#{workload} #{@candidate}/#{@reference} medians: " \
                    "time=#{ratios.fetch('elapsed').round(4)} " \
                    "peak_rss=#{ratios.fetch('rss').round(4)} " \
+                   "batch_contract=#{ratios.fetch('batch_contract')} " \
                    "(attempt #{attempt + 1})"
     end
 
@@ -156,8 +169,7 @@ module ScanPathPerformance
 
   def self.parse_sample(stdout, tier, checkout)
     result = JSON.parse(stdout)
-    served = result.fetch("served_by") == tier
-    unless served && result.fetch("results").positive?
+    unless nonempty_scan?(result, tier)
       raise Error, "#{tier} did not serve a nonempty scan: #{result.inspect}"
     end
 
@@ -165,7 +177,19 @@ module ScanPathPerformance
       raise Error, "loaded fontist from wrong checkout: #{result.inspect}"
     end
 
+    validate_batch_contract(result)
     result
+  end
+
+  def self.nonempty_scan?(result, tier)
+    count = result.fetch("results")
+    result.fetch("served_by") == tier && count.is_a?(Integer) && count.positive?
+  end
+
+  def self.validate_batch_contract(result)
+    return if [true, false].include?(result.fetch("batch_contract"))
+
+    raise Error, "invalid batch contract: #{result.inspect}"
   end
 
   def self.peak_rss(stderr)
@@ -184,14 +208,93 @@ module ScanPathPerformance
 
     prepare_scan
     paths = fixture_paths
-    operation = operation_for(workload, paths)
-    count = nil
-    timing = Benchmark::Perf.cpu(repeat: 1, warmup: 0, subprocess: false) do
-      count = operation.call.size
+    # Prove strict engine availability independently of workload routing. A lost
+    # batch call is a regression, whereas an unavailable engine is an error.
+    probe = Fontisan.scan(paths)
+    raise Error, "engine probe returned no scan rows" if probe.empty?
+
+    served_by = Fontisan::Engine.served_by(:scan).to_s
+    measurement = cold_measurements(workload, paths, expected_engine: served_by)
+    measurement.merge("served_by" => served_by,
+                      "code_root" => Fontist.root_path.realpath.to_s)
+  end
+
+  # Average at least ten cold operations over one second. Short fixture scans
+  # otherwise amplify scheduler/startup noise relative to the fifteen percent
+  # floor. Recreate state for every iteration; never reuse validator/index rows.
+  def self.cold_measurements(workload, paths, minimum: 1.0,
+                             clock: method(:monotonic_time),
+                             expected_engine: nil)
+    samples = []
+    while samples.size < 10 || sample_duration(samples) < minimum
+      samples << cold_sample(workload, paths, clock, expected_engine)
     end
-    { "elapsed" => timing.avg, "results" => count,
-      "served_by" => Fontisan::Engine.served_by(:scan).to_s,
-      "code_root" => Fontist.root_path.realpath.to_s }
+    { "elapsed" => sample_duration(samples) / samples.size,
+      "results" => samples.last.fetch("results"),
+      "iterations" => samples.size,
+      "batch_contract" => samples.all? { |s| s.fetch("batch_contract") } }
+  end
+
+  def self.sample_duration(samples)
+    samples.sum { |sample| sample.fetch("elapsed") }
+  end
+
+  def self.monotonic_time
+    Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  end
+
+  def self.cold_sample(workload, paths, clock, expected_engine)
+    prepare_scan
+    Dir.mktmpdir("cold-scan", ENV.fetch("FONTIST_PATH", nil)) do |home|
+      operation = operation_for(workload, paths, home: home)
+      result = nil
+      batch_contract = observe_batch(paths, expected_engine) do
+        result = time_operation(operation, clock)
+      end
+      result["batch_contract"] = batch_contract
+
+      result
+    end
+  end
+
+  def self.time_operation(operation, clock)
+    started = clock.call
+    count = operation.call.size
+    elapsed = clock.call - started
+    raise Error, "workload returned no results" unless count.positive?
+
+    { "elapsed" => elapsed, "results" => count }
+  end
+
+  def self.observe_batch(paths, expected_engine)
+    calls = []
+    original = Fontisan.method(:scan)
+    Fontisan.define_singleton_method(:scan) do |batch|
+      rows = original.call(batch)
+      ScanPathPerformance.validate_workload_engine(expected_engine)
+      calls << [batch, rows.map { |row| row.fetch("path") }.uniq]
+      rows
+    end
+    yield
+    calls.any? do |batch, rows|
+      batch_covers?(batch, rows, paths)
+    end
+  ensure
+    Fontisan.define_singleton_method(:scan, original)
+  end
+
+  def self.validate_workload_engine(expected)
+    return unless expected
+
+    actual = Fontisan::Engine.served_by(:scan).to_s
+    return if actual == expected
+
+    raise Error,
+          "workload scan served by #{actual.inspect}, expected #{expected}"
+  end
+
+  def self.batch_covers?(batch, rows, paths)
+    batch.sort == paths.sort && !rows.empty? && (rows - paths).empty?
   end
 
   def self.prepare_scan
@@ -212,11 +315,11 @@ module ScanPathPerformance
     paths
   end
 
-  def self.operation_for(workload, paths)
+  def self.operation_for(workload, paths, home: Fontist.fontist_path)
     case workload
     when "index"
       index = Fontist::SystemIndexFontCollection.from_file(
-        path: Fontist.system_index_path, paths_loader: -> { paths },
+        path: File.join(home, "system-index.yml"), paths_loader: -> { paths },
       )
       -> { index.rebuild.fonts }
     when "validator"

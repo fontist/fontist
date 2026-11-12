@@ -9,6 +9,31 @@ permissions:
   contents: read
 
 jobs:
+  report-engine-availability:
+    name: Report published engine availability
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Resolve bundle without installing gems
+        run: bundle lock
+
+      - name: Report published engines on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FONTIST_PERF_HEAD: ${{ github.event.pull_request.head.sha }}
+          PERF_REPOSITORY: ${{ github.repository }}
+          PERF_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: ruby script/performance/report-status.rb "$PERF_REPOSITORY" "$PERF_PR_NUMBER" --publish
+
   scan-path-base:
     name: Ruby scan path PR vs base
     runs-on: ubuntu-24.04

@@ -174,6 +174,33 @@ RSpec.describe ScanPathPerformance do
       expect(samples.size).to eq 20
     end
 
+    it "fails equal timings when the PR loses the batch contract" do
+      allow(base_sampler).to receive(:call).and_wrap_original do |original,
+                                                                *args, **opts|
+        original.call(*args, **opts).merge(
+          "batch_contract" => opts.fetch(:checkout) != checkout,
+        )
+      end
+
+      expect(comparison.passes?("validator")).to be false
+      expect(samples.size).to eq 10
+      expect(output.string).to include("batch_contract=false")
+    end
+
+    it "reports a baseline with lost batching as an error" do
+      allow(base_sampler).to receive(:call).and_wrap_original do |original,
+                                                                *args, **opts|
+        original.call(*args, **opts).merge(
+          "batch_contract" => opts.fetch(:checkout) == checkout,
+        )
+      end
+
+      expect do
+        comparison.passes?("validator")
+      end.to raise_error(described_class::Error,
+                         /base did not preserve the batch contract/)
+    end
+
     it "reports an unrunnable base as an error" do
       allow(base_sampler).to receive(:call)
         .and_raise(described_class::Error, "base cannot run")
@@ -188,6 +215,112 @@ RSpec.describe ScanPathPerformance do
       expect do
         described_class::BaseGate.new("")
       end.to raise_error(described_class::Error, /missing PR base/)
+    end
+  end
+
+  describe ".measure engine routing" do
+    it "rejects Ruby workload routing after a successful native probe" do
+      paths = ["first.ttf", "second.ttf"]
+      allow(described_class).to receive(:prepare_scan)
+      allow(described_class).to receive(:fixture_paths).and_return(paths)
+      allow(Fontisan).to receive(:scan).and_return([{ "path" => paths.first }])
+      allow(Fontisan::Engine).to receive(:served_by).with(:scan)
+        .and_return(:native, :ruby)
+      allow(described_class).to receive(:operation_for) do
+        -> { Fontisan.scan(paths) }
+      end
+
+      expect do
+        described_class.measure("validator")
+      end.to raise_error(described_class::Error,
+                         /workload scan served by "ruby", expected native/)
+    end
+  end
+
+  describe ".cold_measurements" do
+    let(:paths) { ["first.ttf", "second.ttf"] }
+    let(:clock) { double("clock") }
+    let(:operations) { [] }
+    let(:duration) { 0.02 }
+    let(:startup_noise) { 0.0 }
+
+    before do
+      allow(described_class).to receive(:prepare_scan)
+      ticks = 0
+      allow(clock).to receive(:call) do
+        ticks += 1
+        noise = ticks == 2 ? startup_noise : 0.0
+        ticks.odd? ? 0.0 : duration + noise
+      end
+      allow(Fontisan).to receive(:scan).and_return([{ "path" => paths.first }])
+      allow(described_class).to receive(:operation_for) do |_, _, **options|
+        operations << options.fetch(:home)
+        -> { Fontisan.scan(paths) }
+      end
+    end
+
+    it "amortizes short operations over a minimum duration with fresh state" do
+      sample = described_class.cold_measurements("validator", paths,
+                                                 clock: clock)
+
+      expect(sample).to include("elapsed" => be_within(0.000001).of(duration),
+                                "iterations" => 50,
+                                "batch_contract" => true, "results" => 1)
+      expect(operations.uniq.size).to eq 50
+      expect(described_class).to have_received(:prepare_scan).exactly(50).times
+    end
+
+    context "with a short startup disturbance" do
+      let(:startup_noise) { 0.1 }
+
+      it "amortizes noise without discarding the disturbed operation" do
+        sample = described_class.cold_measurements("index", paths, clock: clock)
+
+        expect(sample.fetch("elapsed") / duration).to be <= 1.15
+        expect(sample.fetch("elapsed")).to be > duration
+        expect(sample.fetch("iterations")).to eq 45
+      end
+    end
+
+    context "with a stable twenty percent slowdown" do
+      let(:duration) { 0.024 }
+
+      it "preserves the slowdown after averaging and fails the base gate" do
+        sample = described_class.cold_measurements("index", paths, clock: clock)
+        measured_sampler = lambda do |_, _, **options|
+          pr = options.fetch(:checkout) == described_class::ROOT
+          sample.merge("elapsed" => pr ? sample.fetch("elapsed") : 0.02,
+                       "rss" => 100.0)
+        end
+        comparison = described_class::BaseGate.new(
+          "base", sampler: measured_sampler, output: output
+        )
+
+        expect(comparison.passes?("index")).to be false
+        expect(output.string).to include("time=1.2", "attempt 2")
+      end
+    end
+
+    context "with a long operation" do
+      let(:duration) { 2.0 }
+
+      it "still averages ten independent cold operations" do
+        sample = described_class.cold_measurements("index", paths, clock: clock)
+
+        expect(sample).to include("elapsed" => 2.0, "iterations" => 10)
+        expect(operations.uniq.size).to eq 10
+      end
+    end
+
+    it "detects a missing batch even with nonempty per-file results" do
+      allow(described_class).to receive(:operation_for) do
+        -> { paths }
+      end
+
+      sample = described_class.cold_measurements("validator", paths,
+                                                 clock: clock)
+
+      expect(sample).to include("batch_contract" => false, "results" => 2)
     end
   end
 
@@ -516,7 +649,8 @@ RSpec.describe ScanPathPerformance do
     let(:status) { instance_double(Process::Status, success?: true) }
     let(:document) do
       JSON.generate("elapsed" => 1.0, "served_by" => "native", "results" => 30,
-                    "code_root" => Fontist.root_path.to_s)
+                    "code_root" => Fontist.root_path.to_s,
+                    "batch_contract" => true)
     end
 
     before do
@@ -562,6 +696,39 @@ RSpec.describe ScanPathPerformance do
       end
     end
 
+    it "returns batch loss as a valid measurement for regression comparison" do
+      broken = JSON.parse(document).merge("batch_contract" => false)
+      allow(Open3).to receive(:capture3).and_return(
+        [JSON.generate(broken), "  125952 maximum resident set size\n", status],
+      )
+
+      expect(described_class.sample("native", "validator"))
+        .to include("batch_contract" => false, "served_by" => "native")
+    end
+
+    it "keeps missing engine proof an error even when batching is lost" do
+      broken = JSON.parse(document).merge("batch_contract" => false,
+                                          "served_by" => "")
+      allow(Open3).to receive(:capture3).and_return(
+        [JSON.generate(broken), "", status],
+      )
+
+      expect do
+        described_class.sample("native", "validator")
+      end.to raise_error(described_class::Error, /did not serve/)
+    end
+
+    it "rejects a malformed batch contract" do
+      broken = JSON.parse(document).merge("batch_contract" => "unknown")
+      allow(Open3).to receive(:capture3).and_return(
+        [JSON.generate(broken), "", status],
+      )
+
+      expect do
+        described_class.sample("native", "validator")
+      end.to raise_error(described_class::Error, /invalid batch contract/)
+    end
+
     it "rejects a child that fell back to Ruby" do
       allow(Open3).to receive(:capture3).and_return(
         [document.sub("native", "ruby"), "", status],
@@ -570,6 +737,17 @@ RSpec.describe ScanPathPerformance do
       expect do
         described_class.sample("native", "index")
       end.to raise_error(described_class::Error, /did not serve/)
+    end
+
+    it "rejects a malformed result count as a measurement error" do
+      broken = JSON.parse(document).merge("results" => "thirty")
+      allow(Open3).to receive(:capture3).and_return(
+        [JSON.generate(broken), "", status],
+      )
+
+      expect do
+        described_class.sample("native", "index")
+      end.to raise_error(described_class::Error, /nonempty scan/)
     end
 
     it "rejects a child that scanned no fonts" do
@@ -661,6 +839,72 @@ RSpec.describe ScanPathPerformance do
         RSpec.configuration.failure_exit_code = 2
         raise
       end
+    end
+  end
+
+  describe "lost validator batching" do
+    let(:checkout) { Dir.mktmpdir("fontist-perf-per-file") }
+
+    after { FileUtils.remove_entry(checkout) }
+
+    it "reports a real per-file mutant as regression exit one" do
+      %w[lib Gemfile Gemfile.lock fontist.gemspec].each do |path|
+        FileUtils.cp_r(Fontist.root_path.join(path), checkout)
+      end
+      validator = File.join(checkout, "lib/fontist/validator.rb")
+      original = File.read(validator)
+      mutant = original.sub("def scan_results(paths)\n",
+                            "def scan_results(paths)\n      " \
+                            "return paths.to_h { |path| [path, nil] }\n")
+      expect(mutant).not_to eq(original)
+      File.write(validator, mutant)
+      driver = File.join(checkout, "gate.rb")
+      File.write(driver, <<~RUBY)
+        require #{File.join(Fontist.root_path, 'spec/support/performance.rb').inspect}
+        begin
+          original_stdout = $stdout
+          $stdout = $stderr
+          measurement = ScanPathPerformance.measure("validator")
+          $stdout = original_stdout
+          puts JSON.generate(measurement)
+          # RSS and the equal-time baseline are controlled classification inputs.
+          # The mutant's engine, results and batch contract are measured above.
+          sampler = lambda do |_, _, **options|
+            sample = measurement.merge("rss" => 100.0)
+            if options.fetch(:checkout) != #{checkout.inspect}
+              sample = sample.merge("batch_contract" => true)
+            end
+            sample
+          end
+          gate = ScanPathPerformance::BaseGate.new(
+            #{Fontist.root_path.to_s.inspect}, checkout: #{checkout.inspect},
+            sampler: sampler
+          )
+          exit(gate.passes?("validator") ? 0 : 1)
+        rescue StandardError, LoadError => e
+          warn e.message
+          exit 2
+        end
+      RUBY
+      home = File.join(checkout, "home")
+      FileUtils.mkdir_p(home)
+      stdout, stderr, status = Open3.capture3(
+        { "FONTIST_PERF_BASE" => nil, "FONTIST_PERF_TIER" => nil,
+          "FONTISAN_ENGINE" => "ruby", "FONTISAN_ENGINE_STRICT" => "1",
+          "FONTIST_PATH" => home,
+          "FONTIST_PERF_CORPUS" => described_class::CORPUS,
+          "BUNDLE_GEMFILE" => File.join(checkout, "Gemfile") },
+        RbConfig.ruby, "-rbundler/setup", "-I#{checkout}/lib", driver
+      )
+
+      expect(status.exitstatus).to eq(1), stdout + stderr
+      measured = JSON.parse(stdout.lines.first)
+      expect(measured).to include(
+        "served_by" => "ruby", "results" => be_positive,
+        "batch_contract" => false, "code_root" => File.realpath(checkout)
+      )
+      expect(stdout).to include("batch_contract=false", "time=1.0 peak_rss=1.0")
+      expect(stderr).not_to include("did not serve")
     end
   end
 
