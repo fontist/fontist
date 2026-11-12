@@ -1,17 +1,14 @@
-require "yeptris"
-require "yeptris/json"
-
 module Fontist
-  # JSON encoding and decoding through yeptris's native engine, replacing
-  # the json gem as fontist's JSON backend. The yeptris parser and
-  # generator produce and accept the same plain Ruby structures as the
-  # json gem (string keys, arrays, scalars), so this module is a
-  # drop-in surface; call sites rescue the module's error classes
-  # instead of JSON::ParserError and JSON::GeneratorError.
+  # JSON encoding and decoding through yeptris when available, with a
+  # silent stdlib fallback. Both engines expose the same error classes.
   module JSON
     class Error < StandardError; end
     class ParseError < Error; end
     class DumpError < Error; end
+
+    SCALAR_TYPES = [String, Integer, Float, TrueClass, FalseClass,
+                    NilClass].freeze
+    private_constant :SCALAR_TYPES
 
     class << self
       def parse(source)
@@ -20,14 +17,21 @@ module Fontist
                 "cannot parse #{source.class}"
         end
 
-        Yeptris::JSON.load(source)
-      rescue Yeptris::Error, TypeError => e
+        return Yeptris::JSON.load(source) if yeptris_available?
+
+        ::JSON.parse(source)
+      rescue *parse_errors => e
         raise ParseError, e.message
       end
 
       def dump(object)
-        Yeptris::JSON.dump(object)
-      rescue Yeptris::Error, TypeError => e
+        if yeptris_available?
+          Yeptris::JSON.dump(object)
+        else
+          validate_value(object, 0)
+          ::JSON.generate(object)
+        end
+      rescue *dump_errors => e
         raise DumpError, e.message
       end
 
@@ -38,6 +42,41 @@ module Fontist
       end
 
       private
+
+      def yeptris_available?
+        return @yeptris_available if defined?(@yeptris_available)
+
+        @yeptris_available = begin
+          require "yeptris"
+          require "yeptris/json"
+          true
+        rescue LoadError
+          require "json"
+          false
+        end
+      end
+
+      def parse_errors
+        [TypeError, yeptris_available? ? Yeptris::Error : ::JSON::ParserError]
+      end
+
+      def dump_errors
+        [TypeError, yeptris_available? ? Yeptris::Error : ::JSON::GeneratorError]
+      end
+
+      # Stdlib JSON stringifies arbitrary objects; keep yeptris's rejection
+      # of non-JSON values, including those nested inside containers.
+      def validate_value(value, depth)
+        raise DumpError, "nesting too deep" if depth > 100
+
+        case value
+        when Hash then validate_value(value.values, depth)
+        when Array then value.each { |item| validate_value(item, depth + 1) }
+        when *SCALAR_TYPES then nil
+        else
+          raise DumpError, "cannot dump #{value.class}"
+        end
+      end
 
       def pretty_value(value, depth)
         case value
