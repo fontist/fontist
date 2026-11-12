@@ -191,6 +191,32 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
+  describe "workflow tier matrix" do
+    it "runs both strict tiers on supported runners for all three platforms" do
+      job = YAML.load_file(".github/workflows/perf-gate.yml")
+        .fetch("jobs").fetch("scan-path-performance")
+      cells = job.fetch("strategy").fetch("matrix").fetch("include")
+      entries = cells.map do |cell|
+        cell.values_at("runner", "target_os", "target_cpu", "tier")
+      end
+      expected = [
+        ["ubuntu-24.04", "linux", "x86_64", "native"],
+        ["ubuntu-24.04", "linux", "x86_64", "ffi"],
+        ["macos-latest", "darwin", "arm64", "native"],
+        ["macos-latest", "darwin", "arm64", "ffi"],
+        ["macos-15-intel", "darwin", "x86_64", "native"],
+        ["macos-15-intel", "darwin", "x86_64", "ffi"],
+      ]
+
+      expect(job.fetch("runs-on")).to eq "${{ matrix.runner }}"
+      expect(entries).to match_array(expected)
+      gate = job.fetch("steps").find do |step|
+        step["name"] == "Run scan path performance gate"
+      end
+      expect(gate.fetch("env")).to include("FONTISAN_ENGINE_STRICT" => "1")
+    end
+  end
+
   describe "workflow platform preflight" do
     let(:directory) { Dir.mktmpdir("fontist-perf-lock") }
     let(:output_path) { File.join(directory, "github-output") }
