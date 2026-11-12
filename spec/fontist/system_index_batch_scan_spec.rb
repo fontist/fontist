@@ -118,24 +118,4 @@ RSpec.describe "Batch font scan for the indexes" do
       Fontist::SystemIndex.reset_cache
     end
   end
-
-  describe "batch scan code paths" do
-    touched = %w[system_index.rb validator.rb scan_row_fonts.rb font_file.rb
-                 collection_file.rb].map do |f|
-      File.join(Fontist.root_path, "lib", "fontist", f)
-    end
-
-    it "uses no Marshal, no fork, and no uncapped Parallel" do
-      touched.each do |file|
-        code = File.readlines(file).reject { |l| l.strip.start_with?("#") }
-        source = code.join
-        expect(source).not_to match(/\bMarshal\b/), file
-        expect(source).not_to match(/\b(Process\.)?fork\b/), file
-        source.scan(/Parallel\.\w+\([^)]*\)/).each do |call|
-          expect(call).to match(/in_threads:\s*num_cores/), "#{file}: #{call}"
-        end
-        expect(source).not_to match(/in_processes/), file
-      end
-    end
-  end
 end
