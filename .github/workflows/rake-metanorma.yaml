@@ -64,7 +64,7 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
-      - uses: metanorma/ci/inkscape-setup-action@main
+      - uses: metanorma/ci/inkscape-setup-action@e8a4c52976a8afdafe86c5202dfb93ba986af6cc
 
       - name: Configure Git credentials
         env:
