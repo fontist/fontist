@@ -275,10 +275,51 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
+  describe "workflow Rust isolation" do
+    let(:directory) { Dir.mktmpdir("fontist-perf-path") }
+    let(:toolchain) { File.join(directory, "rust bin") }
+    let(:environment_file) { File.join(directory, "github-env") }
+
+    after { FileUtils.remove_entry(directory) }
+
+    %w[cargo rustc rustup].each do |tool|
+      it "makes an existing #{tool} unavailable while preserving Ruby" do
+        FileUtils.mkdir_p(toolchain)
+        executable = File.join(toolchain, "#{tool}#{RbConfig::CONFIG['EXEEXT']}")
+        if Gem.win_platform?
+          FileUtils.cp(RbConfig.ruby, executable)
+        else
+          File.write(executable, "#!/bin/sh\nexit 0\n")
+        end
+        File.chmod(0o755, executable)
+        env = { "PATH" => [toolchain, ENV.fetch("PATH")].join(File::PATH_SEPARATOR),
+                "GITHUB_ENV" => environment_file }
+        stdout, stderr, status = Open3.capture3(
+          env, RbConfig.ruby, "script/performance/without-rust.rb"
+        )
+
+        expect(status.exitstatus).to eq(0), stdout + stderr
+        clean_path = File.read(environment_file).delete_prefix("PATH=").strip
+        stdout, stderr, status = Open3.capture3(
+          { "PATH" => clean_path }, "bash", "-ec", <<~BASH
+            if command -v cargo || command -v rustc || command -v rustup; then
+              exit 2
+            fi
+            ruby --version
+            bundle --version
+          BASH
+        )
+
+        expect(status.exitstatus).to eq(0), stdout + stderr
+        expect(stdout).to include("ruby")
+      end
+    end
+  end
+
   describe "workflow base checkout" do
     let(:steps) do
       YAML.load_file(".github/workflows/perf-gate.yml")
-        .fetch("jobs").fetch("scan-path-performance").fetch("steps")
+        .fetch("jobs").fetch("scan-path-base").fetch("steps")
     end
 
     it "checks out the exact PR base into a second directory only for PRs" do
@@ -326,12 +367,122 @@ RSpec.describe ScanPathPerformance do
 
       expect(status.exitstatus).to eq 0
       expect(stdout).to include("comparison skipped")
-      gate = steps.find do |step|
+      tier_job = YAML.load_file(".github/workflows/perf-gate.yml")
+        .fetch("jobs").fetch("scan-path-performance")
+      expect(tier_job).not_to have_key("needs")
+      gate = tier_job.fetch("steps").find do |step|
         step["name"] == "Run scan path performance gate"
       end
       expect(gate).not_to have_key("if")
       expect(gate.fetch("env").fetch("FONTIST_PERF_TIER"))
         .to eq "${{ matrix.tier }}"
+      expect(gate.fetch("env")).not_to have_key("FONTIST_PERF_BASE")
+    end
+
+    it "runs the Ruby comparison without requiring published engines" do
+      gate = steps.find do |step|
+        step["name"] == "Run Ruby scan path performance gate"
+      end
+
+      expect(gate.fetch("env")).to include("FONTISAN_ENGINE" => "ruby",
+                                           "FONTISAN_ENGINE_STRICT" => "1")
+      expect(gate.fetch("env")).not_to have_key("FONTIST_PERF_TIER")
+      expect(steps).not_to include(include("id" => "fontisan_platform"))
+    end
+  end
+
+  describe "gate process contract" do
+    let(:directory) { Dir.mktmpdir("fontist-perf-process") }
+    let(:spec_path) { File.expand_path(__FILE__) }
+    let(:env) do
+      { "FONTIST_PERF_BASE" => base, "FONTIST_PERF_TIER" => tier,
+        "FONTISAN_ENGINE" => "ruby", "GITHUB_EVENT_NAME" => "pull_request" }
+    end
+    let(:result) do
+      driver = File.join(directory, "samples.rb")
+      File.write(driver, <<~RUBY)
+        module ScanPathPerformance
+          def self.sample(tier, workload, **options)
+            raise Error, "forced engine missing" if #{outcome.inspect} == "error"
+
+            candidate = tier != "ruby" || options[:checkout] == ROOT
+            elapsed = #{outcome.inspect} == "regression" && candidate ? 2.0 : 1.0
+            { "elapsed" => elapsed, "rss" => 100.0 }
+          end
+        end
+      RUBY
+      Open3.capture3(env, RbConfig.ruby, "-S", "rspec", spec_path,
+                     "--require", driver, "--example", selection,
+                     "--format", "progress", "--no-profile")
+    end
+
+    after { FileUtils.remove_entry(directory) }
+
+    context "with only the Ruby base check enabled" do
+      let(:base) { File.join(directory, "base") }
+      let(:tier) { nil }
+      let(:selection) { "PR base corpus scan" }
+
+      { "pass" => 0, "regression" => 1, "error" => 2 }.each do |outcome, code|
+        context "when the measurement reports #{outcome}" do
+          let(:outcome) { outcome }
+
+          it "exits with #{code}" do
+            stdout, stderr, status = result
+
+            expect(status.exitstatus).to eq(code), stdout + stderr
+            expect(stdout).to include("2 examples")
+          end
+        end
+      end
+
+      it "selects the real sleep regression without any native tier" do
+        report = File.join(directory, "examples.json")
+        _, stderr, status = Open3.capture3(
+          env, RbConfig.ruby, "-S", "rspec", spec_path, "--dry-run",
+          "--format", "json", "--out", report, "--no-profile"
+        )
+
+        expect(status.exitstatus).to eq(0), stderr
+        examples = JSON.parse(File.read(report)).fetch("examples")
+        names = examples.map { |example| example.fetch("full_description") }
+        expect(names).to include(a_string_including("shared Fontist delay",
+                                                    "fails comparison"))
+        expect(names).not_to include(a_string_including("fixture corpus scan"))
+      end
+    end
+
+    context "with only the tier check enabled" do
+      let(:base) { nil }
+      let(:tier) { "native" }
+      let(:selection) { "fixture corpus scan" }
+
+      it "does not select the base comparison just because it is a PR" do
+        report = File.join(directory, "examples.json")
+        _, stderr, status = Open3.capture3(
+          env, RbConfig.ruby, "-S", "rspec", spec_path, "--dry-run",
+          "--format", "json", "--out", report, "--no-profile"
+        )
+
+        expect(status.exitstatus).to eq(0), stderr
+        examples = JSON.parse(File.read(report)).fetch("examples")
+        names = examples.map { |example| example.fetch("full_description") }
+        expect(names).to include(a_string_including("fixture corpus scan"))
+        expect(names).not_to include(a_string_including("PR base corpus scan"))
+      end
+
+      { "pass" => 0, "regression" => 1, "error" => 2 }.each do |outcome, code|
+        context "when the measurement reports #{outcome}" do
+          let(:outcome) { outcome }
+
+          it "exits with #{code}" do
+            stdout, stderr, status = result
+
+            expect(status.exitstatus).to eq(code), stdout + stderr
+            expect(stdout).to include("2 examples")
+          end
+        end
+      end
     end
   end
 
@@ -487,13 +638,18 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
-  describe "shared Fontist delay", :scan_path_gate, :scan_path_base_gate do
+  describe "shared Fontist delay" do
     let(:delayed_checkout) { Dir.mktmpdir("fontist-perf-delay") }
+    let(:reference) { described_class.sample("ruby", "validator") }
+    let(:base_gate) do
+      described_class::BaseGate.new(
+        Fontist.root_path.to_s, checkout: delayed_checkout, output: output
+      )
+    end
 
     after { FileUtils.remove_entry(delayed_checkout) }
 
-    it "passes the tier floor but fails comparison with unchanged code" do
-      reference = described_class.sample("ruby", "validator")
+    before do
       %w[lib Gemfile Gemfile.lock fontist.gemspec].each do |path|
         FileUtils.cp_r(Fontist.root_path.join(path), delayed_checkout)
       end
@@ -506,18 +662,27 @@ RSpec.describe ScanPathPerformance do
                              "sleep #{reference.fetch('elapsed') * 2}\n")
       expect(delayed).not_to eq(original)
       File.write(validator, delayed)
+    rescue StandardError, LoadError
+      RSpec.configuration.failure_exit_code = 2
+      raise
+    end
+
+    it "fails comparison with unchanged code using only Ruby",
+       :scan_path_base_gate do
+      expect(base_gate.passes?("validator")).to be(false), output.string
+    rescue StandardError, LoadError
+      RSpec.configuration.failure_exit_code = 2
+      raise
+    end
+
+    it "passes the tier floor despite the shared delay", :scan_path_gate do
       delayed_sampler = lambda do |tier, workload|
         described_class.sample(tier, workload, checkout: delayed_checkout)
       end
       tier_gate = described_class::Gate.new(
         ENV.fetch("FONTIST_PERF_TIER"), sampler: delayed_sampler, output: output
       )
-      base_gate = described_class::BaseGate.new(
-        Fontist.root_path.to_s, checkout: delayed_checkout, output: output
-      )
-
       expect(tier_gate.passes?("validator")).to be(true), output.string
-      expect(base_gate.passes?("validator")).to be(false), output.string
     rescue StandardError, LoadError
       RSpec.configuration.failure_exit_code = 2
       raise

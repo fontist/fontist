@@ -16,9 +16,7 @@ if RSpec.respond_to?(:configure)
     unless ENV["FONTIST_PERF_TIER"]
       config.filter_run_excluding scan_path_gate: true
     end
-    unless enabled && (base || ENV["GITHUB_EVENT_NAME"] == "pull_request")
-      config.filter_run_excluding scan_path_base_gate: true
-    end
+    config.filter_run_excluding scan_path_base_gate: true unless base
   end
 end
 
