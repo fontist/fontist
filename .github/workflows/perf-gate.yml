@@ -1,0 +1,117 @@
+name: Scan path performance gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  scan-path-performance:
+    name: ${{ matrix.platform }} / ${{ matrix.tier }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Linux x86_64
+            runner: ubuntu-24.04
+            target_os: linux
+            target_cpu: x86_64
+            tier: native
+          - platform: Linux x86_64
+            runner: ubuntu-24.04
+            target_os: linux
+            target_cpu: x86_64
+            tier: ffi
+          - platform: macOS arm64
+            runner: macos-14
+            target_os: darwin
+            target_cpu: arm64
+            tier: native
+          - platform: macOS arm64
+            runner: macos-14
+            target_os: darwin
+            target_cpu: arm64
+            tier: ffi
+          - platform: macOS x86_64
+            runner: macos-15-intel
+            target_os: darwin
+            target_cpu: x86_64
+            tier: native
+          - platform: macOS x86_64
+            runner: macos-15-intel
+            target_os: darwin
+            target_cpu: x86_64
+            tier: ffi
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Resolve bundle without installing gems
+        run: bundle lock
+
+      - name: Verify published Fontisan binary is available
+        id: fontisan_platform
+        env:
+          TARGET_OS: ${{ matrix.target_os }}
+          TARGET_CPU: ${{ matrix.target_cpu }}
+        run: |
+          ruby -rjson -rnet/http -ruri -rrubygems/platform -e '
+            lock = File.read("Gemfile.lock")
+            version = lock[/^    fontisan \(([^ )]+)/, 1]
+            abort "fontisan version missing from Gemfile.lock" unless version
+
+            uri = URI("https://rubygems.org/api/v1/versions/fontisan.json")
+            response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.get(uri.request_uri) }
+            abort "RubyGems fontisan metadata request failed: HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+
+            versions = JSON.parse(response.body)
+            published = versions.select { |entry| entry["number"] == version }
+            platforms = published.map { |entry| entry["platform"] }.uniq.sort
+            target_os = ENV.fetch("TARGET_OS")
+            target_cpu = ENV.fetch("TARGET_CPU")
+            usable = platforms.select do |platform|
+              next false if platform == "ruby"
+
+              candidate = Gem::Platform.new(platform)
+              next false unless candidate.os == target_os && candidate.cpu == target_cpu
+
+              target_os != "linux" || candidate.version.nil? || candidate.version.start_with?("gnu")
+            end
+            unless usable.any?
+              warn "ERROR: fontisan #{version} has no published #{target_cpu}-#{target_os} binary gem on RubyGems.org (published platforms: #{platforms.empty? ? "none" : platforms.join(", ")})"
+              exit 2
+            end
+            platform = usable.first
+            puts "RubyGems.org publishes fontisan #{version} for #{platform}."
+            File.open(ENV.fetch("GITHUB_OUTPUT"), "a") { |output| output.puts("platform=#{platform}") }
+          '
+
+      - name: Install bundle from RubyGems
+        run: bundle install --jobs 4 --retry 3
+
+      - name: Verify installed Fontisan is the published platform gem
+        env:
+          FONTISAN_PLATFORM: ${{ steps.fontisan_platform.outputs.platform }}
+        run: |
+          bundle exec ruby -e '
+            spec = Gem.loaded_specs.fetch("fontisan")
+            puts "Installed fontisan #{spec.version} (#{spec.platform}) for #{RUBY_PLATFORM}."
+            unless spec.platform.to_s == ENV.fetch("FONTISAN_PLATFORM")
+              warn "ERROR: installed fontisan #{spec.version} platform #{spec.platform} does not match required prebuilt #{ENV.fetch("FONTISAN_PLATFORM")}."
+              exit 2
+            end
+          '
+
+      - name: Run scan path performance gate
+        env:
+          FONTIST_PERF_TIER: ${{ matrix.tier }}
+          FONTISAN_ENGINE_STRICT: "1"
+        run: bundle exec rspec spec/performance/scan_path_perf_spec.rb
