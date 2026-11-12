@@ -50,12 +50,20 @@ module RuntimeContractCheck
     text
   end
 
-  # The last assignment to var before offset, within the enclosing method.
+  ASSIGN_OPS = '(?:\\|\\||&&|\\*\\*|<<|>>|[-+*\\/%|&^])?'.freeze
+
+  # The right-hand side of the last assignment to var before offset, within
+  # the enclosing method. Compound assignments (`+=`, `*=`, `||=`, ...)
+  # return a marker that never matches CAPPED, as they change the value.
   def last_assignment(source, offset, var)
     before = source[0...offset]
     defs = before.rindex(/^\s*def\s/)
     scope = defs ? before[defs..] : before
-    scope.scan(/\b#{Regexp.escape(var)}\s*(?:\|\|)?=(?!=)\s*(.*)/).flatten.last
+    pattern = /\b#{Regexp.escape(var)}\s*(#{ASSIGN_OPS})=(?![=~])\s*(.*)/
+    op, rhs = scope.scan(pattern).last
+    return if op.nil?
+
+    op.empty? ? rhs : "#{op}= #{rhs}"
   end
 
   def violations(raw_source)
@@ -162,6 +170,28 @@ RSpec.describe "Runtime contract" do
         def run(items)
           workers = [Parallel.processor_count, 8].min
           workers = Parallel.processor_count
+          Parallel.map(items, in_threads: workers) { |i| i }
+        end
+      RUBY
+    end
+
+    it "rejects a cap changed by a compound assignment" do
+      %w[*= += ||= <<= -=].each do |op|
+        expect(violations(<<~RUBY)).not_to be_empty, op
+          def run(items)
+            workers = [Parallel.processor_count, 8].min
+            workers #{op} 100
+            Parallel.map(items, in_threads: workers) { |i| i }
+          end
+        RUBY
+      end
+    end
+
+    it "ignores comparisons of the capped variable" do
+      expect(violations(<<~RUBY)).to be_empty
+        def run(items)
+          workers = [Parallel.processor_count, 8].min
+          return if workers <= 1 || workers == 3 || workers != 4
           Parallel.map(items, in_threads: workers) { |i| i }
         end
       RUBY
