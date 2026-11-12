@@ -46,4 +46,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "socksify", "~> 1.7"
   spec.add_dependency "thor", "~> 1.4"
   spec.add_dependency "unibuf", "~> 0.1"
+  spec.add_dependency "yeptris", "~> 0.6.55"
 end
