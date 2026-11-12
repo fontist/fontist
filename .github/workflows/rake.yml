@@ -322,6 +322,25 @@ jobs:
 
       - run: bundle exec rake
 
+  ruby-engine-test:
+    name: 'engine: ruby'
+    runs-on: ubuntu-latest
+    env:
+      FONTISAN_ENGINE: ruby
+      FONTISAN_ENGINE_STRICT: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler: ${{ env.BUNDLER_VER }}
+          bundler-cache: true
+
+      - name: Run full suite with the forced Ruby tier
+        run: bundle exec rake
+
   archlinux-test:
     name: Test on Arch Linux
     needs: prepare
