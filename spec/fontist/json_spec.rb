@@ -12,9 +12,89 @@ RSpec.describe Fontist::JSON do
     it "dumps values nested beyond 100 levels" do
       expect(json.dump(nested_value)).to eq(nested_source)
     end
+
+    { "[" => "]", '{"a":' => "}" }.each do |opening, closing|
+      it "accepts #{opening} nesting at the yeptris depth boundary" do
+        scalar_source = "#{opening * 999}0#{closing * 999}"
+        empty_source = "#{opening * 999}[]#{closing * 999}"
+        path = Array.new(999, opening == "[" ? 0 : "a")
+
+        expect(json.parse(scalar_source).dig(*path)).to eq(0)
+        expect(json.parse(empty_source).dig(*path)).to eq([])
+      end
+
+      it "rejects #{opening} nesting beyond the yeptris depth boundary" do
+        scalar_source = "#{opening * 1000}0#{closing * 1000}"
+        empty_source = "#{opening * 1000}[]#{closing * 1000}"
+
+        expect { json.parse(scalar_source) }.to raise_error(json::ParseError)
+        expect { json.parse(empty_source) }.to raise_error(json::ParseError)
+        expect { json.parse(("[" * 5000) + ("]" * 5000)) }
+          .to raise_error(json::ParseError)
+      end
+    end
+
+    it "rejects duplicate keys containing overly nested values" do
+      nested = "#{'[' * 999}0#{']' * 999}"
+
+      expect { json.parse(%({"a":#{nested},"a":0})) }
+        .to raise_error(json::ParseError)
+    end
+
+    it "rejects duplicate keys within the nesting limit" do
+      expect { json.parse('{"a":1,"a":2}') }.to raise_error(json::ParseError)
+    end
+
+    it "ignores brackets and escaped quotes inside strings" do
+      value = "[\"#{'[' * 1000}\\]"
+
+      expect(json.parse(json.dump(value))).to eq(value)
+    end
   end
 
   shared_examples "compatible JSON dumping" do
+    it "serializes Date and DateTime values as ISO 8601 strings" do
+      values = [Date.new(2024, 1, 2), DateTime.new(2024, 1, 2)]
+      expected = ["2024-01-02", "2024-01-02T00:00:00+00:00"]
+
+      expect(json.parse(json.dump(values))).to eq(expected)
+      expect(json.parse(json.pretty(values))).to eq(expected)
+    end
+
+    it "serializes Time values with their offset and whole seconds" do
+      value = Time.at(0, 123_456).getlocal("+05:00")
+      timestamp = "1970-01-01T05:00:00+05:00"
+
+      expect(json.dump(value)).to eq(%("#{timestamp}"))
+      expect(json.pretty(value)).to eq(%("#{timestamp}"))
+      expect(json.parse(json.dump({ "time" => [value] })))
+        .to eq({ "time" => [timestamp] })
+      expect(json.parse(json.pretty({ "time" => [value] })))
+        .to eq({ "time" => [timestamp] })
+    end
+
+    ["\xff", "\xff".b].each do |value|
+      it "preserves invalid UTF-8 bytes in #{value.encoding} strings" do
+        expect(json.dump(value).bytes).to eq([34, 255, 34])
+        expect(json.pretty(value).bytes).to eq([34, 255, 34])
+        expect(json.dump({ "value" => [value] }).b)
+          .to eq("{\"value\":[\"\xff\"]}".b)
+        expect(json.pretty([value]).b).to eq("[\n  \"\xff\"\n]".b)
+      end
+    end
+
+    it "preserves UTF-8 text and JSON escapes alongside invalid bytes" do
+      value = "café\n\t\"\\\x00\xff"
+
+      expect(json.dump(value).b).to eq("\"café\\n\\t\\\"\\\\\\u0000\xff\"".b)
+    end
+
+    it "preserves invalid bytes in keys without merging stringified keys" do
+      value = { "\xff" => "café", :a => 1, "a" => 2 }
+
+      expect(json.dump(value).b).to eq("{\"\xff\":\"café\",\"a\":1,\"a\":2}".b)
+    end
+
     it "serializes nested Symbol values as strings" do
       expect(json.dump({ "a" => [:b] })).to eq('{"a":["b"]}')
     end

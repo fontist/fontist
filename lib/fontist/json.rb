@@ -6,7 +6,7 @@ module Fontist
     class ParseError < Error; end
     class DumpError < Error; end
 
-    SCALAR_TYPES = [String, Symbol, Integer, TrueClass, FalseClass,
+    SCALAR_TYPES = [Integer, TrueClass, FalseClass,
                     NilClass].freeze
     private_constant :SCALAR_TYPES
 
@@ -19,7 +19,9 @@ module Fontist
 
         return Yeptris::JSON.load(source) if yeptris_available?
 
-        ::JSON.parse(source, max_nesting: false)
+        value = ::JSON.parse(source, max_nesting: 1000)
+        validate_nesting(value)
+        value
       rescue *parse_errors => e
         raise ParseError, e.message
       end
@@ -30,6 +32,7 @@ module Fontist
         else
           value = normalize_value(object, {}.compare_by_identity)
           ::JSON.generate(value, max_nesting: false)
+            .encode(Encoding::ISO_8859_1).force_encoding(Encoding::UTF_8)
         end
       rescue *dump_errors => e
         raise DumpError, e.message
@@ -52,6 +55,7 @@ module Fontist
           true
         rescue LoadError
           require "json"
+          require "time"
           false
         end
       end
@@ -64,17 +68,30 @@ module Fontist
         [TypeError, yeptris_available? ? Yeptris::Error : ::JSON::GeneratorError]
       end
 
+      # Yeptris counts scalar values towards its 1000-level limit, but permits
+      # an empty container at the last level. Stdlib's container limit alone
+      # does not enforce this boundary consistently across json versions.
+      def validate_nesting(value)
+        pending = [[value, 0]]
+        until pending.empty?
+          item, depth = pending.pop
+          raise ParseError, "JSON nesting exceeds 1000 levels" if depth >= 1000
+
+          children = item.is_a?(Hash) ? item.values : item
+          next unless children.is_a?(Array)
+
+          children.each { |child| pending << [child, depth + 1] }
+        end
+      end
+
       # Match yeptris's accepted types and scalar conversions before stdlib
       # generation, including values nested inside containers.
       def normalize_value(value, ancestors)
         validate_class(value)
         case value
         when Hash, Array then normalize_container(value, ancestors)
-        when Float then normalize_float(value)
         when *SCALAR_TYPES then value
-        else
-          raise DumpError, "cannot dump #{value.class}: unsupported object " \
-                           "(JSON.generate calls to_json on custom types)"
+        else normalize_scalar(value)
         end
       end
 
@@ -84,8 +101,22 @@ module Fontist
         raise DumpError, "can't dump anonymous class #{value.class}"
       end
 
-      def normalize_float(value)
-        value.finite? ? value : value.to_s
+      def normalize_scalar(value)
+        case value
+        when Float then value.finite? ? value : value.to_s
+        when String, Symbol then normalize_string(value.to_s)
+        when Time, Date then normalize_string(value.iso8601)
+        else
+          raise DumpError, "cannot dump #{value.class}: unsupported object " \
+                           "(JSON.generate calls to_json on custom types)"
+        end
+      end
+
+      # Yeptris preserves string bytes even when they are not valid UTF-8.
+      # Map bytes through Latin-1 so stdlib can escape JSON syntax normally;
+      # dump reverses the mapping after generation without changing the bytes.
+      def normalize_string(value)
+        value.encode(Encoding::UTF_8, Encoding::ISO_8859_1)
       end
 
       def normalize_container(value, ancestors)
@@ -106,7 +137,9 @@ module Fontist
                 "can't dump hash with default proc"
         end
 
-        value.transform_values { |item| normalize_value(item, ancestors) }
+        value.each_with_object({}.compare_by_identity) do |(key, item), result|
+          result[normalize_string(key.to_s)] = normalize_value(item, ancestors)
+        end
       end
 
       def pretty_value(value, depth)
