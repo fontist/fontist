@@ -18,11 +18,10 @@ gem "simplecov"
 gem "vcr"
 gem "webmock"
 
-# Optional YAML engine (consumer-side dependency; needs Ruby >= 3.0,
-# which is above fontist's gemspec floor, so it stays out of the
-# gemspec). Activated with FONTIST_YAML=yeptris; off by default
-# pending leptris/yeptris#863 (linux scalar-parity fix).
-gem "yeptris", require: false
+# yeptris is a runtime dependency (see the gemspec): the JSON backend in
+# lib/fontist/json.rb loads it unconditionally. The optional YAML engine
+# activated with FONTIST_YAML=yeptris stays off by default pending
+# leptris/yeptris#863 (linux scalar-parity fix).
 
 # Profiling tools (development only)
 # gem "ruby-prof", "~> 1.7"
