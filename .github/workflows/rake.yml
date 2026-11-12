@@ -338,6 +338,15 @@ jobs:
           bundler: ${{ env.BUNDLER_VER }}
           bundler-cache: true
 
+      - name: Verify and report the selected engine
+        shell: bundle exec ruby {0}
+        run: |
+          require "fontisan"
+          Fontisan.scan(["spec/fixtures/fonts/DejaVuSerif.ttf"])
+          tier = Fontisan::Engine.served_by(:scan)
+          puts "Fontisan scan served by: #{tier}"
+          abort "Expected the Ruby scan tier, got #{tier.inspect}" unless tier == :ruby
+
       - name: Run full suite with the forced Ruby tier
         run: bundle exec rake
 
