@@ -6,7 +6,7 @@ module Fontist
     class ParseError < Error; end
     class DumpError < Error; end
 
-    SCALAR_TYPES = [String, Integer, Float, TrueClass, FalseClass,
+    SCALAR_TYPES = [String, Symbol, Integer, TrueClass, FalseClass,
                     NilClass].freeze
     private_constant :SCALAR_TYPES
 
@@ -28,8 +28,8 @@ module Fontist
         if yeptris_available?
           Yeptris::JSON.dump(object)
         else
-          validate_value(object, {}.compare_by_identity)
-          ::JSON.generate(object, max_nesting: false)
+          value = normalize_value(object, {}.compare_by_identity)
+          ::JSON.generate(value, max_nesting: false)
         end
       rescue *dump_errors => e
         raise DumpError, e.message
@@ -64,25 +64,49 @@ module Fontist
         [TypeError, yeptris_available? ? Yeptris::Error : ::JSON::GeneratorError]
       end
 
-      # Stdlib JSON stringifies arbitrary objects; keep yeptris's rejection
-      # of non-JSON values, including those nested inside containers.
-      def validate_value(value, ancestors)
+      # Match yeptris's accepted types and scalar conversions before stdlib
+      # generation, including values nested inside containers.
+      def normalize_value(value, ancestors)
+        validate_class(value)
         case value
-        when Hash, Array then validate_container(value, ancestors)
-        when *SCALAR_TYPES then nil
+        when Hash, Array then normalize_container(value, ancestors)
+        when Float then normalize_float(value)
+        when *SCALAR_TYPES then value
         else
-          raise DumpError, "cannot dump #{value.class}"
+          raise DumpError, "cannot dump #{value.class}: unsupported object " \
+                           "(JSON.generate calls to_json on custom types)"
         end
       end
 
-      def validate_container(value, ancestors)
+      def validate_class(value)
+        return unless value.class.name.nil?
+
+        raise DumpError, "can't dump anonymous class #{value.class}"
+      end
+
+      def normalize_float(value)
+        value.finite? ? value : value.to_s
+      end
+
+      def normalize_container(value, ancestors)
         raise DumpError, "circular reference" if ancestors.key?(value)
 
         ancestors[value] = true
-        items = value.is_a?(Hash) ? value.values : value
-        items.each { |item| validate_value(item, ancestors) }
+        case value
+        when Hash then normalize_hash(value, ancestors)
+        else value.map { |item| normalize_value(item, ancestors) }
+        end
       ensure
         ancestors.delete(value)
+      end
+
+      def normalize_hash(value, ancestors)
+        if value.default_proc
+          raise DumpError,
+                "can't dump hash with default proc"
+        end
+
+        value.transform_values { |item| normalize_value(item, ancestors) }
       end
 
       def pretty_value(value, depth)

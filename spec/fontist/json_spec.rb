@@ -14,10 +14,63 @@ RSpec.describe Fontist::JSON do
     end
   end
 
+  shared_examples "compatible JSON dumping" do
+    it "serializes nested Symbol values as strings" do
+      expect(json.dump({ "a" => [:b] })).to eq('{"a":["b"]}')
+    end
+
+    it "preserves cached hashes containing Symbol values" do
+      stub_const("Fontist::JSON", json)
+
+      Dir.mktmpdir do |dir|
+        store = Fontist::Cache::Store.new(dir)
+        store.set("k", { "a" => :b })
+
+        expect(store.get("k")).to eq({ "a" => "b" })
+      end
+    end
+
+    { "NaN" => Float::NAN, "Infinity" => Float::INFINITY,
+      "-Infinity" => -Float::INFINITY }.each do |text, value|
+      it "serializes #{text} as a quoted string" do
+        expect(json.dump({ "a" => [value] })).to eq("{\"a\":[\"#{text}\"]}")
+      end
+    end
+
+    [Hash, String, Array].each do |type|
+      it "rejects anonymous #{type} subclasses with the native error message" do
+        value = Class.new(type).new
+
+        expect { json.dump({ "a" => [value] }) }
+          .to raise_error(json::DumpError,
+                          "can't dump anonymous class #{value.class}")
+      end
+
+      it "accepts named #{type} subclasses" do
+        type_class = stub_const("JSONSpec#{type}", Class.new(type))
+
+        expect(json.dump(type_class.new)).to eq(json.dump(type.new))
+      end
+    end
+
+    it "rejects hashes with default procs with the native error message" do
+      expect { json.dump({ "a" => Hash.new { nil } }) }
+        .to raise_error(json::DumpError, "can't dump hash with default proc")
+    end
+
+    it "rejects unsupported objects with the native error message" do
+      expect { json.dump(Object.new) }
+        .to raise_error(json::DumpError,
+                        "cannot dump Object: unsupported object " \
+                        "(JSON.generate calls to_json on custom types)")
+    end
+  end
+
   context "with the default engine" do
     let(:json) { described_class }
 
     include_examples "deeply nested JSON"
+    include_examples "compatible JSON dumping"
   end
 
   context "without yeptris" do
@@ -36,6 +89,7 @@ RSpec.describe Fontist::JSON do
     before { hide_const("Yeptris") }
 
     include_examples "deeply nested JSON"
+    include_examples "compatible JSON dumping"
 
     it "rejects circular arrays and hashes with DumpError" do
       array = []
@@ -76,7 +130,7 @@ RSpec.describe Fontist::JSON do
       expect { json.dump(Object.new) }.to raise_error(json::DumpError)
       expect { json.dump({ "nested" => [Object.new] }) }
         .to raise_error(json::DumpError)
-      expect { json.dump(Float::NAN) }.to raise_error(json::DumpError)
+      expect(json.dump(Float::NAN)).to eq('"NaN"')
       expect { json.pretty(Object.new) }.to raise_error(json::DumpError)
       expect(json).to have_received(:require).with("yeptris").once
     end
