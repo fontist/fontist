@@ -50,6 +50,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check out pull request base
+        id: base_checkout
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .perf-base
+
+      - name: Require pull request base checkout
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_CHECKOUT_OUTCOME: ${{ steps.base_checkout.outcome }}
+        run: |
+          if [ "$BASE_CHECKOUT_OUTCOME" != "success" ]; then
+            echo "ERROR: pull request base checkout failed; PR-vs-base comparison cannot run."
+            exit 2
+          fi
+
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
@@ -98,6 +117,17 @@ jobs:
       - name: Install bundle from RubyGems
         run: bundle install --jobs 4 --retry 3
 
+      - name: Install pull request base bundle
+        if: github.event_name == 'pull_request'
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/.perf-base/Gemfile
+        run: |
+          cd .perf-base || exit 2
+          if ! bundle install --jobs 4 --retry 3; then
+            echo "ERROR: pull request base bundle install failed."
+            exit 2
+          fi
+
       - name: Verify installed Fontisan is the published platform gem
         env:
           FONTISAN_PLATFORM: ${{ steps.fontisan_platform.outputs.platform }}
@@ -111,8 +141,13 @@ jobs:
             end
           '
 
+      - name: Skip PR-vs-base check on push
+        if: github.event_name != 'pull_request'
+        run: echo "PR-vs-base comparison skipped for push event."
+
       - name: Run scan path performance gate
         env:
           FONTIST_PERF_TIER: ${{ matrix.tier }}
           FONTISAN_ENGINE_STRICT: "1"
+          FONTIST_PERF_BASE: ${{ github.event_name == 'pull_request' && format('{0}/.perf-base', github.workspace) || '' }}
         run: bundle exec rspec spec/performance/scan_path_perf_spec.rb

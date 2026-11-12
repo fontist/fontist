@@ -4,15 +4,20 @@ require "json"
 require "open3"
 require "rbconfig"
 require "tmpdir"
+require "bundler"
 
 if RSpec.respond_to?(:configure)
   RSpec.configure do |config|
     config.include RSpec::Benchmark::Matchers
     # Timing gates are opt-in; ordinary specs still exercise the gate's rules.
-    if ENV["FONTIST_PERF_TIER"]
-      config.error_exit_code = 2
-    else
+    base = !ENV.fetch("FONTIST_PERF_BASE", "").empty?
+    enabled = ENV["FONTIST_PERF_TIER"] || base
+    config.error_exit_code = 2 if enabled
+    unless ENV["FONTIST_PERF_TIER"]
       config.filter_run_excluding scan_path_gate: true
+    end
+    unless enabled && (base || ENV["GITHUB_EVENT_NAME"] == "pull_request")
+      config.filter_run_excluding scan_path_base_gate: true
     end
   end
 end
@@ -26,15 +31,15 @@ end
 module ScanPathPerformance
   class Error < StandardError; end
 
-  class Gate
-    def initialize(tier, sampler: ScanPathPerformance.method(:sample),
-                   output: $stdout)
-      unless %w[native ffi].include?(tier)
-        raise Error, "force native or ffi, got #{tier.inspect}"
-      end
+  ROOT = File.expand_path("../..", __dir__).freeze
+  CORPUS = File.join(ROOT, "spec/fixtures/fonts").freeze
 
-      @tier = tier
+  class Comparison
+    def initialize(reference:, candidate:, sampler:, time_limit:, output:)
+      @reference = reference
+      @candidate = candidate
       @sampler = sampler
+      @time_limit = time_limit
       @output = output
     end
 
@@ -52,15 +57,15 @@ module ScanPathPerformance
     def measure_ratios(workload, attempt)
       samples = collect_samples(workload, attempt)
       %w[elapsed rss].to_h do |metric|
-        ruby = median(samples.fetch("ruby"), metric)
-        [metric, median(samples.fetch(@tier), metric) / ruby]
+        reference = median(samples.fetch(@reference), metric)
+        [metric, median(samples.fetch(@candidate), metric) / reference]
       end
     end
 
     def collect_samples(workload, attempt)
-      samples = { "ruby" => [], @tier => [] }
+      samples = { @reference => [], @candidate => [] }
       5.times do |round|
-        order = ["ruby", @tier]
+        order = [@reference, @candidate]
         order.reverse! if ((attempt * 5) + round).odd?
         order.each do |tier|
           samples.fetch(tier) << @sampler.call(tier, workload)
@@ -70,11 +75,11 @@ module ScanPathPerformance
     end
 
     def within_floor?(ratios)
-      ratios.fetch("elapsed") <= 1.0 && ratios.fetch("rss") <= 1.03
+      ratios.fetch("elapsed") <= @time_limit && ratios.fetch("rss") <= 1.03
     end
 
     def report(workload, ratios, attempt)
-      @output.puts "#{workload} #{@tier}/ruby medians: " \
+      @output.puts "#{workload} #{@candidate}/#{@reference} medians: " \
                    "time=#{ratios.fetch('elapsed').round(4)} " \
                    "peak_rss=#{ratios.fetch('rss').round(4)} " \
                    "(attempt #{attempt + 1})"
@@ -91,31 +96,75 @@ module ScanPathPerformance
     end
   end
 
-  def self.sample(tier, workload)
+  class Gate < Comparison
+    def initialize(tier, sampler: ScanPathPerformance.method(:sample),
+                   output: $stdout)
+      unless %w[native ffi].include?(tier)
+        raise Error, "force native or ffi, got #{tier.inspect}"
+      end
+
+      super(reference: "ruby", candidate: tier, sampler: sampler,
+            time_limit: 1.0, output: output)
+    end
+  end
+
+  class BaseGate < Comparison
+    def initialize(base, checkout: ROOT,
+                   sampler: ScanPathPerformance.method(:sample),
+                   output: $stdout)
+      raise Error, "missing PR base checkout" if base.to_s.empty?
+
+      roots = { "base" => File.expand_path(base), "pr" => checkout }
+      ruby_sampler = lambda do |side, workload|
+        sampler.call("ruby", workload, checkout: roots.fetch(side),
+                                       corpus: CORPUS)
+      end
+      super(reference: "base", candidate: "pr", sampler: ruby_sampler,
+            time_limit: 1.15, output: output)
+    end
+  end
+
+  def self.sample(tier, workload, checkout: ROOT, corpus: CORPUS)
     Dir.mktmpdir("fontist-perf") do |dir|
-      env = { "FONTISAN_ENGINE" => tier, "FONTISAN_ENGINE_STRICT" => "1",
-              "FONTIST_PATH" => dir, "LC_ALL" => "C" }
-      flag = RUBY_PLATFORM.include?("darwin") ? "-l" : "-v"
-      stdout, stderr, status = Open3.capture3(
-        env, "/usr/bin/time", flag, RbConfig.ruby, "-Ilib",
-        __FILE__, "--sample", workload
-      )
+      stdout, stderr, status = capture_sample(tier, workload, checkout, corpus,
+                                              dir)
       unless status.success?
         raise Error,
               "#{workload} #{tier} exited #{status.exitstatus}: #{stderr}"
       end
 
-      parse_sample(stdout, tier).merge("rss" => peak_rss(stderr))
+      parse_sample(stdout, tier, checkout).merge("rss" => peak_rss(stderr))
     end
   rescue JSON::ParserError, KeyError, SystemCallError => e
     raise Error, "#{workload} #{tier} measurement error: #{e.message}"
   end
 
-  def self.parse_sample(stdout, tier)
+  def self.capture_sample(tier, workload, checkout, corpus, home)
+    checkout = File.expand_path(checkout)
+    env = { "FONTISAN_ENGINE" => tier, "FONTISAN_ENGINE_STRICT" => "1",
+            "FONTIST_PATH" => home, "LC_ALL" => "C",
+            "FONTIST_PERF_CORPUS" => File.expand_path(corpus),
+            "BUNDLE_GEMFILE" => File.join(checkout, "Gemfile"),
+            "RUBYLIB" => nil, "RUBYOPT" => nil }
+    flag = RUBY_PLATFORM.include?("darwin") ? "-l" : "-v"
+    Bundler.with_unbundled_env do
+      Open3.capture3(
+        env, "/usr/bin/time", flag, RbConfig.ruby, "-rbundler/setup",
+        "-I#{checkout}/lib", File.expand_path(__FILE__), "--sample", workload,
+        chdir: checkout
+      )
+    end
+  end
+
+  def self.parse_sample(stdout, tier, checkout)
     result = JSON.parse(stdout)
     served = result.fetch("served_by") == tier
     unless served && result.fetch("results").positive?
       raise Error, "#{tier} did not serve a nonempty scan: #{result.inspect}"
+    end
+
+    unless result.fetch("code_root") == File.realpath(checkout)
+      raise Error, "loaded fontist from wrong checkout: #{result.inspect}"
     end
 
     result
@@ -143,7 +192,8 @@ module ScanPathPerformance
       count = operation.call.size
     end
     { "elapsed" => timing.avg, "results" => count,
-      "served_by" => Fontisan::Engine.served_by(:scan).to_s }
+      "served_by" => Fontisan::Engine.served_by(:scan).to_s,
+      "code_root" => Fontist.root_path.realpath.to_s }
   end
 
   def self.prepare_scan
@@ -154,7 +204,7 @@ module ScanPathPerformance
   end
 
   def self.fixture_paths
-    pattern = Fontist.root_path.join("spec/fixtures/fonts/**/*")
+    pattern = File.join(ENV.fetch("FONTIST_PERF_CORPUS", CORPUS), "**/*")
     extensions = %w[.ttf .otf .ttc .otc .dfont .woff .woff2]
     paths = Dir.glob(pattern).select do |path|
       File.file?(path) && extensions.include?(File.extname(path).downcase)
