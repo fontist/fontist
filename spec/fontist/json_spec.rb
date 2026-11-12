@@ -1,6 +1,59 @@
 require "spec_helper"
 
 RSpec.describe Fontist::JSON do
+  shared_examples "deeply nested JSON" do
+    let(:nested_value) { 150.times.reduce([]) { |value, _level| [value] } }
+    let(:nested_source) { ("[" * 151) + ("]" * 151) }
+
+    it "parses documents nested beyond 100 levels" do
+      expect(json.parse(nested_source)).to eq(nested_value)
+    end
+
+    it "dumps values nested beyond 100 levels" do
+      expect(json.dump(nested_value)).to eq(nested_source)
+    end
+  end
+
+  context "with the default engine" do
+    let(:json) { described_class }
+
+    include_examples "deeply nested JSON"
+  end
+
+  context "without yeptris" do
+    let(:json) do
+      sandbox = Module.new
+      fontist = sandbox.const_set(:Fontist, Module.new)
+      backend = fontist.const_set(:JSON, Module.new)
+      allow(backend).to receive(:require).and_call_original
+      allow(backend).to receive(:require).with("yeptris")
+        .and_raise(LoadError, "cannot load such file -- yeptris")
+      path = File.expand_path("../../lib/fontist/json.rb", __dir__)
+      sandbox.module_eval(File.read(path), path)
+      backend
+    end
+
+    before { hide_const("Yeptris") }
+
+    include_examples "deeply nested JSON"
+
+    it "rejects circular arrays and hashes with DumpError" do
+      array = []
+      array << array
+      hash = {}
+      hash["self"] = hash
+
+      expect { json.dump(array) }.to raise_error(json::DumpError)
+      expect { json.dump(hash) }.to raise_error(json::DumpError)
+    end
+
+    it "accepts containers shared between separate branches" do
+      shared = { "styles" => ["Regular"] }
+
+      expect(json.parse(json.dump([shared, shared]))).to eq([shared, shared])
+    end
+  end
+
   %w[yeptris yeptris/json].each do |missing|
     it "round-trips and preserves errors when #{missing} is unavailable" do
       sandbox = Module.new

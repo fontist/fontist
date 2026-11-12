@@ -19,7 +19,7 @@ module Fontist
 
         return Yeptris::JSON.load(source) if yeptris_available?
 
-        ::JSON.parse(source)
+        ::JSON.parse(source, max_nesting: false)
       rescue *parse_errors => e
         raise ParseError, e.message
       end
@@ -28,8 +28,8 @@ module Fontist
         if yeptris_available?
           Yeptris::JSON.dump(object)
         else
-          validate_value(object, 0)
-          ::JSON.generate(object)
+          validate_value(object, {}.compare_by_identity)
+          ::JSON.generate(object, max_nesting: false)
         end
       rescue *dump_errors => e
         raise DumpError, e.message
@@ -66,16 +66,23 @@ module Fontist
 
       # Stdlib JSON stringifies arbitrary objects; keep yeptris's rejection
       # of non-JSON values, including those nested inside containers.
-      def validate_value(value, depth)
-        raise DumpError, "nesting too deep" if depth > 100
-
+      def validate_value(value, ancestors)
         case value
-        when Hash then validate_value(value.values, depth)
-        when Array then value.each { |item| validate_value(item, depth + 1) }
+        when Hash, Array then validate_container(value, ancestors)
         when *SCALAR_TYPES then nil
         else
           raise DumpError, "cannot dump #{value.class}"
         end
+      end
+
+      def validate_container(value, ancestors)
+        raise DumpError, "circular reference" if ancestors.key?(value)
+
+        ancestors[value] = true
+        items = value.is_a?(Hash) ? value.values : value
+        items.each { |item| validate_value(item, ancestors) }
+      ensure
+        ancestors.delete(value)
       end
 
       def pretty_value(value, depth)
