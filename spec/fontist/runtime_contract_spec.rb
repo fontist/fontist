@@ -6,7 +6,7 @@ require "spec_helper"
 # covers every file under lib/fontist.
 module RuntimeContractCheck
   CAPPED = /\A\[[^\]\n]*,\s*\d+\s*\]\.min\s*(?:#.*)?\z/
-  CALL = /Parallel\.(?!processor_count\b)\w+/
+  CALL = /Parallel(?:\.|::)(?!processor_count\b)\w+/
 
   module_function
 
@@ -14,8 +14,8 @@ module RuntimeContractCheck
     source.lines.reject { |l| l.strip.start_with?("#") }.join
   end
 
-  # [offset, argument text] for every Parallel.<method> call, with or
-  # without parentheses.
+  # [offset, argument text] for every Parallel method call, using . or ::,
+  # with or without parentheses.
   def parallel_calls(source)
     source.to_enum(:scan, CALL).map do
       finish = Regexp.last_match.end(0)
@@ -201,6 +201,22 @@ RSpec.describe "Runtime contract" do
         source = "Parallel.#{operation}(items) { |i| i }"
         expect(violations(source)).not_to be_empty
       end
+    end
+
+    %w[map each].each do |operation|
+      it "rejects uncapped Parallel::#{operation} calls" do
+        source = "Parallel::#{operation}(items) { |i| i }"
+        expect(violations(source)).not_to be_empty
+      end
+    end
+
+    it "accepts a capped local with double-colon call syntax" do
+      expect(violations(<<~RUBY)).to be_empty
+        def run(items)
+          workers = [Parallel::processor_count, 8].min
+          Parallel::map(items, in_threads: workers) { |i| i }
+        end
+      RUBY
     end
 
     it "ignores comparisons of the capped variable" do
