@@ -5,7 +5,7 @@ require "spec_helper"
 # `[..., N].min` in the same method, immediately before the call. The guard
 # covers every file under lib/fontist.
 module RuntimeContractCheck
-  CAPPED = /\A\[[^\]\n]*,\s*\d+\s*\]\.min\b/
+  CAPPED = /\A\[[^\]\n]*,\s*\d+\s*\]\.min\s*(?:#.*)?\z/
   CALL = /Parallel\.(?!processor_count\b)\w+/
 
   module_function
@@ -187,6 +187,22 @@ RSpec.describe "Runtime contract" do
       end
     end
 
+    it "rejects an expression that increases the cap" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        def run(items)
+          workers = [Parallel.processor_count, 8].min * 100
+          Parallel.map(items, in_threads: workers) { |i| i }
+        end
+      RUBY
+    end
+
+    it "rejects uncapped pools for any Parallel operation" do
+      %w[map each each_with_index flat_map].each do |operation|
+        source = "Parallel.#{operation}(items) { |i| i }"
+        expect(violations(source)).not_to be_empty
+      end
+    end
+
     it "ignores comparisons of the capped variable" do
       expect(violations(<<~RUBY)).to be_empty
         def run(items)
@@ -200,6 +216,7 @@ RSpec.describe "Runtime contract" do
     it "rejects Marshal, fork and in_processes" do
       expect(violations("Marshal.dump(1)")).not_to be_empty
       expect(violations("Process.fork { }")).not_to be_empty
+      expect(violations("fork { }")).not_to be_empty
       expect(violations("Parallel.map(a, in_processes: 2) { }")).not_to be_empty
     end
   end
