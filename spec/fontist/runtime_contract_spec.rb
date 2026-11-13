@@ -1,147 +1,233 @@
 require "spec_helper"
 require "ripper"
 
-# Runtime contract (fontist#548): no fork, no Marshal, and every Parallel
-# pool is a thread pool capped by a local variable assigned from
-# `[..., N].min` in the same method, immediately before the call. The guard
-# covers every file under lib/fontist.
-module RuntimeContractCheck
-  CAPPED = /\A\[[^\]\n]*,\s*\d+\s*\]\.min\s*(?:#.*)?\z/
-  CALL = /(?:\.|::)(?!processor_count\b)\w+/
-  ALIAS = /\b([A-Za-z_]\w*)\s*=\s*(?:::)?Parallel\b(?!\s*(?:\.|::))/
+# Runtime contract (fontist#548): no processes or Marshal, and every Parallel
+# pool uses a local assigned from an array with a fixed positive bound and .min.
+# Parse Ruby so comments/literals cannot trigger the guard or supply a fake cap.
+class RuntimeContractCheck
+  VISITORS = {
+    visit_call: %i[call command_call fcall vcall command method_add_arg],
+    visit_scope: %i[def defs class module sclass],
+    visit_block: %i[brace_block do_block],
+    visit_for: %i[for],
+    visit_branches: %i[if unless elsif if_mod unless_mod case when rescue
+                       rescue_mod while until while_mod until_mod],
+    visit_assignment: %i[assign massign opassign],
+  }.flat_map do |visitor, types|
+    types.map do |type|
+      [type, visitor]
+    end
+  end.to_h.freeze
 
-  module_function
+  def self.violations(source)
+    tree = Ripper.sexp(source)
+    return ["Cannot parse Ruby source"] unless tree
 
-  def code_of(source)
-    source.lines.reject { |l| l.strip.start_with?("#") }.join
+    new.check(tree)
   end
 
-  # [offset, argument text] for every Parallel method call, using . or ::,
-  # with or without parentheses.
-  def parallel_calls(source)
-    aliases = source.scan(ALIAS).flatten
-    receivers = Regexp.union(["Parallel", *aliases])
-    source.to_enum(:scan, /\b#{receivers}#{CALL}/).map do
-      finish = Regexp.last_match.end(0)
-      [Regexp.last_match.begin(0), arguments_at(source, finish)]
+  def initialize
+    @violations = []
+  end
+
+  def check(tree)
+    visit(tree, {})
+    @violations.uniq
+  end
+
+  private
+
+  def nodes(tree)
+    return [] unless tree.is_a?(Array)
+
+    [tree] + tree.flat_map { |child| nodes(child) }
+  end
+
+  def variable(node)
+    return unless node.is_a?(Array)
+    return node.dig(2, 1) if node[0] == :const_path_ref
+
+    return unless %i[var_ref var_field const_ref
+                     top_const_ref].include?(node[0])
+
+    node.dig(1, 1)
+  end
+
+  def call_parts(node)
+    case node&.first
+    when :method_add_arg
+      receiver, name, = call_parts(node[1])
+      [receiver, name, node[2]]
+    when :call, :command_call
+      [node[1], node.dig(3, 1), node[4]]
+    when :fcall, :vcall, :command
+      [nil, node.dig(1, 1), node[2]]
     end
   end
 
-  def arguments_at(source, start)
-    return paren_args(source, start + 1) if source[start] == "("
-
-    line_args(source, start)
-  end
-
-  def paren_args(source, start)
-    depth = 1
-    idx = start
-    while idx < source.length && depth.positive?
-      depth += 1 if source[idx] == "("
-      depth -= 1 if source[idx] == ")"
-      idx += 1
-    end
-    source[start...idx]
-  end
-
-  # Parenthesis-less call: the rest of the line, following continuations.
-  def line_args(source, start)
-    text = +""
-    source[start..].each_line do |line|
-      text << line
-      break unless line.rstrip.end_with?(",", "\\")
-    end
-    text
-  end
-
-  ASSIGN_OPS = '(?:\\|\\||&&|\\*\\*|<<|>>|[-+*\\/%|&^])?'.freeze
-
-  def syntax_nodes(node)
+  def arguments(node)
     return [] unless node.is_a?(Array)
+    return arguments(node[1]) if node[0] == :arg_paren
 
-    [node] + node.flat_map { |child| syntax_nodes(child) }
+    node[0] == :args_add_block ? node[1] : []
   end
 
-  BLOCK_TYPES = %i[brace_block do_block].freeze
-
-  def syntax_tokens(node)
-    syntax_nodes(node).select { |child| child[0].to_s.start_with?("@") }
-  end
-
-  def token_offset(source, token)
-    line, column = token[2]
-    lines = source.lines
-    lines.take(line - 1).sum(&:length) +
-      lines[line - 1].byteslice(0, column).length
-  end
-
-  def parameter_offset(source, block, var)
-    syntax_tokens(block[1]).filter_map do |token|
-      token_offset(source, token) if token[0] == :@ident && token[1] == var
-    end.max
-  end
-
-  def block_finish(source, block)
-    syntax_tokens(block[2]).map do |token|
-      token_offset(source, token) + token[1].length
-    end.max
-  end
-
-  def block_shadow(source, block, offset, var)
-    start = parameter_offset(source, block, var)
-    finish = block_finish(source, block)
-    return unless start && finish
-
-    start if start < offset && offset < finish
-  end
-
-  # A block parameter creates a different local binding. Only consider the
-  # enclosing block: a closed sibling block does not shadow the outer cap.
-  def shadowing_offset(source, offset, var)
-    blocks = syntax_nodes(Ripper.sexp(source)).select do |node|
-      BLOCK_TYPES.include?(node[0])
+  def literal(node)
+    case node&.first
+    when :symbol_literal
+      node.dig(1, 1, 1)
+    when :string_literal
+      content = node[1]
+      content.dig(1, 1) if content.size == 2 &&
+        content.dig(1, 0) == :@tstring_content
     end
-    blocks.filter_map { |block| block_shadow(source, block, offset, var) }.max
   end
 
-  # The right-hand side of the last assignment to var before offset, within
-  # the enclosing method. Compound assignments (`+=`, `*=`, `||=`, ...)
-  # return a marker that never matches CAPPED, as they change the value.
-  def last_assignment(source, offset, var)
-    before = source[0...offset]
-    defs = before.rindex(/^\s*def\s/)
-    start = [defs || 0, shadowing_offset(source, offset, var) || 0].max
-    scope = before[start..]
-    pattern = /\b#{Regexp.escape(var)}\s*(#{ASSIGN_OPS})=(?![=~])\s*(.*)/
-    op, rhs = scope.scan(pattern).last
-    return if op.nil?
+  def parallel?(node, locals)
+    name = variable(node)
+    return true if name == "Parallel" || (name && locals[name] == :parallel)
 
-    op.empty? ? rhs : "#{op}= #{rhs}"
+    receiver, method, args = call_parts(node)
+    variable(receiver) == "Object" && method == "const_get" &&
+      literal(arguments(args).first) == "Parallel"
   end
 
-  def violations(raw_source)
-    source = code_of(raw_source)
-    banned_violations(source) +
-      parallel_calls(source).filter_map do |offset, args|
-        pool_violation(source, offset, args)
+  def capped?(node)
+    receiver, method, args = call_parts(node)
+    return false unless method == "min" && no_arguments?(args) &&
+      receiver&.first == :array
+
+    Array(receiver[1]).any? { |element| positive_integer?(element) }
+  end
+
+  def positive_integer?(node)
+    node.is_a?(Array) && node[0] == :@int && node[1].to_i.positive?
+  end
+
+  def no_arguments?(node)
+    node.nil? || node == [:arg_paren, nil]
+  end
+
+  def visit(node, locals)
+    return unless node.is_a?(Array)
+
+    send(VISITORS.fetch(node[0], :visit_default), node, locals)
+  end
+
+  def visit_scope(node, locals)
+    visit_children(node, locals.select { |name, _| name.match?(/\A[A-Z]/) })
+  end
+
+  def visit_default(node, locals)
+    check_banned(node)
+    visit_children(node, locals)
+  end
+
+  def visit_children(node, locals)
+    node.each { |child| visit(child, locals) if child.is_a?(Array) }
+  end
+
+  def check_banned(node)
+    @violations << "Marshal" if variable(node) == "Marshal"
+    @violations << "in_processes" if keyword?(node, "in_processes")
+  end
+
+  def keyword?(node, name)
+    node[0] == :assoc_new &&
+      (node.dig(1, 1) == "#{name}:" || literal(node[1]) == name)
+  end
+
+  def assigned_names(node)
+    nodes(node).filter_map do |child|
+      variable(child) if child[0] == :var_field
+    end
+  end
+
+  def binding_value(node, locals)
+    return :parallel if parallel?(node, locals)
+
+    :capped if capped?(node)
+  end
+
+  def visit_assignment(node, locals)
+    # Inspect the RHS before updating bindings, including calls nested in it.
+    visit_children(node, locals)
+    names = assigned_names(node[1])
+    value = binding_value(node[2], locals) if node[0] == :assign
+    names.each { |name| locals.delete(name) }
+    return unless node[0] == :assign && names.size == 1
+
+    locals[names.first] = value
+  end
+
+  def visit_block(node, locals)
+    shadowed = nodes(node[1]).filter_map do |child|
+      child[1] if child[0] == :@ident
+    end
+    inner = locals.except(*shadowed)
+    visit(node[2], inner)
+    # A block may execute zero times; retain only unchanged outer bindings.
+    locals.delete_if do |name, value|
+      !shadowed.include?(name) && inner[name] != value
+    end
+  end
+
+  def visit_branches(node, locals)
+    # A conditional/loop need not execute. Each arm must stand on its own,
+    # and a write in any arm invalidates an outer cap after the construct.
+    outcomes = node.drop(1).map do |child|
+      locals.dup.tap { |branch| visit(child, branch) }
+    end
+    locals.delete_if do |name, value|
+      outcomes.any? do |branch|
+        branch[name] != value
       end
+    end
   end
 
-  def banned_violations(source)
-    { "Marshal" => /\bMarshal\b/, "fork" => /\b(Process\.)?fork\b/,
-      "in_processes" => /\bin_processes\b/ }
-      .select { |_, pattern| source.match?(pattern) }.keys
+  def visit_for(node, locals)
+    assigned_names(node[1]).each { |name| locals.delete(name) }
+    visit_branches(node, locals)
   end
 
-  def pool_violation(source, offset, args)
-    match = args.match(/\bin_threads:\s*([a-z_]\w*)\s*(?:,|\)|\bdo\b|\{|\z)/)
-    return "Parallel call without capped in_threads: #{args.strip}" unless match
+  def visit_call(node, locals)
+    receiver, method, args = call_parts(node)
+    visit(receiver, locals)
+    visit(args, locals)
+    @violations << "fork" if method == "fork"
+    if variable(receiver) == "Process" && method == "daemon"
+      @violations << "Process.daemon"
+    end
+    return unless parallel?(receiver, locals)
+    return if method == "processor_count"
 
-    rhs = last_assignment(source, offset, match[1])
-    return if rhs&.match?(CAPPED)
+    check_pool(args, locals)
+  end
 
-    "in_threads: #{match[1]} is not assigned from [..., N].min " \
-      "in the enclosing method before the call"
+  def option_pairs(args)
+    options = arguments(args).last
+    case options&.first
+    when :bare_assoc_hash then options[1]
+    when :hash then options.dig(1, 1)
+    else []
+    end
+  end
+
+  def thread_value(args)
+    pairs = option_pairs(args)
+    return if pairs.any? { |pair| pair[0] == :assoc_splat }
+
+    thread_option = pairs.reverse.find do |pair|
+      keyword?(pair, "in_threads")
+    end
+    thread_option&.[](2)
+  end
+
+  def check_pool(args, locals)
+    name = variable(thread_value(args))
+    return if name&.match?(/\A[a-z_]/) && locals[name] == :capped
+
+    @violations << "Parallel call without capped local in_threads"
   end
 end
 
@@ -164,6 +250,138 @@ RSpec.describe "Runtime contract" do
   describe "the checker" do
     def violations(source)
       RuntimeContractCheck.violations(source)
+    end
+
+    it "ignores comments and literal text" do
+      expect(violations(<<~RUBY)).to be_empty
+        x = 1 # Marshal is banned; do not fork
+        message = 'do not fork here'
+        pattern = /Marshal|fork|Parallel.map/
+        text = <<~TEXT
+          Marshal.dump(x); Process.fork; Parallel.map(items)
+        TEXT
+      RUBY
+    end
+
+    it "still checks executable string interpolation" do
+      expect(violations("\"\#{Marshal.dump(1)}\"")).not_to be_empty
+    end
+
+    it "accepts a cap in either array position and across lines" do
+      expect(violations(<<~RUBY)).to be_empty
+        def run(items)
+          workers = [
+            8,
+            Parallel.processor_count
+          ].min # a fixed upper bound
+          Parallel.map(items, in_threads: workers) { }
+        end
+      RUBY
+    end
+
+    it "rejects a cap overwritten by multiple assignment" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        def run(items)
+          workers = [Parallel.processor_count, 8].min
+          workers, other = Parallel.processor_count, 1
+          Parallel.map(items, in_threads: workers) { }
+        end
+      RUBY
+    end
+
+    it "rejects a cap borrowed from a sibling method on the same line" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        def capped; workers = [Parallel.processor_count, 8].min; end
+        def run(items); Parallel.map(items, in_threads: workers) { }; end
+      RUBY
+    end
+
+    it "rejects an uncapped pool through a literal constant lookup" do
+      source = "Object.const_get(:Parallel).map(items) { }"
+      expect(violations(source)).not_to be_empty
+    end
+
+    it "rejects daemonized processes" do
+      expect(violations("Process.daemon")).not_to be_empty
+    end
+
+    it "rejects invalid source instead of silently skipping it" do
+      expect(violations("Parallel.map(")).to eq ["Cannot parse Ruby source"]
+    end
+
+    it "does not treat identifiers or symbols as banned calls" do
+      expect(violations("fork = :Marshal; puts fork")).to be_empty
+    end
+
+    it "rejects qualified constants and string constant lookups" do
+      ["::Parallel.map(items)", "Object::Parallel.map(items)",
+       'Object.const_get("Parallel").map(items)',
+       "::Marshal.dump(1)", "Object::Marshal.dump(1)"].each do |source|
+        expect(violations(source)).not_to be_empty, source
+      end
+    end
+
+    it "requires a local cap instead of inline or raw thread counts" do
+      ["Parallel.processor_count", "[Parallel.processor_count, 8].min",
+       "8"].each do |value|
+        source = "Parallel.map(items, in_threads: #{value}) { }"
+        expect(violations(source)).not_to be_empty, source
+      end
+    end
+
+    it "does not borrow a nested call's thread option" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        workers = [Parallel.processor_count, 8].min
+        Parallel.map(fetch(items, in_threads: workers)) { }
+      RUBY
+    end
+
+    it "rejects thread options overwritten by later keywords" do
+      ["in_threads: Parallel.processor_count", "**options"].each do |suffix|
+        expect(violations(<<~RUBY)).not_to be_empty
+          workers = [Parallel.processor_count, 8].min
+          Parallel.map(items, in_threads: workers, #{suffix}) { }
+        RUBY
+      end
+    end
+
+    it "rejects min with a comparator that could reverse the cap" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        workers = [Parallel.processor_count, 8].min(&descending)
+        Parallel.map(items, in_threads: workers) { }
+      RUBY
+    end
+
+    it "does not borrow a cap from a conditional branch" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        workers = Parallel.processor_count
+        if condition
+          workers = [Parallel.processor_count, 8].min
+        else
+          Parallel.map(items, in_threads: workers) { }
+        end
+      RUBY
+    end
+
+    it "invalidates outer caps changed inside a branch or block" do
+      ["if condition", "items.each do"].each do |opening|
+        expect(violations(<<~RUBY)).not_to be_empty
+          workers = [Parallel.processor_count, 8].min
+          #{opening}
+            workers = Parallel.processor_count
+          end
+          Parallel.map(items, in_threads: workers) { }
+        RUBY
+      end
+    end
+
+    it "rejects a cap overwritten by a for-loop variable" do
+      expect(violations(<<~RUBY)).not_to be_empty
+        workers = [Parallel.processor_count, 8].min
+        for workers in counts
+          Parallel.map(items, in_threads: workers) { }
+        end
+      RUBY
     end
 
     it "accepts a capped local in the same method" do
