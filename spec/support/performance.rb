@@ -225,18 +225,26 @@ require "benchmark-perf"
 require "rbconfig"
 require "tmpdir"
 
-if RSpec.respond_to?(:configure)
-  RSpec.configure do |config|
+module ScanPathPerformance
+  def self.configure_specs(config, environment: ENV)
     config.include RSpec::Benchmark::Matchers
     # Timing gates are opt-in; ordinary specs still exercise the gate's rules.
-    base = !ENV.fetch("FONTIST_PERF_BASE", "").empty?
-    enabled = ENV["FONTIST_PERF_TIER"] || base
+    base = !environment.fetch("FONTIST_PERF_BASE", "").empty?
+    enabled = environment["FONTIST_PERF_TIER"] || base
     config.error_exit_code = 2 if enabled
-    unless ENV["FONTIST_PERF_TIER"]
+    unless environment["FONTIST_PERF_TIER"]
       config.filter_run_excluding scan_path_gate: true
     end
     config.filter_run_excluding scan_path_base_gate: true unless base
+    # Real process/CLI checks belong in the performance job, not every spec run.
+    unless environment["FONTIST_PERF_INTEGRATION"] == "1"
+      config.filter_run_excluding scan_path_integration: true
+    end
   end
+end
+
+if RSpec.respond_to?(:configure)
+  RSpec.configure { |config| ScanPathPerformance.configure_specs(config) }
 end
 
 RSpec::Benchmark.configure do |config|

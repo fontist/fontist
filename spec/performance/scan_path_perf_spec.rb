@@ -3,6 +3,56 @@ require "stringio"
 require "shellwords"
 
 RSpec.describe ScanPathPerformance do
+  describe "integration check selection" do
+    let(:configuration) { RSpec::Core::Configuration.new }
+    let(:subprocess_examples) do
+      descriptions = [
+        "workflow platform preflight", "workflow Rust isolation",
+        "gate process contract", "lost validator batching",
+        "runs the report CLI", "reports a failed base checkout",
+        "reports an inaccessible base bundle",
+        "logs the skipped base comparison"
+      ]
+      RSpec.world.all_examples.select do |example|
+        descriptions.any? { |name| example.full_description.include?(name) }
+      end
+    end
+
+    it "excludes subprocess checks from an ordinary run" do
+      described_class.configure_specs(configuration, environment: {})
+
+      expect(subprocess_examples).not_to be_empty
+      expect(configuration.filter_manager.prune(subprocess_examples))
+        .to be_empty
+      ordinary = RSpec.world.all_examples.select do |example|
+        example.description == "compares medians rather than a noisy outlier"
+      end
+      expect(configuration.filter_manager.prune(ordinary)).not_to be_empty
+    end
+
+    it "retains every subprocess check when integration checks are enabled" do
+      described_class.configure_specs(
+        configuration, environment: { "FONTIST_PERF_INTEGRATION" => "1" }
+      )
+
+      expect(subprocess_examples).not_to be_empty
+      expect(configuration.filter_manager.prune(subprocess_examples))
+        .to match_array(subprocess_examples)
+    end
+
+    it "enables subprocess checks in the Ruby and strict tier CI jobs" do
+      jobs = YAML.load_file(".github/workflows/perf-gate.yml").fetch("jobs")
+      %w[scan-path-base scan-path-performance].each do |name|
+        gate = jobs.fetch(name).fetch("steps").find do |step|
+          step.fetch("run", "") ==
+            "bundle exec rspec spec/performance/scan_path_perf_spec.rb"
+        end
+
+        expect(gate.fetch("env")).to include("FONTIST_PERF_INTEGRATION" => "1")
+      end
+    end
+  end
+
   let(:calls) { [] }
   let(:output) { StringIO.new }
   let(:sampler) do
@@ -387,7 +437,7 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
-  describe "workflow platform preflight" do
+  describe "workflow platform preflight", :scan_path_integration do
     let(:directory) { Dir.mktmpdir("fontist-perf-lock") }
     let(:output_path) { File.join(directory, "github-output") }
     let(:command) do
@@ -471,7 +521,7 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
-  describe "workflow Rust isolation" do
+  describe "workflow Rust isolation", :scan_path_integration do
     let(:directory) { Dir.mktmpdir("fontist-perf-path") }
     let(:toolchain) { File.join(directory, "rust bin") }
     let(:environment_file) { File.join(directory, "github-env") }
@@ -537,7 +587,7 @@ RSpec.describe ScanPathPerformance do
       expect(checkout.fetch("uses")).to eq "actions/checkout@v4"
     end
 
-    it "reports a failed base checkout as error 2" do
+    it "reports a failed base checkout as error 2", :scan_path_integration do
       guard = steps.find do |step|
         step["name"] == "Require pull request base checkout"
       end
@@ -550,7 +600,8 @@ RSpec.describe ScanPathPerformance do
       expect(stdout).to include("base checkout failed")
     end
 
-    it "reports an inaccessible base bundle directory as error 2" do
+    it "reports an inaccessible base bundle directory as error 2",
+       :scan_path_integration do
       install = steps.find do |step|
         step["name"] == "Install pull request base bundle"
       end
@@ -562,7 +613,8 @@ RSpec.describe ScanPathPerformance do
       end
     end
 
-    it "logs the skipped base comparison on push while still running tiers" do
+    it "logs the skipped base comparison on push while still running tiers",
+       :scan_path_integration do
       skip_step = steps.find do |step|
         step["name"] == "Skip PR-vs-base check on push"
       end
@@ -595,7 +647,7 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
-  describe "gate process contract" do
+  describe "gate process contract", :scan_path_integration do
     let(:directory) { Dir.mktmpdir("fontist-perf-process") }
     let(:spec_path) { File.expand_path(__FILE__) }
     let(:env) do
@@ -621,6 +673,25 @@ RSpec.describe ScanPathPerformance do
     end
 
     after { FileUtils.remove_entry(directory) }
+
+    it "runs ordinary specs without starting real subprocess checks" do
+      guard = File.join(directory, "no-subprocesses.rb")
+      File.write(guard, <<~RUBY)
+        require "open3"
+        Open3.define_singleton_method(:capture3) do |*|
+          raise "ordinary scan specs attempted a real subprocess"
+        end
+      RUBY
+      stdout, stderr, status = Open3.capture3(
+        { "FONTIST_PERF_INTEGRATION" => nil, "FONTIST_PERF_BASE" => nil,
+          "FONTIST_PERF_TIER" => nil },
+        RbConfig.ruby, "-S", "rspec", spec_path, "--require", guard,
+        "--format", "progress", "--no-profile"
+      )
+
+      expect(status.exitstatus).to eq(0), stdout + stderr
+      expect(stdout).to include("0 failures")
+    end
 
     context "with only the Ruby base check enabled" do
       let(:base) { File.join(directory, "base") }
@@ -887,7 +958,7 @@ RSpec.describe ScanPathPerformance do
     end
   end
 
-  describe "lost validator batching" do
+  describe "lost validator batching", :scan_path_integration do
     let(:checkout) { Dir.mktmpdir("fontist-perf-per-file") }
 
     after { FileUtils.remove_entry(checkout) }
@@ -1030,7 +1101,8 @@ RSpec.describe "Performance gate publication" do
                                            "--publish")
   end
 
-  it "runs the report CLI without loading optional benchmark gems" do
+  it "runs the report CLI without loading optional benchmark gems",
+     :scan_path_integration do
     Tempfile.create(["fontist-report-bootstrap", ".rb"]) do |file|
       file.write(<<~RUBY)
         module MissingBenchmarkGems

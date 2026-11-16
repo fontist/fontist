@@ -120,6 +120,7 @@ jobs:
 
       - name: Run Ruby scan path performance gate
         env:
+          FONTIST_PERF_INTEGRATION: "1"
           FONTISAN_ENGINE: ruby
           FONTISAN_ENGINE_STRICT: "1"
           FONTIST_PERF_BASE: ${{ github.event_name == 'pull_request' && format('{0}/.perf-base', github.workspace) || '' }}
@@ -258,6 +259,7 @@ jobs:
 
       - name: Run scan path performance gate
         env:
+          FONTIST_PERF_INTEGRATION: "1"
           FONTIST_PERF_TIER: ${{ matrix.tier }}
           FONTISAN_ENGINE_STRICT: "1"
         run: bundle exec rspec spec/performance/scan_path_perf_spec.rb
