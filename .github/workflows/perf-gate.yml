@@ -30,6 +30,7 @@ jobs:
         run: bundle lock
 
       - name: Report published engines on the PR
+        if: github.event.pull_request.head.repo.full_name == github.repository
         env:
           GH_TOKEN: ${{ github.token }}
           FONTIST_PERF_COMMENT_AUTHOR: github-actions[bot]
@@ -37,6 +38,15 @@ jobs:
           PERF_REPOSITORY: ${{ github.repository }}
           PERF_PR_NUMBER: ${{ github.event.pull_request.number }}
         run: ruby spec/support/performance.rb --report "$PERF_REPOSITORY" "$PERF_PR_NUMBER" --publish
+
+      - name: Report published engines in the log
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FONTIST_PERF_HEAD: ${{ github.event.pull_request.head.sha }}
+          PERF_REPOSITORY: ${{ github.repository }}
+          PERF_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: ruby spec/support/performance.rb --report "$PERF_REPOSITORY" "$PERF_PR_NUMBER"
 
   scan-path-base:
     name: Ruby scan path PR vs base

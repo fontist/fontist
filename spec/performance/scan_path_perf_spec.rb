@@ -11,7 +11,7 @@ RSpec.describe ScanPathPerformance do
         "gate process contract", "lost validator batching",
         "runs the report CLI", "reports a failed base checkout",
         "reports an inaccessible base bundle",
-        "logs the skipped base comparison"
+        "logs the skipped base comparison", "fork publication CLI"
       ]
       RSpec.world.all_examples.select do |example|
         descriptions.any? { |name| example.full_description.include?(name) }
@@ -1077,6 +1077,117 @@ RSpec.describe ScanPathPerformance do
 end
 
 RSpec.describe "Performance gate publication" do
+  describe "fork reporting" do
+    let(:steps) do
+      YAML.load_file(".github/workflows/perf-gate.yml")
+        .fetch("jobs").fetch("report-engine-availability").fetch("steps")
+    end
+    let(:fork_report) do
+      steps.find do |step|
+        step["name"] == "Report published engines in the log"
+      end
+    end
+
+    it "restricts every comment-writing step to same-repository PRs" do
+      writers = steps.select do |step|
+        Shellwords.split(step.fetch("run", "")).include?("--publish")
+      end
+
+      condition = "github.event.pull_request.head.repo.full_name == " \
+                  "github.repository"
+      expect(writers).not_to be_empty
+      expect(writers).to all(include("if" => condition))
+    end
+
+    it "reports fork availability without requesting a comment write" do
+      expect(fork_report).not_to be_nil,
+                                 "fork PRs need a read-only availability report"
+      expect(fork_report.fetch("if")).to eq(
+        "github.event.pull_request.head.repo.full_name != github.repository",
+      )
+      expect(fork_report.fetch("env")).to include(
+        "GH_TOKEN" => "${{ github.token }}",
+        "FONTIST_PERF_HEAD" => "${{ github.event.pull_request.head.sha }}",
+        "PERF_REPOSITORY" => "${{ github.repository }}",
+        "PERF_PR_NUMBER" => "${{ github.event.pull_request.number }}",
+      )
+      expect(Shellwords.split(fork_report.fetch("run")))
+        .to include("--report")
+      expect(Shellwords.split(fork_report.fetch("run")))
+        .not_to include("--publish")
+    end
+
+    describe "fork publication CLI", :scan_path_integration do
+      let(:directory) { Dir.mktmpdir("fontist-fork-report") }
+      let(:requests) { File.join(directory, "requests.jsonl") }
+      let(:platforms) { %w[x86_64-linux-gnu arm64-darwin x86_64-darwin] }
+      let(:read_command) do
+        ["gh", "pr", "view", "552", "--repo", "fontist/fontist",
+         "--json", "headRefOid"]
+      end
+      let(:recorded_commands) do
+        File.readlines(requests).map { |line| JSON.parse(line) }
+      end
+      let(:result) do
+        metadata = platforms.map do |platform|
+          { "number" => ScanPathPublication.locked_version,
+            "platform" => platform }
+        end
+        bootstrap = File.join(directory, "read-only-token.rb")
+        File.write(bootstrap, <<~RUBY)
+          require "json"
+          require "net/http"
+          require "open3"
+          response = Net::HTTPOK.new("1.1", "200", "OK")
+          response.define_singleton_method(:body) { #{JSON.generate(metadata).inspect} }
+          Net::HTTP.define_singleton_method(:get_response) { |_| response }
+          Open3.define_singleton_method(:capture3) do |*args|
+            File.open(#{requests.inspect}, "a") do |file|
+              file.puts JSON.generate(args)
+            end
+            unless args == #{read_command.inspect}
+              raise "write attempted with read-only fork token"
+            end
+            [JSON.generate("headRefOid" => #{('a' * 40).inspect}), "",
+             Struct.new(:success?).new(true)]
+          end
+        RUBY
+        prefix = Shellwords.join([RbConfig.ruby, "-r", bootstrap])
+        command = fork_report.fetch("run").sub(/\Aruby /, "#{prefix} ")
+        Open3.capture3(
+          { "GH_TOKEN" => "read-only-fork-token",
+            "FONTIST_PERF_HEAD" => "a" * 40,
+            "PERF_REPOSITORY" => "fontist/fontist", "PERF_PR_NUMBER" => "552" },
+          "bash", "-ec", command
+        )
+      end
+
+      after { FileUtils.remove_entry(directory) }
+
+      it "allows read-only reporting when all platform gems exist" do
+        stdout, stderr, status = result
+
+        expect(status.exitstatus).to eq(0), stdout + stderr
+        expect(stdout).to include("All required platform gems are published")
+        expect(recorded_commands).to eq [read_command]
+      end
+
+      context "when only the source gem is published" do
+        let(:platforms) { ["ruby"] }
+
+        it "retains error 2 for missing engines without attempting a comment" do
+          stdout, stderr, status = result
+
+          expect(status.exitstatus).to eq(2), stdout + stderr
+          expect(stdout).to include("Missing published binaries",
+                                    "x86_64-linux-gnu", "arm64-darwin",
+                                    "x86_64-darwin")
+          expect(recorded_commands).to eq [read_command]
+        end
+      end
+    end
+  end
+
   it "reports missing published engines on the PR for its exact head" do
     workflow = YAML.load_file(".github/workflows/perf-gate.yml")
     job = workflow.fetch("jobs")["report-engine-availability"]
