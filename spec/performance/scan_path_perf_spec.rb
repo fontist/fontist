@@ -351,6 +351,16 @@ RSpec.describe ScanPathPerformance do
   end
 
   describe "card implementation layout" do
+    it "preserves macOS 14 discovery outside the performance card" do
+      workflow = YAML.load_file(".github/workflows/discover-fonts.yml")
+      discovery = workflow.fetch("jobs").fetch("discover-macos")
+
+      expect(discovery.fetch("strategy").fetch("matrix").fetch("version"))
+        .to eq [14, 15, 26]
+      expect(discovery.fetch("runs-on")).to eq "macos-${{ matrix.version }}"
+      expect(discovery).not_to have_key("continue-on-error")
+    end
+
     it "keeps helpers and their regression specs in the card files" do
       %w[script/performance/report-status.rb
          script/performance/without-rust.rb

@@ -19,8 +19,7 @@ jobs:
     runs-on: macos-${{ matrix.version }}
     strategy:
       matrix:
-        # macos-14 is not offered to this repo.
-        version: [15, 26]
+        version: [14, 15, 26]
       fail-fast: false
     steps:
       - name: List ALL Core System Fonts
