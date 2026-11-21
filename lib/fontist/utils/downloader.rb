@@ -6,7 +6,12 @@ module Fontist
       RATE_LIMITED_HTTP_STATUS = 429
       BACKOFF = {
         rate_limited: [10, 20, 40, 60, 90].freeze,
-        transient: [2, 4].freeze,
+        # Two quick retries give snappy hosts a second chance, and the
+        # slower tail absorbs large shared archives: web.archive.org and
+        # similar mirror hosts routinely fail single requests with
+        # timeouts or reset connections and recover within seconds
+        # (metanorma S-201 builds hit this on EUupdate.EXE).
+        transient: [2, 4, 8, 15].freeze,
       }.freeze
       MAX_RETRY_AFTER = 120
       JITTER_RATIO = 0.25
