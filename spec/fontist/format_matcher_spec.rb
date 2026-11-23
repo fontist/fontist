@@ -446,4 +446,39 @@ RSpec.describe Fontist::FormatMatcher do
       expect(matcher.matches_resource?(variable_resource)).to be true
     end
   end
+
+  describe "#select_preferred_resource default preference" do
+    it "prefers static resources when no preference is set" do
+      static = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      variable = Fontist::Resource.new(name: "ttf_variable", format: "ttf",
+                                       variable_axes: %w[wght])
+
+      chosen = described_class.new(Fontist::FormatSpec.new)
+        .select_preferred_resource([variable, static])
+
+      expect(chosen.name).to eq("ttf_static")
+    end
+
+    it "still picks the exact-format match first" do
+      static_ttf = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      static_woff2 = Fontist::Resource.new(name: "woff2_static",
+                                           format: "woff2")
+
+      chosen = described_class.new(Fontist::FormatSpec.new(format: "woff2"))
+        .select_preferred_resource([static_ttf, static_woff2])
+
+      expect(chosen.name).to eq("woff2_static")
+    end
+
+    it "picks the variable resource when variable is requested" do
+      static = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      variable = Fontist::Resource.new(name: "ttf_variable", format: "ttf",
+                                       variable_axes: %w[wght])
+
+      chosen = described_class.new(Fontist::FormatSpec.new(variable: true))
+        .select_preferred_resource([static, variable])
+
+      expect(chosen.name).to eq("ttf_variable")
+    end
+  end
 end
