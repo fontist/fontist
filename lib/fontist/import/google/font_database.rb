@@ -296,6 +296,7 @@ github_data: nil, version: 4, source_path: nil)
           return nil unless commit
 
           Fontist::GoogleImportSource.new(
+            type: "google",
             commit_id: commit,
             api_version: "v1",
             last_modified: last_modified_for(family),

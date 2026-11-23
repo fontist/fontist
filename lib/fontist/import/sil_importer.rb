@@ -349,6 +349,7 @@ module Fontist
         return nil unless version
 
         Fontist::SilImportSource.new(
+          type: "sil",
           version: version,
           release_date: Time.now.utc.iso8601,
         )
