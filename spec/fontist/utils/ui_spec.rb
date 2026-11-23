@@ -20,6 +20,7 @@ RSpec.describe Fontist::Utils::UI do
     it "prints nothing" do
       expect { Fontist.ui.success("msg") }.to output("").to_stdout
       expect { Fontist.ui.error("msg") }.to output("").to_stdout
+        .and output("").to_stderr
       expect { Fontist.ui.say("msg") }.to output("").to_stdout
       expect { Fontist.ui.print("msg") }.to output("").to_stdout
       expect { Fontist.ui.debug("msg") }.to output("").to_stdout
@@ -33,9 +34,10 @@ RSpec.describe Fontist::Utils::UI do
       Fontist.ui.level = Fontist.ui.default_level
     end
 
-    it "prints only error" do
+    it "prints only error, to stderr" do
       expect { Fontist.ui.success("msg") }.to output("").to_stdout
-      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stdout
+      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stderr
+        .and output("").to_stdout
       expect { Fontist.ui.say("msg") }.to output("").to_stdout
       expect { Fontist.ui.print("msg") }.to output("").to_stdout
       expect { Fontist.ui.debug("msg") }.to output("").to_stdout
@@ -51,7 +53,7 @@ RSpec.describe Fontist::Utils::UI do
 
     it "prints everything except debug" do
       expect { Fontist.ui.success("msg") }.to output("msg\n").to_stdout
-      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stdout
+      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stderr
       expect { Fontist.ui.say("msg") }.to output("msg\n").to_stdout
       expect { Fontist.ui.print("msg") }.to output("msg").to_stdout
       expect { Fontist.ui.debug("msg") }.to output("").to_stdout
@@ -67,7 +69,7 @@ RSpec.describe Fontist::Utils::UI do
 
     it "prints everything" do
       expect { Fontist.ui.success("msg") }.to output("msg\n").to_stdout
-      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stdout
+      expect { Fontist.ui.error("msg") }.to output("msg\n").to_stderr
       expect { Fontist.ui.say("msg") }.to output("msg\n").to_stdout
       expect { Fontist.ui.print("msg") }.to output("msg").to_stdout
       expect { Fontist.ui.debug("msg") }.to output("msg\n").to_stdout
