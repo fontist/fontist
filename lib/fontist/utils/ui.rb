@@ -35,8 +35,13 @@ module Fontist
         new.say(message, :green) if log_levels.include?(:info)
       end
 
+      # Errors go to stderr so that callers who redirect stdout — pipelines
+      # that capture fontist YAML output into a file — never receive error
+      # prose in place of data (metanorma/mn2pdf#466).
       def self.error(message)
-        new.say(message, :red) if log_levels.include?(:warn)
+        return unless log_levels.include?(:warn)
+
+        $stderr.puts new.set_color(message, :red)
       end
 
       def self.warn(message)
