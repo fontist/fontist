@@ -1329,4 +1329,80 @@ RSpec.describe Fontist::CLI do
     allow_any_instance_of(Fontist.ui).to receive(:say).with(include_yaml(result))
     expect(command).to be 0
   end
+
+  describe "install static/variable selection flags" do
+    def capture_install_options(captured)
+      allow(Fontist::Font).to receive(:install) do |_name, install_options|
+        captured[:options] = install_options
+        ["font.ttf"]
+      end
+    end
+
+    it "passes --static through to Font.install" do
+      stub_fonts_path_to_new_path do
+        captured = {}
+        capture_install_options(captured)
+
+        status = described_class.start(["install", "Work Sans Black",
+                                        "--static"])
+
+        expect(status).to eq 0
+        expect(captured[:options][:static]).to be true
+        expect(Fontist::FormatSpec.from_options(captured[:options])
+          .static_requested?).to be true
+      end
+    end
+
+    it "passes --variable through to Font.install" do
+      stub_fonts_path_to_new_path do
+        captured = {}
+        capture_install_options(captured)
+
+        status = described_class.start(["install", "Work Sans", "--variable"])
+
+        expect(status).to eq 0
+        expect(Fontist::FormatSpec.from_options(captured[:options])
+          .variable_requested?).to be true
+      end
+    end
+
+    it "passes --both through to Font.install" do
+      stub_fonts_path_to_new_path do
+        captured = {}
+        capture_install_options(captured)
+
+        status = described_class.start(["install", "Work Sans", "--both"])
+
+        expect(status).to eq 0
+        expect(Fontist::FormatSpec.from_options(captured[:options])
+          .all_variants).to be true
+      end
+    end
+
+    it "rejects --static combined with --instance" do
+      stub_fonts_path_to_new_path do
+        expect(Fontist::Font).not_to receive(:install)
+
+        expect(Fontist.ui).to receive(:error).with(/--static cannot be combined/)
+
+        status = described_class.start(["install", "Work Sans", "--static",
+                                        "--instance", "wght=900"])
+
+        expect(status).to eq Fontist::CLI::STATUS_UNKNOWN_ERROR
+      end
+    end
+
+    it "rejects --both combined with --static" do
+      stub_fonts_path_to_new_path do
+        expect(Fontist::Font).not_to receive(:install)
+
+        expect(Fontist.ui).to receive(:error).with(/--both cannot be combined/)
+
+        status = described_class.start(["install", "Work Sans", "--both",
+                                        "--static"])
+
+        expect(status).to eq Fontist::CLI::STATUS_UNKNOWN_ERROR
+      end
+    end
+  end
 end
