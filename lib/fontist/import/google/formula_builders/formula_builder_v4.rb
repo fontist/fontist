@@ -128,7 +128,12 @@ module Fontist
           end
 
           def group_fonts_by_subfamily(fonts)
-            fonts_by_subfamily = fonts.group_by { |f| f[:family_name] }
+            # Static styles arrive with symbol keys (build_style_data) while
+            # variable styles arrive with string keys (VariableFontSource);
+            # group on either so both land in the family's group.
+            fonts_by_subfamily = fonts.group_by do |font|
+              font[:family_name] || font["family_name"]
+            end
 
             fonts_by_subfamily.map do |subfamily_name, styles|
               {
