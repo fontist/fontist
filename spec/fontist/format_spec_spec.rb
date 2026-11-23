@@ -229,4 +229,74 @@ RSpec.describe Fontist::FormatSpec do
       expect(spec.has_constraints?).to be false
     end
   end
+
+  describe "static/variable preference" do
+    it "defaults to no preference" do
+      spec = described_class.new
+
+      expect(spec.variable).to be_nil
+      expect(spec.static_requested?).to be false
+      expect(spec.variable_requested?).to be false
+      expect(spec.all_variants).to be false
+    end
+
+    it "records an explicit static request" do
+      spec = described_class.new(variable: false)
+
+      expect(spec.static_requested?).to be true
+      expect(spec.variable_requested?).to be false
+      expect(spec.has_constraints?).to be true
+    end
+
+    it "records an explicit variable request" do
+      spec = described_class.new(variable: true)
+
+      expect(spec.variable_requested?).to be true
+      expect(spec.has_constraints?).to be true
+    end
+
+    it "records an all-variants request" do
+      spec = described_class.new(all_variants: true)
+
+      expect(spec.variable).to be_nil
+      expect(spec.static_requested?).to be false
+      expect(spec.variable_requested?).to be false
+      expect(spec.has_constraints?).to be true
+    end
+
+    describe ".from_options" do
+      it "maps the --static flag" do
+        spec = described_class.from_options(static: true)
+
+        expect(spec.variable).to be false
+        expect(spec.has_constraints?).to be true
+      end
+
+      it "maps the --variable flag" do
+        spec = described_class.from_options(variable: true)
+
+        expect(spec.variable).to be true
+      end
+
+      it "maps the --both flag" do
+        spec = described_class.from_options(both: true)
+
+        expect(spec.all_variants).to be true
+        expect(spec.has_constraints?).to be true
+      end
+
+      it "keeps prefer_variable as a variable request" do
+        spec = described_class.from_options(prefer_variable: true)
+
+        expect(spec.variable_requested?).to be true
+      end
+
+      it "lets explicit flags win over prefer_variable" do
+        spec = described_class.from_options(prefer_variable: true, static: true)
+
+        expect(spec.static_requested?).to be true
+        expect(spec.variable_requested?).to be false
+      end
+    end
+  end
 end
