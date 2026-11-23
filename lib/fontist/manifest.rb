@@ -224,10 +224,12 @@ module Fontist
     def self.model_from_file(path)
       validate_manifest_path!(path)
 
-      from_yaml(File.read(path).strip)
-    rescue StandardError => e
-      raise Fontist::Errors::ManifestCouldNotBeReadError,
-            "Manifest file could not be read: #{e.message}"
+      begin
+        from_yaml(File.read(path).strip)
+      rescue StandardError => e
+        raise Fontist::Errors::ManifestCouldNotBeReadError,
+              "Manifest file could not be read: #{e.message}"
+      end
     end
 
     def self.validate_manifest_path!(path)
