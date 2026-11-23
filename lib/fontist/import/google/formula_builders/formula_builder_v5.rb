@@ -133,6 +133,8 @@ module Fontist
                 filename = url.split("/").last
 
                 style_data = build_style_data(metadata, filename)
+                style_data[:source_font] = filename
+                style_data[:font] = static_install_name(metadata, filename)
 
                 # Add v5-specific attributes
                 add_v5_style_attributes(style_data, metadata, variant)
@@ -147,6 +149,16 @@ module Fontist
             return [] if parsed_fonts.empty?
 
             group_fonts_by_subfamily(parsed_fonts)
+          end
+
+          # Install name for a static instance: PostScript name + the URL's
+          # extension. Falls back to the URL basename when the font's name
+          # table lacks a PostScript name.
+          def static_install_name(metadata, filename)
+            ps_name = metadata.postscript_name.to_s.strip
+            return filename if ps_name.empty?
+
+            "#{ps_name}#{File.extname(filename)}"
           end
 
           def add_v5_style_attributes(style, _metadata = nil, variant = nil)
