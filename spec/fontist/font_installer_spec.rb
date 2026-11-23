@@ -220,7 +220,8 @@ RSpec.describe Fontist::FontInstaller do
       end
 
       it "splits mixed static/variable styles across resources" do
-        groups = installer_for("Work Sans").send(:style_resource_groups)
+        spec = Fontist::FormatSpec.new(all_variants: true)
+        groups = installer_for("Work Sans", spec).send(:style_resource_groups)
         by_resource = groups.to_h { |resource, styles| [resource.name, styles] }
 
         expect(by_resource["ttf_static"].map(&:font))
@@ -252,6 +253,13 @@ RSpec.describe Fontist::FontInstaller do
           .to eq(%w[WorkSans-Regular.ttf])
         expect(by_resource["ttf_variable"].map(&:font))
           .to eq(%w[WorkSans[wght].ttf])
+      end
+
+      it "prefers static styles for the base family when no preference is given" do
+        groups = installer_for("Work Sans").send(:style_resource_groups)
+        all_styles = groups.flat_map(&:last)
+
+        expect(all_styles.map(&:variable_font?)).to all(be(false))
       end
 
       it "resolves styles by file membership when source_resource is missing" do

@@ -89,7 +89,24 @@ module Fontist
 
     def selected_styles
       styles = filtered_styles
-      @formula.v5? ? styles_in_requested_format(styles) : styles
+      styles = styles_in_requested_format(styles) if @formula.v5?
+      prefer_static_styles(styles)
+    end
+
+    # With no explicit static/variable request, styles of a font that
+    # offers both variants collapse to the static ones. An explicit
+    # variable request was already filtered by the matcher; --both keeps
+    # all variants.
+    def prefer_static_styles(styles)
+      return styles if @format_spec&.variable == true
+      return styles if @format_spec&.all_variants
+      return styles unless @formula.v5?
+
+      by_font = styles.group_by(&:family_name)
+      styles.reject do |style|
+        siblings = by_font[style.family_name]
+        siblings.any? { |s| !s.variable_font? } && style.variable_font?
+      end
     end
 
     def install_style_group(resource, styles, fonts_paths)

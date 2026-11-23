@@ -90,7 +90,6 @@ module Fontist
     # Select best resource based on preferences
     def select_preferred_resource(resources)
       return resources.first if resources.empty?
-      return resources.first unless @spec.has_constraints?
 
       # Match exact format first (e.g. format: "ttf" selects the ttf resource)
       exact = find_exact_format(resources)
@@ -98,6 +97,9 @@ module Fontist
 
       preferred = find_preferred_format(resources)
       return preferred if preferred
+
+      static = find_static_resource(resources)
+      return static if static && !@spec.variable_requested?
 
       variable = find_variable_resource(resources)
       return variable if variable
@@ -165,9 +167,15 @@ module Fontist
     end
 
     def find_variable_resource(resources)
-      return nil unless @spec.prefer_variable
+      return nil unless @spec.variable_requested?
 
-      resources.find(&:variable_font?)
+      resources.find do |r|
+        r.variable_font? && (@spec.axes.empty? || axes_match?(r.variable_axes))
+      end
+    end
+
+    def find_static_resource(resources)
+      resources.reject(&:variable_font?).first
     end
 
     def axes_match?(available_axes)
