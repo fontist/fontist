@@ -27,7 +27,9 @@ module Fontist
         return false
       end
 
-      if @spec.variable_requested?
+      if @spec.static_requested?
+        return false if resource.variable_font?
+      elsif @spec.variable_requested?
         return false unless resource.variable_font?
         return axes_match?(resource.variable_axes) if @spec.axes.any?
       end
@@ -45,10 +47,10 @@ module Fontist
         return false
       end
 
-      if @spec.variable_requested?
-        # Check if style is variable
-        is_variable = style.variable_font?
-        return false unless is_variable
+      if @spec.static_requested?
+        return false if style.variable_font?
+      elsif @spec.variable_requested?
+        return false unless style.variable_font?
 
         return axes_match?(style.variable_axes) if @spec.axes.any?
       end
