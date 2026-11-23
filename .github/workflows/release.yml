@@ -23,6 +23,7 @@ jobs:
       contents: write
       packages: write
       id-token: write
+      pull-requests: write
     uses: fontist/support/.github/workflows/release.yml@main
     with:
       next_version: ${{ github.event.inputs.next_version }}
