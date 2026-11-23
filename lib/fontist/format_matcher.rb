@@ -63,7 +63,9 @@ module Fontist
       return true unless @spec.has_constraints?
       return false if @spec.format && indexed_font.format != @spec.format
 
-      if @spec.variable_requested?
+      if @spec.static_requested?
+        return false if indexed_font.variable_font
+      elsif @spec.variable_requested?
         return false unless indexed_font.variable_font
 
         return axes_match?(indexed_font.variable_axes) if @spec.axes.any?

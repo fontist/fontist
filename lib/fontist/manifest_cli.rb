@@ -21,7 +21,7 @@ module Fontist
                         "set all_variants: themselves"
     def install(manifest)
       handle_class_options(options)
-      instance = Fontist::Manifest.from_file(manifest)
+      instance = Fontist::Manifest.model_from_file(manifest)
 
       if options[:static]
         instance.fonts.each do |font|

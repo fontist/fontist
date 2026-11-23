@@ -1,4 +1,5 @@
 require "lutaml/model"
+require_relative "format_matcher"
 require_relative "format_spec"
 
 module Fontist
@@ -65,6 +66,16 @@ module Fontist
 
     def find_font_with_name(font, style)
       Fontist::SystemFont.find_styles(font, style)
+    end
+
+    # True when every located file fails the font's static/variant spec —
+    # e.g. only a variable font's named instance resolves a variable: false
+    # request — so installation must fetch files that actually match.
+    def unsatisfied_by_spec?
+      return false unless format_spec.has_constraints?
+
+      matcher = FormatMatcher.new(format_spec)
+      style_paths.all? { |indexed| !matcher.matches_indexed_font?(indexed) }
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false,
@@ -198,29 +209,37 @@ module Fontist
     def self.from_file(path, locations: false)
       Fontist.ui.debug("Manifest: #{path}")
 
-      unless File.exist?(path)
-        raise Fontist::Errors::ManifestCouldNotBeFoundError,
-              "Manifest file not found: #{path}"
-      end
-
-      file_content = File.read(path).strip
-
-      if file_content.empty?
-        raise Fontist::Errors::ManifestCouldNotBeReadError,
-              "Manifest file is empty: #{path}"
-      end
-
-      manifest_model = begin
-        from_yaml(file_content)
-      rescue StandardError => e
-        raise Fontist::Errors::ManifestCouldNotBeReadError,
-              "Manifest file could not be read: #{e.message}"
-      end
+      manifest_model = model_from_file(path)
 
       # Use performance optimizations for faster manifest compilation
       with_performance_optimizations do
         manifest_model.to_response(locations: locations)
       end
+    end
+
+    # The parsed manifest model with per-font options intact — from_file
+    # collapses resolved fonts into a response whose entries have lost
+    # them, so install flows that honor variable:/all_variants: must
+    # start here instead.
+    def self.model_from_file(path)
+      validate_manifest_path!(path)
+
+      from_yaml(File.read(path).strip)
+    rescue StandardError => e
+      raise Fontist::Errors::ManifestCouldNotBeReadError,
+            "Manifest file could not be read: #{e.message}"
+    end
+
+    def self.validate_manifest_path!(path)
+      unless File.exist?(path)
+        raise Fontist::Errors::ManifestCouldNotBeFoundError,
+              "Manifest file not found: #{path}"
+      end
+
+      return unless File.read(path).strip.empty?
+
+      raise Fontist::Errors::ManifestCouldNotBeReadError,
+            "Manifest file is empty: #{path}"
     end
 
     def self.from_hash(data, options = {})
@@ -275,7 +294,7 @@ location: nil)
       fonts_casted.each do |font|
         paths = font.group_paths
 
-        if paths.empty?
+        if paths.empty? || font.unsatisfied_by_spec?
           font.install(confirmation: confirmation,
                        hide_licenses: hide_licenses,
                        no_progress: no_progress,

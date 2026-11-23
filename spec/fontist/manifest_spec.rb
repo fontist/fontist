@@ -646,4 +646,60 @@ RSpec.describe Fontist::Manifest do
         .to all(be true)
     end
   end
+
+  describe "install decision honors the format spec" do
+    def indexed_font(variable:)
+      Fontist::SystemIndexFont.new(
+        path: "/fonts/WorkSans-SemiBold.ttf",
+        full_name: "Work Sans SemiBold",
+        family_name: "Work Sans SemiBold",
+        subfamily: "Regular",
+        format: "ttf",
+        variable_font: variable,
+        variable_axes: variable ? %w[wght] : nil,
+      )
+    end
+
+    it "installs when only a variable named instance resolves a variable: false request" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: true)])
+      allow(Fontist::Formula).to receive(:find_many).and_return([])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans SemiBold:
+          styles: [Regular]
+          variable: false
+      YAML
+        .install
+
+      expect(Fontist::Font).to have_received(:install)
+        .with("Work Sans SemiBold", hash_including(force: true))
+    end
+
+    it "skips installation when a static file resolves a variable: false request" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: false)])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans SemiBold:
+          styles: [Regular]
+          variable: false
+      YAML
+        .install
+
+      expect(Fontist::Font).not_to have_received(:install)
+    end
+
+    it "skips installation when no constraint is set and any match resolves" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: true)])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml("Work Sans SemiBold:\n- Regular\n").install
+
+      expect(Fontist::Font).not_to have_received(:install)
+    end
+  end
 end
