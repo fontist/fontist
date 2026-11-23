@@ -13,9 +13,27 @@ module Fontist
            type: :string, aliases: :l,
            enum: ["fontist", "user", "system"],
            desc: "Install location: fontist (default), user, system"
+    option :static, type: :boolean,
+                    desc: "Install static fonts for entries that do not " \
+                          "set variable: themselves"
+    option :both, type: :boolean,
+                  desc: "Install both variants for entries that do not " \
+                        "set all_variants: themselves"
     def install(manifest)
       handle_class_options(options)
       instance = Fontist::Manifest.from_file(manifest)
+
+      if options[:static]
+        instance.fonts.each do |font|
+          font.variable = false if font.variable.nil?
+        end
+      end
+      if options[:both]
+        instance.fonts.each do |font|
+          font.all_variants = true unless font.all_variants
+        end
+      end
+
       paths = instance.install(
         confirmation: options[:accept_all_licenses] ? "yes" : "no",
         hide_licenses: options[:hide_licenses],

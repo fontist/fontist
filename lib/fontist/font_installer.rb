@@ -114,7 +114,7 @@ module Fontist
     # by the requested format (conversion path), then the first resource.
     def resource_for_style(style)
       named = style.source_resource &&
-              @formula.resources.find { |r| r.name == style.source_resource }
+        @formula.resources.find { |r| r.name == style.source_resource }
       return named if named
 
       source_name = style.source_font || style.font
