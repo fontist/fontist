@@ -118,6 +118,12 @@ RSpec.describe Fontist::Import::Google::FormulaBuilders::FormulaBuilderV5 do
 
       expect(static.map { |s| s["source_font"] }).to eq(%w[a.ttf b.ttf])
     end
+
+    it "merges variable styles into the family group instead of a nil-named one" do
+      expect(formula[:fonts].map { |f| f["name"] }).to eq(["Vf Demo"])
+      expect(formula[:fonts].first["styles"].map { |s| s["variable_font"] })
+        .to contain_exactly(true, true, false, false)
+    end
   end
 
   context "with a variable family whose variable file is not in google/fonts" do
