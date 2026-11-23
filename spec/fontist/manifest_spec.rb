@@ -581,9 +581,69 @@ RSpec.describe Fontist::Manifest do
         .to eq([["Space Mono", "woff2"]])
     end
 
+    it "reads variable: false and all_variants: true options" do
+      manifest = described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+          styles: [Regular, Italic]
+          variable: false
+        Work Sans:
+          styles: [Regular]
+          all_variants: true
+      YAML
+
+      black, base = manifest.fonts
+      expect(black.variable).to be false
+      expect(black.format_spec.static_requested?).to be true
+      expect(base.all_variants).to be true
+      expect(base.format_spec.all_variants).to be true
+    end
+
+    it "accepts variable and all_variants from a Ruby hash with symbol keys" do
+      manifest = described_class.from_hash(
+        "Work Sans Black" => { variable: false },
+        "Work Sans" => { all_variants: true },
+      )
+
+      expect(manifest.fonts.map { |f| [f.name, f.variable, f.all_variants] })
+        .to eq([["Work Sans Black", false, false],
+                ["Work Sans", nil, true]])
+    end
+
     it "rejects an unknown option" do
       expect { described_class.from_yaml("Lato:\n  formt: woff2\n") }
         .to raise_error(Fontist::Errors::ManifestCouldNotBeReadError, /formt/)
+    end
+  end
+
+  describe "global static/variant flags" do
+    let(:manifest) do
+      described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+        - Regular
+        Work Sans:
+          styles: [Regular]
+          variable: true
+      YAML
+    end
+
+    it "applies --static to fonts without an explicit variable value" do
+      manifest.fonts.each do |font|
+        font.variable = false if font.variable.nil?
+      end
+
+      requested, explicit = manifest.fonts
+      expect(requested.name).to eq("Work Sans Black")
+      expect(requested.format_spec.static_requested?).to be true
+      expect(explicit.variable).to be true
+    end
+
+    it "applies --both to fonts without an explicit all_variants value" do
+      manifest.fonts.each do |font|
+        font.all_variants = true unless font.all_variants
+      end
+
+      expect(manifest.fonts.map { |f| f.format_spec.all_variants })
+        .to all(be true)
     end
   end
 end

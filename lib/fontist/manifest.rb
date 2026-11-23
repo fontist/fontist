@@ -10,6 +10,8 @@ module Fontist
     attribute :format, :string
     attribute :variable_axes, :string, collection: true
     attribute :prefer_variable, :boolean, default: false
+    attribute :variable, :boolean
+    attribute :all_variants, :boolean, default: false
 
     # Transcoding options
     attribute :transcode_path, :string
@@ -30,6 +32,8 @@ module Fontist
         format: format,
         variable_axes: variable_axes,
         prefer_variable: prefer_variable,
+        variable: variable,
+        all_variants: all_variants,
         transcode_path: transcode_path,
         keep_original: keep_original,
         collection_index: collection_index,
@@ -146,7 +150,8 @@ module Fontist
     #     format: woff2
     #
     # The plain form `Roboto: [Regular, Bold]` stays valid.
-    FONT_OPTIONS = %w[format variable_axes prefer_variable transcode_path
+    FONT_OPTIONS = %w[format variable_axes prefer_variable variable
+                      all_variants transcode_path
                       keep_original collection_index subset_unicodes
                       subset_text fallback_to_original instance].freeze
 
