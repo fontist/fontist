@@ -76,50 +76,67 @@ module Fontist
       Fontist.ui.say(%(Installing from formula "#{@formula.key}".))
 
       Array.new.tap do |fonts_paths|
-        resource.files(source_files) do |path|
-          if font_file?(path)
-            installed_path = install_font_file(path)
-            fonts_paths << installed_path if installed_path
-          end
+        style_resource_groups.each do |resource, styles|
+          install_style_group(resource, styles, fonts_paths)
         end
       end
     end
 
-    def resource
-      resource_class = if @formula.source == "google"
-                         Resources::GoogleResource
-                       elsif @formula.source == "apple_cdn"
-                         Resources::AppleCDNResource
-                       elsif @formula.source == "windows_fod"
-                         Resources::WindowsFodResource
-                       else
-                         Resources::ArchiveResource
-                       end
-
-      resource_class.new(resource_options, no_progress: @no_progress)
+    # Groups the selected styles by the resource each one's file lives in.
+    def style_resource_groups
+      selected_styles.group_by { |style| resource_for_style(style) }
     end
 
-    def resource_options
-      @resource_options ||= if @formula.resources.size == 1 || !@formula.v5?
-                              @formula.resources.first
-                            elsif @format_spec&.has_constraints?
-                              matcher = FormatMatcher.new(@format_spec)
-                              matcher.select_preferred_resource(@formula.resources)
-                            else
-                              find_desktop_resource || @formula.resources.first
-                            end
+    def selected_styles
+      styles = filtered_styles
+      @formula.v5? ? styles_in_requested_format(styles) : styles
     end
 
-    def find_desktop_resource
-      @formula.resources.find { |r| r.format && FormatMatcher::DESKTOP_FORMATS.include?(r.format) }
+    def install_style_group(resource, styles, fonts_paths)
+      expected = styles.map { |s| s.source_font || s.font }
+      seen = []
+
+      resource_for(resource).files(expected) do |path|
+        basename = File.basename(path)
+        seen << basename
+        next unless expected.include?(basename) && font_directory?(path)
+
+        installed_path = install_font_file(path)
+        fonts_paths << installed_path if installed_path
+      end
+
+      (expected - seen).each do |name|
+        Fontist.ui.warn("Font file not found in #{resource.name}: #{name}")
+      end
     end
 
-    def font_file?(path)
-      source_file?(path) && font_directory?(path)
+    # Resolution order: named by the style, then by file membership, then
+    # by the requested format (conversion path), then the first resource.
+    def resource_for_style(style)
+      named = style.source_resource &&
+              @formula.resources.find { |r| r.name == style.source_resource }
+      return named if named
+
+      source_name = style.source_font || style.font
+      by_file = @formula.resources.find do |r|
+        Array(r.files).any? { |f| File.basename(f) == source_name }
+      end
+      return by_file if by_file
+
+      by_format = @formula.resources.find do |r|
+        @format_spec&.format && r.format == @format_spec.format
+      end
+      by_format || @formula.resources.first
     end
 
-    def source_file?(path)
-      source_files.include?(File.basename(path))
+    def resource_for(resource)
+      klass = case resource.source
+              when "google" then Resources::GoogleResource
+              when "apple_cdn" then Resources::AppleCDNResource
+              when "windows_fod" then Resources::WindowsFodResource
+              else Resources::ArchiveResource
+              end
+      klass.new(resource, no_progress: @no_progress)
     end
 
     # Styles already in the requested format. When none is, a plain format
@@ -131,27 +148,6 @@ module Fontist
       return matching if matching.any? || @format_spec.variable_requested?
 
       @format_spec.format ? styles : matching
-    end
-
-    def source_files
-      @source_files ||= begin
-        styles = filtered_styles
-
-        styles = styles_in_requested_format(styles) if @formula.v5?
-
-        file_names = styles.map { |s| s.source_font || s.font }
-
-        if @formula.v5? && resource_options&.source == "google" && file_names.any?
-          resource_basenames = Array(resource_options.files).map do |f|
-            File.basename(f)
-          end
-          unless file_names.any? { |f| resource_basenames.include?(f) }
-            return resource_basenames
-          end
-        end
-
-        file_names
-      end
     end
 
     def filtered_styles

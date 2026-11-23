@@ -128,4 +128,192 @@ RSpec.describe Fontist::FontInstaller do
       end
     end
   end
+
+  describe "per-style resource resolution (google static/variable)" do
+    let(:formula_yaml) do
+      <<~YAML
+        name: work_sans
+        schema_version: 5
+        resources:
+          ttf_variable:
+            source: google
+            family: Work Sans
+            files:
+            - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans[wght].ttf
+            - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans-Italic[wght].ttf
+            urls:
+            - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans[wght].ttf
+            - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans-Italic[wght].ttf
+            format: ttf
+            variable_axes: [wght]
+          ttf_static:
+            source: google
+            family: Work Sans
+            files:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            - https://fonts.gstatic.com/s/worksans/v24/black-italic.ttf
+            - https://fonts.gstatic.com/s/worksans/v24/regular.ttf
+            urls:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            - https://fonts.gstatic.com/s/worksans/v24/black-italic.ttf
+            - https://fonts.gstatic.com/s/worksans/v24/regular.ttf
+            format: ttf
+        fonts:
+        - name: Work Sans Black
+          styles:
+          - family_name: Work Sans Black
+            type: Regular
+            font: WorkSans-Black.ttf
+            source_font: black-regular.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+          - family_name: Work Sans Black
+            type: Italic
+            font: WorkSans-BlackItalic.ttf
+            source_font: black-italic.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+        - name: Work Sans
+          styles:
+          - family_name: Work Sans
+            type: Regular
+            font: WorkSans-Regular.ttf
+            source_font: regular.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+          - family_name: Work Sans
+            type: Regular
+            font: WorkSans[wght].ttf
+            formats: [ttf]
+            variable_font: true
+            variable_axes: [wght]
+            source_resource: ttf_variable
+      YAML
+    end
+
+    let(:formula) { Fontist::Formula.from_yaml(formula_yaml) }
+
+    def installer_for(font_name, format_spec = nil)
+      described_class.new(formula, font_name: font_name,
+                          format_spec: format_spec)
+    end
+
+    let(:download_dir) { Dir.mktmpdir }
+    let(:fake_download_class) { Struct.new(:path) }
+
+    def fake_download(url)
+      path = File.join(download_dir, File.basename(url.to_s))
+      File.write(path, "fake font bytes")
+      fake_download_class.new(path)
+    end
+
+    describe "#style_resource_groups" do
+      it "maps static styles to their named resource" do
+        groups = installer_for("Work Sans Black").send(:style_resource_groups)
+
+        expect(groups.map(&:first).map(&:name)).to eq(%w[ttf_static])
+        expect(groups.first.last.map(&:font))
+          .to eq(%w[WorkSans-Black.ttf WorkSans-BlackItalic.ttf])
+      end
+
+      it "splits mixed static/variable styles across resources" do
+        groups = installer_for("Work Sans").send(:style_resource_groups)
+        by_resource = groups.to_h { |resource, styles| [resource.name, styles] }
+
+        expect(by_resource["ttf_static"].map(&:font))
+          .to eq(%w[WorkSans-Regular.ttf])
+        expect(by_resource["ttf_variable"].map(&:font))
+          .to eq(%w[WorkSans[wght].ttf])
+      end
+
+      it "keeps only static styles when static is requested" do
+        spec = Fontist::FormatSpec.new(variable: false)
+        groups = installer_for("Work Sans", spec).send(:style_resource_groups)
+
+        expect(groups.map(&:first).map(&:name)).to eq(%w[ttf_static])
+      end
+
+      it "keeps only variable styles when variable is requested" do
+        spec = Fontist::FormatSpec.new(variable: true)
+        groups = installer_for("Work Sans", spec).send(:style_resource_groups)
+
+        expect(groups.map(&:first).map(&:name)).to eq(%w[ttf_variable])
+      end
+
+      it "keeps both kinds when all_variants is requested" do
+        spec = Fontist::FormatSpec.new(all_variants: true)
+        groups = installer_for("Work Sans", spec).send(:style_resource_groups)
+        by_resource = groups.to_h { |resource, styles| [resource.name, styles] }
+
+        expect(by_resource["ttf_static"].map(&:font))
+          .to eq(%w[WorkSans-Regular.ttf])
+        expect(by_resource["ttf_variable"].map(&:font))
+          .to eq(%w[WorkSans[wght].ttf])
+      end
+
+      it "resolves styles by file membership when source_resource is missing" do
+        legacy = Fontist::Formula.from_yaml(formula_yaml.sub(
+          /      source_resource: ttf_static\n/, ""
+        ))
+        groups = described_class.new(legacy, font_name: "Work Sans Black")
+          .send(:style_resource_groups)
+
+        expect(groups.map(&:first).map(&:name)).to eq(%w[ttf_static])
+      end
+    end
+
+    describe "#install" do
+      it "downloads only the requested static files, never the variable ones" do
+        downloaded = []
+        allow(Fontist::Utils::Downloader).to receive(:download) do |url, *|
+          downloaded << url.to_s
+          fake_download(url)
+        end
+
+        paths = installer_for("Work Sans Black").install(confirmation: "yes")
+
+        expect(downloaded).to contain_exactly(
+          "https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf",
+          "https://fonts.gstatic.com/s/worksans/v24/black-italic.ttf",
+        )
+        expect(paths.map { |p| File.basename(p) })
+          .to contain_exactly("WorkSans-Black.ttf", "WorkSans-BlackItalic.ttf")
+      end
+
+      it "installs each style from its own resource for an all-variants request" do
+        spec = Fontist::FormatSpec.new(all_variants: true)
+        downloaded = []
+        allow(Fontist::Utils::Downloader).to receive(:download) do |url, *|
+          downloaded << url.to_s
+          fake_download(url)
+        end
+
+        installer_for("Work Sans", spec).install(confirmation: "yes")
+
+        expect(downloaded).to contain_exactly(
+          "https://fonts.gstatic.com/s/worksans/v24/regular.ttf",
+          "https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans[wght].ttf",
+        )
+      end
+
+      it "warns instead of silently dropping styles whose file is missing" do
+        broken = Fontist::Formula.from_yaml(formula_yaml.sub(
+          "source_font: black-italic.ttf", "source_font: gone-italic.ttf"
+        ))
+        allow(Fontist::Utils::Downloader).to receive(:download) do |url, *|
+          fake_download(url)
+        end
+        allow(Fontist.ui).to receive(:warn)
+
+        described_class.new(broken, font_name: "Work Sans Black")
+          .install(confirmation: "yes")
+
+        expect(Fontist.ui).to have_received(:warn)
+          .with(/gone-italic\.ttf/)
+      end
+    end
+  end
 end
