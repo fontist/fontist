@@ -302,3 +302,57 @@ RSpec.describe "formula parse caching" do
     expect(andale.name).to eq("Andale")
   end
 end
+
+RSpec.describe Fontist::Formula do
+  describe "round-trips a populated google import_source" do
+    let(:yaml) do
+      <<~YAML
+        name: work_sans
+        schema_version: 5
+        resources:
+          ttf_static:
+            source: google
+            family: Work Sans
+            urls: ["https://fonts.gstatic.com/s/worksans/v24/a.ttf"]
+            format: ttf
+        fonts:
+        - name: Work Sans Black
+          styles:
+          - family_name: Work Sans Black
+            type: Regular
+            font: WorkSans-Black.ttf
+            source_font: a.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+        import_source:
+          type: google
+          commit_id: 06bfe0d62a98375cb09c942fa18e68bd32cff057
+          api_version: v1
+          last_modified: '2025-09-11'
+          family_id: work_sans
+      YAML
+    end
+
+    it "parses the import_source back into a GoogleImportSource" do
+      formula = described_class.from_yaml(yaml)
+
+      expect(formula.import_source).to be_a(Fontist::GoogleImportSource)
+      expect(formula.import_source.commit_id)
+        .to eq("06bfe0d62a98375cb09c942fa18e68bd32cff057")
+      expect(formula.import_source.type).to eq("google")
+    end
+
+    it "serializes the import_source with its type discriminator" do
+      source = Fontist::GoogleImportSource.new(
+        type: "google",
+        commit_id: "abc", api_version: "v1", last_modified: "2025",
+        family_id: "work_sans",
+      )
+
+      dumped = YAML.safe_load(source.to_yaml)
+
+      expect(dumped["type"]).to eq("google")
+    end
+  end
+end
