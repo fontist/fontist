@@ -193,9 +193,9 @@ RSpec.describe "Windows On-Demand Fonts" do
       formula = Fontist::Formula.find_by_key("windows/test_dispatch")
       expect(formula.source).to eq("windows_fod")
 
-      # The resource method is private, so we test through the installer
+      # The resource_for method is private, so we test through the installer
       installer = Fontist::FontInstaller.new(formula)
-      resource = installer.send(:resource)
+      resource = installer.send(:resource_for, formula.resources.first)
       expect(resource).to be_a(Fontist::Resources::WindowsFodResource)
     end
   end
