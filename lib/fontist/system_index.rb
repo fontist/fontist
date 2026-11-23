@@ -190,6 +190,22 @@ module Fontist
       map_instances to: :fonts
     end
 
+    # Older fontist versions serialized the entries under a `fonts:` key
+    # together with inline scan metadata. Accept that shape so an index
+    # written by a released gem parses as its entry list instead of a
+    # single blank entry (which check_index reports as corruption).
+    def self.from_yaml(content, options = {})
+      legacy = legacy_font_entries(content)
+      super(legacy ? Array(legacy).to_yaml : content, options)
+    end
+
+    def self.legacy_font_entries(content)
+      data = YAML.safe_load(content, aliases: true)
+      data.is_a?(Hash) ? data["fonts"] : nil
+    rescue StandardError
+      nil
+    end
+
     # Don't rebuild index more frequently than this (in seconds)
     INDEX_REBUILD_THRESHOLD = 30 * 60 # 30 minutes
 
