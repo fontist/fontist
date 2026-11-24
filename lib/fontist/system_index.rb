@@ -209,12 +209,13 @@ module Fontist
     # Don't rebuild index more frequently than this (in seconds)
     INDEX_REBUILD_THRESHOLD = 30 * 60 # 30 minutes
 
-    # Index entry shape generation. v1 stored one entry per font file;
-    # v2 stores one entry per named instance of variable fonts (the
-    # FiraCode[wght].ttf class of files). Bump when the entry shape
-    # changes again: persisted indexes carrying an older generation
-    # cannot answer the current lookups and force a rebuild.
-    INDEX_FORMAT_VERSION = 2
+    # Index entry shape generation. v2 stored one entry per named instance
+    # of variable fonts but left the `variable_font`/`format` metadata
+    # unset; v3 persists both, so static-default resolution can tell
+    # variable files from static ones. Bump when the entry shape changes
+    # again: persisted indexes carrying an older generation cannot answer
+    # the current lookups and force a rebuild.
+    INDEX_FORMAT_VERSION = 3
 
     def metadata_path
       "#{@path}.metadata.yml"
@@ -746,12 +747,16 @@ verbose:, stats:)
     def build_entries_from_rows(path, rows)
       if rows.first["is_collection"]
         ScanRowFonts.warn_collection_extension(path)
-        rows.map { |row| parse_font(ScanRowFonts.collection_face(row), path) }
+        rows.map { |row| parse_font(ScanRowFonts.collection_face(row), path,
+                       format: ScanRowFonts.format_for(path),
+                       variable_font: false) }
       else
         ScanRowFonts.warn_file_extension(path, rows.first)
-        font_file = ScanRowFonts.file_font(rows.first)
+        font_file = ScanRowFonts.file_font(rows.first, path)
         entries = variable_font_entries(font_file, path)
-        entries.empty? ? parse_font(font_file, path) : entries
+        entries.empty? ? parse_font(font_file, path,
+                          format: font_file.format,
+                          variable_font: font_file.variable) : entries
       end
     end
 
@@ -853,7 +858,9 @@ spinner_index = nil)
       entries = variable_font_entries(font_file, path)
       return entries unless entries.empty?
 
-      parse_font(font_file, path)
+      parse_font(font_file, path,
+                    format: font_file.format,
+                    variable_font: font_file.variable)
     end
 
     # One index entry per named instance of a variable font: a variable
@@ -888,19 +895,22 @@ spinner_index = nil)
           preferred_subfamily_name: instance[:style],
           file_size: file_size,
           file_mtime: file_mtime,
+          format: font_file.format,
+          variable_font: font_file.variable,
         )
       end
     end
 
     def detect_collection_fonts(path)
+      format = Fontisan::FontLoader.detect_format(path)&.to_s
       CollectionFile.from_path(path) do |collection|
         collection.map do |font_file|
-          parse_font(font_file, path)
+          parse_font(font_file, path, format: format, variable_font: false)
         end
       end
     end
 
-    def parse_font(font_file, path)
+    def parse_font(font_file, path, format:, variable_font:)
       # Skip fonts with incomplete metadata
       unless font_file.full_name && font_file.family
         warn_incomplete_metadata(path)
@@ -928,6 +938,8 @@ spinner_index = nil)
         preferred_subfamily_name: font_file.preferred_subfamily_name,
         file_size: file_size,
         file_mtime: file_mtime,
+        format: format,
+        variable_font: variable_font,
       )
     end
 

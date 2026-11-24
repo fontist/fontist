@@ -106,8 +106,9 @@ RSpec.describe "Fontisan tier routing for scans" do
 
       expect(result).to eq(reference)
       expect(result.join).to include("MonaSans")
+      mona_path = paths.find { |p| p.include?("MonaSans") }
       expect(Fontist::ScanRowFonts.file_font(
-        Fontisan.scan([paths.find { |p| p.include?("MonaSans") }]).first,
+        Fontisan.scan([mona_path]).first, mona_path,
       ).variable_instances).not_to be_empty
     end
   end
