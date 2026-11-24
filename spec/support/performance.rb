@@ -470,6 +470,12 @@ module ScanPathPerformance
     Process.clock_gettime(Process::CLOCK_MONOTONIC)
   end
 
+  # GC runs after the timed operation so peak RSS measures the live working
+  # set, not GC pacing. Measured on GitHub Actions ubuntu-24.04 (glibc, Ruby
+  # 3.3.14, fontisan 0.4.50, index workload, run 45383316024): without it
+  # native peaks 77.3-78.0 MB against Ruby 75.0-75.3 MB (ratio 1.03-1.04,
+  # ffi 1.05) because the faster native path leaves uncollected garbage; with
+  # a GC after every sample native peaks 74.4-74.7 MB (ratio 0.99).
   def self.cold_sample(workload, paths, clock, expected_engine)
     prepare_scan
     Dir.mktmpdir("cold-scan", ENV.fetch("FONTIST_PATH", nil)) do |home|
@@ -481,7 +487,7 @@ module ScanPathPerformance
       result["batch_contract"] = batch_contract
 
       result
-    end
+    end.tap { GC.start }
   end
 
   def self.time_operation(operation, clock)
