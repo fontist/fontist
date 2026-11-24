@@ -27,7 +27,9 @@ module Fontist
         return false
       end
 
-      if @spec.variable_requested?
+      if @spec.static_requested?
+        return false if resource.variable_font?
+      elsif @spec.variable_requested?
         return false unless resource.variable_font?
         return axes_match?(resource.variable_axes) if @spec.axes.any?
       end
@@ -45,10 +47,10 @@ module Fontist
         return false
       end
 
-      if @spec.variable_requested?
-        # Check if style is variable
-        is_variable = style.variable_font?
-        return false unless is_variable
+      if @spec.static_requested?
+        return false if style.variable_font?
+      elsif @spec.variable_requested?
+        return false unless style.variable_font?
 
         return axes_match?(style.variable_axes) if @spec.axes.any?
       end
@@ -61,7 +63,9 @@ module Fontist
       return true unless @spec.has_constraints?
       return false if @spec.format && indexed_font.format != @spec.format
 
-      if @spec.variable_requested?
+      if @spec.static_requested?
+        return false if indexed_font.variable_font
+      elsif @spec.variable_requested?
         return false unless indexed_font.variable_font
 
         return axes_match?(indexed_font.variable_axes) if @spec.axes.any?
@@ -88,7 +92,6 @@ module Fontist
     # Select best resource based on preferences
     def select_preferred_resource(resources)
       return resources.first if resources.empty?
-      return resources.first unless @spec.has_constraints?
 
       # Match exact format first (e.g. format: "ttf" selects the ttf resource)
       exact = find_exact_format(resources)
@@ -96,6 +99,9 @@ module Fontist
 
       preferred = find_preferred_format(resources)
       return preferred if preferred
+
+      static = find_static_resource(resources)
+      return static if static && !@spec.variable_requested?
 
       variable = find_variable_resource(resources)
       return variable if variable
@@ -163,9 +169,15 @@ module Fontist
     end
 
     def find_variable_resource(resources)
-      return nil unless @spec.prefer_variable
+      return nil unless @spec.variable_requested?
 
-      resources.find(&:variable_font?)
+      resources.find do |r|
+        r.variable_font? && (@spec.axes.empty? || axes_match?(r.variable_axes))
+      end
+    end
+
+    def find_static_resource(resources)
+      resources.reject(&:variable_font?).first
     end
 
     def axes_match?(available_axes)

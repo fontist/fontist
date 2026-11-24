@@ -108,8 +108,21 @@ RSpec.describe Fontist::Import::Google::FormulaBuilders::FormulaBuilderV5 do
       )
       expect(variable.map { |s| s["variable_axes"] })
         .to eq([%w[wdth wght], %w[wght]])
-      expect(static.map { |s| s["font"] }).to eq(%w[a.ttf b.ttf])
+      expect(static.map { |s| s["font"] })
+        .to eq(%w[VfDemo-a.ttf VfDemo-b.ttf])
       expect(static.map { |s| s["variable_font"] }).to all(be(false))
+    end
+
+    it "keeps the URL basename as source_font for static downloads" do
+      static = all_styles.reject { |s| s["variable_font"] }
+
+      expect(static.map { |s| s["source_font"] }).to eq(%w[a.ttf b.ttf])
+    end
+
+    it "merges variable styles into the family group instead of a nil-named one" do
+      expect(formula[:fonts].map { |f| f["name"] }).to eq(["Vf Demo"])
+      expect(formula[:fonts].first["styles"].map { |s| s["variable_font"] })
+        .to contain_exactly(true, true, false, false)
     end
   end
 

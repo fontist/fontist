@@ -139,6 +139,12 @@ module Fontist
     option :prefer_format,
            type: :string,
            desc: "Preferred format when multiple available"
+    option :static, type: :boolean,
+                    desc: "Install static fonts instead of variable fonts"
+    option :variable, type: :boolean,
+                      desc: "Install variable fonts instead of static fonts"
+    option :both, type: :boolean,
+                  desc: "Install both the static and the variable variants"
     option :transcode_path,
            type: :string,
            desc: "Directory to save transcoded fonts (default: same as install location)"
@@ -170,6 +176,9 @@ module Fontist
         return error("Please specify at least one font to install.",
                      STATUS_UNKNOWN_ERROR)
       end
+
+      selection_error = validate_variant_selection(options)
+      return selection_error if selection_error
 
       # For backward compatibility, use original behavior for single font
       if fonts.size == 1
@@ -537,6 +546,17 @@ module Fontist
     def error(message, status)
       Fontist.ui.error(message)
       status
+    end
+
+    def validate_variant_selection(options)
+      if options[:static] && options[:instance]
+        error("--static cannot be combined with --instance: " \
+              "instancing already produces a static font from a " \
+              "variable font.", STATUS_UNKNOWN_ERROR)
+      elsif options[:both] && (options[:static] || options[:variable])
+        error("--both cannot be combined with --static or --variable: " \
+              "--both already installs both variants.", STATUS_UNKNOWN_ERROR)
+      end
     end
 
     def format_bytes(bytes)

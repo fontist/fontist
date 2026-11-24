@@ -1,3 +1,3 @@
 module Fontist
-  VERSION = "3.0.38".freeze
+  VERSION = "3.0.41".freeze
 end

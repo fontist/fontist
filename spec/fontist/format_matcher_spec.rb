@@ -385,4 +385,100 @@ RSpec.describe Fontist::FormatMatcher do
       expect(matcher.can_convert?("woff2", "ttf")).to be false
     end
   end
+
+  describe "static vs variable preference" do
+    let(:static_style) do
+      Fontist::FontStyle.new(
+        family_name: "Work Sans Black",
+        type: "Regular",
+        font: "WorkSans-Black.ttf",
+        formats: %w[ttf woff2],
+        variable_font: false,
+        source_resource: "ttf_static",
+      )
+    end
+
+    let(:variable_style) do
+      Fontist::FontStyle.new(
+        family_name: "Work Sans",
+        type: "Regular",
+        font: "WorkSans[wght].ttf",
+        formats: %w[ttf],
+        variable_font: true,
+        variable_axes: %w[wght],
+        source_resource: "ttf_variable",
+      )
+    end
+
+    let(:static_resource) do
+      Fontist::Resource.new(name: "ttf_static", format: "ttf")
+    end
+
+    let(:variable_resource) do
+      Fontist::Resource.new(name: "ttf_variable", format: "ttf",
+                            variable_axes: %w[wght])
+    end
+
+    it "rejects variable fonts when static is requested" do
+      matcher = described_class.new(Fontist::FormatSpec.new(variable: false))
+
+      expect(matcher.matches_style?(static_style)).to be true
+      expect(matcher.matches_style?(variable_style)).to be false
+      expect(matcher.matches_resource?(static_resource)).to be true
+      expect(matcher.matches_resource?(variable_resource)).to be false
+    end
+
+    it "rejects static fonts when variable is requested" do
+      matcher = described_class.new(Fontist::FormatSpec.new(variable: true))
+
+      expect(matcher.matches_style?(static_style)).to be false
+      expect(matcher.matches_style?(variable_style)).to be true
+      expect(matcher.matches_resource?(static_resource)).to be false
+      expect(matcher.matches_resource?(variable_resource)).to be true
+    end
+
+    it "accepts both when no preference is set" do
+      matcher = described_class.new(Fontist::FormatSpec.new)
+
+      expect(matcher.matches_style?(static_style)).to be true
+      expect(matcher.matches_style?(variable_style)).to be true
+      expect(matcher.matches_resource?(static_resource)).to be true
+      expect(matcher.matches_resource?(variable_resource)).to be true
+    end
+  end
+
+  describe "#select_preferred_resource default preference" do
+    it "prefers static resources when no preference is set" do
+      static = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      variable = Fontist::Resource.new(name: "ttf_variable", format: "ttf",
+                                       variable_axes: %w[wght])
+
+      chosen = described_class.new(Fontist::FormatSpec.new)
+        .select_preferred_resource([variable, static])
+
+      expect(chosen.name).to eq("ttf_static")
+    end
+
+    it "still picks the exact-format match first" do
+      static_ttf = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      static_woff2 = Fontist::Resource.new(name: "woff2_static",
+                                           format: "woff2")
+
+      chosen = described_class.new(Fontist::FormatSpec.new(format: "woff2"))
+        .select_preferred_resource([static_ttf, static_woff2])
+
+      expect(chosen.name).to eq("woff2_static")
+    end
+
+    it "picks the variable resource when variable is requested" do
+      static = Fontist::Resource.new(name: "ttf_static", format: "ttf")
+      variable = Fontist::Resource.new(name: "ttf_variable", format: "ttf",
+                                       variable_axes: %w[wght])
+
+      chosen = described_class.new(Fontist::FormatSpec.new(variable: true))
+        .select_preferred_resource([static, variable])
+
+      expect(chosen.name).to eq("ttf_variable")
+    end
+  end
 end

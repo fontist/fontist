@@ -371,6 +371,12 @@ Supported options:
 `-u, [--update-fontconfig]`:: Update Fontconfig
 `--collection-index=N`, `--format=FORMAT`, `--fallback-to-original`,
 `--subset-unicodes=LIST`, `--subset-text=TEXT`:: See <<Font operations>>
+`--static`:: Install static fonts instead of variable fonts (the default
+             when a formula offers both variants)
+`--variable`:: Install variable fonts instead of static fonts
+`--both`:: Install both the static and the variable variants in one call
+`--variable-axes=LIST`, `--prefer-variable`, `--prefer-format=FORMAT`,
+`--instance=AXES`:: See <<Variable-font instancing>>
 
 
 NOTE: The `install` command is similar to the `Font.install` library call.
@@ -448,6 +454,42 @@ Fontist::Font.install("Lato", format: "woff2", subset_text: "Hello")
 ----
 
 ==== Variable-font instancing
+
+===== Static vs variable fonts
+
+Google Fonts formulas carry two sources: per-weight **static** files served
+by the Google Fonts API, and the genuine **variable** files published in the
+google/fonts repository. Every style records which resource its file lives
+in (`source_resource`), and fontist downloads each requested style from its
+own resource. By default fontist installs the static files; pass `--variable`
+to install the variable files instead, `--both` to install both kinds, or
+`--instance "wght=300"` to cut a static instance from a variable font at
+specific axis values.
+
+[source,sh]
+----
+fontist install "Work Sans Black"                          # static files
+fontist install "Work Sans" --variable                     # variable files
+fontist install "Work Sans" --both                         # both kinds
+----
+
+[source,ruby]
+----
+Fontist::Font.install("Work Sans Black", static: true)
+Fontist::Font.install("Work Sans", variable: true)
+Fontist::Font.install("Work Sans", both: true)
+----
+
+Manifests support the same choice per font (`variable: false` or
+`all_variants: true` next to `styles:`) or for all fonts at once
+(`fontist manifest install --static` / `--both`):
+
+[source,yaml]
+----
+Work Sans Black:
+  styles: [Regular, Italic]
+  variable: false
+----
 
 `--instance` installs a static instance of a variable font at the given axis
 values. Tags and ranges are checked against the font's `fvar` table; an

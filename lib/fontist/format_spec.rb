@@ -20,6 +20,13 @@ module Fontist
     attribute :variable_axes, :string, collection: true
     attribute :prefer_variable, :boolean, default: false
 
+    # Static/variable selection: nil = any, true = variable only,
+    # false = static only
+    attribute :variable, :boolean
+
+    # Install both static and variable variants in one call (--both)
+    attribute :all_variants, :boolean, default: false
+
     # Format preferences
     attribute :prefer_format, :string
 
@@ -42,16 +49,28 @@ module Fontist
 
     # Convenience constructor for CLI
     def self.from_options(options = {})
+      preference = parse_variable_preference(options)
       new(
         format: options[:format],
         variable_axes: parse_variable_axes(options[:variable_axes]),
-        prefer_variable: options[:prefer_variable] || false,
+        prefer_variable: preference.nil? &&
+                         (options[:prefer_variable] || false),
+        variable: preference,
+        all_variants: options[:both] || false,
         prefer_format: options[:prefer_format],
         transcode_path: options[:transcode_path],
         keep_original: options.fetch(:keep_original, true),
         collection_index: options[:collection_index],
         **operation_options(options),
       )
+    end
+
+    # Explicit --static/--variable flags win over legacy prefer_variable.
+    def self.parse_variable_preference(options)
+      return true if options[:variable]
+      return false if options[:static]
+
+      nil
     end
 
     def self.operation_options(options)
@@ -72,12 +91,18 @@ module Fontist
 
     # Check if any format constraints are specified
     def has_constraints?
-      !!(format || variable_axes&.any? || prefer_variable || prefer_format)
+      !!(format || variable_axes&.any? || prefer_variable ||
+         !variable.nil? || all_variants || prefer_format)
     end
 
     # Check if variable font is requested
     def variable_requested?
-      !!(variable_axes&.any? || prefer_variable)
+      !!(variable == true || variable_axes&.any? || prefer_variable)
+    end
+
+    # Check if a static font is requested
+    def static_requested?
+      variable == false
     end
 
     # Get axes as array (never nil)

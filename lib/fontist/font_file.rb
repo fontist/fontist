@@ -69,8 +69,12 @@ module Fontist
         # fonts from Fontisan hold no open file to close.
         variable = font.has_table?("fvar")
         font.close if font.respond_to?(:close)
+        # rubocop:disable Layout/LineLength
         names[:variable_instances] = extract_variable_instances_from_path(path) if
           variable && names[:family_name]
+        # rubocop:enable Layout/LineLength
+        names[:variable] = variable
+        names[:format] = detect_font_format(path)
         names
       rescue StandardError => e
         raise_font_file_error(e)
@@ -333,6 +337,17 @@ module Fontist
     # triples); empty for a static font.
     def variable_instances
       @info[:variable_instances] || []
+    end
+
+    # Whether the file carries an `fvar` table. The system index persists
+    # this per entry, so static-default resolution can tell variable files
+    # from static ones.
+    def variable
+      @info[:variable] || false
+    end
+
+    def format
+      @info[:format]
     end
   end
 end

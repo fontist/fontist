@@ -581,9 +581,183 @@ RSpec.describe Fontist::Manifest do
         .to eq([["Space Mono", "woff2"]])
     end
 
+    it "reads variable: false and all_variants: true options" do
+      manifest = described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+          styles: [Regular, Italic]
+          variable: false
+        Work Sans:
+          styles: [Regular]
+          all_variants: true
+      YAML
+
+      black, base = manifest.fonts
+      expect(black.variable).to be false
+      expect(black.format_spec.static_requested?).to be true
+      expect(base.all_variants).to be true
+      expect(base.format_spec.all_variants).to be true
+    end
+
+    it "accepts variable and all_variants from a Ruby hash with symbol keys" do
+      manifest = described_class.from_hash(
+        "Work Sans Black" => { variable: false },
+        "Work Sans" => { all_variants: true },
+      )
+
+      expect(manifest.fonts.map { |f| [f.name, f.variable, f.all_variants] })
+        .to eq([["Work Sans Black", false, false],
+                ["Work Sans", nil, true]])
+    end
+
     it "rejects an unknown option" do
       expect { described_class.from_yaml("Lato:\n  formt: woff2\n") }
         .to raise_error(Fontist::Errors::ManifestCouldNotBeReadError, /formt/)
+    end
+  end
+
+  describe "global static/variant flags" do
+    let(:manifest) do
+      described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+        - Regular
+        Work Sans:
+          styles: [Regular]
+          variable: true
+      YAML
+    end
+
+    it "applies --static to fonts without an explicit variable value" do
+      manifest.fonts.each do |font|
+        font.variable = false if font.variable.nil?
+      end
+
+      requested, explicit = manifest.fonts
+      expect(requested.name).to eq("Work Sans Black")
+      expect(requested.format_spec.static_requested?).to be true
+      expect(explicit.variable).to be true
+    end
+
+    it "applies --both to fonts without an explicit all_variants value" do
+      manifest.fonts.each do |font|
+        font.all_variants = true unless font.all_variants
+      end
+
+      expect(manifest.fonts.map { |f| f.format_spec.all_variants })
+        .to all(be true)
+    end
+  end
+
+  describe "install decision honors the format spec" do
+    def indexed_font(variable:)
+      Fontist::SystemIndexFont.new(
+        path: "/fonts/WorkSans-SemiBold.ttf",
+        full_name: "Work Sans SemiBold",
+        family_name: "Work Sans SemiBold",
+        subfamily: "Regular",
+        format: "ttf",
+        variable_font: variable,
+        variable_axes: variable ? %w[wght] : nil,
+      )
+    end
+
+    it "installs when only a variable named instance resolves a variable: false request" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: true)])
+      allow(Fontist::Formula).to receive(:find_many).and_return([])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans SemiBold:
+          styles: [Regular]
+          variable: false
+      YAML
+        .install
+
+      expect(Fontist::Font).to have_received(:install)
+        .with("Work Sans SemiBold", hash_including(force: true))
+    end
+
+    it "skips installation when a static file resolves a variable: false request" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: false)])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans SemiBold:
+          styles: [Regular]
+          variable: false
+      YAML
+        .install
+
+      expect(Fontist::Font).not_to have_received(:install)
+    end
+
+    it "skips installation when no constraint is set and any match resolves" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([indexed_font(variable: true)])
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml("Work Sans SemiBold:\n- Regular\n").install
+
+      expect(Fontist::Font).not_to have_received(:install)
+    end
+  end
+
+  describe "static default on warm caches" do
+    let(:variable_entry) do
+      Fontist::SystemIndexFont.new(
+        path: "/fonts/WorkSans[wght].ttf",
+        full_name: "Work Sans Black",
+        family_name: "Work Sans Black",
+        subfamily: "Regular",
+        format: "ttf",
+        variable_font: true,
+        variable_axes: %w[wght],
+      )
+    end
+
+    let(:formula_yaml) do
+      <<~YAML
+        name: work_sans
+        schema_version: 5
+        resources:
+          ttf_static:
+            source: google
+            family: Work Sans
+            files:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            urls:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            format: ttf
+        fonts:
+        - name: Work Sans Black
+          styles:
+          - family_name: Work Sans Black
+            type: Regular
+            font: WorkSans-Black.ttf
+            source_font: black-regular.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+      YAML
+    end
+
+    it "installs the static file when only a stale variable install resolves" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([variable_entry])
+      allow(Fontist::Formula).to receive(:find_many) do |_name|
+        [Fontist::Formula.from_yaml(formula_yaml)]
+      end
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+        - Regular
+      YAML
+        .install
+
+      expect(Fontist::Font).to have_received(:install)
+        .with("Work Sans Black", hash_including(force: true))
     end
   end
 end

@@ -157,11 +157,11 @@ RSpec.describe Fontist::Utils::Downloader do
       end
     end
 
-    context "not-found error 3 times" do
+    context "not-found error through the whole transient ladder" do
       it "raises the invalid resource error" do
         avoid_cache(sample_file[:file]) do
           expect(Down).to receive(:download)
-            .and_raise(Down::NotFound, "not found").exactly(3).times
+            .and_raise(Down::NotFound, "not found").exactly(5).times
 
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
@@ -195,15 +195,15 @@ RSpec.describe Fontist::Utils::Downloader do
       # assertions would let a broken (or deleted) jitter pass, since the base
       # value is always in range.
       # At the maximum draw the tables become:
-      #   [10, 20, 40, 60, 90] -> [13, 25, 50, 75, 113]
-      #   [2, 4]               -> [3, 5]
+      #   [10, 20, 40, 60, 90]    -> [13, 25, 50, 75, 113]
+      #   [2, 4, 8, 15]           -> [3, 5, 10, 19]
       before do
         allow_any_instance_of(described_class)
           .to receive(:rand) { |_, range| range.max }
       end
 
       let(:jittered_table) { [13, 25, 50, 75, 113] }
-      let(:jittered_transient) { [3, 5] }
+      let(:jittered_transient) { [3, 5, 10, 19] }
 
       # A date header is a delay from now, so now has to be pinned the way
       # rand is. Building the header off the same instant keeps the expected
@@ -390,7 +390,7 @@ RSpec.describe Fontist::Utils::Downloader do
             Down::ConnectionError.new(
               "Failed to open TCP connection to cdn.example.com:4291",
             ),
-          ).exactly(3).times
+          ).exactly(5).times
 
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
@@ -412,7 +412,7 @@ RSpec.describe Fontist::Utils::Downloader do
           # lands as a Hash. If that ever changes, fail here rather than
           # silently stop covering the case.
           expect(error.response).to be_a(Hash)
-          expect(Down).to receive(:download).and_raise(error).exactly(3).times
+          expect(Down).to receive(:download).and_raise(error).exactly(5).times
 
           expect do
             Fontist::Utils::Downloader.download(sample_file[:file])
@@ -438,7 +438,7 @@ RSpec.describe Fontist::Utils::Downloader do
               Fontist::Utils::Downloader.download(sample_file[:file])
             end.to raise_error(Fontist::Errors::InvalidResourceError)
 
-            expect(sleeps.first(2)).to eq(jittered_transient)
+            expect(sleeps.first(2)).to eq(jittered_transient.first(2))
             expect(sleeps.drop(2)).to eq(jittered_table)
           end
         end
@@ -487,7 +487,7 @@ RSpec.describe Fontist::Utils::Downloader do
             sleeps = record_sleeps
             expect(Down).to receive(:download)
               .and_raise(http_error(Down::NotFound, "404", "Not Found"))
-              .exactly(3).times
+              .exactly(5).times
 
             expect do
               Fontist::Utils::Downloader.download(sample_file[:file])
@@ -511,10 +511,13 @@ RSpec.describe Fontist::Utils::Downloader do
               Fontist::Utils::Downloader.download(sample_file[:file])
             end.to raise_error(Fontist::Errors::InvalidResourceError)
 
-            # Header waits are exact; table waits are jittered.
-            expect(sleeps.size).to eq(5)
-            expect(sleeps.values_at(0, 2, 4)).to eq([30, 30, 30])
-            expect(sleeps.values_at(1, 3)).to eq(jittered_transient)
+            # Header waits are exact; table waits are jittered. The
+            # header waits consume the rate-limited counter and the
+            # headerless 503s consume the transient one, so the run ends
+            # when the slower of the two counters runs out.
+            expect(sleeps.size).to eq(9)
+            expect(sleeps.values_at(0, 2, 4, 6, 8)).to eq([30, 30, 30, 30, 30])
+            expect(sleeps.values_at(1, 3, 5, 7)).to eq(jittered_transient)
           end
         end
       end
