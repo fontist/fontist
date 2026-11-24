@@ -1,4 +1,5 @@
 require "spec_helper"
+require "nokogiri"
 require "fontist/import/sil_importer"
 
 RSpec.describe "Fontist::Import::SilImporter", slow: true, dev: true do
