@@ -23,14 +23,26 @@ module Fontist
         end
       end
 
-      def file_font(row)
+      def file_font(row, path)
         report_validation(row)
         info = symbolize(row["names"] || {})
+        add_variable_metadata(info, row)
+        info[:format] = format_for(path)
+        FontFile.new(info)
+      end
+
+      def add_variable_metadata(info, row)
         if row["has_fvar"] && info[:family_name]
           info[:variable_instances] =
             row["variable_instances"].map { |i| symbolize(i) }
         end
-        FontFile.new(info)
+        info[:variable] = row.key?("has_fvar") ? !!row["has_fvar"] : nil
+      end
+
+      def format_for(path)
+        Fontisan::FontLoader.detect_format(path)&.to_s
+      rescue StandardError
+        "unknown"
       end
 
       def collection_face(row)

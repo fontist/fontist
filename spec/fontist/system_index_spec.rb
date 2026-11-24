@@ -523,3 +523,46 @@ RSpec.describe Fontist::SystemIndex do
     end
   end
 end
+
+RSpec.describe "SystemIndex variable-font metadata" do
+  let(:vf_path) do
+    File.expand_path("../examples/fonts/WorkSans-VF.ttf", __dir__)
+  end
+  let(:static_path) do
+    File.expand_path("../examples/fonts/Lato-Heavy.ttf", __dir__)
+  end
+  let(:tmp_dir) { create_tmp_dir }
+  let(:index_path) { File.join(tmp_dir, "vf_index.yml") }
+  let(:instance) do
+    Fontist::SystemIndexFontCollection.new.tap do |x|
+      x.set_path(index_path)
+      x.set_path_loader(-> { [vf_path, static_path] })
+    end
+  end
+
+  it "records variable_font and format per index entry" do
+    instance.build
+
+    vf_entries = Array(instance.fonts).select { |f| f.path == vf_path }
+    expect(vf_entries).not_to be_empty
+    expect(vf_entries).to all(have_attributes(variable_font: true, format: "ttf"))
+
+    static_entries = Array(instance.fonts).select { |f| f.path == static_path }
+    expect(static_entries).not_to be_empty
+    expect(static_entries).to all(have_attributes(variable_font: false, format: "ttf"))
+  end
+
+  it "persists the variable flag through a save and reload" do
+    instance.build
+    instance.to_file(index_path)
+
+    reloaded = Fontist::SystemIndexFontCollection.from_file(
+      path: index_path,
+      paths_loader: -> { [vf_path, static_path] },
+    )
+
+    vf_entries = Array(reloaded.fonts).select { |f| f.path == vf_path }
+    expect(vf_entries).not_to be_empty
+    expect(vf_entries).to all(have_attributes(variable_font: true))
+  end
+end
