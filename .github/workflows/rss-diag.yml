@@ -1,0 +1,36 @@
+name: RSS diagnostic (temporary)
+on:
+  pull_request:
+    paths: ["diag/**", ".github/workflows/rss-diag.yml"]
+permissions:
+  contents: read
+jobs:
+  diag:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - run: bundle install --jobs 4 --retry 3
+      - name: Gem info
+        run: |
+          bundle exec ruby -e 's=Gem.loaded_specs["fontisan"]; puts s.version, s.platform; puts Dir[File.join(s.full_gem_path, "**/*.{so,dylib}")].map { |f| "#{File.size(f)/1024}kB #{f}" }'
+          ldd --version | head -1
+      - name: Stages
+        run: |
+          for tier in ruby native ffi; do
+            for i in 1 2 3; do
+              FONTISAN_ENGINE=$tier FONTISAN_ENGINE_STRICT=1 FONTIST_PATH=$(mktemp -d) LC_ALL=C bundle exec ruby diag/rss_diag.rb index
+            done
+          done
+      - name: Allocator variants (GNU time peak, index workload)
+        run: |
+          for arena in default 1; do
+            for tier in ruby native ffi; do
+              for i in 1 2 3; do
+                if [ $arena = 1 ]; then export MALLOC_ARENA_MAX=1; else unset MALLOC_ARENA_MAX; fi
+                FONTISAN_ENGINE=$tier FONTISAN_ENGINE_STRICT=1 FONTIST_PATH=$(mktemp -d) LC_ALL=C /usr/bin/time -v bundle exec ruby diag/rss_diag.rb index 2>&1 | grep -E "Maximum resident" | sed "s/^/arena=$arena $tier /"
+              done
+            done
+          done
