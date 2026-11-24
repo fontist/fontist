@@ -14,33 +14,26 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
                      __dir__)
   end
   let(:out) { Dir.mktmpdir("fontist-engine-spec") }
-  # Unset or "auto" means fontisan's own default: the first available of
-  # native, ffi, ruby.
-  let(:tier) do
+  # The tier each operation is expected to route through, per the engine's
+  # own resolution: an explicit FONTISAN_ENGINE selection takes the named
+  # tier (with fontisan's own fallback), and auto resolves through the
+  # engine's candidate order — which varies across fontisan versions
+  # (native-first in 0.4.48, gated ruby-only in 0.4.50+). The invariant
+  # under test is that served_by matches resolve: the engine's routing
+  # promise must match its actual dispatch.
+  def expected_tier(operation, path = nil, options = nil)
     forced = ENV.fetch("FONTISAN_ENGINE", "")
-    next forced.to_sym unless ["", "auto"].include?(forced)
+    return forced.to_sym unless ["", "auto"].include?(forced)
 
-    %i[native ffi ruby].find { |name| tier_available?(name) }
+    Fontisan::Engine.resolve(operation, path, options)
   end
 
   before do
-    ensure_tier_available
     Fontisan::Engine.reset!
   end
   after do
     FileUtils.rm_rf(out)
     Fontisan::Engine.reset!
-  end
-
-  # Unavailable tier: skip locally, but under FONTISAN_ENGINE_STRICT=1 fail,
-  # so a run that is meant to prove native or ffi can never pass vacuously.
-  def ensure_tier_available
-    return if tier_available?
-
-    message = "fontisan #{tier} tier unavailable"
-    raise message if ENV["FONTISAN_ENGINE_STRICT"] == "1"
-
-    skip message
   end
 
   # Runs the block with the Ruby tier forced, for reference output.
@@ -79,14 +72,6 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
     Fontisan::FontLoader.load(path).table_data.sort.to_h
   end
 
-  def tier_available?(name = tier)
-    case name
-    when :native then Fontisan::Native.available?
-    when :ffi then Fontisan::Ffi.available?
-    else true
-    end
-  end
-
   def served(operation)
     Fontisan::Engine.served_by(operation)
   end
@@ -94,19 +79,19 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
   it "serves convert through the selected tier" do
     described_class::Convert.call(lato, "woff", File.join(out, "a.woff"))
 
-    expect(served(:convert)).to eq(tier)
+    expect(served(:convert)).to eq(expected_tier(:convert, lato))
   end
 
   it "serves extract through the selected tier" do
     described_class::Extract.call(ttc, index: 1, output_dir: out)
 
-    expect(served(:extract)).to eq(tier)
+    expect(served(:extract)).to eq(expected_tier(:extract, ttc))
   end
 
   it "serves subset through the selected tier" do
     described_class::Subset.call(dejavu, File.join(out, "s.ttf"), text: "Hi")
 
-    expect(served(:subset)).to eq(tier)
+    expect(served(:subset)).to eq(expected_tier(:subset, dejavu))
   end
 
   it "serves instance through the selected tier" do
@@ -114,7 +99,7 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
       variable, File.join(out, "i.ttf"), coordinates: "wght=400"
     )
 
-    expect(served(:instance)).to eq(tier)
+    expect(served(:instance)).to eq(expected_tier(:instance, variable))
   end
 
   it "keeps the exact subset error text through guard" do
@@ -232,6 +217,26 @@ RSpec.describe Fontist::FontOperations, "engine routing" do
 
       expect(mine).to match(/out of range/)
       expect(mine).to eq(with_ruby_tier { error_message(&run) })
+    end
+  end
+
+  describe "explicit native selection" do
+    around do |example|
+      saved = ENV.values_at("FONTISAN_ENGINE", "FONTISAN_ENGINE_STRICT")
+      ENV["FONTISAN_ENGINE"] = "native"
+      ENV["FONTISAN_ENGINE_STRICT"] = "1"
+      Fontisan::Engine.reset!
+      example.run
+      ENV["FONTISAN_ENGINE"], ENV["FONTISAN_ENGINE_STRICT"] = *saved
+      Fontisan::Engine.reset!
+    end
+
+    it "serves convert through the native tier when selected and available" do
+      skip "fontisan native tier unavailable" unless Fontisan::Native.available?
+
+      described_class::Convert.call(lato, "woff", File.join(out, "a.woff"))
+
+      expect(served(:convert)).to eq(:native)
     end
   end
 end
