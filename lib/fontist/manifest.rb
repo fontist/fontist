@@ -71,11 +71,29 @@ module Fontist
     # True when every located file fails the font's static/variant spec —
     # e.g. only a variable font's named instance resolves a variable: false
     # request — so installation must fetch files that actually match.
+    # With the static default, variable files on disk also do not satisfy a
+    # plain request when the formula offers static files: stale variable
+    # installs from older fontist versions would otherwise shadow the
+    # statics forever.
     def unsatisfied_by_spec?
+      located = style_paths
+      return true if located.empty?
+
+      return true if static_default_shadowed_by_variable?(located)
+
       return false unless format_spec.has_constraints?
 
       matcher = FormatMatcher.new(format_spec)
-      style_paths.all? { |indexed| !matcher.matches_indexed_font?(indexed) }
+      located.all? { |indexed| !matcher.matches_indexed_font?(indexed) }
+    end
+
+    def static_default_shadowed_by_variable?(located)
+      return false if format_spec.variable_requested?
+      return false if format_spec.all_variants
+
+      located.all? { |indexed| indexed.variable_font } &&
+        located.any? { |indexed| indexed.variable_font } &&
+        Fontist::Formula.offers_static_variant?(name)
     end
 
     def install(confirmation: "no", hide_licenses: false, no_progress: false,

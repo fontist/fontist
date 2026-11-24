@@ -1458,3 +1458,92 @@ RSpec.describe Fontist::Font do
     end
   end
 end
+
+RSpec.describe "Fontist::Font static default on warm caches" do
+  include_context "fresh home"
+
+  let(:formula_yaml) do
+    <<~YAML
+      name: work_sans
+      schema_version: 5
+      resources:
+        ttf_variable:
+          source: google
+          family: Work Sans
+          files:
+          - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans[wght].ttf
+          urls:
+          - https://raw.githubusercontent.com/google/fonts/abc/ofl/worksans/WorkSans[wght].ttf
+          format: ttf
+          variable_axes: [wght]
+        ttf_static:
+          source: google
+          family: Work Sans
+          files:
+          - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+          urls:
+          - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+          format: ttf
+      fonts:
+      - name: Work Sans Black
+        styles:
+        - family_name: Work Sans Black
+          type: Regular
+          font: WorkSans-Black.ttf
+          source_font: black-regular.ttf
+          formats: [ttf]
+          variable_font: false
+          source_resource: ttf_static
+      - name: Work Sans
+        styles:
+        - family_name: Work Sans
+          type: Regular
+          font: WorkSans[wght].ttf
+          formats: [ttf]
+          variable_font: true
+          variable_axes: [wght]
+          source_resource: ttf_variable
+    YAML
+  end
+
+  let(:formula) { Fontist::Formula.from_yaml(formula_yaml) }
+
+  let(:variable_entry) do
+    Fontist::SystemIndexFont.new(
+      path: "/fonts/WorkSans[wght].ttf",
+      full_name: "Work Sans Black",
+      family_name: "Work Sans Black",
+      subfamily: "Regular",
+      format: "ttf",
+      variable_font: true,
+      variable_axes: %w[wght],
+    )
+  end
+
+  it "downloads the static file when only a stale variable install exists locally" do
+    allow(Fontist::SystemFont).to receive(:find_styles)
+      .and_return([variable_entry])
+    allow(Fontist::Formula).to receive(:find_many).and_return([formula])
+    allow(Fontist::Utils::Downloader).to receive(:download) do |url, *|
+      path = File.join(Dir.mktmpdir, File.basename(url.to_s))
+      File.write(path, "static bytes")
+      Struct.new(:path).new(path)
+    end
+
+    paths = Fontist::Font.install("Work Sans Black", confirmation: "yes")
+
+    expect(paths.map { |p| File.basename(p) }).to eq(%w[WorkSans-Black.ttf])
+  end
+
+  it "keeps returning the installed variable file when the formula offers no static variant" do
+    variable_only = formula.dup
+    variable_only.fonts = formula.fonts.reject { |f| f.name == "Work Sans Black" }
+    allow(Fontist::SystemFont).to receive(:find_styles)
+      .and_return([variable_entry])
+    allow(Fontist::Formula).to receive(:find_many).and_return([variable_only])
+
+    paths = Fontist::Font.install("Work Sans Black", confirmation: "yes")
+
+    expect(paths.map { |p| File.basename(p) }).to eq(%w[WorkSans[wght].ttf])
+  end
+end

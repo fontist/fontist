@@ -135,6 +135,21 @@ module Fontist
         Indexes::FontIndex.lookup_index.load_formulas(font_name)
       end
 
+      # Whether any formula answering to this font name offers a static
+      # (non-variable) file. With the static default (fontist/fontist#556),
+      # callers use this to decide whether variable files on disk may satisfy
+      # a plain request: when statics exist, they must be preferred even if a
+      # stale variable install from an older fontist version is present.
+      def offers_static_variant?(font_name)
+        find_many(font_name).compact.any? do |formula|
+          formula.all_fonts.flat_map(&:styles).any? do |style|
+            !style.variable_font?
+          end
+        end
+      rescue Errors::FormulaNotFoundError, Errors::FontIndexCorrupted
+        false
+      end
+
       def find_fonts(font_name)
         formulas = Indexes::FontIndex.lookup_index.load_formulas(font_name)
 
