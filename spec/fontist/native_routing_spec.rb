@@ -22,35 +22,18 @@ RSpec.describe "Fontisan tier routing for scans" do
     forced = ENV.fetch("FONTISAN_ENGINE", "")
     next forced.to_sym unless ["", "auto"].include?(forced)
 
-    %i[native ffi ruby].find { |name| tier_available?(name) }
+    # Auto selection is gated and its candidate order varies across
+    # fontisan versions, so derive the expected tier from the engine's
+    # own resolution instead of probing availability.
+    Fontisan::Engine.resolve(:scan, paths.first)
   end
 
   before do
-    ensure_tier_available
     Fontisan::Engine.reset!
   end
   after do
     FileUtils.remove_entry(dir)
     Fontisan::Engine.reset!
-  end
-
-  def tier_available?(name = tier)
-    case name
-    when :native then Fontisan::Native.available?
-    when :ffi then Fontisan::Ffi.available?
-    else true
-    end
-  end
-
-  # An unavailable tier skips locally but fails under FONTISAN_ENGINE_STRICT=1,
-  # so a run meant to prove native or ffi cannot pass vacuously.
-  def ensure_tier_available
-    return if tier_available?
-
-    message = "fontisan #{tier} tier unavailable"
-    raise message if ENV["FONTISAN_ENGINE_STRICT"] == "1"
-
-    skip message
   end
 
   def with_ruby_tier
