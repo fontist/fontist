@@ -26,6 +26,14 @@ puts "#{tier} after-setup #{st}"
 paths = ScanPathPerformance.fixture_paths
 Fontisan.scan(paths)
 puts "#{tier} after-probe #{st} served=#{Fontisan::Engine.served_by(:scan)}"
-m = ScanPathPerformance.cold_measurements(ARGV.fetch(0), paths)
+if ENV["DIAG_GC"] == "1"
+  orig = ScanPathPerformance.method(:cold_sample)
+  ScanPathPerformance.define_singleton_method(:cold_sample) do |*a|
+    r = orig.call(*a)
+    GC.start
+    r
+  end
+end
+m = ScanPathPerformance.cold_measurements(ARGV.fetch(0), paths, minimum: Float(ENV.fetch("DIAG_MIN", "1.0")))
 puts "#{tier} after-cold #{st} iters=#{m['iterations']}"
 puts "#{tier} maps: #{maps_top.join(' | ')}"
