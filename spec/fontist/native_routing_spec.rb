@@ -18,11 +18,15 @@ RSpec.describe "Fontisan tier routing for scans" do
     File.binwrite(File.join(dir, "broken.ttf"), "this is not a font")
     Dir.children(dir).sort.map { |f| File.join(dir, f) }
   end
+  # An explicit FONTISAN_ENGINE names the tier; auto resolves through the
+  # engine's own candidate order, which varies across fontisan versions
+  # (native-first in 0.4.48, gated ruby-only in 0.4.50+). The invariant is
+  # that served_by matches the engine's own routing promise.
   let(:tier) do
     forced = ENV.fetch("FONTISAN_ENGINE", "")
     next forced.to_sym unless ["", "auto"].include?(forced)
 
-    %i[native ffi ruby].find { |name| tier_available?(name) }
+    Fontisan::Engine.resolve(:scan)
   end
 
   before do
