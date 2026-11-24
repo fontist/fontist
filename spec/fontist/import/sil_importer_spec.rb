@@ -1,5 +1,4 @@
 require "spec_helper"
-require "nokogiri"
 require "fontist/import/sil_importer"
 
 RSpec.describe "Fontist::Import::SilImporter", slow: true, dev: true do
@@ -70,6 +69,11 @@ RSpec.describe Fontist::Import::SilImporter do
 
   describe "#filter_by_name" do
     let(:links) do
+      begin
+        require "nokogiri"
+      rescue LoadError
+        skip "nokogiri unavailable in this bundle"
+      end
       html = <<~HTML
         <table class="products">
           <tr><td><div class="title"><a href="/charis">Charis SIL</a></div></td></tr>
