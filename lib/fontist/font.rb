@@ -69,7 +69,7 @@ module Fontist
     def install
       return install_formula if @by_formula
 
-      (find_system_font unless @force) || download_font || manual_font ||
+      (find_installable_font unless @force) || download_font || manual_font ||
         raise_non_supported_font
     end
 
@@ -116,6 +116,38 @@ module Fontist
 
       print_paths(paths)
       paths # Return paths after printing
+    end
+
+    # Install-time lookup under the static default: a variable font already
+    # on disk does not satisfy a plain request when the formula offers
+    # static files, so stale variable installs from older fontist versions
+    # cannot shadow the statics forever (fontist/fontist#556).
+    def find_installable_font
+      paths = Fontist::SystemFont.find(name)
+      unless paths
+        Fontist.ui.say(%(Font "#{name}" not found locally.))
+        return
+      end
+      return if static_variant_shadowed_locally?
+
+      print_paths(paths)
+      paths
+    end
+
+    def static_variant_shadowed_locally?
+      return false if @format_spec&.variable_requested?
+      return false if @format_spec&.all_variants
+      return false unless static_variant_locally?
+
+      Formula.offers_static_variant?(name)
+    end
+
+    def static_variant_locally?
+      located = Fontist::SystemFont.find_styles(name)
+      return false if located.nil? || located.empty?
+
+      located.any?(&:variable_font) &&
+        located.none? { |style| !style.variable_font }
     end
 
     def print_paths(paths)

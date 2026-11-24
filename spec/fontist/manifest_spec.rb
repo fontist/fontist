@@ -702,4 +702,62 @@ RSpec.describe Fontist::Manifest do
       expect(Fontist::Font).not_to have_received(:install)
     end
   end
+
+  describe "static default on warm caches" do
+    let(:variable_entry) do
+      Fontist::SystemIndexFont.new(
+        path: "/fonts/WorkSans[wght].ttf",
+        full_name: "Work Sans Black",
+        family_name: "Work Sans Black",
+        subfamily: "Regular",
+        format: "ttf",
+        variable_font: true,
+        variable_axes: %w[wght],
+      )
+    end
+
+    let(:formula_yaml) do
+      <<~YAML
+        name: work_sans
+        schema_version: 5
+        resources:
+          ttf_static:
+            source: google
+            family: Work Sans
+            files:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            urls:
+            - https://fonts.gstatic.com/s/worksans/v24/black-regular.ttf
+            format: ttf
+        fonts:
+        - name: Work Sans Black
+          styles:
+          - family_name: Work Sans Black
+            type: Regular
+            font: WorkSans-Black.ttf
+            source_font: black-regular.ttf
+            formats: [ttf]
+            variable_font: false
+            source_resource: ttf_static
+      YAML
+    end
+
+    it "installs the static file when only a stale variable install resolves" do
+      allow(Fontist::SystemFont).to receive(:find_styles)
+        .and_return([variable_entry])
+      allow(Fontist::Formula).to receive(:find_many) do |_name|
+        [Fontist::Formula.from_yaml(formula_yaml)]
+      end
+      allow(Fontist::Font).to receive(:install)
+
+      described_class.from_yaml(<<~YAML)
+        Work Sans Black:
+        - Regular
+      YAML
+        .install
+
+      expect(Fontist::Font).to have_received(:install)
+        .with("Work Sans Black", hash_including(force: true))
+    end
+  end
 end
