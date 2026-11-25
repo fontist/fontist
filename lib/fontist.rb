@@ -218,7 +218,7 @@ module Fontist
   end
 
   def self.formula_size_limit_in_megabytes
-    300
+    ENV.fetch("FONTIST_FORMULA_SIZE_LIMIT", 300).to_i
   end
 
   def self.preferred_family?

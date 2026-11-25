@@ -1547,3 +1547,27 @@ RSpec.describe "Fontist::Font static default on warm caches" do
     expect(paths.map { |p| File.basename(p) }).to eq(%w[WorkSans[wght].ttf])
   end
 end
+
+RSpec.describe "Fontist formula size limit configuration" do
+  around do |example|
+    old = ENV.fetch("FONTIST_FORMULA_SIZE_LIMIT", nil)
+    example.run
+    if old
+      ENV["FONTIST_FORMULA_SIZE_LIMIT"] = old
+    else
+      ENV.delete("FONTIST_FORMULA_SIZE_LIMIT")
+    end
+  end
+
+  it "defaults to 300 MB" do
+    ENV.delete("FONTIST_FORMULA_SIZE_LIMIT")
+
+    expect(Fontist.formula_size_limit_in_megabytes).to eq(300)
+  end
+
+  it "reads the FONTIST_FORMULA_SIZE_LIMIT environment variable" do
+    ENV["FONTIST_FORMULA_SIZE_LIMIT"] = "1000"
+
+    expect(Fontist.formula_size_limit_in_megabytes).to eq(1000)
+  end
+end
