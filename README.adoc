@@ -2155,9 +2155,6 @@ variable_fonts = Fontist::Import::Google::Api.variable_fonts_only
 ----
 ====
 
-For detailed usage examples, see
-link:docs/google-fonts-multi-format-usage.md[Google Fonts Multi-Format Usage Guide].
-
 ==== Importing fonts from Google Fonts as Fontist Formulas
 
 Prerequisites:
