@@ -52,7 +52,7 @@ RSpec.describe Fontist::FontInstaller do
       end
 
       let(:second_mirror) do
-        "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe"
+        "https://downloads.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe"
       end
 
       let(:command) do
@@ -68,19 +68,26 @@ RSpec.describe Fontist::FontInstaller do
         # Disable cache to ensure download is attempted
         allow(Fontist).to receive(:use_cache?).and_return(false)
 
-        avoid_cache(first_mirror) do
-          allow(Down).to receive(:download)
-            .with(any_args).and_call_original
-          expect(Down).to receive(:download)
-            .with(first_mirror, any_args).and_raise(Down::NotFound, "not found")
-            .at_least(3).times
+        avoid_cache(first_mirror, second_mirror) do
+          # The transfer itself is stubbed so the spec exercises the
+          # failover order, not the uptime of any third-party host. The
+          # stub stays below Utils::Downloader so the checksum stage
+          # still runs on the stubbed payload.
+          seen = []
+          transfer = lambda do |_orig, url, *_args|
+            seen << url.to_s
+            raise Down::NotFound, "not found" if url.to_s == first_mirror
 
-          allow(Fontist::Utils::Downloader).to receive(:download)
-            .with(any_args).and_call_original
-          expect(Fontist::Utils::Downloader).to receive(:download)
-            .with(second_mirror, any_args).and_call_original
+            fake_downloaded_file
+          end
+          allow(Down).to receive(:download).and_wrap_original(&transfer)
 
-          command
+          # The stubbed payload fails the checksum; what this example
+          # proves is that the downloader moved on to the second mirror.
+          expect { command }
+            .to raise_error(Fontist::Errors::InvalidResourceError,
+                            /SHA256 checksum mismatch/)
+          expect(seen).to include(second_mirror)
         end
       end
     end
@@ -88,7 +95,7 @@ RSpec.describe Fontist::FontInstaller do
     context "all mirrors fail" do
       let(:mirrors) do
         ["https://gitlab.com/fontmirror/archive/-/raw/master/andale32.exe",
-         "https://nchc.dl.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe", # rubocop:disable Layout/LineLength
+         "https://downloads.sourceforge.net/project/corefonts/the%20fonts/final/andale32.exe",
          "http://sft.if.usp.br/msttcorefonts/andale32.exe"]
       end
 
@@ -323,5 +330,14 @@ RSpec.describe Fontist::FontInstaller do
           .with(/gone-italic\.ttf/)
       end
     end
+  end
+
+  def fake_downloaded_file
+    file = Tempfile.new(["mirror-fixture", ".exe"], binmode: true)
+    file.write("stubbed payload")
+    file.rewind
+    file.define_singleton_method(:original_filename) { "andale32.exe" }
+    file.define_singleton_method(:content_type) { nil }
+    file
   end
 end
